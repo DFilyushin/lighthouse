@@ -1,16 +1,10 @@
 from django.db import models
 from .org import Employee
-from .sales import Contract
 
 MANUFACTURE_STATE = [
     (0, 'черновик'),
     (1, 'в работе'),
     (2, 'завершён')
-]
-
-STORE_OPER_TYPE = [
-    (0, 'приход'),
-    (1, 'расход')
 ]
 
 
@@ -95,9 +89,9 @@ class FormulaComp(models.Model):
 class Manufacture(models.Model):
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    id_creator = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Создал')
+    id_creator = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Создал', related_name='id_creator_fk')
     id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код формулы')
-    id_team_leader = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Руководитель процесса')
+    id_team_leader = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Руководитель процесса', related_name='id_team_lead_fk')
     prod_start = models.DateTimeField(null=False, blank=False, verbose_name='Начало процесса')
     prod_finish = models.DateTimeField(null=True, blank=True, verbose_name='Завершение процесса')
     cur_state = models.SmallIntegerField(choices=MANUFACTURE_STATE, verbose_name='Состояние процесса')
@@ -126,33 +120,3 @@ class ProdTeam(models.Model):
         ]
 
 
-class Store(models.Model):
-    id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Сырьё')
-    oper_date = models.DateField(null=False, verbose_name='Дата оборота')
-    oper_type = models.SmallIntegerField(choices=STORE_OPER_TYPE, default=0, null=False, verbose_name='Тип операции')
-    oper_value = models.FloatField(default=0, verbose_name='Количество')
-    id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True, verbose_name='Код производства')
-
-    class Meta:
-        verbose_name = 'Склад'
-        verbose_name_plural = 'Склад'
-        indexes = [
-            models.Index(name='idx_store_oper_date', fields=['oper_date']),
-            models.Index(name='idx_store_id_manuf', fields=['id_manufacture'])
-        ]
-
-
-class Reservation(models.Model):
-    id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Материал')
-    reserve_start = models.DateField(null=False, blank=False, verbose_name='Дата начала')
-    reserve_end = models.DateField(null=False, blank=False, verbose_name='Дата окончания')
-    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-    id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
-    reserve_value = models.FloatField(default=0, verbose_name='Количество')
-
-    class Meta:
-        verbose_name_plural = 'Резервирование продукции'
-        verbose_name = 'Резервирование продукции'
-        indexes = [
-            models.Index(fields=['id_material', 'reserve_start'])
-        ]
