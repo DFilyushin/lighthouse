@@ -41,7 +41,11 @@ const useStyles = makeStyles(theme => ({
   },
   tableRow: {
 
+  },
+  rowHeader: {
+    fontWeight: 'bold'
   }
+
 }));
 
 interface IUsersTable{
@@ -124,8 +128,8 @@ const UsersTable = (props: IUsersTable) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
+                  <TableCell className={classes.rowHeader}>Name</TableCell>
+                  <TableCell >Email</TableCell>
                   <TableCell>Location</TableCell>
                   <TableCell>Phone</TableCell>
                   <TableCell>Registration date</TableCell>

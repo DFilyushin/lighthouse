@@ -67,7 +67,7 @@ const Sidebar = (props:ISidebar) => {
     },
     {
       title: 'Клиенты',
-      href: '/sign-in',
+      href: '/clients',
       icon: <GroupOutlinedIcon />
     },
     {

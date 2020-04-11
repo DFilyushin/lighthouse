@@ -14,7 +14,7 @@ import {
     TextField
 } from '@material-ui/core';
 
-interface IEmployeeItem {
+interface IClientItem {
     className: string
 }
 
@@ -24,40 +24,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const docType = [
-    {
-        value: 0,
-        label: 'УДЛ'
-    },
-    {
-        value: 1,
-        label: 'Паспорт гражданина РК'
-    },
-    {
-        value: 2,
-        label: 'Паспорт иностранного гражданина'
-    }
-];
-
-const EmployeeItem = (props: IEmployeeItem) => {
+const ClientItem = (props: IClientItem) => {
     const { className, ...rest } = props;
 
     const classes = useStyles();
 
     const [values, setValues] = useState({
-        tab_num: '1520',
-        fio: 'Сулейменов Серик Велесович',
-        dob: '1985-05-05',
-        iin: '123456789012',
-        doc_type: 2,
-        doc_num: '562315',
-        doc_date: '2010-05-06',
-        doc_auth: 'МВД РК',
-        addr_reg: 'Павлодар, ул. Астана 45, кв.2',
-        addr_res: 'Павлодар, ул. Короленко 123, кв.2',
-        contact_phone: '+7 596 6565 120',
-        contact_email: 'asdasdasd@mail.ru',
-        fired: null
+        id: 7,
+        created: '2020-02-01',
+        name: 'ИП Матвеева И.А.',
+        addr_reg: 'свх им Тельмана, Районная 1',
+        employee: 'Анна Матвеева',
+        agent: 'Егорова',
+        phone: '8-701-565621',
+        email: 'matv@mail.ru',
+        fax: '562365',
+        req_bin: '123456789120',
+        req_account: '12345678901234567890',
+        req_bank: 'Народный банк Казахстана',
+        req_bik: 'NKNAZXN',
+        comment: 'Покупала в прошлом году, всё отлично. Опаздала с оплатой. Брала с рассрочкой',
+        clientid: '134'
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +53,6 @@ const EmployeeItem = (props: IEmployeeItem) => {
             [event.target.name]: event.target.value
         });
     };
-
 
     return (
         <div className={classes.root}>
@@ -80,7 +66,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
             >
                 <CardHeader
                     subheader=""
-                    title="Личная карточка сотрудника"
+                    title="Клиент"
                 />
                 <Divider />
                 <CardContent>
@@ -90,176 +76,22 @@ const EmployeeItem = (props: IEmployeeItem) => {
                     >
                         <Grid
                             item
-                            xs={1}
+                            xs={12}
                         >
                             <TextField
                                 fullWidth
-                                label="Таб.номер"
+                                label="Наименование клиента"
                                 margin="dense"
-                                name="tab_num"
+                                name="name"
                                 onChange={handleChange}
                                 required
-                                value={values.tab_num}
+                                value={values.name}
                                 variant="outlined"
                             />
                         </Grid>
+
                         <Grid
                             item
-                            xs={11}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Фамилия/Имя/Отчество сотрудника"
-                                margin="dense"
-                                name="fio"
-                                onChange={handleChange}
-                                required
-                                value={values.fio}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            xs={3}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Дата рождения"
-                                margin="dense"
-                                name="dob"
-                                onChange={handleChange}
-                                required
-                                value={values.dob}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={4}
-                            xs={3}
-                        >
-                            <TextField
-                                fullWidth
-                                label="ИИН"
-                                margin="dense"
-                                name="iin"
-                                onChange={handleChange}
-                                required
-                                value={values.iin}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={6}
-                            xs={6}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Контактный телефон"
-                                margin="dense"
-                                name="phone"
-                                onChange={handleChange}
-                                required
-                                value={values.contact_phone}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={6}
-                            xs={6}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Email"
-                                margin="dense"
-                                name="email"
-                                onChange={handleChange}
-                                required
-                                value={values.contact_email}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={3}
-                            xs={3}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Тип документа"
-                                margin="dense"
-                                name="doc_type"
-                                onChange={handleChange}
-                                required
-                                select
-                                // eslint-disable-next-line react/jsx-sort-props
-                                SelectProps={{ native: true }}
-                                value={values.doc_type}
-                                variant="outlined"
-                            >
-                                {docType.map(option => (
-                                    <option
-                                        key={option.value}
-                                        value={option.value}
-                                    >
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </TextField>
-                        </Grid>
-                        <Grid
-                            item
-                            md={3}
-                            xs={3}
-                        >
-                            <TextField
-                                fullWidth
-                                label="№ документа"
-                                margin="dense"
-                                name="doc_num"
-                                onChange={handleChange}
-                                required
-                                value={values.doc_num}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={3}
-                            xs={4}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Дата выдачи"
-                                margin="dense"
-                                name="doc_date"
-                                onChange={handleChange}
-                                required
-                                value={moment(values.doc_date).format('DD/MM/YYYY')}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={3}
-                            xs={4}
-                        >
-                            <TextField
-                                fullWidth
-                                label="Выдан"
-                                margin="dense"
-                                name="doc_auth"
-                                onChange={handleChange}
-                                required
-                                value={values.doc_auth}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            md={12}
                             xs={12}
                         >
                             <TextField
@@ -275,21 +107,178 @@ const EmployeeItem = (props: IEmployeeItem) => {
                         </Grid>
                         <Grid
                             item
-                            md={12}
-                            xs={12}
+                            md={8}
+                            xs={8}
                         >
                             <TextField
                                 fullWidth
-                                label="Адрес проживания"
+                                label="Контактный сотрудник"
                                 margin="dense"
-                                name="addr_res"
+                                name="employee"
+                                onChange={handleChange}
+                                value={values.employee}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={4}
+                            xs={4}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Контактный телефон"
+                                margin="dense"
+                                name="phone"
+                                onChange={handleChange}
+                                value={values.phone}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={6}
+                            xs={6}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Факс"
+                                margin="dense"
+                                name="fax"
+                                onChange={handleChange}
+                                value={values.fax}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={6}
+                            xs={6}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Email"
+                                margin="dense"
+                                name="email"
+                                onChange={handleChange}
+                                value={values.email}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={2}
+                            xs={2}
+                        >
+                            <TextField
+                                fullWidth
+                                label="БИН"
+                                margin="dense"
+                                name="req_bin"
                                 onChange={handleChange}
                                 required
-                                value={values.addr_res}
+                                value={values.req_bin}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={2}
+                            xs={2}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Лиц. счёт"
+                                margin="dense"
+                                name="req_account"
+                                onChange={handleChange}
+                                required
+                                value={values.req_account}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={2}
+                            xs={2}
+                        >
+                            <TextField
+                                fullWidth
+                                label="БИК"
+                                margin="dense"
+                                name="req_bik"
+                                onChange={handleChange}
+                                required
+                                value={values.req_bik}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={6}
+                            xs={6}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Банк"
+                                margin="dense"
+                                name="req_bank"
+                                onChange={handleChange}
+                                required
+                                value={values.req_bank}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={12}
+                            xs={12}
+                        >
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Дополнительно"
+                            multiline
+                            margin="dense"
+                            rowsMax="5"
+                            name="comment"
+                            value={values.comment}
+                            onChange={handleChange}
+                            variant="outlined"
+                        />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={1}
+                        >
+                            <TextField
+                                fullWidth
+                                disabled
+                                name="created"
+                                margin="dense"
+                                id="filled-disabled"
+                                label="Создан"
+                                value={values.created}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            xs={11}
+                        >
+                            <TextField
+                                fullWidth
+                                disabled
+                                name="agent"
+                                margin="dense"
+                                id="filled-disabled"
+                                label="Агент"
+                                value={values.agent}
                                 variant="outlined"
                             />
                         </Grid>
                     </Grid>
+
                 </CardContent>
                 <Divider />
                 <CardActions>
@@ -306,4 +295,4 @@ const EmployeeItem = (props: IEmployeeItem) => {
     );
 };
 
-export default EmployeeItem;
+export default ClientItem;
