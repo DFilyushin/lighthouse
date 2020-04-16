@@ -43,7 +43,7 @@ class RefMaterialType(models.Model):
 class Material(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Код')
     name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
-    id_type = models.ForeignKey(RefMaterialType, on_delete=models.CASCADE, verbose_name='Тип материала')
+    id_type = models.ForeignKey(RefMaterialType, on_delete=models.CASCADE, verbose_name='Тип материала', default=1)
 
     def __str__(self):
         return '{} {}'.format(self.id_type.name, self.name)

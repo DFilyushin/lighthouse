@@ -108,5 +108,5 @@ venv.bak/
 .mypy_cache/
 /emeraldapp/*.sqlite3
 /backend/api/venv/
-/frontend/.idea/
 /backend/api/.idea/
+/frontend/.idea/

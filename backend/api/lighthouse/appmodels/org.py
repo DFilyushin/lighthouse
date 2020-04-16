@@ -18,7 +18,11 @@ class Org(models.Model):
     req_bin = models.CharField(max_length=12, blank=True, null=True, verbose_name='БИН')
     req_account = models.CharField(max_length=20, blank=True, null=True, verbose_name='Лицевой счёт')
     req_bank = models.CharField(max_length=255, blank=True, null=True, verbose_name='Банк')
-    req_bik = models.CharField(max_length=8, blank=True, null=True, verbose_name='БИК')
+    req_bik = models.CharField(max_length=10, blank=True, null=True, verbose_name='БИК')
+    boss_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Руководитель')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Организация'
@@ -28,6 +32,9 @@ class Org(models.Model):
 class Staff(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Должность'
@@ -44,15 +51,20 @@ class Employee(models.Model):
     tab_num = models.CharField(max_length=20, null=True, blank=True, verbose_name='Табельный номер')
     fio = models.CharField(max_length=255, null=False, blank=False, verbose_name='Сотрудник')
     dob = models.DateField(null=False, blank=False, verbose_name='Дата рождения')
+    iin = models.CharField(max_length=12, blank=True, null=False, verbose_name='ИИН')
     doc_type = models.SmallIntegerField(choices=EMPLOYEE_DOCUMENT_TYPE, verbose_name='Тип документа')
     doc_num = models.CharField(max_length=50, blank=True, null=False, verbose_name='Номер документа')
     doc_date = models.DateField(blank=True, null=True, verbose_name='Дата выдачи')
     doc_auth = models.CharField(max_length=255, blank=True, null=False, verbose_name='Орган выдавший документ')
-    addr_registration = models.TextField(verbose_name='Адрес регистрации')
-    addr_residence = models.TextField(verbose_name='Адрес фактического проживания')
+    addr_registration = models.TextField(blank=True, null=True, verbose_name='Адрес регистрации')
+    addr_residence = models.TextField(blank=True, null=True, verbose_name='Адрес фактического проживания')
     contact_phone = models.CharField(max_length=255, blank=True, null=True, verbose_name='Контактный телефон')
     contact_email = models.CharField(max_length=255, blank=True, null=True, verbose_name='Email')
+    id_staff = models.ForeignKey(Staff, on_delete=models.CASCADE, verbose_name='Должность')
     fired = models.DateField(blank=True, null=True, verbose_name='Уволен')
+
+    def __str__(self):
+        return self.fio
 
     class Meta:
         verbose_name = 'Сотрудник'
