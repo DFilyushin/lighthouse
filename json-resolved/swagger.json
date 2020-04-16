@@ -1,0 +1,562 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Lighthouse REST API",
+    "version" : "1.0.0",
+    "title" : "Lighthouse",
+    "contact" : {
+      "email" : "dmitriy.filyushin@yandex.ru"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/DFilyushin/lighthouse/1.0.0",
+  "tags" : [ {
+    "name" : "Реквизиты",
+    "description" : "Реквизиты предприятия"
+  }, {
+    "name" : "Клиенты",
+    "description" : "Клиенты"
+  }, {
+    "name" : "Сотрудники",
+    "description" : "Сотрудники предприятия"
+  }, {
+    "name" : "Сырьё",
+    "description" : "Каталог сырья"
+  }, {
+    "name" : "Продукция",
+    "description" : "Каталог продукции"
+  }, {
+    "name" : "Контракты",
+    "description" : "Список контрактов"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/org" : {
+      "get" : {
+        "tags" : [ "Реквизиты" ],
+        "summary" : "Реквизиты предприятия",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Объект реквизитов",
+            "schema" : {
+              "$ref" : "#/definitions/OrgItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Реквизиты" ],
+        "summary" : "Обновление реквизитов",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OrgItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Объект обновленных реквизитов",
+            "schema" : {
+              "$ref" : "#/definitions/OrgItem"
+            }
+          }
+        }
+      }
+    },
+    "/client" : {
+      "get" : {
+        "tags" : [ "Клиенты" ],
+        "summary" : "Данные клиента",
+        "description" : "Данные клиента",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код клиента",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Объект Клиент",
+            "schema" : {
+              "$ref" : "#/definitions/ClientItem"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Клиенты" ],
+        "summary" : "Добавить нового клиента",
+        "description" : "Добавить нового клиента",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ClientItem"
+          }
+        } ],
+        "responses" : {
+          "405" : {
+            "description" : "Некорректные данные"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Клиенты" ],
+        "summary" : "Удалить клиента",
+        "description" : "Удалить клиента по id",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код клиента",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Удалено успешно"
+          },
+          "404" : {
+            "description" : "Не найден объект"
+          }
+        }
+      }
+    },
+    "/clients" : {
+      "get" : {
+        "tags" : [ "Клиенты" ],
+        "summary" : "Список клиентов",
+        "description" : "Список клиентов",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив клиентов",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ClientListItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contract" : {
+      "get" : {
+        "tags" : [ "Контракты" ],
+        "summary" : "Список контрактов",
+        "description" : "Список контрактов",
+        "parameters" : [ {
+          "name" : "client",
+          "in" : "query",
+          "description" : "Name of client",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "pages",
+          "in" : "query",
+          "description" : "Count contract",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Массив контрактов",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ContractListItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product" : {
+      "get" : {
+        "tags" : [ "Продукция" ],
+        "summary" : "Список продукции",
+        "description" : "Список продукции",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив продукции",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/raw" : {
+      "get" : {
+        "tags" : [ "Сырьё" ],
+        "summary" : "список сырья",
+        "description" : "Список сырья",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "list of raw",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/RawItem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Сырьё" ],
+        "summary" : "Новый объект",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "RawItem",
+          "description" : "Объект сырья",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/RawItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "ok"
+          }
+        }
+      }
+    },
+    "/employees" : {
+      "get" : {
+        "tags" : [ "Сотрудники" ],
+        "summary" : "Список сотрудников предприятия",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив сотрудников",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/EmployeeListItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee" : {
+      "get" : {
+        "tags" : [ "Сотрудники" ],
+        "summary" : "Сотрудник предприятия",
+        "description" : "Сотрудник предприятия",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код сотрудника",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Сотрудник",
+            "schema" : {
+              "$ref" : "#/definitions/EmployeeItem"
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "OrgItem" : {
+      "type" : "object",
+      "required" : [ "bossName", "contactEmail", "contactFax", "contactPhone", "name", "reqAccount", "reqBank", "reqBik", "reqBin" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "example" : "Наименование предприятия"
+        },
+        "addReg" : {
+          "type" : "string",
+          "example" : "Адрес регистрации"
+        },
+        "contactPhone" : {
+          "type" : "string",
+          "example" : "556-120, +7-777-5564121"
+        },
+        "contactEmail" : {
+          "type" : "string",
+          "example" : "mail@mail.ru"
+        },
+        "contactFax" : {
+          "type" : "string",
+          "example" : "60-56-01"
+        },
+        "reqBin" : {
+          "type" : "string",
+          "example" : "123456789123"
+        },
+        "reqBik" : {
+          "type" : "string",
+          "example" : "KZJKNMJ"
+        },
+        "reqAccount" : {
+          "type" : "string",
+          "example" : "KZ00000000000000000001"
+        },
+        "reqBank" : {
+          "type" : "string",
+          "example" : "АО Банк Казахстана, филилал в г. Аксу"
+        },
+        "bossName" : {
+          "type" : "string",
+          "example" : "Первый руководитель предприятия"
+        }
+      }
+    },
+    "ClientItem" : {
+      "type" : "object",
+      "required" : [ "agentId", "clientName", "contactEmployee" ],
+      "properties" : {
+        "id" : {
+          "type" : "number",
+          "example" : 124.0
+        },
+        "clientName" : {
+          "type" : "string",
+          "example" : "ИП Совхоз им. Ленина"
+        },
+        "agentId" : {
+          "type" : "number",
+          "example" : 3.0
+        },
+        "contactEmployee" : {
+          "type" : "string",
+          "example" : "Сулейменова Анель"
+        },
+        "addrReg" : {
+          "type" : "string",
+          "example" : "Аксу, ул. Астаны 9"
+        },
+        "contactPhone" : {
+          "type" : "string",
+          "example" : "8-903-450-2365"
+        },
+        "contactEmail" : {
+          "type" : "string",
+          "example" : "ip_sovhoz@mail.kz"
+        },
+        "contactFax" : {
+          "type" : "string",
+          "example" : "4542323"
+        },
+        "reqBin" : {
+          "type" : "string",
+          "example" : "123456789102"
+        },
+        "reqAcount" : {
+          "type" : "string",
+          "example" : "KZ12345678901234567890"
+        },
+        "reqBank" : {
+          "type" : "string",
+          "example" : "АО Народный банк Казахстана"
+        },
+        "reqBik" : {
+          "type" : "string",
+          "example" : "KZNRABD"
+        },
+        "comment" : {
+          "type" : "string",
+          "example" : "Хороший клиент оплачивает вовремя"
+        },
+        "clientId" : {
+          "type" : "string",
+          "example" : "1512-05"
+        }
+      }
+    },
+    "ClientListItem" : {
+      "type" : "object",
+      "required" : [ "clientAddr", "clientAgent", "clientEmployee", "clientName", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 198
+        },
+        "clientName" : {
+          "type" : "string",
+          "example" : "ИП Сейтказин"
+        },
+        "clientAddr" : {
+          "type" : "string",
+          "example" : "Аксу, Астана 67"
+        },
+        "clientAgent" : {
+          "type" : "string",
+          "example" : "Петухова Анна"
+        },
+        "clientEmployee" : {
+          "type" : "string",
+          "example" : "Сейтказин Сакен"
+        }
+      }
+    },
+    "ContractListItem" : {
+      "type" : "object",
+      "required" : [ "clientName", "contractDate", "contractNum", "deliveryDate", "id", "manager", "totalSum" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "clientName" : {
+          "type" : "string",
+          "example" : "Имя клиента"
+        },
+        "contractNum" : {
+          "type" : "string",
+          "example" : "45125"
+        },
+        "totalSum" : {
+          "type" : "number",
+          "example" : 1558.21
+        },
+        "contractDate" : {
+          "type" : "string",
+          "example" : "2019-05-06"
+        },
+        "deliveryDate" : {
+          "type" : "string",
+          "example" : "2019-07-06"
+        },
+        "manager" : {
+          "type" : "string",
+          "example" : "Сулейменов Ахмед"
+        }
+      }
+    },
+    "RawItem" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProductItem" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EmployeeListItem" : {
+      "type" : "object",
+      "required" : [ "fio", "id", "staff", "tabNum" ],
+      "properties" : {
+        "id" : {
+          "type" : "number"
+        },
+        "fio" : {
+          "type" : "string"
+        },
+        "tabNum" : {
+          "type" : "string"
+        },
+        "staff" : {
+          "type" : "string"
+        }
+      }
+    },
+    "EmployeeItem" : {
+      "type" : "object",
+      "required" : [ "addrRegistration", "addrResidence", "contactEmail", "contactPhone", "created", "dob", "docAuth", "docDate", "docNum", "docType", "fio", "fired", "id", "iin" ],
+      "properties" : {
+        "id" : {
+          "type" : "number",
+          "example" : 20.0
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "fio" : {
+          "type" : "string",
+          "example" : "Иванов Пётр Иванович"
+        },
+        "dob" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "iin" : {
+          "type" : "string",
+          "example" : "130683650230",
+          "minLength" : 12,
+          "maxLength" : 12
+        },
+        "docType" : {
+          "type" : "integer"
+        },
+        "docNum" : {
+          "type" : "string"
+        },
+        "docDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "docAuth" : {
+          "type" : "string"
+        },
+        "addrRegistration" : {
+          "type" : "string"
+        },
+        "addrResidence" : {
+          "type" : "string"
+        },
+        "contactPhone" : {
+          "type" : "string"
+        },
+        "contactEmail" : {
+          "type" : "string"
+        },
+        "fired" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      }
+    }
+  }
+}
