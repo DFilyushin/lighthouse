@@ -1,7 +1,9 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
+import AuthenticationService from 'services/Authentication.service'
 
 interface IRouteWithLayout {
+    isAuth: boolean,
     layout: any,
     component: any,
     exact?: boolean
@@ -9,18 +11,24 @@ interface IRouteWithLayout {
 }
 
 const RouteWithLayout = (props: IRouteWithLayout) => {
-    const { layout: Layout, component: Component, ...rest } = props;
-    console.log(Layout);
-    return (
-        <Route
-            {...rest}
-            render={matchProps => (
-                <Layout>
-                    <Component {...matchProps} />
-                </Layout>
-            )}
-        />
-    );
+    const { isAuth: isAuth, layout: Layout, component: Component, ...rest } = props;
+
+    if (isAuth && !AuthenticationService.isAuthenticated())
+         return <Redirect to="/login"/>
+
+    if ((isAuth && AuthenticationService.isAuthenticated()) || (!isAuth)) {
+        return (
+            <Route
+                {...rest}
+                render={matchProps => (
+                    <Layout>
+                        <Component {...matchProps} />
+                    </Layout>
+                )}
+            />
+        );
+    }
+    return null
 };
 
 export default RouteWithLayout;

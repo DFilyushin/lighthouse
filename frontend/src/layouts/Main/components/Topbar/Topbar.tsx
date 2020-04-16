@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
@@ -8,9 +7,7 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import FolderIcon from '@material-ui/icons/Folder';
 import { common } from '@material-ui/core/colors';
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,12 +32,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: common.white,
   },
 }));
+
 interface ITopbar {
   className?: string,
-  onSidebarOpen?: any
+  onSidebarOpen?: any,
+  onSignout?: any
 }
+
 const Topbar = (props: ITopbar) => {
-  const { className, onSidebarOpen, ...rest } = props;
+  const { className, onSidebarOpen, onSignout, ...rest } = props;
 
   const classes = useStyles();
 
@@ -70,6 +70,7 @@ const Topbar = (props: ITopbar) => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
+            onClick={onSignout}
           >
             <InputIcon />
           </IconButton>

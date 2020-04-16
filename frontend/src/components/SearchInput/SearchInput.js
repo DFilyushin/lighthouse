@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(1),
     display: 'flex',
-    flexBasis: 420
+    flexBasis: 600
   },
   icon: {
     marginRight: theme.spacing(1),
@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SearchInput = props => {
-  const { className, onChange, style, ...rest } = props;
-
+  const { className, onChange, style, onEnterKeyDown, placeholder, ...rest } = props;
   const classes = useStyles();
 
   return (
@@ -42,6 +41,8 @@ const SearchInput = props => {
         className={classes.input}
         disableUnderline
         onChange={onChange}
+        onKeyDown={onEnterKeyDown}
+        placeholder={placeholder}
       />
     </Paper>
   );
@@ -50,7 +51,9 @@ const SearchInput = props => {
 SearchInput.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,
-  style: PropTypes.object
+  style: PropTypes.object,
+  onEnterKeyDown: PropTypes.func,
+  placeholder: PropTypes.string
 };
 
 export default SearchInput;

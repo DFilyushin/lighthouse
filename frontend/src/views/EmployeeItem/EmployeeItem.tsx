@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
-import {SearchInput} from 'components';
 import {
     Card,
     CardHeader,

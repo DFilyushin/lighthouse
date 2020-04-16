@@ -19,7 +19,7 @@ const OrgName = () => {
         container
         spacing={1}
       >
-          <AccountDetails />
+          <AccountDetails className={''} />
       </Grid>
     </div>
   );

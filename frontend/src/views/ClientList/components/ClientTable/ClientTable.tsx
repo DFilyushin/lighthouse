@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
     CardActions,
     CardContent,
-    Avatar,
     Checkbox,
     Table,
     TableBody,
@@ -17,9 +16,7 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-
-import { getInitials } from '../../../../helpers/index';
-import {IClientItem} from '../../../../IInterfaces';
+import {IClientItemList} from '../../../../IInterfaces';
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -46,13 +43,14 @@ const useStyles = makeStyles(theme => ({
 
 interface IClientTable{
     className: string,
-    clients: IClientItem[]
+    clients: IClientItemList[],
+    onClickItem: any,
+    onChangeSelected: any
 };
 
 
-
 const ClientTable = (props: IClientTable) => {
-    const { className, clients, ...rest } = props;
+    const { className, clients, onClickItem, onChangeSelected, ...rest } = props;
 
     const classes = useStyles();
 
@@ -72,6 +70,7 @@ const ClientTable = (props: IClientTable) => {
         }
 
         setSelectedClients(selectedClients);
+        onChangeSelected(selectedClients);
     };
 
     const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:number) => {
@@ -92,6 +91,7 @@ const ClientTable = (props: IClientTable) => {
         }
 
         setSelectedClients(newSelectedClients);
+        onChangeSelected(newSelectedClients);
     };
 
     const handlePageChange = (event:any, page: number) => {
@@ -100,6 +100,10 @@ const ClientTable = (props: IClientTable) => {
 
     const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
+    };
+
+    const cellClicked = (clientId: number) => {
+        onClickItem(clientId);
     };
 
     return (
@@ -127,10 +131,12 @@ const ClientTable = (props: IClientTable) => {
                                     <TableCell>Наименование</TableCell>
                                     <TableCell>Адрес</TableCell>
                                     <TableCell>Контакты</TableCell>
+                                    <TableCell/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {clients.slice(0, rowsPerPage).map(client => (
+                                {
+                                    clients.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(client => (
                                     <TableRow
                                         className={classes.tableRow}
                                         hover
@@ -146,10 +152,11 @@ const ClientTable = (props: IClientTable) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{client.name}</Typography>
+                                            <Typography variant="body1">{client.clientName}</Typography>
                                         </TableCell>
-                                        <TableCell>{client.addr_reg}</TableCell>
-                                        <TableCell>{client.employee}</TableCell>
+                                        <TableCell>{client.clientAddr}</TableCell>
+                                        <TableCell>{client.clientEmployee}</TableCell>
+                                        <TableCell><Button variant="contained" color="primary" onClick={event => cellClicked(client.id)}>Открыть</Button></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

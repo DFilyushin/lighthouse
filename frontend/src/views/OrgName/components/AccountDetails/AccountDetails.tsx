@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -12,35 +11,78 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
+import {IOrganization} from 'IInterfaces';
+import axios from "axios";
+import OrganizationEndpoint from 'services/endpoints/organization';
+import { useHistory } from "react-router-dom";
+import SnackBarAlert from 'components/SnackBarAlert';
+import {Color} from "@material-ui/lab/Alert";
+
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const AccountDetails = props => {
+
+const nullOrganization =  {
+  name: '',
+  addrReg: '',
+  contactEmail: '',
+  contactPhone: '',
+  contactFax: '',
+  reqBank: '',
+  reqBin: '',
+  reqAccount: '',
+  reqBik: '',
+  bossName: ''
+};
+
+interface IAccountDetails {
+  className: string
+}
+
+const AccountDetails = (props: IAccountDetails) => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
+  const history = useHistory();
+  const [values, setValues] = useState<IOrganization>(nullOrganization);
 
-  const [values, setValues] = useState({
-    orgName: 'Павлодарский агрохимический комплекс',
-    orgAddress: 'Павлодар, Промышленная 5 строение 1',
-    email: 'agromprom@agrohim.kz',
-    phone: '8-7182-554501',
-    fax: '536655',
-    bank: 'АО Народный банк Казахстана',
-    bin: '012345678911',
-    account: 'MMBN3012 0000 0000 0000 0000',
-    bik: 'KZNARNAK',
-    boss: 'Первый руководитель предприятия'
-  });
-
-  const handleChange = event => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value
     });
   };
+
+  async function loadData() {
+    const response = await axios.get(OrganizationEndpoint.getOrg());
+    const data = await response.data;
+    setValues(data);
+  };
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [messageAlert, setMessageAlert] = useState('');
+  const [typeAlert, setTypeAlert] = useState<Color>('success');
+
+  async function saveOrg() {
+    const saveUrl = OrganizationEndpoint.putOrg();
+    try{
+      const response = await axios.put(saveUrl, values);
+      if (response.status === 200){
+        setMessageAlert('Реквизиты сохранены');
+        setShowAlert(true);
+      }else{
+        console.log(response.statusText)
+      }
+    }
+    catch (e) {
+      console.log(e.message)
+    }
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
 
   return (
@@ -74,8 +116,9 @@ const AccountDetails = props => {
                 name="name"
                 onChange={handleChange}
                 required
-                value={values.orgName}
+                value={values?.name}
                 variant="outlined"
+                inputProps={{'maxLength': 255 }}
               />
             </Grid>
             <Grid
@@ -86,11 +129,12 @@ const AccountDetails = props => {
                 fullWidth
                 label="Адрес регистрации"
                 margin="dense"
-                name="addr_reg"
+                name="addrReg"
                 onChange={handleChange}
                 required
-                value={values.orgAddress}
+                value={values?.addrReg}
                 variant="outlined"
+                inputProps={{'maxLength': 512 }}
               />
             </Grid>
             <Grid
@@ -102,11 +146,12 @@ const AccountDetails = props => {
                 fullWidth
                 label="Контактные телефоны"
                 margin="dense"
-                name="cont_phone"
+                name="contactPhone"
                 onChange={handleChange}
                 required
-                value={values.phone}
+                value={values?.contactPhone}
                 variant="outlined"
+                inputProps={{'maxLength': 100 }}
               />
             </Grid>
             <Grid
@@ -118,11 +163,12 @@ const AccountDetails = props => {
                 fullWidth
                 label="Email"
                 margin="dense"
-                name="email"
+                name="contactEmail"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={values?.contactEmail}
                 variant="outlined"
+                inputProps={{'maxLength': 100 }}
               />
             </Grid>
             <Grid
@@ -134,11 +180,12 @@ const AccountDetails = props => {
                   fullWidth
                   label="Факс"
                   margin="dense"
-                  name="fax"
+                  name="contactFax"
                   onChange={handleChange}
                   required
-                  value={values.fax}
+                  value={values?.contactFax}
                   variant="outlined"
+                  inputProps={{'maxLength': 100 }}
               />
             </Grid>
             <Grid
@@ -150,11 +197,12 @@ const AccountDetails = props => {
                   fullWidth
                   label="БИН"
                   margin="dense"
-                  name="req_bin"
+                  name="reqBin"
                   onChange={handleChange}
                   required
-                  value={values.bin}
+                  value={values?.reqBin}
                   variant="outlined"
+                  inputProps={{'maxLength': 12 }}
               />
             </Grid>
             <Grid
@@ -166,11 +214,12 @@ const AccountDetails = props => {
                   fullWidth
                   label="Лицевой счёт"
                   margin="dense"
-                  name="email"
+                  name="reqAccount"
                   onChange={handleChange}
                   required
-                  value={values.account}
+                  value={values?.reqAccount}
                   variant="outlined"
+                  inputProps={{'maxLength': 20 }}
               />
             </Grid>
             <Grid
@@ -182,11 +231,12 @@ const AccountDetails = props => {
                   fullWidth
                   label="Банк"
                   margin="dense"
-                  name="email"
+                  name="reqBank"
                   onChange={handleChange}
                   required
-                  value={values.bank}
+                  value={values?.reqBank}
                   variant="outlined"
+                  inputProps={{'maxLength': 255 }}
               />
             </Grid>
             <Grid
@@ -198,11 +248,12 @@ const AccountDetails = props => {
                   fullWidth
                   label="БИК"
                   margin="dense"
-                  name="email"
+                  name="reqBik"
                   onChange={handleChange}
                   required
-                  value={values.bik}
+                  value={values?.reqBik}
                   variant="outlined"
+                  inputProps={{'maxLength': 10 }}
               />
             </Grid>
             <Grid
@@ -214,11 +265,12 @@ const AccountDetails = props => {
                   fullWidth
                   label="Руководитель"
                   margin="dense"
-                  name="email"
+                  name="bossName"
                   onChange={handleChange}
                   required
-                  value={values.boss}
+                  value={values?.bossName}
                   variant="outlined"
+                  inputProps={{'maxLength': 255 }}
               />
             </Grid>
 
@@ -229,17 +281,27 @@ const AccountDetails = props => {
           <Button
             color="primary"
             variant="contained"
+            onClick={saveOrg}
           >
             Сохранить
           </Button>
+          <Button
+              color="secondary"
+              variant="contained"
+              onClick={(event => history.push('/'))}
+          >
+            Отменить
+          </Button>
         </CardActions>
       </form>
+      <SnackBarAlert
+          typeMessage={typeAlert}
+          messageText={messageAlert}
+          isOpen={showAlert}
+          onSetOpenState={setShowAlert}
+      />
     </Card>
   );
-};
-
-AccountDetails.propTypes = {
-  className: PropTypes.string
 };
 
 export default AccountDetails;

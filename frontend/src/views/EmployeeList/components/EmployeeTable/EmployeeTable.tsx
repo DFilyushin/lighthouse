@@ -7,7 +7,6 @@ import {
     Card,
     CardActions,
     CardContent,
-    Avatar,
     Checkbox,
     Table,
     TableBody,
@@ -17,8 +16,6 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-
-import { getInitials } from '../../../../helpers/index';
 import {IEmployeeTableItem} from '../../../../IInterfaces';
 
 const useStyles = makeStyles(theme => ({

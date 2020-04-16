@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import AuthenticationService from 'services/Authentication.service';
+import { useHistory } from "react-router-dom";
 
 
 function Copyright() {
@@ -58,7 +60,26 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
+    const history = useHistory();
     const classes = useStyles();
+    const [login, setLogin] = useState <string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+
+    const onChangeLogin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLogin(event.currentTarget.value);
+        setError('');
+    };
+
+    const  handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const result = await AuthenticationService.login2(login, password);
+         if (result === true){
+             history.push("/");
+         }else{
+             setError('Неверно указан логин или пароль!')
+         }
+    };
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -72,7 +93,7 @@ export default function SignIn() {
                     <Typography component="h1" variant="h5">
                         Вход
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className={classes.form} noValidate onSubmit={handleLogin}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -83,6 +104,8 @@ export default function SignIn() {
                             name="login"
                             autoComplete="off"
                             autoFocus
+                            value={login}
+                            onChange={onChangeLogin}
                         />
                         <TextField
                             variant="outlined"
@@ -94,11 +117,18 @@ export default function SignIn() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Запомнить меня"
                         />
+                        <Typography component="div">
+                            <Box textAlign="center" m={1} color="red">
+                                {error}
+                            </Box>
+                        </Typography>
                         <Button
                             type="submit"
                             fullWidth

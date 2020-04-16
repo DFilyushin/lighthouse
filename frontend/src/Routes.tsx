@@ -22,19 +22,20 @@ const Routes = () => {
         <Switch>
             <Redirect exact from="/" to="/dashboard"/>
 
-            <RouteWithLayout component={LoginView} layout={MinimalLayout} path="/login" exact/>
-            <RouteWithLayout component={DashboardView} layout={MainLayout} path="/dashboard" exact/>
+            <RouteWithLayout isAuth={false} component={LoginView} layout={MinimalLayout} path="/login" exact/>
+            <RouteWithLayout isAuth={true} component={DashboardView} layout={MainLayout} path="/dashboard" exact/>
 
-            <RouteWithLayout component={ClientListView} layout={MainLayout} path="/clients" exact/>
-            <RouteWithLayout component={ClientItemView} layout={MainLayout} path="/client" exact/>
+            <RouteWithLayout isAuth={true} component={ClientListView} layout={MainLayout} path="/clients" exact/>
+            <RouteWithLayout isAuth={true} component={ClientItemView} layout={MainLayout} path="/client/:id" exact/>
 
-            <RouteWithLayout component={UserListView} layout={MainLayout} path="/users" exact/>
+            <RouteWithLayout isAuth={true} component={UserListView} layout={MainLayout} path="/users" exact/>
 
-            <RouteWithLayout component={EmployeeListView} layout={MainLayout} path="/employees" exact/>
-            <RouteWithLayout component={EmployeeItemView} layout={MainLayout} path="/employee" exact/>
+            <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/employees" exact/>
+            <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/employee" exact/>
 
-            <RouteWithLayout component={OrgNameView} layout={MainLayout} path="/org" exact/>
-            <RouteWithLayout component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
+            <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org" exact/>
+            <RouteWithLayout isAuth={true} component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
+
             <Redirect to="/NotFound" />
         </Switch>
     );

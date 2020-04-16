@@ -8,10 +8,10 @@ import StorageIcon from '@material-ui/icons/Storage';
 import { Profile, SidebarNav } from './components';
 import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
 import BusinessIcon from '@material-ui/icons/Business';
-import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
 import FactorySVGIcon from "../../../../components/icons/Factory";
 import ContractSvgIcon from "../../../../components/icons/Contract";
 import EmployeeSvgIcon from "../../../../components/icons/Employee";
+import WorkIcon from '@material-ui/icons/Work';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -22,7 +22,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   root: {
-    //backgroundColor: theme.palette.white,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
@@ -61,9 +60,9 @@ const Sidebar = (props:ISidebar) => {
       icon: <StorageIcon />
     },
     {
-      title: 'Договоры',
-      href: '/products',
-      icon: <LibraryBooksOutlinedIcon />
+      title: 'Затраты',
+      href: '/expense',
+      icon: <WorkIcon />
     },
     {
       title: 'Клиенты',
@@ -86,7 +85,7 @@ const Sidebar = (props:ISidebar) => {
       icon: <EmployeeSvgIcon />
     },
     {
-      title: 'Организация',
+      title: 'Реквизиты',
       href: '/org',
       icon: <BusinessIcon />
     },

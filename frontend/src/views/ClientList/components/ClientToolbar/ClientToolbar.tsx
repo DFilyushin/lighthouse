@@ -1,9 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-
 import { SearchInput } from '../../../../components';
+import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -33,10 +34,28 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ClientToolbar = props => {
-  const { className, ...rest } = props;
+interface IClientToolbar {
+  className: string,
+  onFind: any,
+  onDelete: any
+}
+
+const ClientToolbar = (props: IClientToolbar) => {
+  const history = useHistory();
+  const { className, onFind, onDelete, ...rest } = props;
 
   const classes = useStyles();
+
+  function onKeyDownHandler (event: React.KeyboardEvent<HTMLInputElement>) {
+    if(event.key === 'Enter'){
+      const findText = event.currentTarget.value.trim();
+      onFind(findText);
+    }
+  }
+
+  function onNewClientHandler() {
+    history.push('/client/new');
+  }
 
   return (
     <div
@@ -45,17 +64,23 @@ const ClientToolbar = props => {
     >
       <div className={classes.buttonGroup}>
         <span className={classes.spacer} />
-        <Button color="primary" variant="contained">Новый клиент</Button>
-        <Button color="secondary" variant="contained">Удалить</Button>
+        <Button color="primary" variant="contained" onClick={onNewClientHandler}>Новый клиент</Button>
+        <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
       </div>
       <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
+          onEnterKeyDown={onKeyDownHandler}
           placeholder="Поиск клиента"
         />
       </div>
     </div>
   );
+};
+
+ClientToolbar.propTypes = {
+  className: PropTypes.string,
+  onFind: PropTypes.func.isRequired
 };
 
 export default ClientToolbar;

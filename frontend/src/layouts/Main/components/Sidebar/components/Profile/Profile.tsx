@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Typography } from '@material-ui/core';
+import AuthenticationService from 'services/Authentication.service';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,9 +30,9 @@ const Profile = (props:IProfile) => {
   const classes = useStyles();
 
   const user = {
-    name: 'Shen Zhi',
-    avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director'
+    name: AuthenticationService.currentUserName(),
+    avatar: '/images/avatar.png',
+    bio: AuthenticationService.currentEmployee()
   };
 
   return (

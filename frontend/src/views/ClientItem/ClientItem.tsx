@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
-import {SearchInput} from 'components';
 import {
     Card,
     CardHeader,
@@ -13,9 +11,14 @@ import {
     Button,
     TextField
 } from '@material-ui/core';
+import axios from "axios";
+import ClientEndpoint from "services/endpoints/clients";
+import {IClientItem} from "IInterfaces";
+import { useHistory } from "react-router-dom";
 
-interface IClientItem {
-    className: string
+interface IClientItemProps {
+    className: string,
+    match: any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -24,35 +27,81 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ClientItem = (props: IClientItem) => {
+const nullClient = {
+    id: 0,
+    created: '',
+    clientName: '',
+    clientAgent: '',
+    clientAddr: '',
+    clientEmployee: '',
+    contactPhone: '',
+    contactEmail: '',
+    contactFax: '',
+    reqBin: '',
+    reqAccount: '',
+    reqBank: '',
+    reqBik: '',
+    comment: '',
+    clientId: '8888',
+    agentId: 1
+};
+
+const ClientItem = (props: IClientItemProps) => {
+    const paramId = props.match.params.id;
+    const clientId = paramId === 'new' ? 0 :parseInt(paramId);
     const { className, ...rest } = props;
-
+    const history = useHistory();
     const classes = useStyles();
+    const [isLoading, setIsLoading] = useState(true);
+    const [client, setClient] = useState <IClientItem>(nullClient);
 
-    const [values, setValues] = useState({
-        id: 7,
-        created: '2020-02-01',
-        name: 'ИП Матвеева И.А.',
-        addr_reg: 'свх им Тельмана, Районная 1',
-        employee: 'Анна Матвеева',
-        agent: 'Егорова',
-        phone: '8-701-565621',
-        email: 'matv@mail.ru',
-        fax: '562365',
-        req_bin: '123456789120',
-        req_account: '12345678901234567890',
-        req_bank: 'Народный банк Казахстана',
-        req_bik: 'NKNAZXN',
-        comment: 'Покупала в прошлом году, всё отлично. Опаздала с оплатой. Брала с рассрочкой',
-        clientid: '134'
-    });
+    /**
+     * Загрузить клиента
+     * @param clientId
+     */
+    async function loadClientItem (clientId: number){
+        setIsLoading(true);
+        if (clientId === 0) return null
+        const response = await axios.get(ClientEndpoint.getClient(clientId));
+        const data = await response.data;
+        setClient(data);
+
+        setIsLoading(false);
+    };
+
+
+    async function saveNewClient() {
+        const saveUrl = ClientEndpoint.newClient();
+        console.log(saveUrl);
+        console.log(JSON.stringify(client));
+        try{
+            const response = await axios.post(saveUrl, client);
+            if (response.status === 201){
+                history.push('/clients')
+            }else{
+                console.log(response.statusText)
+            }
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({
-            ...values,
+        setClient({
+            ...client,
             [event.target.name]: event.target.value
         });
     };
+
+    const saveHandler = (event: React.MouseEvent) => {
+        if (clientId === 0) saveNewClient();
+    };
+
+    useEffect( ()=> {
+        console.log(clientId);
+        loadClientItem(clientId);
+    }, []);
 
     return (
         <div className={classes.root}>
@@ -82,10 +131,10 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Наименование клиента"
                                 margin="dense"
-                                name="name"
+                                name="clientName"
                                 onChange={handleChange}
                                 required
-                                value={values.name}
+                                value={client.clientName}
                                 variant="outlined"
                             />
                         </Grid>
@@ -98,10 +147,10 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Адрес регистрации"
                                 margin="dense"
-                                name="addr_reg"
+                                name="clientAddr"
                                 onChange={handleChange}
                                 required
-                                value={values.addr_reg}
+                                value={client.clientAddr}
                                 variant="outlined"
                             />
                         </Grid>
@@ -114,9 +163,9 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Контактный сотрудник"
                                 margin="dense"
-                                name="employee"
+                                name="clientEmployee"
                                 onChange={handleChange}
-                                value={values.employee}
+                                value={client.clientEmployee}
                                 variant="outlined"
                             />
                         </Grid>
@@ -129,9 +178,9 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Контактный телефон"
                                 margin="dense"
-                                name="phone"
+                                name="contactPhone"
                                 onChange={handleChange}
-                                value={values.phone}
+                                value={client.contactPhone}
                                 variant="outlined"
                             />
                         </Grid>
@@ -144,9 +193,9 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Факс"
                                 margin="dense"
-                                name="fax"
+                                name="contactFax"
                                 onChange={handleChange}
-                                value={values.fax}
+                                value={client.contactFax}
                                 variant="outlined"
                             />
                         </Grid>
@@ -159,9 +208,9 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Email"
                                 margin="dense"
-                                name="email"
+                                name="contactEmail"
                                 onChange={handleChange}
-                                value={values.email}
+                                value={client.contactEmail}
                                 variant="outlined"
                             />
                         </Grid>
@@ -174,11 +223,12 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="БИН"
                                 margin="dense"
-                                name="req_bin"
+                                name="reqBin"
                                 onChange={handleChange}
                                 required
-                                value={values.req_bin}
+                                value={client.reqBin}
                                 variant="outlined"
+                                inputProps={{'maxlength': 12}}
                             />
                         </Grid>
                         <Grid
@@ -190,11 +240,12 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Лиц. счёт"
                                 margin="dense"
-                                name="req_account"
+                                name="reqAccount"
                                 onChange={handleChange}
                                 required
-                                value={values.req_account}
+                                value={client.reqAccount}
                                 variant="outlined"
+                                inputProps={{'maxlength': 20}}
                             />
                         </Grid>
                         <Grid
@@ -206,11 +257,12 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="БИК"
                                 margin="dense"
-                                name="req_bik"
+                                name="reqBik"
                                 onChange={handleChange}
                                 required
-                                value={values.req_bik}
+                                value={client.reqBik}
                                 variant="outlined"
+                                inputProps={{'maxlength': 8}}
                             />
                         </Grid>
                         <Grid
@@ -222,11 +274,12 @@ const ClientItem = (props: IClientItem) => {
                                 fullWidth
                                 label="Банк"
                                 margin="dense"
-                                name="req_bank"
+                                name="reqBank"
                                 onChange={handleChange}
                                 required
-                                value={values.req_bank}
+                                value={client.reqBank}
                                 variant="outlined"
+                                inputProps={{'maxlength': 255}}
                             />
                         </Grid>
                         <Grid
@@ -242,14 +295,14 @@ const ClientItem = (props: IClientItem) => {
                             margin="dense"
                             rowsMax="5"
                             name="comment"
-                            value={values.comment}
+                            value={client.comment}
                             onChange={handleChange}
                             variant="outlined"
                         />
                         </Grid>
                         <Grid
                             item
-                            xs={1}
+                            xs={2}
                         >
                             <TextField
                                 fullWidth
@@ -258,22 +311,22 @@ const ClientItem = (props: IClientItem) => {
                                 margin="dense"
                                 id="filled-disabled"
                                 label="Создан"
-                                value={values.created}
+                                value={moment(client.created).format('YYYY.MM.DD')}
                                 variant="outlined"
                             />
                         </Grid>
                         <Grid
                             item
-                            xs={11}
+                            xs={10}
                         >
                             <TextField
                                 fullWidth
                                 disabled
-                                name="agent"
+                                name="clientAgent"
                                 margin="dense"
                                 id="filled-disabled"
                                 label="Агент"
-                                value={values.agent}
+                                value={client.clientAgent}
                                 variant="outlined"
                             />
                         </Grid>
@@ -285,8 +338,16 @@ const ClientItem = (props: IClientItem) => {
                     <Button
                         color="primary"
                         variant="contained"
+                        onClick={saveHandler}
                     >
                         Сохранить
+                    </Button>
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={(event => history.push('/clients'))}
+                    >
+                        Отменить
                     </Button>
                 </CardActions>
             </form>

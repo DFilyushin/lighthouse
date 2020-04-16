@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useMediaQuery } from '@material-ui/core';
-
 import { Sidebar, Topbar } from './components';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+
+import AuthenticationService from 'services/Authentication.service'
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,14 +34,15 @@ interface IMainProps {
 }
 
 const Main = (props: IMainProps) => {
+    const history = useHistory();
     const { children } = props;
-
     const classes = useStyles();
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
         defaultMatches: true
     });
 
+    const [open, setOpen] = React.useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
 
     const handleSidebarOpen = () => {
@@ -42,6 +51,22 @@ const Main = (props: IMainProps) => {
 
     const handleSidebarClose = () => {
         setOpenSidebar(false);
+    };
+
+    const handleSignout = () => {
+        handleClickOpen()
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleCloseOk = () => {
+        setOpen(false);
+        AuthenticationService.logout();
+        history.push("/");
+    };
+    const handleClose = () => {
+        setOpen(false);
     };
 
     const shouldOpenSidebar = isDesktop ? true : openSidebar;
@@ -53,7 +78,7 @@ const Main = (props: IMainProps) => {
                 [classes.shiftContent]: isDesktop
             })}
         >
-            <Topbar onSidebarOpen={handleSidebarOpen} />
+            <Topbar onSidebarOpen={handleSidebarOpen} onSignout={handleSignout} />
             <Sidebar
                 onClose={handleSidebarClose}
                 open={shouldOpenSidebar}
@@ -62,6 +87,29 @@ const Main = (props: IMainProps) => {
             <main className={classes.content}>
                 {children}
             </main>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Подтверждение"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Выйти из приложения?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Отменить
+                    </Button>
+                    <Button onClick={handleCloseOk} color="primary" autoFocus>
+                        Ок
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </div>
     );
 };
