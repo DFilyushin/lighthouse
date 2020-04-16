@@ -483,6 +483,18 @@
         }
       }
     },
+    "StaffItem" : {
+      "type" : "object",
+      "required" : [ "id", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "number"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
     "EmployeeListItem" : {
       "type" : "object",
       "required" : [ "fio", "id", "staff", "tabNum" ],
@@ -503,7 +515,7 @@
     },
     "EmployeeItem" : {
       "type" : "object",
-      "required" : [ "addrRegistration", "addrResidence", "contactEmail", "contactPhone", "created", "dob", "docAuth", "docDate", "docNum", "docType", "fio", "fired", "id", "iin" ],
+      "required" : [ "addrRegistration", "addrResidence", "contactEmail", "contactPhone", "created", "dob", "docAuth", "docDate", "docNum", "docType", "fio", "fired", "id", "iin", "staff" ],
       "properties" : {
         "id" : {
           "type" : "number",
@@ -528,10 +540,12 @@
           "maxLength" : 12
         },
         "docType" : {
-          "type" : "integer"
+          "type" : "integer",
+          "example" : 1
         },
         "docNum" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "0900 145069"
         },
         "docDate" : {
           "type" : "string",
@@ -547,10 +561,20 @@
           "type" : "string"
         },
         "contactPhone" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "8-701-701-5005"
         },
         "contactEmail" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "mail@mdail.kz"
+        },
+        "staffId" : {
+          "type" : "integer",
+          "example" : 0
+        },
+        "staff" : {
+          "type" : "string",
+          "example" : "Программист"
         },
         "fired" : {
           "type" : "string",
