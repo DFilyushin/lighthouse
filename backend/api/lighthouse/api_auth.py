@@ -2,10 +2,13 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from lighthouse.user_serializer import UserLoginSerializer
+from lighthouse.serializer_auth import UserLoginSerializer
 
 
 class UserLoginView(RetrieveAPIView):
+    """
+    Аутентификация пользователя
+    """
 
     permission_classes = (AllowAny,)
     serializer_class = UserLoginSerializer

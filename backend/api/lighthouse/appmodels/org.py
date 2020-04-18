@@ -60,7 +60,7 @@ class Employee(models.Model):
     addr_residence = models.TextField(blank=True, null=True, verbose_name='Адрес фактического проживания')
     contact_phone = models.CharField(max_length=255, blank=True, null=True, verbose_name='Контактный телефон')
     contact_email = models.CharField(max_length=255, blank=True, null=True, verbose_name='Email')
-    id_staff = models.ForeignKey(Staff, on_delete=models.CASCADE, verbose_name='Должность')
+    id_staff = models.ForeignKey(Staff, on_delete=models.CASCADE, verbose_name='Должность', default=0)
     fired = models.DateField(blank=True, null=True, verbose_name='Уволен')
 
     def __str__(self):

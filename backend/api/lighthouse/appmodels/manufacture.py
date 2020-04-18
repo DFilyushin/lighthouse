@@ -57,20 +57,31 @@ class Material(models.Model):
         ]
 
 
+class Raw(Material):
+    pass
+
+
 class Formula(models.Model):
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     specification = models.TextField(blank=True, null=True, verbose_name='ТУ')
     id_tare = models.ForeignKey(Tare, on_delete=models.CASCADE, verbose_name='Код тары')
-    id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код продукции')
+    id_product = models.ForeignKey(Material, on_delete=models.CASCADE, related_name='product_name', verbose_name='Код продукции', default=0)
     calc_amount = models.FloatField(default=0, verbose_name='Расчётное количество')
     calc_losses = models.FloatField(default=0, verbose_name='Плановые потери')
     is_active = models.BooleanField(default=True, verbose_name='Активность рассчёта')
+    raws_in_formula = models.ManyToManyField(Material, through='FormulaComp', related_name='raws_in_product', through_fields=('id_formula', 'id_raw'), verbose_name='Состав сырья')
+
+    def __str__(self):
+        return self.id_product.name
+
+    def get_raw_in_formula(self):
+        return FormulaComp.objects.filter(id_formula=self)
 
     class Meta:
         verbose_name = 'Рецептура'
         verbose_name_plural = 'Рецептуры'
-        ordering = ['id_product', 'created']
+        ordering = ['created']
         indexes = [
             models.Index(fields=['created'])
         ]
@@ -81,6 +92,9 @@ class FormulaComp(models.Model):
     id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код рецептуры')
     id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
     raw_value = models.FloatField(default=0, verbose_name='Доля')
+
+    def __str__(self):
+        return self.id_raw.name
 
     class Meta:
         verbose_name = 'Состав рецептуры'

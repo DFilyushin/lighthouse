@@ -1,82 +1,13 @@
-from .appmodels.manufacture import Material, Tare, Formula
+from .appmodels.manufacture import Material, Tare, Formula, FormulaComp
 from .appmodels.org import Employee, Staff, Org
 from .appmodels.sales import Client
 from rest_framework import serializers
 
 
-class OrgSerializer(serializers.ModelSerializer):
-    name = serializers.CharField()
-    addrReg = serializers.CharField(source='addr_reg')
-    contactPhone = serializers.CharField(source='contact_phone')
-    contactEmail = serializers.CharField(source='contact_email')
-    contactFax = serializers.CharField(source='contact_fax')
-    reqBin = serializers.CharField(source='req_bin')
-    reqAccount = serializers.CharField(source='req_account')
-    reqBank = serializers.CharField(source='req_bank')
-    reqBik = serializers.CharField(source='req_bik')
-    bossName = serializers.CharField(source='boss_name')
-
-    class Meta:
-        model = Org
-        many = False
-        fields = ('name', 'addrReg', 'contactPhone', 'contactEmail', 'contactFax', 'reqBin', 'reqBik',
-                  'reqAccount', 'reqBank', 'bossName')
-
-
-class MaterialSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Material
-        fields = ['id', 'name']
-
-
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Продукция предприятия
-    """
-    class Meta:
-        model = Material
-        fields = ['id', 'name']
-
-    def create(self, validated_data):
-        return Material.objects.create(name=validated_data['name'], id_type_id=1)
-
-
-class RawSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Используемое сырьё
-    """
-    class Meta:
-        model = Material
-        fields = ['id', 'name']
-
-    def create(self, validated_data):
-        return Material.objects.create(name=validated_data['name'], id_type_id=2)
-
-
-class TareSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Тара
-    """
-    class Meta:
-        model = Tare
-        fields = ['id', 'name']
-
-
-class FormulaSerializer(serializers.ModelSerializer):
-    product = serializers.CharField(source='id_product.name', read_only=True)
-
-    class Meta:
-        model = Formula
-        fields = ['id', 'created', 'calc_amount', 'product']
-
-
-class EmployeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = '__all__'
-
-
 class ClientSerializer(serializers.ModelSerializer):
+    """
+    Клиент (объект)
+    """
     created = serializers.DateTimeField(read_only=True)
     clientName = serializers.CharField(source='clientname')
     clientAddr = serializers.CharField(source='addr_reg')
@@ -124,6 +55,9 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class ClientListSerializer(serializers.ModelSerializer):
+    """
+    Клиенты (список)
+    """
     clientName = serializers.CharField(source='clientname', read_only=True)
     clientAddr = serializers.CharField(source='addr_reg', read_only=True)
     clientAgent = serializers.CharField(source='id_agent.fio', read_only=True)
