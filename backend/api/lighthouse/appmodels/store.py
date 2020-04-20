@@ -1,9 +1,10 @@
 from django.db import models
 from .sales import Contract
 from .manufacture import Material, Manufacture
+from .org import Employee
 
 
-STORE_OPER_TYPE = [
+STORE_OPERATION_TYPE = [
     (0, 'приход'),
     (1, 'расход')
 ]
@@ -12,7 +13,7 @@ STORE_OPER_TYPE = [
 class Store(models.Model):
     id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Сырьё')
     oper_date = models.DateField(null=False, verbose_name='Дата оборота')
-    oper_type = models.SmallIntegerField(choices=STORE_OPER_TYPE, default=0, null=False, verbose_name='Тип операции')
+    oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False, verbose_name='Тип операции')
     oper_value = models.FloatField(default=0, verbose_name='Количество')
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True, verbose_name='Код производства')
 
