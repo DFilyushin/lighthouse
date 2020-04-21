@@ -24,6 +24,9 @@
     "name" : "Должности",
     "description" : "Должности предприятия"
   }, {
+    "name" : "Тара",
+    "description" : "Каталог тары"
+  }, {
     "name" : "Сырьё",
     "description" : "Каталог сырья"
   }, {
@@ -47,6 +50,306 @@
   } ],
   "schemes" : [ "https" ],
   "paths" : {
+    "/tare" : {
+      "get" : {
+        "tags" : [ "Тара" ],
+        "summary" : "Список тары",
+        "description" : "Получить массив тары",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TareItem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Тара" ],
+        "summary" : "Добавить новую тару",
+        "description" : "Добавить новую тару",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TareItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/tare/{id}" : {
+      "get" : {
+        "tags" : [ "Тара" ],
+        "summary" : "Получить запись об имеющейся таре",
+        "description" : "Получить запись об имеющейся таре",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/TareItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Тара" ],
+        "summary" : "Обновить имеющуюся запись",
+        "description" : "Обновить имеющуюся запись",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TareItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Тара" ],
+        "summary" : "Удаление имеющейся записи",
+        "description" : "Удаление имеющейся записи",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/formula" : {
+      "get" : {
+        "tags" : [ "Рецептура" ],
+        "summary" : "Список рецептур",
+        "description" : "Получить массив рецептов",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/FormulaListItem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Рецептура" ],
+        "summary" : "Добавить новую рецептуру",
+        "description" : "Добавить новую рецептуру",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FormulaItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/formula/{id}" : {
+      "get" : {
+        "tags" : [ "Рецептура" ],
+        "summary" : "Получить имеющуюся рецептуру по коду",
+        "description" : "Получить имеющуюся рецептуру по коду",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/FormulaItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Рецептура" ],
+        "summary" : "Обновление имеющейся рецептуры",
+        "description" : "Обновление имеющейся рецептуры",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/FormulaItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Рецептура" ],
+        "summary" : "Удалить имеющуюся рецептуру",
+        "description" : "Удалить имеющуюся рецептуру",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/staff" : {
+      "get" : {
+        "tags" : [ "Должности" ],
+        "summary" : "Должности предприятия",
+        "description" : "Список должностей предприятия",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/StaffItem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Должности" ],
+        "summary" : "Добавить новую должность",
+        "description" : "Добавить новую должность",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StaffItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/staff/{id}" : {
+      "get" : {
+        "tags" : [ "Должности" ],
+        "summary" : "Получить объект должности",
+        "description" : "Получить объект должности",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/StaffItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Должности" ],
+        "summary" : "Обновление имеющейся должности",
+        "description" : "Обновление имеющейся должности",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StaffItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Должности" ],
+        "summary" : "Удалить имеющуюся должность",
+        "description" : "Удалить имеющуюся должность",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/prodline" : {
       "get" : {
         "tags" : [ "Производственная линия" ],
@@ -157,7 +460,35 @@
         "tags" : [ "Производство" ],
         "summary" : "Список активных производственны карт",
         "description" : "Список активных производственны карт",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "product",
+          "in" : "query",
+          "description" : "Код продукта",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "state",
+          "in" : "query",
+          "description" : "Состояние карты",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "startPeriod",
+          "in" : "query",
+          "description" : "Первая дата периода начала процесса",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "endPeriod",
+          "in" : "query",
+          "description" : "Вторая дата периода начала процесса",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Массив производственных карта",
@@ -1058,7 +1389,7 @@
     },
     "TareItem" : {
       "type" : "object",
-      "required" : [ "id", "name" ],
+      "required" : [ "name" ],
       "properties" : {
         "id" : {
           "type" : "number",
@@ -1165,15 +1496,16 @@
     },
     "StaffItem" : {
       "type" : "object",
-      "required" : [ "id", "name" ],
+      "required" : [ "name" ],
       "properties" : {
         "id" : {
           "type" : "number",
-          "example" : 123.0
+          "format" : "int64",
+          "example" : 4.0
         },
         "name" : {
           "type" : "string",
-          "example" : "Должность"
+          "example" : "Менеджер"
         }
       },
       "title" : "Должность"
