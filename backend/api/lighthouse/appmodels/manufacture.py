@@ -57,10 +57,6 @@ class Material(models.Model):
         ]
 
 
-class Raw(Material):
-    pass
-
-
 class Formula(models.Model):
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
@@ -100,22 +96,45 @@ class FormulaComp(models.Model):
         verbose_name = 'Состав рецептуры'
 
 
+class ProductionLine(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Наименование линии')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Линия производства'
+        verbose_name_plural = 'Линии производства'
+
+
 class Manufacture(models.Model):
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    id_line = models.ForeignKey(ProductionLine, on_delete=models.CASCADE, verbose_name='Линия производства', default=0)
     id_creator = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Создал', related_name='id_creator_fk')
-    id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код формулы')
+    id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код формулы', related_name='id_formula_fk')
     id_team_leader = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Руководитель процесса', related_name='id_team_lead_fk')
     prod_start = models.DateTimeField(null=False, blank=False, verbose_name='Начало процесса')
     prod_finish = models.DateTimeField(null=True, blank=True, verbose_name='Завершение процесса')
+    calc_value = models.FloatField(default=0, blank=False, null=False, verbose_name='Рассчётное количество')
     cur_state = models.SmallIntegerField(choices=MANUFACTURE_STATE, verbose_name='Состояние процесса')
     out_value = models.FloatField(default=0, verbose_name='Фактический выход продукции')
     loss_value = models.FloatField(default=0, verbose_name='Фактические потери производства')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
+    is_delete = models.BooleanField(default=False, null=False, verbose_name='Удалён?')
+
+    def __str__(self):
+        return '{} от {}'.format(self.id_formula.id_product.name, self.prod_start)
+
+    def get_team(self):
+        return ProdTeam.objects.filter(id_manufacture=self)
+
+    def get_calculation(self):
+        return ProdCalc.objects.filter(id_manufacture=self)
 
     class Meta:
-        verbose_name = 'Производство'
-        verbose_name_plural = 'Производство'
+        verbose_name = 'Производственная карта'
+        verbose_name_plural = 'Производственные карты'
         ordering = ['prod_start']
 
 
@@ -134,3 +153,11 @@ class ProdTeam(models.Model):
         ]
 
 
+class ProdCalc(models.Model):
+    id_manufacture = models.ForeignKey(Manufacture, on_delete=models.CASCADE, verbose_name='Код производства')
+    id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
+    calc_value = models.FloatField(default=0, verbose_name='Значение')
+
+    class Meta:
+        verbose_name = 'Калькуляция'
+        verbose_name_plural = 'Калькуляции'

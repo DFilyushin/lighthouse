@@ -9,6 +9,7 @@ import lighthouse.api_auth as api_auth_views
 import lighthouse.api_domain as api_domain_views
 import lighthouse.api_sales as api_sales_views
 import lighthouse.api_store as api_store_views
+import lighthouse.api_prod as api_prod_views
 
 
 router = routers.DefaultRouter()
@@ -18,6 +19,10 @@ router.register(r'product', api_store_views.ProductViewSet)
 router.register(r'raw', api_store_views.RawViewSet)
 router.register(r'tare', api_store_views.TareViewSet)
 router.register(r'formula', api_store_views.FormulaViewSet, basename='Formula')
+
+# Производство
+router.register(r'prod', api_prod_views.ProductionView)
+router.register(r'prodline', api_prod_views.ProductionLineView)
 
 # Продажи
 router.register(r'client', api_sales_views.ClientViewSet)

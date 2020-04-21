@@ -62,6 +62,7 @@ class EmployeeListSerializer(serializers.ModelSerializer):
     """
     Сотрудники (список)
     """
+    id = serializers.IntegerField()
     tabNum = serializers.CharField(source='tab_num')
     fio = serializers.CharField()
     staff = serializers.CharField(source='id_staff.name')

@@ -38,16 +38,6 @@ class StaffViewSet(viewsets.ModelViewSet):
     queryset = Staff.objects.all()
 
 
-class EmployeeList(generics.ListCreateAPIView):
-    """
-    Список сотрудников
-    """
-    queryset = Employee.objects.filter(fired__isnull=True)
-    serializer_class = EmployeeListSerializer
-    search_fields = ['fio', 'tabNum']
-    filter_backends = (filters.SearchFilter, )
-
-
 class EmployeeView(viewsets.ModelViewSet):
     """
     Сотрудник
