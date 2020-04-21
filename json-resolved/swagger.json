@@ -18,11 +18,11 @@
     "name" : "Реквизиты",
     "description" : "Реквизиты предприятия"
   }, {
-    "name" : "Клиенты",
-    "description" : "Клиенты"
-  }, {
     "name" : "Сотрудники",
     "description" : "Сотрудники предприятия"
+  }, {
+    "name" : "Должности",
+    "description" : "Должности предприятия"
   }, {
     "name" : "Сырьё",
     "description" : "Каталог сырья"
@@ -30,11 +30,302 @@
     "name" : "Продукция",
     "description" : "Каталог продукции"
   }, {
+    "name" : "Рецептура",
+    "description" : "Каталог рецептур"
+  }, {
+    "name" : "Клиенты",
+    "description" : "Клиенты"
+  }, {
     "name" : "Контракты",
     "description" : "Список контрактов"
+  }, {
+    "name" : "Производство",
+    "description" : "Производство"
+  }, {
+    "name" : "Производственная линия",
+    "description" : "Производственная линия"
   } ],
   "schemes" : [ "https" ],
   "paths" : {
+    "/prodline" : {
+      "get" : {
+        "tags" : [ "Производственная линия" ],
+        "summary" : "Список доступных линий производства",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив доступных линий производства",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductionLineItem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Производственная линия" ],
+        "summary" : "Новая запись",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ProductionLineItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Ok"
+          }
+        }
+      }
+    },
+    "/prodline/{id}" : {
+      "get" : {
+        "tags" : [ "Производственная линия" ],
+        "summary" : "Получить объект линии производства",
+        "description" : "Получить объект линии производства",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код линии",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ProductionLineItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Производственная линия" ],
+        "summary" : "Обновить запись",
+        "description" : "Обновить объект линии производства",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код линии",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Объект линии, который должен быть обновлён",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ProductionLineItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Производственная линия" ],
+        "summary" : "Удалить запись",
+        "description" : "Удалить запись",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код линии",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok"
+          },
+          "404" : {
+            "description" : "Не найден объект"
+          }
+        }
+      }
+    },
+    "/prod" : {
+      "get" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Список активных производственны карт",
+        "description" : "Список активных производственны карт",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив производственных карта",
+            "schema" : {
+              "$ref" : "#/definitions/ManufactureListItem"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Создать новую производственную карту",
+        "description" : "Создать новую производственную карту",
+        "parameters" : [ ],
+        "responses" : {
+          "201" : {
+            "description" : "Успешно выполнено",
+            "schema" : {
+              "$ref" : "#/definitions/ManufactureItem"
+            }
+          }
+        }
+      }
+    },
+    "/prod/{id}" : {
+      "get" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Получить объект производственной карты",
+        "description" : "Получить объект производственной карты",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код карты",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/ManufactureItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Обновить производственную карту",
+        "description" : "Обновить производственную карту",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код линии",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Объект карты, который должен быть обновлён",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ManufactureItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Удалить карту",
+        "description" : "Удалить карту",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код линии",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/prod/{id}/team" : {
+      "get" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Смена по производству",
+        "description" : "Получить массив сотрудников в смене",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код производственной карты",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив производственных карта",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/TeamItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prod/{id}/calc" : {
+      "get" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Калькуляция сырья по производственной карте",
+        "description" : "Получить массив калькуляции сырья",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код производственной карты",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Массив сырья в карте",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CalcItem"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Добавить сырьё в калькуляцию карты",
+        "description" : "Добавить сырьё в калькуляцию карты",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код производственной карты",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CalcItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/org" : {
       "get" : {
         "tags" : [ "Реквизиты" ],
@@ -104,7 +395,7 @@
           }
         } ],
         "responses" : {
-          "405" : {
+          "400" : {
             "description" : "Некорректные данные"
           }
         }
@@ -190,7 +481,14 @@
         "tags" : [ "Продукция" ],
         "summary" : "Список продукции",
         "description" : "Список продукции",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код продукции",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Массив продукции",
@@ -202,17 +500,103 @@
             }
           }
         }
+      },
+      "post" : {
+        "tags" : [ "Продукция" ],
+        "summary" : "Новая продукция",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Pet object that needs to be added to the store",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ProductItem"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/product/{id}/" : {
+      "get" : {
+        "tags" : [ "Продукция" ],
+        "summary" : "Получить продукт по коду",
+        "description" : "Список продукции",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код продукции",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Запись продукции",
+            "schema" : {
+              "$ref" : "#/definitions/ProductItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Продукция" ],
+        "summary" : "Обновление имеющегося продукта",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код продукции",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Pet object that needs to be added to the store",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ProductItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Запись продукции",
+            "schema" : {
+              "$ref" : "#/definitions/ProductItem"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Продукция" ],
+        "summary" : "Удаление имеющегося продукта",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код продукции",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Продукт успешно удалён"
+          }
+        }
       }
     },
     "/raw" : {
       "get" : {
         "tags" : [ "Сырьё" ],
-        "summary" : "список сырья",
+        "summary" : "Список сырья",
         "description" : "Список сырья",
         "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "list of raw",
+            "description" : "Список сырья",
             "schema" : {
               "type" : "array",
               "items" : {
@@ -237,6 +621,68 @@
         "responses" : {
           "201" : {
             "description" : "ok"
+          }
+        }
+      }
+    },
+    "/raw/{id}/" : {
+      "get" : {
+        "tags" : [ "Сырьё" ],
+        "summary" : "Получить сырьё по коду",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код сырья",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Сырьё по коду",
+            "schema" : {
+              "$ref" : "#/definitions/RawItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Сырьё" ],
+        "summary" : "Получить сырьё по коду",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код сырья",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Сырьё по коду",
+            "schema" : {
+              "$ref" : "#/definitions/RawItem"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Сырьё" ],
+        "summary" : "Получить сырьё по коду",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код сырья",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Сырьё по коду",
+            "schema" : {
+              "$ref" : "#/definitions/RawItem"
+            }
           }
         }
       }
@@ -292,6 +738,214 @@
     }
   },
   "definitions" : {
+    "CalcItem" : {
+      "type" : "object",
+      "required" : [ "calcValue", "manufactureId", "raw" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "manufactureId" : {
+          "type" : "integer",
+          "format" : "int64",
+          "example" : 45
+        },
+        "raw" : {
+          "$ref" : "#/definitions/RawItem"
+        },
+        "calcValue" : {
+          "type" : "number",
+          "format" : "float"
+        }
+      },
+      "title" : "Сырьё в калькуляции"
+    },
+    "TeamItem" : {
+      "type" : "object",
+      "required" : [ "employee", "manufactureId", "periodEnd", "periodStart" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "manufactureId" : {
+          "type" : "integer",
+          "example" : 23
+        },
+        "employee" : {
+          "$ref" : "#/definitions/EmployeeListItem"
+        },
+        "periodStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "periodEnd" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      },
+      "title" : "Смена в производстве"
+    },
+    "ProductionLineItem" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "1 линия производства"
+        }
+      },
+      "title" : "Производственная линия"
+    },
+    "ManufactureItem" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "creator" : {
+          "$ref" : "#/definitions/EmployeeListItem"
+        },
+        "product" : {
+          "$ref" : "#/definitions/ProductItem"
+        },
+        "formula" : {
+          "$ref" : "#/definitions/FormulaItem"
+        },
+        "prodLine" : {
+          "$ref" : "#/definitions/ProductionLineItem"
+        },
+        "prodStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "prodFinish" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "calcValue" : {
+          "type" : "number",
+          "format" : "float"
+        },
+        "outValue" : {
+          "type" : "number",
+          "format" : "float"
+        },
+        "lossValue" : {
+          "type" : "number",
+          "format" : "float"
+        },
+        "comment" : {
+          "type" : "string"
+        },
+        "teamLeader" : {
+          "$ref" : "#/definitions/EmployeeListItem"
+        },
+        "curState" : {
+          "type" : "integer"
+        }
+      },
+      "title" : "Производственная карта"
+    },
+    "ManufactureListItem" : {
+      "type" : "object",
+      "required" : [ "calcValue", "id", "leaderName", "prodFinish", "prodStart", "product", "state" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 2
+        },
+        "product" : {
+          "$ref" : "#/definitions/ProductItem"
+        },
+        "calcValue" : {
+          "type" : "number",
+          "format" : "float",
+          "example" : 564.32
+        },
+        "state" : {
+          "type" : "integer",
+          "example" : 1
+        },
+        "prodStart" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "prodFinish" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "leaderName" : {
+          "type" : "string",
+          "example" : "Ахметов Руслан Адибекович"
+        }
+      },
+      "title" : "Производственая карта (список)"
+    },
+    "FormulaListItem" : {
+      "type" : "object",
+      "required" : [ "calcAmount", "id", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "number",
+          "example" : 3.0
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Наименование продукции"
+        },
+        "calcAmount" : {
+          "type" : "number",
+          "example" : 125.0
+        }
+      },
+      "title" : "Рецептура (список)"
+    },
+    "FormulaItem" : {
+      "type" : "object",
+      "required" : [ "calcAmount", "calcLosses", "id", "product", "raws", "specification", "tare" ],
+      "properties" : {
+        "id" : {
+          "type" : "number",
+          "example" : 1.0
+        },
+        "product" : {
+          "$ref" : "#/definitions/ProductItem"
+        },
+        "calcAmount" : {
+          "type" : "number",
+          "example" : 56.4
+        },
+        "calcLosses" : {
+          "type" : "number",
+          "example" : 23.0
+        },
+        "specification" : {
+          "type" : "string",
+          "example" : "Спецификация формулы, ТУ"
+        },
+        "tare" : {
+          "$ref" : "#/definitions/TareItem"
+        },
+        "raws" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/RawItem"
+          }
+        }
+      },
+      "title" : "Рецептура"
+    },
     "OrgItem" : {
       "type" : "object",
       "required" : [ "bossName", "contactEmail", "contactFax", "contactPhone", "name", "reqAccount", "reqBank", "reqBik", "reqBin" ],
@@ -336,7 +990,8 @@
           "type" : "string",
           "example" : "Первый руководитель предприятия"
         }
-      }
+      },
+      "title" : "Реквизиты"
     },
     "ClientItem" : {
       "type" : "object",
@@ -398,7 +1053,24 @@
           "type" : "string",
           "example" : "1512-05"
         }
-      }
+      },
+      "title" : "Клиент"
+    },
+    "TareItem" : {
+      "type" : "object",
+      "required" : [ "id", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "number",
+          "example" : 13.0
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "бочка"
+        }
+      },
+      "title" : "Тара",
+      "description" : "Описание объекта тары"
     },
     "ClientListItem" : {
       "type" : "object",
@@ -424,7 +1096,8 @@
           "type" : "string",
           "example" : "Сейтказин Сакен"
         }
-      }
+      },
+      "title" : "Клиент (список)"
     },
     "ContractListItem" : {
       "type" : "object",
@@ -457,19 +1130,24 @@
           "type" : "string",
           "example" : "Сулейменов Ахмед"
         }
-      }
+      },
+      "title" : "Контракт (список)"
     },
     "RawItem" : {
       "type" : "object",
       "required" : [ "name" ],
       "properties" : {
         "id" : {
-          "type" : "integer"
+          "type" : "integer",
+          "example" : 12
         },
         "name" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "Наименование сырья"
         }
-      }
+      },
+      "title" : "Сырьё",
+      "description" : "Описание объекта сырья"
     },
     "ProductItem" : {
       "type" : "object",
@@ -479,9 +1157,26 @@
           "type" : "integer"
         },
         "name" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "Наименование продукции"
         }
-      }
+      },
+      "title" : "Продукция"
+    },
+    "StaffItem" : {
+      "type" : "object",
+      "required" : [ "id", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "number",
+          "example" : 123.0
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Должность"
+        }
+      },
+      "title" : "Должность"
     },
     "EmployeeListItem" : {
       "type" : "object",
@@ -499,11 +1194,12 @@
         "staff" : {
           "type" : "string"
         }
-      }
+      },
+      "title" : "Сотрудник (список)"
     },
     "EmployeeItem" : {
       "type" : "object",
-      "required" : [ "addrRegistration", "addrResidence", "contactEmail", "contactPhone", "created", "dob", "docAuth", "docDate", "docNum", "docType", "fio", "fired", "id", "iin" ],
+      "required" : [ "addrRegistration", "addrResidence", "contactEmail", "contactPhone", "created", "dob", "docAuth", "docDate", "docNum", "docType", "fio", "fired", "id", "iin", "staff" ],
       "properties" : {
         "id" : {
           "type" : "number",
@@ -528,10 +1224,12 @@
           "maxLength" : 12
         },
         "docType" : {
-          "type" : "integer"
+          "type" : "integer",
+          "example" : 1
         },
         "docNum" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "0900 145069"
         },
         "docDate" : {
           "type" : "string",
@@ -547,16 +1245,22 @@
           "type" : "string"
         },
         "contactPhone" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "8-701-701-5005"
         },
         "contactEmail" : {
-          "type" : "string"
+          "type" : "string",
+          "example" : "mail@mdail.kz"
+        },
+        "staff" : {
+          "$ref" : "#/definitions/StaffItem"
         },
         "fired" : {
           "type" : "string",
           "format" : "date"
         }
-      }
+      },
+      "title" : "Сотрудник"
     }
   }
 }
