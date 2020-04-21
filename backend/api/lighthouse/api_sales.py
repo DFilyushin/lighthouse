@@ -11,7 +11,8 @@ class ClientViewSet(viewsets.ModelViewSet):
     Клиент
     """
     queryset = Client.objects.filter(deleted=False)
-    serializer_class = ClientSerializer
+    search_fields = ['clientname']
+    filter_backends = (filters.SearchFilter,)
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -22,9 +23,9 @@ class ClientViewSet(viewsets.ModelViewSet):
         except Client.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-
-class ClientList(generics.ListCreateAPIView):
-    queryset = Client.objects.filter(deleted=False)
-    serializer_class = ClientListSerializer
-    search_fields = ['clientname']
-    filter_backends = (filters.SearchFilter,)
+    def get_serializer_class(self):
+        # Выбор сериализатора
+        if self.action == 'list':
+            return ClientListSerializer
+        else:
+            return ClientSerializer

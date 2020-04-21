@@ -1,16 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-
-from lighthouse.views import hello
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, ObtainJSONWebToken, RefreshJSONWebToken
 from rest_framework import routers
-import lighthouse.views as views
 import lighthouse.api_auth as api_auth_views
 import lighthouse.api_domain as api_domain_views
 import lighthouse.api_sales as api_sales_views
 import lighthouse.api_store as api_store_views
 import lighthouse.api_prod as api_prod_views
-
 
 router = routers.DefaultRouter()
 
@@ -42,7 +38,6 @@ auth_urls = [
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('clients/', api_sales_views.ClientList.as_view()),
 
     path('org/', api_domain_views.OrgViewSet.as_view()),
 ]
