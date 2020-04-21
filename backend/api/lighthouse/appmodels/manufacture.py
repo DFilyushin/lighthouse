@@ -136,6 +136,9 @@ class Manufacture(models.Model):
         verbose_name = 'Производственная карта'
         verbose_name_plural = 'Производственные карты'
         ordering = ['prod_start']
+        indexes = [
+            models.Index(name='idx_prod_start01', fields=['prod_start'])
+        ]
 
 
 class ProdTeam(models.Model):

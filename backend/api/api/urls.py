@@ -11,13 +11,14 @@ import lighthouse.api_prod as api_prod_views
 router = routers.DefaultRouter()
 
 # Склад и рецептура
-router.register(r'product', api_store_views.ProductViewSet)
-router.register(r'raw', api_store_views.RawViewSet)
-router.register(r'tare', api_store_views.TareViewSet)
-router.register(r'formula', api_store_views.FormulaViewSet, basename='Formula')
+router.register(r'product', api_store_views.ProductViewSet)  # продукция
+router.register(r'raw', api_store_views.RawViewSet)  # сырьё
+router.register(r'tare', api_store_views.TareViewSet)  # тара
+router.register(r'formula', api_store_views.FormulaViewSet, basename='Formula')  # рецептура
+
 
 # Производство
-router.register(r'prod', api_prod_views.ProductionView)
+router.register(r'prod', api_prod_views.ProductionView, basename='Manufacture')
 router.register(r'prodline', api_prod_views.ProductionLineView)
 
 # Продажи

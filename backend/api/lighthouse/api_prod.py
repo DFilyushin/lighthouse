@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework.decorators import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -22,7 +23,24 @@ class ProductionView(viewsets.ModelViewSet):
     """
     Прозводственные карты
     """
-    queryset = Manufacture.objects.filter(is_delete=False)
+
+    def get_queryset(self):
+        product = self.request.GET.get('product', None)
+        state = self.request.GET.get('state', None)
+        start_period = self.request.GET.get('startPeriod', None)
+        end_period = self.request.GET.get('endPeriod', None)
+        if start_period and not end_period:
+            end_period = datetime.today().strftime('%d-%m-%Y')
+        queryset = Manufacture.objects.filter(is_delete=False)
+        if product is not None:
+            queryset = queryset.filter(id_formula__id_product=product)
+        if state is not None:
+            queryset = queryset.filter(cur_state=state)
+        if start_period:
+            date_start = datetime.strptime(start_period, '%d-%m-%Y')
+            date_end = datetime.strptime(end_period, '%d-%m-%Y')
+            queryset = queryset.filter(prod_start__range=(date_start, date_end))
+        return queryset
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -46,6 +64,16 @@ class ProductionView(viewsets.ModelViewSet):
             return ManufactureListSerializer
         else:
             return ManufactureSerializer
+
+    @action(methods=['get'], url_path='by_product/(?P<product_id>[0-9]+)', detail=False, url_name='by_product')
+    def by_product(self, request, product_id):
+        """
+        Получить карты по выбранному продукту
+        """
+        manufacture = Manufacture.objects.filter(id_formula__id_product=product_id).filter(is_delete=False)
+        serializer = ManufactureListSerializer(manufacture, many=True)
+        return Response(serializer.data)
+
 
     @action(methods=['get', 'post', 'put'], detail=True, url_path='team', url_name='team')
     def get_team(self, request, pk):
