@@ -123,6 +123,9 @@ class RefCost(models.Model):
         verbose_name = 'Тип затраты'
         verbose_name_plural = 'Типы затрат'
         ordering = ['name']
+        indexes = [
+            models.Index(name='idx_cost_name01', fields=['name'])
+        ]
 
 
 class Cost(models.Model):
