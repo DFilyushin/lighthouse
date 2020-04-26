@@ -153,9 +153,9 @@ class ManufactureSerializer(serializers.ModelSerializer):
         instance.id_line_id = validated_data['id_line']['id']
         instance.prod_start = validated_data['prod_start']
         instance.prod_finish = validated_data['prod_finish']
-        instance.cur_state = validated_data['cur_state']
         instance.calc_value = validated_data['calc_value']
         instance.loss_value = validated_data['loss_value']
+        instance.out_value = validated_data['out_value']
         instance.comment = validated_data['comment']
         instance.save()
         return instance
@@ -164,3 +164,7 @@ class ManufactureSerializer(serializers.ModelSerializer):
         model = Manufacture
         fields = ('id', 'created', 'creator', 'product', 'formula', 'prodLine', 'prodStart', 'prodFinish', 'calcValue',
                   'outValue', 'lossValue',  'comment', 'teamLeader', 'curState')
+
+
+class ManufactureExecuterSerializer(serializers.Serializer):
+    date = serializers.DateField(required=True, allow_null=False)

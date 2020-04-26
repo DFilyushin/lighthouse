@@ -1,3 +1,4 @@
+from typing import NewType
 from datetime import datetime
 from rest_framework.decorators import APIView
 from rest_framework import status
@@ -9,6 +10,7 @@ from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import *
 from .serializer_domain import *
 from .serializer_manufacture import *
+from .api_errors import *
 
 
 class ProductionLineView(viewsets.ModelViewSet):
@@ -42,6 +44,12 @@ class ProductionView(viewsets.ModelViewSet):
             queryset = queryset.filter(prod_start__range=(date_start, date_end))
         return queryset
 
+    def update(self, request, *args, **kwargs):
+        card = self.get_object()
+        if card.cur_state == CARD_STATE_READY:
+            return api_error_response(API_ERROR_CARD_IS_CLOSE)
+        return super().update(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         """
         Псевдоудаление записи
@@ -52,6 +60,8 @@ class ProductionView(viewsets.ModelViewSet):
         """
         try:
             manufacture = Manufacture.objects.get(pk=kwargs.get('pk', 0))
+            if manufacture.cur_state == CARD_STATE_READY:
+                return api_error_response(API_ERROR_CARD_IS_CLOSE)
             manufacture.is_delete = True  # datetime.today()
             manufacture.save()
             return Response(status=status.HTTP_200_OK)
@@ -65,6 +75,44 @@ class ProductionView(viewsets.ModelViewSet):
         else:
             return ManufactureSerializer
 
+    @action(methods=['post'], url_path='setStatus/(?P<new_status>[0-9]+)', detail=True, url_name='setStatus')
+    def set_status(self, request, pk, new_status):
+        """
+        Установить статус для карты
+        :param request:
+        :param pk: Код карты
+        :param new_status: Код статуса
+        :return:
+        """
+        try:
+            manufacture = Manufacture.objects.get(id=pk)
+        except Manufacture.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            manufacture.set_card_status(new_status)
+            return Response(status=status.HTTP_200_OK)
+        except Exception as e:
+            return api_error_response(API_ERROR_SAVE_DATA.format(str(e)))
+
+    @action(methods=['post'], url_path='execute', detail=True, url_name='execute_prod_card')
+    def execute_card(self, request, pk):
+        """
+        Исполнение карты
+        :param request:
+        :param pk: Код карты
+        :return:
+        """
+        try:
+            manufacture = Manufacture.objects.get(id=pk)
+        except Manufacture.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            manufacture.execute_card()
+            return Response(status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return api_error_response(API_ERROR_SAVE_DATA.format(str(e)))
+
     @action(methods=['get'], url_path='by_product/(?P<product_id>[0-9]+)', detail=False, url_name='by_product')
     def by_product(self, request, product_id):
         """
@@ -73,7 +121,6 @@ class ProductionView(viewsets.ModelViewSet):
         manufacture = Manufacture.objects.filter(id_formula__id_product=product_id).filter(is_delete=False)
         serializer = ManufactureListSerializer(manufacture, many=True)
         return Response(serializer.data)
-
 
     @action(methods=['get', 'post', 'put'], detail=True, url_path='team', url_name='team')
     def get_team(self, request, pk):
