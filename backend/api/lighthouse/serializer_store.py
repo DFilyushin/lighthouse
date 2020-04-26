@@ -253,6 +253,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
         instance.total = validated_data['total']
         instance.comment = validated_data['comment']
         instance.id_employee_id = validated_data['id_employee']['id']
+        instance.cost_count = validated_data['cost_count']
         instance.save()
         return instance
 

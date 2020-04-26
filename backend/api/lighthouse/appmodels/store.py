@@ -67,6 +67,7 @@ class Store(models.Model):
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True, verbose_name='Код производства')
     id_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Код сотрудника')
     id_cost = models.ForeignKey(Cost, on_delete=models.SET_NULL, null=True, verbose_name='Код затраты')
+    is_delete = models.BooleanField(default=False, null=True, verbose_name='Признак удаления')
 
     def __str__(self):
         return '{} {}'.format(self.id_material.name, self.oper_value)

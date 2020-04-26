@@ -102,6 +102,7 @@ class RawStoreViewSet(views.APIView):
         queryset = Store.objects\
             .filter(id_material__id_type__id=MATERIAL_RAW_ID)\
             .filter(oper_date__lte=on_date)\
+            .filter(is_delete=False)\
             .values('id_material__id', 'id_material__name')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')
@@ -123,6 +124,7 @@ class ProductStoreViewSet(views.APIView):
         queryset = Store.objects\
             .filter(id_material__id_type__id=MATERIAL_PRODUCT_ID)\
             .filter(oper_date__lte=on_date)\
+            .filter(is_delete=False)\
             .values('id_material__id', 'id_material__name')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')

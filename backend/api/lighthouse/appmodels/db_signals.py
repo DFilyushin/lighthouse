@@ -33,10 +33,14 @@ def cost_post_save_handler(sender, **kwargs):
     """
     if not kwargs.get('created', False):
         instance = kwargs['instance']
-        store = Store.objects.filter(id_cost_id=instance.id).filter(oper_value__gte=0)[0]
-        store.oper_value = - store.oper_value
-        store.save()
+        if instance.id_cost.id_raw is not None:
+            new_value = instance.cost_count
+            store = Store.objects.filter(id_cost_id=instance.id).filter(oper_value__gte=0).filter(is_delete=False)[0]
+            if new_value != store.oper_value:
+                store.is_delete = True
+                store.save()
 
-        store.pk = None
-        store.oper_value = - store.oper_value
-        store.save()
+                store.pk = None
+                store.oper_value = new_value
+                store.is_delete = False
+                store.save()
