@@ -1,21 +1,75 @@
 from django.db import models
+from django.db import DatabaseError, transaction
 from .sales import Contract
 from .manufacture import Material, Manufacture
 from .org import Employee
 
 
+REF_COST_PARENT_RAW = 0
+
+STORE_OPERATION_IN = 0
+STORE_OPERATION_OUT = 1
+
 STORE_OPERATION_TYPE = [
-    (0, 'приход'),
-    (1, 'расход')
+    (STORE_OPERATION_IN, 'приход'),
+    (STORE_OPERATION_OUT, 'расход')
 ]
 
 
+class RefCost(models.Model):
+    id_parent = models.ForeignKey('RefCost', blank=True, null=True, on_delete=models.SET_NULL,
+                                  verbose_name='Родительская затрата', related_name='parentcost')
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+    id_raw = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Ссылка на сырьё')
+    is_system = models.BooleanField(default=False, null=False, verbose_name='Системная')
+
+    class Meta:
+        verbose_name = 'Тип затраты'
+        verbose_name_plural = 'Типы затрат'
+        ordering = ['name']
+        indexes = [
+            models.Index(name='idx_cost_name01', fields=['name'])
+        ]
+
+
+class Cost(models.Model):
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
+    id_cost = models.ForeignKey(RefCost, on_delete=models.CASCADE, verbose_name='Тип затраты')
+    cost_date = models.DateField(blank=False, null=False, verbose_name='Дата затраты')
+    cost_count = models.FloatField(default=0, null=False, verbose_name='Количество закупленного сырья')
+    total = models.FloatField(default=0, verbose_name='Сумма')
+    comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
+    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    is_delete = models.BooleanField(default=False, null=True, verbose_name='Признак удаления')
+
+    def delete_cost(self):
+        with transaction.atomic():
+            self.is_delete = True
+            if self.id_cost.id_raw:
+                Store.objects.filter(id_cost_id=self.id).delete()
+            self.save()
+
+    class Meta:
+        verbose_name = 'Затрата'
+        verbose_name_plural = 'Затраты'
+        ordering = ['cost_date']
+        indexes = [
+            models.Index(name='idx_cost_costdate_01', fields=['cost_date']),
+        ]
+
+
 class Store(models.Model):
+    created = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания записи')
     id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Сырьё')
     oper_date = models.DateField(null=False, verbose_name='Дата оборота')
     oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False, verbose_name='Тип операции')
     oper_value = models.FloatField(default=0, verbose_name='Количество')
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True, verbose_name='Код производства')
+    id_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Код сотрудника')
+    id_cost = models.ForeignKey(Cost, on_delete=models.SET_NULL, null=True, verbose_name='Код затраты')
+
+    def __str__(self):
+        return '{} {}'.format(self.id_material.name, self.oper_value)
 
     class Meta:
         verbose_name = 'Склад'
@@ -27,6 +81,7 @@ class Store(models.Model):
 
 
 class Reservation(models.Model):
+    created = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания записи')
     id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Материал')
     reserve_start = models.DateField(null=False, blank=False, verbose_name='Дата начала')
     reserve_end = models.DateField(null=False, blank=False, verbose_name='Дата окончания')

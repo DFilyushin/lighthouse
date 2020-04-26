@@ -115,30 +115,3 @@ class Payment(models.Model):
         verbose_name_plural = 'Оплаты'
         ordering = ['pay_date']
 
-
-class RefCost(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
-
-    class Meta:
-        verbose_name = 'Тип затраты'
-        verbose_name_plural = 'Типы затрат'
-        ordering = ['name']
-        indexes = [
-            models.Index(name='idx_cost_name01', fields=['name'])
-        ]
-
-
-class Cost(models.Model):
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
-    id_cost = models.ForeignKey(RefCost, on_delete=models.CASCADE, verbose_name='Тип затраты')
-    cost_date = models.DateField(blank=False, null=False, verbose_name='Дата затраты')
-    cost_type = models.IntegerField()
-    total = models.FloatField(default=0, verbose_name='Сумма')
-    comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
-    oper_type = models.BooleanField(default=False, verbose_name='Признак производства')
-    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
-
-    class Meta:
-        verbose_name = 'Затрата'
-        verbose_name_plural = 'Затраты'
-        ordering = ['cost_date']

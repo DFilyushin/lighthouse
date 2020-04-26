@@ -1,10 +1,24 @@
 from django.db import models
+from django.db.models import Q
+from django.db import DatabaseError, transaction
 from .org import Employee
+from ..api_errors import *
+
+MATERIAL_RAW_ID = 1
+MATERIAL_PRODUCT_ID = 2
+
+CARD_STATE_DRAFT = 0
+CARD_STATE_IN_WORK = 1
+CARD_STATE_READY = 2
+CARD_STATE_ERROR = 3
+CARD_STATE_CANCEL = 4
 
 MANUFACTURE_STATE = [
-    (0, 'черновик'),
-    (1, 'в работе'),
-    (2, 'завершён')
+    (CARD_STATE_DRAFT, 'черновик'),
+    (CARD_STATE_IN_WORK, 'в работе'),
+    (CARD_STATE_READY, 'завершён'),
+    (CARD_STATE_ERROR, 'завершено с ошибкой'),
+    (CARD_STATE_CANCEL, 'отменено')
 ]
 
 
@@ -127,10 +141,75 @@ class Manufacture(models.Model):
         return '{} от {}'.format(self.id_formula.id_product.name, self.prod_start)
 
     def get_team(self):
+        """
+        Получить список сотрудников в смене
+        :return:
+        """
         return ProdTeam.objects.filter(id_manufacture=self)
 
     def get_calculation(self):
+        """
+        Получить фактические компоненты калькуляции
+        :return:
+        """
         return ProdCalc.objects.filter(id_manufacture=self)
+
+    def _check_team(self) -> bool:
+        """
+        Проверка корректности смен (у всех сотрудников должно быть указано начало и окончание смен)
+        :return:
+        """
+        team = ProdTeam.objects.filter(id_manufacture=self).filter(Q(period_start__isnull=True) | Q(period_finish__isnull=True))
+        return team.count == 0
+
+    def set_card_status(self, new_status: int):
+        expression = 'manufacture.set_card_status'
+        if self.cur_state in (0, 2):
+            raise AppError(expression, API_ERROR_CARD_INCORRECT_STATUS)
+        self.cur_state = new_status
+        self.save()
+
+    def execute_card(self):
+        """
+        Успешное исполнение карты
+        Перевод карты в состояние Выполнено
+        """
+        expression = 'manufacture.execute_card'
+        if self.cur_state != CARD_STATE_IN_WORK:
+            raise AppError(expression, API_ERROR_CARD_NOT_IN_WORK)
+        if self.cur_state == CARD_STATE_READY:
+            raise AppError(expression, API_ERROR_CARD_IS_CLOSE)
+        if self.prod_finish is None:
+            raise AppError(expression, API_ERROR_CARD_NO_SET_FINISH_PROCESS)
+        if not self._check_team():
+            raise AppError(expression, API_ERROR_CARD_TEAM_ERROR)
+        try:
+            with transaction.atomic():
+                from .store import Store, STORE_OPERATION_IN, STORE_OPERATION_OUT
+                self.cur_state = CARD_STATE_READY
+                self.save()
+
+                # Добавить на склад готовой продукции
+                Store.objects.create(
+                    id_material_id=self.id_formula.id_product.id,
+                    oper_date=self.prod_finish,
+                    oper_value=self.out_value,
+                    oper_type=STORE_OPERATION_IN,
+                    id_manufacture_id=self.id,
+                    id_employee_id=self.id_team_leader_id
+                )
+                # Списать со склада затраченное сырьё
+                for item in self.get_calculation():
+                    Store.objects.create(
+                        id_material_id=item.id_raw_id,
+                        oper_date=self.prod_finish,
+                        oper_value=-item.calc_value,
+                        oper_type=STORE_OPERATION_OUT,
+                        id_manufacture_id=self.id,
+                        id_employee_id=self.id_team_leader_id
+                    )
+        except DatabaseError as e:
+            raise AppError('manufacture.execute_card', str(e))
 
     class Meta:
         verbose_name = 'Производственная карта'
@@ -164,3 +243,5 @@ class ProdCalc(models.Model):
     class Meta:
         verbose_name = 'Калькуляция'
         verbose_name_plural = 'Калькуляции'
+
+
