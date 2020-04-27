@@ -200,6 +200,85 @@
             }
           }
         }
+      },
+      "post" : {
+        "tags" : [ "Затраты" ],
+        "summary" : "Добавить новую статья затрат",
+        "description" : "Добавить новую статья затрат",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CostCalalogItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/cost/{id}/" : {
+      "get" : {
+        "tags" : [ "Затраты" ],
+        "summary" : "Получить статью затра по коду",
+        "description" : "Получить статью затра по коду",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok",
+            "schema" : {
+              "$ref" : "#/definitions/CostCalalogItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Обновить существующую статью затрат",
+        "description" : "Обновить существующую статью затрат",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CostCalalogItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Удалить существующую статью затрат",
+        "description" : "Удалить существующую статью затрат",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          }
+        }
       }
     },
     "/store" : {
