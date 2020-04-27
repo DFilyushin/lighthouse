@@ -19,7 +19,7 @@ class ClientViewSet(viewsets.ModelViewSet):
             client = Client.objects.get(pk=kwargs.get('pk', 0))
             client.deleted = True  # datetime.today()
             client.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Client.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 

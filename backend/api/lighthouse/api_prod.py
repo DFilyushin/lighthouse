@@ -64,7 +64,7 @@ class ProductionView(viewsets.ModelViewSet):
                 return api_error_response(API_ERROR_CARD_IS_CLOSE)
             manufacture.is_delete = True  # datetime.today()
             manufacture.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Manufacture.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 

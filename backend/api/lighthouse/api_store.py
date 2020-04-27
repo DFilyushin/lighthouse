@@ -183,4 +183,4 @@ class ExpenseViewSet(viewsets.ModelViewSet):
         except Cost.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         expense.delete_cost()
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
