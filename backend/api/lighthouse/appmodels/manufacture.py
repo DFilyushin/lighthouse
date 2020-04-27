@@ -76,11 +76,13 @@ class Formula(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     specification = models.TextField(blank=True, null=True, verbose_name='ТУ')
     id_tare = models.ForeignKey(Tare, on_delete=models.CASCADE, verbose_name='Код тары')
-    id_product = models.ForeignKey(Material, on_delete=models.CASCADE, related_name='product_name', verbose_name='Код продукции', default=0)
+    id_product = models.ForeignKey(Material, on_delete=models.CASCADE, related_name='product_name',
+                                   verbose_name='Код продукции', default=0)
     calc_amount = models.FloatField(default=0, verbose_name='Расчётное количество')
     calc_losses = models.FloatField(default=0, verbose_name='Плановые потери')
     is_active = models.BooleanField(default=True, verbose_name='Активность рассчёта')
-    raws_in_formula = models.ManyToManyField(Material, through='FormulaComp', related_name='raws_in_product', through_fields=('id_formula', 'id_raw'), verbose_name='Состав сырья')
+    raws_in_formula = models.ManyToManyField(Material, through='FormulaComp', related_name='raws_in_product',
+                                             through_fields=('id_formula', 'id_raw'), verbose_name='Состав сырья')
 
     def __str__(self):
         return self.id_product.name

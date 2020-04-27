@@ -11,7 +11,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     """
     Продукция предприятия
     """
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
     name = serializers.CharField()
 
     class Meta:
@@ -53,7 +53,7 @@ class FormulaCompSerializer(serializers.ModelSerializer):
     """
     Компоненты рецептуры
     """
-    id = serializers.IntegerField(required=False)
+    id = serializers.IntegerField()
     raw = RawSerializer(source='id_raw')
     raw_value = serializers.FloatField()
 
@@ -204,19 +204,24 @@ class RefCostSubSerializer(serializers.ModelSerializer):
 
 
 class RefCostSerializer(serializers.ModelSerializer):
-    parent = serializers.IntegerField(allow_null=True, required=False)
-    childs = RefCostSubSerializer(source='parentcost', many=True, required=False)
-    raw = RawSerializer(source='id_raw')
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+    parent = serializers.IntegerField(source='id_parent.id', allow_null=True, required=True)
+    childs = RefCostSubSerializer(source='parentcost', many=True, required=False, read_only=True)
+    raw = RawSerializer(source='id_raw', required=False)
 
     def create(self, validated_data):
-        parent_item = validated_data['parent']
+        parent_item = validated_data.get('id_parent', None)
+        id_parent = None
+        if parent_item is not None:
+            id_parent = parent_item['id']
         return RefCost.objects.create(
             name=validated_data['name'],
-            id_parent_id=parent_item
+            id_parent_id=id_parent
         )
 
     def update(self, instance, validated_data):
-        parent_item = validated_data['parent']
+        parent_item = validated_data['id_parent']['id']
         instance.name = validated_data['name']
         instance.id_parent_id = parent_item
         instance.save()

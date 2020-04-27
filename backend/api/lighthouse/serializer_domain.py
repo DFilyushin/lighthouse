@@ -28,6 +28,9 @@ class StaffSerializer(serializers.ModelSerializer):
     """
     Должности
     """
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
     class Meta:
         model = Staff
         fields = ('id', 'name')
@@ -37,7 +40,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     """
     Сотрудник (объект)
     """
-    created = serializers.DateTimeField()
+    created = serializers.DateTimeField(required=False)
     tabNum = serializers.CharField(source='tab_num')
     fio = serializers.CharField()
     dob = serializers.DateField()
@@ -50,7 +53,29 @@ class EmployeeSerializer(serializers.ModelSerializer):
     addrResidence = serializers.CharField(source='addr_residence')
     contactPhone = serializers.CharField(source='contact_phone')
     contactEmail = serializers.CharField(source='contact_email')
-    staff = StaffSerializer(read_only=True, source='id_staff')
+    staff = StaffSerializer(source='id_staff')
+
+    def create(self, validated_data):
+        id_staff = validated_data.pop('id_staff')['id']
+        employee = Employee.objects.create(**validated_data, id_staff_id=id_staff)
+        return employee
+
+    def update(self, instance, validated_data):
+        instance.tab_num = validated_data['tab_num']
+        instance.fio = validated_data['fio']
+        instance.dob = validated_data['dob']
+        instance.iin = validated_data['iin']
+        instance.doc_type = validated_data['doc_type']
+        instance.doc_auth = validated_data['doc_auth']
+        instance.doc_date = validated_data['doc_date']
+        instance.doc_num = validated_data['doc_num']
+        instance.addr_registration = validated_data['addr_registration']
+        instance.addr_residence = validated_data['addr_residence']
+        instance.contact_phone = validated_data['contact_phone']
+        instance.contact_email = validated_data['contact_email']
+        instance.id_staff_id = validated_data['id_staff']['id']
+        instance.save()
+        return instance
 
     class Meta:
         model = Employee

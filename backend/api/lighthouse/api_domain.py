@@ -8,7 +8,7 @@ from .serializer_domain import *
 from .serializer_store import *
 
 
-class OrgViewSet(APIView, mixins.UpdateModelMixin):
+class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     """
     Реквизиты предприятия
     """
@@ -16,6 +16,7 @@ class OrgViewSet(APIView, mixins.UpdateModelMixin):
     serializer_class = OrgSerializer
 
     def get(self, request):
+        print(request.method)
         org = Org.objects.get(pk=1)
         serializer = OrgSerializer(instance=org)
         return Response(serializer.data)
@@ -28,6 +29,9 @@ class OrgViewSet(APIView, mixins.UpdateModelMixin):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(seself, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class StaffViewSet(viewsets.ModelViewSet):

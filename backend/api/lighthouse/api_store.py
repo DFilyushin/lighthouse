@@ -136,8 +136,13 @@ class RefCostViewSet(viewsets.ModelViewSet):
     """
     Статьи затрат
     """
-    queryset = RefCost.objects.filter(id_parent__isnull=True)
     serializer_class = RefCostSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return RefCost.objects.filter(id_parent__isnull=True)
+        else:
+            return RefCost.objects.all()
 
 
 class ExpenseViewSet(viewsets.ModelViewSet):

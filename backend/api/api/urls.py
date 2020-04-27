@@ -15,7 +15,7 @@ router.register(r'product', api_store_views.ProductViewSet)  # продукци�
 router.register(r'raw', api_store_views.RawViewSet)  # сырьё
 router.register(r'tare', api_store_views.TareViewSet)  # тара
 router.register(r'formula', api_store_views.FormulaViewSet, basename='Formula')  # рецептура
-router.register(r'cost', api_store_views.RefCostViewSet)
+router.register(r'cost', api_store_views.RefCostViewSet, basename='RefCost')
 router.register(r'expense', api_store_views.ExpenseViewSet)  # затраты
 store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
