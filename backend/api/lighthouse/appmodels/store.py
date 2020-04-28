@@ -1,7 +1,7 @@
 from django.db import models
 from django.db import DatabaseError, transaction
 from .sales import Contract
-from .manufacture import Material, Manufacture
+from .manufacture import Material, Manufacture, MaterialUnit
 from .org import Employee
 
 
@@ -37,6 +37,7 @@ class Cost(models.Model):
     id_cost = models.ForeignKey(RefCost, on_delete=models.CASCADE, verbose_name='Тип затраты')
     cost_date = models.DateField(blank=False, null=False, verbose_name='Дата затраты')
     cost_count = models.FloatField(default=0, null=False, verbose_name='Количество закупленного сырья')
+    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name='Единица измерения')
     total = models.FloatField(default=0, verbose_name='Сумма')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
     id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
