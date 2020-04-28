@@ -110,6 +110,7 @@ venv.bak/
 /backend/api/venv/
 /backend/api/.idea/
 /backend/api/lighthouse/migrations/
+/backend/requirements/
 /frontend/.idea/
 /graphic/
 /documentation/
