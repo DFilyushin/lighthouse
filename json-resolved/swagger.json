@@ -24,6 +24,9 @@
     "name" : "Должности",
     "description" : "Должности предприятия"
   }, {
+    "name" : "Единицы измерения",
+    "description" : "Единицы измерения"
+  }, {
     "name" : "Тара",
     "description" : "Каталог тары"
   }, {
@@ -56,6 +59,106 @@
   } ],
   "schemes" : [ "https" ],
   "paths" : {
+    "/units" : {
+      "get" : {
+        "tags" : [ "Единицы измерения" ],
+        "summary" : "Получить список единиц измерения",
+        "description" : "Получить список единиц измерения",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/MaterialUnitItem"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Единицы измерения" ],
+        "summary" : "Добавить новую единицу измерения",
+        "description" : "Добавить новую единицу измерения",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/MaterialUnitItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/units/{id}" : {
+      "get" : {
+        "tags" : [ "Единицы измерения" ],
+        "summary" : "Получить запись по коду",
+        "description" : "Получить объект единицы измерения по коду",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/MaterialUnitItem"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Единицы измерения" ],
+        "summary" : "Сохранить изменения в существующей записи",
+        "description" : "Сохранить изменения в существующей записи",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/MaterialUnitItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Единицы измерения" ],
+        "summary" : "Удалить существующую единицу измерения",
+        "description" : "Удалить существующую единицу измерения",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          },
+          "404" : {
+            "description" : "Объект не найден"
+          }
+        }
+      }
+    },
     "/expense" : {
       "get" : {
         "tags" : [ "Затраты" ],
@@ -566,6 +669,37 @@
         }
       }
     },
+    "/formula/{id}/calc" : {
+      "get" : {
+        "tags" : [ "Рецептура" ],
+        "summary" : "Калькуляция",
+        "description" : "Рассчёт калькуляции по указанном значению count",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "count",
+          "in" : "query",
+          "required" : true,
+          "type" : "number",
+          "format" : "float"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/CalculationResponse"
+            }
+          },
+          "404" : {
+            "description" : "Не найден"
+          }
+        }
+      }
+    },
     "/staff" : {
       "get" : {
         "tags" : [ "Должности" ],
@@ -1004,8 +1138,8 @@
     "/prod/{id}/setStatus/{status}" : {
       "post" : {
         "tags" : [ "Производство" ],
-        "summary" : "Исполнение производственной карты",
-        "description" : "Исполнение производственной карты",
+        "summary" : "Смена статуса производственной карты",
+        "description" : "Смена статуса производственной карты",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -1628,6 +1762,39 @@
       },
       "title" : "Производственная линия"
     },
+    "CalculationResponse" : {
+      "type" : "object",
+      "properties" : {
+        "formula" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "calcCount" : {
+          "type" : "number",
+          "format" : "float"
+        },
+        "raws" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/RawsInCalculation"
+          }
+        }
+      },
+      "title" : "Калькуляция"
+    },
+    "RawsInCalculation" : {
+      "type" : "object",
+      "properties" : {
+        "idRaw" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "rawCount" : {
+          "type" : "number",
+          "format" : "float"
+        }
+      }
+    },
     "ManufactureItem" : {
       "type" : "object",
       "properties" : {
@@ -1884,15 +2051,30 @@
     },
     "TareItem" : {
       "type" : "object",
-      "required" : [ "name" ],
+      "required" : [ "idUnit", "name", "v" ],
       "properties" : {
         "id" : {
-          "type" : "number",
-          "example" : 13.0
+          "type" : "integer",
+          "format" : "int64",
+          "example" : 13
         },
         "name" : {
           "type" : "string",
           "example" : "бочка"
+        },
+        "unit" : {
+          "type" : "string",
+          "example" : "л"
+        },
+        "idUnit" : {
+          "type" : "integer",
+          "format" : "int64",
+          "example" : 4
+        },
+        "v" : {
+          "type" : "number",
+          "format" : "float",
+          "example" : 5.0
         }
       },
       "title" : "Тара",
@@ -2149,6 +2331,23 @@
         }
       },
       "title" : "Статья расходов"
+    },
+    "MaterialUnitItem" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "title" : "Код записи"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "кг.",
+          "title" : "Наименование"
+        }
+      },
+      "title" : "Единицы измерения"
     },
     "ExpenseListItem" : {
       "type" : "object",
