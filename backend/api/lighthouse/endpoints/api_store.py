@@ -1,15 +1,21 @@
 from builtins import staticmethod
-from datetime import datetime
-from django.db.models import Count, Sum
-from django.db import IntegrityError
-from rest_framework import viewsets, mixins, generics, views
-from rest_framework import status
-from rest_framework.response import Response
-from .serializer_store import *
-from .appmodels.store import Store
-from .appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
+from django.db.models import Sum
+from rest_framework import viewsets, views
+from rest_framework.decorators import action
+from lighthouse.serializers.serializer_store import *
+from lighthouse.serializers.serializer_manufacture import *
+from lighthouse.appmodels.store import Store
+from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
 from .api_utils import RoundFunc
 from .api_errors import *
+
+
+class MaterialUnitViewSet(viewsets.ModelViewSet):
+    """
+    Единицы измерения
+    """
+    queryset = MaterialUnit.objects.all()
+    serializer_class = MaterialUnitSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -52,8 +58,27 @@ class FormulaViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return FormulaListSerializer
+        elif self.action == 'create' or self.action == 'update':
+            return NewFormulaSerializer
         else:
             return FormulaSerializer
+
+    @action(methods=['get'], detail=True, url_path='calc', url_name='calculatation')
+    def calculation(self, request, pk):
+        calc_count = float(request.GET.get('count', 0))
+        try:
+            formula = Formula.objects.get(id=pk)
+        except Formula.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        queryset = formula.get_raws_calculate(calc_count)
+        serializer = CalculationRawsResponseSerializer(queryset, many=True)
+        json_data = {
+            'idFormula': formula.id,
+            'count': calc_count,
+            'raws': serializer.data
+        }
+        return Response(status=status.HTTP_200_OK, data=json_data)
 
 
 class StoreTurnover(views.APIView):

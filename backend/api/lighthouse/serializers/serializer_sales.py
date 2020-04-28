@@ -1,6 +1,6 @@
-from .appmodels.manufacture import Material, Tare, Formula, FormulaComp
-from .appmodels.org import Employee, Staff, Org
-from .appmodels.sales import Client
+from lighthouse.appmodels.manufacture import Material, Tare, Formula, FormulaComp
+from lighthouse.appmodels.org import Employee, Staff, Org
+from lighthouse.appmodels.sales import Client
 from rest_framework import serializers
 
 

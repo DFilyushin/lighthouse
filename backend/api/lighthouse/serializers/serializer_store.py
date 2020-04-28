@@ -1,10 +1,22 @@
 from abc import ABC
-from .appmodels.manufacture import Material, Tare, Formula, FormulaComp
-from .appmodels.org import Employee, Staff, Org
-from .appmodels.sales import Client
-from .appmodels.store import Store, RefCost, Cost
+from lighthouse.appmodels.manufacture import Material, Tare, Formula, FormulaComp, MaterialUnit
+from lighthouse.appmodels.org import Employee, Staff, Org
+from lighthouse.appmodels.sales import Client
+from lighthouse.appmodels.store import Store, RefCost, Cost
 from .serializer_domain import EmployeeListSerializer
 from rest_framework import serializers
+
+
+class MaterialUnitSerializer(serializers.ModelSerializer):
+    """
+    Единицы измерения
+    """
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
+    class Meta:
+        model = MaterialUnit
+        fields = ('id', 'name')
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -43,17 +55,20 @@ class TareSerializer(serializers.HyperlinkedModelSerializer):
     """
     id = serializers.IntegerField(required=False)
     name = serializers.CharField()
+    idUnit = serializers.IntegerField(source='id_unit_id')
+    unit = serializers.CharField(source='id_unit.name', required=False)
+    v = serializers.FloatField()
 
     class Meta:
         model = Tare
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'unit', 'v', 'idUnit']
 
 
 class FormulaCompSerializer(serializers.ModelSerializer):
     """
     Компоненты рецептуры
     """
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(default=0)
     raw = RawSerializer(source='id_raw')
     raw_value = serializers.FloatField()
 
@@ -72,6 +87,71 @@ class FormulaListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Formula
         fields = ('id', 'product', 'calcAmount')
+
+
+class NewFormulaSerializer(serializers.ModelSerializer):
+    """
+    Рецептура добавление/изменение
+    """
+    id = serializers.IntegerField(required=False)
+    product = serializers.IntegerField(source='id_product_id')
+    calcAmount = serializers.FloatField(source='calc_amount')
+    calcLosses = serializers.FloatField(source='calc_losses')
+    tare = serializers.IntegerField(source='id_tare_id')
+    specification = serializers.CharField()
+    raws = FormulaCompSerializer(source='get_raw_in_formula', many=True)
+
+    def create(self, validated_data):
+        formula = Formula.objects.create(
+            id_product_id=validated_data['id_product_id'],
+            calc_amount=validated_data['calc_amount'],
+            calc_losses=validated_data['calc_losses'],
+            id_tare_id=validated_data['id_tare_id'],
+            specification=validated_data['specification']
+        )
+        id_formula = formula.id
+
+        for raw in validated_data['get_raw_in_formula']:
+            FormulaComp.objects.create(
+                id_raw_id=raw['id_raw']['id'],
+                id_formula_id=id_formula,
+                raw_value=raw['raw_value']
+            )
+        return formula
+
+    def update(self, instance, validated_data):
+        instance.id_product_id = validated_data['id_product_id']
+        instance.calc_amount = validated_data['calc_amount']
+        instance.calc_losses = validated_data['calc_losses']
+        instance.id_tare_id = validated_data['id_tare_id']
+        instance.specification = validated_data['specification']
+
+        old_mapping = {inst.id: inst for inst in instance.get_raw_in_formula()}
+        data_mapping = {item['id']: item for item in validated_data['get_raw_in_formula']}
+
+        for item in validated_data['get_raw_in_formula']:
+            if item['id'] == 0:
+                FormulaComp.objects.create(
+                    id_raw_id=item['id_raw']['id'],
+                    id_formula_id=instance.id,
+                    raw_value=item['raw_value']
+                )
+            else:
+                value = old_mapping.get(item['id'], None)
+                value.id_raw_id = item['id_raw']['id']
+                value.raw_value = item['raw_value']
+                value.save()
+
+        for data_id, data in old_mapping.items():
+            if data_id not in data_mapping:
+                data.delete()
+
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Formula
+        fields = ('id', 'product', 'calcAmount', 'calcLosses', 'tare', 'specification', 'raws')
 
 
 class FormulaSerializer(serializers.ModelSerializer):

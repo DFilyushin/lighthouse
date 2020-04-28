@@ -138,7 +138,7 @@ REST_FRAMEWORK = {
     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
   ),
   # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-  'DEFAULT_PAGINATION_CLASS': 'lighthouse.api_utils.PageNumberPaginationDataOnly'
+  'DEFAULT_PAGINATION_CLASS': 'lighthouse.endpoints.api_utils.PageNumberPaginationDataOnly'
   # 'PAGE_SIZE': 10
 }
 

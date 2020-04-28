@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, ObtainJSONWebToken, RefreshJSONWebToken
+from rest_framework_jwt.views import refresh_jwt_token, ObtainJSONWebToken, RefreshJSONWebToken
 from rest_framework import routers
-import lighthouse.api_auth as api_auth_views
-import lighthouse.api_domain as api_domain_views
-import lighthouse.api_sales as api_sales_views
-import lighthouse.api_store as api_store_views
-import lighthouse.api_prod as api_prod_views
+import lighthouse.endpoints.api_auth as api_auth_views
+import lighthouse.endpoints.api_domain as api_domain_views
+import lighthouse.endpoints.api_sales as api_sales_views
+import lighthouse.endpoints.api_store as api_store_views
+import lighthouse.endpoints.api_prod as api_prod_views
 
 router = routers.DefaultRouter()
 
@@ -17,6 +17,7 @@ router.register(r'tare', api_store_views.TareViewSet)  # тара
 router.register(r'formula', api_store_views.FormulaViewSet, basename='Formula')  # рецептура
 router.register(r'cost', api_store_views.RefCostViewSet, basename='RefCost')
 router.register(r'expense', api_store_views.ExpenseViewSet)  # затраты
+router.register(r'units', api_store_views.MaterialUnitViewSet)  # единицы измерения
 store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья

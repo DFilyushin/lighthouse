@@ -2,10 +2,9 @@ from rest_framework.decorators import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets, mixins
-from rest_framework import generics
 from rest_framework import filters
-from .serializer_domain import *
-from .serializer_store import *
+from lighthouse.serializers.serializer_domain import *
+from lighthouse.serializers.serializer_store import *
 
 
 class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):

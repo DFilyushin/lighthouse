@@ -1,7 +1,6 @@
 from datetime import datetime
 from rest_framework import serializers
-from .appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine
-
+from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine
 from .serializer_store import ProductSerializer, FormulaSerializer, RawSerializer
 from .serializer_domain import EmployeeListSerializer
 
@@ -111,6 +110,28 @@ class ManufactureListSerializer(serializers.ModelSerializer):
         fields = ('id', 'prodStart', 'prodFinish', 'product', 'calcValue', 'leaderName', 'state')
 
 
+class NewManufactureSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для новой записи
+    """
+    id = serializers.IntegerField(required=False)
+    creator = serializers.IntegerField(source='id_creator_id')
+    formula = serializers.IntegerField(source='id_formula_id')
+    prodLine = serializers.IntegerField(source='id_line_id')
+    teamLeader = serializers.IntegerField(source='id_team_leader_id')
+    prodStart = serializers.DateTimeField(source='prod_start')
+    prodFinish = serializers.DateTimeField(source='prod_finish', allow_null=True)
+    calcValue = serializers.FloatField(source='calc_value')
+    outValue = serializers.FloatField(source='out_value')
+    lossValue = serializers.FloatField(source='loss_value')
+    comment = serializers.CharField(allow_blank=True)
+
+    class Meta:
+        model = Manufacture
+        fields = ('id', 'creator', 'formula', 'prodLine', 'teamLeader', 'prodStart',
+                  'prodFinish', 'calcValue', 'outValue', 'lossValue', 'comment')
+
+
 class ManufactureSerializer(serializers.ModelSerializer):
     """
     Производственная карта
@@ -119,16 +140,17 @@ class ManufactureSerializer(serializers.ModelSerializer):
     created = serializers.DateTimeField(required=False)
     creator = EmployeeListSerializer(source='id_creator')
     product = ProductSerializer(source='id_formula.id_product')
-    formula = FormulaSerializer(source='id_formula')
+    formula = FormulaSerializer(source='id_formula', required=False)
+    idFormula = serializers.IntegerField(source='id_formula.id')
     prodLine = ProductLineSerializer(source='id_line')
     prodStart = serializers.DateTimeField(source='prod_start')
     prodFinish = serializers.DateTimeField(source='prod_finish', allow_null=True)
     calcValue = serializers.FloatField(source='calc_value')
     outValue = serializers.FloatField(source='out_value')
     lossValue = serializers.FloatField(source='loss_value')
-    comment = serializers.CharField()
+    comment = serializers.CharField(allow_blank=True)
     teamLeader = EmployeeListSerializer(source='id_team_leader')
-    curState = serializers.IntegerField(source='cur_state')
+    curState = serializers.IntegerField(source='cur_state', required=False)
 
     def create(self, validated_data):
         manufacture = Manufacture.objects.create(
@@ -163,8 +185,34 @@ class ManufactureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Manufacture
         fields = ('id', 'created', 'creator', 'product', 'formula', 'prodLine', 'prodStart', 'prodFinish', 'calcValue',
-                  'outValue', 'lossValue',  'comment', 'teamLeader', 'curState')
+                  'outValue', 'lossValue',  'comment', 'teamLeader', 'curState', 'idFormula')
 
 
 class ManufactureExecuterSerializer(serializers.Serializer):
     date = serializers.DateField(required=True, allow_null=False)
+
+
+class CalculationRequestSerializer(serializers.Serializer):
+    """
+    Запрос на рассчёт калькуляции
+    """
+    idFormula = serializers.IntegerField()
+    count = serializers.FloatField(default=0)
+
+
+class CalculationRawsResponseSerializer(serializers.Serializer):
+    """
+    Состав сырья в калькуляции
+    """
+    idRaw = serializers.IntegerField(source='id_raw_id')
+    rawCount = serializers.FloatField(source='calculated')
+
+
+class CalculationResponseSerializer(serializers.ModelSerializer):
+    """
+    Калькуляция
+    """
+    idFormula = serializers.IntegerField()
+    count = serializers.FloatField(default=0)
+    raws = CalculationRawsResponseSerializer(many=True)
+

@@ -1,15 +1,7 @@
-from typing import NewType
-from datetime import datetime
-from rest_framework.decorators import APIView
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework import viewsets, mixins
-from rest_framework import generics
-from rest_framework import filters
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import *
-from .serializer_domain import *
-from .serializer_manufacture import *
+from lighthouse.serializers.serializer_manufacture import *
 from .api_errors import *
 
 
@@ -72,6 +64,8 @@ class ProductionView(viewsets.ModelViewSet):
         # Выбор сериализатора
         if self.action == 'list':
             return ManufactureListSerializer
+        elif (self.action == 'create') or (self.action == 'update'):
+            return NewManufactureSerializer
         else:
             return ManufactureSerializer
 

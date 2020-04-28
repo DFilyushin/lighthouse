@@ -13,3 +13,8 @@ class PageNumberPaginationDataOnly(PageNumberPagination):
 class RoundFunc(Func):
     function = 'round'
     template = '%(function)s( CAST( %(expressions)s AS numeric), 2)'
+
+
+class RoundFunc4(Func):
+    function = 'round'
+    template = '%(function)s( CAST( %(expressions)s AS numeric), 4)'

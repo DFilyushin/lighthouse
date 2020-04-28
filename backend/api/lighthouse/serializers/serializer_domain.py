@@ -1,4 +1,4 @@
-from .appmodels.org import Employee, Staff, Org
+from lighthouse.appmodels.org import Employee, Staff, Org
 from rest_framework import serializers
 
 

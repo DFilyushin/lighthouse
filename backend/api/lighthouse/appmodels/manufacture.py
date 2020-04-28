@@ -1,8 +1,9 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, F
 from django.db import DatabaseError, transaction
 from .org import Employee
-from ..api_errors import *
+from lighthouse.endpoints.api_errors import *
+from lighthouse.endpoints.api_utils import RoundFunc4
 
 MATERIAL_RAW_ID = 1
 MATERIAL_PRODUCT_ID = 2
@@ -22,12 +23,31 @@ MANUFACTURE_STATE = [
 ]
 
 
-class Tare(models.Model):
+class MaterialUnit(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Код')
-    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование ед. измерения')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Единица измерения'
+        verbose_name_plural = 'Единицы измерения'
+        ordering = ['name']
+        indexes = [
+            models.Index(name='idx_material_unit_name01', fields=['name'])
+        ]
+
+
+class Tare(models.Model):
+    id = models.AutoField(primary_key=True, verbose_name='Код')
+    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование тары')
+    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.CASCADE, null=True, blank=True,
+                                verbose_name='Единица измерения')
+    v = models.FloatField(default=0, null=True, verbose_name='Вместимость')
+
+    def __str__(self):
+        return '{} {} {}'.format(self.name, self.v, self.id_unit.name)
 
     class Meta:
         verbose_name = 'Тара'
@@ -90,6 +110,15 @@ class Formula(models.Model):
     def get_raw_in_formula(self):
         return FormulaComp.objects.filter(id_formula=self)
 
+    def get_raws_calculate(self, calc_value: float):
+        """
+        Калькуляция на основе пользовательского количества
+        :param calc_value:
+        :return:
+        """
+        return FormulaComp.objects.filter(id_formula=self)\
+            .annotate(calculated=RoundFunc4(F('raw_value') * calc_value / self.calc_amount))
+
     class Meta:
         verbose_name = 'Рецептура'
         verbose_name_plural = 'Рецептуры'
@@ -133,7 +162,7 @@ class Manufacture(models.Model):
     prod_start = models.DateTimeField(null=False, blank=False, verbose_name='Начало процесса')
     prod_finish = models.DateTimeField(null=True, blank=True, verbose_name='Завершение процесса')
     calc_value = models.FloatField(default=0, blank=False, null=False, verbose_name='Рассчётное количество')
-    cur_state = models.SmallIntegerField(choices=MANUFACTURE_STATE, verbose_name='Состояние процесса')
+    cur_state = models.SmallIntegerField(choices=MANUFACTURE_STATE, default=0, verbose_name='Состояние процесса')
     out_value = models.FloatField(default=0, verbose_name='Фактический выход продукции')
     loss_value = models.FloatField(default=0, verbose_name='Фактические потери производства')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
