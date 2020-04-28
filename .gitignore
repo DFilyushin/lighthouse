@@ -109,6 +109,7 @@ venv.bak/
 /emeraldapp/*.sqlite3
 /backend/api/venv/
 /backend/api/.idea/
+/backend/api/lighthouse/migrations/
 /frontend/.idea/
 /graphic/
 /documentation/
