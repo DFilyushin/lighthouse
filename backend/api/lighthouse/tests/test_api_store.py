@@ -54,4 +54,3 @@ class TestApiRefCost(TestCase):
         RefCost.objects.create(id=1, name='Новая статья расходов')
         response = self.client.delete('/cost/1/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
