@@ -68,10 +68,32 @@ class ProdCalcRawsSerializer(serializers.ModelSerializer):
         list_serializer_class = ProdCalcRawsListSerializer
 
 
+class ProdTeamListSerializer(serializers.ListSerializer):
+
+    def update(self, instance, validated_data):
+        team_mapping = {team.id: team for team in instance}
+        data_mapping = {item['id']: item for item in validated_data}
+
+        ret = []
+        for team_id, data in data_mapping.items():
+            calc = team_mapping.get(team_id, None)
+            if calc is None:
+                ret.append(self.child.create(data))
+            else:
+                ret.append(self.child.update(calc, data))
+
+        for team_id, calc in team_mapping.items():
+            if team_id not in data_mapping:
+                calc.delete()
+
+        return ret
+
+
 class ProdTeamSerializer(serializers.ModelSerializer):
     """
     Смены производства
     """
+    id = serializers.IntegerField(required=False)
     manufactureId = serializers.IntegerField(source='id_manufacture.id')
     employee = EmployeeListSerializer(source='id_employee')
     periodStart = serializers.DateTimeField(source='period_start')
@@ -87,9 +109,16 @@ class ProdTeamSerializer(serializers.ModelSerializer):
             period_end=validated_data['period_end']
         )
 
+    def update(self, instance, validated_data):
+        instance.id_employee_id = validated_data['id_employee']['id']
+        instance.period_start = validated_data['period_start']
+        instance.period_end = validated_data['period_end']
+        instance.save()
+
     class Meta:
         model = ProdTeam
         fields = ('id', 'manufactureId', 'employee', 'periodStart', 'periodEnd')
+        list_serializer_class = ProdTeamListSerializer
 
 
 class ManufactureListSerializer(serializers.ModelSerializer):

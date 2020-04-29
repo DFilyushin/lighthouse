@@ -133,6 +133,14 @@ class ProductionView(viewsets.ModelViewSet):
             serializer = ProdTeamSerializer(data=request.data, many=True)
             if serializer.is_valid():
                 serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+        elif request.method == 'PUT':
+            instance = ProdTeam.objects.filter(id_manufacture_id=pk)
+            serializer = ProdTeamSerializer(instance=instance, data=request.data, many=True)
+            if serializer.is_valid():
+                serializer.save()
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
