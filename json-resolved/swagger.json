@@ -1107,6 +1107,26 @@
         }
       }
     },
+    "/prod/{id}/tare" : {
+      "get" : {
+        "tags" : [ "Производство" ],
+        "summary" : "Получить список готовой продукции в таре",
+        "description" : "Получить список готовой продукции в таре",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Код производственной карты",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/prod/{id}/execute" : {
       "post" : {
         "tags" : [ "Производство" ],
