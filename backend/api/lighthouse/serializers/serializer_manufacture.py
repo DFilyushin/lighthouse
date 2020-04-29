@@ -1,6 +1,6 @@
 from datetime import datetime
 from rest_framework import serializers
-from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine
+from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, ProdReadyProduct
 from .serializer_store import ProductSerializer, FormulaSerializer, RawSerializer
 from .serializer_domain import EmployeeListSerializer
 
@@ -119,6 +119,55 @@ class ProdTeamSerializer(serializers.ModelSerializer):
         model = ProdTeam
         fields = ('id', 'manufactureId', 'employee', 'periodStart', 'periodEnd')
         list_serializer_class = ProdTeamListSerializer
+
+
+class ProdReadyProductListSerializer(serializers.ListSerializer):
+
+    def update(self, instance, validated_data):
+        tare_mapping = {team.id: team for team in instance}
+        data_mapping = {item['id']: item for item in validated_data}
+
+        ret = []
+        for record_id, data in data_mapping.items():
+            item = tare_mapping.get(record_id, None)
+            if item is None:
+                ret.append(self.child.create(data))
+            else:
+                ret.append(self.child.update(item, data))
+
+        for record_id, item in tare_mapping.items():
+            if record_id not in data_mapping:
+                item.delete()
+
+        return ret
+
+
+class ProdReadyProductSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(default=0)
+    tareId = serializers.IntegerField(source='id_tare_id')
+    tareName = serializers.CharField(source='id_tare.name', required=False)
+    tareV = serializers.FloatField(source='id_tare.v', required=False)
+    count = serializers.IntegerField(source='tare_count')
+
+    def create(self, validated_data):
+        id_manufacture = self.context['id']
+        ProdReadyProduct.objects.create(
+            id_manufacture_id=id_manufacture,
+            id_tare_id=validated_data['id_tare_id'],
+            tare_count=validated_data['tare_count']
+        )
+
+    def update(self, instance, validated_data):
+        id_manufacture = int(self.context['id'])
+        instance.id_manufacture_id = id_manufacture
+        instance.id_tare_id = validated_data['id_tare_id']
+        instance.tare_count = validated_data['tare_count']
+        instance.save()
+
+    class Meta:
+        model = ProdReadyProduct
+        fields = ('id', 'tareId', 'tareName', 'tareV', 'count')
+        list_serializer_class = ProdReadyProductListSerializer
 
 
 class ManufactureListSerializer(serializers.ModelSerializer):

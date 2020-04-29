@@ -173,3 +173,35 @@ class ProductionView(viewsets.ModelViewSet):
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+
+    @action(methods=['get', 'post', 'put'], detail=True, url_path='tare', url_name='ready_product')
+    def get_ready_product(self, request, pk):
+        """
+        Фасовка готовой продукции
+        :param request:
+        :param pk: Код производственной карты
+        :return:
+        """
+        if request.method == 'GET':
+            try:
+                prod = Manufacture.objects.get(id=pk)
+            except Manufacture.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            prod_ready = ProdReadyProduct.objects.filter(id_manufacture=prod)
+            serializer = ProdReadyProductSerializer(prod_ready, many=True)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        elif request.method == 'POST':
+            serializer = ProdReadyProductSerializer(data=request.data, many=True, context={'id': pk})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+        elif request.method == 'PUT':
+            prod_ready = ProdReadyProduct.objects.filter(id_manufacture_id=int(pk))
+            serializer = ProdReadyProductSerializer(instance=prod_ready, data=request.data, many=True, context={'id': pk})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})

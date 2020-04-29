@@ -2,7 +2,8 @@ from datetime import datetime
 from django.test import TestCase, Client
 from rest_framework import status
 from lighthouse.appmodels.manufacture import RefMaterialType, Material, Tare, Formula, Manufacture, ProductionLine
-from lighthouse.appmodels.manufacture import ProdTeam, CARD_STATE_IN_WORK, CARD_STATE_DRAFT, CARD_STATE_READY
+from lighthouse.appmodels.manufacture import ProdTeam, ProdReadyProduct,\
+    CARD_STATE_IN_WORK, CARD_STATE_DRAFT, CARD_STATE_READY
 from lighthouse.appmodels.manufacture import MATERIAL_RAW_ID, MATERIAL_PRODUCT_ID
 from lighthouse.appmodels.store import RefCost
 from lighthouse.appmodels.org import Staff, Employee
@@ -21,8 +22,10 @@ class TestApiManufacture(TestCase):
         raw_1 = Material.objects.create(id=2, name='Сырьё 1', id_type_id=MATERIAL_RAW_ID)
         raw_2 = Material.objects.create(id=3, name='Сырьё 2', id_type_id=MATERIAL_RAW_ID)
         raw_3 = Material.objects.create(id=4, name='Сырьё 3', id_type_id=MATERIAL_RAW_ID)
-        tare = Tare.objects.create(id=1, name='бочка')
-        Formula.objects.create(id=1, id_tare_id=1, id_product_id=1, calc_amount=150.50, calc_losses=556.09,
+        tare1 = Tare.objects.create(id=1, name='бочка', v=10)
+        tare2 = Tare.objects.create(id=2, name='канистра', v=5)
+        tare3 = Tare.objects.create(id=3, name='канистра 2', v=5)
+        Formula.objects.create(id=1, id_tare=tare1, id_product_id=1, calc_amount=150.50, calc_losses=556.09,
                                specification='Some text')
         Employee.objects.create(id=1, fio='Сотрудник #1', dob=datetime.today(), iin='012345678912', doc_type=1, id_staff_id=1)
         Employee.objects.create(id=2, fio='Сотрудник #2', dob=datetime.today(), iin='012345678912', doc_type=1,
@@ -293,3 +296,92 @@ class TestApiManufacture(TestCase):
         response = self.client.post('/prod/7/execute/')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['message'], 'Ошибка при сохранении данных: {}'.format(API_ERROR_CARD_TEAM_ERROR))
+
+    def test_new_prod_ready_tare(self):
+        """
+        Тестировать добавление фасовки готовой продукции
+        :return:
+        """
+        Manufacture.objects.create(id=1, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                   prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                   loss_value=0, comment='Some text', cur_state=1)
+        tares = [
+            {
+                "tareId": 1,
+                "count": 100
+            },
+            {
+                "tareId": 1,
+                "count": 2200
+            }
+        ]
+        response = self.client.post('/prod/1/tare/', data=tares, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        count = ProdReadyProduct.objects.filter(id_manufacture_id=1).count()
+        self.assertEqual(count, 2)
+
+    def test_update_prod_ready_tare(self):
+        """
+        Тестировать обновление фасовки готовой продукции
+        :return:
+        """
+        Manufacture.objects.create(id=1, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                   prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                   loss_value=0, comment='Some text', cur_state=1)
+        ProdReadyProduct.objects.create(id=1, id_manufacture_id=1, id_tare_id=1, tare_count=100)
+        ProdReadyProduct.objects.create(id=2, id_manufacture_id=1, id_tare_id=2, tare_count=200)
+        tares = [
+            {
+                "id": 1,
+                "tareId": 1,
+                "count": 4
+            },
+            {
+                "id": 2,
+                "tareId": 1,
+                "count": 5
+            }
+        ]
+        response = self.client.put('/prod/1/tare/', data=tares, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        record = ProdReadyProduct.objects.get(id=1)
+        self.assertEqual(record.tare_count, 4)
+        record = ProdReadyProduct.objects.get(id=2)
+        self.assertEqual(record.tare_count, 5)
+
+    def test_delete_prod_ready_tare(self):
+        Manufacture.objects.create(id=2, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                   prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                   loss_value=0, comment='Some text', cur_state=1)
+        ProdReadyProduct.objects.create(id=10, id_manufacture_id=2, id_tare_id=1, tare_count=100)
+        ProdReadyProduct.objects.create(id=20, id_manufacture_id=2, id_tare_id=2, tare_count=200)
+        print(ProdReadyProduct.objects.filter(id_manufacture_id=2).count())
+        tares = []
+        response = self.client.put('/prod/2/tare/', data=tares, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(ProdReadyProduct.objects.filter(id_manufacture_id=2).count(), 0)
+
+    def test_update_and_delete_ready_tare(self):
+        Manufacture.objects.create(id=20, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                   prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                   loss_value=0, comment='Some text', cur_state=1)
+        ProdReadyProduct.objects.create(id=1, id_manufacture_id=20, id_tare_id=1, tare_count=1)
+        ProdReadyProduct.objects.create(id=2, id_manufacture_id=20, id_tare_id=2, tare_count=2)
+        tares = [
+            {
+                "id": 1,
+                "tareId": 1,
+                "count": 100
+            },
+            {
+                "id": 2,
+                "tareId": 3,
+                "count": 200
+            },
+            {
+                "tareId": 3,
+                "count": 56
+            }
+        ]
+        self.client.put('/prod/20/tare/', data=tares, content_type='application/json')
+        self.assertEqual(ProdReadyProduct.objects.filter(id_manufacture_id=20).count(), 3)

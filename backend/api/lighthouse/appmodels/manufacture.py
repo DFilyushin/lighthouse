@@ -169,7 +169,7 @@ class Manufacture(models.Model):
     is_delete = models.BooleanField(default=False, null=False, verbose_name='Удалён?')
 
     def __str__(self):
-        return '{} от {}'.format(self.id_formula.id_product.name, self.prod_start)
+        return '#{}. {} от {}'.format(self.id, self.id_formula.id_product.name, self.prod_start)
 
     def get_team(self):
         """
@@ -190,12 +190,12 @@ class Manufacture(models.Model):
         Проверка корректности смен (у всех сотрудников должно быть указано начало и окончание смен)
         :return:
         """
-        team = ProdTeam.objects.filter(id_manufacture=self).filter(Q(period_start__isnull=True) | Q(period_finish__isnull=True))
+        team = ProdTeam.objects.filter(id_manufacture=self).filter(Q(period_start__isnull=True) | Q(period_end__isnull=True))
         return team.count == 0
 
     def set_card_status(self, new_status: int):
         expression = 'manufacture.set_card_status'
-        if self.cur_state in (0, 2):
+        if self.cur_state >= 2:
             raise AppError(expression, API_ERROR_CARD_INCORRECT_STATUS)
         self.cur_state = new_status
         self.save()
@@ -258,6 +258,9 @@ class ProdTeam(models.Model):
     period_start = models.DateTimeField(blank=False, null=False, verbose_name='Начало работы')
     period_end = models.DateTimeField(blank=True, null=True, verbose_name='Окончание работы')
 
+    def __str__(self):
+        return '#{} {} {} - {}'.format(self.id, self.id_employee.fio, self.period_start, self.period_end)
+
     class Meta:
         verbose_name = 'Смена'
         verbose_name_plural = 'Смены'
@@ -271,8 +274,22 @@ class ProdCalc(models.Model):
     id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
     calc_value = models.FloatField(default=0, verbose_name='Значение')
 
+    def __str__(self):
+        return '{} {}'.format(self.id_raw.name, self.calc_value)
+
     class Meta:
-        verbose_name = 'Калькуляция'
-        verbose_name_plural = 'Калькуляции'
+        verbose_name = 'Действительная калькуляция'
+        verbose_name_plural = 'Действительные калькуляции'
 
 
+class ProdReadyProduct(models.Model):
+    id_manufacture = models.ForeignKey(Manufacture, on_delete=models.CASCADE, verbose_name='Код производства')
+    id_tare = models.ForeignKey(Tare, on_delete=models.CASCADE, verbose_name='Код тары')
+    tare_count = models.IntegerField(default=0, null=False, blank=True, verbose_name='Количество')
+
+    def __str__(self):
+        return '{} {} {} x {}'.format(self.id_tare.name, self.id_tare.v, self.id_tare.id_unit.name, self.tare_count)
+
+    class Meta:
+        verbose_name = 'Готовая продукция в таре'
+        verbose_name_plural = 'Готовая продукция в таре'
