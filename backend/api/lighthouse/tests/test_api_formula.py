@@ -154,7 +154,6 @@ class TestApiFormula(TestCase):
         self.assertEqual(data['count'], 450)
         self.assertEqual(len(raws), 3)
         for item in raws:
-            print(item['idRaw'])
             if item['idRaw'] == 2:
                 self.assertEqual(item['rawCount'], 225.0)
             if item['idRaw'] == 3:
