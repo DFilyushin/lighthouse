@@ -1,0 +1,20 @@
+[
+  {
+    "model": "lighthouse.org",
+    "pk": 1,
+    "fields":
+    {
+      "name": "Организация",
+      "addr_reg": "",
+      "contact_phone": "",
+      "contact_email": "Email",
+      "contact_fax": "Факс",
+      "req_bin": "БИН",
+      "req_account": "Лицевой счёт",
+      "req_bank": "Банк",
+      "req_bik": "БИК",
+      "boss_name": "Руководитель"
+    }
+  }
+]
+

@@ -1,0 +1,10 @@
+[
+  {
+    "model": "lighthouse.refcost",
+    "pk": 1,
+    "fields":
+    {
+      "name": "не указано"
+    }
+  }
+]

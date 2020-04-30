@@ -1,0 +1,18 @@
+[
+  {
+    "model": "lighthouse.refmaterialtype",
+    "pk": 1,
+    "fields":
+    {
+      "name": "сырьё"
+    }
+  },
+  {
+    "model": "lighthouse.refmaterialtype",
+    "pk": 2,
+    "fields":
+    {
+      "name": "продукция"
+    }
+  }
+]

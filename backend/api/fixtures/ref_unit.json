@@ -1,0 +1,18 @@
+[
+  {
+    "model": "lighthouse.materialunit",
+    "pk": 1,
+    "fields":
+    {
+      "name": "кг."
+    }
+  },
+  {
+    "model": "lighthouse.materialunit",
+    "pk": 2,
+    "fields":
+    {
+      "name": "л."
+    }
+  }
+]
