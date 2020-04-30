@@ -23,6 +23,9 @@ class RefCost(models.Model):
     id_raw = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Ссылка на сырьё')
     is_system = models.BooleanField(default=False, null=False, verbose_name='Системная')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Тип затраты'
         verbose_name_plural = 'Типы затрат'
