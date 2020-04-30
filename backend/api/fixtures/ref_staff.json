@@ -1,6 +1,6 @@
 [
   {
-    "model": "lighthouse.refstaff",
+    "model": "lighthouse.staff",
     "pk": 1,
     "fields":
     {
