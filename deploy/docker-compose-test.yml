@@ -1,0 +1,57 @@
+version: '2.1'
+
+volumes:
+  pgsql:
+  static_files:
+
+services:
+
+  postgres:
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgsql1:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: emerald
+      POSTGRES_USER: emerald
+      POSTGRES_DB: emerald
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U emerald"]
+      interval: 10s
+      timeout: 5s
+      retries: 5      
+
+  python:
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    environment:
+    - PYTHONUNBUFFERED=1
+    - POSTGRES_PASSWORD=emerald
+    - POSTGRES_USER=emerald
+    - POSTGRES_DB=emerald
+    - POSTGRES_HOST=postgres
+    - DJANGO_SETTINGS_MODULE=emeraldapp.test
+    volumes:
+      - ./static_files:/static_files
+    ports:
+      - 8000:8000
+    links:
+      - postgres   
+    command: /emeraldapp/docker-test.sh
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  djangoweb:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    depends_on:
+      - python
+      - postgres
+    volumes:
+      - ./static_files:/static_files
+    ports:
+      - 80:80
