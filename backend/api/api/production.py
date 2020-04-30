@@ -8,6 +8,10 @@ SECRET_KEY = 'EMPTY'
 
 DEBUG = True
 
+ADMINS = [
+    ('admin', 'admin@localhost')
+]
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -128,6 +132,8 @@ USE_L10N = True
 USE_TZ = False
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = '/static_files'
 
 REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': (
