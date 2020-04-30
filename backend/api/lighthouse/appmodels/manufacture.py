@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q, F
+from django.db.models import Q, F, ExpressionWrapper, Sum, FloatField
 from django.db import DatabaseError, transaction
 from .org import Employee
 from lighthouse.endpoints.api_errors import *
@@ -190,8 +190,21 @@ class Manufacture(models.Model):
         Проверка корректности смен (у всех сотрудников должно быть указано начало и окончание смен)
         :return:
         """
-        team = ProdTeam.objects.filter(id_manufacture=self).filter(Q(period_start__isnull=True) | Q(period_end__isnull=True))
-        return team.count == 0
+        team = ProdTeam.objects\
+            .filter(id_manufacture=self)\
+            .filter(Q(period_start__isnull=True) | Q(period_end__isnull=True))
+        return team.count() == 0
+
+    def _check_ready_product(self) -> bool:
+        """
+        Проверка корректности указания списка готовой продукции в таре
+        :return: True = объём в таре меньше либо равен выходу продукции, False - указано больше, чем произвели
+        """
+        result = ProdReadyProduct.objects\
+            .filter(id_manufacture=self)\
+            .annotate(value=ExpressionWrapper(Sum(F('tare_count')*F('id_tare__v')), output_field=FloatField()))\
+            .aggregate(Sum('value'))
+        return result['value__sum'] <= self.out_value
 
     def set_card_status(self, new_status: int):
         expression = 'manufacture.set_card_status'
@@ -214,6 +227,8 @@ class Manufacture(models.Model):
             raise AppError(expression, API_ERROR_CARD_NO_SET_FINISH_PROCESS)
         if not self._check_team():
             raise AppError(expression, API_ERROR_CARD_TEAM_ERROR)
+        if not self._check_ready_product():
+            raise AppError(expression, API_ERROR_CARD_INCORRECT_TARE)
         try:
             with transaction.atomic():
                 from .store import Store, STORE_OPERATION_IN, STORE_OPERATION_OUT

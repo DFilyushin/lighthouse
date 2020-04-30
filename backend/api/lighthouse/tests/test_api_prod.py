@@ -7,7 +7,8 @@ from lighthouse.appmodels.manufacture import ProdTeam, ProdReadyProduct,\
 from lighthouse.appmodels.manufacture import MATERIAL_RAW_ID, MATERIAL_PRODUCT_ID
 from lighthouse.appmodels.store import RefCost
 from lighthouse.appmodels.org import Staff, Employee
-from lighthouse.endpoints.api_errors import API_ERROR_CARD_NOT_IN_WORK, API_ERROR_CARD_TEAM_ERROR
+from lighthouse.endpoints.api_errors import API_ERROR_CARD_NOT_IN_WORK, API_ERROR_CARD_TEAM_ERROR, \
+    API_ERROR_CARD_INCORRECT_TARE
 
 
 class TestApiManufacture(TestCase):
@@ -22,10 +23,10 @@ class TestApiManufacture(TestCase):
         raw_1 = Material.objects.create(id=2, name='Сырьё 1', id_type_id=MATERIAL_RAW_ID)
         raw_2 = Material.objects.create(id=3, name='Сырьё 2', id_type_id=MATERIAL_RAW_ID)
         raw_3 = Material.objects.create(id=4, name='Сырьё 3', id_type_id=MATERIAL_RAW_ID)
-        tare1 = Tare.objects.create(id=1, name='бочка', v=10)
-        tare2 = Tare.objects.create(id=2, name='канистра', v=5)
-        tare3 = Tare.objects.create(id=3, name='канистра 2', v=5)
-        Formula.objects.create(id=1, id_tare=tare1, id_product_id=1, calc_amount=150.50, calc_losses=556.09,
+        self.tare1 = Tare.objects.create(id=1, name='бочка', v=10)
+        self.tare2 = Tare.objects.create(id=2, name='канистра', v=5)
+        self.tare3 = Tare.objects.create(id=3, name='канистра 2', v=5)
+        Formula.objects.create(id=1, id_tare=self.tare1, id_product_id=1, calc_amount=150.50, calc_losses=556.09,
                                specification='Some text')
         Employee.objects.create(id=1, fio='Сотрудник #1', dob=datetime.today(), iin='012345678912', doc_type=1, id_staff_id=1)
         Employee.objects.create(id=2, fio='Сотрудник #2', dob=datetime.today(), iin='012345678912', doc_type=1,
@@ -285,17 +286,36 @@ class TestApiManufacture(TestCase):
         record = Manufacture.objects.get(id=6)
         self.assertEqual(record.cur_state, CARD_STATE_IN_WORK)
 
-    def test_error_execute(self):
+    def test_execute_team_error(self):
+        # проверка исполнения карты с незакрытой сменой сотрудника
+
         Manufacture.objects.create(id=7, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
                                    prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
                                    loss_value=0, comment='Some text', cur_state=1)
-        # проверка исполнения карты с незакрытой сменой сотрудника
         team_1 = ProdTeam.objects.create(id=100, id_manufacture_id=7, id_employee_id=1, period_start=datetime.today(),
                                          period_end=datetime.today())
         team_2 = ProdTeam.objects.create(id=101, id_manufacture_id=7, id_employee_id=2, period_start=datetime.today())
         response = self.client.post('/prod/7/execute/')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['message'], 'Ошибка при сохранении данных: {}'.format(API_ERROR_CARD_TEAM_ERROR))
+
+    def test_execute_tare_error(self):
+        prod = Manufacture.objects.create(id=8, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                          prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                          loss_value=0, comment='Some text', cur_state=1, out_value=500)
+        ProdReadyProduct.objects.create(id_manufacture=prod, id_tare=self.tare1, tare_count=50)
+        ProdReadyProduct.objects.create(id_manufacture=prod, id_tare=self.tare2, tare_count=2)
+        response = self.client.post('/prod/8/execute/')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['message'], 'Ошибка при сохранении данных: {}'.format(API_ERROR_CARD_INCORRECT_TARE))
+
+    def test_execute_tare_ok(self):
+        prod = Manufacture.objects.create(id=8, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                          prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                          loss_value=0, comment='Some text', cur_state=1, out_value=500)
+        ProdReadyProduct.objects.create(id_manufacture=prod, id_tare=self.tare1, tare_count=50)
+        response = self.client.post('/prod/8/execute/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_new_prod_ready_tare(self):
         """
