@@ -16,6 +16,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if User.objects.count() == 0:
+            if not settings.ADMINS:
+                print('Nothing admins in settings.py')
             for user in settings.ADMINS:
                 username = user[0].replace(' ', '')
                 email = user[1]
