@@ -1,0 +1,46 @@
+version: '2'
+
+volumes:
+  pgsql:
+  static_files:
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    environment:
+    - PYTHONUNBUFFERED=1
+    - POSTGRES_PASSWORD=lighthouse
+    - POSTGRES_USER=lighthouse
+    - POSTGRES_DB=lighthouse
+    - POSTGRES_HOST=postgres
+    - DJANGO_SETTINGS_MODULE=lighthouse.production
+    volumes:
+      - ./static_files:/static_files
+    links:
+      - postgres
+    command: /lighthouse/docker-entrypoint.sh
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12-alpine
+    volumes:
+      - ./pgsql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: lighthouse
+      POSTGRES_USER: lighthouse
+      POSTGRES_DB: lighthouse
+
+  djangoweb:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    depends_on:
+      - python
+      - postgres
+    volumes:
+      - ./static_files:/static_files
+    ports:
+      - 80:80
