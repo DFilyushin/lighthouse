@@ -1,7 +1,7 @@
 from django.db import models
 from django.db import DatabaseError, transaction
 from .sales import Contract
-from .manufacture import Material, Manufacture, MaterialUnit
+from .manufacture import Material, Manufacture, MaterialUnit, Tare
 from .org import Employee
 
 
@@ -65,6 +65,7 @@ class Cost(models.Model):
 class Store(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания записи')
     id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Сырьё')
+    id_tare = models.ForeignKey(Tare, on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name='Тара')
     oper_date = models.DateField(null=False, verbose_name='Дата оборота')
     oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False, verbose_name='Тип операции')
     oper_value = models.FloatField(default=0, verbose_name='Количество')
@@ -74,7 +75,7 @@ class Store(models.Model):
     is_delete = models.BooleanField(default=False, null=True, verbose_name='Признак удаления')
 
     def __str__(self):
-        return '{} {}'.format(self.id_material.name, self.oper_value)
+        return '{} {} {}'.format(self.id_material.name, self.id_tare, self.oper_value)
 
     class Meta:
         verbose_name = 'Склад'
