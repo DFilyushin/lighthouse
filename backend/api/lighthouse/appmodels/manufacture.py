@@ -185,6 +185,12 @@ class Manufacture(models.Model):
         """
         return ProdCalc.objects.filter(id_manufacture=self)
 
+    def get_ready_product(self):
+        """
+        Получить фасованный продукт
+        """
+        return ProdReadyProduct.objects.filter(id_manufacture=self)
+
     def _check_team(self) -> bool:
         """
         Проверка корректности смен (у всех сотрудников должно быть указано начало и окончание смен)
@@ -204,7 +210,11 @@ class Manufacture(models.Model):
             .filter(id_manufacture=self)\
             .annotate(value=ExpressionWrapper(Sum(F('tare_count')*F('id_tare__v')), output_field=FloatField()))\
             .aggregate(Sum('value'))
-        return result['value__sum'] <= self.out_value
+        sum_value = result['value__sum']
+        if sum_value is None:
+            return False
+        else:
+            return sum_value <= self.out_value
 
     def set_card_status(self, new_status: int):
         expression = 'manufacture.set_card_status'
@@ -230,29 +240,33 @@ class Manufacture(models.Model):
         if not self._check_ready_product():
             raise AppError(expression, API_ERROR_CARD_INCORRECT_TARE)
         try:
+            # Выполнить операции со складом в транзакции
             with transaction.atomic():
                 from .store import Store, STORE_OPERATION_IN, STORE_OPERATION_OUT
                 self.cur_state = CARD_STATE_READY
                 self.save()
 
                 # Добавить на склад готовой продукции
-                Store.objects.create(
-                    id_material_id=self.id_formula.id_product.id,
-                    oper_date=self.prod_finish,
-                    oper_value=self.out_value,
-                    oper_type=STORE_OPERATION_IN,
-                    id_manufacture_id=self.id,
-                    id_employee_id=self.id_team_leader_id
-                )
+                for item in self.get_ready_product():
+                    Store.objects.create(
+                        id_material=self.id_formula.id_product,
+                        oper_date=self.prod_finish,
+                        oper_value=item.tare_count,
+                        oper_type=STORE_OPERATION_IN,
+                        id_tare=item.id_tare,
+                        id_employee=self.id_team_leader,
+                        id_manufacture=self
+                    )
+
                 # Списать со склада затраченное сырьё
                 for item in self.get_calculation():
                     Store.objects.create(
-                        id_material_id=item.id_raw_id,
+                        id_material=item.id_raw,
                         oper_date=self.prod_finish,
                         oper_value=-item.calc_value,
                         oper_type=STORE_OPERATION_OUT,
-                        id_manufacture_id=self.id,
-                        id_employee_id=self.id_team_leader_id
+                        id_manufacture=self,
+                        id_employee=self.id_team_leader
                     )
         except DatabaseError as e:
             raise AppError('manufacture.execute_card', str(e))
@@ -262,7 +276,8 @@ class Manufacture(models.Model):
         verbose_name_plural = 'Производственные карты'
         ordering = ['prod_start']
         indexes = [
-            models.Index(name='idx_prod_start01', fields=['prod_start'])
+            models.Index(name='idx_prod_start01', fields=['prod_start']),
+            models.Index(name='idx_prod_created', fields=['created']),
         ]
 
 

@@ -5,7 +5,7 @@ from lighthouse.appmodels.manufacture import RefMaterialType, Material, Tare, Fo
 from lighthouse.appmodels.manufacture import ProdTeam, ProdReadyProduct,\
     CARD_STATE_IN_WORK, CARD_STATE_DRAFT, CARD_STATE_READY
 from lighthouse.appmodels.manufacture import MATERIAL_RAW_ID, MATERIAL_PRODUCT_ID
-from lighthouse.appmodels.store import RefCost
+from lighthouse.appmodels.store import RefCost, Store
 from lighthouse.appmodels.org import Staff, Employee
 from lighthouse.endpoints.api_errors import API_ERROR_CARD_NOT_IN_WORK, API_ERROR_CARD_TEAM_ERROR, \
     API_ERROR_CARD_INCORRECT_TARE
@@ -310,6 +310,9 @@ class TestApiManufacture(TestCase):
         self.assertEqual(response.data['message'], 'Ошибка при сохранении данных: {}'.format(API_ERROR_CARD_INCORRECT_TARE))
 
     def test_execute_tare_ok(self):
+        """
+        Проверка фасовки готовой продукции
+        """
         prod = Manufacture.objects.create(id=8, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
                                           prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
                                           loss_value=0, comment='Some text', cur_state=1, out_value=500)
@@ -405,3 +408,21 @@ class TestApiManufacture(TestCase):
         ]
         self.client.put('/prod/20/tare/', data=tares, content_type='application/json')
         self.assertEqual(ProdReadyProduct.objects.filter(id_manufacture_id=20).count(), 3)
+
+    def test_execute_store(self):
+        """
+        Проверка передачи товара на СГП
+        """
+        manufacture = Manufacture.objects.create(id=20, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
+                                   prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
+                                   loss_value=0, comment='Some text', cur_state=1, out_value=100)
+        ProdReadyProduct.objects.create(id=1, id_manufacture_id=20, id_tare=self.tare1, tare_count=8)
+        ProdReadyProduct.objects.create(id=2, id_manufacture_id=20, id_tare=self.tare2, tare_count=2)
+        response = self.client.post('/prod/20/execute/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        store = Store.objects.filter(id_material_id=manufacture.id_formula.id_product, id_tare=self.tare1, oper_value=8)
+        self.assertEqual(store.count(), 1)
+
+        store = Store.objects.filter(id_material_id=manufacture.id_formula.id_product, id_tare=self.tare2, oper_value=2)
+        self.assertEqual(store.count(), 1)
