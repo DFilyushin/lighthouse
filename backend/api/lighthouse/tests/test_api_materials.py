@@ -24,8 +24,9 @@ class TestApiRaw(TestCase):
         """
         response = self.client.post('/raw/', data={'name': 'Сырьё 1'}, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        cost_catalog = RefCost.objects.get(id_raw_id=int(response.data['id']))
-        self.assertEqual(cost_catalog.name, 'Закуп сырья Сырьё 1')
+        cost_catalog = RefCost.objects.filter(id_raw_id=int(response.data['id']))
+        self.assertEqual(cost_catalog.count(), 1)
+        self.assertEqual(cost_catalog[0].name, 'Закуп сырья Сырьё 1')
 
     def test_delete_raw(self):
         Material.objects.create(id=1, id_type_id=MATERIAL_RAW_ID, name='Сырьё')
