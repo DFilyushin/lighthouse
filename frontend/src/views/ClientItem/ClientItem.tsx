@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from "moment";
+import 'moment/locale/ru';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
