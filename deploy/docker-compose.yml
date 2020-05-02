@@ -44,3 +44,8 @@ services:
       - ./static_files:/static_files
     ports:
       - 80:80
+  
+  frontend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/frontend/Dockerfile
