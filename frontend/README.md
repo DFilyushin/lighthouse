@@ -40,7 +40,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ## Server installation
 
 If had error<br />
-Error: ENOSPC: System limit for number of file watchers reached<br />
+**Error: ENOSPC: System limit for number of file watchers reached<br />**
 Fix this:<br />
 $ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf<br />
 $ sudo sysctl -p
