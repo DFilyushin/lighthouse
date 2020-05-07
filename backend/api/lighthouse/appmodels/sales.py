@@ -1,17 +1,24 @@
 from django.db import models
 from .org import Employee
-from .manufacture import Material
+from .manufacture import Material, Tare
+
+CONTRACT_STATE_DRAFT = 1
+CONTRACT_STATE_ACTIVE = 2
+CONTRACT_STATE_READY = 3
+
+CLAIM_RESULT_OK = 1
+CLAIM_RESULT_PHONE_ERROR = 2
+
 
 CONTRACT_STATE = [
-    (1, 'Черновик'),
-    (2, 'Действующий'),
-    (3, 'Исполненный')
+    (CONTRACT_STATE_DRAFT, 'Черновик'),
+    (CONTRACT_STATE_ACTIVE, 'Действующий'),
+    (CONTRACT_STATE_READY, 'Исполненный')
 ]
 
 CLAIM_RESULT = [
-    (1, 'не удалось дозвониться'),
-    (2, 'успешно, получен положительный ответ'),
-    (3, '')
+    (CLAIM_RESULT_PHONE_ERROR, 'не удалось дозвониться'),
+    (CLAIM_RESULT_OK, 'успешно, получен положительный ответ'),
 ]
 
 
@@ -37,6 +44,10 @@ class Client(models.Model):
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
         ordering = ['clientname']
+        indexes = [
+            models.Index(fields=['clientname'], name='idx_client_name_01'),
+            models.Index(fields=['req_bin'], name='idx_client_bin_01'),
+        ]
 
 
 class Contract(models.Model):
@@ -56,12 +67,19 @@ class Contract(models.Model):
         verbose_name = 'Контракт'
         verbose_name_plural = 'Контракты'
         ordering = ['created']
+        indexes = [
+            models.Index(fields=['contract_date'], name='idx_contract_01'),
+            models.Index(fields=['delivered'], name='idx_contract_02'),
+            models.Index(fields=['num'], name='idx_contract_03'),
+            models.Index(fields=['contractid'], name='idx_contract_04')
+        ]
 
 
 class ContractSpec(models.Model):
     id = models.AutoField(primary_key=True)
     id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
     id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукт')
+    id_tare = models.ForeignKey(Tare, null=True, on_delete=models.SET_NULL, verbose_name='Код тары')
     item_count = models.FloatField(default=0, verbose_name='Количество')
     item_price = models.FloatField(default=0, verbose_name='Цена')
     item_discount = models.FloatField(default=0, verbose_name='Скидка')
@@ -71,12 +89,16 @@ class ContractSpec(models.Model):
     class Meta:
         verbose_name = 'Спецификация контракта'
         verbose_name_plural = 'Спецификации контракта'
+        indexes = [
+            models.Index(fields=['delivery_date'], name='idx_contract_spec_01')
+        ]
 
 
 class Claim(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
-    claim_type = models.IntegerField(verbose_name='')
+    claim_date = models.DateField(null=True, verbose_name='Дата претензии')
+    claim_type = models.IntegerField(verbose_name='Тип претензии')
     num = models.CharField(max_length=50, verbose_name='Номер')
     cur_state = models.SmallIntegerField(verbose_name='Состояние')
     content = models.TextField(blank=True, null=False, verbose_name='Текст')
@@ -85,6 +107,9 @@ class Claim(models.Model):
     class Meta:
         verbose_name = 'Претензия'
         verbose_name_plural = 'Претензии'
+        indexes = [
+            models.Index(fields=['claim_date'], name='idx_claim_01')
+        ]
 
 
 class ClaimHistory(models.Model):
@@ -100,6 +125,9 @@ class ClaimHistory(models.Model):
     class Meta:
         verbose_name = 'История обращения'
         verbose_name_plural = 'Истории обращений'
+        indexes = [
+            models.Index(fields=['cont_date'], name='idx_claim_history_01')
+        ]
 
 
 class Payment(models.Model):
@@ -114,4 +142,8 @@ class Payment(models.Model):
         verbose_name = 'Оплата'
         verbose_name_plural = 'Оплаты'
         ordering = ['pay_date']
+        indexes = [
+            models.Index(fields=['pay_date'], name='idx_payment_01'),
+
+        ]
 
