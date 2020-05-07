@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { UsersToolbar, UsersTable } from './components';
 import mockData from './data';
-import {IUserData} from '../../IInterfaces';
+import {IUserData} from 'types/Interfaces';
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -16,7 +16,7 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {IEmployeeTableItem} from '../../../../IInterfaces';
+import {IEmployeeTableItem} from 'types/Interfaces';
 
 const useStyles = makeStyles(theme => ({
     root: {},

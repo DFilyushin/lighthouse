@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import axios from "axios";
 import ClientEndpoint from "services/endpoints/clients";
-import {IClientItem} from "IInterfaces";
+import {IClientItem} from "types/Interfaces";
 import { useHistory } from "react-router-dom";
 
 interface IClientItemProps {

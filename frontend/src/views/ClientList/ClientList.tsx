@@ -5,7 +5,7 @@ import axios from "axios";
 import ClientEndpoint from 'services/endpoints/clients';
 import CircularIndeterminate from "components/Loader/Loader";
 import { ClientTable, ClientToolbar } from './components';
-import { IClientItemList } from '../../IInterfaces';
+import { IClientItemList } from 'types/Interfaces';
 import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
 

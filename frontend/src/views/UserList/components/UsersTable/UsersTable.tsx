@@ -18,8 +18,8 @@ import {
   TablePagination
 } from '@material-ui/core';
 
-import { getInitials } from '../../../../helpers';
-import {IUserData} from '../../../../IInterfaces';
+import { getInitials } from 'helpers';
+import {IUserData} from 'types/Interfaces';
 
 const useStyles = makeStyles(theme => ({
   root: {},

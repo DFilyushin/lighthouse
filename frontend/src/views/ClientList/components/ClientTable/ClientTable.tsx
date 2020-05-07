@@ -16,7 +16,7 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {IClientItemList} from '../../../../IInterfaces';
+import {IClientItemList} from 'types/Interfaces';
 
 const useStyles = makeStyles(theme => ({
     root: {},
