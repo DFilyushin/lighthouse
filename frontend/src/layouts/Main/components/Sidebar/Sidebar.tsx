@@ -2,36 +2,43 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, Drawer } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
-import StorageIcon from '@material-ui/icons/Storage';
 import { Profile, SidebarNav } from './components';
-import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
-import BusinessIcon from '@material-ui/icons/Business';
-import FactorySVGIcon from "../../../../components/icons/Factory";
-import ContractSvgIcon from "../../../../components/icons/Contract";
-import EmployeeSvgIcon from "../../../../components/icons/Employee";
-import WorkIcon from '@material-ui/icons/Work';
+import Navigation from "components/Navigation";
+import navigationConfig from './navigationsConfig';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    height: '100%',
+    overflowY: 'auto'
+  },
   drawer: {
-    width: 240,
+    width: 260,
     [theme.breakpoints.up('lg')]: {
       marginTop: 64,
       height: 'calc(100% - 64px)'
     }
   },
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+  content: {
     padding: theme.spacing(2)
   },
-  divider: {
-    margin: theme.spacing(2, 0)
+  profile: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    minHeight: 'fit-content'
   },
-  nav: {
-    marginBottom: theme.spacing(2)
+  avatar: {
+    width: 60,
+    height: 60
+  },
+  name: {
+    marginTop: theme.spacing(1)
+  },
+  divider: {
+    marginTop: theme.spacing(2)
+  },
+  navigation: {
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -48,60 +55,8 @@ const Sidebar = (props:ISidebar) => {
 
   const classes = useStyles();
 
-  const pages = [
-    {
-      title: 'Монитор дел',
-      href: '/dashboard',
-      icon: <DashboardIcon />
-    },
-    {
-      title: 'Каталоги',
-      href: '/catalogs',
-      icon: <StorageIcon />
-    },
-    {
-      title: 'Затраты',
-      href: '/expense',
-      icon: <WorkIcon />
-    },
-    {
-      title: 'Клиенты',
-      href: '/clients',
-      icon: <GroupOutlinedIcon />
-    },
-    {
-      title: 'Производство',
-      href: '/factory',
-      icon: <FactorySVGIcon/>
-    },
-    {
-      title: 'Контракты',
-      href: '/contracts',
-      icon: <ContractSvgIcon />
-    },
-    {
-      title: 'Заказы',
-      href: '/orders',
-      icon: <EmployeeSvgIcon />
-    },
-    {
-      title: 'Реквизиты',
-      href: '/org',
-      icon: <BusinessIcon />
-    },
-    {
-      title: 'Сотрудники',
-      href: '/employees',
-      icon: <PeopleIcon />
-    },
-    {
-      title: 'Сотрудник',
-      href: '/employee',
-      icon: <PeopleIcon />
-    }
-  ];
-
   return (
+
     <Drawer
       anchor="left"
       classes={{ paper: classes.drawer }}
@@ -113,12 +68,23 @@ const Sidebar = (props:ISidebar) => {
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <Profile />
+        <div className={classes.content}>
+          <Profile />
+
+
         <Divider className={classes.divider} />
-        <SidebarNav
-          className={classes.nav}
-          pages={pages}
-        />
+
+        <nav className={classes.navigation}>
+          {navigationConfig.map(list => (
+              <Navigation
+                  component="div"
+                  key={list.title}
+                  pages={list.pages}
+                  title={list.title}
+              />
+          ))}
+        </nav>
+        </div>
       </div>
     </Drawer>
   );
