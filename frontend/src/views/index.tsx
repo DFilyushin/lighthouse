@@ -7,3 +7,6 @@ export { default as Dashboard } from './Dashboard';
 export { default as EmployeeItem } from './EmployeeItem';
 export { default as ClientList } from './ClientList';
 export { default as ClientItem } from './ClientItem';
+
+export { default as Products } from './Products/ProductList';
+export { default as ProductItem } from './Products/ProductItem';

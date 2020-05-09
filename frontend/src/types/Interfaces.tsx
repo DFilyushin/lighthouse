@@ -23,6 +23,11 @@ export interface IEmployeeTableItem {
     staff: string
 };
 
+export interface IProductTableItem {
+    id: number,
+    name: string
+}
+
 export interface IClientItemList {
     id: number,
     clientName: string,

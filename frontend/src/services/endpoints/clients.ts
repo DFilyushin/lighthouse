@@ -9,7 +9,7 @@ class ClientEndpoint {
      * @param offset - сдвиг количества записей
      */
     static getClients (search?: string, limit?: number, offset?: number): string {
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/clients`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/client`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
         if (limit) url.searchParams.append('limit', limit.toString());
@@ -51,10 +51,4 @@ class ClientEndpoint {
 
 }
 
-
 export default ClientEndpoint;
-
-// console.log( ClientEndpoint.getClients('NewClient', 10, 20));
-// console.log( ClientEndpoint.getClients('тестовый клиент'));
-// console.log( ClientEndpoint.getClient(10));
-// process.exit();

@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
+import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -16,7 +16,8 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {IClientItemList} from 'types/Interfaces';
+import {Product} from 'types/model/product'
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -41,57 +42,54 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-interface IClientTable{
+interface IProductTable{
     className: string,
-    clients: IClientItemList[],
+    products: Product[],
     onClickItem: any,
-    onChangeSelected: any
-};
+}
 
 
-const ClientTable = (props: IClientTable) => {
-    const { className, clients, onClickItem, onChangeSelected, ...rest } = props;
+const ProductTable = (props: IProductTable) => {
+    const { className, products, onClickItem, ...rest } = props;
 
     const classes = useStyles();
 
-    const [selectedClients, setSelectedClients] = useState<number[]> ([]);
+    const [selectedProducts, setSelectedProducts] = useState<number[]> ([]);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [page, setPage] = useState<number>(0);
 
     const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement> ) => {
-        const { clients } = props;
+        const { products } = props;
 
-        let selectedClients: number[];
+        let selectedElements: number[];
 
         if (event.target.checked) {
-            selectedClients = clients.map(client => client.id);
+            selectedElements = products.map(item => item.id);
         } else {
-            selectedClients = [];
+            selectedElements = [];
         }
 
-        setSelectedClients(selectedClients);
-        onChangeSelected(selectedClients);
+        setSelectedProducts(selectedElements);
     };
 
     const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:number) => {
-        const selectedIndex = selectedClients.indexOf(id);
-        let newSelectedClients: number[] = [];
+        const selectedIndex = selectedProducts.indexOf(id);
+        let newSelectedEmployees: number[] = [];
 
         if (selectedIndex === -1) {
-            newSelectedClients = newSelectedClients.concat(selectedClients, id);
+            newSelectedEmployees = newSelectedEmployees.concat(selectedProducts, id);
         } else if (selectedIndex === 0) {
-            newSelectedClients = newSelectedClients.concat(selectedClients.slice(1));
-        } else if (selectedIndex === selectedClients.length - 1) {
-            newSelectedClients = newSelectedClients.concat(selectedClients.slice(0, -1));
+            newSelectedEmployees = newSelectedEmployees.concat(selectedProducts.slice(1));
+        } else if (selectedIndex === selectedProducts.length - 1) {
+            newSelectedEmployees = newSelectedEmployees.concat(selectedProducts.slice(0, -1));
         } else if (selectedIndex > 0) {
-            newSelectedClients = newSelectedClients.concat(
-                selectedClients.slice(0, selectedIndex),
-                selectedClients.slice(selectedIndex + 1)
+            newSelectedEmployees = newSelectedEmployees.concat(
+                selectedProducts.slice(0, selectedIndex),
+                selectedProducts.slice(selectedIndex + 1)
             );
         }
 
-        setSelectedClients(newSelectedClients);
-        onChangeSelected(newSelectedClients);
+        setSelectedProducts(newSelectedEmployees);
     };
 
     const handlePageChange = (event:any, page: number) => {
@@ -102,8 +100,8 @@ const ClientTable = (props: IClientTable) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const cellClicked = (clientId: number) => {
-        onClickItem(clientId);
+    const cellClicked = (productid: number) => {
+        onClickItem(productid);
     };
 
     return (
@@ -119,44 +117,41 @@ const ClientTable = (props: IClientTable) => {
                                 <TableRow>
                                     <TableCell padding="checkbox">
                                         <Checkbox
-                                            checked={selectedClients.length === clients.length}
+                                            checked={selectedProducts.length === products.length}
                                             color="primary"
                                             indeterminate={
-                                                selectedClients.length > 0 &&
-                                                selectedClients.length < clients.length
+                                                selectedProducts.length > 0 &&
+                                                selectedProducts.length < products.length
                                             }
                                             onChange={handleSelectAll}
                                         />
                                     </TableCell>
                                     <TableCell>Наименование</TableCell>
-                                    <TableCell>Адрес</TableCell>
-                                    <TableCell>Контакты</TableCell>
                                     <TableCell/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {
-                                    clients.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(client => (
+                                {products.slice(0, rowsPerPage).map(product => (
                                     <TableRow
                                         className={classes.tableRow}
                                         hover
-                                        key={client.id}
-                                        selected={selectedClients.indexOf(client.id) !== -1}
+                                        key={product.id}
+                                        selected={selectedProducts.indexOf(product.id) !== -1}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
-                                                checked={selectedClients.indexOf(client.id) !== -1}
+                                                checked={selectedProducts.indexOf(product.id) !== -1}
                                                 color="primary"
-                                                onChange={event => handleSelectOne(event, client.id)}
+                                                onChange={event => handleSelectOne(event, product.id)}
                                                 value="true"
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{client.clientName}</Typography>
+                                            <Typography variant="body1">{product.name}</Typography>
                                         </TableCell>
-                                        <TableCell>{client.clientAddr}</TableCell>
-                                        <TableCell>{client.clientEmployee}</TableCell>
-                                        <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(client.id)}>Открыть</Button></TableCell>
+                                        <TableCell align="right">
+                                            <Button variant="outlined" color="primary" onClick={event => cellClicked(product.id)}>Открыть</Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -167,7 +162,7 @@ const ClientTable = (props: IClientTable) => {
             <CardActions className={classes.actions}>
                 <TablePagination
                     component="div"
-                    count={clients.length}
+                    count={products.length}
                     onChangePage={handlePageChange}
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
@@ -181,4 +176,4 @@ const ClientTable = (props: IClientTable) => {
     );
 };
 
-export default ClientTable;
+export default ProductTable;

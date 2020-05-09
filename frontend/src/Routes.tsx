@@ -14,10 +14,13 @@ import {
     Dashboard as DashboardView,
     EmployeeItem as EmployeeItemView,
     ClientList as ClientListView,
-    ClientItem as ClientItemView
+    ClientItem as ClientItemView,
+    Products as ProductsView,
+    ProductItem as ProductItemView
 } from './views'
 
 const Routes = () => {
+
     return (
         <Switch>
             <Redirect exact from="/" to="/dashboard"/>
@@ -30,10 +33,13 @@ const Routes = () => {
 
             <RouteWithLayout isAuth={true} component={UserListView} layout={MainLayout} path="/users" exact/>
 
-            <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/employees" exact/>
-            <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/employee" exact/>
+            <RouteWithLayout isAuth={true} component={ProductsView} layout={MainLayout} path="/catalogs/product" exact/>
+            <RouteWithLayout isAuth={true} component={ProductItemView} layout={MainLayout} path="/catalogs/product/:id" exact/>
 
-            <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org" exact/>
+            <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employees" exact/>
+            <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee" exact/>
+            <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
+
             <RouteWithLayout isAuth={true} component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
 
             <Redirect to="/NotFound" />
