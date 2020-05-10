@@ -43,11 +43,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const statusColors = {
-  delivered: 'success',
-  pending: 'info',
-  refunded: 'danger'
-};
 
 const LatestOrders = props => {
   const { className, ...rest } = props;
