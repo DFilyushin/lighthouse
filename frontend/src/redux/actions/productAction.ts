@@ -8,16 +8,26 @@ import {
     PRODUCT_LOAD_ERROR,
     PRODUCT_LOAD_SUCCESS,
     PRODUCT_LOAD_SUCCESS_ITEM,
-    PRODUCT_UPDATE_OBJECT, PRODUCT_ADD_NEW
+    PRODUCT_UPDATE_OBJECT,
+    PRODUCT_ADD_NEW,
+    PRODUCT_DELETE_OK,
+    PRODUCT_CLEAR_ERROR
 } from './types';
 
-
+/**
+ * Загрузить список продукции
+ * @param search поисковая строка
+ * @param limit лимит вывода
+ * @param offset сдвиг
+ */
 export function loadProduct(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
         const productList: Product[] = [];
         dispatch(fetchProductStart());
         try{
-            const response = await axios.get(ProductEndpoint.getProducts(search, limit, offset));
+            const url = ProductEndpoint.getProducts(search, limit, offset);
+            console.log(url);
+            const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 productList.push({
                     id: response.data[key]['id'],
@@ -32,6 +42,10 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
     }
 }
 
+/**
+ * Загрузить один продукт в список
+ * @param id Код продукта
+ */
 export function loadProductItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let product: Product = {id: 0, name: ""};
@@ -49,6 +63,37 @@ export function loadProductItem(id: number) {
     }
 }
 
+/**
+ * Удалить продукт
+ * @param id Код продукта
+ */
+export function deleteProduct(id: number) {
+    return async (dispatch: any, getState: any) => {
+
+        dispatch(fetchProductStart());
+        try{
+            const response = await axios.delete(ProductEndpoint.deleteProduct(id));
+            if (response.status === 204) {
+                const products = [...getState().product.products];
+                const index = products.findIndex((elem, index, array)=>{return elem.id === id});
+                products.splice(index, 1);
+                dispatch(productDeleteOk(products));
+            }
+            else {
+                dispatch(productLoadError('Не удалось удалить продукт!'))
+            }
+        }catch (e) {
+            console.log(e);
+            dispatch(productLoadError('Не удалось удалить продукт!'))
+        }
+        dispatch(fetchProductFinish())
+    }
+}
+
+/**
+ * Изменение продукции в сторе
+ * @param product
+ */
 export function changeProduct(product: Product) {
     return{
         type: PRODUCT_UPDATE_OBJECT,
@@ -56,6 +101,10 @@ export function changeProduct(product: Product) {
     }
 }
 
+/**
+ * Обновление продукции
+ * @param product Объект продукции
+ */
 export function updateProduct(product: Product){
     return async (dispatch: any, getState: any) => {
         try{
@@ -67,10 +116,27 @@ export function updateProduct(product: Product){
     }
 }
 
+/**
+ * Добавить новый продукт
+ * @param product Объект продукции
+ */
 export function addNewProduct(product: Product) {
+    return async (dispatch: any, getState: any) => {
+        console.log('addNewProduct', getState().product);
+        dispatch(clearError());
+        console.log('addNewProduct', getState().product);
+        try{
+            const response = await axios.post(ProductEndpoint.newProduct(), product);
+            dispatch(productLoadItemSuccess(product))
+        }catch (e) {
+            dispatch(productLoadError('Не удалось добавить новый продукт!'))
+        }
+    }
+}
+
+export function clearError() {
     return{
-        type: PRODUCT_ADD_NEW,
-        product
+        type: PRODUCT_CLEAR_ERROR
     }
 }
 
@@ -91,7 +157,8 @@ function productLoadItemSuccess(productItem: Product) {
 function productLoadError(error: string) {
     return{
         type: PRODUCT_LOAD_ERROR,
-        error
+        error: error,
+        hasError: true
     }
 }
 
@@ -105,5 +172,12 @@ function fetchProductStart() {
 function fetchProductFinish() {
     return{
         type: PRODUCT_LOAD_FINISH
+    }
+}
+
+function productDeleteOk(products: Product[]) {
+    return{
+        type: PRODUCT_DELETE_OK,
+        products
     }
 }

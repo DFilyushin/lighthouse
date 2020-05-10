@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -46,11 +45,12 @@ interface IProductTable{
     className: string,
     products: Product[],
     onClickItem: any,
+    onChangeSelected: any,
 }
 
 
 const ProductTable = (props: IProductTable) => {
-    const { className, products, onClickItem, ...rest } = props;
+    const { className, products, onClickItem, onChangeSelected, ...rest } = props;
 
     const classes = useStyles();
 
@@ -68,7 +68,7 @@ const ProductTable = (props: IProductTable) => {
         } else {
             selectedElements = [];
         }
-
+        onChangeSelected(selectedElements);
         setSelectedProducts(selectedElements);
     };
 
@@ -88,7 +88,7 @@ const ProductTable = (props: IProductTable) => {
                 selectedProducts.slice(selectedIndex + 1)
             );
         }
-
+        onChangeSelected(newSelectedEmployees);
         setSelectedProducts(newSelectedEmployees);
     };
 
@@ -100,8 +100,8 @@ const ProductTable = (props: IProductTable) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const cellClicked = (productid: number) => {
-        onClickItem(productid);
+    const cellClicked = (productId: number) => {
+        onClickItem(productId);
     };
 
     return (

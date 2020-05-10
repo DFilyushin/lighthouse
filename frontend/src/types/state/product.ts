@@ -4,5 +4,7 @@ export interface IProductState {
     products: Product[],
     productItem: Product,
     isLoading: boolean,
-    error: string
+    error: string,
+    typeMessage: string,
+    hasError: boolean
 }

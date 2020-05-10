@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -26,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const nullProduct = {
-    id: 0,
-    name: ''
-};
-
 const ProductItem = (props: IProductItemProps) => {
     const history = useHistory();
     const classes = useStyles();
@@ -39,46 +34,32 @@ const ProductItem = (props: IProductItemProps) => {
     const productId = paramId === 'new' ? 0 :parseInt(paramId);
     const { className, ...rest } = props;
 
-    console.log('ProductItem', productId)
-
     const productItem  = useSelector((state: any)=> state.product.productItem);
     const isLoading = useSelector((state: any) => state.product.isLoading);
-    const error_value = useSelector((state: any) => state.product.error);
-
-
-    async function saveNewProduct() {
-        // const saveUrl = ProductEndpoint.newProduct();
-        // console.log(saveUrl);
-        // console.log(JSON.stringify(client));
-        // try{
-        //     const response = await axios.post(saveUrl, client);
-        //     if (response.status === 201){
-        //         history.push('/catalogs/product')
-        //     }else{
-        //         console.log(response.statusText)
-        //     }
-        // }
-        // catch (e) {
-        //     console.log(e.message)
-        // }
-    }
+    const errorValue = useSelector((state: any) => state.product.error);
+    const hasError = useSelector((state: any) => state.product.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const product = {...productItem, [event.target.name]: event.target.value};
         dispatch(changeProduct(product))
     };
 
+    /**
+     * Сохранить изменения
+     * @param event
+     */
     const saveHandler = (event: React.MouseEvent) => {
         if (productId === 0) {
             dispatch(addNewProduct(productItem));
         } else {
             dispatch(updateProduct(productItem));
         }
-
+        console.log(hasError);
+        if (!hasError) history.push('/catalogs/product');
     };
 
     useEffect( ()=> {
-        dispatch(loadProductItem(productId));
+        if (productId !== 0) dispatch(loadProductItem(productId));
     }, [dispatch]
     );
 

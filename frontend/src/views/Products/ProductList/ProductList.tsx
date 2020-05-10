@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
 import { ProductTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
-import {loadProduct} from "redux/actions/productAction";
-
+import {clearError, deleteProduct, loadProduct} from "redux/actions/productAction";
+import SnackBarAlert from 'components/SnackBarAlert';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,7 +24,15 @@ const ProductList = () => {
 
     const products = useSelector((state: any) => state.product.products);
     const isLoading = useSelector((state: any) => state.product.isLoading);
-    const error_value = useSelector((state: any) => state.product.error);
+    const errorValue = useSelector((state: any) => state.product.error);
+    const alertType = useSelector((state: any) => state.product.typeMessage);
+    const hasError = useSelector((state: any) => state.product.hasError);
+    const [selected, setSelected] = useState<number[]>([]);
+
+
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        dispatch(clearError())
+    };
 
     useEffect( ()=>{
             dispatch(loadProduct())
@@ -32,10 +40,14 @@ const ProductList = () => {
     );
 
     async function onFindProductHandler(findText: string){
+        console.log(findText);
+        dispatch(loadProduct(findText))
     }
 
     function onDeleteHandle() {
-
+        selected.forEach(async (item, i, selected) => {
+            dispatch(deleteProduct(item))
+        });
     }
 
     function onClickTableItem(productId: number){
@@ -47,6 +59,7 @@ const ProductList = () => {
         <div className={classes.root}>
             <DefaultToolbar
                 className={''}
+                title={'Продукция'}
                 newItemTitle={'Новый продукт'}
                 newItemUrl={'/catalogs/product/new'}
                 findCaption={'Поиск продукции'}
@@ -60,9 +73,16 @@ const ProductList = () => {
                         products={products}
                         onClickItem={onClickTableItem}
                         className={''}
+                        onChangeSelected={setSelected}
                     />
                 }
             </div>
+            <SnackBarAlert
+                typeMessage={alertType}
+                messageText={errorValue}
+                isOpen={hasError}
+                onSetOpenState={handleClose}
+            />
         </div>
     );
 };
