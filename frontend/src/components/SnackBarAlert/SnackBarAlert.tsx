@@ -27,14 +27,11 @@ export default function SnackBarAlert (props: ISnackBarAlert) {
     const classes = useStyles();
     const { typeMessage, messageText, isOpen, onSetOpenState } = props;
 
-    // const [open, setOpen] = React.useState(isOpen);
-
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
-
-        onSetOpenState(false);
+        onSetOpenState();
     };
 
     return (
