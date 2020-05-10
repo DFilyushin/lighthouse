@@ -6,6 +6,7 @@ from lighthouse.serializers.serializer_store import *
 from lighthouse.serializers.serializer_manufacture import *
 from lighthouse.appmodels.store import Store
 from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
+from rest_framework import filters
 from .api_utils import RoundFunc
 from .api_errors import *
 
@@ -24,6 +25,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Material.objects.filter(id_type__id=2).all().order_by('name')
     serializer_class = ProductSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
 
 
 class RawViewSet(viewsets.ModelViewSet):
@@ -32,6 +35,8 @@ class RawViewSet(viewsets.ModelViewSet):
     """
     queryset = Material.objects.filter(id_type__id=1).all().order_by('name')
     serializer_class = RawSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
 
 
 class TareViewSet(viewsets.ModelViewSet):
@@ -40,6 +45,8 @@ class TareViewSet(viewsets.ModelViewSet):
     """
     queryset = Tare.objects.all().order_by('name')
     serializer_class = TareSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
 
 
 class FormulaViewSet(viewsets.ModelViewSet):
