@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, Drawer } from '@material-ui/core';
-import { Profile, SidebarNav } from './components';
+import { Profile } from './components';
 import Navigation from "components/Navigation";
 import navigationConfig from './navigationsConfig';
 

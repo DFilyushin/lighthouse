@@ -1,27 +1,17 @@
 import React from 'react';
 import { colors } from '@material-ui/core';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import ChatIcon from '@material-ui/icons/ChatOutlined';
-import CodeIcon from '@material-ui/icons/Code';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
-import PersonIcon from '@material-ui/icons/PersonOutlined';
-import ReceiptIcon from '@material-ui/icons/ReceiptOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
-import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import LibraryBooksOutlinedIcon from '@material-ui/icons/LibraryBooksOutlined';
 import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
-import BusinessIcon from '@material-ui/icons/Business';
 import EqualizerOutlinedIcon from '@material-ui/icons/EqualizerOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import NewReleasesOutlinedIcon from '@material-ui/icons/NewReleasesOutlined';
 import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
-
 import { Label } from 'components';
-import {Report} from "@material-ui/icons";
 
 export default [
     {
