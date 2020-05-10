@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { SearchInput } from 'components';
 import { useHistory } from "react-router-dom";
 
@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
 
 interface IDefaultToolbar {
     className: string,
-    newItemTitle: string
+    title: string,
+    newItemTitle: string,
     newItemUrl: string,
     findCaption: string,
     showDelete: boolean,
@@ -45,7 +46,7 @@ interface IDefaultToolbar {
 
 const DefaultToolbar = (props: IDefaultToolbar) => {
     const history = useHistory();
-    const { className, newItemTitle, newItemUrl, onFind, onDelete, findCaption, showDelete, ...rest } = props;
+    const { className, title, newItemTitle, newItemUrl, onFind, onDelete, findCaption, showDelete, ...rest } = props;
 
     const classes = useStyles();
 
@@ -65,6 +66,7 @@ const DefaultToolbar = (props: IDefaultToolbar) => {
             {...rest}
             className={clsx(classes.root, className)}
         >
+            <Typography variant="h5">{title}</Typography>
             <div className={classes.buttonGroup}>
                 <span className={classes.spacer} />
                 <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>{newItemTitle}</Button>
