@@ -1,3 +1,4 @@
+//product reducer
 export const PRODUCT_LOAD_START = 'PRODUCT_LOAD_START';
 export const PRODUCT_LOAD_FINISH = 'PRODUCT_LOAD_FINISH';
 export const PRODUCT_LOAD_SUCCESS = 'PRODUCT_LOAD_SUCCESS';
@@ -8,6 +9,7 @@ export const PRODUCT_ADD_NEW = 'PRODUCT_ADD_NEW';
 export const PRODUCT_DELETE_OK = 'PRODUCT_DELETE_OK';
 export const PRODUCT_CLEAR_ERROR = 'PRODUCT_CLEAR_ERROR';
 
+//raw reducer
 export const RAW_LOAD_START = 'RAW_LOAD_START';
 export const RAW_LOAD_FINISH = 'RAW_LOAD_FINISH';
 export const RAW_LOAD_SUCCESS = 'RAW_LOAD_SUCCESS';
@@ -18,13 +20,19 @@ export const RAW_ADD_NEW = 'RAW_ADD_NEW';
 export const RAW_DELETE_OK = 'RAW_DELETE_OK';
 export const RAW_CLEAR_ERROR = 'RAW_CLEAR_ERROR';
 
-
 //formula reducer
 export const FORMULA_LOAD_START = 'FORMULA_LOAD_START';
 export const FORMULA_LOAD_FINISH = 'FORMULA_LOAD_FINISH';
 export const FORMULA_LOAD_SUCCESS = 'FORMULA_LOAD_SUCCESS';
 export const FORMULA_DELETE_OK = 'FORMULA__DELETE_OK';
 export const FORMULA_ITEM_SUCCESS = 'FORMULA_ITEM_SUCCESS';
+
+//tare reducer
+export const TARE_LOAD_START = 'TARE_LOAD_START';
+export const TARE_LOAD_FINISH = 'TARE_LOAD_FINISH';
+export const TARE_LOAD_SUCCESS = 'TARE_LOAD_SUCCESS';
+export const TARE_ITEM_SUCCESS = 'TARE_ITEM_SUCCESS';
+export const TARE_DELETE_OK = 'TARE_DELETE_OK';
 
 //inform reducer
 export const INFO_SHOW_MESSAGE = 'INFO_SHOW_MESSAGE';

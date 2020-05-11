@@ -16,3 +16,5 @@ export { default as RawItem } from './Raws/RawItem';
 
 export { default as Formulas } from './Formula/FormulaList';
 export { default as FormulaItem } from './Formula/FormulaItem';
+
+export { default as Tares} from './Tare/TareList';

@@ -20,7 +20,8 @@ import {
     Raws as RawsView,
     RawItem as RawItemView,
     Formulas as FormulaView,
-    FormulaItem as FormulaItemView
+    FormulaItem as FormulaItemView,
+    Tares as TareView
 } from './views'
 
 const Routes = () => {
@@ -43,8 +44,11 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={FormulaView} layout={MainLayout} path="/catalogs/formula" exact/>
             <RouteWithLayout isAuth={true} component={FormulaItemView} layout={MainLayout} path="/catalogs/formula/:id" exact/>
 
+            <RouteWithLayout isAuth={true} component={TareView} layout={MainLayout} path="/catalogs/tare" exact/>
+
             <RouteWithLayout isAuth={true} component={RawsView} layout={MainLayout} path="/catalogs/raw" exact/>
             <RouteWithLayout isAuth={true} component={RawItemView} layout={MainLayout} path="/catalogs/raw/:id" exact/>
+
 
             <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employees" exact/>
             <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee" exact/>
