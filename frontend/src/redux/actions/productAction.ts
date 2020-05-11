@@ -1,5 +1,5 @@
 import axios from 'axios'
-import ProductEndpoint from "services/endpoints/ProductEndpoint";
+import ProductEndpoint from "services/endpoints/ProductEndpoint"
 import {Product} from 'types/model/product'
 
 import {
@@ -12,7 +12,12 @@ import {
     PRODUCT_ADD_NEW,
     PRODUCT_DELETE_OK,
     PRODUCT_CLEAR_ERROR
-} from './types';
+} from './types'
+
+const LS_KEY = 'products'
+
+//FIXME При добавлении и удалении не обновляется результирующий стор
+//FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
 /**
  * Загрузить список продукции
@@ -22,21 +27,30 @@ import {
  */
 export function loadProduct(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
-        const productList: Product[] = [];
         dispatch(fetchProductStart());
-        try{
-            const url = ProductEndpoint.getProducts(search, limit, offset);
-            console.log(url);
-            const response = await axios.get(url);
-            Object.keys(response.data).forEach((key, index)=>{
-                productList.push({
-                    id: response.data[key]['id'],
-                    name: response.data[key]['name'],
-                })
-            });
+        const productInLocal = localStorage.getItem(LS_KEY);
+        if (productInLocal){
+            console.log('GetByStorage');
+            const productList = JSON.parse(productInLocal);
             dispatch(productLoadSuccess(productList))
-        }catch (e) {
-            dispatch(productLoadError(e))
+
+        }else {
+            try {
+                const url = ProductEndpoint.getProducts(search, limit, offset);
+                console.log('GetByApi');
+                const productList: Product[] = [];
+                const response = await axios.get(url);
+                Object.keys(response.data).forEach((key, index) => {
+                    productList.push({
+                        id: response.data[key]['id'],
+                        name: response.data[key]['name'],
+                    })
+                });
+                localStorage.setItem('products', JSON.stringify(productList))
+                dispatch(productLoadSuccess(productList))
+            } catch (e) {
+                dispatch(productLoadError(e))
+            }
         }
         dispatch(fetchProductFinish())
     }
@@ -78,6 +92,7 @@ export function deleteProduct(id: number) {
                 const index = products.findIndex((elem, index, array)=>{return elem.id === id});
                 products.splice(index, 1);
                 dispatch(productDeleteOk(products));
+                localStorage.removeItem(LS_KEY)
             }
             else {
                 dispatch(productLoadError('Не удалось удалить продукт!'))
