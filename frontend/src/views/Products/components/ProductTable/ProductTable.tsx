@@ -131,7 +131,7 @@ const ProductTable = (props: IProductTable) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {products.slice(0, rowsPerPage).map(product => (
+                                {products.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(product => (
                                     <TableRow
                                         className={classes.tableRow}
                                         hover
