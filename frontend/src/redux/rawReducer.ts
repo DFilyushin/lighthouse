@@ -21,7 +21,6 @@ const initialState = (): IRawState => ({
     rawItem: nullRaw,
     isLoading: false,
     error: '',
-    typeMessage: '',
     hasError: false
 });
 
