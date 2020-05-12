@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 import { createBrowserHistory } from 'history';
 import { createMuiTheme } from '@material-ui/core/styles';
-import {rootReducer} from "./redux/rootReducer";
+import { rootReducer } from "./redux/rootReducer";
 import thunk from "redux-thunk";
 
 const browserHistory = createBrowserHistory();
@@ -14,6 +14,7 @@ const theme = createMuiTheme();
 const store = createStore(rootReducer, compose(
     applyMiddleware(thunk)
 ));
+
 
 function App() {
   return (
@@ -24,7 +25,6 @@ function App() {
             </Router>
         </Provider>
     </ThemeProvider>
-
   );
 }
 
