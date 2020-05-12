@@ -36,7 +36,7 @@ export default function SnackBarAlert (props: ISnackBarAlert) {
 
     return (
         <div className={classes.root}>
-            <Snackbar open={isOpen} autoHideDuration={2000} onClose={handleClose}>
+            <Snackbar open={isOpen} autoHideDuration={3000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={typeMessage}>
                     {messageText}
                 </Alert>
