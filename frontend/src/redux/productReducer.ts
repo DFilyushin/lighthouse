@@ -23,7 +23,6 @@ const initialState = (): IProductState => ({
     productItem: nullProduct,
     isLoading: false,
     error: '',
-    typeMessage: '',
     hasError: false
 });
 
