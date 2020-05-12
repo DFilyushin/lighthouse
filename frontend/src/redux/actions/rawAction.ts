@@ -7,7 +7,9 @@ import {
     RAW_LOAD_ERROR,
     RAW_LOAD_FINISH,
     RAW_LOAD_START,
-    RAW_LOAD_SUCCESS, RAW_LOAD_SUCCESS_ITEM, RAW_UPDATE_OBJECT
+    RAW_LOAD_SUCCESS,
+    RAW_LOAD_SUCCESS_ITEM,
+    RAW_UPDATE_OBJECT
 } from "./types";
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
@@ -75,7 +77,6 @@ export function loadRawItem(id: number){
         dispatch(fetchStart());
         try{
             const response = await axios.get(RawEndpoint.getRawItem(id));
-            console.log(response.data);
             raw.id = response.data['id'];
             raw.name = response.data['name'];
             dispatch(rawLoadItemSuccess(raw))
@@ -112,6 +113,7 @@ export function changeRaw(raw: Raw) {
 export function updateRaw(raw: Raw) {
     return async (dispatch: any, getState: any) => {
         try{
+            console.log(raw)
             const response = await axios.put(RawEndpoint.saveRaw(raw.id), raw);
             console.log(response.data);
         }catch (e) {
