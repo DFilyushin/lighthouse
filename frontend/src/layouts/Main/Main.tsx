@@ -11,7 +11,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 import AuthenticationService from 'services/Authentication.service'
-import {useHistory} from "react-router-dom";
+import {Switch, useHistory} from "react-router-dom";
+import SnackBarAlert from "../../components/SnackBarAlert/SnackBarAlert";
+import {useDispatch, useSelector} from "react-redux";
+import {hideInfoMessage} from "../../redux/actions/infoAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,7 +44,13 @@ const Main = (props: IMainProps) => {
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
         defaultMatches: true
     });
-
+    const dispatch = useDispatch();
+    const messageText = useSelector((state: any) => state.info.messageText);
+    const messageType = useSelector((state:any) => state.info.messageType);
+    const hasError = useSelector((state:any) => state.info.hasMessage);
+    const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
+        dispatch(hideInfoMessage())
+    };
     const [open, setOpen] = React.useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -109,7 +118,12 @@ const Main = (props: IMainProps) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-
+            <SnackBarAlert
+                typeMessage={messageType}
+                messageText={messageText}
+                isOpen={hasError}
+                onSetOpenState={handleCloseAlert}
+            />
         </div>
     );
 };
