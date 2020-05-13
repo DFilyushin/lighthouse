@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNewRaw, changeRaw, loadRawItem, updateRaw} from "../../../redux/actions/rawAction";
+import {addNewRaw, changeRaw, loadRawItem, updateRaw} from "redux/actions/rawAction";
 
 
 interface IRawItemProps {
@@ -35,9 +35,9 @@ const RawItem = (props: IRawItemProps) => {
     const { className, ...rest } = props;
 
     const rawItem  = useSelector((state: any)=> state.raw.rawItem);
-    const isLoading = useSelector((state: any) => state.product.isLoading);
-    const errorValue = useSelector((state: any) => state.product.error);
-    const hasError = useSelector((state: any) => state.product.hasError)
+    const isLoading = useSelector((state: any) => state.raw.isLoading);
+    const errorValue = useSelector((state: any) => state.raw.error);
+    const hasError = useSelector((state: any) => state.raw.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const raw = {...rawItem, [event.target.name]: event.target.value};
@@ -69,7 +69,7 @@ const RawItem = (props: IRawItemProps) => {
                 <form autoComplete="off" noValidate>
                     <CardHeader
                         subheader=""
-                        title="Продукция"
+                        title="Сырьё"
                     />
                     <Divider />
                     <CardContent>
@@ -80,7 +80,7 @@ const RawItem = (props: IRawItemProps) => {
                             >
                                 <TextField
                                     fullWidth
-                                    label="Наименование продукции"
+                                    label="Наименование сырья"
                                     margin="dense"
                                     name="name"
                                     onChange={handleChange}
