@@ -35,8 +35,8 @@ const StaffItem = (props: IStaffItemProps) => {
     const { className, ...rest } = props;
 
     const staffItem  = useSelector((state: any)=> state.staff.staffItem);
-    const isLoading = useSelector((state: any) => state.staff.isLoading);
-    const errorValue = useSelector((state: any) => state.staff.error);
+    //const isLoading = useSelector((state: any) => state.staff.isLoading);
+    //const errorValue = useSelector((state: any) => state.staff.error);
     const hasError = useSelector((state: any) => state.staff.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

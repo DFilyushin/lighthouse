@@ -6,5 +6,6 @@ export interface ITareState {
     isLoading: boolean,
     error: string,
     typeMessage: string,
-    hasError: boolean
+    hasError: boolean,
+    isOk: boolean
 }

@@ -11,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 import AuthenticationService from 'services/Authentication.service'
-import {Switch, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import SnackBarAlert from "../../components/SnackBarAlert/SnackBarAlert";
 import {useDispatch, useSelector} from "react-redux";
 import {hideInfoMessage} from "../../redux/actions/infoAction";

@@ -35,8 +35,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const { className, ...rest } = props;
 
     const formulaItem  = useSelector((state: any)=> state.formula.formulaItem);
-    const isLoading = useSelector((state: any) => state.formula.isLoading);
-    const errorValue = useSelector((state: any) => state.formula.error);
+    // const isLoading = useSelector((state: any) => state.formula.isLoading);
+    // const errorValue = useSelector((state: any) => state.formula.error);
     const hasError = useSelector((state: any) => state.formula.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

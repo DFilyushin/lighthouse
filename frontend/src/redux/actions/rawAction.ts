@@ -91,7 +91,7 @@ export function addNewRaw(raw: Raw) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(RawEndpoint.newRaw(), raw);
+            await axios.post(RawEndpoint.newRaw(), raw);
             dispatch(rawLoadItemSuccess(raw))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новое сырьё!'))

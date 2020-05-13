@@ -35,8 +35,8 @@ const RawItem = (props: IRawItemProps) => {
     const { className, ...rest } = props;
 
     const rawItem  = useSelector((state: any)=> state.raw.rawItem);
-    const isLoading = useSelector((state: any) => state.raw.isLoading);
-    const errorValue = useSelector((state: any) => state.raw.error);
+    //const isLoading = useSelector((state: any) => state.raw.isLoading);
+    //const errorValue = useSelector((state: any) => state.raw.error);
     const hasError = useSelector((state: any) => state.raw.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

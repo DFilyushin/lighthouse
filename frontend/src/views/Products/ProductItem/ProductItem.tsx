@@ -35,8 +35,8 @@ const ProductItem = (props: IProductItemProps) => {
     const { className, ...rest } = props;
 
     const productItem  = useSelector((state: any)=> state.product.productItem);
-    const isLoading = useSelector((state: any) => state.product.isLoading);
-    const errorValue = useSelector((state: any) => state.product.error);
+    // const isLoading = useSelector((state: any) => state.product.isLoading);
+    // const errorValue = useSelector((state: any) => state.product.error);
     const hasError = useSelector((state: any) => state.product.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

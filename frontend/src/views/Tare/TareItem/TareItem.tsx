@@ -14,11 +14,12 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewTare, changeTare, loadTareItem, updateTare } from "redux/actions/tareAction";
 import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
+import SelectItemDialog from "components/SelectItemDialog";
+import {loadUnit} from "redux/actions/unitAction";
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import Typography from "@material-ui/core/Typography";
+import Alert from '@material-ui/lab/Alert';
 
 
 interface ITareItemProps {
@@ -47,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
         height: 28,
         margin: 4,
     },
+    paper: {
+        width: '80%',
+        maxHeight: 435,
+    }
 }));
 
 const TareItem = (props: ITareItemProps) => {
@@ -57,9 +62,16 @@ const TareItem = (props: ITareItemProps) => {
     const tareId = paramId === 'new' ? 0 :parseInt(paramId);
     const { className, ...rest } = props;
 
+
     const tareItem  = useSelector((state: any) => state.tare.tareItem);
+    const isLoading = useSelector((state:any) => state.tare.isLoading);
     const errorValue = useSelector((state: any) => state.tare.error);
-    const hasError = useSelector((state: any) => state.tare.hasError)
+    const hasError = useSelector((state: any) => state.tare.hasError);
+    const unitItems = useSelector((state: any) => state.unit.unitItems);
+    const isOk = useSelector((state: any)=> state.tare.isOk);
+
+    const [open, setOpen] = React.useState(false);
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
@@ -72,24 +84,59 @@ const TareItem = (props: ITareItemProps) => {
         dispatch(changeTare(item))
     };
 
-    /**
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        // do anything here
+        if (tareId === 0) {
+            await dispatch(addNewTare(tareItem));
+        } else {
+            await dispatch(updateTare(tareItem));
+        }
+        resolve();
+    });
+
+
+     /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.MouseEvent) => {
-        if (tareId === 0) {
-            dispatch(addNewTare(tareItem));
-        } else {
-            dispatch(updateTare(tareItem));
+        saveItem(dispatch).then( ()=>{
+            console.log('state', hasError);
+            history.push('/catalogs/tare');
         }
-        console.log(hasError);
-        if (!hasError) history.push('/catalogs/tare');
+        )
+
+        // if (tareId === 0) {
+        //     dispatch(addNewTare(tareItem));
+        // } else {
+        //     dispatch(updateTare(tareItem));
+        // }
+        // console.log('hasError', hasError);
+
+        //if (!hasError) history.push('/catalogs/tare');
     };
 
     useEffect( ()=> {
-            if (tareId !== 0) dispatch(loadTareItem(tareId));
+            dispatch(loadTareItem(tareId));
         }, [dispatch]
     );
+
+    // useEffect(()=>{
+    //     if (!hasError) history.push('/catalogs/tare');
+    // }, [hasError])
+
+    const handleClickListItem = () => {
+        dispatch(loadUnit());
+        setOpen(true);
+    };
+
+    const handleClose = (id?: number, newValue?: string) => {
+        setOpen(false);
+        if (newValue && id ) {
+            const item = {...tareItem, 'unit': newValue, 'idUnit': id};
+            dispatch(changeTare(item));
+        }
+    };
 
     return (
         <div className={classes.root}>
@@ -100,12 +147,15 @@ const TareItem = (props: ITareItemProps) => {
                         title="Упаковочная тара"
                     />
                     <Divider />
+                    {hasError &&
+                    <Paper elevation={0}>
+                        <Alert severity="error">{errorValue}</Alert>
+                    </Paper>
+                    }
+
                     <CardContent>
                         <Grid container spacing={3}>
-                            <Grid
-                                item
-                                xs={12}
-                            >
+                            <Grid item xs={12}>
                                 <TextField
                                     fullWidth
                                     label="Наименование"
@@ -117,10 +167,7 @@ const TareItem = (props: ITareItemProps) => {
                                     variant="outlined"
                                 />
                             </Grid>
-                            <Grid
-                                item
-                                xs={4}
-                            >
+                            <Grid item xs={4}>
                                 <TextField
                                     type={'number'}
                                     fullWidth
@@ -137,10 +184,11 @@ const TareItem = (props: ITareItemProps) => {
                                 item
                                 xs={4}
                             >
-                                <Paper component="form" className={classes.paper_root}>
+                                <Paper component="form" elevation={0} className={classes.paper_root}>
                                     <TextField
                                         fullWidth
-                                        label="Объём"
+                                        disabled={true}
+                                        label="Ед. изм."
                                         margin="dense"
                                         name="unit"
                                         onChange={handleChange}
@@ -148,8 +196,8 @@ const TareItem = (props: ITareItemProps) => {
                                         value={tareItem.unit}
                                         variant="outlined"
                                     />
-                                    <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-                                        <DirectionsIcon />
+                                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleClickListItem}>
+                                        <MenuOpenIcon />
                                     </IconButton>
                                 </Paper>
                             </Grid>
@@ -166,7 +214,7 @@ const TareItem = (props: ITareItemProps) => {
                             Сохранить
                         </Button>
                         <Button
-                            color="secondary"
+                            color="default"
                             variant="contained"
                             onClick={(event => history.push('/catalogs/tare'))}
                         >
@@ -175,6 +223,21 @@ const TareItem = (props: ITareItemProps) => {
                     </CardActions>
                 </form>
             </Card>
+            {tareItem.id === tareId && <SelectItemDialog
+                classes={{
+                    paper: classes.paper
+                }}
+                title={'Выбор единицы измерения'}
+                id="ringtone-menu"
+                keepMounted
+                open={open}
+                onClose={handleClose}
+                nameValue={tareItem.unit}
+                records={unitItems}
+                idField={'id'}
+                valueField={'name'}
+                keyValue={tareItem.idUnit}
+            />}
         </div>
     );
 };

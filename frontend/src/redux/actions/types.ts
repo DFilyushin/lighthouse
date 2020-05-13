@@ -37,6 +37,8 @@ export const TARE_DELETE_OK = 'TARE_DELETE_OK';
 export const TARE_UPDATE_OBJECT = 'TARE_UPDATE_OBJECT';
 export const TARE_SET_ERROR = 'TARE_SET_ERROR';
 export const TARE_CLEAR_ERROR = 'TARE_CLEAR_ERROR';
+export const TARE_OK_OPERATION = 'TARE_OK_OPERATION';
+export const TARE_START_OPERATION = 'TARE_START_OPERATION';
 
 
 //unit reducer

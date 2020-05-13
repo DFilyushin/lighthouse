@@ -1,9 +1,5 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,27 +8,13 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const options = [
-    {id: 0, name: 'None'},
-    {id: 1, name: 'Atria'},
-    {id: 2, name: 'Callisto'},
-    {id: 3, name: 'Dione'},
-    {id: 4, name: 'Ganymede'},
-    {id: 5, name: 'Hangouts Call'},
-    {id: 6, name: 'Luna'},
-    {id: 7, name: 'Oberon'},
-    {id: 8, name: 'Phobos'},
-    {id: 9, name: 'Pyxis'},
-    {id: 10, name: 'Umbriel'}
-];
-
 export interface ISelectItemDialog {
     classes: Record<'paper', string>;
     title: string;
     id: string;
     keepMounted: boolean;
     keyValue: number;
-    value: string;
+    nameValue: string;
     open: boolean;
     onClose: (id?: number, value?: string) => void;
     records: any[];
@@ -40,17 +22,18 @@ export interface ISelectItemDialog {
     idField: string;
 }
 
-export default function SelectItemDialog(props: ISelectItemDialog) {
-    const { title, onClose, value: valueProp, open, records, idField, valueField, keyValue, ...other } = props;
-    const [value, setValue] = React.useState(valueProp);
-    const radioGroupRef = React.useRef<HTMLElement>(null);
-    const [id, setId] = React.useState(keyValue)
+const SelectItemDialog = (props: ISelectItemDialog) => {
+    const { title, onClose, nameValue, open, records, idField, valueField, keyValue, ...other } = props;
 
-    React.useEffect(() => {
-        if (!open) {
-            setValue(valueProp);
-        }
-    }, [valueProp, open]);
+    const radioGroupRef = React.useRef<HTMLElement>(null);
+    const [key, setKey] = React.useState(keyValue);
+    const [value, setValue] = React.useState(nameValue);
+
+    // React.useEffect(() => {
+    //     if (!open) {
+    //         setValue(valueProp);
+    //     }
+    // }, [valueProp, open]);
 
     const handleEntering = () => {
         if (radioGroupRef.current != null) {
@@ -63,13 +46,13 @@ export default function SelectItemDialog(props: ISelectItemDialog) {
     };
 
     const handleOk = () => {
-        onClose(id, value);
+        onClose(key, value);
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const idValue = parseInt((event.target as HTMLInputElement).value)
         const index = records.findIndex((item, index, array)=>{return item.id === idValue})
-        setId(idValue);
+        setKey(idValue);
         setValue(records[index].name)
     };
 
@@ -89,7 +72,7 @@ export default function SelectItemDialog(props: ISelectItemDialog) {
                     ref={radioGroupRef}
                     aria-label="ringtone"
                     name="ringtone"
-                    value={id}
+                    value={key}
                     onChange={handleChange}
                 >
                     {records.map((option) => (
@@ -109,78 +92,4 @@ export default function SelectItemDialog(props: ISelectItemDialog) {
     );
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            width: '100%',
-            maxWidth: 360,
-            backgroundColor: theme.palette.background.paper,
-        },
-        paper: {
-            width: '80%',
-            maxHeight: 435,
-        },
-    }),
-);
-
-export function ConfirmationDialog() {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const [id, setId] = React.useState(0);
-    const [value, setValue] = React.useState('');
-
-    const handleClickListItem = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (id?: number, newValue?: string) => {
-        setOpen(false);
-
-        if (newValue) {
-            setValue(newValue);
-
-        }
-        if (id){
-            setId(id);
-        }
-    };
-
-    return (
-        <div className={classes.root}>
-            <List component="div" role="list">
-                <ListItem button divider disabled role="listitem">
-                    <ListItemText primary="Interruptions" />
-                </ListItem>
-                <ListItem
-                    button
-                    divider
-                    aria-haspopup="true"
-                    aria-controls="ringtone-menu"
-                    aria-label="phone ringtone"
-                    onClick={handleClickListItem}
-                    role="listitem"
-                >
-                    <ListItemText primary={value} secondary={id} />
-                </ListItem>
-                <ListItem button divider disabled role="listitem">
-                    <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-                </ListItem>
-                <SelectItemDialog
-                    classes={{
-                        paper: classes.paper,
-                    }}
-                    title={'Выбор сотрудника'}
-                    id="ringtone-menu"
-                    keepMounted
-                    open={open}
-                    onClose={handleClose}
-                    value={value}
-                    records={options}
-                    idField={'id'}
-                    valueField={'name'}
-                    keyValue={id}
-                />
-            </List>
-        </div>
-    );
-}
+export default SelectItemDialog;

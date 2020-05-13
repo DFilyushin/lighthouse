@@ -1,10 +1,7 @@
 import { IFormulaState } from 'types/state/formula'
-import {IFormula, IFormulaItem} from "../types/model/formula";
+import {IFormulaItem} from "../types/model/formula";
 import {
-    PRODUCT_LOAD_START,
     PRODUCT_LOAD_ERROR,
-    PRODUCT_LOAD_SUCCESS,
-    PRODUCT_LOAD_FINISH,
     PRODUCT_LOAD_SUCCESS_ITEM,
     PRODUCT_UPDATE_OBJECT,
     PRODUCT_DELETE_OK,

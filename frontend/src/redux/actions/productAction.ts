@@ -9,7 +9,6 @@ import {
     PRODUCT_LOAD_SUCCESS,
     PRODUCT_LOAD_SUCCESS_ITEM,
     PRODUCT_UPDATE_OBJECT,
-    PRODUCT_ADD_NEW,
     PRODUCT_DELETE_OK,
     PRODUCT_CLEAR_ERROR
 } from './types'
@@ -30,14 +29,12 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
         dispatch(fetchProductStart());
         const productInLocal = localStorage.getItem(LS_KEY);
         if (productInLocal){
-            console.log('GetByStorage');
             const productList = JSON.parse(productInLocal);
             dispatch(productLoadSuccess(productList))
 
         }else {
             try {
                 const url = ProductEndpoint.getProducts(search, limit, offset);
-                console.log('GetByApi');
                 const productList: Product[] = [];
                 const response = await axios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
@@ -66,7 +63,6 @@ export function loadProductItem(id: number) {
         dispatch(fetchProductStart());
         try{
             const response = await axios.get(ProductEndpoint.getProduct(id));
-            console.log(response.data);
             product.id = response.data['id'];
             product.name = response.data['name'];
             dispatch(productLoadItemSuccess(product))
@@ -141,7 +137,7 @@ export function addNewProduct(product: Product) {
         dispatch(clearError());
         console.log('addNewProduct', getState().product);
         try{
-            const response = await axios.post(ProductEndpoint.newProduct(), product);
+            await axios.post(ProductEndpoint.newProduct(), product);
             dispatch(productLoadItemSuccess(product))
         }catch (e) {
             dispatch(productLoadError('Не удалось добавить новый продукт!'))

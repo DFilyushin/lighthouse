@@ -24,8 +24,8 @@ const StaffList = () => {
 
     const staffs = useSelector((state: any) => state.staff.staffs);
     const isLoading = useSelector((state: any) => state.staff.isLoading);
-    const errorValue = useSelector((state: any) => state.staff.error);
-    const hasError = useSelector((state: any) => state.staff.hasError);
+    //const errorValue = useSelector((state: any) => state.staff.error);
+    //const hasError = useSelector((state: any) => state.staff.hasError);
     const [selected, setSelected] = useState<number[]>([]);
 
 

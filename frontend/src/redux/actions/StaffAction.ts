@@ -91,7 +91,7 @@ export function addNew(item: Staff) {
         dispatch(clearError());
         try{
             console.log(item);
-            const response = await axios.post(StaffEndpoint.newItem(), item);
+            await axios.post(StaffEndpoint.newItem(), item);
             dispatch(rawLoadItemSuccess(item))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новую запись!'))
@@ -113,7 +113,7 @@ export function changeItem(item: Staff) {
 export function updateItem(item: Staff) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.put(StaffEndpoint.updateItem(item.id), item);
+            await axios.put(StaffEndpoint.updateItem(item.id), item);
         }catch (e) {
             dispatch(fetchError(e))
         }

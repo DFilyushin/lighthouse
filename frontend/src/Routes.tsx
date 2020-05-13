@@ -30,7 +30,6 @@ import {
     Staffs as StaffView,
     StaffItem as StaffItemView
 } from './views'
-import ConfirmationDialog from "./components/SelectItemDialog/SelectItemDialog";
 
 const Routes = () => {
 
@@ -67,9 +66,6 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employees" exact/>
             <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee" exact/>
             <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
-
-
-            {/*<RouteWithLayout isAuth={true} component={ConfirmationDialog} layout={MainLayout} path="/test" exact/>*/}
 
             <RouteWithLayout isAuth={true} component={AboutView} layout={MainLayout} path="/about" exact/>
             <RouteWithLayout isAuth={true} component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
