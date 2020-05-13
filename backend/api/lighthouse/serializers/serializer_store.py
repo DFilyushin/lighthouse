@@ -66,6 +66,13 @@ class TareSerializer(serializers.HyperlinkedModelSerializer):
         model = Tare
         fields = ['id', 'name', 'unit', 'v', 'idUnit']
 
+    def create(self, validated_data):
+        return Tare.objects.create(
+            name=validated_data['name'],
+            v=validated_data['v'],
+            id_unit_id=validated_data['id_unit_id']
+        )
+
     def update(self, instance, validated_data):
         instance.name = validated_data['name']
         instance.id_unit_id = validated_data['id_unit_id']
