@@ -35,6 +35,9 @@ class StaffSerializer(serializers.ModelSerializer):
         model = Staff
         fields = ('id', 'name')
 
+    def create(self, validated_data):
+        return Staff.objects.create(name=validated_data['name'])
+
 
 class EmployeeSerializer(serializers.ModelSerializer):
     """
