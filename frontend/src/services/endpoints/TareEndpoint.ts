@@ -10,7 +10,12 @@ class TareEndpoint{
      * @param offset сдвиг
      */
     static getTareList(search?: string, limit?: number, offset?: number): string{
-        return `${BaseAPIEndpoint.getBaseURL()}/tare/`
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/tare/`;
+        const url = new URL(baseUrl);
+        if (search) url.searchParams.append('search', search);
+        if (limit) url.searchParams.append('limit', limit.toString());
+        if (offset) url.searchParams.append('offset', offset.toString());
+        return url.href
     }
 
     /**

@@ -1,9 +1,12 @@
 import {ITareState} from "types/state/tare";
 import {
-    INFO_SHOW_MESSAGE,
-    INFO_HIDE_MESSAGE, TARE_LOAD_START, TARE_LOAD_FINISH, TARE_DELETE_OK, TARE_LOAD_SUCCESS, TARE_ITEM_SUCCESS
+    TARE_LOAD_START,
+    TARE_LOAD_FINISH,
+    TARE_DELETE_OK,
+    TARE_LOAD_SUCCESS,
+    TARE_ITEM_SUCCESS, TARE_UPDATE_OBJECT, TARE_CLEAR_ERROR
 } from "./actions/types";
-import {ITare, nullTare} from "../types/model/tare";
+import {nullTare} from "../types/model/tare";
 
 const initState = (): ITareState => ({
     tareItems: [],
@@ -16,6 +19,7 @@ const initState = (): ITareState => ({
 
 
 export const tareReducer = (state: ITareState = initState(), action: any) => {
+
     switch (action.type) {
         case TARE_LOAD_START:
             return {...state, isLoading: true};
@@ -25,8 +29,12 @@ export const tareReducer = (state: ITareState = initState(), action: any) => {
             return {...state, tareItems: action.items};
         case TARE_ITEM_SUCCESS:
             return {...state, tareItem: action.item};
+        case TARE_UPDATE_OBJECT:
+            return {...state, tareItem: action.item}
         case TARE_DELETE_OK:
             return {...state, tareItems: action.items};
+        case TARE_CLEAR_ERROR:
+            return {...state, error: '', hasError: false}
         default: return state;
     }
 };

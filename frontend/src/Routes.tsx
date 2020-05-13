@@ -21,8 +21,16 @@ import {
     RawItem as RawItemView,
     Formulas as FormulaView,
     FormulaItem as FormulaItemView,
-    Tares as TareView
+    Tares as TareView,
+    TareItem as TareItemView,
+    About as AboutView,
+    Changelog as ChangelogView,
+    Units as UnitView,
+    UnitItem as UnitItemView,
+    Staffs as StaffView,
+    StaffItem as StaffItemView
 } from './views'
+import ConfirmationDialog from "./components/SelectItemDialog/SelectItemDialog";
 
 const Routes = () => {
 
@@ -45,15 +53,26 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={FormulaItemView} layout={MainLayout} path="/catalogs/formula/:id" exact/>
 
             <RouteWithLayout isAuth={true} component={TareView} layout={MainLayout} path="/catalogs/tare" exact/>
+            <RouteWithLayout isAuth={true} component={TareItemView} layout={MainLayout} path="/catalogs/tare/:id" exact/>
 
             <RouteWithLayout isAuth={true} component={RawsView} layout={MainLayout} path="/catalogs/raw" exact/>
             <RouteWithLayout isAuth={true} component={RawItemView} layout={MainLayout} path="/catalogs/raw/:id" exact/>
 
+            <RouteWithLayout isAuth={true} component={UnitView} layout={MainLayout} path="/catalogs/units" exact/>
+            <RouteWithLayout isAuth={true} component={UnitItemView} layout={MainLayout} path="/catalogs/units/:id" exact/>
+
+            <RouteWithLayout isAuth={true} component={StaffView} layout={MainLayout} path="/org/staff" exact/>
+            <RouteWithLayout isAuth={true} component={StaffItemView} layout={MainLayout} path="/org/staff/:id" exact/>
 
             <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employees" exact/>
             <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee" exact/>
             <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
 
+
+            {/*<RouteWithLayout isAuth={true} component={ConfirmationDialog} layout={MainLayout} path="/test" exact/>*/}
+
+            <RouteWithLayout isAuth={true} component={AboutView} layout={MainLayout} path="/about" exact/>
+            <RouteWithLayout isAuth={true} component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
             <RouteWithLayout isAuth={true} component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
 
             <Redirect to="/NotFound" />

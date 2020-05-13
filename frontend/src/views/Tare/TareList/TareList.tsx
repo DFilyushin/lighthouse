@@ -5,9 +5,8 @@ import { useHistory } from "react-router-dom";
 import { TareTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
-import {clearError, deleteRaw, loadRaws } from "redux/actions/rawAction";
-import {loadTare} from "../../../redux/actions/tareAction";
-import {IStateInterface} from "../../../redux/rootReducer";
+import {deleteTare, loadTare} from "redux/actions/tareAction";
+import {IStateInterface} from "redux/rootReducer";
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,15 +25,7 @@ const TareList = () => {
 
     const tares = useSelector((state: IStateInterface) => state.tare.tareItems);
     const isLoading = useSelector((state: IStateInterface) => state.tare.isLoading);
-    const errorValue = useSelector((state: IStateInterface) => state.tare.error);
-    const alertType = useSelector((state: IStateInterface) => state.tare.typeMessage);
-    const hasError = useSelector((state: IStateInterface) => state.tare.hasError);
     const [selected, setSelected] = useState<number[]>([]);
-
-
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        dispatch(clearError())
-    };
 
     useEffect( ()=>{
             dispatch(loadTare())
@@ -47,7 +38,7 @@ const TareList = () => {
 
     function onDeleteHandle() {
         selected.forEach(async (item, i, selected) => {
-            dispatch(deleteRaw(item))
+            dispatch(deleteTare(item))
         });
     }
 

@@ -5,6 +5,5 @@ export interface IRawState {
     rawItem: Raw,
     isLoading: boolean,
     error: string,
-    typeMessage: string,
     hasError: boolean
 }

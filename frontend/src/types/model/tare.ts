@@ -3,7 +3,7 @@ export interface ITare {
     name: string,
     unit: string,
     v: number,
-    unitId: number
+    idUnit: number
 }
 
 export const nullTare = {
@@ -11,5 +11,5 @@ export const nullTare = {
     name: '',
     unit: '',
     v: 0,
-    unitId: 0
+    idUnit: 0
 }

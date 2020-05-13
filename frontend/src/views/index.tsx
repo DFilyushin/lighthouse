@@ -18,3 +18,13 @@ export { default as Formulas } from './Formula/FormulaList';
 export { default as FormulaItem } from './Formula/FormulaItem';
 
 export { default as Tares} from './Tare/TareList';
+export { default as TareItem} from './Tare/TareItem';
+
+export { default as Units} from './Units/UnitList';
+export { default as UnitItem} from './Units/UnitItem';
+
+export { default as Staffs} from './Staff/StaffList';
+export { default as StaffItem } from './Staff/StaffItem';
+
+export { default as About } from './About';
+export { default as Changelog } from './Changelog';
