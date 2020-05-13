@@ -18,6 +18,9 @@ class MaterialUnitSerializer(serializers.ModelSerializer):
         model = MaterialUnit
         fields = ('id', 'name')
 
+    def create(self, validated_data):
+        return MaterialUnit.objects.create(name=validated_data['name'])
+
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -62,6 +65,13 @@ class TareSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tare
         fields = ['id', 'name', 'unit', 'v', 'idUnit']
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data['name']
+        instance.id_unit_id = validated_data['id_unit_id']
+        instance.v = validated_data['v']
+        instance.save()
+        return instance
 
 
 class FormulaCompSerializer(serializers.ModelSerializer):
