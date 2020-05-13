@@ -51,7 +51,7 @@ const UnitItem = (props: IUnitItemProps) => {
     const { className, ...rest } = props;
 
     const unitItem  = useSelector((state: any) => state.unit.unitItem);
-    const errorValue = useSelector((state: any) => state.unit.error);
+    //const errorValue = useSelector((state: any) => state.unit.error);
     const hasError = useSelector((state: any) => state.unit.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +125,7 @@ const UnitItem = (props: IUnitItemProps) => {
                         <Button
                             color="secondary"
                             variant="contained"
-                            onClick={(event => history.push('/catalogs/tare'))}
+                            onClick={(event => history.push('/catalogs/units'))}
                         >
                             Отменить
                         </Button>
