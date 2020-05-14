@@ -1,4 +1,4 @@
-from lighthouse.appmodels.org import Employee, Staff, Org
+from lighthouse.appmodels.org import Employee, Staff, Org, Department
 from rest_framework import serializers
 
 
@@ -37,6 +37,26 @@ class StaffSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Staff.objects.create(name=validated_data['name'])
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    """
+    Подразделения
+    """
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
+    class Meta:
+        model = Department
+        fields = ('id', 'name')
+
+    def create(self, validated_data):
+        return Department.objects.create(name=validated_data['name'])
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data['name']
+        instance.save()
+        return instance
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

@@ -33,6 +33,14 @@ class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
+class DepartmentViewSet(viewsets.ModelViewSet):
+    """
+    Подразделения предприятия
+    """
+    serializer_class = DepartmentSerializer
+    queryset = Department.objects.all()
+
+
 class StaffViewSet(viewsets.ModelViewSet):
     """
     Должности предприятия

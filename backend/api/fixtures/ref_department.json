@@ -1,0 +1,10 @@
+[
+  {
+    "model": "lighthouse.department",
+    "pk": 1,
+    "fields":
+    {
+      "name": "не указано"
+    }
+  }
+]

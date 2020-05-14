@@ -33,6 +33,7 @@ router.register(r'prodline', api_prod_views.ProductionLineView)
 router.register(r'client', api_sales_views.ClientViewSet)
 
 # Структура организации
+router.register(r'department', api_domain_views.DepartmentViewSet)
 router.register(r'staff', api_domain_views.StaffViewSet)
 router.register(r'employee', api_domain_views.EmployeeView, basename='Employee')
 

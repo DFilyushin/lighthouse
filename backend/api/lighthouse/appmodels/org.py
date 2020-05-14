@@ -75,3 +75,19 @@ class Employee(models.Model):
             models.Index(fields=['dob']),
             models.Index(fields=['tab_num'])
         ]
+
+
+class Department(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, null=False, blank=False, verbose_name='Наименование отдела')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Отдел'
+        verbose_name_plural = 'Отделы'
+        ordering = ['name']
+        indexes = [
+            models.Index(fields=['name'])
+        ]
