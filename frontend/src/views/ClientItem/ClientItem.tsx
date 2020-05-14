@@ -13,7 +13,7 @@ import {
     TextField
 } from '@material-ui/core';
 import axios from "axios";
-import ClientEndpoint from "services/endpoints/clients";
+import ClientEndpoint from "services/endpoints/ClientEndpoint";
 import {IClientItem} from "types/Interfaces";
 import { useHistory } from "react-router-dom";
 
@@ -63,7 +63,7 @@ const ClientItem = (props: IClientItemProps) => {
     async function loadClientItem (clientId: number){
         setIsLoading(true);
         if (clientId === 0) return null
-        const response = await axios.get(ClientEndpoint.getClient(clientId));
+        const response = await axios.get(ClientEndpoint.getClientItem(clientId));
         const data = await response.data;
         setClient(data);
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from "axios";
-import ClientEndpoint from 'services/endpoints/clients';
+import ClientEndpoint from 'services/endpoints/ClientEndpoint';
 import CircularIndeterminate from "components/Loader/Loader";
 import { ClientTable, ClientToolbar } from './components';
 import { IClientItemList } from 'types/Interfaces';
@@ -33,7 +33,7 @@ const ClientList = () => {
 
     async function loadData() {
         setLoading(true);
-        const response = await axios.get(ClientEndpoint.getClients());
+        const response = await axios.get(ClientEndpoint.getClientList());
         const data = await response.data;
         setClients(data);
         setLoading(false);
@@ -41,7 +41,7 @@ const ClientList = () => {
 
     async function findClients(findText: string){
         setLoading(true);
-        const response = await axios.get(ClientEndpoint.getClients(findText));
+        const response = await axios.get(ClientEndpoint.getClientList(findText));
         const data = await response.data;
         setClients(data);
         setLoading(false);

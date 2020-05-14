@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import {IOrganization} from 'types/Interfaces';
 import axios from "axios";
-import OrganizationEndpoint from 'services/endpoints/organization';
+import OrganizationEndpoint from 'services/endpoints/OrgEndpoint';
 import { useHistory } from "react-router-dom";
 import SnackBarAlert from 'components/SnackBarAlert';
 import {Color} from "@material-ui/lab/Alert";

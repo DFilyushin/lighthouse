@@ -8,7 +8,7 @@ class ClientEndpoint {
      * @param limit - количество записей в наборе
      * @param offset - сдвиг количества записей
      */
-    static getClients (search?: string, limit?: number, offset?: number): string {
+    static getClientList (search?: string, limit?: number, offset?: number): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/client`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
@@ -21,7 +21,7 @@ class ClientEndpoint {
      * Получить клиента
      * @param id - Код клиента
      */
-    static getClient(id: number): string{
+    static getClientItem(id: number): string{
         return `${BaseAPIEndpoint.getBaseURL()}/client/${id}`;
     }
 
@@ -48,7 +48,6 @@ class ClientEndpoint {
     static newClient(): string{
         return `${BaseAPIEndpoint.getBaseURL()}/client/`;
     }
-
 }
 
 export default ClientEndpoint;

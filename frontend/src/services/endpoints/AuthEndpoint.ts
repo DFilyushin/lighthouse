@@ -7,8 +7,7 @@ class AuthEndpoint {
      * Авторизация
      */
     static getAuth(){
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/api/auth/`;
-        return baseUrl;
+        return `${BaseAPIEndpoint.getBaseURL()}/api/auth/`;
     }
 
     /**

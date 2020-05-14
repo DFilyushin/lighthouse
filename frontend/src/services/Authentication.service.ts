@@ -1,5 +1,5 @@
 import axios from 'axios';
-import AuthEndpoint from './endpoints/auth';
+import AuthEndpoint from './endpoints/AuthEndpoint';
 import { parseJwt } from 'utils/AppUtils';
 
 
