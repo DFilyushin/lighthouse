@@ -102,7 +102,7 @@ const RawItem = (props: IRawItemProps) => {
                             Сохранить
                         </Button>
                         <Button
-                            color="secondary"
+                            color="default"
                             variant="contained"
                             onClick={(event => history.push('/catalogs/raw'))}
                         >

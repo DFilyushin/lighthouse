@@ -102,7 +102,7 @@ const StaffItem = (props: IStaffItemProps) => {
                             Сохранить
                         </Button>
                         <Button
-                            color="secondary"
+                            color="default"
                             variant="contained"
                             onClick={(event => history.push('/org/staff'))}
                         >

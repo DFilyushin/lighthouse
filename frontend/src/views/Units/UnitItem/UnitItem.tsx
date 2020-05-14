@@ -123,7 +123,7 @@ const UnitItem = (props: IUnitItemProps) => {
                             Сохранить
                         </Button>
                         <Button
-                            color="secondary"
+                            color="default"
                             variant="contained"
                             onClick={(event => history.push('/catalogs/units'))}
                         >

@@ -102,7 +102,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                             Сохранить
                         </Button>
                         <Button
-                            color="secondary"
+                            color="default"
                             variant="contained"
                             onClick={(event => history.push('/catalogs/product'))}
                         >
