@@ -3,8 +3,6 @@ import Auth from './endpoints/AuthEndpoint';
 
 export async function getDataAuth(url: string) {
     const loginUrl = '/login';
-
-
 };
 
 export function authUser(username: string, password: string) {
