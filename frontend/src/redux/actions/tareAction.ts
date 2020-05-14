@@ -76,7 +76,7 @@ export function deleteTare(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(TareEndpoint.getDeleteTare(id));
+            const response = await axios.delete(TareEndpoint.deleteTare(id));
             if (response.status === 204) {
                 const items = [...getState().tare.tareItems];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -133,7 +133,7 @@ export function updateTare(item: ITare) {
     return async (dispatch: any, getState: any) => {
         try{
             console.log('save', item)
-            const response = await axios.put(TareEndpoint.updateTare(item.id), item);
+            const response = await axios.put(TareEndpoint.saveTare(item.id), item);
             console.log(response.data);
         }catch (e) {
             console.log(e.toString())

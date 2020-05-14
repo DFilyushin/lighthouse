@@ -8,14 +8,14 @@ class StaffEndpoint {
      * @param id
      */
     static deleteItem(id: number): string {
-        return this.getItem(id);
+        return this.getStaffItem(id);
     }
 
     /**
      * Получить элемент
      * @param id
      */
-    static getItem(id: number): string {
+    static getStaffItem(id: number): string {
         return `${BaseAPIEndpoint.getBaseURL()}/staff/${id}/`;
     }
 
@@ -25,7 +25,7 @@ class StaffEndpoint {
      * @param limit ограничение записей
      * @param offset сдвиг
      */
-    static getItemList(search?: string, limit?: number, offset?: number): string {
+    static getStaffList(search?: string, limit?: number, offset?: number): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/staff`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
@@ -37,7 +37,7 @@ class StaffEndpoint {
     /**
      * Добавление новой записи
      */
-    static newItem(): string {
+    static newStaff(): string {
         return `${BaseAPIEndpoint.getBaseURL()}/staff/`;
     }
 
@@ -45,8 +45,8 @@ class StaffEndpoint {
      * Обновление записи
      * @param id код  записи
      */
-    static updateItem(id: number): string {
-        return this.getItem(id);
+    static saveStaff(id: number): string {
+        return this.getStaffItem(id);
     }
 }
 

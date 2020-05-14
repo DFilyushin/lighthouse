@@ -21,7 +21,7 @@ class UnitEndpoint{
      * Получить объект по коду
      * @param id Код записи
      */
-    static getUnit(id: number){
+    static getUnitItem(id: number){
         return `${BaseAPIEndpoint.getBaseURL()}/units/${id}/`
     }
 
@@ -30,7 +30,7 @@ class UnitEndpoint{
      * @param id Код записи
      */
     static deleteUnit(id: number){
-        return this.getUnit(id)
+        return this.getUnitItem(id)
     }
 
     /**
@@ -45,7 +45,7 @@ class UnitEndpoint{
      * @param id Код записи
      */
     static saveUnit(id: number){
-        return this.getUnit(id)
+        return this.getUnitItem(id)
     }
 }
 

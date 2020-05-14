@@ -89,7 +89,7 @@ export function loadUnitItem(id: number) {
         let item: IUnit = {id: 0, name: ''};
         dispatch(fetchStart());
         try{
-            const response = await axios.get(UnitEndpoint.getUnit(id));
+            const response = await axios.get(UnitEndpoint.getUnitItem(id));
             console.log(response.data);
             item.id = response.data['id'];
             item.name = response.data['name'];

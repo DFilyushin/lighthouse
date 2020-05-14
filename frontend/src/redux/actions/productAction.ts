@@ -34,7 +34,7 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
 
         }else {
             try {
-                const url = ProductEndpoint.getProducts(search, limit, offset);
+                const url = ProductEndpoint.getProductList(search, limit, offset);
                 const productList: Product[] = [];
                 const response = await axios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
@@ -62,7 +62,7 @@ export function loadProductItem(id: number) {
         let product: Product = {id: 0, name: ""};
         dispatch(fetchProductStart());
         try{
-            const response = await axios.get(ProductEndpoint.getProduct(id));
+            const response = await axios.get(ProductEndpoint.getProductItem(id));
             product.id = response.data['id'];
             product.name = response.data['name'];
             dispatch(productLoadItemSuccess(product))

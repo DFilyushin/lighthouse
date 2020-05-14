@@ -1,6 +1,5 @@
 import BaseAPIEndpoint from "./BaseEndpoint";
 
-
 class ProductEndpoint {
     /**
      *
@@ -8,7 +7,7 @@ class ProductEndpoint {
      * @param limit - количество записей в наборе
      * @param offset - сдвиг количества записей
      */
-    static getProducts(search?: string, limit?: number, offset?: number): string {
+    static getProductList(search?: string, limit?: number, offset?: number): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/product`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
@@ -21,7 +20,7 @@ class ProductEndpoint {
      * Получить продукцию по коду
      * @param id - код продукта
      */
-    static getProduct(id: number): string{
+    static getProductItem(id: number): string{
         return `${BaseAPIEndpoint.getBaseURL()}/product/${id}`
     }
 

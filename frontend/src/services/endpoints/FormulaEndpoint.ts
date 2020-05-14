@@ -44,7 +44,7 @@ class FormulaEndpoint {
      * Изменить существующую рецептуру
      * @param id Код рецептуры
      */
-    static updateFormula(id: number){
+    static saveFormula(id: number){
         return this.getFormulaItem(id)
     }
 

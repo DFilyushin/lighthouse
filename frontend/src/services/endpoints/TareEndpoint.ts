@@ -30,7 +30,7 @@ class TareEndpoint{
      * Удалить по коду
      * @param id код тары
      */
-    static getDeleteTare(id: number): string {
+    static deleteTare(id: number): string {
         return this.getTareItem(id)
     }
 
@@ -41,7 +41,7 @@ class TareEndpoint{
         return `${BaseAPIEndpoint.getBaseURL()}/tare/`
     }
 
-    static updateTare(id: number): string {
+    static saveTare(id: number): string {
         return this.getTareItem(id)
     }
 

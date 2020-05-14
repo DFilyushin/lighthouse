@@ -25,7 +25,7 @@ export function loadStaffs(search?: string, limit?: number, offset?: number) {
         const itemList: Staff[] = [];
         dispatch(fetchStart());
         try{
-            const url = StaffEndpoint.getItemList(search, limit, offset);
+            const url = StaffEndpoint.getStaffList(search, limit, offset);
             const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push({
@@ -75,7 +75,7 @@ export function loadItem(id: number){
         let item: Staff = {id: 0, name: ""};
         dispatch(fetchStart());
         try{
-            const response = await axios.get(StaffEndpoint.getItem(id));
+            const response = await axios.get(StaffEndpoint.getStaffItem(id));
             item.id = response.data['id'];
             item.name = response.data['name'];
             dispatch(rawLoadItemSuccess(item))
@@ -91,7 +91,7 @@ export function addNew(item: Staff) {
         dispatch(clearError());
         try{
             console.log(item);
-            await axios.post(StaffEndpoint.newItem(), item);
+            await axios.post(StaffEndpoint.newStaff(), item);
             dispatch(rawLoadItemSuccess(item))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новую запись!'))
@@ -113,7 +113,7 @@ export function changeItem(item: Staff) {
 export function updateItem(item: Staff) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(StaffEndpoint.updateItem(item.id), item);
+            await axios.put(StaffEndpoint.saveStaff(item.id), item);
         }catch (e) {
             dispatch(fetchError(e))
         }
