@@ -132,9 +132,7 @@ export function addNewTare(item: ITare) {
 export function updateTare(item: ITare) {
     return async (dispatch: any, getState: any) => {
         try{
-            console.log('save', item)
             const response = await axios.put(TareEndpoint.saveTare(item.id), item);
-            console.log(response.data);
         }catch (e) {
             console.log(e.toString())
             dispatch(saveError(e.toString()))

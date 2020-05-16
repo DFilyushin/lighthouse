@@ -94,7 +94,6 @@ export function deleteProduct(id: number) {
                 dispatch(productLoadError('Не удалось удалить продукт!'))
             }
         }catch (e) {
-            console.log(e);
             dispatch(productLoadError('Не удалось удалить продукт!'))
         }
         dispatch(fetchProductFinish())
@@ -120,7 +119,6 @@ export function updateProduct(product: Product){
     return async (dispatch: any, getState: any) => {
         try{
             const response = await axios.put(ProductEndpoint.saveProduct(product.id), product);
-            console.log(response.data);
         }catch (e) {
             dispatch(productLoadError(e))
         }
@@ -133,9 +131,7 @@ export function updateProduct(product: Product){
  */
 export function addNewProduct(product: Product) {
     return async (dispatch: any, getState: any) => {
-        console.log('addNewProduct', getState().product);
         dispatch(clearError());
-        console.log('addNewProduct', getState().product);
         try{
             await axios.post(ProductEndpoint.newProduct(), product);
             dispatch(productLoadItemSuccess(product))

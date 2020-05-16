@@ -60,7 +60,6 @@ export function deleteRaw(id: number) {
                 dispatch(fetchError('Не удалось удалить сырьё!'))
             }
         }catch (e) {
-            console.log(e);
             dispatch(fetchError('Не удалось удалить сырьё!'))
         }
         dispatch(fetchFinish())
@@ -113,9 +112,7 @@ export function changeRaw(raw: Raw) {
 export function updateRaw(raw: Raw) {
     return async (dispatch: any, getState: any) => {
         try{
-            console.log(raw)
             const response = await axios.put(RawEndpoint.saveRaw(raw.id), raw);
-            console.log(response.data);
         }catch (e) {
             dispatch(fetchError(e))
         }
