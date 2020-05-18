@@ -130,6 +130,11 @@ const TareItem = (props: ITareItemProps) => {
         setOpen(true);
     };
 
+    /**
+     * Обработка закрытия окна выбора ед. имерения
+     * @param id Код записи
+     * @param newValue Значение
+     */
     const handleClose = (id?: number, newValue?: string) => {
         setOpen(false);
         if (newValue && id ) {
