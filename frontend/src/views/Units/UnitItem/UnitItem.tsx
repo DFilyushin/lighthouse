@@ -75,7 +75,6 @@ const UnitItem = (props: IUnitItemProps) => {
         } else {
             dispatch(updateUnit(unitItem));
         }
-        console.log(hasError);
         if (!hasError) history.push('/catalogs/units');
     };
 

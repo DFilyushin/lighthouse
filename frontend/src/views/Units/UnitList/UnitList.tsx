@@ -43,7 +43,6 @@ const UnitList = () => {
 
     function onClickTableItem(unitId: number){
         const newItemUrl = `/catalogs/units/${unitId}`;
-        console.log(newItemUrl);
         history.push(newItemUrl);
     };
 
