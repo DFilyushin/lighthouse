@@ -91,7 +91,6 @@ export function addNew(item: Staff) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            console.log(item);
             await axios.post(StaffEndpoint.newStaff(), item);
             dispatch(rawLoadItemSuccess(item))
         }catch (e) {

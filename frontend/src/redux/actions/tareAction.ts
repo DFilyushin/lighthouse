@@ -8,7 +8,8 @@ import {
     TARE_ITEM_SUCCESS,
     TARE_LOAD_FINISH,
     TARE_LOAD_START,
-    TARE_LOAD_SUCCESS, TARE_OK_OPERATION,
+    TARE_LOAD_SUCCESS,
+    TARE_OK_OPERATION,
     TARE_SET_ERROR,
     TARE_UPDATE_OBJECT
 } from "./types";
@@ -89,7 +90,6 @@ export function deleteTare(id: number) {
                 dispatch(showInfoMessage('error', `Неизвестная ошибка при удалении: ${response.status.toString()}`))
             }
         }catch (e) {
-            console.log(e.toString());
             dispatch(showInfoMessage('error', `Не удалось удалить запись ${e.toString()}!`))
         }
         dispatch(fetchFinish())
@@ -98,7 +98,6 @@ export function deleteTare(id: number) {
 
 
 export function changeTare(item: ITare) {
-    console.log('changeTare', item);
     return {
         type: TARE_UPDATE_OBJECT,
         item
@@ -134,7 +133,6 @@ export function updateTare(item: ITare) {
         try{
             const response = await axios.put(TareEndpoint.saveTare(item.id), item);
         }catch (e) {
-            console.log(e.toString())
             dispatch(saveError(e.toString()))
         }
     }
