@@ -56,8 +56,6 @@ const FormulaTable = (props: IFormulaTable) => {
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [page, setPage] = useState<number>(0);
 
-    console.log(formulas)
-
     const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement> ) => {
         const { formulas } = props;
 
@@ -93,7 +91,6 @@ const FormulaTable = (props: IFormulaTable) => {
     };
 
     const handlePageChange = (event:any, page: number) => {
-        console.log(page);
         setPage(page);
     };
 

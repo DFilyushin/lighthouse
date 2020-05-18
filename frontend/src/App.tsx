@@ -7,6 +7,8 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createBrowserHistory } from 'history';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { rootReducer } from "./redux/rootReducer";
+import { ConfirmProvider } from "material-ui-confirm";
+import {SelectDialogProvider} from './components/SelectDialog'
 import thunk from "redux-thunk";
 
 const browserHistory = createBrowserHistory();
@@ -21,7 +23,11 @@ function App() {
     <ThemeProvider theme={theme}>
         <Provider store={store}>
             <Router history={browserHistory}>
-                <Routes />
+                <ConfirmProvider>
+                    <SelectDialogProvider>
+                        <Routes />
+                    </SelectDialogProvider>
+                </ConfirmProvider>
             </Router>
         </Provider>
     </ThemeProvider>
