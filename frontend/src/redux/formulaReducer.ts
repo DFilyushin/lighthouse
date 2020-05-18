@@ -3,18 +3,22 @@ import {IFormulaItem} from "../types/model/formula";
 import {
     PRODUCT_LOAD_ERROR,
     PRODUCT_LOAD_SUCCESS_ITEM,
-    PRODUCT_UPDATE_OBJECT,
-    PRODUCT_DELETE_OK,
-    PRODUCT_CLEAR_ERROR, FORMULA_LOAD_SUCCESS, FORMULA_LOAD_START, FORMULA_LOAD_FINISH, FORMULA_ITEM_SUCCESS
+    FORMULA_LOAD_SUCCESS,
+    FORMULA_LOAD_START,
+    FORMULA_LOAD_FINISH,
+    FORMULA_ITEM_SUCCESS,
+    FORMULA_UPDATE_OBJECT,
+    FORMULA_SET_ERROR
 }
     from
         "./actions/types";
 import {nullProduct} from "../types/model/product";
 
+
 const nullFormula: IFormulaItem = {
     id: 0,
     product: nullProduct,
-    amount: 0,
+    calcAmount: 0,
     calcLosses: 0,
     specification: '',
     raws: []
@@ -41,15 +45,12 @@ export const formulaReducer = (state = initialState(), action: any) => {
             return {...state, isLoading: false};
         case PRODUCT_LOAD_SUCCESS_ITEM:
             return {...state, productItem: action.productItem};
-        case PRODUCT_UPDATE_OBJECT:
-            return {...state, productItem: action.product};
-        case PRODUCT_DELETE_OK:
-            return {...state, products: action.products, typeMessage: 'success'};
-        case PRODUCT_CLEAR_ERROR:
-            return {...state, error: '', hasError: false, typeMessage: ''};
+        case FORMULA_UPDATE_OBJECT:
+            return {...state, formulaItem: action.item};
         case FORMULA_ITEM_SUCCESS:
-            console.log('FORMULA_ITEM_SUCCESS', action.item)
-            return {...state, formulaItem: action.item}
+            return {...state, formulaItem: action.item};
+        case FORMULA_SET_ERROR:
+            return {...state, error: action.error};
         default: return state
     }
 };
