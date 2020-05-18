@@ -54,7 +54,6 @@ const RawItem = (props: IRawItemProps) => {
         } else {
             dispatch(updateRaw(rawItem));
         }
-        console.log(hasError);
         if (!hasError) history.push('/catalogs/raw');
     };
 

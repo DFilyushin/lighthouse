@@ -40,7 +40,6 @@ const ProductList = () => {
     );
 
     async function onFindProductHandler(findText: string){
-        console.log(findText);
         dispatch(loadProduct(findText))
     }
 

@@ -93,7 +93,6 @@ const RawTable = (props: IRawTable) => {
     };
 
     const handlePageChange = (event:any, page: number) => {
-        console.log(page);
         setPage(page);
     };
 
