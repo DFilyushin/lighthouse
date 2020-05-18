@@ -3,13 +3,13 @@ import UnitEndpoint from "services/endpoints/UnitEndpoint";
 import axios from "axios";
 import {IUnit} from "../../types/model/unit";
 import {
-    TARE_SET_ERROR,
-    TARE_UPDATE_OBJECT,
+    UNIT_SET_ERROR,
     UNIT_DELETE_OK,
     UNIT_ITEM_SUCCESS,
     UNIT_LOAD_FINISH,
     UNIT_LOAD_START,
-    UNIT_LOAD_SUCCESS, UNIT_UPDATE_OBJECT
+    UNIT_LOAD_SUCCESS,
+    UNIT_UPDATE_OBJECT
 } from "./types";
 import {clearError} from "./rawAction";
 
@@ -73,7 +73,6 @@ export function deleteItem(id: number) {
                 dispatch(showInfoMessage('error', `Неизвестная ошибка при удалении: ${response.status.toString()}`))
             }
         }catch (e) {
-            console.log(e.toString());
             dispatch(showInfoMessage('error', `Не удалось удалить запись ${e.toString()}!`))
         }
         dispatch(fetchFinish())
@@ -90,7 +89,6 @@ export function loadUnitItem(id: number) {
         dispatch(fetchStart());
         try{
             const response = await axios.get(UnitEndpoint.getUnitItem(id));
-            console.log(response.data);
             item.id = response.data['id'];
             item.name = response.data['name'];
             dispatch(getItemSuccess(item))
@@ -124,11 +122,8 @@ export function addNewUnit(item: IUnit) {
 export function updateUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         try{
-            console.log('save', item)
             const response = await axios.put(UnitEndpoint.saveUnit(item.id), item);
-            console.log(response.data);
         }catch (e) {
-            console.log(e.toString())
             dispatch(saveError(e.toString()))
         }
     }
@@ -137,7 +132,7 @@ export function updateUnit(item: IUnit) {
 
 function saveError(e: string) {
     return{
-        type: TARE_SET_ERROR,
+        type: UNIT_SET_ERROR,
         error: e
     }
 }

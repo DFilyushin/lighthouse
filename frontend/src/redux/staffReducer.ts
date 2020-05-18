@@ -6,7 +6,8 @@ import {
     STAFF_LOAD_SUCCESS,
     STAFF_ITEM_SUCCESS,
     STAFF_UPDATE_OBJECT,
-    STAFF_CLEAR_ERROR, STAFF_SET_ERROR
+    STAFF_CLEAR_ERROR,
+    STAFF_SET_ERROR
 } from "./actions/types";
 import {nullUnit} from "../types/model/unit";
 

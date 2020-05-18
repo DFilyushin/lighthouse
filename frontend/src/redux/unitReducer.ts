@@ -7,7 +7,8 @@ import {
     UNIT_LOAD_SUCCESS,
     UNIT_ITEM_SUCCESS,
     UNIT_UPDATE_OBJECT,
-    UNIT_CLEAR_ERROR
+    UNIT_CLEAR_ERROR,
+    UNIT_SET_ERROR
 } from "./actions/types";
 
 const initState = (): IUnitState => ({
@@ -36,7 +37,9 @@ export const unitReducer = (state: IUnitState = initState(), action: any) => {
         case UNIT_DELETE_OK:
             return {...state, unitItems: action.items};
         case UNIT_CLEAR_ERROR:
-            return {...state, error: '', hasError: false}
+            return {...state, error: '', hasError: false};
+        case UNIT_SET_ERROR:
+            return {...state, error: action.error, hasError: true};
         default: return state;
     }
 };

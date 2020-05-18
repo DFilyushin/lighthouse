@@ -4,7 +4,12 @@ import {
     TARE_LOAD_FINISH,
     TARE_DELETE_OK,
     TARE_LOAD_SUCCESS,
-    TARE_ITEM_SUCCESS, TARE_UPDATE_OBJECT, TARE_CLEAR_ERROR, TARE_SET_ERROR, TARE_OK_OPERATION, TARE_START_OPERATION
+    TARE_ITEM_SUCCESS,
+    TARE_UPDATE_OBJECT,
+    TARE_CLEAR_ERROR,
+    TARE_SET_ERROR,
+    TARE_OK_OPERATION,
+    TARE_START_OPERATION
 } from "./actions/types";
 import {nullTare} from "../types/model/tare";
 
@@ -20,7 +25,6 @@ const initState = (): ITareState => ({
 
 
 export const tareReducer = (state: ITareState = initState(), action: any) => {
-    console.log(action)
     switch (action.type) {
         case TARE_LOAD_START:
             return {...state, isLoading: true};
