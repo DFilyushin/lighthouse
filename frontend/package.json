@@ -23,6 +23,7 @@
     "clsx": "^1.1.0",
     "jasmine": "^3.5.0",
     "jwt-decode": "^2.2.0",
+    "material-ui-confirm": "^2.0.4",
     "moment": "2.24.0",
     "react": "latest",
     "react-chartjs-2": "^2.9.0",
