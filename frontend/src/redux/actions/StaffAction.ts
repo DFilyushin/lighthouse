@@ -8,7 +8,8 @@ import {
     STAFF_LOAD_FINISH,
     STAFF_LOAD_START,
     STAFF_LOAD_SUCCESS,
-    STAFF_UPDATE_OBJECT, STAFF_ITEM_SUCCESS
+    STAFF_UPDATE_OBJECT,
+    STAFF_ITEM_SUCCESS
 } from "./types";
 
 //FIXME При добавлении и удалении не обновляется результирующий стор

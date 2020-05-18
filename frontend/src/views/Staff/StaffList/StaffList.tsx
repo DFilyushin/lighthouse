@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import { StaffTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
-import {clearError, deleteStaff, loadStaffs } from "redux/actions/StaffAction";
+import {clearError, deleteStaff, loadStaffs } from "redux/actions/staffAction";
+
 
 
 const useStyles = makeStyles(theme => ({
