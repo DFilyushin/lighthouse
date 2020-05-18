@@ -7,19 +7,25 @@ export interface IFormula {
     amount: number
 }
 
+export interface IRawInFormula {
+    id: number;
+    raw: Raw;
+    raw_value: number;
+}
+
 export interface IFormulaItem {
     id: number,
     product: Product,
-    amount: number,
+    calcAmount: number,
     calcLosses: number,
     specification: string,
-    raws: Raw []
+    raws: IRawInFormula []
 }
 
 export const nullFormulaItem: IFormulaItem = {
     id: 0,
     product: nullProduct,
-    amount: 0,
+    calcAmount: 0,
     calcLosses: 0,
     specification: '',
     raws: []
