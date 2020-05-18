@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNew, changeItem, loadItem, updateItem} from "redux/actions/StaffAction";
+import {addNew, changeItem, loadItem, updateItem} from "redux/actions/staffAction";
 
 
 interface IStaffItemProps {
