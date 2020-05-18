@@ -54,7 +54,6 @@ const StaffItem = (props: IStaffItemProps) => {
         } else {
             dispatch(updateItem(staffItem));
         }
-        console.log(hasError);
         if (!hasError) history.push('/org/staff');
     };
 
