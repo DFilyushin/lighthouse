@@ -73,8 +73,6 @@ const ClientItem = (props: IClientItemProps) => {
 
     async function saveNewClient() {
         const saveUrl = ClientEndpoint.newClient();
-        console.log(saveUrl);
-        console.log(JSON.stringify(client));
         try{
             const response = await axios.post(saveUrl, client);
             if (response.status === 201){
@@ -100,7 +98,6 @@ const ClientItem = (props: IClientItemProps) => {
     };
 
     useEffect( ()=> {
-        console.log(clientId);
         loadClientItem(clientId);
     }, []);
 

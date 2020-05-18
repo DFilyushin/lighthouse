@@ -61,7 +61,6 @@ const ClientList = () => {
         selected.forEach(async (item, i, selected) => {
             const response = await axios.delete(ClientEndpoint.deleteClient(item));
             if (response.status === 200){
-                console.log(newClients.length);
                 const indexItem = newClients.findIndex(
                     function (element, index, array) {
                         return (element.id === item)}
