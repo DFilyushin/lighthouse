@@ -21,7 +21,6 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
     confirmationButtonProps,
     cancellationButtonProps,
   } = options;
-  console.log('initKey', initKey);
   const [id, setId] = React.useState(0);
   const [itemValue, setItemValue] = React.useState('');
 
