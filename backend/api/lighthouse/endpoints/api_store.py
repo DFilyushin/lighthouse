@@ -58,9 +58,9 @@ class FormulaViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         show_non_active: bool = self.request.GET.get('show_non_active', False)
         if show_non_active:
-            return Formula.objects.all()
+            return Formula.objects.all().order_by('id_product__name')
         else:
-            return Formula.objects.filter(is_active=True).all()
+            return Formula.objects.filter(is_active=True).all().order_by('id_product__name')
 
     def get_serializer_class(self):
         if self.action == 'list':
