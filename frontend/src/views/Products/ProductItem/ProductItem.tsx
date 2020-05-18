@@ -54,7 +54,6 @@ const ProductItem = (props: IProductItemProps) => {
         } else {
             dispatch(updateProduct(productItem));
         }
-        console.log(hasError);
         if (!hasError) history.push('/catalogs/product');
     };
 
