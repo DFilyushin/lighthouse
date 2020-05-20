@@ -1,5 +1,5 @@
 class BaseAPIEndpoint {
-    static API_URL: string = 'http://localhost:8000';
+    static API_URL: any = process.env.REACT_APP_HTTP_API_URL;
 
     /**
      * Базовый адрес API
