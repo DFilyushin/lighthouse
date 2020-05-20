@@ -4,7 +4,7 @@ class BaseAPIEndpoint {
     /**
      * Базовый адрес API
      */
-    static getBaseURL() {
+    static getBaseURL(): string {
         return this.API_URL;
     }
 }
