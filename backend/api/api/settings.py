@@ -44,6 +44,8 @@ CORS_ORIGIN_WHITELIST = (
     FRONTEND_URL,
 )
 
+ALLOWED_HOSTS.append(FRONTEND_URL)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

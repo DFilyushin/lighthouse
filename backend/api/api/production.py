@@ -12,7 +12,7 @@ ADMINS = [
     ('admin', 'admin@localhost')
 ]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,8 +40,13 @@ ROOT_URLCONF = 'api.urls'
 
 CORS_ALLOW_CREDENTIALS = True
 
+FRONTEND_URL = os.getenv('HTTP_FRONTEND_URL')
+
+if FRONTEND_URL == '':
+    print('Empty FRONTEND_URL!')
+
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    FRONTEND_URL,
 )
 
 TEMPLATES = [
