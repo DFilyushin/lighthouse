@@ -115,3 +115,4 @@ venv.bak/
 /frontend/.idea/
 /graphic/
 /documentation/
+/pgsql/
