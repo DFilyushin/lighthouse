@@ -72,6 +72,8 @@ const AccountDetails = (props: IAccountDetails) => {
         setMessageAlert('Реквизиты сохранены');
         setShowAlert(true);
       }else{
+        setTypeAlert('error')
+        setMessageAlert('Ошибка при сохранении данных!')
         console.log(response.statusText)
       }
     }
