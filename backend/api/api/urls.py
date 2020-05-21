@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from rest_framework.schemas import get_schema_view
 from rest_framework_jwt.views import refresh_jwt_token, ObtainJSONWebToken, RefreshJSONWebToken
 from rest_framework import routers
 import lighthouse.endpoints.api_auth as api_auth_views
@@ -7,8 +9,13 @@ import lighthouse.endpoints.api_domain as api_domain_views
 import lighthouse.endpoints.api_sales as api_sales_views
 import lighthouse.endpoints.api_store as api_store_views
 import lighthouse.endpoints.api_prod as api_prod_views
+import lighthouse.views as main_views
 
-router = routers.DefaultRouter()
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='Pastebin API')
+
+router = routers.SimpleRouter()
 
 # Склад и рецептура
 router.register(r'product', api_store_views.ProductViewSet)  # продукция
@@ -46,10 +53,23 @@ auth_urls = [
 ]
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('admin/', admin.site.urls),
 
+    path('', include(router.urls)),
+    path(r'', main_views.index),
+    path('admin/', admin.site.urls),
+    path('swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
     path('org/', api_domain_views.OrgViewSet.as_view()),
+    path('openapi', get_schema_view(
+        title="MES API Lighthouse",
+        description="API for all things …",
+        version="1.0.0"
+    ), name='openapi-schema'),
+    # path(r'', schema_view)
+
+
 ]
 urlpatterns += auth_urls
 urlpatterns += store_urls
