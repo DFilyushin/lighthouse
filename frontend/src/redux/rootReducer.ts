@@ -15,6 +15,8 @@ import {tareReducer} from "./tareReducer";
 import {infoReducer} from "./infoReducer";
 import {unitReducer} from "./unitReducer";
 import {staffReducer} from "./staffReducer";
+import {IFactoryLineState} from "../types/state/factorylines";
+import {factoryLineReducer} from "./factoryLineReducer";
 
 
 export interface IStateInterface {
@@ -25,6 +27,7 @@ export interface IStateInterface {
     info: IInfoState;
     unit: IUnitState;
     staff: IStaffState;
+    factoryLine: IFactoryLineState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -34,5 +37,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     tare: tareReducer,
     info: infoReducer,
     unit: unitReducer,
-    staff: staffReducer
+    staff: staffReducer,
+    factoryLine: factoryLineReducer
 });
