@@ -34,7 +34,7 @@ class ProductionView(viewsets.ModelViewSet):
             date_start = datetime.strptime(start_period, '%d-%m-%Y')
             date_end = datetime.strptime(end_period, '%d-%m-%Y')
             queryset = queryset.filter(prod_start__range=(date_start, date_end))
-        return queryset
+        return queryset.order_by('-prod_start')
 
     def update(self, request, *args, **kwargs):
         card = self.get_object()
