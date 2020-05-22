@@ -46,6 +46,10 @@ export default [
                     {
                         title: 'Рецептура',
                         href: '/catalogs/formula'
+                    },
+                    {
+                        title: 'Производственные линии',
+                        href: '/catalogs/lines'
                     }
                 ]
             },
