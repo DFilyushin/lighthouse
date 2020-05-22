@@ -9,12 +9,15 @@ class ProductLineSerializer(serializers.ModelSerializer):
     """
     Промышленная линия производства
     """
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
     name = serializers.CharField()
 
     class Meta:
         model = ProductionLine
         fields = ('id', 'name')
+
+    def create(self, validated_data):
+        return ProductionLine.objects.create(name=validated_data['name'])
 
 
 class ProdCalcRawsListSerializer(serializers.ListSerializer):
