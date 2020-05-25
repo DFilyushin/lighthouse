@@ -45,7 +45,7 @@ interface IFormulaRawItemProps {
 
 const FormulaRawItem = (props: IFormulaRawItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem, ...rest } = props;
+    const { item, onDeleteItem, onChangeItem} = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
