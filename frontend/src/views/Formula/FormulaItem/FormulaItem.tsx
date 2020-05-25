@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -8,7 +8,7 @@ import {
     Divider,
     Grid,
     Button,
-    TextField, Box
+    TextField
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -17,23 +17,19 @@ import {
     changeFormula,
     updateFormula,
     addNewFormula,
-    deleteRawItem,
-    updateRawItem
+    deleteRawItem
 } from "redux/actions/formulaAction";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import AddIcon from '@material-ui/icons/Add';
 import CircularIndeterminate from "components/Loader/Loader";
-import SelectItemDialog from "components/SelectItemDialog";
 import {loadProduct} from "redux/actions/productAction";
 import { useConfirm } from "material-ui-confirm";
 import FormulaRawItem from "../components/FormulaRawItem";
-import {Product} from "types/model/product";
 import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
 import {loadRaws} from "redux/actions/rawAction";
-import {Raw} from "types/model/raw";
 import {useDialog} from "components/SelectDialog";
 import {IRawInFormula} from "../../../types/model/formula";
 

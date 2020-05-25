@@ -16,9 +16,7 @@ import {
     TablePagination
 } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
-import moment from "moment";
-import {IProductionList} from "types/model/production";
-import {IFactoryLine} from "../../../../types/model/factorylines";
+import {IFactoryLine} from "types/model/factorylines";
 
 const useStyles = makeStyles(theme => ({
     root: {},

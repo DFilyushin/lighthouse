@@ -12,7 +12,6 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNewProduct, changeProduct, loadProductItem, updateProduct} from "redux/actions/productAction";
 import {IStateInterface} from "redux/rootReducer";
 import {
     addNewFactoryItem,
@@ -42,9 +41,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
     const { className, ...rest } = props;
 
     const factoryLineItem  = useSelector((state: IStateInterface)=> state.factoryLine.lineItem);
-    // const isLoading = useSelector((state: any) => state.product.isLoading);
-    // const errorValue = useSelector((state: any) => state.product.error);
-    const hasError = useSelector((state: IStateInterface) => state.product.hasError)
+    const hasError = useSelector((state: IStateInterface) => state.factoryLine.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...factoryLineItem, [event.target.name]: event.target.value};

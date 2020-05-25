@@ -1,13 +1,13 @@
 import React, {Fragment} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {Grid, TextField, Typography} from '@material-ui/core';
+import {Grid, TextField} from '@material-ui/core';
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {changeFormula, updateRawItem} from "../../../../redux/actions/formulaAction";
-import {IRawInFormula} from "../../../../types/model/formula";
+import {updateRawItem} from "redux/actions/formulaAction";
+import {IRawInFormula} from "types/model/formula";
 import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles(theme => ({
