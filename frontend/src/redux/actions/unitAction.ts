@@ -111,7 +111,7 @@ export function addNewUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(UnitEndpoint.newUnit(), item);
+            await axios.post(UnitEndpoint.newUnit(), item);
             dispatch(getItemSuccess(item))
         }catch (e) {
             dispatch(saveError('Не удалось добавить новую запись!'))
@@ -126,7 +126,7 @@ export function addNewUnit(item: IUnit) {
 export function updateUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.put(UnitEndpoint.saveUnit(item.id), item);
+            await axios.put(UnitEndpoint.saveUnit(item.id), item);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }
