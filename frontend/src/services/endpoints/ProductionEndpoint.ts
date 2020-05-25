@@ -35,7 +35,6 @@ class ProductionEndpoint{
         return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/`;
     }
 
-
     /**
      * Удалить имеющуюся карту
      * @param id Код карты

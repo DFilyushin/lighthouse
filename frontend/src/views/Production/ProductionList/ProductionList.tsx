@@ -47,7 +47,8 @@ const ProductionList = () => {
         const date2 = endDate!.toISOString().slice(0, 10);
         localStorage.setItem(PROD_PERIOD_START, date1);
         localStorage.setItem(PROD_PERIOD_END, date2);
-        dispatch(loadProductionCards(date1, date2))
+
+        dispatch(loadProductionCards(date1, date2, product))
     }
 
     async function onFindProductHandler(findText: string){

@@ -79,7 +79,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
      * Запрос данных с сервера
      */
     const handleRefreshData = ()=> {
-        onRefresh(firstDate, endDate);
+        onRefresh(firstDate, endDate, product);
     };
 
     /**
