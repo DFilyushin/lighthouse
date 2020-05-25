@@ -100,7 +100,6 @@ export function addNewFactoryItem(item: IFactoryLine) {
         dispatch(clearError());
         try{
             await axios.post(FactoryLineEndpoint.newFactoryLine(), item);
-            //dispatch(okOperation());
             return Promise.resolve();
         }
         catch (e) {
@@ -117,7 +116,7 @@ export function addNewFactoryItem(item: IFactoryLine) {
 export function updateFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.put(FactoryLineEndpoint.saveFactoryLine(item.id), item);
+            await axios.put(FactoryLineEndpoint.saveFactoryLine(item.id), item);
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }

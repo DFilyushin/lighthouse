@@ -25,7 +25,7 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage())
-        const formulasInLocal = localStorage.getItem(LS_FORMULA_KEY);
+        //const formulasInLocal = localStorage.getItem(LS_FORMULA_KEY);
         // if (formulasInLocal){
         //     console.log('GetByStorage');
         //     const formulaList = JSON.parse(formulasInLocal);
@@ -44,7 +44,7 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
                         amount: response.data[key]['calcAmount']
                     })
                 });
-                localStorage.setItem(LS_FORMULA_KEY, JSON.stringify(formulaList))
+                //localStorage.setItem(LS_FORMULA_KEY, JSON.stringify(formulaList))
                 dispatch(fetchSuccess(formulaList))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -155,7 +155,7 @@ export function updateFormula(item: IFormulaItem) {
             delete(clone.product)
             clone.product = item.product.id
             clone.tare = 1
-            const response = await axios.put(FormulaEndpoint.saveFormula(item.id), clone);
+            await axios.put(FormulaEndpoint.saveFormula(item.id), clone);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }

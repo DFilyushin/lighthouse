@@ -118,7 +118,7 @@ export function changeProduct(product: Product) {
 export function updateProduct(product: Product){
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.put(ProductEndpoint.saveProduct(product.id), product);
+            await axios.put(ProductEndpoint.saveProduct(product.id), product);
         }catch (e) {
             dispatch(productLoadError(e))
         }

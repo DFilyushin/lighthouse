@@ -69,7 +69,6 @@ export function loadTareItem(id: number) {
             }
             dispatch(fetchFinish())
         }
-
     }
 }
 
@@ -131,7 +130,7 @@ export function addNewTare(item: ITare) {
 export function updateTare(item: ITare) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.put(TareEndpoint.saveTare(item.id), item);
+            await axios.put(TareEndpoint.saveTare(item.id), item);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }

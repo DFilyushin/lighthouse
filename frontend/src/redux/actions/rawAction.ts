@@ -112,7 +112,7 @@ export function changeRaw(raw: Raw) {
 export function updateRaw(raw: Raw) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.put(RawEndpoint.saveRaw(raw.id), raw);
+            await axios.put(RawEndpoint.saveRaw(raw.id), raw);
         }catch (e) {
             dispatch(fetchError(e))
         }
