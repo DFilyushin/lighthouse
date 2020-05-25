@@ -86,16 +86,20 @@ export function deleteItem(id: number) {
 export function loadUnitItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let item: IUnit = {id: 0, name: ''};
-        dispatch(fetchStart());
-        try{
-            const response = await axios.get(UnitEndpoint.getUnitItem(id));
-            item.id = response.data['id'];
-            item.name = response.data['name'];
+        if (id === 0) {
             dispatch(getItemSuccess(item))
-        }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+        }else{
+            dispatch(fetchStart());
+            try{
+                const response = await axios.get(UnitEndpoint.getUnitItem(id));
+                item.id = response.data['id'];
+                item.name = response.data['name'];
+                dispatch(getItemSuccess(item))
+            }catch (e) {
+                dispatch(showInfoMessage('error', e.toString()))
+            }
+            dispatch(fetchFinish())
         }
-        dispatch(fetchFinish())
     }
 }
 
