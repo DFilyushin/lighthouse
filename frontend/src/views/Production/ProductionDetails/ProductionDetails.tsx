@@ -18,7 +18,6 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import AddIcon from '@material-ui/icons/Add';
 import CircularIndeterminate from "components/Loader/Loader";
 import SelectItemDialog from "components/SelectItemDialog";
-import {loadProduct} from "redux/actions/productAction";
 import { useConfirm } from "material-ui-confirm";
 import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
@@ -29,16 +28,16 @@ import {
     getProductionCalc,
     getProductionTeam,
     loadProductionCard, updateCalcItem
-} from "../../../redux/actions/productionAction";
+} from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import ProductionTeamItem from "../components/ProductionTeamItem";
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
-import {IRawInFormula} from "../../../types/model/formula";
-import {changeFormula} from "../../../redux/actions/formulaAction";
-import {IProductionCalc} from "../../../types/model/production";
-import {loadRaws} from "../../../redux/actions/rawAction";
+import {IProductionCalc} from "types/model/production";
+import {loadRaws} from "redux/actions/rawAction";
+import {loadProduct} from "redux/actions/productAction";
+import {loadFactoryLines} from "redux/actions/factoryLineAction";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -140,23 +139,23 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Сменить продукцию, на которую производится расчёт
      */
     const handleChangeProduct = () => {
-        // dispatch(loadProduct());
-        // selectDialog(
-        //     {
-        //         'title': 'Выбор продукции',
-        //         description: '.',
-        //         confirmationText:'Выбрать',
-        //         cancellationText: 'Отменить',
-        //         dataItems: productItems,
-        //         initKey: 0
-        //     }
-        // ).then((value:any) => {
-        //         const item = {...productionItem};
-        //         item.product.id = value.id;
-        //         item.product.name = value.name;
-        //         //dispatch(changeFormula(item));
-        //     }
-        // );
+        dispatch(loadProduct());
+        selectDialog(
+            {
+                'title': 'Выбор продукции',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: productItems,
+                initKey: 0
+            }
+        ).then((value:any) => {
+                const item = {...productionItem};
+                item.product.id = value.id;
+                item.product.name = value.name;
+                dispatch(changeProductionCard(item));
+            }
+        );
     };
 
 
