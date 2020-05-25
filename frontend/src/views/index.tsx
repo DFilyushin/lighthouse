@@ -29,5 +29,8 @@ export { default as StaffItem } from './Staff/StaffItem';
 export { default as FactoryLine } from './FactoryLine/FactoryLineList';
 export { default as FactoryLineItem } from './FactoryLine/FactoryLineItem';
 
+export { default as ProductionList } from './Production/ProductionList';
+export { default as ProductionDetails } from './Production/ProductionDetails';
+
 export { default as About } from './About';
 export { default as Changelog } from './Changelog';

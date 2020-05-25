@@ -28,7 +28,11 @@ import {
     Units as UnitView,
     UnitItem as UnitItemView,
     Staffs as StaffView,
-    StaffItem as StaffItemView
+    StaffItem as StaffItemView,
+    ProductionList as ProductionListView,
+    FactoryLine as FactoryLineView,
+    FactoryLineItem as FactoryLineItemView,
+    ProductionDetails as ProductionDetailsView
 } from './views'
 
 const Routes = () => {
@@ -67,8 +71,15 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee" exact/>
             <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
 
+            <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineView} path="/catalogs/lines" exact/>
+            <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineItemView} path="/catalogs/lines/:id" exact/>
+
+            <RouteWithLayout isAuth={true} layout={MainLayout} component={ProductionListView} path="/factory" exact/>
+            <RouteWithLayout isAuth={true} layout={MainLayout} component={ProductionDetailsView} path="/factory/:id" exact/>
+
             <RouteWithLayout isAuth={true} component={AboutView} layout={MainLayout} path="/about" exact/>
             <RouteWithLayout isAuth={true} component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
+
             <RouteWithLayout isAuth={true} component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
 
             <Redirect to="/NotFound" />

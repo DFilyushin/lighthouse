@@ -12,4 +12,4 @@ export const nullTare = {
     unit: '',
     v: 0,
     idUnit: 0
-}
+};
