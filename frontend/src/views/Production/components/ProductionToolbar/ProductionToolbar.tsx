@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography } from '@material-ui/core';
@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {Product} from "types/model/product";
+import {PROD_PERIOD_END, PROD_PERIOD_START} from "../../../../types/Settings";
 
 
 
@@ -57,12 +58,12 @@ interface IDefaultToolbar {
 }
 
 const ProductionToolbar = (props: IDefaultToolbar) => {
+    const classes = useStyles();
     const history = useHistory();
     const { className, newItemUrl, onFind, onDelete, products, onRefresh, ...rest } = props;
     const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
     const [endDate, setEndDate] = React.useState<Date | null>(new Date());
     const [product, setProduct] = React.useState<number>(0);
-
 
     const handleFirstDateChange = (date: Date | null) => {
         setFirstDate(date);
@@ -74,12 +75,22 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
         setProduct(event.target.value as number);
     };
 
+    /**
+     * Запрос данных с сервера
+     */
     const handleRefreshData = ()=> {
         onRefresh(firstDate, endDate);
     };
 
-
-    const classes = useStyles();
+    /**
+     * Сохраненные данные начала и окончания периода
+     */
+    useEffect(()=>{
+        const d1: string|null = localStorage.getItem(PROD_PERIOD_START);
+        const d2: string|null = localStorage.getItem(PROD_PERIOD_END);
+        if (d1) {setFirstDate(new Date(d1))}
+        if (d2) {setEndDate(new Date(d2))}
+    }, []);
 
     /**
      * Поиск по Enter

@@ -8,6 +8,7 @@ import { ProductionToolbar } from '../components/';
 import {clearError, deleteProduct, loadProduct} from "redux/actions/productAction";
 import SnackBarAlert from 'components/SnackBarAlert';
 import {loadProductionCards} from "redux/actions/productionAction";
+import {PROD_PERIOD_END, PROD_PERIOD_START} from "../../../types/Settings";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,8 +45,8 @@ const ProductionList = () => {
     function handleRefresh(startDate: Date | null, endDate: Date | null, product?: number, state?: number){
         const date1 = startDate!.toISOString().slice(0, 10);
         const date2 = endDate!.toISOString().slice(0, 10);
-        localStorage.setItem('prodStart', date1);
-        localStorage.setItem('prodEnd', date2);
+        localStorage.setItem(PROD_PERIOD_START, date1);
+        localStorage.setItem(PROD_PERIOD_END, date2);
         dispatch(loadProductionCards(date1, date2))
     }
 
@@ -67,7 +68,7 @@ const ProductionList = () => {
      * @param id
      */
     function onClickTableItem(id: number){
-        const editItemUrl = `/production/${id}`;
+        const editItemUrl = `/factory/${id}`;
         history.push(editItemUrl);
     }
 
