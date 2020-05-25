@@ -100,4 +100,24 @@ export const nullProductionCalc: IProductionCalc = {
     manufactureId: 0,
     raw: {id: 0, name: ''},
     calcValue: 0
+};
+
+
+/**
+ * Готовая продукция в таре
+ */
+export interface IProductionTare {
+    id: number;
+    tareId: number;
+    tareName: string;
+    tareV: number;
+    count: number;
 }
+
+export const nullProductionTare: IProductionTare = {
+    id: 0,
+    tareId: 0,
+    tareName: '',
+    tareV: 0,
+    count: 0
+};

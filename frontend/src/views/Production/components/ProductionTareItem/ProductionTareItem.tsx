@@ -7,9 +7,8 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
-import {IProductionTeam} from "types/model/production";
-import {updateTeamItem} from "redux/actions/productionAction";
-import {KeyboardDateTimePicker} from "@material-ui/pickers";
+import {IProductionTare} from "types/model/production";
+import {updateCalcItem} from "redux/actions/productionAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,16 +36,16 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
 }));
-interface IProductionTeamItemProps {
-    item: IProductionTeam;
+interface IProductionTareItemProps {
+    item: IProductionTare;
     onDeleteItem: ( (id: number)=> void);
     onChangeItem: ( (id: number)=> void);
 }
 
 
-const ProductionTeamItem = (props: IProductionTeamItemProps) => {
+const ProductionTareItem = (props: IProductionTareItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem } = props;
+    const { item, onDeleteItem, onChangeItem} = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
@@ -59,35 +58,22 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newItem = {...item, [event.target.name]: parseFloat(event.target.value)};
-        dispatch(updateTeamItem(newItem))
+        //dispatch(updateCalcItem(newItem))
     };
 
-    const handleDateChangeStartPeriod = (date: Date | null) => {
-        console.log(date);
-        const strDate = date?.toISOString().slice(0, 19);
-        const teamItem = {...item, 'periodStart': strDate as string};
-        dispatch(updateTeamItem(teamItem))
-    };
-
-    const handleDateChangeEndPeriod = (date: Date | null) => {
-        console.log(date);
-        const strDate = date?.toISOString().slice(0, 19);
-        const teamItem = {...item, 'periodEnd': strDate as string};
-        dispatch(updateTeamItem(teamItem))
-    };
 
     return (
         <Fragment>
-            <Grid item xs={7}>
+            <Grid item xs={6}>
                 <Paper component="form" elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         InputProps={{
                             readOnly: true,
                         }}
-                        label="Сотрудник"
-                        name="unit"
-                        value={item.employee.fio}
+                        label="Упаковка"
+                        name="raw"
+                        value={item.tareName}
                     />
                     <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickListItem(item.id)}}>
                         <MenuOpenIcon />
@@ -95,29 +81,23 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                 </Paper>
             </Grid>
             <Grid item xs={2}>
-                <KeyboardDateTimePicker
-                    disableToolbar
-                    //inputVariant="standard"
-                    format="dd/MM/yyyy hh:mm"
-                    ampm={false}
-                    id="date-picker-inline"
-                    label="Начало смены"
-                    name="periodEnd"
-                    value={item.periodStart}
-                    onChange={handleDateChangeStartPeriod}
+                <TextField
+                    label="Объём"
+                    type={'number'}
+                    name="calcValue"
+                    onChange={handleChange}
+                    required
+                    value={item.tareV}
                 />
             </Grid>
             <Grid item xs={2}>
-                <KeyboardDateTimePicker
-                    disableToolbar
-                    //inputVariant="standard"
-                    format="dd/MM/yyyy hh:mm"
-                    ampm={false}
-                    id="date-picker-inline"
-                    label="Окончание"
-                    name="periodEnd"
-                    value={item.periodEnd}
-                    onChange={handleDateChangeEndPeriod}
+                <TextField
+                    label="Кол-во"
+                    type={'number'}
+                    name="calcValue"
+                    onChange={handleChange}
+                    required
+                    value={item.count}
                 />
             </Grid>
             <Grid item>
@@ -129,4 +109,4 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
     );
 };
 
-export default ProductionTeamItem;
+export default ProductionTareItem;

@@ -8,7 +8,7 @@ import { ProductionToolbar } from '../components/';
 import {clearError, deleteProduct, loadProduct} from "redux/actions/productAction";
 import SnackBarAlert from 'components/SnackBarAlert';
 import {loadProductionCards} from "redux/actions/productionAction";
-import {PROD_PERIOD_END, PROD_PERIOD_START} from "../../../types/Settings";
+import {PROD_PERIOD_END, PROD_PERIOD_START, PROD_PRODUCT} from "../../../types/Settings";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,6 +47,7 @@ const ProductionList = () => {
         const date2 = endDate!.toISOString().slice(0, 10);
         localStorage.setItem(PROD_PERIOD_START, date1);
         localStorage.setItem(PROD_PERIOD_END, date2);
+        product ? localStorage.setItem(PROD_PRODUCT, product.toString()) : localStorage.removeItem(PROD_PRODUCT);
 
         dispatch(loadProductionCards(date1, date2, product))
     }

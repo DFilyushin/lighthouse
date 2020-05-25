@@ -5,10 +5,12 @@ import {
     PROD_LOAD_SUCCESS,
     PROD_LOAD_ITEM_SUCCESS,
     PROD_CHANGE_ITEM,
+    PROD_TARE_LOAD_SUCCESS,
     PROD_TEAM_LOAD_SUCCESS,
     PROD_CALC_LOAD_SUCCESS,
     PROD_TEAM_CHANGE,
-    PROD_CALC_CHANGE
+    PROD_CALC_CHANGE,
+    PROD_TARE_CHANGE
 } from "./actions/types";
 import {nullProduction} from "../types/model/production";
 
@@ -18,6 +20,7 @@ const initState = (): IProductionState => ({
     prodCardItem: nullProduction,
     prodCardTeam: [],
     prodCardCalc: [],
+    prodCardTare: [],
     hasError: false,
     typeMessage: '',
     error: '',
@@ -41,10 +44,14 @@ export const productionReducer = (state = initState(), action: any) => {
             return {...state, prodCardTeam: action.items};
         case PROD_CALC_LOAD_SUCCESS:
             return {...state, prodCardCalc: action.items};
+        case PROD_TARE_LOAD_SUCCESS:
+            return {...state, prodCardTare: action.items};
         case PROD_TEAM_CHANGE:
             return {...state, prodCardTeam: action.items};
         case PROD_CALC_CHANGE:
             return {...state, prodCardCalc: action.items};
+        case PROD_TARE_CHANGE:
+            return {...state, prodCardTare: action.items};
         default:
             return state;
     }

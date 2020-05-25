@@ -59,8 +59,20 @@ class ProductionEndpoint{
         return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/team/`;
     }
 
+    /**
+     * Получить калькуляция на техн. карту
+     * @param id Код карты
+     */
     static getProductionCalc(id: number): string{
         return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/calc/`;
+    }
+
+    /**
+     * Получить список готовой продукции в таре
+     * @param id
+     */
+    static getProductionTare(id: number): string{
+        return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/tare/`;
     }
 }
 

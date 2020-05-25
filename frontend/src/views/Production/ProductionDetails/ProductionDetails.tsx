@@ -24,20 +24,21 @@ import Typography from "@material-ui/core/Typography";
 import {useDialog} from "components/SelectDialog";
 import {IStateInterface} from "redux/rootReducer";
 import {
-    changeProductionCard, deleteCalcItem, deleteTeamItem,
-    getProductionCalc,
+    changeProductionCard, deleteCalcItem, deleteTareItem, deleteTeamItem,
+    getProductionCalc, getProductionTare,
     getProductionTeam,
-    loadProductionCard, updateCalcItem
+    loadProductionCard, updateCalcItem, updateTareItem
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import ProductionTeamItem from "../components/ProductionTeamItem";
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
-import {IProductionCalc} from "types/model/production";
+import {IProductionCalc, IProductionTare} from "types/model/production";
 import {loadRaws} from "redux/actions/rawAction";
 import {loadProduct} from "redux/actions/productAction";
 import {loadFactoryLines} from "redux/actions/factoryLineAction";
+import ProductionTareItem from "../components/ProductionTareItem";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -116,14 +117,15 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem);
     const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam);
     const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc);
+    const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare);
     const selectDialog = useDialog();
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading);
     // const errorValue = useSelector((state: any) => state.formula.error);
     const hasError = useSelector((state: IStateInterface) => state.production.hasError);
     const productItems = useSelector((state: IStateInterface) => state.product.products);
     const rawItems = useSelector((state: IStateInterface) => state.raw.raws);
+    const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems);
     const [tab, setTab] = React.useState(0);
-
 
 
     /**
@@ -193,6 +195,19 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    const handleDeleteTareItem = (id: number)=> {
+        confirm(
+            {
+                'title': 'Подтверждение',
+                description: `Удалить выбранную запись?.`,
+                confirmationText:'Да',
+                cancellationText: 'Нет'
+            }
+        ).then(() =>
+            dispatch(deleteTareItem(id))
+        );
+    };
+
     /**
      * Изменение вкладки
      * @param event
@@ -201,8 +216,9 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setTab(newValue);
         switch (newValue) {
-            case PAGE_TEAM: if (productionTeam.length === 0) dispatch(getProductionTeam(idProduction));
-            case PAGE_CALC: if (productionCalc.length === 0) dispatch(getProductionCalc(idProduction));
+            case PAGE_TEAM: if (productionTeam.length === 0) dispatch(getProductionTeam(idProduction)); break;
+            case PAGE_CALC: if (productionCalc.length === 0) dispatch(getProductionCalc(idProduction));break;
+            case PAGE_PRODUCT: if (productionTare.length === 0) dispatch(getProductionTare(idProduction));break;
         }
     };
 
@@ -274,9 +290,30 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    const handleChangeTareItem = (id: number)=> {
+        dispatch(loadRaws());
+        selectDialog(
+            {
+                'title': 'Выбор тары',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: tareItems,
+                initKey: 0
+            }
+        ).then((value:any) => {
+                const item = [...productionTare];
+                const index = item.findIndex((item:IProductionTare, index:number, array: IProductionTare[]) => {return item.id === id});
+                item[index].tareId = value.id;
+                item[index].tareName = value.name;
+                dispatch(updateTareItem(item[index]));
+            }
+        );
+    };
 
 
-    const getCard = () => {
+
+const getCard = () => {
         return (
             <Card {...rest} className={className}>
                 <form autoComplete="off" noValidate>
@@ -301,7 +338,12 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                         </Paper>
 
                         <TabPanel value={tab} index={0}>
-                            <Grid container spacing={3}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={11}>
+                                    <Typography variant={"h5"}>
+                                        Основные сведения
+                                    </Typography>
+                                </Grid>
                                 <Grid item xs={12}>
                                     <Paper  elevation={0} className={classes.paper_root}>
                                         <TextField
@@ -476,7 +518,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                             </Grid>
                         </TabPanel>
                         <TabPanel index={tab} value={PAGE_CALC}>
-                            <Grid container spacing={3}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={11}>
+                                    <Typography variant={"h5"}>
+                                        Калькуляция сырья
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={1} >
+                                    <Fab color="default" aria-label="add" >
+                                        <AddIcon />
+                                    </Fab>
+                                </Grid>
                                 {productionCalc.map((calc: any) =>(
                                     <ProductionCalcItem
                                         item={calc}
@@ -485,7 +537,26 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                 ))}
                             </Grid>
                         </TabPanel>
-
+                        <TabPanel index={tab} value={PAGE_PRODUCT}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={11}>
+                                    <Typography variant={"h5"}>
+                                        Упаковка готовой продукции
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={1} >
+                                    <Fab color="default" aria-label="add" >
+                                        <AddIcon />
+                                    </Fab>
+                                </Grid>
+                                {productionTare.map((tare: any) =>(
+                                    <ProductionTareItem
+                                        item={tare}
+                                        onChangeItem={handleChangeTareItem}
+                                        onDeleteItem={handleDeleteTareItem}/>
+                                ))}
+                            </Grid>
+                        </TabPanel>
                     </CardContent>
                     <Divider />
                     <CardActions>

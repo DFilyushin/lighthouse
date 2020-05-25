@@ -9,9 +9,18 @@ import {
     PROD_CHANGE_ITEM,
     PROD_TEAM_LOAD_SUCCESS,
     PROD_CALC_LOAD_SUCCESS,
-    PROD_TEAM_CHANGE, PROD_CALC_CHANGE
+    PROD_TEAM_CHANGE,
+    PROD_CALC_CHANGE,
+    PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS
 } from "./types";
-import {IProduction, IProductionCalc, IProductionList, IProductionTeam, nullProduction} from "types/model/production";
+import {
+    IProduction,
+    IProductionCalc,
+    IProductionList,
+    IProductionTare,
+    IProductionTeam,
+    nullProduction
+} from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 
 
@@ -61,7 +70,6 @@ export function loadProductionCard(id: number) {
         dispatch(startLoading());
         try{
             const response = await axios.get(ProductionEndpoint.getProductionCard(id));
-            console.log('item before', item);
             item.id = response.data['id'];
             item.comment = response.data['comment'];
             item.calcValue = response.data['calcValue'];
@@ -75,7 +83,6 @@ export function loadProductionCard(id: number) {
             item.teamLeader = response.data['teamLeader'];
             item.creator = response.data['creator'];
             item.prodLine = response.data['prodLine'];
-            console.log('item Ok', item);
             dispatch(successLoadCardItem(item))
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()));
@@ -169,6 +176,36 @@ export function getProductionCalc(id: number) {
 }
 
 /**
+ * Получить список готовой продукции в упаковочной таре
+ * @param id Код произв. карты
+ */
+export function getProductionTare(id: number) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(hideInfoMessage());
+        dispatch(startLoading());
+        try {
+            const url = ProductionEndpoint.getProductionTare(id);
+            const items: IProductionTare[] = [];
+            const response = await axios.get(url);
+            Object.keys(response.data).forEach((key, index) => {
+                items.push({
+                    id: response.data[key]['id'],
+                    tareId: response.data[key]['tareId'],
+                    tareName: response.data[key]['tareName'],
+                    tareV: response.data[key]['tareV'],
+                    count: response.data[key]['count']
+                })
+            });
+            dispatch(successLoadCardTare(items))
+        } catch (e) {
+            const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
+            dispatch(showInfoMessage('error', errMessage));
+        }
+        dispatch(endLoading())
+    }
+}
+
+/**
  * Изменить объект смены в массиве
  * @param item Смена
  */
@@ -199,6 +236,18 @@ export function updateCalcItem(item: IProductionCalc) {
     }
 }
 
+export function updateTareItem(item: IProductionTare) {
+    return async (dispatch: any, getState: any)=> {
+        const items = [...getState().production.prodCardTare];
+        const index = items.findIndex((elem: IProductionTare, index:number, array: IProductionTare[])=>{return elem.id === item.id});
+        items[index].tareId = item.tareId;
+        items[index].tareName = item.tareName;
+        items[index].tareV = item.tareV;
+        items[index].count = item.count;
+        dispatch(changeTareItem(items));
+    }
+}
+
 export function changeProductionCard(item: IProduction) {
     return{
         type: PROD_CHANGE_ITEM,
@@ -213,11 +262,18 @@ export function changeProductionCard(item: IProduction) {
 export function deleteTeamItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTeam];
-        console.log('deleteTeamItem', items);
-        console.log(typeof (items));
         const index = items.findIndex((item:IProductionTeam, index: number, array: IProductionTeam[])=> {return item.id === id});
         items.splice(index, 1);
         dispatch(changeTeamItem(items));
+    }
+}
+
+export function deleteTareItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const items = [...getState().production.prodCardTare];
+        const index = items.findIndex((item:IProductionTare, index: number, array: IProductionTare[])=> {return item.id === id});
+        items.splice(index, 1);
+        dispatch(changeTareItem(items));
     }
 }
 
@@ -234,6 +290,13 @@ export function deleteCalcItem(id: number) {
     }
 }
 
+function changeTareItem(items: IProductionTare[]) {
+    return{
+        type: PROD_TARE_CHANGE,
+        items: items
+    }
+}
+
 function changeCalcItem(items: IProductionCalc[]) {
     return{
         type: PROD_CALC_CHANGE,
@@ -244,6 +307,13 @@ function changeCalcItem(items: IProductionCalc[]) {
 function changeTeamItem(items: IProductionTeam[]){
     return{
         type: PROD_TEAM_CHANGE,
+        items: items
+    }
+}
+
+function successLoadCardTare(items: IProductionTare[]) {
+    return{
+        type: PROD_TARE_LOAD_SUCCESS,
         items: items
     }
 }
@@ -272,7 +342,6 @@ function successLoadCards(items: IProductionList[]) {
 }
 
 function successLoadCardItem(item: IProduction) {
-    console.log('successLoadCardItem', item)
     return{
         type: PROD_LOAD_ITEM_SUCCESS,
         item: item
