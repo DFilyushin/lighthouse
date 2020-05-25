@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { StaffTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
-import {clearError, deleteStaff, loadStaffs } from "redux/actions/staffAction";
+import { deleteStaff, loadStaffs } from "redux/actions/staffAction";
 
 
 
@@ -29,10 +29,6 @@ const StaffList = () => {
     //const hasError = useSelector((state: any) => state.staff.hasError);
     const [selected, setSelected] = useState<number[]>([]);
 
-
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        dispatch(clearError())
-    };
 
     useEffect( ()=>{
             dispatch(loadStaffs())

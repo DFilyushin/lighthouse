@@ -18,7 +18,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SelectItemDialog from "components/SelectItemDialog";
 import {loadUnit} from "redux/actions/unitAction";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import Typography from "@material-ui/core/Typography";
 import Alert from '@material-ui/lab/Alert';
 
 
@@ -64,11 +63,9 @@ const TareItem = (props: ITareItemProps) => {
 
 
     const tareItem  = useSelector((state: any) => state.tare.tareItem);
-    const isLoading = useSelector((state:any) => state.tare.isLoading);
     const errorValue = useSelector((state: any) => state.tare.error);
     const hasError = useSelector((state: any) => state.tare.hasError);
     const unitItems = useSelector((state: any) => state.unit.unitItems);
-    const isOk = useSelector((state: any)=> state.tare.isOk);
 
     const [open, setOpen] = React.useState(false);
 
