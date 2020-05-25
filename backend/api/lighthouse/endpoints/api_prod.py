@@ -31,8 +31,8 @@ class ProductionView(viewsets.ModelViewSet):
         if state is not None:
             queryset = queryset.filter(cur_state=state)
         if start_period:
-            date_start = datetime.strptime(start_period, '%d-%m-%Y')
-            date_end = datetime.strptime(end_period, '%d-%m-%Y')
+            date_start = datetime.strptime(start_period, '%Y-%m-%d')
+            date_end = datetime.strptime(end_period, '%Y-%m-%d')
             queryset = queryset.filter(prod_start__range=(date_start, date_end))
         return queryset.order_by('-prod_start')
 
