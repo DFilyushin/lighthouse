@@ -34,7 +34,7 @@ import Tab from '@material-ui/core/Tab';
 import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import ProductionTeamItem from "../components/ProductionTeamItem";
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
-import {IProductionCalc, IProductionTare} from "types/model/production";
+import {CARD_STATE_DRAFT, CARD_STATE_IN_WORK, IProductionCalc, IProductionTare} from "types/model/production";
 import {loadRaws} from "redux/actions/rawAction";
 import {loadProduct} from "redux/actions/productAction";
 import {loadFactoryLines} from "redux/actions/factoryLineAction";
@@ -311,6 +311,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    const canEditCard = ()=> {
+        return ((productionItem.curState === CARD_STATE_DRAFT) || (productionItem.curState === CARD_STATE_IN_WORK))
+    };
+
 
 
 const getCard = () => {
@@ -479,9 +483,10 @@ const getCard = () => {
                                                     readOnly: true,
                                                 }}
                                             />
-                                            <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
-                                                <MenuOpenIcon />
-                                            </IconButton>
+                                                <IconButton color="primary" className={classes.iconButton}
+                                                            aria-label="directions" onClick={handleChangeProduct}>
+                                                    <MenuOpenIcon/>
+                                                </IconButton>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={6} >
@@ -504,17 +509,22 @@ const getCard = () => {
                                         Список сотрудников работающих в смене
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={1} >
-                                    <Fab color="default" aria-label="add" >
-                                        <AddIcon />
-                                    </Fab>
-                                </Grid>
-                                {productionTeam.map((team: any) =>(
+                                {
+                                    canEditCard() &&
+                                    <Grid item xs={1}>
+                                        <Fab color="default" aria-label="add">
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Grid>
+                                }
+                                {
+                                    productionTeam.map((team: any) =>(
                                     <ProductionTeamItem
                                         item={team}
                                         onChangeItem={handleChangeTeamItem}
                                         onDeleteItem={handleDeleteTeamItem}/>
-                                ))}
+                                    ))
+                                }
                             </Grid>
                         </TabPanel>
                         <TabPanel index={tab} value={PAGE_CALC}>
@@ -524,11 +534,13 @@ const getCard = () => {
                                         Калькуляция сырья
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={1} >
-                                    <Fab color="default" aria-label="add" >
-                                        <AddIcon />
-                                    </Fab>
-                                </Grid>
+                                { canEditCard() &&
+                                    <Grid item xs={1}>
+                                        <Fab color="default" aria-label="add">
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Grid>
+                                }
                                 {productionCalc.map((calc: any) =>(
                                     <ProductionCalcItem
                                         item={calc}
@@ -544,11 +556,13 @@ const getCard = () => {
                                         Упаковка готовой продукции
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={1} >
-                                    <Fab color="default" aria-label="add" >
-                                        <AddIcon />
-                                    </Fab>
-                                </Grid>
+                                { canEditCard() &&
+                                    <Grid item xs={1}>
+                                        <Fab color="default" aria-label="add">
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Grid>
+                                }
                                 {productionTare.map((tare: any) =>(
                                     <ProductionTareItem
                                         item={tare}

@@ -5,6 +5,12 @@ import {nullProduct, Product} from "./product";
 import {IFactoryLine} from "./factorylines";
 import {Raw} from "./raw";
 
+export const CARD_STATE_DRAFT = 0;
+export const CARD_STATE_IN_WORK = 1;
+export const CARD_STATE_READY = 2;
+export const CARD_STATE_ERROR = 3;
+export const CARD_STATE_CANCEL = 4;
+
 export interface IProductionList {
     id: number;
     prodStart: string;
