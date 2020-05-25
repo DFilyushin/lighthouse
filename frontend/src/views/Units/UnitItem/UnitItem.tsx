@@ -79,7 +79,7 @@ const UnitItem = (props: IUnitItemProps) => {
     };
 
     useEffect( ()=> {
-            if (unitId !== 0) dispatch(loadUnitItem(unitId));
+            dispatch(loadUnitItem(unitId));
         }, [dispatch]
     );
 
