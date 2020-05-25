@@ -378,7 +378,6 @@ class TestApiManufacture(TestCase):
                                    loss_value=0, comment='Some text', cur_state=1)
         ProdReadyProduct.objects.create(id=10, id_manufacture_id=2, id_tare_id=1, tare_count=100)
         ProdReadyProduct.objects.create(id=20, id_manufacture_id=2, id_tare_id=2, tare_count=200)
-        print(ProdReadyProduct.objects.filter(id_manufacture_id=2).count())
         tares = []
         response = self.client.put('/prod/2/tare/', data=tares, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
