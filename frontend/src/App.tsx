@@ -10,7 +10,8 @@ import { rootReducer } from "./redux/rootReducer";
 import { ConfirmProvider } from "material-ui-confirm";
 import {SelectDialogProvider} from './components/SelectDialog'
 import thunk from "redux-thunk";
-
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 const browserHistory = createBrowserHistory();
 const theme = createMuiTheme();
 const store = createStore(rootReducer, compose(
@@ -25,7 +26,9 @@ function App() {
             <Router history={browserHistory}>
                 <ConfirmProvider>
                     <SelectDialogProvider>
-                        <Routes />
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Routes />
+                        </MuiPickersUtilsProvider>
                     </SelectDialogProvider>
                 </ConfirmProvider>
             </Router>
