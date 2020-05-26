@@ -63,12 +63,13 @@ class EmployeeSerializer(serializers.ModelSerializer):
     """
     Сотрудник (объект)
     """
+    id = serializers.IntegerField(required=False)
     created = serializers.DateTimeField(required=False)
     tabNum = serializers.CharField(source='tab_num')
     fio = serializers.CharField()
     dob = serializers.DateField()
     iin = serializers.CharField()
-    docType = serializers.CharField(source='doc_type')
+    docType = serializers.IntegerField(source='doc_type')
     docDate = serializers.DateField(source='doc_date')
     docAuth = serializers.CharField(source='doc_auth')
     docNum = serializers.CharField(source='doc_num')
@@ -102,7 +103,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ('created', 'tabNum', 'fio', 'dob', 'iin', 'docType', 'docDate', 'docAuth', 'docNum',
+        fields = ('id', 'created', 'tabNum', 'fio', 'dob', 'iin', 'docType', 'docDate', 'docAuth', 'docNum',
                   'addrRegistration', 'addrResidence', 'contactPhone', 'contactEmail', 'staff')
 
 
