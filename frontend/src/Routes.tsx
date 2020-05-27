@@ -67,8 +67,8 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={StaffView} layout={MainLayout} path="/org/staff" exact/>
             <RouteWithLayout isAuth={true} component={StaffItemView} layout={MainLayout} path="/org/staff/:id" exact/>
 
-            <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employees" exact/>
-            <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee" exact/>
+            <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employee" exact/>
+            <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee/:id" exact/>
             <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
 
             <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineView} path="/catalogs/lines" exact/>

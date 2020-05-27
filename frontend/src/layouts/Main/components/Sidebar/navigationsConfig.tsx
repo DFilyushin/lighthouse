@@ -88,7 +88,7 @@ export default [
                     },
                     {
                         title: 'Сотрудники',
-                        href: '/org/employees'
+                        href: '/org/employee'
                     }
                 ]
             }

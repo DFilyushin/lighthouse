@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -11,14 +11,51 @@ import {
     Button,
     TextField
 } from '@material-ui/core';
+import {useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {IStateInterface} from "../../../redux/rootReducer";
+import {
+    addNewEmployeeItem,
+    changeEmployeeItem,
+    loadEmployeeItem,
+    updateEmployeeItem
+} from "redux/actions/employeeAction";
+import {useDialog} from "components/SelectDialog";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import {changeProductionCard} from "redux/actions/productionAction";
+import {loadStaffs} from "redux/actions/staffAction";
+import {rejects} from "assert";
 
 interface IEmployeeItem {
-    className: string
+    className: string;
+    match: any;
 }
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(4)
+    },
+    paper_root: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    paper_bar: {
+        flexGrow: 1,
+        padding: 1
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
+    },
+    iconButton: {
+        padding: 10,
+    },
+    paper: {
+        width: '80%',
+        maxHeight: 435,
     }
 }));
 
@@ -41,29 +78,74 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const { className, ...rest } = props;
 
     const classes = useStyles();
-
-    const [values, setValues] = useState({
-        tab_num: '1520',
-        fio: 'Сулейменов Серик Велесович',
-        dob: '1985-05-05',
-        iin: '123456789012',
-        doc_type: 2,
-        doc_num: '562315',
-        doc_date: '2010-05-06',
-        doc_auth: 'МВД РК',
-        addr_reg: 'Павлодар, ул. Астана 45, кв.2',
-        addr_res: 'Павлодар, ул. Короленко 123, кв.2',
-        contact_phone: '+7 596 6565 120',
-        contact_email: 'asdasdasd@mail.ru',
-        fired: null
-    });
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const paramId = props.match.params.id;
+    const id = paramId === 'new' ? 0 :parseInt(paramId);
+    const employeeItem = useSelector((state: IStateInterface)=> state.employee.employeeItem);
+    const staffItems = useSelector((state:IStateInterface)=> state.staff.staffs);
+    const hasError = useSelector((state: IStateInterface)=> state.employee.hasError);
+    const selectDialog = useDialog();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value
-        });
+        const item = {...employeeItem, [event.target.name]: event.target.value};
+        dispatch(changeEmployeeItem(item))
     };
+
+    /**
+     * Сохранение изменений
+     * @param dispatch
+     */
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        // do anything here
+        if (id === 0) {
+            await dispatch(addNewEmployeeItem(employeeItem));
+        } else {
+            await dispatch(updateEmployeeItem(employeeItem));
+        }
+        resolve();
+    });
+
+    const saveHandler = (event: React.MouseEvent) => {
+        saveItem(dispatch).then( ()=>{
+                console.log('state', hasError);
+                history.push('/org/employee');
+            }
+        );
+    };
+
+    const waitLoadStaff = (dispatch: any) => new Promise((resolve, reject) =>{
+        dispatch(loadStaffs());
+        resolve();
+    });
+
+    const handleChangeStaff =  (event: React.MouseEvent) => {
+            //await dispatch(loadStaffs());
+
+        waitLoadStaff(dispatch).then(()=> {
+            selectDialog(
+                {
+                    'title': 'Выбор должности',
+                    description: '.',
+                    confirmationText:'Выбрать',
+                    cancellationText: 'Отменить',
+                    dataItems: staffItems,
+                    initKey: 0
+                }
+            ).then((value:any) => {
+                    const item = {...employeeItem};
+                    item.staff.id = value.id;
+                    item.staff.name = value.name;
+                    dispatch(changeEmployeeItem(item));
+                }
+            );
+        })
+
+    };
+
+    useEffect(()=> {
+        dispatch(loadEmployeeItem(id))
+    }, [dispatch])
 
 
     return (
@@ -94,10 +176,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Таб.номер"
                                 margin="dense"
-                                name="tab_num"
+                                name="tabNum"
                                 onChange={handleChange}
                                 required
-                                value={values.tab_num}
+                                value={employeeItem.tabNum}
                                 variant="outlined"
                             />
                         </Grid>
@@ -112,9 +194,29 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 name="fio"
                                 onChange={handleChange}
                                 required
-                                value={values.fio}
+                                value={employeeItem.fio}
                                 variant="outlined"
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Paper  elevation={0} className={classes.paper_root}>
+                                <TextField
+                                    fullWidth
+                                    label="Должность"
+                                    margin="dense"
+                                    name="product"
+                                    onChange={handleChange}
+                                    required
+                                    value={employeeItem.staff.name}
+                                    variant="outlined"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeStaff}>
+                                    <MenuOpenIcon />
+                                </IconButton>
+                            </Paper>
                         </Grid>
                         <Grid
                             item
@@ -127,7 +229,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 name="dob"
                                 onChange={handleChange}
                                 required
-                                value={values.dob}
+                                value={employeeItem.dob}
                                 variant="outlined"
                             />
                         </Grid>
@@ -143,8 +245,13 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 name="iin"
                                 onChange={handleChange}
                                 required
-                                value={values.iin}
+                                value={employeeItem.iin}
                                 variant="outlined"
+                                inputProps={
+                                    {
+                                        maxLength: 12,
+                                    }
+                                }
                             />
                         </Grid>
                         <Grid
@@ -156,10 +263,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Контактный телефон"
                                 margin="dense"
-                                name="phone"
+                                name="contactPhone"
                                 onChange={handleChange}
                                 required
-                                value={values.contact_phone}
+                                value={employeeItem.contactPhone}
                                 variant="outlined"
                             />
                         </Grid>
@@ -172,10 +279,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Email"
                                 margin="dense"
-                                name="email"
+                                name="contactEmail"
                                 onChange={handleChange}
                                 required
-                                value={values.contact_email}
+                                value={employeeItem.contactEmail}
                                 variant="outlined"
                             />
                         </Grid>
@@ -188,13 +295,13 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Тип документа"
                                 margin="dense"
-                                name="doc_type"
+                                name="docType"
                                 onChange={handleChange}
                                 required
                                 select
                                 // eslint-disable-next-line react/jsx-sort-props
                                 SelectProps={{ native: true }}
-                                value={values.doc_type}
+                                value={employeeItem.docType}
                                 variant="outlined"
                             >
                                 {docType.map(option => (
@@ -216,10 +323,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="№ документа"
                                 margin="dense"
-                                name="doc_num"
+                                name="docNum"
                                 onChange={handleChange}
                                 required
-                                value={values.doc_num}
+                                value={employeeItem.docNum}
                                 variant="outlined"
                             />
                         </Grid>
@@ -232,10 +339,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Дата выдачи"
                                 margin="dense"
-                                name="doc_date"
+                                name="docDate"
                                 onChange={handleChange}
                                 required
-                                value={moment(values.doc_date).format('DD/MM/YYYY')}
+                                value={moment(employeeItem.docDate).format('DD/MM/YYYY')}
                                 variant="outlined"
                             />
                         </Grid>
@@ -248,10 +355,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Выдан"
                                 margin="dense"
-                                name="doc_auth"
+                                name="docAuth"
                                 onChange={handleChange}
                                 required
-                                value={values.doc_auth}
+                                value={employeeItem.docAuth}
                                 variant="outlined"
                             />
                         </Grid>
@@ -264,10 +371,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Адрес регистрации"
                                 margin="dense"
-                                name="addr_reg"
+                                name="addrRegistration"
                                 onChange={handleChange}
                                 required
-                                value={values.addr_reg}
+                                value={employeeItem.addrRegistration}
                                 variant="outlined"
                             />
                         </Grid>
@@ -280,10 +387,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 fullWidth
                                 label="Адрес проживания"
                                 margin="dense"
-                                name="addr_res"
+                                name="addrResidence"
                                 onChange={handleChange}
                                 required
-                                value={values.addr_res}
+                                value={employeeItem.addrResidence}
                                 variant="outlined"
                             />
                         </Grid>
@@ -294,8 +401,16 @@ const EmployeeItem = (props: IEmployeeItem) => {
                     <Button
                         color="primary"
                         variant="contained"
+                        onClick={saveHandler}
                     >
                         Сохранить
+                    </Button>
+                    <Button
+                        color="default"
+                        variant="contained"
+                        onClick={(event => history.push('/org/employee/'))}
+                    >
+                        Отменить
                     </Button>
                 </CardActions>
             </form>

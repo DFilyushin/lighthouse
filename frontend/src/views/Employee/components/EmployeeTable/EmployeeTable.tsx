@@ -17,6 +17,8 @@ import {
     TablePagination
 } from '@material-ui/core';
 import {IEmployeeTableItem} from 'types/Interfaces';
+import {IEmployeeListItem} from "../../../../types/model/employee";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -42,14 +44,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface IEmployeesTable{
-    className: string,
-    employees: IEmployeeTableItem[]
+    className: string;
+    employees: IEmployeeListItem[];
+    onClickItem: any;
+    onChangeSelected: any;
 };
 
 
 
 const EmployeeTable = (props: IEmployeesTable) => {
-    const { className, employees, ...rest } = props;
+    const { className, employees, onClickItem, onChangeSelected, ...rest } = props;
 
     const classes = useStyles();
 
@@ -99,6 +103,10 @@ const EmployeeTable = (props: IEmployeesTable) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
+    const cellClicked = (id: number) => {
+        onClickItem(id);
+    };
+
     return (
         <Card
             {...rest}
@@ -123,8 +131,8 @@ const EmployeeTable = (props: IEmployeesTable) => {
                                     </TableCell>
                                     <TableCell>Таб. номер</TableCell>
                                     <TableCell>Сотрудник</TableCell>
-                                    <TableCell>Дата рождения</TableCell>
                                     <TableCell>Должность</TableCell>
+                                    <TableCell/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -144,11 +152,13 @@ const EmployeeTable = (props: IEmployeesTable) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{employee.tab_num}</Typography>
+                                            <Typography variant="body1">{employee.tabNum}</Typography>
                                         </TableCell>
                                         <TableCell>{employee.fio}</TableCell>
-                                        <TableCell>{moment(employee.dob).format('DD/MM/YYYY')}</TableCell>
                                         <TableCell>{employee.staff}</TableCell>
+                                        <TableCell align="right">
+                                            <Button variant="outlined" color="primary" onClick={event => cellClicked(employee.id)}>Открыть</Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
