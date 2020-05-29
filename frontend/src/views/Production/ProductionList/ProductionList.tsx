@@ -37,8 +37,18 @@ const ProductionList = () => {
         dispatch(clearError())
     };
 
+    function refreshOnLoad(){
+        const d1: string|null = localStorage.getItem(PROD_PERIOD_START);
+        const d2: string|null = localStorage.getItem(PROD_PERIOD_END);
+        const product: string|null = localStorage.getItem(PROD_PRODUCT);
+        if (d1 && d2){
+            handleRefresh(new Date(d1), new Date(d2))
+        }
+    }
+
     useEffect( ()=>{
-            dispatch(loadProduct())
+            dispatch(loadProduct());
+            refreshOnLoad();
         }, [dispatch]
     );
 

@@ -18,6 +18,7 @@ import {
 import Button from "@material-ui/core/Button";
 import moment from "moment";
 import {IProductionList} from "types/model/production";
+import ProductionStateIcon from "../ProductionStateIcon";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -125,13 +126,13 @@ const ProductionTable = (props: IProductionTableProps) => {
                                             onChange={handleSelectAll}
                                         />
                                     </TableCell>
+                                    <TableCell/>
                                     <TableCell>№</TableCell>
                                     <TableCell>Продукция</TableCell>
                                     <TableCell>Количество</TableCell>
                                     <TableCell>Начало цикла</TableCell>
                                     <TableCell>Окончание</TableCell>
                                     <TableCell>Рук-ль</TableCell>
-                                    <TableCell>Состояние</TableCell>
                                     <TableCell/>
                                 </TableRow>
                             </TableHead>
@@ -152,6 +153,9 @@ const ProductionTable = (props: IProductionTableProps) => {
                                             />
                                         </TableCell>
                                         <TableCell>
+                                            <Typography variant="body1"><ProductionStateIcon stateIndex={item.state}/></Typography>
+                                        </TableCell>
+                                        <TableCell>
                                             <Typography variant="body1">{item.id}</Typography>
                                         </TableCell>
                                         <TableCell>
@@ -168,9 +172,6 @@ const ProductionTable = (props: IProductionTableProps) => {
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="body1">{item.leaderName}</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body1">{item.state}</Typography>
                                         </TableCell>
                                         <TableCell align="right">
                                             <Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Открыть</Button>

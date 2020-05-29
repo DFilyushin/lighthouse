@@ -127,3 +127,11 @@ export const nullProductionTare: IProductionTare = {
     tareV: 0,
     count: 0
 };
+
+export const CardStateString  = [
+    "Черновик",
+    "В работе",
+    "Выполнен",
+    "Завершён с ошибкой",
+    "Отменён"
+];

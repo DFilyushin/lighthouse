@@ -10,8 +10,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {Product} from "types/model/product";
-import {PROD_PERIOD_END, PROD_PERIOD_START} from "../../../../types/Settings";
-
+import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
+import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +50,14 @@ const useStyles = makeStyles(theme => ({
     },
     formControlWidth: {
         minWidth: 250
+    },
+    large: {
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+    },
+    white: {
+        color: theme.palette.grey["100"],
+        backgroundColor: theme.palette.background.default
     }
 }));
 
@@ -115,7 +128,14 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
             {...rest}
             className={clsx(classes.root, className)}
         >
-            <Typography variant="h5">Производство</Typography>
+            <List className={classes.root}>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar className={clsx(classes.large, classes.white)}> <DomainOutlinedIcon color={"primary"}/> </Avatar>
+                    </ListItemAvatar>
+                    <Typography variant="h4">Производство</Typography>
+                </ListItem>
+            </List>
             <div className={classes.buttonGroup}>
                 <span className={classes.spacer} />
                 <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Новая карта</Button>

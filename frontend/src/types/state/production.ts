@@ -14,5 +14,6 @@ export interface IProductionState {
     isLoading: boolean;
     error: string;
     typeMessage: string;
-    hasError: boolean
+    hasError: boolean;
+    canRedirect: boolean;
 }
