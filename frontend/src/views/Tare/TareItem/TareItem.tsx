@@ -67,6 +67,7 @@ const TareItem = (props: ITareItemProps) => {
     const hasError = useSelector((state: any) => state.tare.hasError);
     const unitItems = useSelector((state: any) => state.unit.unitItems);
 
+
     const [open, setOpen] = React.useState(false);
 
 
@@ -102,25 +103,12 @@ const TareItem = (props: ITareItemProps) => {
             history.push('/catalogs/tare');
         }
         )
-
-        // if (tareId === 0) {
-        //     dispatch(addNewTare(tareItem));
-        // } else {
-        //     dispatch(updateTare(tareItem));
-        // }
-        // console.log('hasError', hasError);
-
-        //if (!hasError) history.push('/catalogs/tare');
     };
 
     useEffect( ()=> {
             dispatch(loadTareItem(tareId));
         }, [dispatch]
     );
-
-    // useEffect(()=>{
-    //     if (!hasError) history.push('/catalogs/tare');
-    // }, [hasError])
 
     const handleClickListItem = () => {
         dispatch(loadUnit());
