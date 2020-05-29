@@ -5,9 +5,15 @@ import axios from "axios";
 import ClientEndpoint from 'services/endpoints/ClientEndpoint';
 import CircularIndeterminate from "components/Loader/Loader";
 import { ClientTable, ClientToolbar } from './components';
-import { IClientItemList } from 'types/Interfaces';
+import { IClientItemList } from 'types/model/client';
 import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
+import {deleteClient, loadClients} from "../../redux/actions/clientAction";
+import {useDispatch, useSelector} from "react-redux";
+import {DefaultToolbar} from "../../components";
+import {loadFormula} from "../../redux/actions/formulaAction";
+import {IStateInterface} from "../../redux/rootReducer";
+import {deleteProduct} from "../../redux/actions/productAction";
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,63 +27,49 @@ const useStyles = makeStyles(theme => ({
 
 const ClientList = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const history = useHistory();
 
     // @ts-ignore
-    const [clients, setClients] = useState<IClientItemList[]>([]);
-    const [isLoading, setLoading] = useState<boolean>(true);
+    const isLoading = useSelector((state: IStateInterface) => state.client.isLoading);
+    const clients = useSelector((state: IStateInterface) => state.client.items);
     const [selected, setSelected] = useState<number[]>([]);
     const [showAlert, setShowAlert] = useState(false);
     const [messageAlert, setMessageAlert] = useState('');
     const [typeAlert, setTypeAlert] = useState<Color>('success');
 
-    async function loadData() {
-        setLoading(true);
-        const response = await axios.get(ClientEndpoint.getClientList());
-        const data = await response.data;
-        setClients(data);
-        setLoading(false);
-    };
-
-    async function findClients(findText: string){
-        setLoading(true);
-        const response = await axios.get(ClientEndpoint.getClientList(findText));
-        const data = await response.data;
-        setClients(data);
-        setLoading(false);
-    };
 
     useEffect(() => {
-        loadData();
-    }, []);
+        dispatch(loadClients())
+    }, [dispatch]);
 
     function onClickTableItem(clientId: number){
         const clientUrl = `/client/${clientId}`;
         history.push(clientUrl);
-    };
+    }
+
+    async function onFindClientHandler(findText: string){
+        dispatch(loadClients(findText))
+    }
 
     function onDeleteHandle() {
-        const newClients = [...clients];
         selected.forEach(async (item, i, selected) => {
-            const response = await axios.delete(ClientEndpoint.deleteClient(item));
-            if (response.status === 200){
-                const indexItem = newClients.findIndex(
-                    function (element, index, array) {
-                        return (element.id === item)}
-                        );
-                if (indexItem > -1){
-                    newClients.splice(indexItem, 1);
-                }
-                setMessageAlert('Клиент удалён');
-                setShowAlert(true);
-            }
+            dispatch(deleteClient(item))
         });
-        setClients(newClients);
     }
 
     return (
         <div className={classes.root}>
-            <ClientToolbar className={''} onFind={findClients} onDelete={onDeleteHandle}/>
+            <DefaultToolbar 
+                className={''}
+                showDelete={true}
+                title={'Клиенты'}
+                newItemUrl={'/client/new'}
+                newItemTitle={'Новый клиент'}
+                findCaption={'Поиск клиента'}
+                onFind={onFindClientHandler}
+                onDelete={onDeleteHandle}    
+            />
             <div className={classes.content}>
                 {
                     isLoading ? <CircularIndeterminate/>

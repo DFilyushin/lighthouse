@@ -28,31 +28,7 @@ export interface IProductTableItem {
     name: string
 }
 
-export interface IClientItemList {
-    id: number,
-    clientName: string,
-    clientAddr: string,
-    clientAgent: string,
-    clientEmployee: string
-}
 
-export interface IClientItem {
-    id: number,
-    created: string,
-    clientName: string,
-    clientAddr: string,
-    clientAgent: string,
-    clientEmployee: string,
-    contactPhone: string,
-    contactEmail: string,
-    contactFax: string,
-    reqBin: string,
-    reqAccount: string,
-    reqBank: string,
-    reqBik: string
-    comment: string
-    clientId: string
-}
 
 export interface IContractListItem {
     id: number,
