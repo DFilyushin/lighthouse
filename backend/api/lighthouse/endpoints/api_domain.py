@@ -38,7 +38,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     Подразделения предприятия
     """
     serializer_class = DepartmentSerializer
-    queryset = Department.objects.all()
+    queryset = Department.objects.all().order_by('name')
 
 
 class StaffViewSet(viewsets.ModelViewSet):
@@ -46,7 +46,7 @@ class StaffViewSet(viewsets.ModelViewSet):
     Должности предприятия
     """
     serializer_class = StaffSerializer
-    queryset = Staff.objects.all()
+    queryset = Staff.objects.all().order_by('name')
 
 
 class EmployeeView(viewsets.ModelViewSet):

@@ -14,15 +14,15 @@ class ClientSerializer(serializers.ModelSerializer):
     clientAgent = serializers.CharField(source='id_agent.fio', read_only=True)
     clientEmployee = serializers.CharField(source='contact_employee')
     contactPhone = serializers.CharField(source='contact_phone')
-    contactEmail = serializers.CharField(source='contact_email')
-    contactFax = serializers.CharField(source='contact_fax')
+    contactEmail = serializers.CharField(source='contact_email', required=False, allow_blank=True)
+    contactFax = serializers.CharField(source='contact_fax', required=False, allow_blank=True)
     reqBin = serializers.CharField(source='req_bin')
     reqAccount = serializers.CharField(source='req_account')
     reqBik = serializers.CharField(source='req_bik')
     reqBank = serializers.CharField(source='req_bank')
-    comment = serializers.CharField()
-    clientId = serializers.CharField(source='clientid')
-    agentId = serializers.IntegerField(source='id_agent.id')
+    comment = serializers.CharField(required=False, allow_blank=True)
+    clientId = serializers.CharField(source='clientid', required=False, allow_blank=True)
+    agentId = serializers.IntegerField(source='id_agent.id', required=False)
 
     class Meta:
         model = Client
