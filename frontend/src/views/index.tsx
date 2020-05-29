@@ -34,5 +34,7 @@ export { default as ProductionDetails } from './Production/ProductionDetails';
 
 export { default as DepartmentList} from './Department/DepartmentList';
 export { default as DepartmentItem} from './Department/DepartmentItem';
+
+export { default as Setup } from './Setup';
 export { default as About } from './About';
 export { default as Changelog } from './Changelog';

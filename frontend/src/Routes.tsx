@@ -23,8 +23,6 @@ import {
     FormulaItem as FormulaItemView,
     Tares as TareView,
     TareItem as TareItemView,
-    About as AboutView,
-    Changelog as ChangelogView,
     Units as UnitView,
     UnitItem as UnitItemView,
     Staffs as StaffView,
@@ -34,7 +32,10 @@ import {
     FactoryLineItem as FactoryLineItemView,
     ProductionDetails as ProductionDetailsView,
     DepartmentList as DepartmentListView,
-    DepartmentItem as DepartmentItemView
+    DepartmentItem as DepartmentItemView,
+    About as AboutView,
+    Changelog as ChangelogView,
+    Setup as SetupView
 } from './views'
 
 const Routes = () => {
@@ -83,6 +84,7 @@ const Routes = () => {
 
             <RouteWithLayout isAuth={true} component={AboutView} layout={MainLayout} path="/about" exact/>
             <RouteWithLayout isAuth={true} component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
+            <RouteWithLayout isAuth={true} component={SetupView} layout={MainLayout} path="/setup" exact/>
 
             <RouteWithLayout isAuth={true} component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
 

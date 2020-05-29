@@ -119,7 +119,7 @@ export default [
             },
             {
                 title: 'Настройки',
-                href: '/admin/settings',
+                href: '/setup',
                 icon: SettingsIcon
             }
         ]
@@ -136,7 +136,7 @@ export default [
                 title: 'Изменения',
                 href: '/changelog',
                 icon: NewReleasesOutlinedIcon,
-                label: () => <Label color={colors.blue['500']}>v1.2.0</Label>
+                label: () => <Label color={colors.blue['500']}>v20.05</Label>
             }
         ]
     }
