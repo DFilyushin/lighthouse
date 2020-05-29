@@ -1,20 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import axios from "axios";
-import ClientEndpoint from 'services/endpoints/ClientEndpoint';
 import CircularIndeterminate from "components/Loader/Loader";
-import { ClientTable, ClientToolbar } from './components';
-import { IClientItemList } from 'types/model/client';
+import { ClientTable } from './components';
 import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
 import {deleteClient, loadClients} from "../../redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
 import {DefaultToolbar} from "../../components";
-import {loadFormula} from "../../redux/actions/formulaAction";
 import {IStateInterface} from "../../redux/rootReducer";
-import {deleteProduct} from "../../redux/actions/productAction";
-
+import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -68,7 +64,8 @@ const ClientList = () => {
                 newItemTitle={'Новый клиент'}
                 findCaption={'Поиск клиента'}
                 onFind={onFindClientHandler}
-                onDelete={onDeleteHandle}    
+                onDelete={onDeleteHandle}
+                icon={<GroupOutlinedIcon color={"primary"}/>}
             />
             <div className={classes.content}>
                 {
