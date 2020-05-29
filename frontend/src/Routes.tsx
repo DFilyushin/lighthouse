@@ -32,7 +32,9 @@ import {
     ProductionList as ProductionListView,
     FactoryLine as FactoryLineView,
     FactoryLineItem as FactoryLineItemView,
-    ProductionDetails as ProductionDetailsView
+    ProductionDetails as ProductionDetailsView,
+    DepartmentList as DepartmentListView,
+    DepartmentItem as DepartmentItemView
 } from './views'
 
 const Routes = () => {
@@ -70,6 +72,8 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employee" exact/>
             <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee/:id" exact/>
             <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
+            <RouteWithLayout isAuth={true} component={DepartmentListView} layout={MainLayout} path="/org/structure" exact/>
+            <RouteWithLayout isAuth={true} component={DepartmentItemView} layout={MainLayout} path="/org/structure/:id" exact/>
 
             <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineView} path="/catalogs/lines" exact/>
             <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineItemView} path="/catalogs/lines/:id" exact/>

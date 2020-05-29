@@ -32,5 +32,7 @@ export { default as FactoryLineItem } from './FactoryLine/FactoryLineItem';
 export { default as ProductionList } from './Production/ProductionList';
 export { default as ProductionDetails } from './Production/ProductionDetails';
 
+export { default as DepartmentList} from './Department/DepartmentList';
+export { default as DepartmentItem} from './Department/DepartmentItem';
 export { default as About } from './About';
 export { default as Changelog } from './Changelog';
