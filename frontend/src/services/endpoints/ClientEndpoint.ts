@@ -22,7 +22,7 @@ class ClientEndpoint {
      * @param id - Код клиента
      */
     static getClientItem(id: number): string{
-        return `${BaseAPIEndpoint.getBaseURL()}/client/${id}`;
+        return `${BaseAPIEndpoint.getBaseURL()}/client/${id}/`;
     }
 
     /**
@@ -30,7 +30,7 @@ class ClientEndpoint {
      * @param id - Код клиента
      */
     static deleteClient(id: number): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/client/${id}`;
+        return this.getClientItem(id)
     }
 
     /**
@@ -38,7 +38,7 @@ class ClientEndpoint {
      * @param id - Код клиента
      */
     static saveClient(id: number): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/client/${id}`;
+        return this.getClientItem(id)
     }
 
     /**
