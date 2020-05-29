@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "../../../redux/rootReducer";
+import {IStateInterface} from "redux/rootReducer";
 import {
     addNewEmployeeItem,
     changeEmployeeItem,
@@ -24,9 +24,8 @@ import {useDialog} from "components/SelectDialog";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import {changeProductionCard} from "redux/actions/productionAction";
 import {loadStaffs} from "redux/actions/staffAction";
-import {rejects} from "assert";
+import { docType } from 'types/model/employee';
 
 interface IEmployeeItem {
     className: string;
@@ -58,21 +57,6 @@ const useStyles = makeStyles((theme) => ({
         maxHeight: 435,
     }
 }));
-
-const docType = [
-    {
-        value: 0,
-        label: 'УДЛ'
-    },
-    {
-        value: 1,
-        label: 'Паспорт гражданина РК'
-    },
-    {
-        value: 2,
-        label: 'Паспорт иностранного гражданина'
-    }
-];
 
 const EmployeeItem = (props: IEmployeeItem) => {
     const { className, ...rest } = props;
@@ -114,38 +98,29 @@ const EmployeeItem = (props: IEmployeeItem) => {
         );
     };
 
-    const waitLoadStaff = (dispatch: any) => new Promise((resolve, reject) =>{
-        dispatch(loadStaffs());
-        resolve();
-    });
-
     const handleChangeStaff =  (event: React.MouseEvent) => {
-            //await dispatch(loadStaffs());
-
-        waitLoadStaff(dispatch).then(()=> {
-            selectDialog(
-                {
-                    'title': 'Выбор должности',
-                    description: '.',
-                    confirmationText:'Выбрать',
-                    cancellationText: 'Отменить',
-                    dataItems: staffItems,
-                    initKey: 0
-                }
-            ).then((value:any) => {
-                    const item = {...employeeItem};
-                    item.staff.id = value.id;
-                    item.staff.name = value.name;
-                    dispatch(changeEmployeeItem(item));
-                }
-            );
-        })
-
+        selectDialog(
+            {
+                'title': 'Выбор должности',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: staffItems,
+                initKey: employeeItem.staff.id
+            }
+        ).then((value:any) => {
+                const item = {...employeeItem};
+                item.staff.id = value.id;
+                item.staff.name = value.name;
+                dispatch(changeEmployeeItem(item));
+            }
+        );
     };
 
     useEffect(()=> {
-        dispatch(loadEmployeeItem(id))
-    }, [dispatch])
+        dispatch(loadEmployeeItem(id));
+        dispatch(loadStaffs());
+    }, [dispatch]);
 
 
     return (

@@ -49,3 +49,18 @@ export const nullEmployee = {
     contactPhone: '',
     staff: {id: 0, name: ''}
 };
+
+export const docType = [
+    {
+        value: 0,
+        label: 'УДЛ'
+    },
+    {
+        value: 1,
+        label: 'Паспорт гражданина РК'
+    },
+    {
+        value: 2,
+        label: 'Паспорт иностранного гражданина'
+    }
+];
