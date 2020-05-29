@@ -78,7 +78,19 @@ export default class AuthenticationService {
         return `${tokenObject.lastName} ${tokenObject.firstName}`;
     }
 
+    /**
+     * Признак аутентификации пользователя
+     */
     static isAuthenticated() {
         return !!AuthenticationService.currentUserName()
+    }
+
+    /**
+     * Код сотрудника
+     */
+    static currentEmployeeId(){
+        const token = localStorage.getItem('token') || '';
+        const tokenObject = parseJwt(token);
+        return tokenObject.user_id
     }
 }
