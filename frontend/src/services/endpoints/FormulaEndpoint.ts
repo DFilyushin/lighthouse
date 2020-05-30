@@ -48,6 +48,15 @@ class FormulaEndpoint {
         return this.getFormulaItem(id)
     }
 
+    /**
+     * Калькуляция по выбранной формуле
+     * @param formulaId Код формулы
+     * @param count Рассчётное количество
+     */
+    static getCalculation(formulaId: number, count: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/formula/${formulaId}/calc/?count=${count}`
+    }
+
 }
 
 export default FormulaEndpoint;
