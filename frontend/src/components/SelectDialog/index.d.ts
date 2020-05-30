@@ -9,6 +9,7 @@ export interface SelectDialogOptions {
   cancellationText?: string;
   dataItems: any[],
   initKey: number,
+  valueName: string;
   dialogProps?: DialogProps;
   confirmationButtonProps?: ButtonProps;
   cancellationButtonProps?: ButtonProps;

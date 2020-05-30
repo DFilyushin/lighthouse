@@ -19,6 +19,7 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
     dialogProps,
     confirmationButtonProps,
     cancellationButtonProps,
+      valueName
   } = options;
   const [id, setId] = React.useState(0);
   const [itemValue, setItemValue] = React.useState('');
@@ -28,7 +29,7 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
     const selectedId = parseInt(event.target.value);
     const index = dataItems.findIndex((item, index, array)=>{return item.id === selectedId});
     setId(selectedId);
-    setItemValue(dataItems[index].name)
+    setItemValue(dataItems[index][valueName] )
   };
 
   const handleClick = (event) => {
@@ -50,7 +51,7 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
         >
             {
               dataItems.map( (record)=>(
-                  <FormControlLabel value={parseInt(record.id)} key={record.id} control={<Radio/>} label={record.name}/>
+                  <FormControlLabel value={parseInt(record.id)} key={record.id} control={<Radio/>} label={record[valueName]}/>
                   )
               )
             }
