@@ -106,7 +106,8 @@ const EmployeeItem = (props: IEmployeeItem) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: staffItems,
-                initKey: employeeItem.staff.id
+                initKey: employeeItem.staff.id,
+                valueName: 'name'
             }
         ).then((value:any) => {
                 const item = {...employeeItem};

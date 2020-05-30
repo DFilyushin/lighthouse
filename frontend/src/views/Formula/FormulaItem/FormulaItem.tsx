@@ -93,7 +93,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: productItems,
-                initKey: 0
+                initKey: 0,
+                valueName: 'name'
             }
         ).then((value:any) => {
                 const item = {...formulaItem};
@@ -117,7 +118,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: rawItems,
-                initKey: 0
+                initKey: 0,
+                valueName: 'name'
             }
         ).then((value:any) => {
                 const item = {...formulaItem};
@@ -157,7 +159,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: rawItems,
-                initKey: 0
+                initKey: 0,
+                valueName: 'name'
             }
         ).then((value:any) => {
                 const item = {...formulaItem};
