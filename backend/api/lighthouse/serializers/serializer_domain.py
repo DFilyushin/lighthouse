@@ -65,7 +65,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     """
     id = serializers.IntegerField(required=False)
     created = serializers.DateTimeField(required=False)
-    tabNum = serializers.CharField(source='tab_num')
+    tabNum = serializers.CharField(source='tab_num', allow_blank=True)
     fio = serializers.CharField()
     dob = serializers.DateField()
     iin = serializers.CharField()
@@ -112,9 +112,9 @@ class EmployeeListSerializer(serializers.ModelSerializer):
     Сотрудники (список)
     """
     id = serializers.IntegerField()
-    tabNum = serializers.CharField(source='tab_num')
+    tabNum = serializers.CharField(source='tab_num',allow_blank=True)
     fio = serializers.CharField()
-    staff = serializers.CharField(source='id_staff.name')
+    staff = serializers.CharField(source='id_staff.name', allow_blank=True)
 
     class Meta:
         model = Employee

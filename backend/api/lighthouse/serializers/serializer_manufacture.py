@@ -285,7 +285,7 @@ class CalculationRawsResponseSerializer(serializers.Serializer):
     """
     Состав сырья в калькуляции
     """
-    idRaw = serializers.IntegerField(source='id_raw_id')
+    idRaw = RawSerializer(source='id_raw')
     rawCount = serializers.FloatField(source='calculated')
 
 
