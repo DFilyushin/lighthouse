@@ -1,0 +1,44 @@
+[
+{
+  "model": "lighthouse.department",
+  "pk": 0,
+  "fields": {
+    "name": "\u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u043e"
+  }
+},
+{
+  "model": "lighthouse.department",
+  "pk": 2,
+  "fields": {
+    "name": "\u0424\u0438\u043d. \u043e\u0442\u0434\u0435\u043b"
+  }
+},
+{
+  "model": "lighthouse.department",
+  "pk": 3,
+  "fields": {
+    "name": "\u041f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0441\u0442\u0432\u043e"
+  }
+},
+{
+  "model": "lighthouse.department",
+  "pk": 4,
+  "fields": {
+    "name": "\u042e\u0440. \u043e\u0442\u0434\u0435\u043b"
+  }
+},
+{
+  "model": "lighthouse.department",
+  "pk": 5,
+  "fields": {
+    "name": "\u0425\u043e\u0437. \u0447\u0430\u0441\u0442\u044c"
+  }
+},
+{
+  "model": "lighthouse.department",
+  "pk": 6,
+  "fields": {
+    "name": "\u0420\u0443\u043a\u043e\u0432\u043e\u0434\u0441\u0442\u0432\u043e"
+  }
+}
+]
