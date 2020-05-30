@@ -1,4 +1,5 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, SyntheticEvent, useEffect} from 'react';
+import {Redirect} from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -11,34 +12,49 @@ import {
     TextField, Box
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import AddIcon from '@material-ui/icons/Add';
 import CircularIndeterminate from "components/Loader/Loader";
-import SelectItemDialog from "components/SelectItemDialog";
 import { useConfirm } from "material-ui-confirm";
 import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
 import {useDialog} from "components/SelectDialog";
 import {IStateInterface} from "redux/rootReducer";
 import {
+    getAutoCalculation,
+    addNewProduction,
     changeProductionCard, deleteCalcItem, deleteTareItem, deleteTeamItem,
     getProductionCalc, getProductionTare,
     getProductionTeam,
-    loadProductionCard, updateCalcItem, updateTareItem
+    loadProductionCard, newCalcItem, newTeamItem, updateCalcItem, updateProduction, updateTareItem, updateTeamItem
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import LayersIcon from '@material-ui/icons/Layers';
+import Tooltip from '@material-ui/core/Tooltip';
 import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import ProductionTeamItem from "../components/ProductionTeamItem";
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
-import {CARD_STATE_DRAFT, CARD_STATE_IN_WORK, IProductionCalc, IProductionTare} from "types/model/production";
+import {
+    CARD_STATE_DRAFT,
+    CARD_STATE_IN_WORK,
+    CardStateString,
+    IProductionCalc,
+    IProductionTare, IProductionTeam
+} from "types/model/production";
 import {loadRaws} from "redux/actions/rawAction";
 import {loadProduct} from "redux/actions/productAction";
 import {loadFactoryLines} from "redux/actions/factoryLineAction";
 import ProductionTareItem from "../components/ProductionTareItem";
+
+import ProductionStateIcon from '../components/ProductionStateIcon';
+
+import TabPanel from "../components/TabPanel";
+import {loadEmployeeList} from "../../../redux/actions/employeeAction";
+
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -76,40 +92,13 @@ interface IProductionDetailsProps {
     match: any
 }
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: any;
-    value: any;
-}
-
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Fragment>
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`scrollable-auto-tabpanel-${index}`}
-            aria-labelledby={`scrollable-auto-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    {children}
-                </Box>
-            )}
-        </div>
-        </Fragment>
-    );
-}
-
 const ProductionDetails = (props: IProductionDetailsProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
+    const store = useStore();
     const confirm = useConfirm();
+    const selectDialog = useDialog();
     const paramId = props.match.params.id;
     const idProduction = paramId === 'new' ? 0 :parseInt(paramId);
     const { className, match, ...rest } = props;
@@ -118,15 +107,15 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam);
     const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc);
     const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare);
-    const selectDialog = useDialog();
+    const canRedirect = useSelector((state: IStateInterface)=> state.production.canRedirect);
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading);
-    // const errorValue = useSelector((state: any) => state.formula.error);
     const hasError = useSelector((state: IStateInterface) => state.production.hasError);
     const productItems = useSelector((state: IStateInterface) => state.product.products);
     const rawItems = useSelector((state: IStateInterface) => state.raw.raws);
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems);
+    const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.items);
+    const emplItems = useSelector((state: IStateInterface) => state.employee.items);
     const [tab, setTab] = React.useState(0);
-
 
     /**
      * Изменения основных компонентов
@@ -141,7 +130,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Сменить продукцию, на которую производится расчёт
      */
     const handleChangeProduct = () => {
-        dispatch(loadProduct());
         selectDialog(
             {
                 'title': 'Выбор продукции',
@@ -149,7 +137,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: productItems,
-                initKey: 0
+                initKey: 0,
+                valueName: 'name'
             }
         ).then((value:any) => {
                 const item = {...productionItem};
@@ -160,22 +149,60 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    /**
+     * Добавить новую запись смены
+     * @param id
+     */
+    const handleAddTeamItem = (id: number)=> {
+        dispatch(newTeamItem())
+    };
 
     /**
-     * Сохранить изменения
-     * @param event
+     * Добавить новую запись калькуляции
+     * @param id
      */
-    const saveHandler = (event: React.MouseEvent) => {
-        // if (formulaId === 0) {
-        //     dispatch(addNewFormula(productionItem));
-        // } else {
-        //     dispatch(updateFormula(productionItem));
-        // }
-        // if (!hasError) history.push('/catalogs/formula');
+    const handleAddCalcItem = (id: number)=> {
+        dispatch(newCalcItem())
+    };
+
+    /**
+     * Добавить автоматически рассчитанную калькуляцию
+    */
+    const handleAddCalcAuto = () => {
+        if (productionCalc.length > 0) {
+            confirm(
+                {
+                    'title': 'Подтверждение',
+                    description: `Добавление автоматической калькуляции удалит имеющиеся записи. Продолжить?.`,
+                    confirmationText:'Да',
+                    cancellationText: 'Нет'
+                }
+            ).then(()=>{dispatch(getAutoCalculation())});
+        }else{
+            dispatch(getAutoCalculation())
+        }
+
     };
 
     const handleChangeTeamItem = (id: number)=> {
-
+        selectDialog(
+            {
+                'title': 'Выбор сотрудника',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: emplItems,
+                initKey: 0,
+                valueName: 'fio'
+            }
+        ).then((value:any) => {
+            const item = [...productionTeam];
+            const index = item.findIndex((item:IProductionTeam, index:number, array: IProductionTeam[]) => {return item.id === id});
+            item[index].employee.id = value.id;
+            item[index].employee.fio = value.name;
+            dispatch(updateTeamItem(item[index]));
+            }
+        );
     };
 
     /**
@@ -215,6 +242,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      */
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setTab(newValue);
+        console.log('handleTabChange', productionCalc)
         switch (newValue) {
             case PAGE_TEAM: if (productionTeam.length === 0) dispatch(getProductionTeam(idProduction)); break;
             case PAGE_CALC: if (productionCalc.length === 0) dispatch(getProductionCalc(idProduction));break;
@@ -223,6 +251,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     };
 
     useEffect( ()=> {
+            dispatch(loadRaws());
+            dispatch(loadProduct());
+            dispatch(loadFactoryLines());
+            dispatch(loadEmployeeList());
             dispatch(loadProductionCard(idProduction));
         }, [dispatch]
     );
@@ -235,17 +267,35 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     }
 
     const handleDateChangeProdStart = (date: Date | null) => {
-        console.log(date);
         const strDate = date?.toISOString().slice(0, 19);
         const item = {...productionItem, 'prodStart': strDate as string};
         dispatch(changeProductionCard(item))
     };
 
     const handleDateChangeProdFinish = (date: Date | null) => {
-        console.log(date?.toISOString());
         const strDate = date?.toISOString().slice(0, 19);
         const item = {...productionItem, 'prodFinish': strDate as string};
         dispatch(changeProductionCard(item))
+    };
+
+    const handleChangeProdLine = () => {
+        selectDialog(
+            {
+                'title': 'Выбор линии',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: prodLinetItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+                const item = {...productionItem};
+                item.prodLine.id = value.id;
+                item.prodLine.name = value.name;
+                dispatch(updateProduction(item));
+            }
+        );
     };
 
     /**
@@ -253,7 +303,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * @param id Код записи
      */
     const handleChangeCalcItem = (id: number) => {
-        dispatch(loadRaws());
         selectDialog(
             {
                 'title': 'Выбор сырья',
@@ -261,7 +310,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: rawItems,
-                initKey: 0
+                initKey: 0,
+                valueName: 'name'
             }
         ).then((value:any) => {
             const item = [...productionCalc];
@@ -291,7 +341,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     };
 
     const handleChangeTareItem = (id: number)=> {
-        dispatch(loadRaws());
         selectDialog(
             {
                 'title': 'Выбор тары',
@@ -299,7 +348,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: tareItems,
-                initKey: 0
+                initKey: 0,
+                valueName: 'name'
             }
         ).then((value:any) => {
                 const item = [...productionTare];
@@ -315,13 +365,48 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         return ((productionItem.curState === CARD_STATE_DRAFT) || (productionItem.curState === CARD_STATE_IN_WORK))
     };
 
+    const saveItem = (dispatch:any) => new Promise(async(resolve, reject) => {
+        console.log('saveItem');
+        try{
+            await dispatch(updateProduction(productionItem));
+            console.log('hasError', hasError);
+            resolve()
+        }catch (e) {
+            reject()
+        }
+    });
 
+
+    /**
+     * Сохранить изменения
+     * @param event
+     */
+    const saveHandler = (event: SyntheticEvent) => {
+        saveItem(dispatch).then(()=>{
+            console.log('Main dataset save Ok');
+
+        }).catch((e)=> {
+            console.log('Error')
+        });
+        event.preventDefault();
+    };
+
+    function getCardState(state: number): string {
+        return CardStateString[state]
+    }
 
 const getCard = () => {
+        // if (canRedirect) { return <Redirect to='/factory/'/> }
         return (
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
-                    <CardHeader subheader={productionItem.id} title="Производственная карта"/>
+
+                <form autoComplete="off" onSubmit={saveHandler}>
+                    <CardHeader
+                        subheader={getCardState(productionItem.curState)}
+                        title={`Производственная карта #${productionItem.id}`}
+                        avatar={<ProductionStateIcon stateIndex={productionItem.curState}/>}
+                    />
+
                     <Divider />
                     <CardContent>
                         <Paper className={classes.paper_bar}>
@@ -383,7 +468,7 @@ const getCard = () => {
                                                 readOnly: true,
                                             }}
                                         />
-                                        <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
+                                        <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProdLine}>
                                             <MenuOpenIcon />
                                         </IconButton>
                                     </Paper>
@@ -397,6 +482,7 @@ const getCard = () => {
                                             id="date-picker-inline"
                                             label="Начало процесса"
                                             name="prodStart"
+                                            required
                                             value={productionItem?.prodStart}
                                             onChange={handleDateChangeProdStart}
                                         />
@@ -468,13 +554,13 @@ const getCard = () => {
                                             variant="outlined"
                                         />
                                     </Grid>
-                                    <Grid item xs={6} >
+                                    <Grid item xs={12} >
                                         <Paper  elevation={0} className={classes.paper_root}>
                                             <TextField
                                                 fullWidth
                                                 label="Начальник смены"
                                                 margin="dense"
-                                                name="prodLine"
+                                                name="teamLeader"
                                                 onChange={handleChange}
                                                 required
                                                 value={productionItem?.teamLeader.fio}
@@ -489,17 +575,7 @@ const getCard = () => {
                                                 </IconButton>
                                         </Paper>
                                     </Grid>
-                                    <Grid item xs={6} >
-                                        <TextField
-                                            fullWidth
-                                            label="Должность"
-                                            margin="dense"
-                                            name="teamLeader"
-                                            onChange={handleChange}
-                                            value={productionItem?.teamLeader.staff}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
+
                             </Grid>
                         </TabPanel>
                         <TabPanel value={tab} index={PAGE_TEAM}>
@@ -512,7 +588,7 @@ const getCard = () => {
                                 {
                                     canEditCard() &&
                                     <Grid item xs={1}>
-                                        <Fab color="default" aria-label="add">
+                                        <Fab color="default" aria-label="add" onClick={(event => handleAddTeamItem(idProduction))}>
                                             <AddIcon/>
                                         </Fab>
                                     </Grid>
@@ -529,16 +605,28 @@ const getCard = () => {
                         </TabPanel>
                         <TabPanel index={tab} value={PAGE_CALC}>
                             <Grid container spacing={1}>
-                                <Grid item xs={11}>
+                                <Grid item xs={10}>
                                     <Typography variant={"h5"}>
                                         Калькуляция сырья
                                     </Typography>
                                 </Grid>
-                                { canEditCard() &&
+                                {canEditCard() &&
                                     <Grid item xs={1}>
-                                        <Fab color="default" aria-label="add">
-                                            <AddIcon/>
-                                        </Fab>
+                                        <Tooltip title={'Добавить автоматически рассчитанную калькуляцию'}>
+                                            <Fab color="default" aria-label="add"
+                                                 onClick={(event => handleAddCalcAuto())}>
+                                                <LayersIcon/>
+                                            </Fab>
+                                        </Tooltip>
+                                    </Grid>
+                                }
+                                {canEditCard() &&
+                                    <Grid item xs={1}>
+                                        <Tooltip title={'Добавить сырьё в калькуляцию'}>
+                                            <Fab color="default" aria-label="add" onClick={(event => handleAddCalcItem(idProduction))}>
+                                                <AddIcon/>
+                                            </Fab>
+                                        </Tooltip>
                                     </Grid>
                                 }
                                 {productionCalc.map((calc: any) =>(
@@ -574,7 +662,7 @@ const getCard = () => {
                     </CardContent>
                     <Divider />
                     <CardActions>
-                        <Button color="primary" variant="contained" onClick={saveHandler}>
+                        <Button color="primary" variant="contained" type="submit">
                             Сохранить
                         </Button>
                         <Button color="default" variant="contained" onClick={(event => history.push('/factory/'))}>

@@ -8,7 +8,6 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
 import {IProductionTare} from "types/model/production";
-import {updateCalcItem} from "redux/actions/productionAction";
 
 const useStyles = makeStyles(theme => ({
     root: {

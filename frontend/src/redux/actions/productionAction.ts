@@ -11,7 +11,7 @@ import {
     PROD_CALC_LOAD_SUCCESS,
     PROD_TEAM_CHANGE,
     PROD_CALC_CHANGE,
-    PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS
+    PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS, PROD_CLEAR_ERROR, PROD_SAVE_OK
 } from "./types";
 import {
     IProduction,
@@ -19,9 +19,10 @@ import {
     IProductionList,
     IProductionTare,
     IProductionTeam,
-    nullProduction
+    nullProduction, nullProductionCalc, nullProductionTeam
 } from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
+import FormulaEndpoint from "../../services/endpoints/FormulaEndpoint";
 
 
 /**
@@ -83,6 +84,7 @@ export function loadProductionCard(id: number) {
             item.teamLeader = response.data['teamLeader'];
             item.creator = response.data['creator'];
             item.prodLine = response.data['prodLine'];
+            item.idFormula = response.data['idFormula'];
             dispatch(successLoadCardItem(item))
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()));
@@ -166,6 +168,7 @@ export function getProductionCalc(id: number) {
                     calcValue: response.data[key]['calcValue']
                 })
             });
+            console.log('successLoadCardCalc')
             dispatch(successLoadCardCalc(items))
         } catch (e) {
             const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
@@ -268,6 +271,22 @@ export function deleteTeamItem(id: number) {
     }
 }
 
+export function newTeamItem() {
+    return async (dispatch: any, getState: any) => {
+        const items = [...getState().production.prodCardTeam];
+        items.push(nullProductionTeam);
+        dispatch(changeTeamItem(items));
+    }
+}
+
+export function newCalcItem() {
+    return async (dispatch: any, getState: any) => {
+        const items = [...getState().production.prodCardCalc];
+        items.push(nullProductionCalc);
+        dispatch(changeCalcItem(items));
+    }
+}
+
 export function deleteTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
@@ -289,6 +308,108 @@ export function deleteCalcItem(id: number) {
         dispatch(changeCalcItem(items));
     }
 }
+
+export function addNewProduction(item: IProduction) {
+
+}
+
+/**
+ * Калькуляция на основе выбранной формулы рассчёта
+ * Рассчётное количество из введённых данных
+ */
+export function getAutoCalculation() {
+    return async (dispatch: any, getState: any) => {
+        const currentCard = getState().production.prodCardItem;
+        const calcItems: IProductionCalc[] = [...getState().production.prodCardCalc];
+        calcItems.splice(0, calcItems.length); //удалить имеющиейся данные
+        const url = FormulaEndpoint.getCalculation(currentCard.idFormula, currentCard.calcValue);
+        const response = await axios.get(url);
+        Object.keys(response.data.raws).forEach((key, index) => {
+            calcItems.push({
+                id: response.data.raws[key]['idRaw']['id'],
+                manufactureId: 0,
+                raw: {id:response.data.raws[key]['idRaw']['id'], name: response.data.raws[key]['idRaw']['name']},
+                calcValue: response.data.raws[key]['rawCount']
+            })
+        });
+        dispatch(successLoadCardCalc(calcItems))
+    }
+}
+
+/**
+ * Обновить техн. карту
+ * @param item Объект карты
+ */
+export function updateProduction(item: IProduction) {
+    return async (dispatch: any, getState: any) => {
+        console.log(JSON.stringify(item));
+        dispatch(clearError());
+        dispatch(hideInfoMessage());
+        try{
+            const sendItem = {
+                'creator': item.creator.id,
+                'formula': item.idFormula,
+                'prodLine': item.prodLine.id,
+                'teamLeader': item.teamLeader.id,
+                'prodStart': item.prodStart,
+                'prodFinish': item.prodFinish,
+                'calcValue': item.calcValue,
+                'outValue': item.outValue,
+                'lossValue': item.lossValue,
+                'comment': item.comment
+            };
+            console.log(JSON.stringify(sendItem));
+            const response = await axios.put(ProductionEndpoint.saveProductionCard(item.id), sendItem);
+            const id = response.data['id'];
+
+            // сохранить изменения в калькуляции
+            const calcItems = [...getState().production.prodCardCalc];
+            const sendCalcItems: any[] = [];
+            if (calcItems.length > 0) {
+                let idRecord = 0;
+                calcItems.map((value: IProductionCalc) => {
+                    value.manufactureId === 0 ? idRecord = 0 : idRecord = value.id;
+                    sendCalcItems.push(
+                        {
+                            'id': idRecord,
+                            'manufactureId': id,
+                            'raw': {
+                                'id': value.raw.id,
+                                'name': value.raw.name
+                            },
+                            'calcValue': value.calcValue
+                        }
+                    )
+                });
+                const calcResponse = await axios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
+                console.log(calcResponse)
+            }
+
+            const teamItems = [...getState().production.prodCardTeam];
+            const sendTeamItems: any[] = [];
+            if (teamItems.length > 0) {
+                teamItems.map((value)=>{
+                    value.manufactureId = item.id;
+                });
+
+                console.log(JSON.stringify(teamItems))
+                const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
+                console.log(teamResponse);
+            }
+
+            dispatch(saveOk());
+
+        }catch (e) {
+            if (e.response.status === 400){
+                console.log('data', e.response.data);
+                dispatch(showInfoMessage('error', e.response.data['message']));
+            }else{
+                dispatch(showInfoMessage('error', e.response.toString()));
+            }
+        }
+    }
+}
+
 
 function changeTareItem(items: IProductionTare[]) {
     return{
@@ -333,6 +454,11 @@ function setError(error: string) {
     }
 }
 
+function clearError() {
+    return{
+        type: PROD_CLEAR_ERROR
+    }
+}
 
 function successLoadCards(items: IProductionList[]) {
     return{
@@ -364,5 +490,11 @@ function startLoading() {
 function endLoading() {
     return {
         type: PROD_LOAD_FINISH
+    }
+}
+
+function saveOk() {
+    return{
+        type: PROD_SAVE_OK
     }
 }

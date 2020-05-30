@@ -10,7 +10,8 @@ import {
     PROD_CALC_LOAD_SUCCESS,
     PROD_TEAM_CHANGE,
     PROD_CALC_CHANGE,
-    PROD_TARE_CHANGE
+    PROD_TARE_CHANGE,
+    PROD_CLEAR_ERROR, PROD_SET_ERROR, PROD_SAVE_OK
 } from "./actions/types";
 import {nullProduction} from "../types/model/production";
 
@@ -24,7 +25,8 @@ const initState = (): IProductionState => ({
     hasError: false,
     typeMessage: '',
     error: '',
-    isLoading: false
+    isLoading: false,
+    canRedirect: false
 });
 
 export const productionReducer = (state = initState(), action: any) => {
@@ -36,22 +38,27 @@ export const productionReducer = (state = initState(), action: any) => {
         case PROD_LOAD_SUCCESS:
             return {...state, prodCardList: action.items};
         case PROD_LOAD_ITEM_SUCCESS:
-            console.log('productionReducer', action.item);
-            return {...state, prodCardItem: action.item};
+            return {...state, prodCardItem: action.item, canRedirect: false};
         case PROD_CHANGE_ITEM:
             return {...state, prodCardItem: action.item};
         case PROD_TEAM_LOAD_SUCCESS:
             return {...state, prodCardTeam: action.items};
-        case PROD_CALC_LOAD_SUCCESS:
+        case PROD_CALC_LOAD_SUCCESS: {
+            console.log('!');
             return {...state, prodCardCalc: action.items};
-        case PROD_TARE_LOAD_SUCCESS:
-            return {...state, prodCardTare: action.items};
+        }
         case PROD_TEAM_CHANGE:
             return {...state, prodCardTeam: action.items};
         case PROD_CALC_CHANGE:
             return {...state, prodCardCalc: action.items};
         case PROD_TARE_CHANGE:
             return {...state, prodCardTare: action.items};
+        case PROD_SET_ERROR:
+            return {...state, error: action.error, hasError: true};
+        case PROD_CLEAR_ERROR:
+            return {...state, error: '', hasError: false};
+        case PROD_SAVE_OK:
+            return {...state, canRedirect: true};
         default:
             return state;
     }
