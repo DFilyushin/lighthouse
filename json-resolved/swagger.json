@@ -1273,7 +1273,7 @@
         }
       }
     },
-    "/client" : {
+    "/client/{id}/" : {
       "get" : {
         "tags" : [ "Клиенты" ],
         "summary" : "Данные клиента",
@@ -1291,24 +1291,6 @@
             "schema" : {
               "$ref" : "#/definitions/ClientItem"
             }
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "Клиенты" ],
-        "summary" : "Добавить нового клиента",
-        "description" : "Добавить нового клиента",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/ClientItem"
-          }
-        } ],
-        "responses" : {
-          "400" : {
-            "description" : "Некорректные данные"
           }
         }
       },
@@ -1333,7 +1315,7 @@
         }
       }
     },
-    "/clients" : {
+    "/client" : {
       "get" : {
         "tags" : [ "Клиенты" ],
         "summary" : "Список клиентов",
@@ -1353,6 +1335,24 @@
                 "$ref" : "#/definitions/ClientListItem"
               }
             }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Клиенты" ],
+        "summary" : "Добавить нового клиента",
+        "description" : "Добавить нового клиента",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ClientItem"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Некорректные данные"
           }
         }
       }
@@ -1928,7 +1928,8 @@
           "example" : 2
         },
         "product" : {
-          "$ref" : "#/definitions/ProductItem"
+          "type" : "string",
+          "example" : "Продукция № 2"
         },
         "calcValue" : {
           "type" : "number",
