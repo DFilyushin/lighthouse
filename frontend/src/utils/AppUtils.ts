@@ -1,3 +1,6 @@
+
+export const MAX_RANDOM_VALUE = 100000;
+
 /**
  * Преобразовать токен в объект
  * @param token
@@ -12,3 +15,11 @@ export function  parseJwt (token: string) {
 
     return JSON.parse(jsonPayload);
 };
+
+/**
+ * Случайное значение
+ * @param max Максимальное значение
+ */
+export function getRandomInt(max: number) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
