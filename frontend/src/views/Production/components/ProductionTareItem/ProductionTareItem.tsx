@@ -8,6 +8,8 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
 import {IProductionTare} from "types/model/production";
+import {updateTareItem} from "../../../../redux/actions/productionAction";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -57,13 +59,13 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newItem = {...item, [event.target.name]: parseFloat(event.target.value)};
-        //dispatch(updateCalcItem(newItem))
+        dispatch(updateTareItem(newItem))
     };
 
 
     return (
         <Fragment>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
                 <Paper component="form" elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
@@ -83,8 +85,7 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                 <TextField
                     label="Объём"
                     type={'number'}
-                    name="calcValue"
-                    onChange={handleChange}
+                    name="tareV"
                     required
                     value={item.tareV}
                 />
@@ -93,16 +94,18 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                 <TextField
                     label="Кол-во"
                     type={'number'}
-                    name="calcValue"
+                    name="count"
                     onChange={handleChange}
                     required
                     value={item.count}
                 />
             </Grid>
             <Grid item>
-                <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                    <DeleteIcon />
-                </Fab>
+                <Tooltip title={'Удалить запись'}>
+                    <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
+                        <DeleteIcon />
+                    </Fab>
+                </Tooltip>
             </Grid>
         </Fragment>
     );

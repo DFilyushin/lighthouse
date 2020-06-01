@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
 import {IProductionCalc} from "types/model/production";
 import {updateCalcItem} from "../../../../redux/actions/productionAction";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -92,9 +93,11 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
             </Grid>
 
             <Grid item>
-                <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                    <DeleteIcon />
-                </Fab>
+                <Tooltip title={'Удалить запись'}>
+                    <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
+                        <DeleteIcon />
+                    </Fab>
+                </Tooltip>
             </Grid>
         </Fragment>
     );

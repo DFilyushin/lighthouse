@@ -4,12 +4,14 @@ import {Grid, TextField} from '@material-ui/core';
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
+import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import {IProductionTeam} from "types/model/production";
 import {updateTeamItem} from "redux/actions/productionAction";
-import {KeyboardDateTimePicker} from "@material-ui/pickers";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -121,9 +123,11 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                 />
             </Grid>
             <Grid item>
-                <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                    <DeleteIcon />
-                </Fab>
+                <Tooltip title={'Удалить запись'}>
+                    <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
+                        <DeleteIcon />
+                    </Fab>
+                </Tooltip>
             </Grid>
         </Fragment>
     );

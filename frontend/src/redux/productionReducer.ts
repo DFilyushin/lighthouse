@@ -43,10 +43,10 @@ export const productionReducer = (state = initState(), action: any) => {
             return {...state, prodCardItem: action.item};
         case PROD_TEAM_LOAD_SUCCESS:
             return {...state, prodCardTeam: action.items};
-        case PROD_CALC_LOAD_SUCCESS: {
-            console.log('!');
+        case PROD_CALC_LOAD_SUCCESS:
             return {...state, prodCardCalc: action.items};
-        }
+        case PROD_TARE_LOAD_SUCCESS:
+            return {...state, prodCardTare: action.items};
         case PROD_TEAM_CHANGE:
             return {...state, prodCardTeam: action.items};
         case PROD_CALC_CHANGE:

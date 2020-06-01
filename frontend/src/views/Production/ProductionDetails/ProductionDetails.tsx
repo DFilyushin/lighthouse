@@ -1,5 +1,4 @@
-import React, {Fragment, SyntheticEvent, useEffect} from 'react';
-import {Redirect} from 'react-router';
+import React, {SyntheticEvent, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -9,7 +8,7 @@ import {
     Divider,
     Grid,
     Button,
-    TextField, Box
+    TextField
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector, useStore} from "react-redux";
@@ -26,10 +25,21 @@ import {IStateInterface} from "redux/rootReducer";
 import {
     getAutoCalculation,
     addNewProduction,
-    changeProductionCard, deleteCalcItem, deleteTareItem, deleteTeamItem,
-    getProductionCalc, getProductionTare,
+    changeProductionCard,
+    deleteCalcItem,
+    deleteTareItem,
+    deleteTeamItem,
+    getProductionCalc,
+    getProductionTare,
     getProductionTeam,
-    loadProductionCard, newCalcItem, newTeamItem, updateCalcItem, updateProduction, updateTareItem, updateTeamItem
+    loadProductionCard,
+    newCalcItem,
+    newTeamItem,
+    updateCalcItem,
+    updateProduction,
+    updateTareItem,
+    updateTeamItem,
+    newTareItem
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -49,12 +59,11 @@ import {loadRaws} from "redux/actions/rawAction";
 import {loadProduct} from "redux/actions/productAction";
 import {loadFactoryLines} from "redux/actions/factoryLineAction";
 import ProductionTareItem from "../components/ProductionTareItem";
-
 import ProductionStateIcon from '../components/ProductionStateIcon';
-
 import TabPanel from "../components/TabPanel";
-import {loadEmployeeList} from "../../../redux/actions/employeeAction";
-
+import {loadEmployeeList} from "redux/actions/employeeAction";
+import {loadTare} from "redux/actions/tareAction";
+import {ITare} from "types/model/tare";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -96,7 +105,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const store = useStore();
     const confirm = useConfirm();
     const selectDialog = useDialog();
     const paramId = props.match.params.id;
@@ -156,6 +164,15 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleAddTeamItem = (id: number)=> {
         dispatch(newTeamItem())
     };
+
+    /**
+     * Добавить новую запись с готовой продукцией
+     * @param id
+     */
+    function handleAddTareItem (id: number) {
+        console.log('handleAddTareItem')
+        dispatch(newTareItem())
+    }
 
     /**
      * Добавить новую запись калькуляции
@@ -255,6 +272,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             dispatch(loadProduct());
             dispatch(loadFactoryLines());
             dispatch(loadEmployeeList());
+            dispatch(loadTare());
             dispatch(loadProductionCard(idProduction));
         }, [dispatch]
     );
@@ -352,15 +370,20 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'name'
             }
         ).then((value:any) => {
-                const item = [...productionTare];
-                const index = item.findIndex((item:IProductionTare, index:number, array: IProductionTare[]) => {return item.id === id});
-                item[index].tareId = value.id;
-                item[index].tareName = value.name;
-                dispatch(updateTareItem(item[index]));
+                const items = [...productionTare];
+                const index = items.findIndex((item:IProductionTare, index:number, array: IProductionTare[]) => {return item.id === id});
+                items[index].tareId = value.id;
+                items[index].tareName = value.name;
+                const tareIndex = tareItems.findIndex((elem: ITare, index: number, array: ITare[])=>{return elem.id === value.id});
+                items[index].tareV = tareItems[tareIndex].v
+                dispatch(updateTareItem(items[index]));
             }
         );
     };
 
+    /**
+     * Возможность редактирования карты
+     */
     const canEditCard = ()=> {
         return ((productionItem.curState === CARD_STATE_DRAFT) || (productionItem.curState === CARD_STATE_IN_WORK))
     };
@@ -408,6 +431,7 @@ const getCard = () => {
                     />
 
                     <Divider />
+
                     <CardContent>
                         <Paper className={classes.paper_bar}>
                             <Tabs
@@ -426,7 +450,7 @@ const getCard = () => {
                             </Tabs>
                         </Paper>
 
-                        <TabPanel value={tab} index={0}>
+                        <TabPanel value={tab} index={PAGE_MAIN}>
                             <Grid container spacing={1}>
                                 <Grid item xs={11}>
                                     <Typography variant={"h5"}>
@@ -588,9 +612,11 @@ const getCard = () => {
                                 {
                                     canEditCard() &&
                                     <Grid item xs={1}>
-                                        <Fab color="default" aria-label="add" onClick={(event => handleAddTeamItem(idProduction))}>
-                                            <AddIcon/>
-                                        </Fab>
+                                        <Tooltip title={'Добавить смену сотрудника'}>
+                                            <Fab color="default" aria-label="add" onClick={(event => handleAddTeamItem(idProduction))}>
+                                                <AddIcon/>
+                                            </Fab>
+                                        </Tooltip>
                                     </Grid>
                                 }
                                 {
@@ -646,9 +672,11 @@ const getCard = () => {
                                 </Grid>
                                 { canEditCard() &&
                                     <Grid item xs={1}>
-                                        <Fab color="default" aria-label="add">
-                                            <AddIcon/>
-                                        </Fab>
+                                        <Tooltip title={'Добавить готовую продукцию'}>
+                                            <Fab color="default" aria-label="add" onClick={(event => handleAddTareItem(idProduction))}>
+                                                <AddIcon/>
+                                            </Fab>
+                                        </Tooltip>
                                     </Grid>
                                 }
                                 {productionTare.map((tare: any) =>(

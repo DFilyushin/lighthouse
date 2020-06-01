@@ -19,10 +19,12 @@ import {
     IProductionList,
     IProductionTare,
     IProductionTeam,
-    nullProduction, nullProductionCalc, nullProductionTeam
+    nullProduction, nullProductionCalc, nullProductionTare, nullProductionTeam
 } from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 import FormulaEndpoint from "../../services/endpoints/FormulaEndpoint";
+import {ITare} from "../../types/model/tare";
+import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
 
 
 /**
@@ -287,6 +289,17 @@ export function newCalcItem() {
     }
 }
 
+export function newTareItem() {
+    return async (dispatch: any, getState: any) => {
+        const items = [...getState().production.prodCardTare];
+        let tare = {...nullProductionTare};
+        tare.id = -getRandomInt(MAX_RANDOM_VALUE);
+        console.log(tare);
+        items.push(tare);
+        dispatch(changeTareItem(items));
+    }
+}
+
 export function deleteTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
@@ -396,6 +409,19 @@ export function updateProduction(item: IProduction) {
                 const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
                 console.log(teamResponse);
             }
+            const tareItems = [...getState().production.prodCardTare];
+            const sendTareItems: any[] = [];
+            if (tareItems.length > 0){
+
+                tareItems.map((value)=>{
+                    const newValue = {...value};
+                    if (newValue.id < 0) {newValue.id=0}
+                    sendTareItems.push(newValue);
+                })
+                console.log(JSON.stringify(sendTareItems));
+                const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
+                console.log(tareResponse);
+            }
 
             dispatch(saveOk());
 
@@ -412,6 +438,7 @@ export function updateProduction(item: IProduction) {
 
 
 function changeTareItem(items: IProductionTare[]) {
+    console.log('changeTareItem', items);
     return{
         type: PROD_TARE_CHANGE,
         items: items
@@ -433,6 +460,7 @@ function changeTeamItem(items: IProductionTeam[]){
 }
 
 function successLoadCardTare(items: IProductionTare[]) {
+    console.log('successLoadCardTare', items)
     return{
         type: PROD_TARE_LOAD_SUCCESS,
         items: items
