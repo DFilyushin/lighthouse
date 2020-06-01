@@ -1,3 +1,4 @@
+from random import randint
 from datetime import datetime
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, ProdReadyProduct
@@ -23,7 +24,11 @@ class ProductLineSerializer(serializers.ModelSerializer):
 class ProdCalcRawsListSerializer(serializers.ListSerializer):
     def update(self, instance, validated_data):
         calc_mapping = {calc.id: calc for calc in instance}
-        data_mapping = {item['id']: item for item in validated_data}
+        data_mapping = {}
+        for item in validated_data:
+            if item['id'] == 0:
+                item['id'] = - randint(1, 100000)
+            data_mapping[item['id']] = item
 
         ret = []
         for calc_id, data in data_mapping.items():
@@ -75,7 +80,11 @@ class ProdTeamListSerializer(serializers.ListSerializer):
 
     def update(self, instance, validated_data):
         team_mapping = {team.id: team for team in instance}
-        data_mapping = {item['id']: item for item in validated_data}
+        data_mapping = {}
+        for item in validated_data:
+            if item['id'] == 0:
+                item['id'] = - randint(1, 100000)
+            data_mapping[item['id']] = item
 
         ret = []
         for team_id, data in data_mapping.items():
@@ -128,7 +137,11 @@ class ProdReadyProductListSerializer(serializers.ListSerializer):
 
     def update(self, instance, validated_data):
         tare_mapping = {team.id: team for team in instance}
-        data_mapping = {item['id']: item for item in validated_data}
+        data_mapping = {}
+        for item in validated_data:
+            if 'id' not in item or item['id'] ==0:
+                item['id'] = - randint(1, 100000)
+            data_mapping[item['id']] = item
 
         ret = []
         for record_id, data in data_mapping.items():
@@ -146,7 +159,7 @@ class ProdReadyProductListSerializer(serializers.ListSerializer):
 
 
 class ProdReadyProductSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(default=0)
+    id = serializers.IntegerField(required=False)
     tareId = serializers.IntegerField(source='id_tare_id')
     tareName = serializers.CharField(source='id_tare.name', required=False)
     tareV = serializers.FloatField(source='id_tare.v', required=False)
@@ -296,4 +309,3 @@ class CalculationResponseSerializer(serializers.ModelSerializer):
     idFormula = serializers.IntegerField()
     count = serializers.FloatField(default=0)
     raws = CalculationRawsResponseSerializer(many=True)
-
