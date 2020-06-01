@@ -62,6 +62,7 @@ class Contract(models.Model):
     delivered = models.DateField(null=True, verbose_name='Фактическая доставка')
     discount = models.FloatField(default=0, verbose_name='Скидка')
     contractid = models.CharField(max_length=10, null=True, verbose_name='Код контракта из сторонней системы')
+    deleted = models.BooleanField(default=False, null=False, verbose_name='Удалён')
 
     class Meta:
         verbose_name = 'Контракт'
@@ -85,6 +86,9 @@ class ContractSpec(models.Model):
     item_discount = models.FloatField(default=0, verbose_name='Скидка')
     delivery_date = models.DateField(blank=True, null=True, verbose_name='Дата доставки')
     delivered = models.DateField(blank=True, null=True, verbose_name='Доставлен')
+
+    def __str__(self):
+        return '{} {} {}'.format(self.id_contract.id_client.clientname, self.id_product.name, self.item_count)
 
     class Meta:
         verbose_name = 'Спецификация контракта'
