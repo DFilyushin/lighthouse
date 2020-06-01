@@ -16,6 +16,14 @@ import { useHistory } from "react-router-dom";
 import {addNewClient, changeClientItem, loadClientItem, updateClient} from "redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Paper from "@material-ui/core/Paper";
+import {getProductionCalc, getProductionTare, getProductionTeam} from "../../redux/actions/productionAction";
+import TabPanel from "../Production/components/TabPanel";
+
+const PAGE_MAIN = 0;
+const PAGE_CONTRACT = 1;
 
 interface IClientItemProps {
     className: string,
@@ -25,7 +33,19 @@ interface IClientItemProps {
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(4)
-    }
+    },
+    paper: {
+        width: '80%',
+        maxHeight: 435,
+    },
+    paper_root: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    paper_bar: {
+        flexGrow: 1,
+        padding: 1
+    },
 }));
 
 
@@ -39,8 +59,20 @@ const ClientItem = (props: IClientItemProps) => {
 
     const clientItem = useSelector((state: IStateInterface) => state.client.clientItem);
     const hasError = useSelector((state: IStateInterface)=> state.client.hasError);
+    const [tab, setTab] = React.useState(0);
 
-
+    /**
+     * Изменение вкладки
+     * @param event
+     * @param newValue - Индекс новой вкладки
+     */
+    const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setTab(newValue);
+        switch (newValue) {
+            case PAGE_MAIN:  break;
+            case PAGE_CONTRACT: break;
+        }
+    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...clientItem, [event.target.name]: event.target.value};
@@ -74,6 +106,13 @@ const ClientItem = (props: IClientItemProps) => {
         dispatch(loadClientItem(clientId));
     }, [dispatch]);
 
+    function a11yProps(index: any) {
+        return {
+            id: `scrollable-force-tab-${index}`,
+            'aria-controls': `scrollable-force-tabpanel-${index}`,
+        };
+    }
+
     return (
         <div className={classes.root}>
         <Card
@@ -84,12 +123,24 @@ const ClientItem = (props: IClientItemProps) => {
                 autoComplete="off"
                 onSubmit={saveHandler}
             >
-                <CardHeader
-                    subheader=""
-                    title="Клиент"
-                />
+                <CardHeader subheader="" title="Клиент"/>
                 <Divider />
                 <CardContent>
+                    <Paper className={classes.paper_bar}>
+                        <Tabs
+                            value={tab}
+                            onChange={handleTabChange}
+                            scrollButtons="on"
+                            indicatorColor="primary"
+                            textColor="primary"
+                            aria-label="scrollable force tabs example"
+                            centered
+                        >
+                            <Tab label="Основное" {...a11yProps(PAGE_MAIN)} />
+                            <Tab label="Контракты"  {...a11yProps(PAGE_CONTRACT)} />
+                        </Tabs>
+                    </Paper>
+                    <TabPanel value={tab} index={PAGE_MAIN}>
                     <Grid
                         container
                         spacing={3}
@@ -305,6 +356,9 @@ const ClientItem = (props: IClientItemProps) => {
                             />
                         </Grid>
                     </Grid>
+                    </TabPanel>
+                    <TabPanel value={tab} index={PAGE_CONTRACT}>
+                    </TabPanel>
 
                 </CardContent>
                 <Divider />
