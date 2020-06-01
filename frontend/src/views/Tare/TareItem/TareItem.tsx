@@ -82,14 +82,21 @@ const TareItem = (props: ITareItemProps) => {
         dispatch(changeTare(item))
     };
 
+    /**
+     * Сохранить изменения с ожиданием
+     * @param dispatch
+     */
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        // do anything here
-        if (tareId === 0) {
-            await dispatch(addNewTare(tareItem));
-        } else {
-            await dispatch(updateTare(tareItem));
+        try{
+            if (tareId === 0) {
+                await dispatch(addNewTare(tareItem));
+            } else {
+                await dispatch(updateTare(tareItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
         }
-        resolve();
     });
 
 
@@ -98,11 +105,18 @@ const TareItem = (props: ITareItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.MouseEvent) => {
+         console.log('saveHandler_start');
         saveItem(dispatch).then( ()=>{
-            console.log('state', hasError);
             history.push('/catalogs/tare');
         }
-        )
+        ).catch(()=>{
+            console.log('Error')
+        }).finally(
+            ()=>{
+                console.log('saveHandler_end');
+            }
+        );
+
     };
 
     useEffect( ()=> {
