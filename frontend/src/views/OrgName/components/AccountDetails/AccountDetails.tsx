@@ -11,7 +11,7 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
-import {IOrganization} from 'types/Interfaces';
+import {IOrganization} from 'types/model/org';
 import axios from "axios";
 import OrganizationEndpoint from 'services/endpoints/OrgEndpoint';
 import { useHistory } from "react-router-dom";

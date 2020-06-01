@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { EmployeeTable, EmployeeToolbar } from '../components/index';
-import {IEmployeeTableItem} from 'types/Interfaces';
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "../../../redux/rootReducer";
 import {useHistory} from "react-router-dom";

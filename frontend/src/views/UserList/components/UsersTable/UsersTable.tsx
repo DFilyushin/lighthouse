@@ -17,9 +17,8 @@ import {
   Typography,
   TablePagination
 } from '@material-ui/core';
-
 import { getInitials } from 'helpers';
-import {IUserData} from 'types/Interfaces';
+import {IUserData} from 'types/model/user';
 
 const useStyles = makeStyles(theme => ({
   root: {},
