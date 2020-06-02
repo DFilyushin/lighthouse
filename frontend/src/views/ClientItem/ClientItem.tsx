@@ -13,14 +13,34 @@ import {
     TextField
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import {addNewClient, changeClientItem, loadClientItem, updateClient} from "redux/actions/clientAction";
+import {
+    addNewClient,
+    changeClientItem,
+    loadClientContracts,
+    loadClientItem,
+    updateClient
+} from "redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
-import {getProductionCalc, getProductionTare, getProductionTeam} from "../../redux/actions/productionAction";
+import {
+    deleteTeamItem,
+    getProductionCalc,
+    getProductionTare,
+    getProductionTeam,
+    updateTeamItem
+} from "../../redux/actions/productionAction";
 import TabPanel from "../Production/components/TabPanel";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import ProductionTeamItem from "../Production/components/ProductionTeamItem";
+import ClientContractItem from "./components/ClientContractItem";
+import {IProductionTeam} from "../../types/model/production";
+import {useConfirm} from "material-ui-confirm";
 
 const PAGE_MAIN = 0;
 const PAGE_CONTRACT = 1;
@@ -56,8 +76,10 @@ const ClientItem = (props: IClientItemProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const clientItem = useSelector((state: IStateInterface) => state.client.clientItem);
+    const contracts = useSelector((state: IStateInterface) => state.client.contracts);
     const hasError = useSelector((state: IStateInterface)=> state.client.hasError);
     const [tab, setTab] = React.useState(0);
 
@@ -70,7 +92,7 @@ const ClientItem = (props: IClientItemProps) => {
         setTab(newValue);
         switch (newValue) {
             case PAGE_MAIN:  break;
-            case PAGE_CONTRACT: break;
+            case PAGE_CONTRACT: if (contracts.length === 0 ) {dispatch(loadClientContracts(clientId))} break;
         }
     };
 
@@ -88,6 +110,13 @@ const ClientItem = (props: IClientItemProps) => {
         resolve();
     });
 
+    /**
+     * Выбор контракта
+     * @param id
+     */
+    function onSelectContract(id: number){
+        history.push(`/contract/${id}`);
+    }
 
     /**
      * Сохранить изменения
@@ -102,6 +131,23 @@ const ClientItem = (props: IClientItemProps) => {
         )
     };
 
+    /**
+     * Удалить запись со сменой
+     * @param id
+     */
+    const handleDeleteContractItem = (id: number)=> {
+        confirm(
+            {
+                'title': 'Подтверждение',
+                description: `Удалить выбранную запись?.`,
+                confirmationText:'Да',
+                cancellationText: 'Нет'
+            }
+        ).then(() =>
+            dispatch(deleteTeamItem(id))
+        );
+    };
+
     useEffect( ()=> {
         dispatch(loadClientItem(clientId));
     }, [dispatch]);
@@ -112,6 +158,7 @@ const ClientItem = (props: IClientItemProps) => {
             'aria-controls': `scrollable-force-tabpanel-${index}`,
         };
     }
+
 
     return (
         <div className={classes.root}>
@@ -358,6 +405,29 @@ const ClientItem = (props: IClientItemProps) => {
                     </Grid>
                     </TabPanel>
                     <TabPanel value={tab} index={PAGE_CONTRACT}>
+                        <Grid container spacing={1}>
+                            <Grid item xs={11}>
+                                <Typography variant={"h5"}>
+                                    Список контрактов
+                                </Typography>
+                            </Grid>
+                            {
+                                <Grid item xs={1}>
+                                    <Tooltip title={'Добавить контракт'}>
+                                        <Fab color="default" aria-label="add">
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Tooltip>
+                                </Grid>
+                            }
+                            {
+                                contracts.map((contract: any) =>(
+                                    <ClientContractItem
+                                        item={contract}
+                                        onClickItem={onSelectContract}/>
+                                ))
+                            }
+                        </Grid>
                     </TabPanel>
 
                 </CardContent>

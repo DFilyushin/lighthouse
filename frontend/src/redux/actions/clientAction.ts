@@ -1,6 +1,7 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import axios from "axios";
 import {
+    CLIENT_LOAD_CONTRACT_SUCCESS,
     CLIENT_LOAD_FINISH,
     CLIENT_LOAD_ITEM_SUCCESS,
     CLIENT_LOAD_START,
@@ -10,6 +11,7 @@ import {IClientItem, IClientItemList, nullClientItem} from "types/model/client";
 import ClientEndpoint from "services/endpoints/ClientEndpoint";
 import EmployeeEndpoint from "../../services/endpoints/EmployeeEndpoint";
 import AuthenticationService from "../../services/Authentication.service";
+import {IContractListItem} from "../../types/model/contract";
 
 
 /**
@@ -124,12 +126,40 @@ export function updateClient(item: IClientItem) {
     }
 }
 
+/**
+ * Загрузить список контрактов по клиенту
+ * @param id Код клиента
+ */
+export function loadClientContracts(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const items: IContractListItem[] = [];
+        dispatch(hideInfoMessage());
+        try{
+            const response = await axios.get(ClientEndpoint.getClientContract(id));
+            Object.keys(response.data).forEach((key, index) => {
+                items.push(response.data[key])
+            });
+            dispatch(fetchClientContractSuccess(items));
+        }catch (e) {
+            dispatch(showInfoMessage('error', 'Не удалось загрузить список контрактов клиента!'))
+        }
+    }
+}
+
 export function changeClientItem(item: IClientItem) {
     return{
         type: CLIENT_LOAD_ITEM_SUCCESS,
         item
     }
 }
+
+function fetchClientContractSuccess(items: IContractListItem[]) {
+    return{
+        type: CLIENT_LOAD_CONTRACT_SUCCESS,
+        items
+    }
+}
+
 
 function deleteOk(items: IClientItemList[]) {
     return{

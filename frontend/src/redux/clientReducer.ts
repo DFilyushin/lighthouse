@@ -2,6 +2,7 @@ import {IClientState} from "../types/state/client";
 import {nullClientItem} from "../types/model/client";
 import {
     CLIENT_DELETE_OK,
+    CLIENT_LOAD_CONTRACT_SUCCESS,
     CLIENT_LOAD_FINISH,
     CLIENT_LOAD_ITEM_SUCCESS,
     CLIENT_LOAD_START,
@@ -11,6 +12,7 @@ import {
 const getInitialState = () => ({
     items: [],
     clientItem: nullClientItem,
+    contracts: [],
     isLoading: false,
     error: '',
     hasError: false
@@ -23,6 +25,7 @@ export const clientReducer = (state: IClientState = getInitialState(), action:an
         case CLIENT_LOAD_SUCCESS: return {...state, items: action.items};
         case CLIENT_LOAD_ITEM_SUCCESS: return {...state, clientItem: action.item};
         case CLIENT_DELETE_OK: return {...state, items: action.items};
+        case CLIENT_LOAD_CONTRACT_SUCCESS: return {...state, contracts: action.items};
         default: return state;
     }
 }

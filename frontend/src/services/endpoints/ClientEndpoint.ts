@@ -48,6 +48,14 @@ class ClientEndpoint {
     static newClient(): string{
         return `${BaseAPIEndpoint.getBaseURL()}/client/`;
     }
+
+    /**
+     * Список контрактов клиента
+     * @param id Код клиента
+     */
+    static getClientContract(id: number): string{
+        return `${BaseAPIEndpoint.getBaseURL()}/client/${id}/contract/`
+    }
 }
 
 export default ClientEndpoint;
