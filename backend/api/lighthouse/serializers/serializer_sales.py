@@ -1,6 +1,6 @@
 from lighthouse.appmodels.manufacture import Material, Tare, Formula, FormulaComp
 from lighthouse.appmodels.org import Employee, Staff, Org
-from lighthouse.appmodels.sales import Client
+from lighthouse.appmodels.sales import Client, Contract
 from rest_framework import serializers
 
 
@@ -59,6 +59,7 @@ class ClientListSerializer(serializers.ModelSerializer):
     """
     Клиенты (список)
     """
+    id = serializers.IntegerField(required=False)
     clientName = serializers.CharField(source='clientname', read_only=True)
     clientAddr = serializers.CharField(source='addr_reg', read_only=True)
     clientAgent = serializers.CharField(source='id_agent.fio', read_only=True)
@@ -67,3 +68,48 @@ class ClientListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ('id', 'clientName', 'clientAddr', 'clientAgent', 'clientEmployee')
+
+
+class ClientSimpleList(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='id', required=True)
+    clientName = serializers.CharField(source='clientname', read_only=True)
+
+    class Meta:
+        model = Client
+        fields = ('id', 'clientName')
+
+
+class ContractListSerializer(serializers.ModelSerializer):
+    """Контракты (список)"""
+    # id_contract__id', 'id_contract__id_client__clientname', 'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__contract_state
+    id = serializers.IntegerField(source='id_contract__id')
+    num = serializers.CharField(source='id_contract__num')
+    clientName = serializers.CharField(source='id_contract__id_client__clientname')
+    contractDate = serializers.DateField(source='id_contract__contract_date')
+    estDelivery = serializers.DateField(source='id_contract__est_delivery')
+    status = serializers.IntegerField(source='id_contract__contract_state')
+    sum = serializers.FloatField()
+
+    class Meta:
+        model = Contract
+        fields = ('id', 'clientName', 'num', 'contractDate', 'estDelivery', 'status', 'sum')
+
+
+class ContractSerializer(serializers.ModelSerializer):
+    """Контракт"""
+    id = serializers.IntegerField(source='id')
+    created = serializers.DateTimeField(source='created')
+    client = ClientSimpleList(source='id_client')
+    num = serializers.CharField(source='num')
+    contractDate = serializers.DateField(source='contract_date')
+    contractState = serializers.IntegerField(source='contract_state')
+    comment = serializers.CharField(source='comment', required=False, allow_blank=True)
+    estDelivery = serializers.DateField(source='est_delivery')
+    delivered = serializers.DateField(source='delivered', allow_null=True, required=True)
+    discount = serializers.FloatField(source='discount', default=0)
+    contractId = serializers.CharField(source='contractid')
+
+    class Meta:
+        model = Contract
+        fields = ('id', 'created', 'id_client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
+                  'delivered', 'discount', 'contractId')
