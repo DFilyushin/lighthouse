@@ -60,7 +60,7 @@ export default [
             },
             {
                 title: 'Контракты',
-                href: '/orders',
+                href: '/contracts',
                 icon: WorkOutlineOutlinedIcon
             },
             {
