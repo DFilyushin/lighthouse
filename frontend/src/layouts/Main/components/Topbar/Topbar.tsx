@@ -52,12 +52,20 @@ const Topbar = (props: ITopbar) => {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
+        <Hidden lgUp>
+          <IconButton
+              color="inherit"
+              onClick={onSidebarOpen}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
         <Avatar src="/images/lighthouse3.png" className={clsx(classes.large, classes.orange)} variant='circle' />
         <Typography variant="h6" className={classes.title}>
           &nbsp; Lighthouse - Управление производством
         </Typography>
         <div className={classes.flexGrow} />
-        <Hidden mdDown>
+
           <IconButton color="inherit">
             <Badge
               badgeContent={notifications.length}
@@ -74,15 +82,8 @@ const Topbar = (props: ITopbar) => {
           >
             <InputIcon />
           </IconButton>
-        </Hidden>
-        <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onSidebarOpen}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+        
+
       </Toolbar>
     </AppBar>
   );
