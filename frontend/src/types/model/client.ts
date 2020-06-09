@@ -32,6 +32,11 @@ export interface IClientItem {
     clientId: string
 }
 
+export interface IClientSimple {
+    id: number;
+    clientName: string;
+}
+
 export const nullClientItem: IClientItem = {
     id: 0,
     created: '',
