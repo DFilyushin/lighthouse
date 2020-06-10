@@ -5,7 +5,7 @@ import {
     CLIENT_LOAD_FINISH,
     CLIENT_LOAD_ITEM_SUCCESS,
     CLIENT_LOAD_START,
-    CLIENT_LOAD_SUCCESS
+    CLIENT_LOAD_SUCCESS, CLIENT_SEARCH_SUCCESS
 } from "./types";
 import {IClientItem, IClientItemList, nullClientItem} from "types/model/client";
 import ClientEndpoint from "services/endpoints/ClientEndpoint";
@@ -90,6 +90,26 @@ export function deleteClient(id: number) {
     }
 }
 
+export function searchClients(name: string) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart());
+        dispatch(hideInfoMessage());
+
+        try {
+            const url = ClientEndpoint.getClientList(name);
+            const items: IClientItemList[] = [];
+            const response = await axios.get(url);
+            Object.keys(response.data).forEach((key, index) => {
+                items.push(response.data[key])
+            });
+            dispatch(fetchSuccessSearch(items))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
 /**
  * Новый клиент
  * @param item
@@ -136,6 +156,7 @@ export function loadClientContracts(id: number) {
         dispatch(hideInfoMessage());
         try{
             const response = await axios.get(ClientEndpoint.getClientContract(id));
+            console.log(response)
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -191,5 +212,12 @@ function fetchItemSuccess(item: IClientItem) {
     return{
         type: CLIENT_LOAD_ITEM_SUCCESS,
         item
+    }
+}
+
+function fetchSuccessSearch(items: IClientItemList[]) {
+    return{
+        type: CLIENT_SEARCH_SUCCESS,
+        items
     }
 }

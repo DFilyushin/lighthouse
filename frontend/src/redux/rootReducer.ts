@@ -9,6 +9,10 @@ import {IFormulaState} from "../types/state/formula";
 import {IStaffState} from "../types/state/staff";
 import {IProductionState} from "../types/state/production";
 import {IFactoryLineState} from "../types/state/factorylines";
+import {IContractState} from "../types/state/contract";
+import {IEmployeeState} from "../types/state/employee";
+import {IDepartmentState} from "../types/state/department";
+import {IClientState} from "../types/state/client";
 
 import {productReducer} from './productReducer'
 import {rawReducer} from "./rawReducer";
@@ -19,13 +23,10 @@ import {unitReducer} from "./unitReducer";
 import {staffReducer} from "./staffReducer";
 import {productionReducer} from "./productionReducer";
 import {factoryLineReducer} from "./factoryLineReducer";
-import {IEmployeeState} from "../types/state/employee";
 import {employeeReducer} from "./employeeReducer";
-import {IDepartmentState} from "../types/state/department";
 import {departmentReducer} from "./departmentReducer";
-import {IClientState} from "../types/state/client";
 import {clientReducer} from "./clientReducer";
-
+import {contractReducer} from './contractReducer';
 
 export interface IStateInterface {
     product: IProductState;
@@ -40,6 +41,7 @@ export interface IStateInterface {
     employee: IEmployeeState;
     department: IDepartmentState;
     client: IClientState;
+    contract: IContractState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -54,5 +56,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     factoryLine: factoryLineReducer,
     employee: employeeReducer,
     department: departmentReducer,
-    client: clientReducer
+    client: clientReducer,
+    contract: contractReducer
 });

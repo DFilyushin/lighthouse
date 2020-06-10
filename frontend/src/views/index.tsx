@@ -5,8 +5,14 @@ export { default as EmployeeList } from './Employee/EmployeeList';
 export { default as OrgName } from './OrgName';
 export { default as Dashboard } from './Dashboard';
 export { default as EmployeeItem } from './Employee/EmployeeItem';
+
+
 export { default as ClientList } from './ClientList';
 export { default as ClientItem } from './ClientItem';
+export { default as ContractList } from './Contract/ContractList';
+export { default as ContractItem } from './Contract/ContractItem';
+
+
 
 export { default as Products } from './Products/ProductList';
 export { default as ProductItem } from './Products/ProductItem';

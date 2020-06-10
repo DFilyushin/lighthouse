@@ -6,13 +6,14 @@ import {
     CLIENT_LOAD_FINISH,
     CLIENT_LOAD_ITEM_SUCCESS,
     CLIENT_LOAD_START,
-    CLIENT_LOAD_SUCCESS
+    CLIENT_LOAD_SUCCESS, CLIENT_SEARCH_SUCCESS
 } from "./actions/types";
 
 const getInitialState = () => ({
     items: [],
     clientItem: nullClientItem,
     contracts: [],
+    searchClients: [],
     isLoading: false,
     error: '',
     hasError: false
@@ -26,6 +27,7 @@ export const clientReducer = (state: IClientState = getInitialState(), action:an
         case CLIENT_LOAD_ITEM_SUCCESS: return {...state, clientItem: action.item};
         case CLIENT_DELETE_OK: return {...state, items: action.items};
         case CLIENT_LOAD_CONTRACT_SUCCESS: return {...state, contracts: action.items};
+        case CLIENT_SEARCH_SUCCESS: return {...state, searchClients: action.items};
         default: return state;
     }
 }

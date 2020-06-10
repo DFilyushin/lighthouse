@@ -35,7 +35,9 @@ import {
     DepartmentItem as DepartmentItemView,
     About as AboutView,
     Changelog as ChangelogView,
-    Setup as SetupView
+    Setup as SetupView,
+    ContractList as ContractListView,
+    ContractItem as ContractItemView
 } from './views'
 
 const Routes = () => {
@@ -49,6 +51,9 @@ const Routes = () => {
 
             <RouteWithLayout isAuth={true} component={ClientListView} layout={MainLayout} path="/clients" exact/>
             <RouteWithLayout isAuth={true} component={ClientItemView} layout={MainLayout} path="/client/:id" exact/>
+
+            <RouteWithLayout isAuth={true} component={ContractListView} layout={MainLayout} path="/contracts" exact/>
+            <RouteWithLayout isAuth={true} component={ContractItemView} layout={MainLayout} path="/contracts/:id" exact/>
 
             <RouteWithLayout isAuth={true} component={UserListView} layout={MainLayout} path="/users" exact/>
 
