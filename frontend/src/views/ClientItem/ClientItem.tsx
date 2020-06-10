@@ -365,7 +365,7 @@ const ClientItem = (props: IClientItemProps) => {
                             label="Дополнительно"
                             multiline
                             margin="dense"
-                            rowsMax="5"
+                            rows="5"
                             name="comment"
                             value={clientItem.comment}
                             onChange={handleChange}
