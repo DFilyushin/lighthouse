@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import {ContractStateString, IContractListItem} from "types/model/contract";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
+import {NumberFormatCustom} from 'components'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -84,6 +85,9 @@ const ClientContractItem = (props: IClientContractItemProps) => {
                     name="sum"
                     margin="dense"
                     value={item.sum}
+                    InputProps={{
+                        inputComponent: NumberFormatCustom as any,
+                    }}
                 />
             </Grid>
             <Grid item xs={2}>
