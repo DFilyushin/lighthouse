@@ -1,6 +1,8 @@
 from lighthouse.appmodels.manufacture import Material, Tare, Formula, FormulaComp
 from lighthouse.appmodels.org import Employee, Staff, Org
-from lighthouse.appmodels.sales import Client, Contract
+from lighthouse.appmodels.sales import Client, Contract, ContractSpec
+from .serializer_store import ProductSerializer, TareSerializer
+from .serializer_domain import EmployeeListSerializer
 from rest_framework import serializers
 
 
@@ -71,8 +73,8 @@ class ClientListSerializer(serializers.ModelSerializer):
 
 
 class ClientSimpleList(serializers.ModelSerializer):
-    id = serializers.IntegerField(source='id', required=True)
-    clientName = serializers.CharField(source='clientname', read_only=True)
+    id = serializers.IntegerField(required=True)
+    clientName = serializers.CharField(source='clientname')
 
     class Meta:
         model = Client
@@ -81,35 +83,54 @@ class ClientSimpleList(serializers.ModelSerializer):
 
 class ContractListSerializer(serializers.ModelSerializer):
     """Контракты (список)"""
-    # id_contract__id', 'id_contract__id_client__clientname', 'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__contract_state
     id = serializers.IntegerField(source='id_contract__id')
     num = serializers.CharField(source='id_contract__num')
     clientName = serializers.CharField(source='id_contract__id_client__clientname')
     contractDate = serializers.DateField(source='id_contract__contract_date')
     estDelivery = serializers.DateField(source='id_contract__est_delivery')
     status = serializers.IntegerField(source='id_contract__contract_state')
+    agent = serializers.CharField(source='id_contract__id_agent__fio')
     sum = serializers.FloatField()
 
     class Meta:
         model = Contract
-        fields = ('id', 'clientName', 'num', 'contractDate', 'estDelivery', 'status', 'sum')
+        fields = ('id', 'clientName', 'num', 'contractDate', 'estDelivery', 'status', 'agent', 'sum')
+
+
+class ContractSpecSerializer(serializers.ModelSerializer):
+    """Спецификация контракта"""
+    id = serializers.IntegerField()
+    product = ProductSerializer(source='id_product')
+    tare = TareSerializer(source='id_tare')
+    itemCount = serializers.FloatField(source='item_count')
+    itemPrice = serializers.FloatField(source='item_price')
+    itemDiscount = serializers.FloatField(source='item_discount')
+    itemTotal = serializers.FloatField(source='total')
+    delivery = serializers.DateField(source='delivery_date')
+    delivered = serializers.DateField()
+
+    class Meta:
+        model = ContractSpec
+        fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemDiscount', 'itemTotal',  'delivery', 'delivered')
 
 
 class ContractSerializer(serializers.ModelSerializer):
     """Контракт"""
-    id = serializers.IntegerField(source='id')
-    created = serializers.DateTimeField(source='created')
-    client = ClientSimpleList(source='id_client')
-    num = serializers.CharField(source='num')
+    id = serializers.IntegerField()
+    created = serializers.DateTimeField()
+    client = ClientListSerializer(source='id_client')
+    num = serializers.CharField()
     contractDate = serializers.DateField(source='contract_date')
     contractState = serializers.IntegerField(source='contract_state')
-    comment = serializers.CharField(source='comment', required=False, allow_blank=True)
+    comment = serializers.CharField(required=False, allow_blank=True)
     estDelivery = serializers.DateField(source='est_delivery')
-    delivered = serializers.DateField(source='delivered', allow_null=True, required=True)
-    discount = serializers.FloatField(source='discount', default=0)
+    delivered = serializers.DateField(allow_null=True, required=True)
+    discount = serializers.FloatField(default=0)
     contractId = serializers.CharField(source='contractid')
+    agent = EmployeeListSerializer(source='id_agent')
+    specs = ContractSpecSerializer(many=True, read_only=True)
 
     class Meta:
         model = Contract
-        fields = ('id', 'created', 'id_client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
-                  'delivered', 'discount', 'contractId')
+        fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
+                  'delivered', 'discount', 'contractId', 'agent', 'specs')

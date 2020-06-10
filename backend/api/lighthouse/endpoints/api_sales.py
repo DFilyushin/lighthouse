@@ -43,7 +43,9 @@ class ClientViewSet(viewsets.ModelViewSet):
         if request.method == 'GET':
             # contracts = Contract.objects.filter(id_client_id=int(pk)).order_by('-contract_date')
             contracts = ContractSpec.objects.filter(id_contract__id_client_id=pk)\
-                .values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname', 'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__contract_state')\
+                .values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
+                        'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__id_agent__fio',
+                        'id_contract__contract_state')\
                 .annotate(sum=Sum(F('item_price')*F('item_count')))
             serializer = ContractListSerializer(contracts, many=True)
             return Response(serializer.data)
@@ -69,3 +71,13 @@ class ContractViewSet(viewsets.ModelViewSet):
             return ContractListSerializer
         else:
             return ContractSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return ContractSpec.objects.filter(id_contract__deleted=False)\
+                .values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
+                        'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__contract_state',
+                        'id_contract__id_agent__fio')\
+                .annotate(sum=Sum(F('item_price')*F('item_count')))
+        else:
+            return Contract.objects.filter(deleted=False)
