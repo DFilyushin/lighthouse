@@ -11,6 +11,8 @@ import NewReleasesOutlinedIcon from '@material-ui/icons/NewReleasesOutlined';
 import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
+import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
+import WidgetsOutlinedIcon from '@material-ui/icons/WidgetsOutlined';
 import { Label } from 'components';
 
 export default [
@@ -50,6 +52,10 @@ export default [
                     {
                         title: 'Производственные линии',
                         href: '/catalogs/lines'
+                    },
+                    {
+                        title: 'Затраты',
+                        href: '/catalogs/cost'
                     }
                 ]
             },
@@ -68,7 +74,16 @@ export default [
                 href: '/factory',
                 icon: DomainOutlinedIcon
             },
-
+            {
+                title: 'Затраты',
+                href: '/cost',
+                icon: AccountBalanceWalletOutlinedIcon
+            },
+            {
+                title: 'Склад',
+                href: '/store',
+                icon: WidgetsOutlinedIcon
+            },
             {
                 title: 'Организация',
                 href: '/profile',
