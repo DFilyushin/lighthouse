@@ -62,7 +62,11 @@ class Contract(models.Model):
     delivered = models.DateField(null=True, verbose_name='Фактическая доставка')
     discount = models.FloatField(default=0, verbose_name='Скидка')
     contractid = models.CharField(max_length=10, null=True, verbose_name='Код контракта из сторонней системы')
+    id_agent = models.ForeignKey(Employee, on_delete=models.CASCADE, default=0, verbose_name='Агент')
     deleted = models.BooleanField(default=False, null=False, verbose_name='Удалён')
+
+    def __str__(self):
+        return '{} {} {}'.format(self.num, self.id_client.clientname, self.contract_date)
 
     class Meta:
         verbose_name = 'Контракт'
@@ -78,7 +82,7 @@ class Contract(models.Model):
 
 class ContractSpec(models.Model):
     id = models.AutoField(primary_key=True)
-    id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
+    id_contract = models.ForeignKey(Contract, related_name='specs', on_delete=models.CASCADE, verbose_name='Контракт')
     id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукт')
     id_tare = models.ForeignKey(Tare, null=True, on_delete=models.SET_NULL, verbose_name='Код тары')
     item_count = models.FloatField(default=0, verbose_name='Количество')
@@ -86,6 +90,10 @@ class ContractSpec(models.Model):
     item_discount = models.FloatField(default=0, verbose_name='Скидка')
     delivery_date = models.DateField(blank=True, null=True, verbose_name='Дата доставки')
     delivered = models.DateField(blank=True, null=True, verbose_name='Доставлен')
+
+    @property
+    def total(self):
+        return (self.item_count * self.item_price) - (self.item_count * self.item_price) * self.item_discount / 100
 
     def __str__(self):
         return '{} {} {}'.format(self.id_contract.id_client.clientname, self.id_product.name, self.item_count)
