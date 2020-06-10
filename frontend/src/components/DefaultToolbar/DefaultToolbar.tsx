@@ -85,13 +85,13 @@ const DefaultToolbar = (props: IDefaultToolbar) => {
             className={clsx(classes.root, className)}
         >
             <List className={classes.root}>
-            <ListItem>
-                <ListItemAvatar>
-                    <Avatar className={clsx(classes.large, classes.white)}> {rest.icon} </Avatar>
-                </ListItemAvatar>
-                <Typography variant="h4">{title}</Typography>
-            </ListItem>
-        </List>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar className={clsx(classes.large, classes.white)}> {rest.icon} </Avatar>
+                    </ListItemAvatar>
+                    <Typography variant="h4">{title}</Typography>
+                </ListItem>
+            </List>
 
             <div className={classes.buttonGroup}>
                 <span className={classes.spacer} />
