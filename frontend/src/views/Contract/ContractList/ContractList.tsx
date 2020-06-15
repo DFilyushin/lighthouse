@@ -7,11 +7,7 @@ import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
 import {deleteContract, loadContractList} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
-import {DefaultToolbar} from "components";
 import {IStateInterface} from "redux/rootReducer";
-import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
-import Avatar from '@material-ui/core/Avatar';
-import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 
 const useStyles = makeStyles(theme => ({
     root: {

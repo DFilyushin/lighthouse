@@ -27,22 +27,15 @@ import {
     updateContract
 } from "../../../redux/actions/contractAction";
 import {ContractSpecItem} from "../components";
-import {IContract, IContractSpecItem} from "../../../types/model/contract";
+import {IContractSpecItem} from "../../../types/model/contract";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import { KeyboardDatePicker} from '@material-ui/pickers';
-import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import IconButton from "@material-ui/core/IconButton";
-import Paper from "@material-ui/core/Paper";
 import {useDialog} from "../../../components/SelectDialog";
 import Hidden from "@material-ui/core/Hidden";
 import {IClientItemList} from "../../../types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {searchClients} from "../../../redux/actions/clientAction";
-import {CONTRACT_CHANGE_ITEM} from "../../../redux/actions/types";
-
-const PAGE_MAIN = 0;
-const PAGE_SPEC = 1;
 
 interface IContractItemProps {
     className: string,
@@ -180,21 +173,8 @@ const ContractItem = (props: IContractItemProps) => {
             dispatch(changeContractItem(newState));
             console.log('newState', newState);
         }
-        // const newState = {...contractItem, 'client': value};
-        // if (!value) {setInputValue('')}
-        // console.log('newState',newState);
-        // //setCurClient(value)
-        //
-        // dispatch(changeContractItem(newState as IContract));
     }
 
-
-    function a11yProps(index: any) {
-        return {
-            id: `scrollable-force-tab-${index}`,
-            'aria-controls': `scrollable-force-tabpanel-${index}`,
-        };
-    }
 
     const handleDeliveryDateChange = (date: Date | null) => {
 
