@@ -5,6 +5,7 @@ from lighthouse.serializers.serializer_manufacture import *
 from .api_errors import *
 from .api_utils import parse_integer
 
+
 class ProductionLineView(viewsets.ModelViewSet):
     """
     Производственные линии
@@ -49,10 +50,10 @@ class ProductionView(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         """
         Псевдоудаление записи
-        :param request:
-        :param args:
-        :param kwargs:
-        :return:
+        :param request: http-request
+        :param args: args array
+        :param kwargs: dict args array
+        :return: Http-response
         """
         try:
             manufacture = Manufacture.objects.get(pk=kwargs.get('pk', 0))
@@ -77,10 +78,10 @@ class ProductionView(viewsets.ModelViewSet):
     def set_status(self, request, pk, new_status):
         """
         Установить статус для карты
-        :param request:
+        :param request: Http-request
         :param pk: Код карты
         :param new_status: Код статуса
-        :return:
+        :return: Http-Response
         """
         try:
             manufacture = Manufacture.objects.get(id=pk)
@@ -96,9 +97,9 @@ class ProductionView(viewsets.ModelViewSet):
     def execute_card(self, request, pk):
         """
         Исполнение карты
-        :param request:
+        :param request: Http-request
         :param pk: Код карты
-        :return:
+        :return: Http-Response
         """
         try:
             manufacture = Manufacture.objects.get(id=pk)
@@ -115,6 +116,9 @@ class ProductionView(viewsets.ModelViewSet):
     def by_product(self, request, product_id):
         """
         Получить карты по выбранному продукту
+        :param request: http-request
+        :param product_id:  Код продукта
+        :return: Http-Response
         """
         manufacture = Manufacture.objects.filter(id_formula__id_product=product_id).filter(is_delete=False)
         serializer = ManufactureListSerializer(manufacture, many=True)
@@ -124,7 +128,7 @@ class ProductionView(viewsets.ModelViewSet):
     def get_team(self, request, pk):
         """
         Получить смену для производственной карты
-        :param request:
+        :param request: Http-request
         :param pk: Код производственной карты
         :return: Массив сотрудников в смене
         """
