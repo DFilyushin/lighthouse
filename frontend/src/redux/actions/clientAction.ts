@@ -9,9 +9,8 @@ import {
 } from "./types";
 import {IClientItem, IClientItemList, nullClientItem} from "types/model/client";
 import ClientEndpoint from "services/endpoints/ClientEndpoint";
-import EmployeeEndpoint from "../../services/endpoints/EmployeeEndpoint";
-import AuthenticationService from "../../services/Authentication.service";
-import {IContractListItem} from "../../types/model/contract";
+import AuthenticationService from "services/Authentication.service";
+import {IContractListItem} from "types/model/contract";
 
 
 /**
