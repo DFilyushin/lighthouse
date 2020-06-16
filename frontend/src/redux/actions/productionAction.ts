@@ -22,8 +22,7 @@ import {
     nullProduction, nullProductionCalc, nullProductionTare, nullProductionTeam
 } from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
-import FormulaEndpoint from "../../services/endpoints/FormulaEndpoint";
-import {ITare} from "../../types/model/tare";
+import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
 
 
@@ -399,15 +398,12 @@ export function updateProduction(item: IProduction) {
             }
 
             const teamItems = [...getState().production.prodCardTeam];
-            const sendTeamItems: any[] = [];
+            //const sendTeamItems: any[] = [];
             if (teamItems.length > 0) {
                 teamItems.map((value)=>{
                     value.manufactureId = item.id;
                 });
-
-                console.log(JSON.stringify(teamItems))
                 const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
-                console.log(teamResponse);
             }
             const tareItems = [...getState().production.prodCardTare];
             const sendTareItems: any[] = [];
@@ -436,9 +432,7 @@ export function updateProduction(item: IProduction) {
     }
 }
 
-
 function changeTareItem(items: IProductionTare[]) {
-    console.log('changeTareItem', items);
     return{
         type: PROD_TARE_CHANGE,
         items: items
@@ -460,13 +454,11 @@ function changeTeamItem(items: IProductionTeam[]){
 }
 
 function successLoadCardTare(items: IProductionTare[]) {
-    console.log('successLoadCardTare', items)
     return{
         type: PROD_TARE_LOAD_SUCCESS,
         items: items
     }
 }
-
 
 function successLoadTeam(items: IProductionTeam[]) {
     return{
