@@ -1,4 +1,4 @@
-import {IClientItemList, IClientSimple} from "./client";
+import {IClientItemList} from "./client";
 import {Product} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
