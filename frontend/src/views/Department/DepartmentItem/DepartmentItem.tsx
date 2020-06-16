@@ -12,14 +12,13 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNew, changeItem, loadItem, updateItem} from "redux/actions/staffAction";
-import {IStateInterface} from "../../../redux/rootReducer";
+import {IStateInterface} from "redux/rootReducer";
 import {
     addNewDepartment,
     changeDepartmentItem,
     loadDepartmentItem,
     updateDepartmentItem
-} from "../../../redux/actions/departmentAction";
+} from "redux/actions/departmentAction";
 
 
 interface IDepartmentItemProps {
@@ -66,7 +65,7 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
 
     useEffect( ()=> {
             dispatch(loadDepartmentItem(depId));
-        }, [dispatch]
+        }, [dispatch, depId]
     );
 
     return (
