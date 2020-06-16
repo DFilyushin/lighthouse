@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { EmployeeTable, EmployeeToolbar } from '../components/index';
+import { EmployeeTable} from '../components';
 import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "../../../redux/rootReducer";
+import {IStateInterface} from "redux/rootReducer";
 import {useHistory} from "react-router-dom";
-import {deleteEmployee, loadEmployeeList} from "../../../redux/actions/employeeAction";
-import {deleteFormula, loadFormula} from "../../../redux/actions/formulaAction";
-import {DefaultToolbar} from "../../../components";
+import {deleteEmployee, loadEmployeeList} from "redux/actions/employeeAction";
+import {DefaultToolbar} from "components";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,7 +40,7 @@ const EmployeeList = () => {
     }
 
     async function onFindHandler(findText: string){
-        dispatch(loadFormula(findText))
+        dispatch(loadEmployeeList(findText))
     }
 
     return (

@@ -16,8 +16,7 @@ import {
     TablePagination
 } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
-import {IFactoryLine} from "types/model/factorylines";
-import {IDepartment} from "../../../../types/model/department";
+import {IDepartment} from "types/model/department";
 
 const useStyles = makeStyles(theme => ({
     root: {},
