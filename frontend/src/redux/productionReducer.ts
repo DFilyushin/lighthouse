@@ -38,7 +38,8 @@ export const productionReducer = (state = initState(), action: any) => {
         case PROD_LOAD_SUCCESS:
             return {...state, prodCardList: action.items};
         case PROD_LOAD_ITEM_SUCCESS:
-            return {...state, prodCardItem: action.item, canRedirect: false};
+            return {...state, prodCardItem: action.item, canRedirect: false,
+                prodCardCalc: [], prodCardList: [], prodCardTare: [], prodCardTeam: []};
         case PROD_CHANGE_ITEM:
             return {...state, prodCardItem: action.item};
         case PROD_TEAM_LOAD_SUCCESS:
