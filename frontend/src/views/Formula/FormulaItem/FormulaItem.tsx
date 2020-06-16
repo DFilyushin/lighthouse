@@ -186,6 +186,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
 
     useEffect(()=>{
         dispatch(loadRaws());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect( ()=> {
