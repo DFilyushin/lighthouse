@@ -52,7 +52,7 @@ export function deleteStaff(id: number) {
         try{
             const response = await axios.delete(StaffEndpoint.deleteItem(id));
             if (response.status === 204) {
-                const items = [...getState().raw.raws];
+                const items = [...getState().staff.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
