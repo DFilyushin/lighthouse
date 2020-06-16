@@ -5,12 +5,11 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { ClientTable } from './components';
 import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
-import {deleteClient, loadClients} from "../../redux/actions/clientAction";
+import {deleteClient, loadClients} from "redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
-import {DefaultToolbar} from "../../components";
-import {IStateInterface} from "../../redux/rootReducer";
+import {DefaultToolbar} from "components";
+import {IStateInterface} from "redux/rootReducer";
 import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
-import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles(theme => ({
     root: {

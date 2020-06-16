@@ -2,7 +2,6 @@ import React, {Fragment} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, TextField} from '@material-ui/core';
 import Paper from "@material-ui/core/Paper";
-import {useDispatch} from "react-redux";
 import {ContractStateString, IContractListItem} from "types/model/contract";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -47,8 +46,6 @@ function getContractStateStr(status: number): string {
 const ClientContractItem = (props: IClientContractItemProps) => {
     const classes = useStyles();
     const { item, onClickItem} = props;
-    const dispatch = useDispatch();
-
 
     const cellClicked = (id: number) => {
         onClickItem(id);

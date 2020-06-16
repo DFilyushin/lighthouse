@@ -1,4 +1,4 @@
-import React, {useState, useEffect, SyntheticEvent} from 'react';
+import React, {useEffect, SyntheticEvent} from 'react';
 import moment from "moment";
 import 'moment/locale/ru';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,22 +25,13 @@ import {IStateInterface} from "redux/rootReducer";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
-import {
-    deleteTeamItem,
-    getProductionCalc,
-    getProductionTare,
-    getProductionTeam,
-    updateTeamItem
-} from "../../redux/actions/productionAction";
 import TabPanel from "../Production/components/TabPanel";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import ProductionTeamItem from "../Production/components/ProductionTeamItem";
 import ClientContractItem from "./components/ClientContractItem";
-import {IProductionTeam} from "../../types/model/production";
-import {useConfirm} from "material-ui-confirm";
+//import {useConfirm} from "material-ui-confirm";
 
 const PAGE_MAIN = 0;
 const PAGE_CONTRACT = 1;
@@ -76,7 +67,6 @@ const ClientItem = (props: IClientItemProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const confirm = useConfirm();
 
     const clientItem = useSelector((state: IStateInterface) => state.client.clientItem);
     const contracts = useSelector((state: IStateInterface) => state.client.contracts);
@@ -131,26 +121,10 @@ const ClientItem = (props: IClientItemProps) => {
         )
     };
 
-    /**
-     * Удалить запись со сменой
-     * @param id
-     */
-    const handleDeleteContractItem = (id: number)=> {
-        confirm(
-            {
-                'title': 'Подтверждение',
-                description: `Удалить выбранную запись?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
-            }
-        ).then(() =>
-            dispatch(deleteTeamItem(id))
-        );
-    };
 
     useEffect( ()=> {
         dispatch(loadClientItem(clientId));
-    }, [dispatch]);
+    }, [dispatch, clientId]);
 
     function a11yProps(index: any) {
         return {
