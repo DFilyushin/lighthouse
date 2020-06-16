@@ -14,6 +14,8 @@ import {
     PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS, PROD_CLEAR_ERROR, PROD_SAVE_OK
 } from "./types";
 import {
+    CARD_STATE_CANCEL,
+    CARD_STATE_IN_WORK,
     IProduction,
     IProductionCalc,
     IProductionList,
@@ -33,13 +35,13 @@ import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
  * @param productId - КОд продукта
  * @param state - Состояние
  */
-export function loadProductionCards(startPeriod: string, endPeriod: string, productId?: number, state?: number) {
+export function loadProductionCards(startPeriod: string, endPeriod: string, findByNum: string, productId?: number, state?: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
         dispatch(startLoading());
         try {
 
-            const url = ProductionEndpoint.getProductionList(startPeriod, endPeriod, productId, state);
+            const url = ProductionEndpoint.getProductionList(startPeriod, endPeriod, findByNum, productId, state);
             const items: IProductionList[] = [];
             const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index) => {
@@ -275,7 +277,14 @@ export function deleteTeamItem(id: number) {
 export function newTeamItem() {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTeam];
-        items.push(nullProductionTeam);
+        const newItem = {
+            id: -getRandomInt(MAX_RANDOM_VALUE),
+            manufactureId: 0,
+            employee: {id: 0, tabNum: '', fio: '', staff: ''},
+            periodStart: (new Date()).toISOString(),
+            periodEnd: (new Date()).toISOString()
+        }
+        items.push(newItem);
         dispatch(changeTeamItem(items));
     }
 }
@@ -283,7 +292,12 @@ export function newTeamItem() {
 export function newCalcItem() {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardCalc];
-        items.push(nullProductionCalc);
+        items.push({
+            id: -getRandomInt(MAX_RANDOM_VALUE),
+            manufactureId: 0,
+            raw: {id: 0, name: ''},
+            calcValue: 0
+        });
         dispatch(changeCalcItem(items));
     }
 }
@@ -372,6 +386,7 @@ export function updateProduction(item: IProduction) {
             };
             console.log(JSON.stringify(sendItem));
             const response = await axios.put(ProductionEndpoint.saveProductionCard(item.id), sendItem);
+            dispatch(showInfoMessage('info', 'Сохранено успешно'))
             const id = response.data['id'];
 
             // сохранить изменения в калькуляции
@@ -428,6 +443,66 @@ export function updateProduction(item: IProduction) {
             }else{
                 dispatch(showInfoMessage('error', e.response.toString()));
             }
+        }
+    }
+}
+
+/**
+ * Исполнение карты
+ * @param id Код карты
+ */
+export function executeCard(id: number) {
+    return async (dispatch: any, getState: any) => {
+        console.log('executeCard', id)
+        try{
+            const response = await axios.post(ProductionEndpoint.executeProductionCard(id));
+            console.log(response)
+            if (response.status === 200) {
+                dispatch(loadProductionCard(id))
+                dispatch(showInfoMessage('info', 'Выполнено'))
+            }
+        }catch (e) {
+            console.log(e)
+            const message = e.response.data.message;
+            dispatch(showInfoMessage('error', message || e.toString()))
+        }
+    }
+}
+
+/**
+ * Перевод карты в работу
+ * @param id Код карты
+ */
+export function sendCardToWork(id: number) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            const response = await axios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_IN_WORK));
+            if (response.status === 200) {
+                dispatch(loadProductionCard(id))
+                dispatch(showInfoMessage('info', 'Выполнено'))
+            }
+        }catch (e) {
+            const message = e.response.data.message;
+            dispatch(showInfoMessage('error', message || e.toString()))
+        }
+    }
+}
+
+/**
+ * Отмена карты
+ * @param id Код карты
+ */
+export function cancelCard(id: number) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            const response = await axios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_CANCEL));
+            if (response.status === 200) {
+                dispatch(loadProductionCard(id))
+                dispatch(showInfoMessage('info', 'Выполнено'))
+            }
+        }catch (e) {
+            const message = e.response.data.message;
+            dispatch(showInfoMessage('error', message || e.toString()))
         }
     }
 }

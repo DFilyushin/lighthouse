@@ -19,6 +19,8 @@ import Button from "@material-ui/core/Button";
 import moment from "moment";
 import {IProductionList} from "types/model/production";
 import ProductionStateIcon from "../ProductionStateIcon";
+import Hidden from "@material-ui/core/Hidden";
+
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -127,12 +129,16 @@ const ProductionTable = (props: IProductionTableProps) => {
                                         />
                                     </TableCell>
                                     <TableCell/>
-                                    <TableCell>№</TableCell>
+                                    <Hidden only={['xs', 'sm']}>
+                                        <TableCell>№</TableCell>
+                                    </Hidden>
                                     <TableCell>Продукция</TableCell>
                                     <TableCell>Количество</TableCell>
                                     <TableCell>Начало цикла</TableCell>
-                                    <TableCell>Окончание</TableCell>
-                                    <TableCell>Рук-ль</TableCell>
+                                    <Hidden only={['xs', 'sm']}>
+                                        <TableCell>Окончание</TableCell>
+                                        <TableCell>Рук-ль</TableCell>
+                                    </Hidden>
                                     <TableCell/>
                                 </TableRow>
                             </TableHead>
@@ -155,9 +161,11 @@ const ProductionTable = (props: IProductionTableProps) => {
                                         <TableCell>
                                             <Typography variant="body1"><ProductionStateIcon stateIndex={item.state}/></Typography>
                                         </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body1">{item.id}</Typography>
-                                        </TableCell>
+                                        <Hidden only={['xs', 'sm']}>
+                                            <TableCell>
+                                                <Typography variant="button">{item.id}</Typography>
+                                            </TableCell>
+                                        </Hidden>
                                         <TableCell>
                                             <Typography variant="body1">{item.product}</Typography>
                                         </TableCell>
@@ -167,12 +175,14 @@ const ProductionTable = (props: IProductionTableProps) => {
                                         <TableCell>
                                             <Typography variant="body1">{moment(item.prodStart).format('DD/MM/YYYY')}</Typography>
                                         </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body1">{moment(item.prodFinish).isValid() ? moment(item.prodFinish).format('DD/MM/YYYY'): ""}</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body1">{item.leaderName}</Typography>
-                                        </TableCell>
+                                        <Hidden only={['xs', 'sm']}>
+                                            <TableCell>
+                                                <Typography variant="body1">{moment(item.prodFinish).isValid() ? moment(item.prodFinish).format('DD/MM/YYYY'): ""}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="body1">{item.leaderName}</Typography>
+                                            </TableCell>
+                                        </Hidden>
                                         <TableCell align="right">
                                             <Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Открыть</Button>
                                         </TableCell>

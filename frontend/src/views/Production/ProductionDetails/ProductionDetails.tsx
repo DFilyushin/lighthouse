@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useEffect} from 'react';
+import React, {ReactNode, SyntheticEvent, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -38,7 +38,7 @@ import {
     updateProduction,
     updateTareItem,
     updateTeamItem,
-    newTareItem
+    newTareItem, executeCard, sendCardToWork, cancelCard
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -49,7 +49,7 @@ import ProductionTeamItem from "../components/ProductionTeamItem";
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
 import {
     CARD_STATE_DRAFT,
-    CARD_STATE_IN_WORK,
+    CARD_STATE_IN_WORK, CARD_STATE_READY,
     CardStateString,
     IProductionCalc,
     IProductionTare, IProductionTeam
@@ -63,6 +63,10 @@ import TabPanel from "../components/TabPanel";
 import {loadEmployeeList} from "redux/actions/employeeAction";
 import {loadTare} from "redux/actions/tareAction";
 import {ITare} from "types/model/tare";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -106,15 +110,18 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
     const selectDialog = useDialog();
-    const paramId = props.match.params.id;
-    const idProduction = paramId === 'new' ? 0 :parseInt(paramId);
-    const { className, match, ...rest } = props;
+    const { className, match } = props;
+    const paramId = match.params.id;
+    const idProduction = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [tab, setTab] = React.useState(0);
 
     const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem);
     const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam);
     const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc);
     const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare);
-    const canRedirect = useSelector((state: IStateInterface)=> state.production.canRedirect);
+    //const canRedirect = useSelector((state: IStateInterface)=> state.production.canRedirect);
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading);
     const hasError = useSelector((state: IStateInterface) => state.production.hasError);
     const productItems = useSelector((state: IStateInterface) => state.product.products);
@@ -122,7 +129,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems);
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.items);
     const emplItems = useSelector((state: IStateInterface) => state.employee.items);
-    const [tab, setTab] = React.useState(0);
+
 
     /**
      * Изменения основных компонентов
@@ -133,6 +140,11 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         dispatch(changeProductionCard(item))
     };
 
+    const cardMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    //TODO Реализовать в виде отдельного компонента
     /**
      * Сменить продукцию, на которую производится расчёт
      */
@@ -272,6 +284,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         dispatch(loadFactoryLines());
         dispatch(loadEmployeeList());
         dispatch(loadTare());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect( ()=> {
@@ -298,6 +311,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         dispatch(changeProductionCard(item))
     };
 
+    //TODO реализовать в виде отдельного компонента
     const handleChangeProdLine = () => {
         selectDialog(
             {
@@ -360,6 +374,11 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
+    //TODO Реализовать в виде отдельного компонента
     const handleChangeTareItem = (id: number)=> {
         selectDialog(
             {
@@ -420,17 +439,72 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         return CardStateString[state]
     }
 
+    //TODO Реализовать печать производственной карты
+    function handleMenuPrint() {
+
+    }
+
+    function handleMenuCardToWork() {
+        dispatch(sendCardToWork(productionItem.id));
+        setAnchorEl(null);
+    }
+
+    function handleMenuCardExecute() {
+        dispatch(executeCard(productionItem.id))
+        setAnchorEl(null);
+    }
+
+    function handleMenuCardCancel() {
+        dispatch(cancelCard(productionItem.id))
+        setAnchorEl(null);
+    }
+
+    /**
+     * Получить список доступных операций (пункты меню) для карты
+     * @param state Состояние карты
+     */
+    function getAvailableOperations(state: number) : ReactNode[] {
+        const operations: ReactNode[] = []
+        if (state === CARD_STATE_DRAFT) {
+            operations.push(<MenuItem key={1} onClick={handleMenuCardToWork}>В работу</MenuItem>)
+
+        }
+        if (state === CARD_STATE_IN_WORK) {
+            operations.push(<MenuItem key={2} onClick={handleMenuCardExecute}>Выполнить</MenuItem>)
+            operations.push(<MenuItem key={3} onClick={handleMenuCardCancel}>Отмена карты</MenuItem>)
+        }
+        if (state === CARD_STATE_READY) {operations.push(<MenuItem key={4} onClick={handleMenuPrint}>Печать</MenuItem>)}
+        return operations
+    }
+
 const getCard = () => {
         // if (canRedirect) { return <Redirect to='/factory/'/> }
         return (
-            <Card {...rest} className={className}>
+            <Card className={className}>
 
                 <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader={getCardState(productionItem.curState)}
                         title={`Производственная карта #${productionItem.id}`}
                         avatar={<ProductionStateIcon stateIndex={productionItem.curState}/>}
+                        action={
+                            <IconButton aria-label="settings" aria-controls="simple-menu" onClick={cardMenuButtonClick}>
+                                <MoreVertIcon />
+                            </IconButton>
+                        }
                     />
+
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleCloseMenu}
+                    >
+                        {
+                            getAvailableOperations(productionItem.curState)
+                        }
+                    </Menu>
 
                     <Divider />
 
@@ -474,9 +548,12 @@ const getCard = () => {
                                                 readOnly: true,
                                             }}
                                         />
+                                        {canEditCard() ? (
                                         <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
                                             <MenuOpenIcon />
                                         </IconButton>
+                                            ):(null)
+                                        }
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -494,23 +571,31 @@ const getCard = () => {
                                                 readOnly: true,
                                             }}
                                         />
-                                        <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProdLine}>
-                                            <MenuOpenIcon />
-                                        </IconButton>
+                                        {canEditCard() ? (
+                                            <IconButton color="primary" className={classes.iconButton}
+                                                        aria-label="directions" onClick={handleChangeProdLine}>
+                                                <MenuOpenIcon/>
+                                            </IconButton>
+                                        ) :(null)
+                                        }
                                     </Paper>
                                 </Grid>
+                            </Grid>
+                            <Grid container spacing={3}>
                                     <Grid item xs={3} >
                                         <KeyboardDateTimePicker
                                             disableToolbar
                                             inputVariant="outlined"
                                             format="dd/MM/yyyy hh:mm"
                                             ampm={false}
-                                            id="date-picker-inline"
+                                            id="prodStart"
                                             label="Начало процесса"
                                             name="prodStart"
                                             required
+                                            margin="dense"
                                             value={productionItem?.prodStart}
                                             onChange={handleDateChangeProdStart}
+                                            readOnly={!canEditCard()}
                                         />
                                     </Grid>
                                 <Grid item xs={3} >
@@ -519,11 +604,13 @@ const getCard = () => {
                                         inputVariant="outlined"
                                         format="dd/MM/yyyy hh:mm"
                                         ampm={false}
-                                        id="date-picker-inline"
+                                        margin="dense"
+                                        id="prodFinish"
                                         label="Окончание процесса"
                                         name="prodFinish"
                                         value={productionItem?.prodFinish}
                                         onChange={handleDateChangeProdFinish}
+                                        readOnly={!canEditCard()}
                                     />
                                 </Grid>
                             </Grid>
@@ -539,6 +626,10 @@ const getCard = () => {
                                             required
                                             value={productionItem?.calcValue}
                                             variant="outlined"
+                                            inputProps={{
+                                                readOnly: Boolean(!canEditCard()),
+                                                disabled: Boolean(!canEditCard()),
+                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={3} >
@@ -552,6 +643,10 @@ const getCard = () => {
                                             required
                                             value={productionItem?.outValue}
                                             variant="outlined"
+                                            inputProps={{
+                                                readOnly: Boolean(!canEditCard()),
+                                                disabled: Boolean(!canEditCard()),
+                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={2} >
@@ -565,6 +660,10 @@ const getCard = () => {
                                             required
                                             value={productionItem?.lossValue}
                                             variant="outlined"
+                                            inputProps={{
+                                                readOnly: Boolean(!canEditCard()),
+                                                disabled: Boolean(!canEditCard()),
+                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={12} >
@@ -578,6 +677,10 @@ const getCard = () => {
                                             rows={4}
                                             value={productionItem?.comment}
                                             variant="outlined"
+                                            inputProps={{
+                                                readOnly: Boolean(!canEditCard()),
+                                                disabled: Boolean(!canEditCard()),
+                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={12} >
@@ -595,10 +698,13 @@ const getCard = () => {
                                                     readOnly: true,
                                                 }}
                                             />
+                                            {canEditCard() ? (
                                                 <IconButton color="primary" className={classes.iconButton}
                                                             aria-label="directions" onClick={handleChangeProduct}>
                                                     <MenuOpenIcon/>
                                                 </IconButton>
+                                            ): (null)
+                                            }
                                         </Paper>
                                     </Grid>
 
@@ -624,9 +730,12 @@ const getCard = () => {
                                 {
                                     productionTeam.map((team: any) =>(
                                     <ProductionTeamItem
+                                        key={team.id}
                                         item={team}
                                         onChangeItem={handleChangeTeamItem}
-                                        onDeleteItem={handleDeleteTeamItem}/>
+                                        onDeleteItem={handleDeleteTeamItem}
+                                        canEdit={canEditCard()}
+                                    />
                                     ))
                                 }
                             </Grid>
@@ -685,7 +794,9 @@ const getCard = () => {
                                     <ProductionTareItem
                                         item={tare}
                                         onChangeItem={handleChangeTareItem}
-                                        onDeleteItem={handleDeleteTareItem}/>
+                                        onDeleteItem={handleDeleteTareItem}
+                                        canEdit={canEditCard()}
+                                    />
                                 ))}
                             </Grid>
                         </TabPanel>
@@ -696,7 +807,7 @@ const getCard = () => {
                             Сохранить
                         </Button>
                         <Button color="default" variant="contained" onClick={(event => history.push('/factory/'))}>
-                            Отменить
+                            Закрыть
                         </Button>
                     </CardActions>
                 </form>

@@ -16,7 +16,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
-import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
 
 
 const useStyles = makeStyles(theme => ({
@@ -146,7 +145,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                     <SearchInput
                         className={classes.searchInput}
                         onEnterKeyDown={onKeyDownHandler}
-                        placeholder='Поиск по продукции'
+                        placeholder='Поиск по коду карты'
                     />
 
                     <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
@@ -157,12 +156,12 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                             value={product}
                             onChange={handleChangeProduct}
                         >
-                            <MenuItem value={0}>
+                            <MenuItem key={-1} value={0}>
                                 <em>не указано</em>
                             </MenuItem>
                             {
                                 products.map(item=>(
-                                    <MenuItem value={item.id}>{item.name}</MenuItem>
+                                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                                 ))
                             }
                         </Select>

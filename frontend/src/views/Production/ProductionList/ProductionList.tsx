@@ -48,6 +48,7 @@ const ProductionList = () => {
 
     useEffect(()=>{
         refreshOnLoad();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect( ()=>{
@@ -62,11 +63,11 @@ const ProductionList = () => {
         localStorage.setItem(PROD_PERIOD_END, date2);
         product ? localStorage.setItem(PROD_PRODUCT, product.toString()) : localStorage.removeItem(PROD_PRODUCT);
 
-        dispatch(loadProductionCards(date1, date2, product))
+        dispatch(loadProductionCards(date1, date2, '', product))
     }
 
     async function onFindProductHandler(findText: string){
-        dispatch(loadProduct(findText))
+        dispatch(loadProductionCards('', '', findText))
     }
 
     /**

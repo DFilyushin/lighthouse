@@ -43,12 +43,13 @@ interface IProductionTeamItemProps {
     item: IProductionTeam;
     onDeleteItem: ( (id: number)=> void);
     onChangeItem: ( (id: number)=> void);
+    canEdit: boolean;
 }
 
 
 const ProductionTeamItem = (props: IProductionTeamItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem } = props;
+    const { item, onDeleteItem, onChangeItem, canEdit } = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
@@ -59,10 +60,10 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
         onDeleteItem(id);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newItem = {...item, [event.target.name]: parseFloat(event.target.value)};
-        dispatch(updateTeamItem(newItem))
-    };
+    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const newItem = {...item, [event.target.name]: parseFloat(event.target.value)};
+    //     dispatch(updateTeamItem(newItem))
+    // };
 
     const handleDateChangeStartPeriod = (date: Date | null) => {
         console.log(date);
@@ -91,9 +92,13 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                         name="unit"
                         value={item.employee.fio}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickListItem(item.id)}}>
-                        <MenuOpenIcon />
-                    </IconButton>
+                    {
+                        canEdit ? (
+                            <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickListItem(item.id)}}>
+                                <MenuOpenIcon />
+                            </IconButton>
+                        ): (null)
+                    }
                 </Paper>
             </Grid>
             <Grid item xs={2}>
@@ -102,11 +107,12 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                     //inputVariant="standard"
                     format="dd/MM/yyyy hh:mm"
                     ampm={false}
-                    id="date-picker-inline"
+                    id="periodStart"
                     label="Начало смены"
-                    name="periodEnd"
+                    name="periodStart"
                     value={item.periodStart}
                     onChange={handleDateChangeStartPeriod}
+                    readOnly={!canEdit}
                 />
             </Grid>
             <Grid item xs={2}>
@@ -115,20 +121,24 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                     //inputVariant="standard"
                     format="dd/MM/yyyy hh:mm"
                     ampm={false}
-                    id="date-picker-inline"
+                    id="periodEnd"
                     label="Окончание"
                     name="periodEnd"
                     value={item.periodEnd}
                     onChange={handleDateChangeEndPeriod}
+                    readOnly={!canEdit}
                 />
             </Grid>
-            <Grid item>
-                <Tooltip title={'Удалить запись'}>
-                    <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                        <DeleteIcon />
-                    </Fab>
-                </Tooltip>
-            </Grid>
+            {canEdit ? (
+                <Grid item>
+                    <Tooltip title={'Удалить запись'}>
+                        <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
+                            <DeleteIcon/>
+                        </Fab>
+                    </Tooltip>
+                </Grid>
+            ) : (null)
+            }
         </Fragment>
     );
 };

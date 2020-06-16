@@ -41,12 +41,13 @@ interface IProductionTareItemProps {
     item: IProductionTare;
     onDeleteItem: ( (id: number)=> void);
     onChangeItem: ( (id: number)=> void);
+    canEdit: boolean;
 }
 
 
 const ProductionTareItem = (props: IProductionTareItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem} = props;
+    const { item, onDeleteItem, onChangeItem, canEdit} = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
@@ -65,7 +66,7 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
 
     return (
         <Fragment>
-            <Grid item xs={7}>
+            <Grid item xs={5}>
                 <Paper component="form" elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
@@ -76,9 +77,16 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                         name="raw"
                         value={item.tareName}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickListItem(item.id)}}>
-                        <MenuOpenIcon />
-                    </IconButton>
+                    {
+                        canEdit ? (
+                            <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                        onClick={event => {
+                                            handleClickListItem(item.id)
+                                        }}>
+                                <MenuOpenIcon/>
+                            </IconButton>
+                        ) : (null)
+                    }
                 </Paper>
             </Grid>
             <Grid item xs={2}>
@@ -88,6 +96,10 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                     name="tareV"
                     required
                     value={item.tareV}
+                    inputProps={{
+                        readOnly: true,
+                        disabled: true,
+                    }}
                 />
             </Grid>
             <Grid item xs={2}>
@@ -98,15 +110,35 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                     onChange={handleChange}
                     required
                     value={item.count}
+                    inputProps={{
+                        readOnly: Boolean(!canEdit),
+                        disabled: Boolean(!canEdit),
+                    }}
                 />
             </Grid>
-            <Grid item>
-                <Tooltip title={'Удалить запись'}>
-                    <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                        <DeleteIcon />
-                    </Fab>
-                </Tooltip>
+            <Grid item xs={2}>
+                <TextField
+                    label="Итого"
+                    type={'number'}
+                    name="count"
+                    value={item.count * item.tareV}
+                    inputProps={{
+                        readOnly: true,
+                        disabled: true,
+                    }}
+                />
             </Grid>
+            {
+                canEdit ? (
+                    <Grid item>
+                        <Tooltip title={'Удалить запись'}>
+                            <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
+                                <DeleteIcon />
+                            </Fab>
+                        </Tooltip>
+                    </Grid>
+                ) : (null)
+            }
         </Fragment>
     );
 };
