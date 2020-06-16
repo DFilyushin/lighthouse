@@ -10,13 +10,15 @@ class ProductionEndpoint{
      * @param productId Код продукта
      * @param state Состояние карты
      */
-    static getProductionList(startPeriod: string, endPeriod: string, productId?: number, state?: number ): string {
+    static getProductionList(startPeriod: string, endPeriod: string, find: string, productId?: number, state?: number ): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/prod`;
         const url = new URL(baseUrl);
         if (productId) url.searchParams.append('product', productId.toString());
         if (state) url.searchParams.append('state', state.toString());
         if (startPeriod) url.searchParams.append('startPeriod', startPeriod);
         if (endPeriod) url.searchParams.append('endPeriod', endPeriod);
+        if (find) url.searchParams.append('find', find);
+
         return url.href
     }
 
