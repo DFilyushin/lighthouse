@@ -118,10 +118,14 @@ const EmployeeItem = (props: IEmployeeItem) => {
         );
     };
 
+
+    useEffect(()=> {
+        dispatch(loadStaffs());
+    }, [])
+
     useEffect(()=> {
         dispatch(loadEmployeeItem(id));
-        dispatch(loadStaffs());
-    }, [dispatch]);
+    }, [dispatch, id]);
 
 
     return (
