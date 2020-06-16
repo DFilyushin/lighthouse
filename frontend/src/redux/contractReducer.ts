@@ -4,7 +4,7 @@ import {
     CONTRACT_LOAD_START,
     CONTRACT_LOAD_FINISH,
     CONTRACT_LOAD_ITEM_SUCCESS,
-    CONTRACT_LOAD_SUCCESS, CONTRACT_CHANGE_ITEM
+    CONTRACT_LOAD_SUCCESS, CONTRACT_CHANGE_ITEM, CONTRACT_SET_ERROR, CONTRACT_CLEAR_ERROR
 } from "./actions/types";
 import {nullContractItem} from "../types/model/contract";
 
@@ -24,6 +24,8 @@ export const contractReducer = (state: IContractState = getInitialState(), actio
         case CONTRACT_LOAD_ITEM_SUCCESS: return {...state, contractItem: action.item};
         case CONTRACT_DELETE_OK: return {...state, items: action.items};
         case CONTRACT_CHANGE_ITEM: return {...state, contractItem: action.item};
+        case CONTRACT_SET_ERROR: return {...state, error: action.error, hasError: true};
+        case CONTRACT_CLEAR_ERROR: return {...state, error: '', hasError: false};
         default: return state;
     }
 };
