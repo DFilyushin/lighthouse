@@ -18,3 +18,12 @@ class RoundFunc(Func):
 class RoundFunc4(Func):
     function = 'round'
     template = '%(function)s( CAST( %(expressions)s AS numeric), 4)'
+
+
+def parse_integer(value: str):
+    int_value = None
+    try:
+        int_value = int(value)
+        return int_value
+    except ValueError:
+        return int_value

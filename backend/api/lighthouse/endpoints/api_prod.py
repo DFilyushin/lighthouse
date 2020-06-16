@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import *
 from lighthouse.serializers.serializer_manufacture import *
 from .api_errors import *
-
+from .api_utils import parse_integer
 
 class ProductionLineView(viewsets.ModelViewSet):
     """
@@ -23,6 +23,7 @@ class ProductionView(viewsets.ModelViewSet):
         state = self.request.GET.get('state', None)
         start_period = self.request.GET.get('startPeriod', None)
         end_period = self.request.GET.get('endPeriod', None)
+        card_num = self.request.GET.get('find', None)
         if start_period and not end_period:
             end_period = datetime.today().strftime('%d-%m-%Y')
         queryset = Manufacture.objects.filter(is_delete=False)
@@ -30,10 +31,13 @@ class ProductionView(viewsets.ModelViewSet):
             queryset = queryset.filter(id_formula__id_product=product)
         if state is not None:
             queryset = queryset.filter(cur_state=state)
-        if start_period:
+        if start_period and not card_num:
             date_start = datetime.strptime(start_period, '%Y-%m-%d')
             date_end = datetime.strptime(end_period, '%Y-%m-%d')
             queryset = queryset.filter(prod_start__range=(date_start, date_end))
+        if card_num:
+            if parse_integer(card_num):
+                queryset = queryset.filter(id=card_num)
         return queryset.order_by('-prod_start')
 
     def update(self, request, *args, **kwargs):
