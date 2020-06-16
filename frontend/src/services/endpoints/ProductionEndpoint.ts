@@ -30,6 +30,23 @@ class ProductionEndpoint{
     }
 
     /**
+     * Исполнение карты
+     * @param id Код карты
+     */
+    static executeProductionCard(id: number): string{
+        return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/execute/`;
+    }
+
+    /**
+     * Сменить статус карты
+     * @param id Код карты
+     * @param newStatus Код нового статуса
+     */
+    static changeCardStatus(id: number, newStatus: number): string{
+        return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/setStatus/${newStatus}/`;
+    }
+
+    /**
      * Получить карту по коду
      * @param id Код карты
      */
