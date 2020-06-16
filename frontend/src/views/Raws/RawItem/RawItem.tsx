@@ -58,8 +58,8 @@ const RawItem = (props: IRawItemProps) => {
     };
 
     useEffect( ()=> {
-        if (rawId !== 0) dispatch(loadRawItem(rawId));
-    }, [dispatch]
+        dispatch(loadRawItem(rawId));
+    }, [dispatch, rawId]
     );
 
     return (

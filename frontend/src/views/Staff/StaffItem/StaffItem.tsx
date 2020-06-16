@@ -58,8 +58,8 @@ const StaffItem = (props: IStaffItemProps) => {
     };
 
     useEffect( ()=> {
-            if (staffId !== 0) dispatch(loadItem(staffId));
-        }, [dispatch]
+            dispatch(loadItem(staffId));
+        }, [dispatch, staffId]
     );
 
     return (

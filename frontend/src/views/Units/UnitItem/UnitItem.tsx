@@ -14,8 +14,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {addNewUnit, changeUnit, loadUnitItem, updateUnit} from "redux/actions/unitAction";
 
-
-
 interface IUnitItemProps {
     className: string,
     match: any
@@ -80,7 +78,7 @@ const UnitItem = (props: IUnitItemProps) => {
 
     useEffect( ()=> {
             dispatch(loadUnitItem(unitId));
-        }, [dispatch]
+        }, [dispatch, unitId]
     );
 
     return (

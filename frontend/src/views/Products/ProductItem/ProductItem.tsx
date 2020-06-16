@@ -58,8 +58,8 @@ const ProductItem = (props: IProductItemProps) => {
     };
 
     useEffect( ()=> {
-        if (productId !== 0) dispatch(loadProductItem(productId));
-    }, [dispatch]
+        dispatch(loadProductItem(productId));
+    }, [dispatch, productId]
     );
 
     return (

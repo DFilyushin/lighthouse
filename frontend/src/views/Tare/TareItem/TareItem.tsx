@@ -99,7 +99,6 @@ const TareItem = (props: ITareItemProps) => {
         }
     });
 
-
      /**
      * Сохранить изменения
      * @param event
@@ -121,7 +120,7 @@ const TareItem = (props: ITareItemProps) => {
 
     useEffect( ()=> {
             dispatch(loadTareItem(tareId));
-        }, [dispatch]
+        }, [dispatch, tareId]
     );
 
     const handleClickListItem = () => {
