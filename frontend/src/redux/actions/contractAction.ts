@@ -4,14 +4,18 @@ import {
     IContractSpecItem,
     nullContractItem,
     nullContractSpecItem
-} from "../../types/model/contract";
+} from "types/model/contract";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import axios from "axios";
-import {CONTRACT_LOAD_FINISH, CONTRACT_LOAD_ITEM_SUCCESS, CONTRACT_LOAD_START, CONTRACT_LOAD_SUCCESS, CONTRACT_CHANGE_ITEM} from "./types";
-import ContractEndpoint from "../../services/endpoints/ContractEndpoint";
-import ClientEndpoint from "../../services/endpoints/ClientEndpoint";
-import {IClientItem, nullClientItem} from "../../types/model/client";
-import {IProductionTeam} from "../../types/model/production";
+import {
+    CONTRACT_LOAD_FINISH,
+    CONTRACT_LOAD_ITEM_SUCCESS,
+    CONTRACT_LOAD_START,
+    CONTRACT_LOAD_SUCCESS,
+    CONTRACT_CHANGE_ITEM,
+    CONTRACT_SET_ERROR
+} from "./types";
+import ContractEndpoint from "services/endpoints/ContractEndpoint";
 
 /**
  * Получить список контрактов
@@ -124,7 +128,15 @@ export function addNewContract(item: IContract) {
  * @param item Объект контракта
  */
 export function updateContract(item: IContract) {
-
+    return async (dispatch: any, getState: any) => {
+        try{
+            console.log(JSON.stringify(item));
+            const response = await axios.put(ContractEndpoint.updateContract(item.id), item);
+            console.log(response);
+        }catch (e) {
+            dispatch(saveError(e.toString()))
+        }
+    }
 }
 
 
@@ -165,5 +177,12 @@ function fetchItemSuccess(item: IContract) {
     return{
         type: CONTRACT_LOAD_ITEM_SUCCESS,
         item
+    }
+}
+
+function saveError(error: string) {
+    return{
+        type: CONTRACT_SET_ERROR,
+        error
     }
 }
