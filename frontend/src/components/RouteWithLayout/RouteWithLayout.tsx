@@ -11,7 +11,8 @@ interface IRouteWithLayout {
 }
 
 const RouteWithLayout = (props: IRouteWithLayout) => {
-    const { isAuth: isAuth, layout: Layout, component: Component, ...rest } = props;
+    const { isAuth, layout: Layout, component: Component, ...rest } = props;
+
 
     if (isAuth && !AuthenticationService.isAuthenticated())
          return <Redirect to="/login"/>
