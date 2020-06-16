@@ -32,10 +32,9 @@ const ContractList = () => {
     const [typeAlert, setTypeAlert] = useState<Color>('success');
     const [contractStatus, setContractStatus] = useState(0);
 
-
     useEffect(() => {
         dispatch(loadContractList(contractStatus))
-    }, [dispatch]);
+    }, [dispatch, contractStatus]);
 
     function onClickTableItem(contractId: number){
         history.push(`/contracts/${contractId}`);
