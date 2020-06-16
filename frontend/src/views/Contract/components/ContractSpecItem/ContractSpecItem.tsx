@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {IContractSpecItem} from "types/model/contract";
 import {TableCell, TableRow, TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ContractSpecItem = (props: IContractSpecItemProps) => {
-    const { className, match, item, onDeleteItem, onChangeItem } = props;
+    const { item, onDeleteItem, onChangeItem } = props;
 
     const classes = useStyles();
 

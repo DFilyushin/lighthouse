@@ -1,4 +1,4 @@
-import React, {useState, useEffect, SyntheticEvent} from 'react';
+import React, {Fragment, useState, useEffect, SyntheticEvent} from 'react';
 import moment from "moment";
 import 'moment/locale/ru';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,23 +19,28 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import {useConfirm} from "material-ui-confirm";
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+// import {useConfirm} from "material-ui-confirm";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
     addNewContract, addNewSpecItem,
     changeContractItem, deleteContractSpecItem,
     loadContractItem,
     updateContract
-} from "../../../redux/actions/contractAction";
+} from "redux/actions/contractAction";
 import {ContractSpecItem} from "../components";
-import {IContractSpecItem} from "../../../types/model/contract";
+import {IContractSpecItem} from "types/model/contract";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import { KeyboardDatePicker} from '@material-ui/pickers';
-import {useDialog} from "../../../components/SelectDialog";
+// import {useDialog} from "components/SelectDialog";
 import Hidden from "@material-ui/core/Hidden";
-import {IClientItemList} from "../../../types/model/client";
+import {IClientItemList} from "types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import {searchClients} from "../../../redux/actions/clientAction";
+import {searchClients} from "redux/actions/clientAction";
+import Skeleton from '@material-ui/lab/Skeleton';
 
 interface IContractItemProps {
     className: string,
@@ -74,12 +79,13 @@ const ContractItem = (props: IContractItemProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const confirm = useConfirm();
-    const selectDialog = useDialog();
+    // const confirm = useConfirm();
+    // const selectDialog = useDialog();
 
-
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [hasLoad, setLoad] = useState <boolean>(false)
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem);
+    const loading = useSelector((state: IStateInterface) => state.contract.isLoading);
     const clients = useSelector((state: IStateInterface)=> state.client.searchClients);
     const hasError = useSelector((state: IStateInterface)=> state.client.hasError);
     const [dataSource, setDataSource] = useState<IClientItemList[]>([])
@@ -87,9 +93,23 @@ const ContractItem = (props: IContractItemProps) => {
     const [inputValue, setInputValue] = useState('')
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const item = {...contractItem, [event.target.name]: event.target.value};
+        let value: any = null;
+        const property: string = event.target.name;
+        // @ts-ignore
+        const typeOfProperty: string = typeof (contractItem[property]);
+        if ( typeOfProperty === 'number') {
+            value = parseFloat(event.target.value);
+        }else{
+            value =  event.target.value;
+        }
+        const item = {...contractItem, [event.target.name]: value};
+
         dispatch(changeContractItem(item))
     };
+
+    const contractMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    }
 
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
         if (contractId === 0) {
@@ -128,16 +148,7 @@ const ContractItem = (props: IContractItemProps) => {
         )
     };
 
-    /**
-     * Изменение клиента
-     */
-    function handleChangeClient() {
-
-    }
-
-
     useEffect( () => {
-        console.log('isLoading', hasLoad);
         const loadData = () => {
             setCurClient(contractItem.client);
         }
@@ -155,10 +166,9 @@ const ContractItem = (props: IContractItemProps) => {
             return undefined;
         }else{
             const newClients: IClientItemList[] = [];
-            console.log('search by ', inputValue);
-            dispatch(searchClients(inputValue))
-            clients.map((value, index, array)=> {
-                newClients.push(value)
+            dispatch(searchClients(inputValue));
+            clients.forEach((value)=>{
+                newClients.push(value);
             })
             setDataSource(newClients);
         }
@@ -175,9 +185,14 @@ const ContractItem = (props: IContractItemProps) => {
         }
     }
 
+    const handlePrint = () => {
+        //печать ...
 
-    const handleDeliveryDateChange = (date: Date | null) => {
+        setAnchorEl(null)
+    }
 
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
     };
 
     const handleAddEmptySpecItem = ()=> {
@@ -190,6 +205,16 @@ const ContractItem = (props: IContractItemProps) => {
         dispatch(changeContractItem(item))
     };
 
+    const handleEstDeliveryDateChange = (date: Date | null) => {
+        const strDate = date?.toISOString().slice(0, 19);
+        const item = {...contractItem, 'estDelivery': strDate as string};
+        dispatch(changeContractItem(item))
+    };
+    const handleDeliveredDateChange = (date: Date | null) => {
+        const strDate = date?.toISOString().slice(0, 19);
+        const item = {...contractItem, 'delivered': strDate as string};
+        dispatch(changeContractItem(item))
+    };
 
     return (
         <div className={classes.root}>
@@ -201,13 +226,34 @@ const ContractItem = (props: IContractItemProps) => {
                     autoComplete="off"
                     onSubmit={saveHandler}
                 >
-                    <CardHeader subheader="" title="Контракт"/>
+                    <CardHeader
+                        subheader=""
+                        title="Контракт"
+                        action={
+                            <IconButton aria-label="settings" aria-controls="simple-menu" onClick={contractMenuButtonClick}>
+                                <MoreVertIcon />
+                            </IconButton>
+                        }
+                    />
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleCloseMenu}
+                    >
+                        <MenuItem onClick={handlePrint}>Печать</MenuItem>
+                    </Menu>
                     <Divider />
                     <CardContent>
-                            <Grid
-                                container
-                                spacing={3}
-                            >
+                        {loading ? (
+                            <Fragment>
+                                <Skeleton animation="wave" height={200} width="100%" style={{ marginBottom: 2 }} />
+                                <Skeleton animation="wave" height={100} width="100%" style={{ marginBottom: 2 }} />
+                                <Skeleton animation="wave" height={200} width="100%" style={{ marginBottom: 2 }} />
+                            </Fragment>) :(
+                                <Fragment>
+                            <Grid container spacing={3}>
                                 <Grid item xs={12} md={12}>
                                     <Autocomplete
                                         autoComplete
@@ -247,7 +293,6 @@ const ContractItem = (props: IContractItemProps) => {
                                         name="contractDate"
                                         value={contractItem?.contractDate || null}
                                         onChange={handleContractDateChange}
-
                                     />
                                 </Grid>
                                 <Grid item md={3} xs={3}>
@@ -270,7 +315,6 @@ const ContractItem = (props: IContractItemProps) => {
                                         margin="dense"
                                         name="contractId"
                                         onChange={handleChange}
-                                        required
                                         value={contractItem.contractId}
                                         variant="outlined"
                                         inputProps={{'maxLength': 10}}
@@ -286,24 +330,21 @@ const ContractItem = (props: IContractItemProps) => {
                                         required
                                         value={contractItem.discount}
                                         variant="outlined"
+                                        type={'number'}
                                         inputProps={{'maxLength': 12}}
                                     />
                                 </Grid>
-                                <Grid
-                                    item
-                                    md={3}
-                                    xs={3}
-                                >
+                                <Grid item md={3} xs={3}>
                                     <KeyboardDatePicker
                                         className=''
                                         inputVariant="outlined"
-                                        id="dp_contractdate"
+                                        id="estdelivery"
                                         label="Дата поставки"
                                         format="dd/MM/yyyy"
                                         margin="dense"
-                                        name="contractDate"
+                                        name="estdelivery"
                                         value={contractItem.estDelivery || null}
-                                        onChange={handleContractDateChange}
+                                        onChange={handleEstDeliveryDateChange}
                                     />
                                 </Grid>
                                 <Grid
@@ -320,11 +361,9 @@ const ContractItem = (props: IContractItemProps) => {
                                         margin="dense"
                                         name="delivered"
                                         value={contractItem.delivered || null}
-                                        onChange={handleContractDateChange}
+                                        onChange={handleDeliveredDateChange}
                                     />
                                 </Grid>
-
-
                                 <Grid item xs={12}>
                                     <TextField
                                         fullWidth
@@ -339,28 +378,35 @@ const ContractItem = (props: IContractItemProps) => {
                                         variant="outlined"
                                     />
                                 </Grid>
-
                             </Grid>
-
+                                </Fragment> )}
                             <Grid container spacing={1}>
-                                <Grid item xs={11}>
-                                    <Typography variant={"h5"}>
-                                        Спецификация контракта
-                                    </Typography>
-                                </Grid>
-                                {
-                                    <Grid item xs={1}>
-                                        <Tooltip title={'Добавить новый продукт'}>
+                                {loading ?
+                                    (
+                                        <Fragment>
+                                            <Skeleton animation="wave" height={100} style={{ marginBottom: 2 }} />
+                                            <Skeleton animation="wave" height={100} width="100%" />
+                                        </Fragment>
+                                    ) : (
+                                        <Fragment>
+                                            <Grid item xs={11}>
+                                                <Typography variant={"h5"}>
+                                                    Спецификация контракта
+                                                </Typography>
+                                            </Grid>
+                                        {
+                                            <Grid item xs={1}>
+                                            <Tooltip title={'Добавить новый продукт'}>
                                             <Fab color="default" aria-label="add" onClick={handleAddEmptySpecItem}>
-                                                <AddIcon/>
+                                            <AddIcon/>
                                             </Fab>
-                                        </Tooltip>
-                                    </Grid>
-                                }
-                                <Table size="small">
+                                            </Tooltip>
+                                            </Grid>
+                                        }
+                                            <Table size="small">
 
-                                    <TableHead>
-                                        <TableRow>
+                                            <TableHead>
+                                            <TableRow>
                                             <TableCell>Продукт</TableCell>
                                             <TableCell>Тара</TableCell>
                                             <TableCell>Количество</TableCell>
@@ -368,52 +414,55 @@ const ContractItem = (props: IContractItemProps) => {
                                             <TableCell>Скидка</TableCell>
                                             <TableCell>Итого</TableCell>
                                             <Hidden only={['xs', 'sm']}>
-                                                <TableCell>Отгрузка</TableCell>
-                                                <TableCell>Отгружен</TableCell>
+                                            <TableCell>Отгрузка</TableCell>
+                                            <TableCell>Отгружен</TableCell>
                                             </Hidden>
-                                        </TableRow>
-                                    </TableHead>
-                                {
-                                    contractItem.specs.map((specItem: IContractSpecItem) =>(
-                                        <ContractSpecItem
-                                            className={''}
-                                            match={''}
-                                            item={specItem}
-                                            onDeleteItem={onDeleteSpecItem}
-                                            onChangeItem={onSelectContract}
-                                        />
-                                    ))
-                                }
-                                </Table>
+                                            </TableRow>
+                                            </TableHead>
+                                            {
+                                                contractItem.specs.map((specItem: IContractSpecItem) => (
+                                                    <ContractSpecItem
+                                                        className={''}
+                                                        match={''}
+                                                        item={specItem}
+                                                        onDeleteItem={onDeleteSpecItem}
+                                                        onChangeItem={onSelectContract}
+                                                    />
+                                                ))
+                                            }
+                                            </Table>
+                                        </Fragment>
+                                    )}
                             </Grid>
                             <Grid container spacing={1}>
-                            <Grid item xs={10} sm={10}>
-                                <TextField
-                                    fullWidth
-                                    disabled
-                                    id="outlined-multiline-flexible"
-                                    label="Договор зарегистрирован"
-                                    margin="dense"
-                                    name="agent"
-                                    value={contractItem.agent.fio}
-                                    variant="outlined"
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
-                                />
+                                <Grid item xs={10} sm={10}>
+                                    <TextField
+                                        fullWidth
+                                        disabled
+                                        id="outlined-multiline-flexible"
+                                        label="Договор зарегистрирован"
+                                        margin="dense"
+                                        name="agent"
+                                        value={contractItem.agent.fio}
+                                        variant="outlined"
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={2} sm={2}>
+                                    <TextField
+                                        disabled
+                                        id="outlined-multiline-flexible"
+                                        label="Дата"
+                                        margin="dense"
+                                        name="created"
+                                        value={moment(contractItem.created).format('DD/MM/YYYY HH:MM')}
+                                        variant="outlined"
+                                    />
+                                </Grid>
                             </Grid>
-                        <Grid item xs={2} sm={2}>
-                            <TextField
-                                disabled
-                                id="outlined-multiline-flexible"
-                                label="Дата"
-                                margin="dense"
-                                name="created"
-                                value={moment(contractItem.created).format('DD/MM/YYYY HH:MM')}
-                                variant="outlined"
-                            />
-                        </Grid>
-                            </Grid>
+
                     </CardContent>
                     <Divider />
                     <CardActions>

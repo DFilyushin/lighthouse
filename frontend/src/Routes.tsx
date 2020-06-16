@@ -37,7 +37,9 @@ import {
     Changelog as ChangelogView,
     Setup as SetupView,
     ContractList as ContractListView,
-    ContractItem as ContractItemView
+    ContractItem as ContractItemView,
+    CostList as CostListView,
+    CostItem as CostItemView
 } from './views'
 
 const Routes = () => {
@@ -56,6 +58,10 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={ContractItemView} layout={MainLayout} path="/contracts/:id" exact/>
 
             <RouteWithLayout isAuth={true} component={UserListView} layout={MainLayout} path="/users" exact/>
+
+            <RouteWithLayout isAuth={true} component={CostListView} layout={MainLayout} path="/catalogs/cost" exact/>
+            <RouteWithLayout isAuth={true} component={CostItemView} layout={MainLayout} path="/catalogs/cost/:id" exact/>
+
 
             <RouteWithLayout isAuth={true} component={ProductsView} layout={MainLayout} path="/catalogs/product" exact/>
             <RouteWithLayout isAuth={true} component={ProductItemView} layout={MainLayout} path="/catalogs/product/:id" exact/>

@@ -12,7 +12,8 @@ export { default as ClientItem } from './ClientItem';
 export { default as ContractList } from './Contract/ContractList';
 export { default as ContractItem } from './Contract/ContractItem';
 
-
+export {default as CostList} from './Cost/CostList';
+export {default as CostItem} from './Cost/CostItem';
 
 export { default as Products } from './Products/ProductList';
 export { default as ProductItem } from './Products/ProductItem';
