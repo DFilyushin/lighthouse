@@ -11,7 +11,7 @@ import {
     TextField
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector, useStore} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
@@ -24,7 +24,6 @@ import {useDialog} from "components/SelectDialog";
 import {IStateInterface} from "redux/rootReducer";
 import {
     getAutoCalculation,
-    addNewProduction,
     changeProductionCard,
     deleteCalcItem,
     deleteTareItem,
@@ -267,14 +266,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         }
     };
 
+    useEffect(()=>{
+        dispatch(loadRaws());
+        dispatch(loadProduct());
+        dispatch(loadFactoryLines());
+        dispatch(loadEmployeeList());
+        dispatch(loadTare());
+    }, [])
+
     useEffect( ()=> {
-            dispatch(loadRaws());
-            dispatch(loadProduct());
-            dispatch(loadFactoryLines());
-            dispatch(loadEmployeeList());
-            dispatch(loadTare());
             dispatch(loadProductionCard(idProduction));
-        }, [dispatch]
+        }, [dispatch, idProduction]
     );
 
     function a11yProps(index: any) {

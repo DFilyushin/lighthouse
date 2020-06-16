@@ -64,7 +64,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
 
     useEffect( ()=> {
             dispatch(loadFactoryItem(id));
-        }, [dispatch]
+        }, [dispatch, id]
     );
 
     return (

@@ -184,10 +184,13 @@ const FormulaItem = (props: IFormulaItemProps) => {
         if (!hasError) history.push('/catalogs/formula');
     };
 
-    useEffect( ()=> {
-            if (formulaId !== 0) dispatch(loadFormulaItem(formulaId));
+    useEffect(()=>{
         dispatch(loadRaws());
-        }, [dispatch]
+    }, [])
+
+    useEffect( ()=> {
+            dispatch(loadFormulaItem(formulaId));
+        }, [dispatch, formulaId]
     );
 
     const getCard = () => {
