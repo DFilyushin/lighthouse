@@ -8,6 +8,7 @@ import InputIcon from '@material-ui/icons/Input';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { common } from '@material-ui/core/colors';
+import Box from "@material-ui/core/Box";
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,9 +62,16 @@ const Topbar = (props: ITopbar) => {
           </IconButton>
         </Hidden>
         <Avatar src="/images/lighthouse3.png" className={clsx(classes.large, classes.orange)} variant='circle' />
-        <Typography variant="h6" className={classes.title}>
-          &nbsp; Lighthouse - Управление производством
-        </Typography>
+        <Box display={{ xs: 'none', md: 'block', lg: 'block', xl: 'block' }}>
+          <Typography variant="h6" className={classes.title} >
+            &nbsp; Lighthouse - Управление производством
+          </Typography>
+        </Box>
+        <Box display={{ xs: 'block', md: 'none', lg: 'none', xl: 'none' }}>
+          <Typography variant="h6" className={classes.title} >
+            &nbsp; Lighthouse
+          </Typography>
+        </Box>
         <div className={classes.flexGrow} />
 
           <IconButton color="inherit">
