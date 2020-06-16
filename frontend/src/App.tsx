@@ -12,6 +12,7 @@ import {SelectDialogProvider} from './components/SelectDialog'
 import thunk from "redux-thunk";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import ruLocale from "date-fns/locale/ru";
 const browserHistory = createBrowserHistory();
 const theme = createMuiTheme();
 const store = createStore(rootReducer, compose(
@@ -26,7 +27,7 @@ function App() {
             <Router history={browserHistory}>
                 <ConfirmProvider>
                     <SelectDialogProvider>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                             <Routes />
                         </MuiPickersUtilsProvider>
                     </SelectDialogProvider>
