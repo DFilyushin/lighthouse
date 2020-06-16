@@ -1,26 +1,26 @@
 import React from 'react';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import EditIcon from '@material-ui/icons/Edit';
-import CachedIcon from '@material-ui/icons/Cached';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Tooltip from '@material-ui/core/Tooltip';
 
 interface IProductionStateIcon {
     stateIndex: number
 }
 
 /**
- * Отрисовать иконку по индексу
+ * Иконка состояния карты
  * @param indexState Индекс состояния
  */
 function getIcon(indexState: number) {
     switch (indexState) {
-        case 0: return <EditIcon color={"primary"}/>;
-        case 1: return <AccessTimeIcon color={"primary"}/>;
-        case 2: return <CheckCircleOutlineIcon color={"primary"}/>;
-        case 3: return <ErrorOutlineIcon color={"primary"}/>;
-        case 4: return <CancelIcon color={"primary"}/>;
+        case 0: return <Tooltip title={'Черновик'}><EditIcon color={"action"}/></Tooltip>;
+        case 1: return <Tooltip title={'В работе'}><AccessTimeIcon color={"primary"}/></Tooltip>;
+        case 2: return <Tooltip title={'Выполнен'}><CheckCircleOutlineIcon color={"primary"}/></Tooltip>;
+        case 3: return <Tooltip title={'Ошибка'}><ErrorOutlineIcon color={"primary"}/></Tooltip>;
+        case 4: return <Tooltip title={'Отменён'}><CancelIcon color={"error"}/></Tooltip>;
         default: return <div></div>
     }
 }
