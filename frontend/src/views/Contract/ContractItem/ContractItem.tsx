@@ -172,6 +172,7 @@ const ContractItem = (props: IContractItemProps) => {
             })
             setDataSource(newClients);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasLoad, inputValue, contractItem.client.id]);
 
 
