@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(3)
     },
     markdownContainer: {
-        maxWidth: 700
+        maxWidth: '100%'
     },
 }));
 
