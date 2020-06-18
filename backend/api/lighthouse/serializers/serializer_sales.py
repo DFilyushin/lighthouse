@@ -106,8 +106,8 @@ class ContractSpecSerializer(serializers.ModelSerializer):
     itemPrice = serializers.FloatField(source='item_price')
     itemDiscount = serializers.FloatField(source='item_discount')
     itemTotal = serializers.FloatField(source='total')
-    delivery = serializers.DateField(source='delivery_date')
-    delivered = serializers.DateField()
+    delivery = serializers.DateField(source='delivery_date', allow_null=True)
+    delivered = serializers.DateField(allow_null=True)
 
     class Meta:
         model = ContractSpec
@@ -128,7 +128,22 @@ class ContractSerializer(serializers.ModelSerializer):
     discount = serializers.FloatField(default=0)
     contractId = serializers.CharField(source='contractid')
     agent = EmployeeListSerializer(source='id_agent')
-    specs = ContractSpecSerializer(many=True, read_only=True)
+    specs = ContractSpecSerializer(many=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
+        instance.num = validated_data['num']
+        instance.contract_date = validated_data['contract_date']
+        instance.comment = validated_data['comment']
+        instance.contractid = validated_data['contractid']
+        instance.discount = validated_data['discount']
+        instance.est_delivery = validated_data['est_delivery']
+        instance.delivered = validated_data['delivered']
+        instance.save()
+        return instance
 
     class Meta:
         model = Contract
