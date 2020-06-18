@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography, Divider, colors } from '@material-ui/core';
+import Markdown from "../../components/Markdown";
+import {Page} from "../../components";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -15,36 +17,52 @@ const useStyles = makeStyles(theme => ({
         display: 'inline-block',
         maxWidth: '100%',
         width: 560
-    }
+    },
+    divider: {
+        backgroundColor: colors.grey[300],
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(3)
+    },
+    markdownContainer: {
+        maxWidth: 700
+    },
 }));
 
 const About = () => {
     const classes = useStyles();
+    const [source, setSource] = useState('');
+
+    useEffect(() => {
+        fetch('/docs/AboutApp.md')
+            .then(response => response.text())
+            .then(text => setSource(text));
+    }, []);
 
     return (
-        <div className={classes.root}>
-            <Grid
-                container
-                justify="center"
-                spacing={4}
+        <Page
+            className={classes.root}
+            title="Changelog"
+        >
+            <Typography
+                gutterBottom
+                variant="overline"
             >
-                <Grid
-                    item
-                    lg={6}
-                    xs={12}
-                >
-                    <div className={classes.content}>
-                        <Typography variant="h2">
-                            О приложении
-                        </Typography>
-                        <Typography variant="subtitle2">
-                            ...
-                        </Typography>
-                    </div>
-                </Grid>
-            </Grid>
-        </div>
+                Поддержка
+            </Typography>
+            <Typography variant="h3">О приложении</Typography>
+            <Divider className={classes.divider} />
+            {source && (
+                <div className={classes.markdownContainer}>
+                    <Markdown
+                        escapeHtml={false}
+                        source={source} //
+                    />
+                </div>
+            )}
+
+        </Page>
     );
 };
 
 export default About;
+
