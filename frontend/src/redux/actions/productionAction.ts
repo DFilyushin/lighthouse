@@ -21,7 +21,8 @@ import {
     IProductionList,
     IProductionTare,
     IProductionTeam,
-    nullProduction, nullProductionCalc, nullProductionTare, nullProductionTeam
+    nullProduction,
+    nullProductionTare
 } from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
@@ -415,15 +416,15 @@ export function updateProduction(item: IProduction) {
             const teamItems = [...getState().production.prodCardTeam];
             //const sendTeamItems: any[] = [];
             if (teamItems.length > 0) {
-                teamItems.map((value)=>{
+                teamItems.map((value) => {
                     value.manufactureId = item.id;
                 });
                 const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
+                console.log(teamResponse);
             }
             const tareItems = [...getState().production.prodCardTare];
             const sendTareItems: any[] = [];
             if (tareItems.length > 0){
-
                 tareItems.map((value)=>{
                     const newValue = {...value};
                     if (newValue.id < 0) {newValue.id=0}
