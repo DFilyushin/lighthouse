@@ -119,7 +119,12 @@ export default [
             },
             {
                 title: 'Продажи',
-                href: '/report/...',
+                href: '/report/sales',
+                icon: EqualizerOutlinedIcon
+            },
+            {
+                title: 'Производство',
+                href: '/report/production',
                 icon: EqualizerOutlinedIcon
             }
         ]
