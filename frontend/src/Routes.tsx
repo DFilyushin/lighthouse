@@ -101,6 +101,7 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={ReportProductionView} layout={MainLayout} path="/report/production" exact/>
             <RouteWithLayout isAuth={true} component={ReportSalesView} layout={MainLayout} path="/report/sales" exact/>
 
+            //сервис
             <RouteWithLayout isAuth={true} component={AboutView} layout={MainLayout} path="/about" exact/>
             <RouteWithLayout isAuth={true} component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
             <RouteWithLayout isAuth={true} component={SetupView} layout={MainLayout} path="/setup" exact/>

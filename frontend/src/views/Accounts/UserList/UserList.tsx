@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { UsersToolbar, UsersTable } from './components';
-import mockData from './data';
+import { UsersToolbar, UsersTable } from '../components/index';
+import mockData from '../data';
 import {IUserData} from 'types/model/user';
 
 const useStyles = makeStyles(theme => ({

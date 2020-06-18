@@ -1,6 +1,6 @@
 export { default as Login } from './Login';
 export { default as NotFound } from './NotFound';
-export { default as UserList} from './UserList';
+export { UserList} from './Accounts';
 export { default as EmployeeList } from './Employee/EmployeeList';
 export { default as OrgName } from './OrgName';
 export { default as Dashboard } from './Dashboard';

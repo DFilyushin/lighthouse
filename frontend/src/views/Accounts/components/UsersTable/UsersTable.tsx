@@ -127,11 +127,11 @@ const UsersTable = (props: IUsersTable) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell>
-                  <TableCell className={classes.rowHeader}>Name</TableCell>
-                  <TableCell >Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
+                  <TableCell className={classes.rowHeader}>Сотрудник</TableCell>
+                  <TableCell>Логин</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Контакты</TableCell>
+                  <TableCell>Дата регистрации</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
