@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
+import {Button, Grid, Typography} from '@material-ui/core';
 import { SearchInput } from 'components';
 import { useHistory } from "react-router-dom";
 import { KeyboardDatePicker} from '@material-ui/pickers';
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     row: {
-        height: '42px',
+        //height: '42px',
         display: 'flex',
         alignItems: 'center',
         marginTop: theme.spacing(1),
@@ -135,63 +135,119 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                     <Typography variant="h4">Производство</Typography>
                 </ListItem>
             </List>
-            <div className={classes.buttonGroup}>
-                <span className={classes.spacer} />
-                <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Новая карта</Button>
-                <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
-            </div>
-
-                <div className={classes.row}>
-                    <SearchInput
-                        className={classes.searchInput}
-                        onEnterKeyDown={onKeyDownHandler}
-                        placeholder='Поиск по коду карты'
-                    />
-
-                    <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
-                        <InputLabel id="demo-simple-select-helper-label">Продукция</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            value={product}
-                            onChange={handleChangeProduct}
-                        >
-                            <MenuItem key={-1} value={0}>
-                                <em>не указано</em>
-                            </MenuItem>
-                            {
-                                products.map(item=>(
-                                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                                ))
-                            }
-                        </Select>
-                    </FormControl>
-                    <KeyboardDatePicker
-                        className={classes.formControl}
-                        id="start_date-picker-dialog"
-                        label="Начало периода"
-                        format="dd/MM/yyyy"
-                        value={firstDate}
-                        onChange={handleFirstDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
-                    <KeyboardDatePicker
-                        className={classes.formControl}
-                        id="end_date-picker-dialog"
-                        label="Окончание периода"
-                        format="dd/MM/yyyy"
-                        value={endDate}
-                        onChange={handleEndDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                    />
-                    <Button variant="contained" onClick={handleRefreshData}>
-                        Обновить
-                    </Button>
+            <Grid
+                container
+                spacing={3}
+            >
+                <Grid
+                    item
+                    lg={3}
+                    sm={6}
+                    xs={12}
+                >
+                <div className={classes.buttonGroup}>
+                    <span className={classes.spacer} />
+                    <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Новая карта</Button>
+                    <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
                 </div>
+                </Grid>
+            </Grid>
+                    <Grid
+                        container
+                        spacing={3}
+                        className={classes.row}
+                    >
+                        <Grid
+                            item
+                            lg={3}
+                            sm={6}
+                            md={6}
+                            xs={12}
+                        >
+                            <SearchInput
+                                className={classes.searchInput}
+                                onEnterKeyDown={onKeyDownHandler}
+                                placeholder='Поиск по коду карты'
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            lg={3}
+                            sm={6}
+                            md={6}
+                            xs={12}
+                        >
+                            <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                                <InputLabel id="demo-simple-select-helper-label">Продукция</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-helper-label"
+                                    id="demo-simple-select-helper"
+                                    value={product}
+                                    onChange={handleChangeProduct}
+                                >
+                                    <MenuItem key={-1} value={0}>
+                                        <em>не указано</em>
+                                    </MenuItem>
+                                    {
+                                        products.map(item=>(
+                                            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid
+                            item
+                            lg={2}
+                            sm={6}
+                            md={6}
+                            xs={12}
+                        >
+                            <KeyboardDatePicker
+                                className={classes.formControl}
+                                id="start_date-picker-dialog"
+                                label="Начало периода"
+                                format="dd/MM/yyyy"
+                                value={firstDate}
+                                onChange={handleFirstDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            lg={2}
+                            sm={6}
+                            md={6}
+                            xs={12}
+                        >
+                            <KeyboardDatePicker
+                                className={classes.formControl}
+                                id="end_date-picker-dialog"
+                                label="Окончание периода"
+                                format="dd/MM/yyyy"
+                                value={endDate}
+                                onChange={handleEndDateChange}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            lg={2}
+                            sm={6}
+                            md={6}
+                            xs={12}
+                        >
+                            <Button variant="contained" onClick={handleRefreshData}>
+                                Обновить
+                            </Button>
+
+                        </Grid>
+                    </Grid>
+
         </div>
     );
 };
