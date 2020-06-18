@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import WorkOutlineOutlinedIcon from '@material-ui/icons/WorkOutlineOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TotalUsers = props => {
+const TotalContracts = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -62,13 +62,13 @@ const TotalUsers = props => {
               gutterBottom
               variant="body2"
             >
-              TOTAL USERS
+              КОНТРАКТЫ
             </Typography>
             <Typography variant="h3">1,600</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon className={classes.icon} />
+              <WorkOutlineOutlinedIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -92,8 +92,8 @@ const TotalUsers = props => {
   );
 };
 
-TotalUsers.propTypes = {
+TotalContracts.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalUsers;
+export default TotalContracts;

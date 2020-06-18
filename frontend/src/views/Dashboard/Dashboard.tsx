@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 
 import {
-    Budget,
-    TotalUsers,
+    CardStatus,
+    TotalContracts,
     TasksProgress,
     TotalProfit,
     LatestSales,
@@ -35,7 +35,7 @@ const Dashboard = () => {
                     xl={3}
                     xs={12}
                 >
-                    <Budget />
+                    <CardStatus />
                 </Grid>
                 <Grid
                     item
@@ -44,7 +44,7 @@ const Dashboard = () => {
                     xl={3}
                     xs={12}
                 >
-                    <TotalUsers />
+                    <TotalContracts />
                 </Grid>
                 <Grid
                     item

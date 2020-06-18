@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
+import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Budget = props => {
+const CardStatus = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -62,13 +63,13 @@ const Budget = props => {
               gutterBottom
               variant="body2"
             >
-              BUDGET
+              ПРОИЗВОДСТВО
             </Typography>
             <Typography variant="h3">$24,000</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <MoneyIcon className={classes.icon} />
+              <DomainOutlinedIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
@@ -92,8 +93,8 @@ const Budget = props => {
   );
 };
 
-Budget.propTypes = {
+CardStatus.propTypes = {
   className: PropTypes.string
 };
 
-export default Budget;
+export default CardStatus;
