@@ -1,49 +1,66 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
-
+import Markdown from "../../components/Markdown";
+import {Page} from 'components';
+import { Typography, Divider, colors } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
     root: {
-        padding: theme.spacing(4)
+        flexGrow: 1,
+        padding: theme.spacing(3, 3, 6, 3)
     },
-    content: {
-        paddingTop: 150,
-        textAlign: 'center'
+    paper: {
+        height: 140,
+        width: 200,
     },
-    image: {
-        marginTop: 50,
-        display: 'inline-block',
-        maxWidth: '100%',
-        width: 560
-    }
+    control: {
+        padding: theme.spacing(2),
+    },
+    container: {
+        marginTop: theme.spacing(3)
+    },
+    markdownContainer: {
+        maxWidth: 700
+    },
+    divider: {
+        backgroundColor: colors.grey[300],
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(3)
+    },
 }));
 
 const Changelog = () => {
     const classes = useStyles();
+    const [source, setSource] = useState('');
+
+    useEffect(() => {
+        fetch('/docs/Changelog.md')
+            .then(response => response.text())
+            .then(text => setSource(text));
+    }, []);
 
     return (
-        <div className={classes.root}>
-            <Grid
-                container
-                justify="center"
-                spacing={4}
+        <Page
+            className={classes.root}
+            title="Changelog"
+        >
+            <Typography
+                gutterBottom
+                variant="overline"
             >
-                <Grid
-                    item
-                    lg={6}
-                    xs={12}
-                >
-                    <div className={classes.content}>
-                        <Typography variant="h2">
-                            Изменения
-                        </Typography>
-                        <Typography variant="subtitle2">
-                            ...
-                        </Typography>
-                    </div>
-                </Grid>
-            </Grid>
-        </div>
+                Поддержка
+            </Typography>
+            <Typography variant="h3">Изменения</Typography>
+                <Divider className={classes.divider} />
+            {source && (
+                <div className={classes.markdownContainer}>
+                    <Markdown
+                        escapeHtml={false}
+                        source={source} //
+                    />
+                </div>
+            )}
+
+        </Page>
     );
 };
 
