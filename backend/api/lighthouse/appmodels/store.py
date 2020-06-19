@@ -64,7 +64,7 @@ class Cost(models.Model):
 
 class Store(models.Model):
     created = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания записи')
-    id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Сырьё')
+    id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Материал')
     id_tare = models.ForeignKey(Tare, on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name='Тара')
     oper_date = models.DateField(null=False, verbose_name='Дата оборота')
     oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False, verbose_name='Тип операции')
