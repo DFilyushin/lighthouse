@@ -1,7 +1,6 @@
 from abc import ABC
 from lighthouse.appmodels.manufacture import Material, Tare, Formula, FormulaComp, MaterialUnit
 from lighthouse.appmodels.org import Employee, Staff, Org
-from lighthouse.appmodels.sales import Client
 from lighthouse.appmodels.store import Store, RefCost, Cost
 from .serializer_domain import EmployeeListSerializer
 from rest_framework import serializers
@@ -243,6 +242,8 @@ class StoreRawSerializer(serializers.Serializer):
     """
     rawId = serializers.IntegerField(source='id_material__id')
     raw = serializers.CharField(source='id_material__name')
+    tare = serializers.CharField(source='id_tare__name')
+    unit = serializers.CharField(source='id_tare__id_unit__name')
     total = serializers.FloatField()
 
 

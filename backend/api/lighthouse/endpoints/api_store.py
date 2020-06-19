@@ -135,7 +135,7 @@ class RawStoreViewSet(views.APIView):
             .filter(id_material__id_type__id=MATERIAL_RAW_ID)\
             .filter(oper_date__lte=on_date)\
             .filter(is_delete=False)\
-            .values('id_material__id', 'id_material__name')\
+            .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')
         serializer = StoreRawSerializer(queryset, many=True)
