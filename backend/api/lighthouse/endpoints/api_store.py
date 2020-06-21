@@ -130,12 +130,12 @@ class RawStoreViewSet(views.APIView):
         if on_date_data is None:
             on_date = datetime.today()
         else:
-            on_date = datetime.strptime(on_date_data, '%d-%m-%Y')
+            on_date = datetime.strptime(on_date_data, '%Y-%m-%d')
         queryset = Store.objects\
             .filter(id_material__id_type__id=MATERIAL_RAW_ID)\
             .filter(oper_date__lte=on_date)\
             .filter(is_delete=False)\
-            .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name')\
+            .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name', 'id_tare__v')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')
         serializer = StoreRawSerializer(queryset, many=True)
@@ -152,12 +152,12 @@ class ProductStoreViewSet(views.APIView):
         if on_date_data is None:
             on_date = datetime.today()
         else:
-            on_date = datetime.strptime(on_date_data, '%d-%m-%Y')
+            on_date = datetime.strptime(on_date_data, '%Y-%m-%d')
         queryset = Store.objects\
             .filter(id_material__id_type__id=MATERIAL_PRODUCT_ID)\
             .filter(oper_date__lte=on_date)\
             .filter(is_delete=False)\
-            .values('id_material__id', 'id_material__name')\
+            .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name', 'id_tare__v')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')
         serializer = StoreProductSerializer(queryset, many=True)
@@ -190,13 +190,18 @@ class ExpenseViewSet(viewsets.ModelViewSet):
             return ExpenseSerializer
 
     def list(self, request, *args, **kwargs):
-        start_date = request.GET.get('startDate', None)
-        end_date = request.GET.get('endDate', None)
+        param_start_date = request.GET.get('startDate', None)
+        param_end_date = request.GET.get('endDate', None)
         id_cost = request.GET.get('idCost', None)
-        if not start_date or not end_date:
+        if not param_start_date or not param_end_date:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            start_date = datetime.strptime(param_start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(param_end_date, '%Y-%m-%d')
+        except ValueError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         queryset = Cost.objects.filter(
-            cost_date__range=(datetime.strptime(start_date, '%d-%m-%Y'), datetime.strptime(end_date, '%d-%m-%Y')))
+            cost_date__range=(start_date, end_date))
         if id_cost:
             queryset = queryset.filter(id_cost_id=int(id_cost))
         serializer = ExpenseListSerializer(queryset.filter(is_delete=False), many=True)

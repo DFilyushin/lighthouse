@@ -240,9 +240,10 @@ class StoreRawSerializer(serializers.Serializer):
     """
     Актуальный склад сырья
     """
-    rawId = serializers.IntegerField(source='id_material__id')
-    raw = serializers.CharField(source='id_material__name')
+    id = serializers.IntegerField(source='id_material__id')
+    name = serializers.CharField(source='id_material__name')
     tare = serializers.CharField(source='id_tare__name')
+    v = serializers.FloatField(source='id_tare__v')
     unit = serializers.CharField(source='id_tare__id_unit__name')
     total = serializers.FloatField()
 
@@ -251,8 +252,11 @@ class StoreProductSerializer(serializers.Serializer):
     """
     Актуальный склад готовой продукции
     """
-    productId = serializers.IntegerField(source='id_material__id')
-    product = serializers.CharField(source='id_material__name')
+    id = serializers.IntegerField(source='id_material__id')
+    name = serializers.CharField(source='id_material__name')
+    tare = serializers.CharField(source='id_tare__name')
+    v = serializers.FloatField(source='id_tare__v')
+    unit = serializers.CharField(source='id_tare__id_unit__name')
     total = serializers.FloatField()
 
 
