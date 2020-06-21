@@ -76,13 +76,31 @@ export default [
             },
             {
                 title: 'Затраты',
-                href: '/cost',
+                href: '/expense',
                 icon: AccountBalanceWalletOutlinedIcon
             },
             {
                 title: 'Склад',
                 href: '/store',
-                icon: WidgetsOutlinedIcon
+                icon: WidgetsOutlinedIcon,
+                children: [
+                    {
+                        title: 'Сырьё',
+                        href: '/store/raw'
+                    },
+                    {
+                        title: 'Готовая продукция',
+                        href: '/store/product'
+                    },
+                    {
+                        title: 'Складской журнал',
+                        href: '/store/journal'
+                    },
+                    {
+                        title: 'Резерв продукции',
+                        href: '/store/reserve'
+                    }
+                ]
             },
             {
                 title: 'Организация',
