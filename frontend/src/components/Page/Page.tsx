@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import useRouter from 'utils/useRouter';
 
 const NODE_ENV = process.env.NODE_ENV;
-const GA_MEASUREMENT_ID = process.env.REACT_APP_GA_MEASUREMENT_ID;
 
 interface IPageProps {
   className: string
