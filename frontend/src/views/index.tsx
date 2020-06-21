@@ -42,6 +42,11 @@ export { default as ProductionDetails } from './Production/ProductionDetails';
 export { default as DepartmentList} from './Department/DepartmentList';
 export { default as DepartmentItem} from './Department/DepartmentItem';
 
+export {default as StoreRaw} from './Store/StoreRaw';
+export {default as StoreProduct} from './Store/StoreProduct';
+
+export {default as ExpenseList} from './Expenses/ExpenseList';
+
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts';
 export { default as ReportProduction} from './Reports/ReportProduction';

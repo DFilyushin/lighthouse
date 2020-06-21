@@ -29,6 +29,10 @@ import {clientReducer} from "./clientReducer";
 import {contractReducer} from './contractReducer';
 import {ICostState} from "../types/state/cost";
 import {costReducer} from "./costReducer";
+import {IStoreState} from "../types/state/store";
+import {storeReducer} from "./storeReducer";
+import {IExpenseState} from "../types/state/expense";
+import {expenseReducer} from "./expenseReducer";
 
 export interface IStateInterface {
     product: IProductState;
@@ -45,6 +49,8 @@ export interface IStateInterface {
     client: IClientState;
     contract: IContractState;
     cost: ICostState;
+    store: IStoreState;
+    expense: IExpenseState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -61,5 +67,7 @@ export const rootReducer = combineReducers<IStateInterface>({
     department: departmentReducer,
     client: clientReducer,
     contract: contractReducer,
-    cost: costReducer
+    cost: costReducer,
+    store: storeReducer,
+    expense: expenseReducer
 });

@@ -42,7 +42,10 @@ import {
     CostItem as CostItemView,
     ReportContracts as ReportContractsView,
     ReportProduction as ReportProductionView,
-    ReportSales as ReportSalesView
+    ReportSales as ReportSalesView,
+    StoreRaw as StoreRawView,
+    StoreProduct as StoreProductView,
+    ExpenseList as ExpenseListView
 } from './views'
 
 const Routes = () => {
@@ -64,6 +67,8 @@ const Routes = () => {
 
             <RouteWithLayout isAuth={true} component={CostListView} layout={MainLayout} path="/catalogs/cost" exact/>
             <RouteWithLayout isAuth={true} component={CostItemView} layout={MainLayout} path="/catalogs/cost/:id" exact/>
+            <RouteWithLayout isAuth={true} component={ExpenseListView} layout={MainLayout} path="/expense" exact/>
+
 
 
             <RouteWithLayout isAuth={true} component={ProductsView} layout={MainLayout} path="/catalogs/product" exact/>
@@ -90,11 +95,14 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={DepartmentListView} layout={MainLayout} path="/org/structure" exact/>
             <RouteWithLayout isAuth={true} component={DepartmentItemView} layout={MainLayout} path="/org/structure/:id" exact/>
 
-            <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineView} path="/catalogs/lines" exact/>
-            <RouteWithLayout isAuth={true} layout={MainLayout} component={FactoryLineItemView} path="/catalogs/lines/:id" exact/>
+            <RouteWithLayout isAuth={true} component={FactoryLineView} layout={MainLayout} path="/catalogs/lines" exact/>
+            <RouteWithLayout isAuth={true} component={FactoryLineItemView} layout={MainLayout} path="/catalogs/lines/:id" exact/>
 
-            <RouteWithLayout isAuth={true} layout={MainLayout} component={ProductionListView} path="/factory" exact/>
-            <RouteWithLayout isAuth={true} layout={MainLayout} component={ProductionDetailsView} path="/factory/:id" exact/>
+            <RouteWithLayout isAuth={true} component={ProductionListView} layout={MainLayout} path="/factory" exact/>
+            <RouteWithLayout isAuth={true} component={ProductionDetailsView} layout={MainLayout} path="/factory/:id" exact/>
+
+            <RouteWithLayout isAuth={true} component={StoreRawView} layout={MainLayout}  path="/store/raw" exact/>
+            <RouteWithLayout isAuth={true} component={StoreProductView} layout={MainLayout} path="/store/product" exact/>
 
             //отчётность
             <RouteWithLayout isAuth={true} component={ReportContractsView} layout={MainLayout} path="/report/contracts" exact/>
