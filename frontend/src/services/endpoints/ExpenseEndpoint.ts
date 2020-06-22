@@ -7,14 +7,14 @@ class ExpenseEndpoint {
      * Получить список затрат по параметрам
      * @param startDate - Дата начала
      * @param endDate - Дата окончания
-     * @param cost - Код затраты
+     * @param idCost - Код затраты
      */
-    static getExpenseList(startDate: string, endDate: string, cost: number): string {
+    static getExpenseList(startDate: string, endDate: string, idCost: number): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/expense`;
         const url = new URL(baseUrl);
         url.searchParams.append('startDate', startDate);
         url.searchParams.append('endDate', endDate);
-        if (cost) url.searchParams.append('cost', cost.toString());
+        if (idCost) url.searchParams.append('idCost', idCost.toString());
         return url.href
     }
 
