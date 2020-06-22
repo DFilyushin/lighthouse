@@ -10,7 +10,7 @@ import {
   Avatar,
   LinearProgress
 } from '@material-ui/core';
-import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
+import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,13 +60,13 @@ const TasksProgress = props => {
               gutterBottom
               variant="body2"
             >
-              TASKS PROGRESS
+              ЗАТРАТЫ
             </Typography>
             <Typography variant="h3">75.5%</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <InsertChartIcon className={classes.icon} />
+              <AccountBalanceWalletOutlinedIcon className={classes.icon} />
             </Avatar>
           </Grid>
         </Grid>
