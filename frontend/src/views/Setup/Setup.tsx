@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography, Divider, colors } from '@material-ui/core';
+import Markdown from "../../components/Markdown";
+import {Page} from "../../components";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -15,36 +17,39 @@ const useStyles = makeStyles(theme => ({
         display: 'inline-block',
         maxWidth: '100%',
         width: 560
-    }
+    },
+    divider: {
+        backgroundColor: colors.grey[300],
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(3)
+    },
+    markdownContainer: {
+        maxWidth: '100%'
+    },
 }));
 
-const Setup = () => {
+const About = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <Grid
-                container
-                justify="center"
-                spacing={4}
+        <Page
+            className={classes.root}
+            title="Changelog"
+        >
+            <Typography
+                gutterBottom
+                variant="overline"
             >
-                <Grid
-                    item
-                    lg={6}
-                    xs={12}
-                >
-                    <div className={classes.content}>
-                        <Typography variant="h2">
-                            Настройки приложения
-                        </Typography>
-                        <Typography variant="subtitle2">
-                            ...
-                        </Typography>
-                    </div>
-                </Grid>
-            </Grid>
-        </div>
+                Администрирование
+            </Typography>
+            <Typography variant="h3">Настройка приложения</Typography>
+            <Divider className={classes.divider} />
+                <div className={classes.markdownContainer}>
+                </div>
+
+        </Page>
     );
 };
 
-export default Setup;
+export default About;
+
