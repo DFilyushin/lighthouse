@@ -1,9 +1,10 @@
 import {IExpenseState} from "../types/state/expense";
 import {nullEmployeeItem} from "../types/model/employee";
 import {
+    EXPENSE_DELETE_OK,
     EXPENSE_LOAD_FINISH,
     EXPENSE_LOAD_START,
-    EXPENSE_LOAD_SUCCESS,
+    EXPENSE_LOAD_SUCCESS, EXPENSE_SET_COST_VALUE,
     EXPENSE_SET_END_DATE,
     EXPENSE_SET_START_DATE
 } from "./actions/types";
@@ -35,7 +36,6 @@ const getInitialState = () => <IExpenseState>({
 })
 
 export const expenseReducer = (state: IExpenseState = getInitialState(), action: any) => {
-    console.log(action);
     switch (action.type) {
         case EXPENSE_LOAD_START:
             return {...state, isLoading: true}
@@ -47,6 +47,10 @@ export const expenseReducer = (state: IExpenseState = getInitialState(), action:
             return {...state, dateStart: action.date}
         case EXPENSE_SET_END_DATE:
             return {...state, dateEnd: action.date}
+        case EXPENSE_DELETE_OK:
+            return {...state, items: action.items}
+        case EXPENSE_SET_COST_VALUE:
+            return {...state, cost: action.value}
         default:
             return state;
     }

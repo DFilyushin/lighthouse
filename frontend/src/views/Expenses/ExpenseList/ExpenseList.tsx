@@ -7,7 +7,7 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import {deleteTare, loadTare} from "redux/actions/tareAction";
 import {IStateInterface} from "redux/rootReducer";
-import {loadExpenseList} from "../../../redux/actions/expenseAction";
+import {deleteExpense, loadExpenseList} from "../../../redux/actions/expenseAction";
 import {getCostList} from "../../../redux/actions/costAction";
 
 
@@ -40,9 +40,12 @@ const ExpenseList = () => {
         dispatch(loadTare(findText))
     }
 
+    /**
+     * Удаление затраты
+     */
     function onDeleteHandle() {
         selected.forEach(async (item, i, selected) => {
-            dispatch(deleteTare(item))
+            dispatch(deleteExpense(item))
         });
     }
 

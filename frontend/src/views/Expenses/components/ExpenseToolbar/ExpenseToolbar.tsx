@@ -9,17 +9,15 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {Product} from "types/model/product";
-import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
-import {ICostSimple} from "../../../../types/model/cost";
+import {ICostSimple} from "types/model/cost";
 import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "../../../../redux/rootReducer";
-import {setExpenseDateEnd, setExpenseDateStart} from "../../../../redux/actions/expenseAction";
+import {IStateInterface} from "redux/rootReducer";
+import {setExpenseCost, setExpenseDateEnd, setExpenseDateStart} from "redux/actions/expenseAction";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -79,11 +77,9 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
 
     const dateStart = useSelector((state: IStateInterface) => state.expense.dateStart);
     const dateEnd = useSelector((state: IStateInterface) => state.expense.dateEnd);
+    const costId = useSelector((state: IStateInterface) => state.expense.cost);
 
     const { className, newItemUrl, onFind, onDelete, costs, onRefresh, ...rest } = props;
-    //const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
-    //const [endDate, setEndDate] = React.useState<Date | null>(new Date());
-    const [product, setProduct] = React.useState<number>(0);
 
     const handleFirstDateChange = (date: Date | null) => {
         const value = date ? date : (new Date())
@@ -93,8 +89,8 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
         const value = date ? date : (new Date())
         dispatch(setExpenseDateEnd(value.toISOString().slice(0, 10)))
     };
-    const handleChangeProduct = (event: React.ChangeEvent<{ value: unknown }>)=>{
-        setProduct(event.target.value as number);
+    const handleChangeCost = (event: React.ChangeEvent<{ value: unknown }>)=>{
+        dispatch(setExpenseCost(event.target.value as number));
     };
 
     /**
@@ -192,8 +188,8 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
                         <Select
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
-                            value={product}
-                            onChange={handleChangeProduct}
+                            value={costId}
+                            onChange={handleChangeCost}
                         >
                             <MenuItem key={-1} value={0}>
                                 <em>не указано</em>
