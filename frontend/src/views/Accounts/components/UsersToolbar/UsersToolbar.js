@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
+import {SearchInput} from "../../../../components";
 
 //import { SearchInput } from 'components';
 
@@ -33,6 +34,13 @@ const UsersToolbar = props => {
 
   const classes = useStyles();
 
+  function onKeyDownHandler (event) {
+    if(event.key === 'Enter'){
+      // const findText = event.currentTarget.value.trim();
+      // onFind(findText);
+    }
+  }
+
   return (
     <div
       {...rest}
@@ -48,10 +56,11 @@ const UsersToolbar = props => {
         </Button>
       </div>
       <div className={classes.row}>
-        {/*<SearchInput*/}
-        {/*  className={classes.searchInput}*/}
-        {/*  placeholder="Search user"*/}
-        {/*/>*/}
+        <SearchInput
+            className={classes.searchInput}
+            onEnterKeyDown={onKeyDownHandler}
+            placeholder='Поиск по логину'
+        />
       </div>
     </div>
   );
