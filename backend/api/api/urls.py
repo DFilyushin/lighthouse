@@ -7,6 +7,7 @@ import lighthouse.endpoints.api_domain as api_domain_views
 import lighthouse.endpoints.api_sales as api_sales_views
 import lighthouse.endpoints.api_store as api_store_views
 import lighthouse.endpoints.api_prod as api_prod_views
+import lighthouse.endpoints.api_user as api_user_views
 
 router = routers.DefaultRouter()
 
@@ -38,6 +39,10 @@ router.register(r'department', api_domain_views.DepartmentViewSet)
 router.register(r'staff', api_domain_views.StaffViewSet)
 router.register(r'employee', api_domain_views.EmployeeView, basename='Employee')
 
+router.register(r'user', api_user_views.UserView, basename='User')
+router.register(r'group', api_user_views.GroupView)
+
+
 # Аутентификация
 auth_urls = [
     path('api/refresh_token/', refresh_jwt_token, name='refresh'),
@@ -48,7 +53,7 @@ auth_urls = [
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
 
     path('org/', api_domain_views.OrgViewSet.as_view()),
 ]
