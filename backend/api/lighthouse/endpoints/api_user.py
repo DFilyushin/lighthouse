@@ -1,8 +1,9 @@
 from django.http import Http404
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from lighthouse.serializers.serializer_user import UserListSerializer, GroupListSerializer, UserSerializer
-
+from lighthouse.serializers.serializer_user import UserListSerializer, GroupListSerializer, UserSerializer, NewUserSerializer
+from rest_framework.response import Response
+from rest_framework import status
 
 class UserView(viewsets.ModelViewSet):
     """
@@ -11,6 +12,8 @@ class UserView(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return UserListSerializer
+        elif self.action == 'create':
+            return NewUserSerializer
         else:
             return UserSerializer
 
@@ -32,6 +35,13 @@ class UserView(viewsets.ModelViewSet):
             if search_param:
                 queryset = queryset.filter(username__startswith=search_param)
         return queryset.order_by('username')
+
+    def create(self, request, *args, **kwargs):
+        serializer = NewUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_create(serializer)
+        instance_serializer = UserSerializer(instance)
+        return Response({'Message': 'Пользователь успешно создан'}, status=status.HTTP_201_CREATED)
 
 
 class GroupView(viewsets.ModelViewSet):
