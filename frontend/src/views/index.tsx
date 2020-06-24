@@ -1,6 +1,6 @@
 export { default as Login } from './Login';
 export { default as NotFound } from './NotFound';
-export { UserList} from './Accounts';
+
 export { default as EmployeeList } from './Employee/EmployeeList';
 export { default as OrgName } from './OrgName';
 export { default as Dashboard } from './Dashboard';
@@ -51,6 +51,10 @@ export {default as ExpenseList} from './Expenses/ExpenseList';
 export { default as ReportContracts} from './Reports/ReportContracts';
 export { default as ReportProduction} from './Reports/ReportProduction';
 export { default as ReportSales} from './Reports/ReportSales';
+
+//администрирование
+export { UserList } from './Accounts';
+export { UserDetails } from './Accounts'
 
 export { default as Setup } from './Setup';
 export { default as About } from './About';

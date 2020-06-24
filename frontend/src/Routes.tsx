@@ -9,6 +9,7 @@ import {
     Login as LoginView,
     NotFound as NotFoundView,
     UserList as UserListView,
+    UserDetails as UserDetailsView,
     EmployeeList as EmployeeListView,
     OrgName as OrgNameView,
     Dashboard as DashboardView,
@@ -64,11 +65,12 @@ const Routes = () => {
             <RouteWithLayout isAuth={true} component={ContractItemView} layout={MainLayout} path="/contracts/:id" exact/>
 
             <RouteWithLayout isAuth={true} component={UserListView} layout={MainLayout} path="/admin/users" exact/>
+            <RouteWithLayout isAuth={true} component={UserDetailsView} layout={MainLayout} path="/admin/users/:user" exact/>
+
 
             <RouteWithLayout isAuth={true} component={CostListView} layout={MainLayout} path="/catalogs/cost" exact/>
             <RouteWithLayout isAuth={true} component={CostItemView} layout={MainLayout} path="/catalogs/cost/:id" exact/>
             <RouteWithLayout isAuth={true} component={ExpenseListView} layout={MainLayout} path="/expense" exact/>
-
 
 
             <RouteWithLayout isAuth={true} component={ProductsView} layout={MainLayout} path="/catalogs/product" exact/>

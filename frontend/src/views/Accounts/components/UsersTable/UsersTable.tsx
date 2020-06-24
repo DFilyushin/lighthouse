@@ -18,7 +18,8 @@ import {
   TablePagination
 } from '@material-ui/core';
 import { getInitials } from 'helpers';
-import {IUserData} from 'types/model/user';
+import {IAccountListItem, IUserData} from 'types/model/user';
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -47,29 +48,30 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-interface IUsersTable{
-  className: string,
-  users: any[]
+interface IUsersTableProps{
+  className: string;
+  users: IAccountListItem[];
+  onClickItem: any;
 };
 
 
 
-const UsersTable = (props: IUsersTable) => {
-  const { className, users, ...rest } = props;
+const UsersTable = (props: IUsersTableProps) => {
+  const { className, users, onClickItem, ...rest } = props;
 
   const classes = useStyles();
 
-  const [selectedUsers, setSelectedUsers] = useState<IUserData[]> ([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]> ([]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement> ) => {
     const { users } = props;
 
-    let selectedUsers;
+    let selectedUsers:string [] = [];
 
     if (event.target.checked) {
-      selectedUsers = users.map(user => user.id);
+      selectedUsers = users.map(user => user.login);
     } else {
       selectedUsers = [];
     }
@@ -77,24 +79,28 @@ const UsersTable = (props: IUsersTable) => {
     setSelectedUsers(selectedUsers);
   };
 
-  const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:IUserData) => {
-    const selectedIndex = selectedUsers.indexOf(id);
-    let newSelectedUsers: IUserData[] = [];
+  const cellClicked = (userId: string) => {
+    onClickItem(userId);
+  };
 
-    if (selectedIndex === -1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
-    } else if (selectedIndex === 0) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
-    } else if (selectedIndex === selectedUsers.length - 1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedUsers = newSelectedUsers.concat(
-        selectedUsers.slice(0, selectedIndex),
-        selectedUsers.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedUsers(newSelectedUsers);
+  const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:string) => {
+    // const selectedIndex = selectedUsers.indexOf(id);
+    // let newSelectedUsers: IUserData[] = [];
+    //
+    // if (selectedIndex === -1) {
+    //   newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
+    // } else if (selectedIndex === 0) {
+    //   newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
+    // } else if (selectedIndex === selectedUsers.length - 1) {
+    //   newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //   newSelectedUsers = newSelectedUsers.concat(
+    //     selectedUsers.slice(0, selectedIndex),
+    //     selectedUsers.slice(selectedIndex + 1)
+    //   );
+    // }
+    //
+    // setSelectedUsers(newSelectedUsers);
   };
 
   const handlePageChange = (event:any, page: number) => {
@@ -116,22 +122,11 @@ const UsersTable = (props: IUsersTable) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedUsers.length === users.length}
-                      color="primary"
-                      indeterminate={
-                        selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
                   <TableCell className={classes.rowHeader}>Сотрудник</TableCell>
                   <TableCell>Логин</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Контакты</TableCell>
-                  <TableCell>Дата регистрации</TableCell>
+                  <TableCell>Зарегистрирован</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -139,36 +134,21 @@ const UsersTable = (props: IUsersTable) => {
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
+                    key={user.login}
+                    selected={selectedUsers.indexOf(user.login) !== -1}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
-                        color="primary"
-                        onChange={event => handleSelectOne(event, user.id)}
-                        value="true"
-                      />
-                    </TableCell>
                     <TableCell>
                       <div className={classes.nameContainer}>
-                        <Avatar
-                          className={classes.avatar}
-                          src={user.avatarUrl}
-                        >
-                          {getInitials(user.name)}
-                        </Avatar>
-                        <Typography variant="body1">{user.name}</Typography>
+                        <Typography variant="body1">{user.lastName}&nbsp;{user.firstName}</Typography>
                       </div>
                     </TableCell>
-                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.login}</TableCell>
                     <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
+                      {user.email}
                     </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
+                    <TableCell>{moment(user.joined).format('DD/MM/YYYY')}</TableCell>
+                    <TableCell align="right">
+                      <Button variant="outlined" color="primary" onClick={event => cellClicked(user.login)}>Открыть</Button>
                     </TableCell>
                   </TableRow>
                 ))}

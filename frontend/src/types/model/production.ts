@@ -87,8 +87,8 @@ export const nullProductionTeam: IProductionTeam = {
     id: 0,
     manufactureId: 0,
     employee: {id: 0, tabNum: '', fio: '', staff: ''},
-    periodStart: '',
-    periodEnd: ''
+    periodStart: (new Date()).toISOString(),
+    periodEnd: (new Date()).toISOString()
 };
 
 /**
