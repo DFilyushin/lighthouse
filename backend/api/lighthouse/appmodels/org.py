@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 EMPLOYEE_DOCUMENT_TYPE = [
@@ -62,6 +63,7 @@ class Employee(models.Model):
     contact_email = models.CharField(max_length=255, blank=True, null=True, verbose_name='Email')
     id_staff = models.ForeignKey(Staff, on_delete=models.CASCADE, verbose_name='Должность', default=0)
     fired = models.DateField(blank=True, null=True, verbose_name='Уволен')
+    userId = models.OneToOneField(User, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
 
     def __str__(self):
         return self.fio
