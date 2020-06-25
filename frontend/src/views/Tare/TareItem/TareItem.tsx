@@ -104,7 +104,6 @@ const TareItem = (props: ITareItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.MouseEvent) => {
-         console.log('saveHandler_start');
         saveItem(dispatch).then( ()=>{
             history.push('/catalogs/tare');
         }
@@ -115,7 +114,6 @@ const TareItem = (props: ITareItemProps) => {
                 console.log('saveHandler_end');
             }
         );
-
     };
 
     useEffect( ()=> {
