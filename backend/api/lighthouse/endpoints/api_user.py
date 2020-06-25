@@ -1,9 +1,11 @@
 from django.http import Http404
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from lighthouse.serializers.serializer_user import UserListSerializer, GroupListSerializer, UserSerializer, NewUserSerializer
 from rest_framework.response import Response
 from rest_framework import status
+
 
 class UserView(viewsets.ModelViewSet):
     """
@@ -42,6 +44,17 @@ class UserView(viewsets.ModelViewSet):
         instance = self.perform_create(serializer)
         instance_serializer = UserSerializer(instance)
         return Response({'Message': 'Пользователь успешно создан'}, status=status.HTTP_201_CREATED)
+
+    @action(methods=['get'], url_path='check', detail=False, url_name='checkLoginExists')
+    def check_user_exists(self, request):
+        user_param = request.GET.get('login', None)
+        if not user_param:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            User.objects.get(username=user_param)
+            return Response(data={'message': 'User exist'}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response(data={'message': 'Not found'}, status=status.HTTP_200_OK)
 
 
 class GroupView(viewsets.ModelViewSet):
