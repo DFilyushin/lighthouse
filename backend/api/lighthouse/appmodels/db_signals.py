@@ -2,6 +2,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .manufacture import Material
 from .store import RefCost, Cost, Store, REF_COST_PARENT_RAW
+from .support import *
 
 
 @receiver(post_save, sender=Material)
