@@ -1,9 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { SearchInput } from 'components';
-import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -58,9 +57,7 @@ interface IStoreToolbar {
 }
 
 const StoreToolbar = (props: IStoreToolbar) => {
-    const history = useHistory();
     const { className, title, onFind, ...rest } = props;
-
     const classes = useStyles();
 
     function onKeyDownHandler (event: React.KeyboardEvent<HTMLInputElement>) {

@@ -7,7 +7,6 @@ import {
     Card,
     CardActions,
     CardContent,
-    Checkbox,
     Table,
     TableBody,
     TableCell,
@@ -16,7 +15,6 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {IClientItemList} from 'types/model/client';
 import {IStoreBase} from "../../../../types/model/store";
 
 const useStyles = makeStyles(theme => ({

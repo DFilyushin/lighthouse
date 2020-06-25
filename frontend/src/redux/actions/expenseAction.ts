@@ -1,6 +1,4 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import FactoryLineEndpoint from "../../services/endpoints/FactoryLineEndpoint";
-import {IFactoryLine} from "../../types/model/factorylines";
 import axios from "axios";
 import {
     EXPENSE_DELETE_OK,

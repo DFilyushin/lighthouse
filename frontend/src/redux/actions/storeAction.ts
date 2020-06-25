@@ -1,4 +1,3 @@
-import {Staff} from "../../types/model/staff";
 import StoreEndpoint from "services/endpoints/StoreEndpoint";
 import axios from "axios";
 import {IStoreProduct, IStoreRaw} from "../../types/model/store";
