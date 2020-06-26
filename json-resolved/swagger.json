@@ -56,9 +56,139 @@
   }, {
     "name" : "Затраты",
     "description" : "Справочник затрат и затраты"
+  }, {
+    "name" : "Пользователи",
+    "description" : "Управление пользовательскими бюджетами"
   } ],
   "schemes" : [ "https" ],
   "paths" : {
+    "/group" : {
+      "get" : {
+        "tags" : [ "Пользователи" ],
+        "summary" : "Список групп",
+        "description" : "Получить список групп системы",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user" : {
+      "get" : {
+        "tags" : [ "Пользователи" ],
+        "summary" : "Список пользователей",
+        "description" : "Получить список пользователей системы",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/UserAccountList"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/check" : {
+      "get" : {
+        "tags" : [ "Пользователи" ],
+        "summary" : "Проверка пользователя",
+        "description" : "Проверить существование логина пользователя",
+        "parameters" : [ {
+          "name" : "login",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат",
+            "schema" : {
+              "$ref" : "#/definitions/UserAccountCheckResponse"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Пользователи" ],
+        "summary" : "Новый пользователь",
+        "description" : "Создать нового пользователя",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewUserAccount"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/UserAccountCreateResponse"
+            }
+          }
+        }
+      }
+    },
+    "/user/{login}" : {
+      "get" : {
+        "tags" : [ "Пользователи" ],
+        "summary" : "Пользователь",
+        "description" : "Получить пользователя по логину",
+        "parameters" : [ {
+          "name" : "login",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/UserAccountItem"
+            }
+          },
+          "404" : {
+            "description" : "Объект не найден"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Пользователи" ],
+        "summary" : "Обновление пользователя",
+        "description" : "Обновление учётной записи",
+        "parameters" : [ {
+          "name" : "login",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/UserAccountItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
     "/units" : {
       "get" : {
         "tags" : [ "Единицы измерения" ],
@@ -2476,6 +2606,145 @@
       },
       "title" : "Фасовка готовой продукции"
     },
+    "NewUserAccount" : {
+      "type" : "object",
+      "required" : [ "email", "employee", "groups", "lastName", "login", "password" ],
+      "properties" : {
+        "login" : {
+          "type" : "string",
+          "example" : "user1",
+          "title" : "User login"
+        },
+        "firstName" : {
+          "type" : "string",
+          "example" : "Salmen",
+          "title" : "First name"
+        },
+        "lastName" : {
+          "type" : "string",
+          "example" : "Akmetov",
+          "title" : "Last name"
+        },
+        "email" : {
+          "type" : "string",
+          "example" : "akmetov@mail.co",
+          "title" : "User email"
+        },
+        "groups" : {
+          "title" : "User groups"
+        },
+        "employee" : {
+          "type" : "number",
+          "title" : "Employee link"
+        },
+        "password" : {
+          "type" : "string",
+          "title" : "User password"
+        }
+      },
+      "title" : "Новый пользователь"
+    },
+    "UserAccountItem" : {
+      "type" : "object",
+      "required" : [ "active", "email", "employee", "firstName", "groups", "isAdmin", "joined", "lastLogin", "lastName", "login" ],
+      "properties" : {
+        "login" : {
+          "type" : "string",
+          "title" : "Логин пользователя"
+        },
+        "firstName" : {
+          "type" : "string",
+          "title" : "Имя пользователя"
+        },
+        "lastName" : {
+          "type" : "string",
+          "title" : "Фамилия пользователя"
+        },
+        "email" : {
+          "type" : "string",
+          "format" : "email",
+          "title" : "Email"
+        },
+        "active" : {
+          "type" : "boolean",
+          "title" : "Признак активность учётной записи"
+        },
+        "joined" : {
+          "type" : "string",
+          "format" : "datetime",
+          "title" : "Дата/время создания учётной записи"
+        },
+        "lastLogin" : {
+          "type" : "string",
+          "format" : "datetime",
+          "title" : "Дата/время последнего входа"
+        },
+        "groups" : {
+          "title" : "Список доступных пользователю групп"
+        },
+        "employee" : {
+          "title" : "Связанный сотрудник"
+        },
+        "isAdmin" : {
+          "type" : "boolean",
+          "title" : "Признак административной учётной записи"
+        }
+      },
+      "title" : "Аккаунт пользователя"
+    },
+    "UserAccountList" : {
+      "type" : "object",
+      "required" : [ "active", "email", "firstName", "isAdmin", "joined", "lastName", "login" ],
+      "properties" : {
+        "login" : {
+          "type" : "string",
+          "title" : "Логин пользователя"
+        },
+        "firstName" : {
+          "type" : "string",
+          "title" : "Имя"
+        },
+        "lastName" : {
+          "type" : "string",
+          "title" : "Фамилия"
+        },
+        "email" : {
+          "type" : "string",
+          "title" : "Email пользователя"
+        },
+        "active" : {
+          "type" : "boolean",
+          "title" : "Признак активной учётной записи"
+        },
+        "joined" : {
+          "type" : "string",
+          "format" : "datetime",
+          "title" : "Дата и время создания учётной записи"
+        },
+        "isAdmin" : {
+          "type" : "boolean",
+          "title" : "Признак административной учётной записи"
+        }
+      },
+      "title" : "Элемент списка пользователей"
+    },
+    "Group" : {
+      "type" : "object",
+      "required" : [ "description", "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "example" : "admin",
+          "title" : "Наименование группы"
+        },
+        "description" : {
+          "type" : "string",
+          "example" : "Группа администраторов",
+          "title" : "Описание группы"
+        }
+      },
+      "title" : "Группа пользователя"
+    },
     "ExpenseItem" : {
       "type" : "object",
       "required" : [ "cost", "date", "employee", "total" ],
@@ -2515,6 +2784,26 @@
         }
       },
       "title" : "Затраты"
+    },
+    "UserAccountCreateResponse" : {
+      "type" : "object",
+      "required" : [ "message" ],
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        }
+      },
+      "title" : "Http ответ"
+    },
+    "UserAccountCheckResponse" : {
+      "type" : "object",
+      "required" : [ "message" ],
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        }
+      },
+      "title" : "Http ответ"
     },
     "ApiErrorResponse" : {
       "type" : "object",
