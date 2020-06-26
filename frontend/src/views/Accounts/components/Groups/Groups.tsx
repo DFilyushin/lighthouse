@@ -46,13 +46,7 @@ const Groups = (props: IGroupProps) => {
     }, [dispatch])
 
     function getGroupState(groupName: string): boolean {
-        let found = false;
-        userGroups.forEach((value)=>{
-            if (value.name === groupName){
-                found = true;
-            }
-        })
-        return found
+        return userGroups.some(item=> item.name === groupName)
     }
 
     return (
