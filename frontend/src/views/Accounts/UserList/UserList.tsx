@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { UsersToolbar, UsersTable } from '../components/index';
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "../../../redux/rootReducer";
-import {getUserList} from "../../../redux/actions/userAction";
+import {loadUserList} from "../../../redux/actions/userAction";
 import {useHistory} from "react-router-dom";
 import {SearchInput} from "components";
 
@@ -27,7 +27,7 @@ const UserList = () => {
     const users = useSelector((state: IStateInterface) => state.user.userItems);
 
     useEffect(()=>{
-        dispatch(getUserList(true, ''))
+        dispatch(loadUserList(true, ''))
     }, [])
 
     function onClickTableItem(login: string){
@@ -44,14 +44,19 @@ const UserList = () => {
         }
     }
 
+    function onNewAccount() {
+        history.push('/admin/users/new')
+    }
+
     async function onFindHandler(findText: string){
-        dispatch(getUserList(true, findText))
+        dispatch(loadUserList(true, findText))
     }
 
   return (
     <div className={classes.root}>
       <UsersToolbar
         onFindHandler={onFindHandler}
+        onNewRecord={onNewAccount}
       />
         <SearchInput
             className={classes.searchInput}

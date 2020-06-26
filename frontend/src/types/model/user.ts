@@ -1,22 +1,5 @@
 import {IEmployeeListItem} from "./employee";
 
-export interface IAddress {
-    country: string;
-    state: string;
-    city: string;
-    street: string;
-};
-
-export interface IUserData {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    avatarUrl: string;
-    createdAt: number;
-    address: IAddress;
-};
-
 export interface IAccountListItem {
     login: string;
     firstName: string;
@@ -24,10 +7,12 @@ export interface IAccountListItem {
     email: string;
     active: boolean;
     joined: number;
+    isAdmin: boolean;
 }
 
 export interface IUserGroup {
     name: string;
+    description: string;
 }
 
 export interface IAccount {
@@ -40,4 +25,5 @@ export interface IAccount {
     lastLogin: string;
     groups: IUserGroup[];
     employee: IEmployeeListItem;
+    isAdmin: boolean;
 }

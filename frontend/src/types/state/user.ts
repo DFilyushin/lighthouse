@@ -1,6 +1,7 @@
-import {IAccount, IAccountListItem} from "../model/user";
+import {IAccount, IAccountListItem, IUserGroup} from "../model/user";
 
 export interface IUserState {
+    groups: IUserGroup[];
     userItems: IAccountListItem[];
     userAccount: IAccount;
     isLoading: boolean;

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -11,25 +11,18 @@ import {
     Button,
     TextField,
     Switch,
-    FormControlLabel
+    FormControlLabel,
+    FormHelperText
 } from '@material-ui/core';
-
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {
-    addNewEmployeeItem,
-    changeEmployeeItem,
-    loadEmployeeItem,
-    updateEmployeeItem
-} from "redux/actions/employeeAction";
-import {useDialog} from "components/SelectDialog";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
-import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {loadStaffs} from "redux/actions/staffAction";
-import { docType } from 'types/model/employee';
-import {getUserItem} from "../../../redux/actions/userAction";
+import {addUser, changeUserItem, checkUserExist, getUserItem, saveUser} from "redux/actions/userAction";
+import {Groups} from '../components'
+import {IUserGroup} from "types/model/user";
+import {validateEmail} from "utils/AppUtils";
+import {showInfoMessage} from "redux/actions/infoAction";
 
 interface IEmployeeItem {
     className: string;
@@ -69,46 +62,83 @@ const AccountDetails = (props: IEmployeeItem) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const id = props.match.params.user;
-    //const id = paramId === 'new' ? 0 :parseInt(paramId);
     const accountItem = useSelector((state: IStateInterface)=> state.user.userAccount);
-    const hasError = useSelector((state: IStateInterface)=> state.employee.hasError);
-    const selectDialog = useDialog();
-
+    const hasError = useSelector((state: IStateInterface)=> state.user.hasError);
+    const [userExist, setUserExist] = useState<boolean>(false)
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const item = {...accountItem, [event.target.name]: event.target.value};
-        //dispatch(changeEmployeeItem(item))
+        const name = event.target.name;
+        if ( event.target.type === 'text' ){
+            const item = {...accountItem, [name]: event.target.value}
+            dispatch(changeUserItem(item))
+        }else{
+            const item = {...accountItem, [name]: event.target.checked}
+            dispatch(changeUserItem(item))
+        }
     };
 
+    const handleChangeUserGroups = (group: IUserGroup, checked: boolean) => {
+        const groups = [...accountItem.groups]
+        if (checked) {
+            groups.push(group)
+        }
+        else{
+            const index = groups.findIndex(x=> x.name === group.name);
+            groups.splice(index, 1)
+        }
+        const item = {...accountItem, groups: groups}
+        dispatch(changeUserItem(item))
+    }
 
     /**
      * Сохранение изменений
      * @param dispatch
      */
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        // do anything here
-        // if (id === 0) {
-        //     await dispatch(addNewEmployeeItem(accountItem));
-        // } else {
-        //     await dispatch(updateEmployeeItem(accountItem));
-        // }
-        // resolve();
+        try {
+            if (id === 'new') {
+                await dispatch(addUser(accountItem));
+            } else {
+                await dispatch(saveUser(accountItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
+        }
     });
 
-    const saveHandler = (event: React.MouseEvent) => {
-        saveItem(dispatch).then( ()=>{
-                console.log('state', hasError);
-                history.push('/org/employee');
-            }
-        );
+    const isValid = () => {
+        const retValue = validateEmail(accountItem.email);
+        return retValue && !userExist;
+    }
+
+    const onLoginBur = (event: React.FocusEvent<HTMLInputElement>) => {
+        console.log(event.target.value)
+        checkUserExist(event.target.value).then((value1=> setUserExist(value1)))
+    }
+
+    const saveHandler = (event: React.SyntheticEvent) => {
+        if (isValid()) {
+            saveItem(dispatch).then(() => {
+                    history.push('/admin/users/');
+                }
+            ).catch(() => {
+                console.log('Error')
+            }).finally(
+                () => {
+                    console.log('saveHandler_end');
+                }
+            );
+        }
+        else{
+            dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
+        }
+        event.preventDefault();
     };
 
-
-
-
-    useEffect(()=> {
-        dispatch(loadStaffs());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(()=> {
+    //     dispatch(loadStaffs());
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     useEffect(()=> {
         dispatch(getUserItem(id));
@@ -123,7 +153,7 @@ const AccountDetails = (props: IEmployeeItem) => {
             >
                 <form
                     autoComplete="off"
-                    noValidate
+                    onSubmit={saveHandler}
                 >
                     <CardHeader
                         subheader=""
@@ -141,7 +171,7 @@ const AccountDetails = (props: IEmployeeItem) => {
                                         item
                                         xs={12}
                                         sm={12}
-                                        md={6}
+                                        md={12}
                                         lg={6}
                                         xl={6}
                                     >
@@ -154,11 +184,15 @@ const AccountDetails = (props: IEmployeeItem) => {
                                             required
                                             value={accountItem.login}
                                             variant="outlined"
+                                            disabled={id !== 'new'}
+                                            onBlur={onLoginBur}
+                                            helperText={userExist ? "Логин уже существует" : ""}
+                                            error={userExist}
                                         />
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={6}
+                                        xs={12}
                                     >
                                         <TextField
                                             fullWidth
@@ -173,7 +207,7 @@ const AccountDetails = (props: IEmployeeItem) => {
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={6}
+                                        xs={12}
                                     >
                                         <TextField
                                             fullWidth
@@ -188,8 +222,7 @@ const AccountDetails = (props: IEmployeeItem) => {
                                     </Grid>
                                     <Grid
                                         item
-                                        md={4}
-                                        xs={6}
+                                        xs={12}
                                     >
                                         <TextField
                                             fullWidth
@@ -202,108 +235,87 @@ const AccountDetails = (props: IEmployeeItem) => {
                                             variant="outlined"
                                         />
                                     </Grid>
+                                    {id !== 'new' &&
+                                        <Fragment>
                                     <Grid
                                         item
-                                        md={6}
                                         xs={6}
                                     >
                                         <TextField
                                             fullWidth
                                             label="Создан"
                                             margin="dense"
-                                            name="contactPhone"
+                                            name="joined"
                                             onChange={handleChange}
-                                            required
-                                            value={moment(accountItem.joined).isValid() ? moment(accountItem.joined).format('DD/MM/YYYY HH:mm'): ""}
+                                            disabled
+                                            value={moment(accountItem.joined).isValid() ? moment(accountItem.joined).format('DD/MM/YYYY HH:mm') : ""}
                                             variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                         />
                                     </Grid>
+                                        <Grid
+                                        item
+                                        xs={6}
+
+                                        >
+                                        <TextField
+                                        fullWidth
+                                        label="Последний вход"
+                                        margin="dense"
+                                        name="lastLogin"
+                                        onChange={handleChange}
+                                        disabled
+                                        value={moment(accountItem.lastLogin).isValid() ? moment(accountItem.lastLogin).format('DD/MM/YYYY HH:mm') : ""}
+                                        variant="outlined"
+                                        InputProps={{
+                                        readOnly: true,
+                                    }}
+                                        />
+                                        </Grid>
+                                        </Fragment>
+                                            }
                                     <Grid
                                         item
-                                        md={6}
                                         xs={6}
                                     >
-                                        <TextField
-                                            fullWidth
-                                            label="Последний вход"
-                                            margin="dense"
-                                            name="lastLogin"
-                                            onChange={handleChange}
-                                            required
-                                            value={moment(accountItem.lastLogin).isValid() ? moment(accountItem.lastLogin).format('DD/MM/YYYY HH:mm'): ""}
-                                            variant="outlined"
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={accountItem.isAdmin}
+                                                    onChange={handleChange}
+                                                    name="isAdmin"
+                                                    color="primary"
+                                                />
+                                            }
+                                            label="Администратор"
                                         />
+                                        <FormHelperText>возможность создавать пользователей</FormHelperText>
                                     </Grid>
 
                                     <Grid
                                         item
-                                        md={3}
-                                        xs={3}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="№ документа"
-                                            margin="dense"
-                                            name="docNum"
-                                            onChange={handleChange}
-                                            required
-                                            value={accountItem.active}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={3}
-                                        xs={4}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Дата выдачи"
-                                            margin="dense"
-                                            name="docDate"
-                                            onChange={handleChange}
-                                            required
-                                            value={moment(accountItem.joined).format('DD/MM/YYYY')}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={3}
-                                        xs={4}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Выдан"
-                                            margin="dense"
-                                            name="docAuth"
-                                            onChange={handleChange}
-                                            required
-                                            value={accountItem.email}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-
-                                    <Grid
-                                        item
-                                        md={12}
-                                        xs={12}
+                                        xs={6}
                                     >
                                         <FormControlLabel
                                             control={
                                                 <Switch
                                                     checked={accountItem.active}
                                                     onChange={handleChange}
-                                                    name="checkedB"
+                                                    name="active"
                                                     color="primary"
                                                 />
                                             }
-                                            label="Активная"
+                                            label="Активная учётная запись"
                                         />
+                                        <FormHelperText>возможность входа в систему</FormHelperText>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}></Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Groups userGroups={accountItem.groups} onChangeGroups={handleChangeUserGroups}/>
+                            </Grid>
 
                         </Grid>
                     </CardContent>
@@ -312,7 +324,7 @@ const AccountDetails = (props: IEmployeeItem) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type="submit"
                         >
                             Сохранить
                         </Button>

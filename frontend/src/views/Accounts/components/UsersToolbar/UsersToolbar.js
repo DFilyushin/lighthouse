@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import {Button, Divider, Typography, Grid} from '@material-ui/core';
-import {Page, SearchInput} from "../../../../components";
-
-//import { SearchInput } from 'components';
+import {Button, Typography, Grid} from '@material-ui/core';
+import {Page} from "../../../../components";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -24,14 +21,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UsersToolbar = props => {
-  const { className, onFindHandler, ...rest } = props;
+  const { className, onFindHandler, onNewRecord,...rest } = props;
 
   const classes = useStyles();
 
   function onKeyDownHandler (event) {
     if(event.key === 'Enter'){
       const findText = event.currentTarget.value.trim();
-      console.log(findText);
       onFindHandler(findText);
     }
   }
@@ -66,6 +62,7 @@ const UsersToolbar = props => {
           <Button
               color="primary"
               variant="contained"
+              onClick={()=>{onNewRecord()}}
           >
             Новый пользователь
           </Button>
@@ -78,7 +75,8 @@ const UsersToolbar = props => {
 
 UsersToolbar.propTypes = {
   className: PropTypes.string,
-  onFindHandler: PropTypes.func
+  onFindHandler: PropTypes.func,
+  onNewRecord: PropTypes.func
 };
 
 export default UsersToolbar;

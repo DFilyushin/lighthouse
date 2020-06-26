@@ -7,8 +7,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Avatar,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -17,9 +15,10 @@ import {
   Typography,
   TablePagination
 } from '@material-ui/core';
-import { getInitials } from 'helpers';
-import {IAccountListItem, IUserData} from 'types/model/user';
+import {IAccountListItem} from 'types/model/user';
 import Button from "@material-ui/core/Button";
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -61,46 +60,11 @@ const UsersTable = (props: IUsersTableProps) => {
 
   const classes = useStyles();
 
-  const [selectedUsers, setSelectedUsers] = useState<string[]> ([]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
 
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement> ) => {
-    const { users } = props;
-
-    let selectedUsers:string [] = [];
-
-    if (event.target.checked) {
-      selectedUsers = users.map(user => user.login);
-    } else {
-      selectedUsers = [];
-    }
-
-    setSelectedUsers(selectedUsers);
-  };
-
   const cellClicked = (userId: string) => {
     onClickItem(userId);
-  };
-
-  const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:string) => {
-    // const selectedIndex = selectedUsers.indexOf(id);
-    // let newSelectedUsers: IUserData[] = [];
-    //
-    // if (selectedIndex === -1) {
-    //   newSelectedUsers = newSelectedUsers.concat(selectedUsers, id);
-    // } else if (selectedIndex === 0) {
-    //   newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
-    // } else if (selectedIndex === selectedUsers.length - 1) {
-    //   newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
-    // } else if (selectedIndex > 0) {
-    //   newSelectedUsers = newSelectedUsers.concat(
-    //     selectedUsers.slice(0, selectedIndex),
-    //     selectedUsers.slice(selectedIndex + 1)
-    //   );
-    // }
-    //
-    // setSelectedUsers(newSelectedUsers);
   };
 
   const handlePageChange = (event:any, page: number) => {
@@ -110,6 +74,10 @@ const UsersTable = (props: IUsersTableProps) => {
   const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
+
+  function getAccountIcon(account: IAccountListItem) {
+    return account.isAdmin ? <SupervisorAccountIcon color={"primary"} /> : <PersonOutlineIcon />
+  }
 
   return (
     <Card
@@ -123,10 +91,10 @@ const UsersTable = (props: IUsersTableProps) => {
               <TableHead>
                 <TableRow>
                   <TableCell className={classes.rowHeader}>Сотрудник</TableCell>
-                  <TableCell>Логин</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Зарегистрирован</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell className={classes.rowHeader}>Логин</TableCell>
+                  <TableCell className={classes.rowHeader}>Email</TableCell>
+                  <TableCell className={classes.rowHeader}>Зарегистрирован</TableCell>
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -135,11 +103,11 @@ const UsersTable = (props: IUsersTableProps) => {
                     className={classes.tableRow}
                     hover
                     key={user.login}
-                    selected={selectedUsers.indexOf(user.login) !== -1}
                   >
                     <TableCell>
                       <div className={classes.nameContainer}>
-                        <Typography variant="body1">{user.lastName}&nbsp;{user.firstName}</Typography>
+                        {getAccountIcon(user)}
+                        <Typography variant="body1">&nbsp;{user.lastName}&nbsp;{user.firstName}</Typography>
                       </div>
                     </TableCell>
                     <TableCell>{user.login}</TableCell>

@@ -1,8 +1,15 @@
 import {IUserState} from "../types/state/user";
 import {nullEmployeeItem} from "../types/model/employee";
-import {USER_LOAD_FINISH, USER_LOAD_ITEM_SUCCESS, USER_LOAD_START, USER_LOAD_SUCCESS} from "./actions/types";
+import {
+    USER_CHANGE_ITEM, USER_GROUP_LOAD_SUCCESS,
+    USER_LOAD_FINISH,
+    USER_LOAD_ITEM_SUCCESS,
+    USER_LOAD_START,
+    USER_LOAD_SUCCESS
+} from "./actions/types";
 
 const initState = (): IUserState => ({
+    groups: [],
     userItems: [],
     isLoading: false,
     hasError: false,
@@ -16,7 +23,8 @@ const initState = (): IUserState => ({
         employee: nullEmployeeItem,
         firstName: "",
         lastName: "",
-        lastLogin: ""
+        lastLogin: "",
+        isAdmin: false
     }
 });
 
@@ -30,6 +38,10 @@ export const userReducer = (state: IUserState = initState(), action: any) => {
             return {...state, userItems: action.items}
         case USER_LOAD_ITEM_SUCCESS:
             return {...state, userAccount: action.item}
+        case USER_CHANGE_ITEM:
+            return {...state, userAccount: action.item}
+        case USER_GROUP_LOAD_SUCCESS:
+            return {...state, groups: action.items}
         default: return state;
     }
 }
