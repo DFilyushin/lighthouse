@@ -36,7 +36,7 @@ class UserEndpoint {
      * Обновление пользователя
      * @param login
      */
-    static updateUser(login: string): string {
+    static saveUser(login: string): string {
         return this.getUser(login)
     }
 
@@ -45,6 +45,14 @@ class UserEndpoint {
      */
     static newUser(): string {
         return `${BaseAPIEndpoint.getBaseURL()}/user/`
+    }
+
+    /**
+     * Проверка существования логина
+     * @param login
+     */
+    static checkUserLogin(login: string) {
+        return `${BaseAPIEndpoint.getBaseURL()}/user/check?login=${login}`
     }
 
 }
