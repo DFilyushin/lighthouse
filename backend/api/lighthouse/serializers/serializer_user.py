@@ -48,7 +48,7 @@ class NewUserSerializer(serializers.Serializer):
         employee_id = validated_data['employee']
 
         try:
-            employee = Employee.objects.get(employee_id)
+            employee = Employee.objects.get(id=employee_id)
         except Employee.DoesNotExist:
             if employee_id != 0:
                 serializers.ValidationError({"employee": 'Неверно указан сотрудник!'})

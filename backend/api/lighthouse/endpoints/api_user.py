@@ -43,7 +43,7 @@ class UserView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         instance = self.perform_create(serializer)
         instance_serializer = UserSerializer(instance)
-        return Response({'Message': 'Пользователь успешно создан'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'Пользователь успешно создан'}, status=status.HTTP_201_CREATED)
 
     @action(methods=['get'], url_path='check', detail=False, url_name='checkLoginExists')
     def check_user_exists(self, request):
