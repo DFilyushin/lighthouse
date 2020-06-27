@@ -10,7 +10,7 @@ import {
 } from "./actions/types";
 
 
-const getInitialState = () => <IExpenseState>({
+const getInitialState = () => ({
     items: [],
     item: {
         id: 0,
