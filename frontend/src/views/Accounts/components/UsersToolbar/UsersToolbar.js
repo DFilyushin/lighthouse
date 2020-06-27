@@ -21,16 +21,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UsersToolbar = props => {
-  const { className, onFindHandler, onNewRecord,...rest } = props;
+  const { onNewRecord } = props;
 
   const classes = useStyles();
-
-  function onKeyDownHandler (event) {
-    if(event.key === 'Enter'){
-      const findText = event.currentTarget.value.trim();
-      onFindHandler(findText);
-    }
-  }
 
   return (
       <Page
@@ -73,9 +66,9 @@ const UsersToolbar = props => {
   );
 };
 
+
 UsersToolbar.propTypes = {
   className: PropTypes.string,
-  onFindHandler: PropTypes.func,
   onNewRecord: PropTypes.func
 };
 
