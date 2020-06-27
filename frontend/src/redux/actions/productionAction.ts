@@ -4,7 +4,6 @@ import {
     PROD_LOAD_START,
     PROD_LOAD_FINISH,
     PROD_LOAD_SUCCESS,
-    PROD_SET_ERROR,
     PROD_LOAD_ITEM_SUCCESS,
     PROD_CHANGE_ITEM,
     PROD_TEAM_LOAD_SUCCESS,
@@ -392,12 +391,13 @@ export function updateProduction(item: IProduction) {
 
             // сохранить изменения в калькуляции
             const calcItems = [...getState().production.prodCardCalc];
-            const sendCalcItems: any[] = [];
+            let sendCalcItems: any[] = [];
             if (calcItems.length > 0) {
                 let idRecord = 0;
+                sendCalcItems =
                 calcItems.map((value: IProductionCalc) => {
                     value.manufactureId === 0 ? idRecord = 0 : idRecord = value.id;
-                    sendCalcItems.push(
+                    return(
                         {
                             'id': idRecord,
                             'manufactureId': id,
@@ -414,23 +414,23 @@ export function updateProduction(item: IProduction) {
             }
 
             const teamItems = [...getState().production.prodCardTeam];
-            //const sendTeamItems: any[] = [];
             if (teamItems.length > 0) {
-                teamItems.map((value) => {
+                teamItems.forEach((value)=>{
                     value.manufactureId = item.id;
-                });
+                })
                 const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
                 console.log(teamResponse);
             }
             const tareItems = [...getState().production.prodCardTare];
-            const sendTareItems: any[] = [];
+            let sendTareItems: any[] = [];
             if (tareItems.length > 0){
-                tareItems.map((value)=>{
+                sendTareItems = tareItems.map((value)=>{
                     const newValue = {...value};
                     if (newValue.id < 0) {newValue.id=0}
-                    sendTareItems.push(newValue);
+                    return (
+                        newValue
+                    )
                 })
-                console.log(JSON.stringify(sendTareItems));
                 const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
                 console.log(tareResponse);
             }
@@ -540,13 +540,6 @@ function successLoadTeam(items: IProductionTeam[]) {
     return{
         type: PROD_TEAM_LOAD_SUCCESS,
         items: items
-    }
-}
-
-function setError(error: string) {
-    return{
-        type: PROD_SET_ERROR,
-        error: error
     }
 }
 
