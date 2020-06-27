@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CircularIndeterminate from "components/Loader/Loader";
 import { ClientTable } from './components';
-import SnackBarAlert from 'components/SnackBarAlert';
-import { Color } from '@material-ui/lab/Alert';
 import {deleteClient, loadClients} from "redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
 import {DefaultToolbar} from "components";
@@ -29,9 +27,6 @@ const ClientList = () => {
     const isLoading = useSelector((state: IStateInterface) => state.client.isLoading);
     const clients = useSelector((state: IStateInterface) => state.client.items);
     const [selected, setSelected] = useState<number[]>([]);
-    const [showAlert, setShowAlert] = useState(false);
-    const [messageAlert, setMessageAlert] = useState('');
-    const [typeAlert, setTypeAlert] = useState<Color>('success');
 
 
     useEffect(() => {
@@ -52,6 +47,7 @@ const ClientList = () => {
             dispatch(deleteClient(item))
         });
     }
+
 
     return (
         <div className={classes.root}>
@@ -77,12 +73,6 @@ const ClientList = () => {
                         />
                 }
             </div>
-            <SnackBarAlert
-                typeMessage={typeAlert}
-                messageText={messageAlert}
-                isOpen={showAlert}
-                onSetOpenState={setShowAlert}
-            />
         </div>
     );
 };

@@ -33,7 +33,11 @@ export function loadClients(search?: string, limit?: number, offset?: number) {
             });
             dispatch(fetchSuccess(items))
         } catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            if (e.response) {
+                dispatch(showInfoMessage('error', `Ошибка загрузки списка! Сообщение: ${e.response.statusText}`))
+            }else{
+                dispatch(showInfoMessage('error', `Ошибка загрузки списка!`))
+            }
         }
         dispatch(fetchFinish())
     }
