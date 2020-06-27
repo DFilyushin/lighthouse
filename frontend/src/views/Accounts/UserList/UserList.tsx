@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { UsersToolbar, UsersTable } from '../components/index';
 import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "../../../redux/rootReducer";
-import {loadUserList} from "../../../redux/actions/userAction";
+import {IStateInterface} from "redux/rootReducer";
+import {loadUserList} from "redux/actions/userAction";
 import {useHistory} from "react-router-dom";
 import {SearchInput} from "components";
 
@@ -28,7 +28,7 @@ const UserList = () => {
 
     useEffect(()=>{
         dispatch(loadUserList(true, ''))
-    }, [])
+    }, [dispatch])
 
     function onClickTableItem(login: string){
         const newItemUrl = `/admin/users/${login}`;
@@ -39,7 +39,6 @@ const UserList = () => {
     function onKeyDownHandler (event: any) {
         if(event.key === 'Enter'){
             const findText = event.currentTarget.value.trim();
-            console.log(findText);
             onFindHandler(findText);
         }
     }
@@ -55,7 +54,6 @@ const UserList = () => {
   return (
     <div className={classes.root}>
       <UsersToolbar
-        onFindHandler={onFindHandler}
         onNewRecord={onNewAccount}
       />
         <SearchInput
