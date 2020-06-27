@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Groups = (props: IGroupProps) => {
-    const { userGroups, onChangeGroups,...rest } = props;
+    const { userGroups, onChangeGroups } = props;
 
     const classes = useStyles();
     const dispatch = useDispatch();
