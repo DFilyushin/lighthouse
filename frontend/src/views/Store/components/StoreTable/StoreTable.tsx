@@ -43,13 +43,12 @@ const useStyles = makeStyles(theme => ({
 interface IStoreTableProps{
     className: string,
     store: IStoreBase[],
-    onClickItem: any,
-    onChangeSelected: any
+    onClickItem: any
 }
 
 
 const StoreTable = (props: IStoreTableProps) => {
-    const { className, store, onClickItem, onChangeSelected, ...rest } = props;
+    const { className, store, onClickItem, ...rest } = props;
 
     const classes = useStyles();
 

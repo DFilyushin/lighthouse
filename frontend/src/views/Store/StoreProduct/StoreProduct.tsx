@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CircularIndeterminate from "components/Loader/Loader";
 import {StoreTable, StoreToolbar} from '../components';
 import SnackBarAlert from 'components/SnackBarAlert';
-import { Color } from '@material-ui/lab/Alert';
-import {deleteClient, loadClients} from "redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {loadProductStore, loadRawStore} from "../../../redux/actions/storeAction";
+import {clearStoreError, loadProductStore} from "redux/actions/storeAction";
 import { ReactComponent as ProductWarehouse } from 'images/warehouse.svg';
 
 const useStyles = makeStyles(theme => ({
@@ -25,13 +23,10 @@ const StoreProduct = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.store.isLoading);
     const productStore = useSelector((state: IStateInterface) => state.store.productStore);
-    const [selected, setSelected] = useState<number[]>([]);
-    const [showAlert, setShowAlert] = useState(false);
-    const [messageAlert, setMessageAlert] = useState('');
-    const [typeAlert, setTypeAlert] = useState<Color>('success');
+    const hasError = useSelector((state: IStateInterface) => state.store.hasError);
+    const errorText = useSelector((state: IStateInterface) => state.store.error);
 
 
     useEffect(() => {
@@ -39,18 +34,15 @@ const StoreProduct = () => {
     }, [dispatch]);
 
     function onClickTableItem(clientId: number){
-        const clientUrl = `/client/${clientId}`;
+        const clientUrl = ``;
         history.push(clientUrl);
     }
 
-    async function onFindClientHandler(findText: string){
-        dispatch(loadClients(findText))
+    async function onFindHandler(findText: string){
     }
 
-    function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteClient(item))
-        });
+    function closeAlert() {
+        dispatch(clearStoreError())
     }
 
     return (
@@ -58,7 +50,7 @@ const StoreProduct = () => {
             <StoreToolbar
                 className={''}
                 title={'Склад готовой продукции'}
-                onFind={onFindClientHandler}
+                onFind={onFindHandler}
                 icon={<ProductWarehouse />}
             />
             <div className={classes.content}>
@@ -68,15 +60,14 @@ const StoreProduct = () => {
                             store={productStore}
                             className={''}
                             onClickItem={onClickTableItem}
-                            onChangeSelected={setSelected}
                         />
                 }
             </div>
             <SnackBarAlert
-                typeMessage={typeAlert}
-                messageText={messageAlert}
-                isOpen={showAlert}
-                onSetOpenState={setShowAlert}
+                typeMessage={'error'}
+                messageText={errorText}
+                isOpen={hasError}
+                onSetOpenState={closeAlert}
             />
         </div>
     );

@@ -1,11 +1,12 @@
 import {IStoreState} from 'types/state/store'
 import {
+    STORE_CLEAR_ERROR,
     STORE_LOAD_FINISH,
     STORE_LOAD_PRODUCT_SUCCESS,
     STORE_LOAD_RAW_SUCCESS,
     STORE_LOAD_START,
     STORE_SET_DATE_PRODUCT_STORE,
-    STORE_SET_DATE_RAW_STORE
+    STORE_SET_DATE_RAW_STORE, STORE_SET_ERROR
 } from "./actions/types";
 
 const initState = (): IStoreState => ({
@@ -34,6 +35,10 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, rawStoreOnDate: action.date}
         case STORE_SET_DATE_PRODUCT_STORE:
             return {...state, productStoreOnDate: action.date}
+        case STORE_SET_ERROR:
+            return {...state, hasError: true, error: action.error}
+        case STORE_CLEAR_ERROR:
+            return {...state, hasError: false, error: ''}
         default:
             return state
     }

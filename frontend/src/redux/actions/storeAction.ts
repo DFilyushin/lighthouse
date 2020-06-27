@@ -2,6 +2,7 @@ import StoreEndpoint from "services/endpoints/StoreEndpoint";
 import axios from "axios";
 import {IStoreProduct, IStoreRaw} from "../../types/model/store";
 import {
+    STORE_CLEAR_ERROR,
     STORE_LOAD_FINISH,
     STORE_LOAD_PRODUCT_SUCCESS,
     STORE_LOAD_RAW_SUCCESS,
@@ -10,6 +11,9 @@ import {
 } from "./types";
 
 
+/**
+ * Загрузить актуальное состояние склада сырья
+ */
 export function loadRawStore() {
     return async (dispatch: any, getState: any) => {
         const itemList: IStoreRaw[] = [];
@@ -25,7 +29,12 @@ export function loadRawStore() {
             });
             dispatch(fetchSuccessRawStore(itemList))
         }catch (e) {
-            dispatch(fetchError('Ошибка загрузки списка!'))
+            if (e.response) {
+                console.log(e.response)
+                dispatch(fetchError(`Ошибка загрузки списка! Сообщение: ${e.response.statusText}`))
+            }else{
+                dispatch(fetchError(`Ошибка загрузки списка!`))
+            }
         }
         dispatch(fetchFinish())
     }
@@ -82,5 +91,11 @@ function fetchError(error: string) {
     return{
         type: STORE_SET_ERROR,
         error
+    }
+}
+
+export function clearStoreError() {
+    return{
+        type: STORE_CLEAR_ERROR
     }
 }
