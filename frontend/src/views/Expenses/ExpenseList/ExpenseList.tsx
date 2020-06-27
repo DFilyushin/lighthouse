@@ -4,11 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
 import {ExpenseTable, ExpenseToolbar} from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
-import { DefaultToolbar} from 'components';
-import {deleteTare, loadTare} from "redux/actions/tareAction";
 import {IStateInterface} from "redux/rootReducer";
-import {deleteExpense, loadExpenseList} from "../../../redux/actions/expenseAction";
-import {getCostList} from "../../../redux/actions/costAction";
+import {deleteExpense, loadExpenseList} from "redux/actions/expenseAction";
+import {getCostList} from "redux/actions/costAction";
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,7 +35,7 @@ const ExpenseList = () => {
     );
 
     async function onFindProductHandler(findText: string){
-        dispatch(loadTare(findText))
+
     }
 
     /**

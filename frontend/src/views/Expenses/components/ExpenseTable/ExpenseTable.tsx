@@ -15,9 +15,8 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {ITare} from 'types/model/tare'
 import Button from "@material-ui/core/Button";
-import {IExpenseTableItem} from "../../../../types/model/expense";
+import {IExpenseTableItem} from "types/model/expense";
 
 const useStyles = makeStyles(theme => ({
     root: {},
