@@ -17,11 +17,13 @@ const SelectDialogProvider = ({ children, defaultOptions = {} }) => {
   const [resolveReject, setResolveReject] = useState([]);
   const [resolve, reject] = resolveReject;
 
+
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve, reject) => {
       setOptions({ ..._defaultOptions, ...defaultOptions, ...options });
       setResolveReject([resolve, reject]);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClose = useCallback(() => {
