@@ -17,7 +17,6 @@ import {
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {loadStaffs} from "redux/actions/staffAction";
 import {addUser, changeUserItem, checkUserExist, getUserItem, saveUser} from "redux/actions/userAction";
 import {Groups} from '../components'
 import {IUserGroup} from "types/model/user";
@@ -63,8 +62,9 @@ const AccountDetails = (props: IEmployeeItem) => {
     const dispatch = useDispatch();
     const id = props.match.params.user;
     const accountItem = useSelector((state: IStateInterface)=> state.user.userAccount);
-    const hasError = useSelector((state: IStateInterface)=> state.user.hasError);
     const [userExist, setUserExist] = useState<boolean>(false)
+
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
         if ( event.target.type === 'text' ){
