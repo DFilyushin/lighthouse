@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CircularIndeterminate from "components/Loader/Loader";
 import {ContractTable, ContractToolbar} from '../components';
-import SnackBarAlert from 'components/SnackBarAlert';
-import { Color } from '@material-ui/lab/Alert';
 import {deleteContract, loadContractList} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
@@ -27,9 +25,8 @@ const ContractList = () => {
     const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading);
     const clients = useSelector((state: IStateInterface) => state.contract.items);
     const [selected, setSelected] = useState<number[]>([]);
-    const [showAlert, setShowAlert] = useState(false);
-    const [messageAlert, setMessageAlert] = useState('');
-    const [typeAlert, setTypeAlert] = useState<Color>('success');
+
+    // eslint-disable-next-line
     const [contractStatus, setContractStatus] = useState(0);
 
     useEffect(() => {
@@ -68,12 +65,6 @@ const ContractList = () => {
                         />
                 }
             </div>
-            <SnackBarAlert
-                typeMessage={typeAlert}
-                messageText={messageAlert}
-                isOpen={showAlert}
-                onSetOpenState={setShowAlert}
-            />
         </div>
     );
 };
