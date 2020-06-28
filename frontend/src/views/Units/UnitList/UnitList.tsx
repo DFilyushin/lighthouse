@@ -7,6 +7,7 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import {IStateInterface} from "redux/rootReducer";
 import {loadUnit, deleteItem} from "redux/actions/unitAction";
+import { useConfirm } from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,6 +22,7 @@ const UnitList = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const units = useSelector((state: IStateInterface) => state.unit.unitItems);
     const isLoading = useSelector((state: IStateInterface) => state.unit.isLoading);
@@ -36,9 +38,18 @@ const UnitList = () => {
     }
 
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteItem(item))
-        });
+        confirm(
+            {
+                'title': 'Подтверждение',
+                description: `Удалить выбранные записи?.`,
+                confirmationText:'Да',
+                cancellationText: 'Нет'
+            }
+        ).then(() =>
+            selected.forEach(async (item, i, selected) => {
+                dispatch(deleteItem(item))
+            })
+        )
     }
 
     function onClickTableItem(unitId: number){
