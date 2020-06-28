@@ -13,6 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewRaw, changeRaw, loadRawItem, updateRaw} from "redux/actions/rawAction";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
 
 
 interface IRawItemProps {
@@ -31,12 +32,10 @@ const RawItem = (props: IRawItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const rawId = paramId === 'new' ? 0 :parseInt(paramId);
+    const rawId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const rawItem  = useSelector((state: any)=> state.raw.rawItem);
-    //const isLoading = useSelector((state: any) => state.raw.isLoading);
-    //const errorValue = useSelector((state: any) => state.raw.error);
     const hasError = useSelector((state: any) => state.raw.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
