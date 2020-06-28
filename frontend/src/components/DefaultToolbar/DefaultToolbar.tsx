@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography } from '@material-ui/core';
@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -59,12 +60,14 @@ interface IDefaultToolbar {
     showDelete: boolean,
     onFind: any,
     onDelete: any,
-    icon?: any
+    icon?: ReactElement
 }
 
 const DefaultToolbar = (props: IDefaultToolbar) => {
     const history = useHistory();
-    const { className, title, newItemTitle, newItemUrl, onFind, onDelete, findCaption, showDelete, ...rest } = props;
+    const { className, title, newItemTitle, newItemUrl, onFind, onDelete, findCaption, showDelete, icon, ...rest } = props;
+
+    const iconElement = icon ? icon : <DescriptionOutlinedIcon  color={"primary"} />
 
     const classes = useStyles();
 
@@ -87,7 +90,7 @@ const DefaultToolbar = (props: IDefaultToolbar) => {
             <List className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar className={clsx(classes.large, classes.white)}> {rest.icon} </Avatar>
+                        <Avatar className={clsx(classes.large, classes.white)}> {iconElement} </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h4">{title}</Typography>
                 </ListItem>
