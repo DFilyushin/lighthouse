@@ -357,7 +357,7 @@ const ClientItem = (props: IClientItemProps) => {
                                 margin="dense"
                                 id="filled-disabled"
                                 label="Создан"
-                                value={moment(clientItem.created).format('YYYY.MM.DD')}
+                                value={moment(clientItem.created).isValid() ? moment(clientItem.created).format('YYYY.MM.DD'): ''}
                                 variant="outlined"
                             />
                         </Grid>
