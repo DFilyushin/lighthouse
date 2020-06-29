@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import *
 from lighthouse.serializers.serializer_manufacture import *
+from rest_framework import filters
 from .api_errors import *
 from .api_utils import parse_integer
 
@@ -12,6 +13,8 @@ class ProductionLineView(viewsets.ModelViewSet):
     """
     queryset = ProductionLine.objects.all()
     serializer_class = ProductLineSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
 
 
 class ProductionView(viewsets.ModelViewSet):
