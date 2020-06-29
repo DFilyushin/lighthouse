@@ -93,8 +93,7 @@ export function loadUnitItem(id: number) {
             dispatch(fetchStart());
             try{
                 const response = await axios.get(UnitEndpoint.getUnitItem(id));
-                item.id = response.data['id'];
-                item.name = response.data['name'];
+                item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -112,8 +111,10 @@ export function addNewUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(UnitEndpoint.newUnit(), item);
-            dispatch(getItemSuccess(item))
+            const response = await axios.post(UnitEndpoint.newUnit(), item);
+            const items = [...getState().unit.unitItems]
+            items.push(response.data)
+            dispatch(fetchSuccess(items))
         }catch (e) {
             dispatch(saveError('Не удалось добавить новую запись!'))
         }
@@ -128,6 +129,10 @@ export function updateUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         try{
             await axios.put(UnitEndpoint.saveUnit(item.id), item);
+            const items = [...getState().unit.unitItems]
+            const index = items.findIndex(value => value.id === item.id)
+            items[index] = item
+            dispatch(fetchSuccess(items))
         }catch (e) {
             dispatch(saveError(e.toString()))
         }
