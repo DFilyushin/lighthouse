@@ -1,5 +1,5 @@
 import {IClientItemList} from "./client";
-import {Product} from "./product";
+import {IProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 
@@ -43,7 +43,7 @@ export const nullContractSpecItem : IContractSpecItem = {
 
 export interface IContractSpecItem {
     id: number;
-    product: Product;
+    product: IProduct;
     tare: ITare;
     itemCount: number;
     itemPrice: number;

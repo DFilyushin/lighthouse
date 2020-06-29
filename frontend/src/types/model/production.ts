@@ -1,7 +1,7 @@
 /**
  * Список производственных карт
  */
-import {nullProduct, Product} from "./product";
+import {nullProduct, IProduct} from "./product";
 import {IFactoryLine} from "./factorylines";
 import {IRaw} from "./raw";
 
@@ -35,7 +35,7 @@ export interface IProduction {
     id: number;
     created: string;
     creator: ITempEmployee;
-    product: Product;
+    product: IProduct;
     prodLine: IFactoryLine;
     prodStart: string;
     prodFinish: string;

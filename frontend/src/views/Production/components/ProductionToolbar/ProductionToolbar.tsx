@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {Product} from "types/model/product";
+import {IProduct} from "types/model/product";
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -65,7 +65,7 @@ interface IDefaultToolbar {
     newItemUrl: string;
     onFind: any;
     onDelete: any;
-    products: Product[];
+    products: IProduct[];
     onRefresh: (startDate: Date | null, endDate: Date | null, product?: number, state?: number) => void;
 }
 

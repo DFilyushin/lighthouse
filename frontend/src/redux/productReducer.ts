@@ -11,9 +11,9 @@ import {
 }
     from
         "./actions/types";
-import {Product} from "../types/model/product";
+import {IProduct} from "../types/model/product";
 
-const nullProduct: Product = {
+const nullProduct: IProduct = {
     id: 0,
     name: ''
 }

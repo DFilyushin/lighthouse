@@ -1,6 +1,6 @@
 import axios from 'axios'
 import ProductEndpoint from "services/endpoints/ProductEndpoint"
-import {Product} from 'types/model/product'
+import {IProduct} from 'types/model/product'
 
 import {
     PRODUCT_LOAD_FINISH,
@@ -29,7 +29,7 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
         dispatch(fetchProductStart());
             try {
                 const url = ProductEndpoint.getProductList(search, limit, offset);
-                const productList: Product[] = [];
+                const productList: IProduct[] = [];
                 const response = await axios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     productList.push({
@@ -51,7 +51,7 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
  */
 export function loadProductItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        let product: Product = {id: 0, name: ""};
+        let product: IProduct = {id: 0, name: ""};
         if (id === NEW_RECORD_VALUE){
             dispatch(productLoadItemSuccess(product))
         }else{
@@ -99,7 +99,7 @@ export function deleteProduct(id: number) {
  * Изменение продукции в сторе
  * @param product
  */
-export function changeProduct(product: Product) {
+export function changeProduct(product: IProduct) {
     return{
         type: PRODUCT_UPDATE_OBJECT,
         product
@@ -110,7 +110,7 @@ export function changeProduct(product: Product) {
  * Обновление продукции
  * @param product Объект продукции
  */
-export function updateProduct(product: Product){
+export function updateProduct(product: IProduct){
     return async (dispatch: any, getState: any) => {
         try{
             await axios.put(ProductEndpoint.saveProduct(product.id), product);
@@ -124,7 +124,7 @@ export function updateProduct(product: Product){
  * Добавить новый продукт
  * @param product Объект продукции
  */
-export function addNewProduct(product: Product) {
+export function addNewProduct(product: IProduct) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
@@ -142,14 +142,14 @@ export function clearError() {
     }
 }
 
-function productLoadSuccess(products: Product[]) {
+function productLoadSuccess(products: IProduct[]) {
     return{
         type: PRODUCT_LOAD_SUCCESS,
         products
     }
 }
 
-function productLoadItemSuccess(productItem: Product) {
+function productLoadItemSuccess(productItem: IProduct) {
     return{
         type: PRODUCT_LOAD_SUCCESS_ITEM,
         productItem
@@ -177,7 +177,7 @@ function fetchProductFinish() {
     }
 }
 
-function productDeleteOk(products: Product[]) {
+function productDeleteOk(products: IProduct[]) {
     return{
         type: PRODUCT_DELETE_OK,
         products

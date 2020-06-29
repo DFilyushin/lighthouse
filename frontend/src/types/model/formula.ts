@@ -1,5 +1,5 @@
 import {IRaw} from "./raw";
-import {nullProduct, Product} from "./product";
+import {nullProduct, IProduct} from "./product";
 
 export interface IFormula {
     id: number,
@@ -15,7 +15,7 @@ export interface IRawInFormula {
 
 export interface IFormulaItem {
     id: number,
-    product: Product,
+    product: IProduct,
     calcAmount: number,
     calcLosses: number,
     specification: string,

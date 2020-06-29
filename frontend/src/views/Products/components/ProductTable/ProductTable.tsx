@@ -15,7 +15,7 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {Product} from 'types/model/product'
+import {IProduct} from 'types/model/product'
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 interface IProductTable{
     className: string,
-    products: Product[],
+    products: IProduct[],
     onClickItem: any,
     onChangeSelected: any,
 }
