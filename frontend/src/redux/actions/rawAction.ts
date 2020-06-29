@@ -92,12 +92,18 @@ export function loadRawItem(id: number){
     }
 }
 
+/**
+ * Добавить новое сырьё
+ * @param raw Объект сырья
+ */
 export function addNewRaw(raw: Raw) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(RawEndpoint.newRaw(), raw);
-            dispatch(rawLoadItemSuccess(raw))
+            const response = await axios.post(RawEndpoint.newRaw(), raw);
+            const items = [...getState().raws.raws]
+            items.push(response.data)
+            dispatch(fetchSuccess(items))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новое сырьё!'))
         }
@@ -119,6 +125,11 @@ export function updateRaw(raw: Raw) {
     return async (dispatch: any, getState: any) => {
         try{
             await axios.put(RawEndpoint.saveRaw(raw.id), raw);
+            const items = [...getState().raws.raws]
+            const index = items.findIndex(value => value.id === raw.id)
+            items[index] = raw
+            dispatch(fetchSuccess(items))
+
         }catch (e) {
             dispatch(fetchError(e))
         }
