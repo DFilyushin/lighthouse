@@ -7,6 +7,7 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import {clearError, deleteProduct, loadProduct} from "redux/actions/productAction";
 import SnackBarAlert from 'components/SnackBarAlert';
+import { useConfirm } from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,6 +22,7 @@ const ProductList = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const products = useSelector((state: any) => state.product.products);
     const isLoading = useSelector((state: any) => state.product.isLoading);
@@ -44,9 +46,19 @@ const ProductList = () => {
     }
 
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteProduct(item))
-        });
+        confirm(
+            {
+                'title': 'Подтверждение',
+                description: `Удалить выбранные записи?.`,
+                confirmationText:'Да',
+                cancellationText: 'Нет'
+            }
+        ).then(() =>
+            selected.forEach(async (item, i, selected) => {
+                dispatch(deleteProduct(item))
+            })
+        )
+        ;
     }
 
     function onClickTableItem(productId: number){
