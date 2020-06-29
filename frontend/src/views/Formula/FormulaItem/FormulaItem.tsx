@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -17,7 +17,7 @@ import {
     changeFormula,
     updateFormula,
     addNewFormula,
-    deleteRawItem
+    deleteRawItem, addNewRawItem
 } from "redux/actions/formulaAction";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
@@ -32,6 +32,8 @@ import Typography from "@material-ui/core/Typography";
 import {loadRaws} from "redux/actions/rawAction";
 import {useDialog} from "components/SelectDialog";
 import {IRawInFormula} from "../../../types/model/formula";
+import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {showInfoMessage} from "../../../redux/actions/infoAction";
 
 interface IFormulaItemProps {
     className: string,
@@ -61,16 +63,17 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
     const paramId = props.match.params.id;
-    const formulaId = paramId === 'new' ? 0 :parseInt(paramId);
+    const formulaId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const formulaItem  = useSelector((state: any)=> state.formula.formulaItem);
     const selectDialog = useDialog();
     const isLoading = useSelector((state: any) => state.formula.isLoading);
-    // const errorValue = useSelector((state: any) => state.formula.error);
-    const hasError = useSelector((state: any) => state.formula.hasError);
     const productItems = useSelector((state: any) => state.product.products);
     const rawItems = useSelector((state: any) => state.raw.raws)
+    const [hasProductError, setProductError] = useState(false)
+    const [hasCountError, setCountError] = useState(false)
+    const [hasNoItemsError, setNoItemError] = useState(false)
 
     /**
      * Изменения основных компонентов
@@ -82,10 +85,9 @@ const FormulaItem = (props: IFormulaItemProps) => {
     };
 
     /**
-     * Сменить продукцию, на которую производится расчёт
+     * Сменить продукцию
      */
     const handleChangeProduct = () => {
-        dispatch(loadProduct());
         selectDialog(
             {
                 'title': 'Выбор продукции',
@@ -101,6 +103,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                 item.product.id = value.id;
                 item.product.name = value.name;
                 dispatch(changeFormula(item));
+                setProductError(false)
             }
         );
     };
@@ -123,7 +126,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
             }
         ).then((value:any) => {
                 const item = {...formulaItem};
-                const index = item.raws.findIndex((item:IRawInFormula, index:number, array: IRawInFormula[]) => {return item.id === id});
+                const index = item.raws.findIndex((item: IRawInFormula) => {return item.id === id})
                 item.raws[index].raw.id = value.id;
                 item.raws[index].raw.name = value.name;
                 dispatch(changeFormula(item));
@@ -152,36 +155,67 @@ const FormulaItem = (props: IFormulaItemProps) => {
      * Добавление нового сырья в рецептуру
      */
     const handleAddNewRawItem = () => {
-        selectDialog(
-            {
-                'title': 'Выбор сырья',
-                description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
-                dataItems: rawItems,
-                initKey: 0,
-                valueName: 'name'
-            }
-        ).then((value:any) => {
-                const item = {...formulaItem};
-                const itemRaw: IRawInFormula = {id: 0, raw_value: 0, raw: {id: value.id, name: value.name}};
-                item.raws.push(itemRaw);
-                dispatch(changeFormula(item));
-            }
-        )
+        setNoItemError(false)
+        dispatch(addNewRawItem())
     };
+
+
+    /**
+     * Проверка корректности ввода
+     */
+    function isValid() {
+        const hasProduct = formulaItem.product.id > 0
+        const hasCalcAmount = formulaItem.calcAmount > 0
+        const hasRawItems = formulaItem.raws.length > 0
+        console.log(formulaItem.raws)
+        const hasIncorrectRawValues = formulaItem.raws.filter((item:IRawInFormula) => item.raw.id === 0).length === 0
+        console.log('hasIncorrectRawValues', hasRawItems, hasIncorrectRawValues)
+        setProductError(!hasProduct)
+        setCountError(!hasCalcAmount)
+        setNoItemError(!hasRawItems || !hasIncorrectRawValues)
+        return hasProduct && hasCalcAmount && hasRawItems && hasIncorrectRawValues
+    }
+
+    /**
+     * Сохранение изменений
+     * @param dispatch
+     */
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try {
+            if (formulaId === NEW_RECORD_VALUE) {
+                await dispatch(addNewFormula(formulaItem));
+            } else {
+                await dispatch(updateFormula(formulaItem));
+            }
+            resolve();
+        }catch (e) {
+            console.log('reject')
+            reject()
+        }
+    });
 
     /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (formulaId === 0) {
-            dispatch(addNewFormula(formulaItem));
-        } else {
-            dispatch(updateFormula(formulaItem));
+        if (isValid()) {
+            saveItem(dispatch).then(() => {
+                    history.push('/catalogs/formula');
+                }
+            ).catch(() => {
+                console.log('Error....')
+            }).finally(
+                () => {
+                    console.log('saveHandler_end');
+                }
+            );
         }
-        if (!hasError) history.push('/catalogs/formula');
+        else{
+            console.log('???')
+            dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
+        }
+        event.preventDefault();
     };
 
     useEffect(()=>{
@@ -190,6 +224,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     }, [])
 
     useEffect( ()=> {
+            dispatch(loadProduct());
             dispatch(loadFormulaItem(formulaId));
         }, [dispatch, formulaId]
     );
@@ -217,6 +252,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                         required
                                         value={formulaItem.product.name}
                                         variant="outlined"
+                                        helperText={hasProductError ? "Обязательное поле" : ""}
+                                        error={hasProductError}
                                     />
                                     <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
                                         <MenuOpenIcon />
@@ -237,6 +274,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     required
                                     value={formulaItem.calcAmount}
                                     variant="outlined"
+                                    helperText={hasCountError ? "Подозрительное значение" : ""}
+                                    error={hasCountError}
                                 />
                             </Grid>
                             <Grid
@@ -282,7 +321,13 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     <AddIcon />
                                 </Fab>
                             </Grid>
-
+                            {hasNoItemsError &&
+                                <Grid item xs={12}>
+                                    <Typography color={"error"}>
+                                        Рецептура должна содержать сырьё...
+                                    </Typography>
+                                </Grid>
+                            }
                             {formulaItem.raws.map((rawItem: any) =>(
                                 <FormulaRawItem
                                     item={rawItem}

@@ -12,8 +12,9 @@ import {
     FORMULA_SET_ERROR
 } from "./types";
 import {IRaw} from "types/model/raw";
+import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
-const LS_FORMULA_KEY = 'formulas';
 
 /**
  * Загрузить список рецептур
@@ -25,16 +26,8 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage())
-        //const formulasInLocal = localStorage.getItem(LS_FORMULA_KEY);
-        // if (formulasInLocal){
-        //     console.log('GetByStorage');
-        //     const formulaList = JSON.parse(formulasInLocal);
-        //     dispatch(fetchSuccess(formulaList))
-        //
-        // }else {
             try {
                 const url = FormulaEndpoint.getFormulaList(search, limit, offset);
-                console.log('GetByApi');
                 const formulaList: IFormula[] = [];
                 const response = await axios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
@@ -44,12 +37,10 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
                         amount: response.data[key]['calcAmount']
                     })
                 });
-                //localStorage.setItem(LS_FORMULA_KEY, JSON.stringify(formulaList))
                 dispatch(fetchSuccess(formulaList))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
             }
-        //}
         dispatch(fetchFinish())
     }
 }
@@ -62,17 +53,22 @@ export function loadFormulaItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let formula: IFormulaItem = nullFormulaItem;
         dispatch(fetchStart());
-        try{
-            const response = await axios.get(FormulaEndpoint.getFormulaItem(id));
-            formula.id = response.data['id']
-            formula.specification = response.data['specification']
-            formula.calcLosses = response.data['calcLosses']
-            formula.product = response.data['product']
-            formula.calcAmount = response.data['calcAmount']
-            formula.raws = response.data['raws']
-            dispatch( fetchItemSuccess(formula))
-        }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+        if (id === NEW_RECORD_VALUE){
+            dispatch(fetchItemSuccess(formula))
+        }else {
+
+            try {
+                const response = await axios.get(FormulaEndpoint.getFormulaItem(id));
+                formula.id = response.data['id']
+                formula.specification = response.data['specification']
+                formula.calcLosses = response.data['calcLosses']
+                formula.product = response.data['product']
+                formula.calcAmount = response.data['calcAmount']
+                formula.raws = response.data['raws']
+                dispatch(fetchItemSuccess(formula))
+            } catch (e) {
+                dispatch(showInfoMessage('error', e.toString()))
+            }
         }
         dispatch(fetchFinish())
     }
@@ -88,11 +84,10 @@ export function deleteFormula(id: number) {
         try{
             const response = await axios.delete(FormulaEndpoint.deleteFormula(id));
             if (response.status === 204) {
-                const formulas = [...getState().product.products];
+                const formulas = [...getState().formula.formulas];
                 const index = formulas.findIndex((elem, index, array)=>{return elem.id === id});
                 formulas.splice(index, 1);
                 dispatch(deleteOK(formulas));
-                localStorage.removeItem(LS_FORMULA_KEY)
             }
             else {
                 dispatch(showInfoMessage('error', 'Не удалось удалить рецептуру!'))
@@ -144,6 +139,16 @@ export function changeFormula(item: IFormulaItem) {
     }
 }
 
+
+export function addNewRawItem() {
+    return async (dispatch: any, getState: any) => {
+        const item = {...getState().formula.formulaItem};
+        const itemRaw: IRawInFormula = {id: -getRandomInt(MAX_RANDOM_VALUE), raw_value: 0, raw: {id: 0, name: ''}};
+        item.raws.push(itemRaw)
+        dispatch(changeFormula(item))
+    }
+}
+
 /**
  * Обновить данные
  * @param item Объект рецептуры
@@ -169,8 +174,23 @@ function saveError(e: string) {
     }
 }
 
+/**
+ * Добавить новую запись
+ * @param item
+ */
 export function addNewFormula(item: IFormulaItem) {
-
+    return async (dispatch: any, getState: any) => {
+        try{
+            var newItem = JSON.parse(JSON.stringify(item))
+            delete(newItem.product)
+            newItem.product = item.product.id
+            newItem.tare = 1
+            await axios.post(FormulaEndpoint.newFormula(), newItem);
+        }catch (e) {
+            dispatch(saveError(e.toString()))
+            throw e
+        }
+    }
 }
 
 /**
@@ -199,5 +219,12 @@ export function deleteRawItem(idRaw: number){
         const index = formula.raws.findIndex((elem:IRaw, index: number, array: IRaw[])=> {return elem.id === idRaw})
         formula.raws.splice(index, 1)
         dispatch(changeFormula(formula))
+    }
+}
+
+export function setFormulaError(text: string) {
+    return {
+        type: FORMULA_SET_ERROR,
+        error: text
     }
 }

@@ -8,7 +8,7 @@ import {
     FORMULA_LOAD_FINISH,
     FORMULA_ITEM_SUCCESS,
     FORMULA_UPDATE_OBJECT,
-    FORMULA_SET_ERROR
+    FORMULA_SET_ERROR, FORMULA_DELETE_OK
 }
     from
         "./actions/types";
@@ -51,6 +51,8 @@ export const formulaReducer = (state = initialState(), action: any) => {
             return {...state, formulaItem: action.item};
         case FORMULA_SET_ERROR:
             return {...state, error: action.error};
+        case FORMULA_DELETE_OK:
+            return {...state, formulas: action.items}
         default: return state
     }
 };
