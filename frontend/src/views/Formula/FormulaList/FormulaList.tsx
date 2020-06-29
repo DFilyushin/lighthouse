@@ -7,6 +7,7 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import SnackBarAlert from 'components/SnackBarAlert';
 import {deleteFormula, loadFormula} from "redux/actions/formulaAction";
+import { useConfirm } from "material-ui-confirm";
 
 
 const useStyles = makeStyles(theme => ({
@@ -22,6 +23,7 @@ const FormulaList = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const formulas = useSelector((state: any) => state.formula.formulas);
     const isLoading = useSelector((state: any) => state.formula.isLoading);
@@ -45,9 +47,19 @@ const FormulaList = () => {
     }
 
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteFormula(item))
-        });
+        confirm(
+            {
+                'title': 'Подтверждение',
+                description: `Удалить выбранную запись?.`,
+                confirmationText:'Да',
+                cancellationText: 'Нет'
+            }
+        ).then(() =>
+            selected.forEach(async (item, i, selected) => {
+                dispatch(deleteFormula(item))
+            })
+        )
+
     }
 
     function onClickTableItem(rawId: number){
