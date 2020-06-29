@@ -9,6 +9,7 @@ import {
 } from "./types";
 import {IFactoryLine} from "types/model/factorylines";
 import FactoryLineEndpoint from "services/endpoints/FactoryLineEndpoint";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 /**
  * Загрузить список линий производства
@@ -71,14 +72,13 @@ export function deleteFactoryItem(id: number) {
 export function loadFactoryItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let item: IFactoryLine = {id: 0, name: ''};
-        if (id===0){
+        if (id===NEW_RECORD_VALUE){
             dispatch(getItemSuccess(item))
         }else{
             dispatch(fetchStart());
             try{
                 const response = await axios.get(FactoryLineEndpoint.getFactoryLineItem(id));
-                item.id = response.data['id'];
-                item.name = response.data['name'];
+                const item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -124,6 +124,10 @@ export function updateFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         try{
             await axios.put(FactoryLineEndpoint.saveFactoryLine(item.id), item);
+            const items = [...getState().factoryLine.items]
+            const index = items.findIndex(value => value.id === item.id)
+            items[index] = item
+            dispatch(fetchSuccess(items))
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }

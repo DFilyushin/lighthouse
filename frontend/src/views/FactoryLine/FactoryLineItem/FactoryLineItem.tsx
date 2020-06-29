@@ -19,6 +19,7 @@ import {
     loadFactoryItem,
     updateFactoryItem
 } from "redux/actions/factoryLineAction";
+import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 
 interface IFactoryLineProps {
@@ -37,7 +38,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const id = paramId === 'new' ? 0 :parseInt(paramId);
+    const id = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const factoryLineItem  = useSelector((state: IStateInterface)=> state.factoryLine.lineItem);
@@ -52,8 +53,8 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
-        if (id === 0) {
+    const saveHandler = (event: React.SyntheticEvent) => {
+        if (id === NEW_RECORD_VALUE) {
             console.log(factoryLineItem);
             dispatch(addNewFactoryItem(factoryLineItem));
         } else {
@@ -70,7 +71,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Линия производства"
@@ -101,7 +102,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>
