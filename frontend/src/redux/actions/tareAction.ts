@@ -21,26 +21,13 @@ export function loadTare(search?: string, limit?: number, offset?:number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage())
-        // const tareInLocalStorage = localStorage.getItem(LS_TARE_KEY);
-        // if (tareInLocalStorage){
-        //     const tareList = JSON.parse(tareInLocalStorage);
-        //     dispatch(fetchSuccess(tareList))
-        //
-        // }else {
             try {
                 const url = TareEndpoint.getTareList(search, limit, offset);
                 const tareList: ITare[] = [];
                 const response = await axios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
-                    tareList.push({
-                        id: response.data[key]['id'],
-                        name: response.data[key]['name'],
-                        unit: response.data[key]['unit'],
-                        idUnit: response.data[key]['unitId'],
-                        v: response.data[key]['v']
-                    })
+                    tareList.push(response.data[key])
                 });
-                // localStorage.setItem(LS_TARE_KEY, JSON.stringify(tareList))
                 dispatch(fetchSuccess(tareList))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -59,11 +46,7 @@ export function loadTareItem(id: number) {
             dispatch(fetchStart());
             try{
                 const response = await axios.get(TareEndpoint.getTareItem(id));
-                item.id = response.data['id'];
-                item.name = response.data['name'];
-                item.unit = response.data['unit']
-                item.v = response.data['v']
-                item.idUnit = response.data['idUnit']
+                item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
