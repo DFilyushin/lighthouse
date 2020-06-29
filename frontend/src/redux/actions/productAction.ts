@@ -28,10 +28,9 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchProductStart());
         const productInLocal = localStorage.getItem(LS_KEY);
-        if (productInLocal){
+        if (productInLocal && !search){
             const productList = JSON.parse(productInLocal);
             dispatch(productLoadSuccess(productList))
-
         }else {
             try {
                 const url = ProductEndpoint.getProductList(search, limit, offset);
@@ -43,7 +42,9 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
                         name: response.data[key]['name'],
                     })
                 });
-                localStorage.setItem('products', JSON.stringify(productList))
+                if (!search) {
+                    localStorage.setItem('products', JSON.stringify(productList))
+                }
                 dispatch(productLoadSuccess(productList))
             } catch (e) {
                 dispatch(productLoadError(e))
