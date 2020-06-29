@@ -13,6 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewProduct, changeProduct, loadProductItem, updateProduct} from "redux/actions/productAction";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
 
 
 interface IProductItemProps {
@@ -30,31 +31,47 @@ const ProductItem = (props: IProductItemProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
+
     const paramId = props.match.params.id;
-    const productId = paramId === 'new' ? 0 :parseInt(paramId);
+    const productId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const productItem  = useSelector((state: any)=> state.product.productItem);
     // const isLoading = useSelector((state: any) => state.product.isLoading);
     // const errorValue = useSelector((state: any) => state.product.error);
-    const hasError = useSelector((state: any) => state.product.hasError)
+    //const hasError = useSelector((state: any) => state.product.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const product = {...productItem, [event.target.name]: event.target.value};
         dispatch(changeProduct(product))
     };
-
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (productId === NEW_RECORD_VALUE) {
+                dispatch(addNewProduct(productItem));
+            } else {
+                dispatch(updateProduct(productItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
+        }
+    });
     /**
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
-        if (productId === 0) {
-            dispatch(addNewProduct(productItem));
-        } else {
-            dispatch(updateProduct(productItem));
-        }
-        if (!hasError) history.push('/catalogs/product');
+    const saveHandler = (event: React.SyntheticEvent) => {
+        saveItem(dispatch).then( ()=>{
+            history.push('/catalogs/product');
+            }
+        ).catch(()=>{
+            console.log('Error')
+        }).finally(
+            ()=>{
+                console.log('saveHandler_end');
+            }
+        );
     };
 
     useEffect( ()=> {
@@ -65,7 +82,7 @@ const ProductItem = (props: IProductItemProps) => {
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Продукция"
@@ -96,7 +113,7 @@ const ProductItem = (props: IProductItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>

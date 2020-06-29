@@ -12,8 +12,8 @@ import {
     PRODUCT_DELETE_OK,
     PRODUCT_CLEAR_ERROR
 } from './types'
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
-const LS_KEY = 'products'
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
@@ -27,11 +27,6 @@ const LS_KEY = 'products'
 export function loadProduct(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchProductStart());
-        const productInLocal = localStorage.getItem(LS_KEY);
-        if (productInLocal && !search){
-            const productList = JSON.parse(productInLocal);
-            dispatch(productLoadSuccess(productList))
-        }else {
             try {
                 const url = ProductEndpoint.getProductList(search, limit, offset);
                 const productList: Product[] = [];
@@ -42,14 +37,10 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
                         name: response.data[key]['name'],
                     })
                 });
-                if (!search) {
-                    localStorage.setItem('products', JSON.stringify(productList))
-                }
                 dispatch(productLoadSuccess(productList))
             } catch (e) {
                 dispatch(productLoadError(e))
             }
-        }
         dispatch(fetchProductFinish())
     }
 }
@@ -61,16 +52,20 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
 export function loadProductItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let product: Product = {id: 0, name: ""};
-        dispatch(fetchProductStart());
-        try{
-            const response = await axios.get(ProductEndpoint.getProductItem(id));
-            product.id = response.data['id'];
-            product.name = response.data['name'];
+        if (id === NEW_RECORD_VALUE){
             dispatch(productLoadItemSuccess(product))
-        }catch (e) {
-            dispatch(productLoadError(e))
+        }else{
+            dispatch(fetchProductStart());
+            try {
+                const response = await axios.get(ProductEndpoint.getProductItem(id));
+                product.id = response.data['id'];
+                product.name = response.data['name'];
+                dispatch(productLoadItemSuccess(product))
+            } catch (e) {
+                dispatch(productLoadError(e))
+            }
+            dispatch(fetchProductFinish())
         }
-        dispatch(fetchProductFinish())
     }
 }
 
@@ -89,7 +84,6 @@ export function deleteProduct(id: number) {
                 const index = products.findIndex((elem, index, array)=>{return elem.id === id});
                 products.splice(index, 1);
                 dispatch(productDeleteOk(products));
-                localStorage.removeItem(LS_KEY)
             }
             else {
                 dispatch(productLoadError('Не удалось удалить продукт!'))
