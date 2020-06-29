@@ -13,6 +13,7 @@ import {
     TARE_SET_ERROR,
     TARE_UPDATE_OBJECT
 } from "./types";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
 
 const LS_TARE_KEY = 'tares'
 
@@ -52,7 +53,7 @@ export function loadTare(search?: string, limit?: number, offset?:number) {
 export function loadTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let item: ITare = {id: 0, name: '', v:0, unit:'', idUnit: 0};
-        if (id===0){
+        if (id===NEW_RECORD_VALUE){
             dispatch(getItemSuccess(item))
         }else{
             dispatch(fetchStart());

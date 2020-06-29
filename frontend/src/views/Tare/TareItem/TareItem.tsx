@@ -15,10 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { addNewTare, changeTare, loadTareItem, updateTare } from "redux/actions/tareAction";
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
-import SelectItemDialog from "components/SelectItemDialog";
 import {loadUnit} from "redux/actions/unitAction";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Alert from '@material-ui/lab/Alert';
+import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {useDialog} from "components/SelectDialog";
 
 
 interface ITareItemProps {
@@ -31,10 +32,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(4)
     },
     paper_root: {
-        //padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        //width: 400,
     },
     input: {
         marginLeft: theme.spacing(1),
@@ -57,19 +56,16 @@ const TareItem = (props: ITareItemProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const paramId = props.match.params.id;
-    const tareId = paramId === 'new' ? 0 :parseInt(paramId);
-    const { className, ...rest } = props;
+    const selectDialog = useDialog();
 
+    const paramId = props.match.params.id;
+    const tareId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const { className, ...rest } = props;
 
     const tareItem  = useSelector((state: any) => state.tare.tareItem);
     const errorValue = useSelector((state: any) => state.tare.error);
     const hasError = useSelector((state: any) => state.tare.hasError);
     const unitItems = useSelector((state: any) => state.unit.unitItems);
-
-
-    const [open, setOpen] = React.useState(false);
-
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
@@ -88,7 +84,7 @@ const TareItem = (props: ITareItemProps) => {
      */
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
         try{
-            if (tareId === 0) {
+            if (tareId === NEW_RECORD_VALUE) {
                 await dispatch(addNewTare(tareItem));
             } else {
                 await dispatch(updateTare(tareItem));
@@ -103,7 +99,7 @@ const TareItem = (props: ITareItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
+    const saveHandler = (event: React.SyntheticEvent) => {
         saveItem(dispatch).then( ()=>{
             history.push('/catalogs/tare');
         }
@@ -118,31 +114,43 @@ const TareItem = (props: ITareItemProps) => {
 
     useEffect( ()=> {
             dispatch(loadTareItem(tareId));
+            dispatch(loadUnit());
         }, [dispatch, tareId]
     );
 
     const handleClickListItem = () => {
-        dispatch(loadUnit());
-        setOpen(true);
+        handleChangeUnit();
     };
 
+    //TODO Реализовать в виде отдельного компонента
     /**
-     * Обработка закрытия окна выбора ед. имерения
-     * @param id Код записи
-     * @param newValue Значение
+     * Сменить ед. измерения
      */
-    const handleClose = (id?: number, newValue?: string) => {
-        setOpen(false);
-        if (newValue && id ) {
-            const item = {...tareItem, 'unit': newValue, 'idUnit': id};
-            dispatch(changeTare(item));
-        }
+    const handleChangeUnit = () => {
+        selectDialog(
+            {
+                'title': 'Выбор единицы измерения',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: unitItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+            const item = {...tareItem};
+            item.idUnit = value.id;
+            item.unit = value.name;
+            dispatch(changeTare(item))
+            }
+        );
     };
+
 
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Упаковочная тара"
@@ -197,7 +205,8 @@ const TareItem = (props: ITareItemProps) => {
                                         value={tareItem.unit}
                                         variant="outlined"
                                     />
-                                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleClickListItem}>
+                                    <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                                onClick={handleClickListItem}>
                                         <MenuOpenIcon />
                                     </IconButton>
                                 </Paper>
@@ -210,7 +219,7 @@ const TareItem = (props: ITareItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>
@@ -224,21 +233,6 @@ const TareItem = (props: ITareItemProps) => {
                     </CardActions>
                 </form>
             </Card>
-            {tareItem.id === tareId && <SelectItemDialog
-                classes={{
-                    paper: classes.paper
-                }}
-                title={'Выбор единицы измерения'}
-                id="ringtone-menu"
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                nameValue={tareItem.unit}
-                records={unitItems}
-                idField={'id'}
-                valueField={'name'}
-                keyValue={tareItem.idUnit}
-            />}
         </div>
     );
 };
