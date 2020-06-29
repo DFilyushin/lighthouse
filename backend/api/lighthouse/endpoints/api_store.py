@@ -17,6 +17,8 @@ class MaterialUnitViewSet(viewsets.ModelViewSet):
     """
     queryset = MaterialUnit.objects.all()
     serializer_class = MaterialUnitSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
 
 
 class ProductViewSet(viewsets.ModelViewSet):
