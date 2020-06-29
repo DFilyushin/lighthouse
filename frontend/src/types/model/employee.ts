@@ -1,4 +1,4 @@
-import {Staff} from "./staff";
+import {IStaff} from "./staff";
 
 export interface IEmployeeListItem {
     id: number;
@@ -29,7 +29,7 @@ export interface IEmployee {
     addrResidence: string;
     contactPhone: string;
     contactEmail: string;
-    staff: Staff
+    staff: IStaff
 }
 
 export const nullEmployee = {

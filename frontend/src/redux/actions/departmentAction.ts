@@ -9,7 +9,7 @@ import {
     DEPARTMENT_LOAD_START,
     DEPARTMENT_LOAD_SUCCESS, DEPARTMENT_SET_ERROR
 } from "./types";
-import {Staff} from "../../types/model/staff";
+import {IStaff} from "../../types/model/staff";
 
 
 /**
@@ -48,7 +48,7 @@ export function loadDepartments(search?: string, limit?: number, offset?: number
  */
 export function loadDepartmentItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        let item: Staff = {id: 0, name: ""};
+        let item: IStaff = {id: 0, name: ""};
         dispatch(fetchStart());
         if (id===0) {
             dispatch(loadItemSuccess(item))

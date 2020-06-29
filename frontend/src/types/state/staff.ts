@@ -1,8 +1,8 @@
-import {Staff} from 'types/model/staff'
+import {IStaff} from 'types/model/staff'
 
 export interface IStaffState {
-    staffs: Staff[],
-    staffItem: Staff,
+    staffs: IStaff[],
+    staffItem: IStaff,
     isLoading: boolean,
     error: string,
     hasError: boolean

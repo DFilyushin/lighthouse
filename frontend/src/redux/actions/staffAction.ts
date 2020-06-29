@@ -1,6 +1,6 @@
 import axios from 'axios'
 import StaffEndpoint from "services/endpoints/StaffEndpoint"
-import {Staff} from 'types/model/staff'
+import {IStaff} from 'types/model/staff'
 import {
     STAFF_CLEAR_ERROR,
     STAFF_DELETE_OK,
@@ -23,7 +23,7 @@ import {
  */
 export function loadStaffs(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
-        const itemList: Staff[] = [];
+        const itemList: IStaff[] = [];
         dispatch(fetchStart());
         try{
             const url = StaffEndpoint.getStaffList(search, limit, offset);
@@ -73,7 +73,7 @@ export function deleteStaff(id: number) {
  */
 export function loadItem(id: number){
     return async (dispatch: any, getState: any) => {
-        let item: Staff = {id: 0, name: ""};
+        let item: IStaff = {id: 0, name: ""};
         dispatch(fetchStart());
         try{
             const response = await axios.get(StaffEndpoint.getStaffItem(id));
@@ -87,7 +87,7 @@ export function loadItem(id: number){
     }
 }
 
-export function addNew(item: Staff) {
+export function addNew(item: IStaff) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
@@ -99,7 +99,7 @@ export function addNew(item: Staff) {
     }
 }
 
-export function changeItem(item: Staff) {
+export function changeItem(item: IStaff) {
     return {
         type: STAFF_UPDATE_OBJECT,
         item: item
@@ -110,7 +110,7 @@ export function changeItem(item: Staff) {
  * Сохранить изменения
  * @param item Объект
  */
-export function updateItem(item: Staff) {
+export function updateItem(item: IStaff) {
     return async (dispatch: any, getState: any) => {
         try{
             await axios.put(StaffEndpoint.saveStaff(item.id), item);
@@ -132,7 +132,7 @@ function fetchStart() {
     }
 }
 
-function deleteOk(items: Staff[]) {
+function deleteOk(items: IStaff[]) {
     return{
         type: STAFF_DELETE_OK,
         items
@@ -152,14 +152,14 @@ function fetchError(error: string) {
     }
 }
 
-function fetchSuccess(items: Staff[]) {
+function fetchSuccess(items: IStaff[]) {
     return{
         type: STAFF_LOAD_SUCCESS,
         items
     }
 }
 
-function rawLoadItemSuccess(item: Staff) {
+function rawLoadItemSuccess(item: IStaff) {
     return{
         type: STAFF_ITEM_SUCCESS,
         item: item

@@ -15,7 +15,7 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {Staff} from 'types/model/staff'
+import {IStaff} from 'types/model/staff'
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 interface IStaffTable{
     className: string,
-    items: Staff[],
+    items: IStaff[],
     onClickItem: any,
     onChangeSelected: any,
 }
