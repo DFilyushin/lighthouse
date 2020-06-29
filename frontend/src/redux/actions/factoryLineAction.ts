@@ -95,11 +95,18 @@ export function changeFactoryItem(item: IFactoryLine) {
     }
 }
 
+/**
+ * Добавить новый элемент линии производства
+ * @param item
+ */
 export function addNewFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(FactoryLineEndpoint.newFactoryLine(), item);
+            const response = await axios.post(FactoryLineEndpoint.newFactoryLine(), item);
+            const items = [...getState().factoryLine.items]
+            items.push(response.data)
+            await dispatch(fetchSuccess(items))
             return Promise.resolve();
         }
         catch (e) {
