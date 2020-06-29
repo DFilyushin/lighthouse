@@ -7,8 +7,8 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import {IStateInterface} from "redux/rootReducer";
 import {deleteFactoryItem, loadFactoryLines} from "redux/actions/factoryLineAction";
+import { useConfirm } from "material-ui-confirm";
 
-//FIXME Отсутствует поиск в ендпоинте
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,6 +23,7 @@ const FactoryLineList = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const items = useSelector((state: IStateInterface) => state.factoryLine.items);
     const isLoading = useSelector((state: IStateInterface) => state.factoryLine.isLoading);
@@ -38,10 +39,19 @@ const FactoryLineList = () => {
     }
 
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            console.log(item);
-            dispatch(deleteFactoryItem(item))
-        });
+        confirm(
+            {
+                'title': 'Подтверждение',
+                description: `Удалить выбранные записи?.`,
+                confirmationText:'Да',
+                cancellationText: 'Нет'
+            }
+        ).then(() =>
+            selected.forEach(async (item, i, selected) => {
+                dispatch(deleteFactoryItem(item))
+            })
+        )
+
     }
 
     function onClickTableItem(id: number){
