@@ -47,8 +47,8 @@ const RawItem = (props: IRawItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
-        if (rawId === 0) {
+    const saveHandler = (event: React.SyntheticEvent) => {
+        if (rawId === NEW_RECORD_VALUE) {
             dispatch(addNewRaw(rawItem));
         } else {
             dispatch(updateRaw(rawItem));
@@ -64,7 +64,7 @@ const RawItem = (props: IRawItemProps) => {
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Сырьё"
@@ -95,7 +95,7 @@ const RawItem = (props: IRawItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>

@@ -11,6 +11,7 @@ import {
     RAW_LOAD_SUCCESS_ITEM,
     RAW_UPDATE_OBJECT
 } from "./types";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
@@ -72,15 +73,20 @@ export function deleteRaw(id: number) {
  */
 export function loadRawItem(id: number){
     return async (dispatch: any, getState: any) => {
-        let raw: Raw = {id: 0, name: ""};
+        const raw: Raw = {id: 0, name: ""};
         dispatch(fetchStart());
-        try{
-            const response = await axios.get(RawEndpoint.getRawItem(id));
-            raw.id = response.data['id'];
-            raw.name = response.data['name'];
+        if (id === NEW_RECORD_VALUE){
+            console.log(raw)
             dispatch(rawLoadItemSuccess(raw))
-        }catch (e) {
-            dispatch(fetchError(e))
+        }else {
+
+            try {
+                const response = await axios.get(RawEndpoint.getRawItem(id));
+                const raw = response.data;
+                dispatch(rawLoadItemSuccess(raw))
+            } catch (e) {
+                dispatch(fetchError(e))
+            }
         }
         dispatch(fetchFinish())
     }
@@ -158,9 +164,9 @@ function fetchSuccess(items: Raw[]) {
     }
 }
 
-function rawLoadItemSuccess(rawItem: Raw) {
+function rawLoadItemSuccess(item: Raw) {
     return{
         type: RAW_LOAD_SUCCESS_ITEM,
-        item: rawItem
+        item
     }
 }
