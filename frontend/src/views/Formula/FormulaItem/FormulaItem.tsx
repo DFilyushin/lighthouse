@@ -175,7 +175,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
+    const saveHandler = (event: React.SyntheticEvent) => {
         if (formulaId === 0) {
             dispatch(addNewFormula(formulaItem));
         } else {
@@ -197,7 +197,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const getCard = () => {
         return (
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader subheader="" title="Рецептура"/>
                     <Divider />
                     <CardContent>
@@ -296,7 +296,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>
