@@ -1,6 +1,6 @@
 import axios from 'axios'
 import RawEndpoint from "services/endpoints/RawEndpoint"
-import {Raw} from 'types/model/raw'
+import {IRaw} from 'types/model/raw'
 import {
     RAW_CLEAR_ERROR,
     RAW_DELETE_OK,
@@ -23,7 +23,7 @@ import {NEW_RECORD_VALUE} from "../../utils/AppConst";
  */
 export function loadRaws(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
-        const itemList: Raw[] = [];
+        const itemList: IRaw[] = [];
         dispatch(fetchStart());
         try{
             const url = RawEndpoint.getRawList(search, limit, offset);
@@ -73,7 +73,7 @@ export function deleteRaw(id: number) {
  */
 export function loadRawItem(id: number){
     return async (dispatch: any, getState: any) => {
-        const raw: Raw = {id: 0, name: ""};
+        const raw: IRaw = {id: 0, name: ""};
         dispatch(fetchStart());
         if (id === NEW_RECORD_VALUE){
             console.log(raw)
@@ -96,7 +96,7 @@ export function loadRawItem(id: number){
  * Добавить новое сырьё
  * @param raw Объект сырья
  */
-export function addNewRaw(raw: Raw) {
+export function addNewRaw(raw: IRaw) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
@@ -110,7 +110,7 @@ export function addNewRaw(raw: Raw) {
     }
 }
 
-export function changeRaw(raw: Raw) {
+export function changeRaw(raw: IRaw) {
     return {
         type: RAW_UPDATE_OBJECT,
         item: raw
@@ -121,7 +121,7 @@ export function changeRaw(raw: Raw) {
  * Сохранить изменения
  * @param raw Объект сырья
  */
-export function updateRaw(raw: Raw) {
+export function updateRaw(raw: IRaw) {
     return async (dispatch: any, getState: any) => {
         try{
             await axios.put(RawEndpoint.saveRaw(raw.id), raw);
@@ -148,7 +148,7 @@ function fetchStart() {
     }
 }
 
-function deleteOk(items: Raw[]) {
+function deleteOk(items: IRaw[]) {
     return{
         type: RAW_DELETE_OK,
         items
@@ -168,14 +168,14 @@ function fetchError(error: string) {
     }
 }
 
-function fetchSuccess(items: Raw[]) {
+function fetchSuccess(items: IRaw[]) {
     return{
         type: RAW_LOAD_SUCCESS,
         items
     }
 }
 
-function rawLoadItemSuccess(item: Raw) {
+function rawLoadItemSuccess(item: IRaw) {
     return{
         type: RAW_LOAD_SUCCESS_ITEM,
         item

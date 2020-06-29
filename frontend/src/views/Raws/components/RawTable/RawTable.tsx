@@ -15,7 +15,7 @@ import {
     Typography,
     TablePagination
 } from '@material-ui/core';
-import {Raw} from 'types/model/raw'
+import {IRaw} from 'types/model/raw'
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 interface IRawTable{
     className: string,
-    raws: Raw[],
+    raws: IRaw[],
     onClickItem: any,
     onChangeSelected: any,
 }

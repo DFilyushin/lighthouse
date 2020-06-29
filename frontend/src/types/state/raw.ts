@@ -1,8 +1,8 @@
-import {Raw} from 'types/model/raw'
+import {IRaw} from 'types/model/raw'
 
 export interface IRawState {
-    raws: Raw[],
-    rawItem: Raw,
+    raws: IRaw[],
+    rawItem: IRaw,
     isLoading: boolean,
     error: string,
     hasError: boolean

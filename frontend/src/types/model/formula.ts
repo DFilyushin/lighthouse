@@ -1,4 +1,4 @@
-import {Raw} from "./raw";
+import {IRaw} from "./raw";
 import {nullProduct, Product} from "./product";
 
 export interface IFormula {
@@ -9,7 +9,7 @@ export interface IFormula {
 
 export interface IRawInFormula {
     id: number;
-    raw: Raw;
+    raw: IRaw;
     raw_value: number;
 }
 

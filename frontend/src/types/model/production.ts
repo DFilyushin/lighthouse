@@ -3,7 +3,7 @@
  */
 import {nullProduct, Product} from "./product";
 import {IFactoryLine} from "./factorylines";
-import {Raw} from "./raw";
+import {IRaw} from "./raw";
 
 export const CARD_STATE_DRAFT = 0;
 export const CARD_STATE_IN_WORK = 1;
@@ -97,7 +97,7 @@ export const nullProductionTeam: IProductionTeam = {
 export interface IProductionCalc {
     id: number;
     manufactureId: number;
-    raw: Raw;
+    raw: IRaw;
     calcValue: number;
 }
 

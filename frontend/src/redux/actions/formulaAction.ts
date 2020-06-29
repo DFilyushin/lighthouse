@@ -11,7 +11,7 @@ import {
     FORMULA_UPDATE_OBJECT,
     FORMULA_SET_ERROR
 } from "./types";
-import {Raw} from "types/model/raw";
+import {IRaw} from "types/model/raw";
 
 const LS_FORMULA_KEY = 'formulas';
 
@@ -182,7 +182,7 @@ export function addNewFormula(item: IFormulaItem) {
 export function updateRawItem(rawItemFormula: IRawInFormula) {
     return async (dispatch: any, getState: any)=> {
         const formula = {...getState().formula.formulaItem};
-        const index = formula.raws.findIndex((elem: Raw, index:number, array: IRawInFormula[])=>{return elem.id === rawItemFormula.id})
+        const index = formula.raws.findIndex((elem: IRaw, index:number, array: IRawInFormula[])=>{return elem.id === rawItemFormula.id})
         formula.raws[index].raw = rawItemFormula.raw
         formula.raws[index].raw_value = rawItemFormula.raw_value
         dispatch(changeFormula(formula));
@@ -196,7 +196,7 @@ export function updateRawItem(rawItemFormula: IRawInFormula) {
 export function deleteRawItem(idRaw: number){
     return async (dispatch: any, getState: any) => {
         const formula = {...getState().formula.formulaItem};
-        const index = formula.raws.findIndex((elem:Raw, index: number, array: Raw[])=> {return elem.id === idRaw})
+        const index = formula.raws.findIndex((elem:IRaw, index: number, array: IRaw[])=> {return elem.id === idRaw})
         formula.raws.splice(index, 1)
         dispatch(changeFormula(formula))
     }

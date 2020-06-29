@@ -1,5 +1,5 @@
 import { IRawState } from 'types/state/raw'
-import {Raw} from "../types/model/raw";
+import {IRaw} from "../types/model/raw";
 import {
     RAW_CLEAR_ERROR,
     RAW_DELETE_OK,
@@ -12,7 +12,7 @@ import {
 } from "./actions/types";
 
 
-const nullRaw: Raw = {
+const nullRaw: IRaw = {
     id: 0,
     name: ''
 }
