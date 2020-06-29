@@ -150,6 +150,7 @@ class ProductionLine(models.Model):
     class Meta:
         verbose_name = 'Линия производства'
         verbose_name_plural = 'Линии производства'
+        ordering = ('name', )
 
 
 class Manufacture(models.Model):
