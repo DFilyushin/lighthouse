@@ -13,6 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {addNewUnit, changeUnit, loadUnitItem, updateUnit} from "redux/actions/unitAction";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
 
 interface IUnitItemProps {
     className: string,
@@ -45,7 +46,7 @@ const UnitItem = (props: IUnitItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const unitId = paramId === 'new' ? 0 :parseInt(paramId);
+    const unitId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const unitItem  = useSelector((state: any) => state.unit.unitItem);
@@ -67,8 +68,8 @@ const UnitItem = (props: IUnitItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
-        if (unitId === 0) {
+    const saveHandler = (event: React.SyntheticEvent) => {
+        if (unitId === NEW_RECORD_VALUE) {
             dispatch(addNewUnit(unitItem));
         } else {
             dispatch(updateUnit(unitItem));
@@ -84,7 +85,7 @@ const UnitItem = (props: IUnitItemProps) => {
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Единицы измерения"
@@ -115,7 +116,7 @@ const UnitItem = (props: IUnitItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>

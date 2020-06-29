@@ -12,6 +12,7 @@ import {
     UNIT_UPDATE_OBJECT
 } from "./types";
 import {clearError} from "./rawAction";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 //FIXME После обновления, добавления, удаления записей обновить глобальный объект списка
 
@@ -86,7 +87,7 @@ export function deleteItem(id: number) {
 export function loadUnitItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let item: IUnit = {id: 0, name: ''};
-        if (id === 0) {
+        if (id === NEW_RECORD_VALUE) {
             dispatch(getItemSuccess(item))
         }else{
             dispatch(fetchStart());
