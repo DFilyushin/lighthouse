@@ -1,0 +1,542 @@
+[
+{
+  "model": "lighthouse.refcost",
+  "pk": 0,
+  "fields": {
+    "id_parent": null,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 1,
+  "fields": {
+    "id_parent": null,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f Test212323t",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 2,
+  "fields": {
+    "id_parent": 11,
+    "name": "\u0417\u0430\u0440\u0430\u0431\u043e\u0442\u043d\u0430\u044f \u043f\u043b\u0430\u0442\u0430 100",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 3,
+  "fields": {
+    "id_parent": null,
+    "name": "\u041e\u043f\u043b\u0430\u0442\u0430 \u044d/\u044d",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 4,
+  "fields": {
+    "id_parent": null,
+    "name": "\u041d\u0430\u043b\u043e\u0433\u0438",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 5,
+  "fields": {
+    "id_parent": null,
+    "name": "\u041f\u043e\u0434\u043e\u0445\u043e\u0434\u043d\u044b\u0439 \u043d\u0430\u043b\u043e\u0433",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 6,
+  "fields": {
+    "id_parent": 11,
+    "name": "\u041d\u043e\u0432\u0430\u044f \u043f\u043e\u0437\u0438\u0446\u0438\u044f",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 7,
+  "fields": {
+    "id_parent": 4,
+    "name": "\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 8,
+  "fields": {
+    "id_parent": 11,
+    "name": "\u0417\u0430\u0440\u0430\u0431\u043e\u0442\u043d\u0430\u044f \u043f\u043b\u0430\u0442\u0430",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 9,
+  "fields": {
+    "id_parent": 11,
+    "name": "\u0417\u0430\u0440\u0430\u0431\u043e\u0442\u043d\u0430\u044f \u043f\u043b\u0430\u0442\u0430 2",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 10,
+  "fields": {
+    "id_parent": 11,
+    "name": "\u0417\u0430\u0440\u0430\u0431\u043e\u0442\u043d\u0430\u044f \u043f\u043b\u0430\u0442\u0430 4",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 11,
+  "fields": {
+    "id_parent": null,
+    "name": "\u0417\u0430\u0440\u0430\u0431\u043e\u0442\u043d\u0430\u044f \u043f\u043b\u0430\u0442\u0430",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 12,
+  "fields": {
+    "id_parent": null,
+    "name": "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u0442\u0440\u0430\u0442\u0430",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 13,
+  "fields": {
+    "id_parent": 1,
+    "name": "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u0442\u0440\u0430\u0442\u0430",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 16,
+  "fields": {
+    "id_parent": 12,
+    "name": "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u0442\u0440\u0430\u0442\u0430100",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 18,
+  "fields": {
+    "id_parent": 12,
+    "name": "\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u0442\u0440\u0430\u0442\u04301002",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 19,
+  "fields": {
+    "id_parent": null,
+    "name": "\u041d\u043e\u0432\u0430\u044f 8888",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 20,
+  "fields": {
+    "id_parent": null,
+    "name": "\u041d\u043e\u0432\u0430\u044f 8888",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 21,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u041d\u043e\u0432\u0430\u044f 8888",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 22,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0444\u044b\u0432\u0444\u044b\u0432\u0444\u044b\u0432",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 23,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u041f\u0451\u0441\u0438\u0439 \u0441\u044b\u043d",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 24,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0444\u044b\u0432123123123",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 25,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 111111111",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 26,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 7777",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 27,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 7777",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 28,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 9009988",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 29,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f asdasdas",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 30,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0444\u044b\u0432\u0444\u044b\u0432\u0444\u044b\u0432\u0444\u044b\u0430",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 31,
+  "fields": {
+    "id_parent": 1,
+    "name": "\u0421\u0442\u0430\u0442\u044c\u044f \u0440\u0430\u0441\u0445\u043e\u0434\u043e\u0432",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 32,
+  "fields": {
+    "id_parent": 4,
+    "name": "\u041d\u0430\u043b\u043e\u0433 \u043d\u0430 \u0432\u043e\u0437\u0434\u0443\u04452",
+    "id_raw": null,
+    "is_system": false
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 33,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u043d\u0435 3434534534",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 34,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0430\u043f\u0440\u0432\u0430\u043f\u0440\u0430\u043f\u0440",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 35,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0430\u043f\u0440\u0432\u0430\u043f\u0440\u0430\u043f\u0440",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 36,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u043c\u0443\u0443\u0443\u0443",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 37,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u043c\u0443\u0443\u0443\u0443",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 39,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 123123123",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 40,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0444\u044b\u0432\u0444\u044b\u0432\u0444\u044b",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 41,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0444\u044b\u0432\u0430\u044b\u0432\u0430\u044b\u0432\u0430",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 42,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u043c\u0430\u043c\u0430\u043c\u0438\u044f",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 43,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u043c\u0430\u043c\u0430\u043c\u0438\u044f2",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 44,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0444\u044b\u0432\u0444\u044b\u0432\u0444\u044b",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 45,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u041d1",
+    "id_raw": 95,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 46,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f gmnghj",
+    "id_raw": 96,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 47,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0432\u044b\u0432\u0444\u044b\u0432",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 48,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f _\u0430\u043e\u044b\u0432\u043b\u0430\u043e\u0440\u043e\u043b",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 49,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f _\u0411\u041e\u041b\u042c",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 50,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u044b\u0432\u0444\u0430\u044b\u0432\u0430\u044b\u0432\u0430",
+    "id_raw": 100,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 51,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f mutter",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 52,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f _new",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 53,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f _yt",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 54,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f _mutter",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 55,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 23423",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 56,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 1111",
+    "id_raw": null,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 57,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f 567567",
+    "id_raw": 107,
+    "is_system": true
+  }
+}
+]

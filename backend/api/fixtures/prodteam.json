@@ -1,0 +1,132 @@
+[
+{
+  "model": "lighthouse.prodteam",
+  "pk": 1,
+  "fields": {
+    "id_employee": 1,
+    "id_manufacture": 117,
+    "period_start": "2020-05-25T23:42:11",
+    "period_end": "2020-04-23T20:47:19"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 2,
+  "fields": {
+    "id_employee": 2,
+    "id_manufacture": 117,
+    "period_start": "2020-05-25T23:42:14",
+    "period_end": "2020-04-23T20:47:27"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 3,
+  "fields": {
+    "id_employee": 3,
+    "id_manufacture": 117,
+    "period_start": "2020-05-25T23:42:16",
+    "period_end": "2020-04-23T20:47:31"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 21,
+  "fields": {
+    "id_employee": 1,
+    "id_manufacture": 117,
+    "period_start": "2020-05-25T23:42:11",
+    "period_end": "2020-04-23T20:47:19"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 22,
+  "fields": {
+    "id_employee": 2,
+    "id_manufacture": 117,
+    "period_start": "2020-05-25T23:42:14",
+    "period_end": "2020-04-23T20:47:27"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 23,
+  "fields": {
+    "id_employee": 3,
+    "id_manufacture": 117,
+    "period_start": "2020-05-25T23:42:16",
+    "period_end": "2020-04-23T20:47:31"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 24,
+  "fields": {
+    "id_employee": 1,
+    "id_manufacture": 109,
+    "period_start": "2020-05-25T23:42:11",
+    "period_end": "2020-04-23T20:47:19"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 25,
+  "fields": {
+    "id_employee": 2,
+    "id_manufacture": 109,
+    "period_start": "2020-05-25T23:42:14",
+    "period_end": "2020-04-23T20:47:27"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 26,
+  "fields": {
+    "id_employee": 3,
+    "id_manufacture": 109,
+    "period_start": "2020-05-25T23:42:16",
+    "period_end": "2020-04-23T20:47:31"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 27,
+  "fields": {
+    "id_employee": 5,
+    "id_manufacture": 108,
+    "period_start": "2020-05-30T09:47:00",
+    "period_end": "2020-05-31T09:47:00"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 29,
+  "fields": {
+    "id_employee": 25,
+    "id_manufacture": 108,
+    "period_start": "2020-06-01T08:49:00",
+    "period_end": "2020-06-03T08:49:00"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 30,
+  "fields": {
+    "id_employee": 9,
+    "id_manufacture": 108,
+    "period_start": "2020-06-08T08:49:00",
+    "period_end": "2020-06-09T08:49:00"
+  }
+},
+{
+  "model": "lighthouse.prodteam",
+  "pk": 31,
+  "fields": {
+    "id_employee": 8,
+    "id_manufacture": 120,
+    "period_start": "2020-06-27T16:48:56.838",
+    "period_end": "2020-06-27T16:48:56.838"
+  }
+}
+]

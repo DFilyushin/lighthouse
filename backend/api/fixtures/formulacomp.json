@@ -1,0 +1,146 @@
+[
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 13,
+  "fields": {
+    "id_formula": 1,
+    "id_raw": 16,
+    "raw_value": 5.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 14,
+  "fields": {
+    "id_formula": 1,
+    "id_raw": 3,
+    "raw_value": 4.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 15,
+  "fields": {
+    "id_formula": 1,
+    "id_raw": 4,
+    "raw_value": 3.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 19,
+  "fields": {
+    "id_formula": 3,
+    "id_raw": 10,
+    "raw_value": 545.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 20,
+  "fields": {
+    "id_formula": 3,
+    "id_raw": 2,
+    "raw_value": 212.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 21,
+  "fields": {
+    "id_formula": 3,
+    "id_raw": 3,
+    "raw_value": 1245.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 22,
+  "fields": {
+    "id_formula": 3,
+    "id_raw": 4,
+    "raw_value": 125.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 36,
+  "fields": {
+    "id_formula": 31,
+    "id_raw": 18,
+    "raw_value": 200.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 37,
+  "fields": {
+    "id_formula": 31,
+    "id_raw": 24,
+    "raw_value": 300.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 38,
+  "fields": {
+    "id_formula": 31,
+    "id_raw": 25,
+    "raw_value": 400.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 39,
+  "fields": {
+    "id_formula": 33,
+    "id_raw": 2,
+    "raw_value": 45.3432
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 41,
+  "fields": {
+    "id_formula": 34,
+    "id_raw": 2,
+    "raw_value": 45.3432
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 42,
+  "fields": {
+    "id_formula": 34,
+    "id_raw": 3,
+    "raw_value": 89.0934
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 43,
+  "fields": {
+    "id_formula": 1,
+    "id_raw": 11,
+    "raw_value": 0.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 44,
+  "fields": {
+    "id_formula": 33,
+    "id_raw": 23,
+    "raw_value": 555.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 47,
+  "fields": {
+    "id_formula": 5,
+    "id_raw": 7,
+    "raw_value": 88.0
+  }
+}
+]

@@ -1,0 +1,762 @@
+[
+{
+  "model": "lighthouse.manufacture",
+  "pk": 93,
+  "fields": {
+    "created": "2019-04-24T22:43:17",
+    "id_line": 0,
+    "id_creator": 7,
+    "id_formula": 3,
+    "id_team_leader": 6,
+    "prod_start": "2019-10-26T22:57:49",
+    "prod_finish": "2020-04-30T15:00:55.646",
+    "calc_value": 2656.0,
+    "cur_state": 1,
+    "out_value": 5473.0,
+    "loss_value": 684.0,
+    "comment": "Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 95,
+  "fields": {
+    "created": "2020-04-10T15:16:33",
+    "id_line": 0,
+    "id_creator": 2,
+    "id_formula": 8,
+    "id_team_leader": 4,
+    "prod_start": "2019-12-08T16:04:27",
+    "prod_finish": null,
+    "calc_value": 3243.0,
+    "cur_state": 2,
+    "out_value": 4882.0,
+    "loss_value": 701.0,
+    "comment": "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 96,
+  "fields": {
+    "created": "2019-12-16T21:56:18",
+    "id_line": 0,
+    "id_creator": 6,
+    "id_formula": 3,
+    "id_team_leader": 10,
+    "prod_start": "2019-06-26T04:28:06",
+    "prod_finish": null,
+    "calc_value": 4834.0,
+    "cur_state": 1,
+    "out_value": 3900.0,
+    "loss_value": 388.0,
+    "comment": "Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 98,
+  "fields": {
+    "created": "2019-08-28T18:31:59",
+    "id_line": 0,
+    "id_creator": 2,
+    "id_formula": 5,
+    "id_team_leader": 9,
+    "prod_start": "2019-08-16T04:54:07",
+    "prod_finish": null,
+    "calc_value": 6309.0,
+    "cur_state": 0,
+    "out_value": 1741.0,
+    "loss_value": 698.0,
+    "comment": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 100,
+  "fields": {
+    "created": "2020-01-12T15:27:03",
+    "id_line": 0,
+    "id_creator": 1,
+    "id_formula": 3,
+    "id_team_leader": 2,
+    "prod_start": "2019-05-02T02:00:43",
+    "prod_finish": null,
+    "calc_value": 1637.0,
+    "cur_state": 2,
+    "out_value": 2661.0,
+    "loss_value": 695.0,
+    "comment": "Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 101,
+  "fields": {
+    "created": "2020-03-23T16:57:23",
+    "id_line": 0,
+    "id_creator": 4,
+    "id_formula": 5,
+    "id_team_leader": 10,
+    "prod_start": "2019-09-20T18:32:12",
+    "prod_finish": null,
+    "calc_value": 5927.0,
+    "cur_state": 1,
+    "out_value": 5756.0,
+    "loss_value": 646.0,
+    "comment": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 102,
+  "fields": {
+    "created": "2020-01-10T22:58:49",
+    "id_line": 2,
+    "id_creator": 8,
+    "id_formula": 4,
+    "id_team_leader": 7,
+    "prod_start": "2019-09-19T07:54:08",
+    "prod_finish": null,
+    "calc_value": 5999.0,
+    "cur_state": 2,
+    "out_value": 3059.0,
+    "loss_value": 603.0,
+    "comment": "Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 103,
+  "fields": {
+    "created": "2019-10-09T05:45:12",
+    "id_line": 0,
+    "id_creator": 9,
+    "id_formula": 6,
+    "id_team_leader": 10,
+    "prod_start": "2019-08-18T03:32:49",
+    "prod_finish": null,
+    "calc_value": 1755.0,
+    "cur_state": 1,
+    "out_value": 3043.0,
+    "loss_value": 275.0,
+    "comment": "Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 105,
+  "fields": {
+    "created": "2020-01-09T20:24:08",
+    "id_line": 0,
+    "id_creator": 9,
+    "id_formula": 8,
+    "id_team_leader": 9,
+    "prod_start": "2019-10-06T15:41:35",
+    "prod_finish": null,
+    "calc_value": 5458.0,
+    "cur_state": 1,
+    "out_value": 1145.0,
+    "loss_value": 193.0,
+    "comment": "Nunc purus. Phasellus in felis. Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 107,
+  "fields": {
+    "created": "2019-09-26T16:59:27",
+    "id_line": 2,
+    "id_creator": 10,
+    "id_formula": 4,
+    "id_team_leader": 8,
+    "prod_start": "2019-06-24T00:02:41",
+    "prod_finish": null,
+    "calc_value": 4549.0,
+    "cur_state": 1,
+    "out_value": 3492.0,
+    "loss_value": 309.0,
+    "comment": "Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 108,
+  "fields": {
+    "created": "2019-06-27T11:46:16",
+    "id_line": 0,
+    "id_creator": 6,
+    "id_formula": 1,
+    "id_team_leader": 8,
+    "prod_start": "2020-02-21T06:01:20",
+    "prod_finish": "2019-10-10T08:37:54",
+    "calc_value": 2530.0,
+    "cur_state": 2,
+    "out_value": 1000.0,
+    "loss_value": 171.0,
+    "comment": "rfsdf",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 109,
+  "fields": {
+    "created": "2019-09-27T09:24:13",
+    "id_line": 2,
+    "id_creator": 2,
+    "id_formula": 2,
+    "id_team_leader": 6,
+    "prod_start": "2019-09-02T05:17:25",
+    "prod_finish": null,
+    "calc_value": 2.0,
+    "cur_state": 0,
+    "out_value": 5143.0,
+    "loss_value": 468.0,
+    "comment": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 111,
+  "fields": {
+    "created": "2019-12-11T17:52:41",
+    "id_line": 7,
+    "id_creator": 7,
+    "id_formula": 6,
+    "id_team_leader": 4,
+    "prod_start": "2019-10-27T06:43:41",
+    "prod_finish": null,
+    "calc_value": 4836.0,
+    "cur_state": 1,
+    "out_value": 7819.0,
+    "loss_value": 292.0,
+    "comment": "Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 113,
+  "fields": {
+    "created": "2019-04-21T03:26:26",
+    "id_line": 2,
+    "id_creator": 8,
+    "id_formula": 5,
+    "id_team_leader": 2,
+    "prod_start": "2020-01-26T15:45:29",
+    "prod_finish": null,
+    "calc_value": 2184.0,
+    "cur_state": 2,
+    "out_value": 4033.0,
+    "loss_value": 643.0,
+    "comment": "Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 114,
+  "fields": {
+    "created": "2020-03-07T01:21:46",
+    "id_line": 7,
+    "id_creator": 9,
+    "id_formula": 1,
+    "id_team_leader": 7,
+    "prod_start": "2019-10-28T23:27:46",
+    "prod_finish": "2020-06-16T04:48:16",
+    "calc_value": 2801.0,
+    "cur_state": 4,
+    "out_value": 4624.0,
+    "loss_value": 643.0,
+    "comment": "Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 117,
+  "fields": {
+    "created": "2019-09-24T09:58:44",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": "2020-04-23T20:39:02.371",
+    "calc_value": 6.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 8.0,
+    "comment": "\u041f\u0440\u043e\u0441\u0442\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 119,
+  "fields": {
+    "created": "2019-06-22T19:14:41",
+    "id_line": 0,
+    "id_creator": 5,
+    "id_formula": 8,
+    "id_team_leader": 6,
+    "prod_start": "2019-10-01T18:10:42",
+    "prod_finish": null,
+    "calc_value": 3863.0,
+    "cur_state": 2,
+    "out_value": 4184.0,
+    "loss_value": 114.0,
+    "comment": "Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl. Nunc nisl.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 120,
+  "fields": {
+    "created": "2019-09-17T12:12:43",
+    "id_line": 2,
+    "id_creator": 2,
+    "id_formula": 6,
+    "id_team_leader": 1,
+    "prod_start": "2019-09-12T06:14:56",
+    "prod_finish": null,
+    "calc_value": 10000.0,
+    "cur_state": 0,
+    "out_value": 8.0,
+    "loss_value": 9.0,
+    "comment": "\u041f\u0440\u043e\u0441\u0442\u043e \u043a\u043e\u043c\u043c\u0435\u043d\u0442",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 122,
+  "fields": {
+    "created": "2019-07-29T11:05:02",
+    "id_line": 2,
+    "id_creator": 2,
+    "id_formula": 5,
+    "id_team_leader": 10,
+    "prod_start": "2019-11-03T05:57:56",
+    "prod_finish": null,
+    "calc_value": 5589.0,
+    "cur_state": 1,
+    "out_value": 7270.0,
+    "loss_value": 672.0,
+    "comment": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 123,
+  "fields": {
+    "created": "2020-02-05T02:46:08",
+    "id_line": 0,
+    "id_creator": 10,
+    "id_formula": 2,
+    "id_team_leader": 3,
+    "prod_start": "2019-05-28T09:32:01",
+    "prod_finish": null,
+    "calc_value": 5035.0,
+    "cur_state": 2,
+    "out_value": 1970.0,
+    "loss_value": 761.0,
+    "comment": "Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 124,
+  "fields": {
+    "created": "2020-03-02T11:35:23",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 7,
+    "id_team_leader": 5,
+    "prod_start": "2019-10-18T20:20:26",
+    "prod_finish": null,
+    "calc_value": 3818.0,
+    "cur_state": 1,
+    "out_value": 4839.0,
+    "loss_value": 668.0,
+    "comment": "Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien a libero.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 127,
+  "fields": {
+    "created": "2020-01-31T10:15:54",
+    "id_line": 2,
+    "id_creator": 5,
+    "id_formula": 3,
+    "id_team_leader": 9,
+    "prod_start": "2019-08-06T21:38:08",
+    "prod_finish": null,
+    "calc_value": 6027.0,
+    "cur_state": 2,
+    "out_value": 4741.0,
+    "loss_value": 669.0,
+    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 128,
+  "fields": {
+    "created": "2020-03-11T13:22:32",
+    "id_line": 2,
+    "id_creator": 7,
+    "id_formula": 1,
+    "id_team_leader": 4,
+    "prod_start": "2019-04-30T20:47:53",
+    "prod_finish": null,
+    "calc_value": 1790.0,
+    "cur_state": 2,
+    "out_value": 6700.0,
+    "loss_value": 157.0,
+    "comment": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 129,
+  "fields": {
+    "created": "2019-05-11T02:02:34",
+    "id_line": 0,
+    "id_creator": 1,
+    "id_formula": 8,
+    "id_team_leader": 2,
+    "prod_start": "2019-06-10T16:32:19",
+    "prod_finish": null,
+    "calc_value": 2534.0,
+    "cur_state": 2,
+    "out_value": 3562.0,
+    "loss_value": 716.0,
+    "comment": "Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 130,
+  "fields": {
+    "created": "2019-04-27T17:11:18",
+    "id_line": 2,
+    "id_creator": 1,
+    "id_formula": 1,
+    "id_team_leader": 7,
+    "prod_start": "2020-04-13T19:29:56",
+    "prod_finish": null,
+    "calc_value": 3741.0,
+    "cur_state": 2,
+    "out_value": 5407.0,
+    "loss_value": 171.0,
+    "comment": "Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 133,
+  "fields": {
+    "created": "2019-12-26T22:58:32",
+    "id_line": 2,
+    "id_creator": 1,
+    "id_formula": 7,
+    "id_team_leader": 4,
+    "prod_start": "2020-02-21T11:03:02",
+    "prod_finish": null,
+    "calc_value": 4270.0,
+    "cur_state": 2,
+    "out_value": 3360.0,
+    "loss_value": 477.0,
+    "comment": "Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 134,
+  "fields": {
+    "created": "2020-03-20T16:44:07",
+    "id_line": 0,
+    "id_creator": 7,
+    "id_formula": 1,
+    "id_team_leader": 2,
+    "prod_start": "2019-07-02T03:28:01",
+    "prod_finish": null,
+    "calc_value": 2549.0,
+    "cur_state": 2,
+    "out_value": 1121.0,
+    "loss_value": 419.0,
+    "comment": "Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue.",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 136,
+  "fields": {
+    "created": "2019-09-09T17:39:54",
+    "id_line": 0,
+    "id_creator": 7,
+    "id_formula": 5,
+    "id_team_leader": 3,
+    "prod_start": "2020-03-17T16:51:13",
+    "prod_finish": null,
+    "calc_value": 3313.0,
+    "cur_state": 1,
+    "out_value": 7192.0,
+    "loss_value": 362.0,
+    "comment": "Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 137,
+  "fields": {
+    "created": "2020-04-06T21:03:59",
+    "id_line": 0,
+    "id_creator": 1,
+    "id_formula": 1,
+    "id_team_leader": 2,
+    "prod_start": "2019-07-28T03:48:04",
+    "prod_finish": null,
+    "calc_value": 2014.0,
+    "cur_state": 1,
+    "out_value": 6893.0,
+    "loss_value": 509.0,
+    "comment": "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.",
+    "is_delete": true
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 144,
+  "fields": {
+    "created": "2020-04-27T19:11:20.622",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": "2020-04-28T06:54:41",
+    "calc_value": 6.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 8.0,
+    "comment": "\u041f\u0440\u043e\u0441\u0442\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 145,
+  "fields": {
+    "created": "2020-04-27T19:11:25.686",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": "2020-04-28T06:54:41",
+    "calc_value": 6.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 8.0,
+    "comment": "\u041f\u0440\u043e\u0441\u0442\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 146,
+  "fields": {
+    "created": "2020-04-27T19:14:32.244",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": "2020-04-28T06:54:41",
+    "calc_value": 6.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 8.0,
+    "comment": "\u041f\u0440\u043e\u0441\u0442\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 147,
+  "fields": {
+    "created": "2020-04-27T19:17:54.807",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": "2020-04-28T06:54:41",
+    "calc_value": 6.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 8.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 148,
+  "fields": {
+    "created": "2020-04-27T19:18:03.469",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": "2020-04-28T06:54:41",
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 149,
+  "fields": {
+    "created": "2020-04-27T19:18:18.479",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": null,
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 151,
+  "fields": {
+    "created": "2020-04-27T19:18:54.862",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": null,
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 152,
+  "fields": {
+    "created": "2020-04-27T19:39:39.362",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": null,
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 153,
+  "fields": {
+    "created": "2020-04-27T19:46:39.690",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": null,
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 155,
+  "fields": {
+    "created": "2020-04-28T09:00:32.004",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": null,
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 156,
+  "fields": {
+    "created": "2020-04-28T09:02:02.816",
+    "id_line": 2,
+    "id_creator": 9,
+    "id_formula": 5,
+    "id_team_leader": 8,
+    "prod_start": "2019-04-28T06:54:41",
+    "prod_finish": null,
+    "calc_value": 0.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
+    "comment": "",
+    "is_delete": false
+  }
+}
+]

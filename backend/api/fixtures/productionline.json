@@ -1,0 +1,30 @@
+[
+{
+  "model": "lighthouse.productionline",
+  "pk": 0,
+  "fields": {
+    "name": "\u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u043e"
+  }
+},
+{
+  "model": "lighthouse.productionline",
+  "pk": 2,
+  "fields": {
+    "name": "2 \u043b\u0438\u043d\u0438\u044f"
+  }
+},
+{
+  "model": "lighthouse.productionline",
+  "pk": 7,
+  "fields": {
+    "name": "1 \u043b\u0438\u043d\u0438\u044f"
+  }
+},
+{
+  "model": "lighthouse.productionline",
+  "pk": 8,
+  "fields": {
+    "name": "3 \u043b\u0438\u043d\u0438\u044f"
+  }
+}
+]

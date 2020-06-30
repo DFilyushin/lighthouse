@@ -1,0 +1,236 @@
+[
+{
+  "model": "lighthouse.formula",
+  "pk": 1,
+  "fields": {
+    "created": "2020-04-17T18:22:02.008",
+    "specification": "\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430 \u043f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0434\u043b\u044f \u043f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0441\u0447\u0435\u0442\u0430 \u043f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0430 \n\u0437\u0430 1,000 \u0433/\u0441\u043c3. \u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043d\u0430\u044f \u0434\u043e\u043f\u0438\u0441\u044c",
+    "id_tare": 1,
+    "id_product": 37,
+    "calc_amount": 77.0,
+    "calc_losses": 98.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 2,
+  "fields": {
+    "created": "2020-04-17T18:22:02.008",
+    "specification": "1213",
+    "id_tare": 1,
+    "id_product": 36,
+    "calc_amount": 5000.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 3,
+  "fields": {
+    "created": "2020-04-17T18:22:07.605",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 1,35-1,40 \u0433/\u0441\u043c3.",
+    "id_tare": 2,
+    "id_product": 40,
+    "calc_amount": 1000.0,
+    "calc_losses": 1.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 4,
+  "fields": {
+    "created": "2020-04-17T18:22:00.552",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 1,03 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 35,
+    "calc_amount": 1000.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 5,
+  "fields": {
+    "created": "2020-04-17T18:22:03.233",
+    "specification": "\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430 \u043f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0434\u043b\u044f \u043f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0441\u0447\u0435\u0442\u0430 \u043f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0430 \r\n\u0437\u0430 1,000 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 34,
+    "calc_amount": 9.0,
+    "calc_losses": 55.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 6,
+  "fields": {
+    "created": "2020-04-17T18:21:57.961",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1000.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 7,
+  "fields": {
+    "created": "2020-04-17T18:22:04.295",
+    "specification": "\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430 \u043f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430, \u043f\u043e\u044d\u0442\u043e\u043c\u0443 \u0434\u043b\u044f \u043f\u0440\u0438\u0431\u043b\u0438\u0437\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0441\u0447\u0435\u0442\u0430 \u043f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0438\u043d\u044f\u0442\u0430 \r\n\u0437\u0430 1,000 \u0433/\u0441\u043c3.\r\n",
+    "id_tare": 2,
+    "id_product": 37,
+    "calc_amount": 1000.0,
+    "calc_losses": 3.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 8,
+  "fields": {
+    "created": "2020-04-17T18:22:06.497",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 1,35-1,40 \u0433/\u0441\u043c3.",
+    "id_tare": 2,
+    "id_product": 38,
+    "calc_amount": 1000.0,
+    "calc_losses": 5.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 24,
+  "fields": {
+    "created": "2020-04-20T15:08:16.477",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 25,
+  "fields": {
+    "created": "2020-04-20T15:11:01.792",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 26,
+  "fields": {
+    "created": "2020-04-20T15:12:40.392",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 27,
+  "fields": {
+    "created": "2020-04-20T15:29:01.225",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 28,
+  "fields": {
+    "created": "2020-04-20T15:31:34.660",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 29,
+  "fields": {
+    "created": "2020-04-20T15:32:37.699",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 30,
+  "fields": {
+    "created": "2020-04-20T15:33:11.618",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 1.0,
+    "calc_losses": 2.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 31,
+  "fields": {
+    "created": "2020-04-20T15:35:34.927",
+    "specification": "\u041f\u043b\u043e\u0442\u043d\u043e\u0441\u0442\u044c \u043f\u0440\u0435\u043f\u0430\u0440\u0430\u0442\u0430 0,8-0,9 \u0433/\u0441\u043c3.",
+    "id_tare": 1,
+    "id_product": 39,
+    "calc_amount": 5555.0,
+    "calc_losses": 23236.0,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 33,
+  "fields": {
+    "created": "2020-04-27T16:59:00.055",
+    "specification": "\u0422\u0435\u043a\u0441\u0442 \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438: \u0422\u0423, \u0413\u041e\u0421\u0422, \u0434\u043e\u0437\u0438\u0440\u043e\u0432\u043a\u0430 \u0438 \u043c\u0430\u0440\u043a\u0438\u0440\u043e\u0432\u043a\u0430",
+    "id_tare": 1,
+    "id_product": 35,
+    "calc_amount": 212.12,
+    "calc_losses": 212.21,
+    "is_active": true
+  }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 34,
+  "fields": {
+    "created": "2020-04-28T09:22:55.323",
+    "specification": "\u0422\u0435\u043a\u0441\u0442 \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438: \u0422\u0423, \u0413\u041e\u0421\u0422, \u0434\u043e\u0437\u0438\u0440\u043e\u0432\u043a\u0430 \u0438 \u043c\u0430\u0440\u043a\u0438\u0440\u043e\u0432\u043a\u0430",
+    "id_tare": 1,
+    "id_product": 35,
+    "calc_amount": 100.34,
+    "calc_losses": 10.2,
+    "is_active": true
+  }
+}
+]

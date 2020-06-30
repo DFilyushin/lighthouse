@@ -1,0 +1,164 @@
+[
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 1,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 1
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 2,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 2
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 3,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 3
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 4,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 4
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 6,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 1,
+    "tare_count": 2200
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 7,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 1
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 8,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 2
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 9,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 3
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 10,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 5,
+    "tare_count": 4
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 11,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 1,
+    "tare_count": 100
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 12,
+  "fields": {
+    "id_manufacture": 117,
+    "id_tare": 1,
+    "tare_count": 2200
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 19,
+  "fields": {
+    "id_manufacture": 93,
+    "id_tare": 5,
+    "tare_count": 100
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 20,
+  "fields": {
+    "id_manufacture": 93,
+    "id_tare": 5,
+    "tare_count": 400
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 21,
+  "fields": {
+    "id_manufacture": 93,
+    "id_tare": 5,
+    "tare_count": 999
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 45,
+  "fields": {
+    "id_manufacture": 108,
+    "id_tare": 5,
+    "tare_count": 70
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 46,
+  "fields": {
+    "id_manufacture": 108,
+    "id_tare": 1,
+    "tare_count": 12
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 47,
+  "fields": {
+    "id_manufacture": 114,
+    "id_tare": 1,
+    "tare_count": 1
+  }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 48,
+  "fields": {
+    "id_manufacture": 114,
+    "id_tare": 2,
+    "tare_count": 2
+  }
+}
+]

@@ -1,0 +1,44 @@
+[
+{
+  "model": "lighthouse.materialunit",
+  "pk": 0,
+  "fields": {
+    "name": "\u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u043e"
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 1,
+  "fields": {
+    "name": "\u043a\u0433"
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 2,
+  "fields": {
+    "name": "\u043b."
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 6,
+  "fields": {
+    "name": "\u0444\u0443\u043d\u0442."
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 8,
+  "fields": {
+    "name": "\u0442."
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 9,
+  "fields": {
+    "name": "\u0446."
+  }
+}
+]
