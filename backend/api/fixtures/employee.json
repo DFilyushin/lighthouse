@@ -17,7 +17,8 @@
     "contact_phone": "+7 966 56232013",
     "contact_email": "mahova@mail.au",
     "id_staff": 1,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -38,7 +39,8 @@
     "contact_phone": "+7 701 2557971",
     "contact_email": "m@mail.ru",
     "id_staff": 7,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -59,7 +61,8 @@
     "contact_phone": "+7 701 1453676",
     "contact_email": "m@mail.ru",
     "id_staff": 6,
-    "fired": "2020-04-01"
+    "fired": "2020-04-01",
+    "userId": null
   }
 },
 {
@@ -80,7 +83,8 @@
     "contact_phone": "+7 701 8881726",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -101,7 +105,8 @@
     "contact_phone": "+7 701 8114160",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -122,7 +127,8 @@
     "contact_phone": "+7 701 6438370",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -143,7 +149,8 @@
     "contact_phone": "+7 701 7431373",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -164,7 +171,8 @@
     "contact_phone": "+7 701 9417661",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -185,7 +193,8 @@
     "contact_phone": "+7 701 5314982",
     "contact_email": "m@mail.ru",
     "id_staff": 2,
-    "fired": null
+    "fired": null,
+    "userId": 1
   }
 },
 {
@@ -206,7 +215,8 @@
     "contact_phone": "+7 701 8237680",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -227,7 +237,8 @@
     "contact_phone": "+7 701 9296433",
     "contact_email": "m@mail.ru",
     "id_staff": 5,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -248,7 +259,8 @@
     "contact_phone": "+7 701 9583995",
     "contact_email": "m@mail.ru",
     "id_staff": 2,
-    "fired": "2020-04-09"
+    "fired": "2020-04-09",
+    "userId": null
   }
 },
 {
@@ -269,7 +281,8 @@
     "contact_phone": "+7 701 9309634",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -290,7 +303,8 @@
     "contact_phone": "+7 701 1834910",
     "contact_email": "m@mail.ru",
     "id_staff": 3,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -311,7 +325,8 @@
     "contact_phone": "+7 701 8292701",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": "2020-04-10"
+    "fired": "2020-04-10",
+    "userId": null
   }
 },
 {
@@ -332,7 +347,8 @@
     "contact_phone": "+7 701 3315513",
     "contact_email": "m@mail.ru",
     "id_staff": 8,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -353,7 +369,8 @@
     "contact_phone": "+7 701 5607803",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -374,7 +391,8 @@
     "contact_phone": "+7 701 5307717",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -395,7 +413,8 @@
     "contact_phone": "+7 701 9744371",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": "2020-05-14"
+    "fired": "2020-05-14",
+    "userId": null
   }
 },
 {
@@ -416,7 +435,8 @@
     "contact_phone": "+7 701 7772662",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -437,7 +457,8 @@
     "contact_phone": "+7 701 1977077",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -458,7 +479,8 @@
     "contact_phone": "+7 701 1315868",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": "2020-01-02"
+    "fired": "2020-01-02",
+    "userId": null
   }
 },
 {
@@ -479,7 +501,8 @@
     "contact_phone": "+7 701 4585795",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -500,7 +523,8 @@
     "contact_phone": "+7 701 8410470",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -521,7 +545,8 @@
     "contact_phone": "+7 701 7772662",
     "contact_email": "m@mail.ru",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -542,7 +567,8 @@
     "contact_phone": "+7 966 56232013",
     "contact_email": "mahova@mail.au",
     "id_staff": 0,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -563,7 +589,8 @@
     "contact_phone": "+7 966 56232013",
     "contact_email": "mahova@mail.au",
     "id_staff": 1,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -584,7 +611,8 @@
     "contact_phone": "+7 966 56232013",
     "contact_email": "mahova@mail.au",
     "id_staff": 1,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 },
 {
@@ -605,7 +633,8 @@
     "contact_phone": "+7 966 56232013",
     "contact_email": "mahova@mail.au",
     "id_staff": 1,
-    "fired": null
+    "fired": null,
+    "userId": null
   }
 }
 ]
