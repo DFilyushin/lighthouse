@@ -18,7 +18,8 @@ python manage.py dumpdata lighthouse.cost --indent 2 > ./fixtures/cost.json
 
 python manage.py dumpdata lighthouse.productionline --indent 2 > ./fixtures/productionline.json
 python manage.py dumpdata lighthouse.manufacture --indent 2 > ./fixtures/manufacture.json
-python manage.py dumpdata lighthouse.prodcalc --indent 2 > ./fixtures/prodteam.json
+python manage.py dumpdata lighthouse.prodcalc --indent 2 > ./fixtures/prodcalc.json
+python manage.py dumpdata lighthouse.prodteam --indent 2 > ./fixtures/prodteam.json
 python manage.py dumpdata lighthouse.prodreadyproduct --indent 2 > ./fixtures/prodreadyproduct.json
 
 python manage.py dumpdata lighthouse.client --indent 2 > ./fixtures/client.json
