@@ -14,13 +14,35 @@ echo "Create super user"
 python manage.py createadmin
 
 echo "Initial store"
-python manage.py loaddata ./fixtures/ref_unit.json
-python manage.py loaddata ./fixtures/ref_cost.json
-python manage.py loaddata ./fixtures/ref_org.json
-python manage.py loaddata ./fixtures/ref_type_material.json
+python manage.py loaddata ./fixtures/user.json
+python manage.py loaddata ./fixtures/group.json
+python manage.py loaddata ./fixtures/user_groups.json
+
+python manage.py loaddata ./fixtures/materialunit.json
+python manage.py loaddata ./fixtures/tare.json
+python manage.py loaddata ./fixtures/material.json
+python manage.py loaddata ./fixtures/formula.json
+python manage.py loaddata ./fixtures/formulacomp.json
+
+python manage.py loaddata ./fixtures/org.json
 python manage.py loaddata ./fixtures/department.json
 python manage.py loaddata ./fixtures/staff.json
 python manage.py loaddata ./fixtures/employee.json
+
+python manage.py loaddata ./fixtures/refcost.json
+python manage.py loaddata ./fixtures/cost.json
+
+python manage.py loaddata ./fixtures/productionline.json
+python manage.py loaddata ./fixtures/manufacture.json
+python manage.py loaddata ./fixtures/prodteam.json
+python manage.py loaddata ./fixtures/prodcalc.json
+python manage.py loaddata ./fixtures/prodreadyproduct.json
+
 python manage.py loaddata ./fixtures/client.json
+python manage.py loaddata ./fixtures/contract.json
+python manage.py loaddata ./fixtures/contractspec.json
+python manage.py loaddata ./fixtures/claim.json
+python manage.py loaddata ./fixtures/claimhistory.json
+
 echo "Starting server"
 gunicorn -w 3 api.wsgi -b 0.0.0.0:8000
