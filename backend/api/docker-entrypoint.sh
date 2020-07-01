@@ -18,6 +18,7 @@ python manage.py loaddata ./fixtures/user.json
 python manage.py loaddata ./fixtures/group.json
 python manage.py loaddata ./fixtures/user_groups.json
 
+python manage.py loaddata ./fixtures/refmaterialtype.json
 python manage.py loaddata ./fixtures/materialunit.json
 python manage.py loaddata ./fixtures/tare.json
 python manage.py loaddata ./fixtures/material.json
