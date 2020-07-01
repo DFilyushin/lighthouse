@@ -2,7 +2,6 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .manufacture import Material
 from .store import RefCost, Cost, Store, REF_COST_PARENT_RAW
-from .support import *
 
 
 @receiver(post_save, sender=Material)
@@ -14,6 +13,8 @@ def material_post_save_handler(sender, **kwargs):
     :param kwargs: ...created, instance
     :return:
     """
+    if kwargs['raw']:
+        return
     if kwargs.get('created', False):
         inst = kwargs['instance']
         RefCost.objects.create(
@@ -32,6 +33,8 @@ def cost_post_save_handler(sender, **kwargs):
     :param kwargs: ...created, instance
     :return:
     """
+    if kwargs['raw']:
+        return
     if not kwargs.get('created', False):
         instance = kwargs['instance']
         if instance.id_cost.id_raw is not None:
