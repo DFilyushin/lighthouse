@@ -6,7 +6,10 @@ from .serializer_domain import EmployeeListSerializer, Employee
 
 class GroupListSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
-    description = serializers.CharField()
+    description = serializers.SerializerMethodField()
+
+    def get_description(self, obj):
+        return obj.name
 
     class Meta:
         model = Group

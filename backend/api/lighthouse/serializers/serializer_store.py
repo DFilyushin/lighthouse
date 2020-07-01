@@ -146,7 +146,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
         data_mapping = {item['id']: item for item in validated_data['get_raw_in_formula']}
 
         for item in validated_data['get_raw_in_formula']:
-            if item['id'] == 0:
+            if item['id'] <= 0:
                 FormulaComp.objects.create(
                     id_raw_id=item['id_raw']['id'],
                     id_formula_id=instance.id,
