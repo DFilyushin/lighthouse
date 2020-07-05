@@ -93,4 +93,13 @@ export default class AuthenticationService {
         const tokenObject = parseJwt(token);
         return tokenObject.user_id
     }
+
+    /**
+     * Список доступных групп
+     */
+    static getUserGroups(){
+        const token = localStorage.getItem('token') || '';
+        const tokenObject = parseJwt(token);
+        return tokenObject.groups
+    }
 }
