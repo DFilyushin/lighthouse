@@ -22,7 +22,7 @@ class UserLoginSerializer(serializers.Serializer):
             )
         try:
             payload = JWT_PAYLOAD_HANDLER(user)
-            payload['groups'] = ('1111', '2222', '9999')
+            payload['groups'] = [x.name for x in user.groups.all()]
             payload['lastName'] = user.last_name
             payload['firstName'] = user.first_name
             jwt_token = JWT_ENCODE_HANDLER(payload)
