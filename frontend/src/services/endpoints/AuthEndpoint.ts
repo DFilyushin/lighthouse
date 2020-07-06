@@ -14,7 +14,7 @@ class AuthEndpoint {
      * Обновить токен
      */
     static getUpdateToken(){
-        return `${BaseAPIEndpoint.getBaseURL()}/api/refresh_token`;
+        return `${BaseAPIEndpoint.getBaseURL()}/api/refresh_token/`;
     }
 
 }
