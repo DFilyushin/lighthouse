@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors } from '@material-ui/core';
+import {colors} from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
@@ -13,7 +13,16 @@ import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import WidgetsOutlinedIcon from '@material-ui/icons/WidgetsOutlined';
-import { Label } from 'components';
+import {Label} from 'components';
+import {
+    GROUP_ADMIN,
+    GROUP_ALL,
+    GROUP_BOSS,
+    GROUP_FACTORY,
+    GROUP_FINANCE,
+    GROUP_MANAGER,
+    GROUP_REPORT
+} from "utils/AppConst";
 
 export default [
     {
@@ -22,7 +31,8 @@ export default [
             {
                 title: 'Монитор дел',
                 href: '/dashboard',
-                icon: DashboardIcon
+                icon: DashboardIcon,
+                access: [GROUP_ALL]
             },
             {
                 title: 'Справочники',
@@ -57,27 +67,32 @@ export default [
                         title: 'Затраты',
                         href: '/catalogs/cost'
                     }
-                ]
+                ],
+                access: [GROUP_ADMIN]
             },
             {
                 title: 'Клиенты',
                 href: '/clients',
-                icon: GroupOutlinedIcon
+                icon: GroupOutlinedIcon,
+                access: [GROUP_MANAGER, GROUP_BOSS, GROUP_ADMIN]
             },
             {
                 title: 'Контракты',
                 href: '/contracts',
-                icon: WorkOutlineOutlinedIcon
+                icon: WorkOutlineOutlinedIcon,
+                access: [GROUP_MANAGER, GROUP_BOSS, GROUP_ADMIN]
             },
             {
                 title: 'Производство',
                 href: '/factory',
-                icon: DomainOutlinedIcon
+                icon: DomainOutlinedIcon,
+                access: [GROUP_FACTORY, GROUP_BOSS, GROUP_ADMIN]
             },
             {
                 title: 'Затраты',
                 href: '/expense',
-                icon: AccountBalanceWalletOutlinedIcon
+                icon: AccountBalanceWalletOutlinedIcon,
+                access: [GROUP_ADMIN, GROUP_FINANCE]
             },
             {
                 title: 'Склад',
@@ -100,7 +115,8 @@ export default [
                         title: 'Резерв продукции',
                         href: '/store/reserve'
                     }
-                ]
+                ],
+                access: [GROUP_ADMIN, GROUP_FINANCE]
             },
             {
                 title: 'Организация',
@@ -123,9 +139,11 @@ export default [
                         title: 'Сотрудники',
                         href: '/org/employee'
                     }
-                ]
+                ],
+                access: [GROUP_ADMIN, GROUP_BOSS, GROUP_FINANCE]
             }
-        ]
+        ],
+        access: [GROUP_ADMIN, GROUP_MANAGER, GROUP_FACTORY]
     },
     {
         title: 'Отчётность',
@@ -133,19 +151,23 @@ export default [
             {
                 title: 'Заключенные договоры',
                 href: '/report/contracts',
-                icon: EqualizerOutlinedIcon
+                icon: EqualizerOutlinedIcon,
+                access: [GROUP_REPORT, GROUP_MANAGER]
             },
             {
                 title: 'Продажи',
                 href: '/report/sales',
-                icon: EqualizerOutlinedIcon
+                icon: EqualizerOutlinedIcon,
+                access: [GROUP_REPORT, GROUP_MANAGER]
             },
             {
-                title: 'Производство',
+                title: 'Производство готовой продукции',
                 href: '/report/production',
-                icon: EqualizerOutlinedIcon
+                icon: EqualizerOutlinedIcon,
+                access: [GROUP_REPORT, GROUP_FACTORY]
             }
-        ]
+        ],
+        access: [GROUP_ADMIN, GROUP_FACTORY, GROUP_MANAGER, GROUP_REPORT]
     },
     {
         title: 'Администрирование',
@@ -153,14 +175,17 @@ export default [
             {
                 title: 'Пользователи',
                 href: '/admin/users',
-                icon: PeopleIcon
+                icon: PeopleIcon,
+                access: []
             },
             {
                 title: 'Настройки',
                 href: '/setup',
-                icon: SettingsIcon
+                icon: SettingsIcon,
+                access: []
             }
-        ]
+        ],
+        access: [GROUP_ADMIN]
     },
     {
         title: 'Приложение',
@@ -168,14 +193,17 @@ export default [
             {
                 title: 'О приложении',
                 href: '/about',
-                icon: InfoOutlinedIcon
+                icon: InfoOutlinedIcon,
+                access: []
             },
             {
                 title: 'Изменения',
                 href: '/changelog',
+                access: [],
                 icon: NewReleasesOutlinedIcon,
                 label: () => <Label color={colors.blue['500']}>v20.05</Label>
             }
-        ]
+        ],
+        access: [GROUP_ALL]
     }
 ];

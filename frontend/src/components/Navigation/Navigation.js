@@ -8,6 +8,7 @@ import { List, Typography } from '@material-ui/core';
 
 import useRouter from 'utils/useRouter';
 import { NavigationListItem } from './components';
+import {GROUP_ALL} from "../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,12 +17,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NavigationList = props => {
-  const { pages, ...rest } = props;
+  const { pages, groups, ...rest } = props;
 
   return (
     <List>
       {pages.reduce(
-        (items, page) => reduceChildRoutes({ items, page, ...rest }),
+        (items, page) => reduceChildRoutes({ items, page, groups, ...rest }),
         []
       )}
     </List>
@@ -30,11 +31,20 @@ const NavigationList = props => {
 
 NavigationList.propTypes = {
   depth: PropTypes.number,
-  pages: PropTypes.array
+  pages: PropTypes.array,
+  groups: PropTypes.array
 };
 
 const reduceChildRoutes = props => {
-  const { router, items, page, depth } = props;
+  const { router, items, page, depth, groups } = props;
+
+  // отсутствие свойства access говорит о том, что наследуется верхний уровень прав
+  const isAllAccess = !page.hasOwnProperty('access') || page.access.includes(GROUP_ALL) || page.access.length === 0
+  const isMenuIntersectGroups = !page.hasOwnProperty('access') || !!page.access.filter( (item) => groups.includes(item)).length;
+  const isAccess = isAllAccess || isMenuIntersectGroups
+
+  if (!isAccess) { return items }
+  console.log(page.title, isAccess)
 
   if (page.children) {
     const open = matchPath(router.location.pathname, {
@@ -75,7 +85,7 @@ const reduceChildRoutes = props => {
 };
 
 const Navigation = props => {
-  const { title, pages, className, component: Component, ...rest } = props;
+  const { title, pages, className, component: Component, groups, ...rest } = props;
 
   const classes = useStyles();
   const router = useRouter();
@@ -85,11 +95,15 @@ const Navigation = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      {title && <Typography variant="overline">{title}</Typography>}
+      {
+        title &&
+        <Typography variant="overline">{title}</Typography>
+      }
       <NavigationList
         depth={0}
         pages={pages}
         router={router}
+        groups={groups}
       />
     </Component>
   );
@@ -99,7 +113,8 @@ Navigation.propTypes = {
   className: PropTypes.string,
   component: PropTypes.any,
   pages: PropTypes.array.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
+  groups: PropTypes.array.isRequired
 };
 
 Navigation.defaultProps = {

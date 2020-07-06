@@ -53,6 +53,7 @@ const Main = (props: IMainProps) => {
     };
     const [open, setOpen] = React.useState(false);
     const [openSidebar, setOpenSidebar] = useState(false);
+    const userGroups =  AuthenticationService.getUserGroups()
 
     const handleSidebarOpen = () => {
         setOpenSidebar(true);
@@ -90,6 +91,7 @@ const Main = (props: IMainProps) => {
             <Topbar onSidebarOpen={handleSidebarOpen} onSignout={handleSignout} />
             <Sidebar
                 onClose={handleSidebarClose}
+                groups={userGroups}
                 open={shouldOpenSidebar}
                 variant={isDesktop ? 'persistent' : 'temporary'}
             />

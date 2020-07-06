@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 interface ISidebar {
   open: boolean,
+  groups: string [],
   variant: 'permanent' | 'persistent' | 'temporary',
   onClose: any,
   className?: string,
@@ -51,7 +52,7 @@ interface ISidebar {
 }
 
 const Sidebar = (props:ISidebar) => {
-  const { open, variant, onClose, className, ...rest } = props;
+  const { open, groups, variant, onClose, className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -75,14 +76,22 @@ const Sidebar = (props:ISidebar) => {
         <Divider className={classes.divider} />
 
         <nav className={classes.navigation}>
-          {navigationConfig.map(list => (
+          {navigationConfig.map(list => {
+            const isAllAccess = list.access.includes('all')
+            const isMenuIntersectGroups = !!list.access.filter( (item) => groups.includes(item)).length;
+            const isAccess = isAllAccess || isMenuIntersectGroups
+            return isAccess  ?
+            (
               <Navigation
                   component="div"
                   key={list.title}
                   pages={list.pages}
                   title={list.title}
+                  groups={groups}
               />
-          ))}
+            ) :  null
+          }
+            )}
         </nav>
         </div>
       </div>
