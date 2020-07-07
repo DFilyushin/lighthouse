@@ -81,3 +81,20 @@ class ContractViewSet(viewsets.ModelViewSet):
                 .annotate(sum=Sum(F('item_price')*F('item_count')))
         else:
             return Contract.objects.filter(deleted=False)
+
+
+class PaymentMethodViewSet(viewsets.ModelViewSet):
+    """Методы платежей"""
+    queryset =  PaymentMethod.objects.all()
+    search_fields = ['name']
+    filter_backends =  (filters.SearchFilter, )
+    serializer_class = PaymentMethodSerializer
+
+
+class PaymentViewSet(viewsets.ModelViewSet):
+    """Оплаты по контрактам"""
+    queryset = Payment.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return PaymentListSerializer

@@ -33,6 +33,8 @@ router.register(r'prodline', api_prod_views.ProductionLineView)
 # Продажи
 router.register(r'client', api_sales_views.ClientViewSet)
 router.register(r'contract', api_sales_views.ContractViewSet)
+router.register(r'paymethod', api_sales_views.PaymentMethodViewSet)
+router.register(r'payment', api_sales_views.PaymentViewSet)
 
 # Структура организации
 router.register(r'department', api_domain_views.DepartmentViewSet)

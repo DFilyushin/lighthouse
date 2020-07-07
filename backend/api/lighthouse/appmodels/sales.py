@@ -142,12 +142,23 @@ class ClaimHistory(models.Model):
         ]
 
 
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Тип оплаты')
+
+    class Meta:
+        verbose_name = 'Метод оплаты'
+        verbose_name_plural = 'Методы оплаты'
+        indexes = [
+            models.Index(fields=['name'], name='idx_payment_method_name')
+        ]
+
+
 class Payment(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
     id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
     pay_date = models.DateField(null=False, verbose_name='Дата оплаты')
     pay_num = models.CharField(max_length=20, verbose_name='Номер документа')
-    pay_type = models.SmallIntegerField(verbose_name='Тип оплаты')
+    pay_type = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE, verbose_name='Тип оплаты')
     pay_value = models.FloatField(default=0, verbose_name='Сумма оплаты')
 
     class Meta:

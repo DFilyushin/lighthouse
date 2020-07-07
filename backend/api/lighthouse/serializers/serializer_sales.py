@@ -1,6 +1,6 @@
 from lighthouse.appmodels.manufacture import Material, Tare, Formula, FormulaComp
 from lighthouse.appmodels.org import Employee, Staff, Org
-from lighthouse.appmodels.sales import Client, Contract, ContractSpec
+from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment
 from .serializer_store import ProductSerializer, TareSerializer
 from .serializer_domain import EmployeeListSerializer
 from rest_framework import serializers
@@ -81,8 +81,18 @@ class ClientSimpleList(serializers.ModelSerializer):
         fields = ('id', 'clientName')
 
 
+class ContractSimpleSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    num = serializers.CharField()
+    date = serializers.DateField(source='contract_date')
+
+    class Meta:
+        model = Contract
+        fields = ('id', 'num', 'date')
+
+
 class ContractListSerializer(serializers.ModelSerializer):
-    """Контракты (список)"""
+    """Контракты в договоре (список)"""
     id = serializers.IntegerField(source='id_contract__id')
     num = serializers.CharField(source='id_contract__num')
     clientName = serializers.CharField(source='id_contract__id_client__clientname')
@@ -149,3 +159,34 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
                   'delivered', 'discount', 'contractId', 'agent', 'specs')
+
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    """Метод оплаты"""
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data['name']
+        instance.save()
+        return instance
+
+    class Meta:
+        model = PaymentMethod
+        fields = ('id', 'name')
+
+
+class PaymentListSerializer(serializers.ModelSerializer):
+    """Оплаты"""
+    id = serializers.IntegerField()
+    created = serializers.DateTimeField()
+    contract = ContractSimpleSerializer(source='id_contract')
+    client = serializers.CharField(source='id_contract.id_client.clientname')
+    date = serializers.DateField(source='pay_date')
+    num = serializers.CharField(source='pay_num')
+    type = serializers.CharField(source='pay_type.name')
+    value = serializers.FloatField(source='pay_value')
+
+    class Meta:
+        model = Payment
+        fields = ('id', 'created', 'contract', 'client', 'date', 'num', 'type', 'value')
