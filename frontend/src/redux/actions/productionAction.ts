@@ -26,6 +26,7 @@ import {
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 
 /**
@@ -70,29 +71,33 @@ export function loadProductionCards(startPeriod: string, endPeriod: string, find
  */
 export function loadProductionCard(id: number) {
     return async (dispatch: any, getState: any) => {
-        let item: IProduction = nullProduction;
-        dispatch(startLoading());
-        try{
-            const response = await axios.get(ProductionEndpoint.getProductionCard(id));
-            item.id = response.data['id'];
-            item.comment = response.data['comment'];
-            item.calcValue = response.data['calcValue'];
-            item.curState = response.data['curState'];
-            item.created = response.data['created'];
-            item.prodStart = response.data['prodStart'];
-            item.prodFinish = response.data['prodFinish'];
-            item.lossValue = response.data['lossValue'];
-            item.outValue = response.data['outValue'];
-            item.product = response.data['product'];
-            item.teamLeader = response.data['teamLeader'];
-            item.creator = response.data['creator'];
-            item.prodLine = response.data['prodLine'];
-            item.idFormula = response.data['idFormula'];
+        let item: IProduction = {...nullProduction};
+        if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadCardItem(item))
-        }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()));
+        }else {
+            dispatch(startLoading());
+            try {
+                const response = await axios.get(ProductionEndpoint.getProductionCard(id));
+                item.id = response.data['id'];
+                item.comment = response.data['comment'];
+                item.calcValue = response.data['calcValue'];
+                item.curState = response.data['curState'];
+                item.created = response.data['created'];
+                item.prodStart = response.data['prodStart'];
+                item.prodFinish = response.data['prodFinish'];
+                item.lossValue = response.data['lossValue'];
+                item.outValue = response.data['outValue'];
+                item.product = response.data['product'];
+                item.teamLeader = response.data['teamLeader'];
+                item.creator = response.data['creator'];
+                item.prodLine = response.data['prodLine'];
+                item.idFormula = response.data['idFormula'];
+                dispatch(successLoadCardItem(item))
+            } catch (e) {
+                dispatch(showInfoMessage('error', e.toString()));
+            }
+            dispatch(endLoading())
         }
-        dispatch(endLoading())
     }
 }
 

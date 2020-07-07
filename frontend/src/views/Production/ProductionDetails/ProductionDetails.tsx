@@ -489,11 +489,10 @@ const getCard = () => {
         // if (canRedirect) { return <Redirect to='/factory/'/> }
         return (
             <Card className={className}>
-
                 <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader={getCardState(productionItem.curState)}
-                        title={`Производственная карта #${productionItem.id}`}
+                        title={ idProduction === NEW_RECORD_VALUE ? 'Новая производственная карта' : `Производственная карта #${productionItem.id}`}
                         avatar={<ProductionStateIcon stateIndex={productionItem.curState}/>}
                         action={
                             <IconButton aria-label="settings" aria-controls="simple-menu" onClick={cardMenuButtonClick}>
