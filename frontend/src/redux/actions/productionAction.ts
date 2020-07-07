@@ -133,26 +133,30 @@ export function deleteProductionCard(id: number) {
 export function getProductionTeam(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
-        dispatch(startLoading());
-        try {
-            const url = ProductionEndpoint.getProductionTeam(id);
-            const items: IProductionTeam[] = [];
-            const response = await axios.get(url);
-            Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    manufactureId: id,
-                    employee: response.data[key]['employee'],
-                    periodStart: response.data[key]['periodStart'],
-                    periodEnd: response.data[key]['periodEnd']
-                })
-            });
-            dispatch(successLoadTeam(items))
-        } catch (e) {
-            const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
-            dispatch(showInfoMessage('error', errMessage));
+        if (id === NEW_RECORD_VALUE){
+            dispatch(successLoadTeam([]))
+        }else {
+            dispatch(startLoading());
+            try {
+                const url = ProductionEndpoint.getProductionTeam(id);
+                const items: IProductionTeam[] = [];
+                const response = await axios.get(url);
+                Object.keys(response.data).forEach((key, index) => {
+                    items.push({
+                        id: response.data[key]['id'],
+                        manufactureId: id,
+                        employee: response.data[key]['employee'],
+                        periodStart: response.data[key]['periodStart'],
+                        periodEnd: response.data[key]['periodEnd']
+                    })
+                });
+                dispatch(successLoadTeam(items))
+            } catch (e) {
+                const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
+                dispatch(showInfoMessage('error', errMessage));
+            }
+            dispatch(endLoading())
         }
-        dispatch(endLoading())
     }
 }
 
@@ -163,26 +167,30 @@ export function getProductionTeam(id: number) {
 export function getProductionCalc(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
-        dispatch(startLoading());
-        try {
-            const url = ProductionEndpoint.getProductionCalc(id);
-            const items: IProductionCalc[] = [];
-            const response = await axios.get(url);
-            Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    manufactureId: id,
-                    raw: response.data[key]['raw'],
-                    calcValue: response.data[key]['calcValue']
-                })
-            });
-            console.log('successLoadCardCalc')
-            dispatch(successLoadCardCalc(items))
-        } catch (e) {
-            const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
-            dispatch(showInfoMessage('error', errMessage));
+        if (id === NEW_RECORD_VALUE){
+            dispatch(successLoadCardCalc([]))
+        }else {
+            dispatch(startLoading());
+            try {
+                const url = ProductionEndpoint.getProductionCalc(id);
+                const items: IProductionCalc[] = [];
+                const response = await axios.get(url);
+                Object.keys(response.data).forEach((key, index) => {
+                    items.push({
+                        id: response.data[key]['id'],
+                        manufactureId: id,
+                        raw: response.data[key]['raw'],
+                        calcValue: response.data[key]['calcValue']
+                    })
+                });
+                console.log('successLoadCardCalc')
+                dispatch(successLoadCardCalc(items))
+            } catch (e) {
+                const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
+                dispatch(showInfoMessage('error', errMessage));
+            }
+            dispatch(endLoading())
         }
-        dispatch(endLoading())
     }
 }
 
@@ -193,26 +201,30 @@ export function getProductionCalc(id: number) {
 export function getProductionTare(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
-        dispatch(startLoading());
-        try {
-            const url = ProductionEndpoint.getProductionTare(id);
-            const items: IProductionTare[] = [];
-            const response = await axios.get(url);
-            Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    tareId: response.data[key]['tareId'],
-                    tareName: response.data[key]['tareName'],
-                    tareV: response.data[key]['tareV'],
-                    count: response.data[key]['count']
-                })
-            });
-            dispatch(successLoadCardTare(items))
-        } catch (e) {
-            const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
-            dispatch(showInfoMessage('error', errMessage));
+        if (id === NEW_RECORD_VALUE) {
+            dispatch(successLoadCardTare([]))
+        }else {
+            dispatch(startLoading());
+            try {
+                const url = ProductionEndpoint.getProductionTare(id);
+                const items: IProductionTare[] = [];
+                const response = await axios.get(url);
+                Object.keys(response.data).forEach((key, index) => {
+                    items.push({
+                        id: response.data[key]['id'],
+                        tareId: response.data[key]['tareId'],
+                        tareName: response.data[key]['tareName'],
+                        tareV: response.data[key]['tareV'],
+                        count: response.data[key]['count']
+                    })
+                });
+                dispatch(successLoadCardTare(items))
+            } catch (e) {
+                const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
+                dispatch(showInfoMessage('error', errMessage));
+            }
+            dispatch(endLoading())
         }
-        dispatch(endLoading())
     }
 }
 
