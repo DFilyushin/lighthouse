@@ -8,6 +8,13 @@ import { DefaultToolbar} from 'components';
 import SnackBarAlert from 'components/SnackBarAlert';
 import {deleteFormula, loadFormula} from "redux/actions/formulaAction";
 import { useConfirm } from "material-ui-confirm";
+import {
+    DIALOG_ASK_DELETE,
+    DIALOG_CANCEL_TEXT,
+    DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES
+} from "../../../utils/AppConst";
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,10 +56,10 @@ const FormulaList = () => {
     function onDeleteHandle() {
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранную запись?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
         ).then(() =>
             selected.forEach(async (item, i, selected) => {

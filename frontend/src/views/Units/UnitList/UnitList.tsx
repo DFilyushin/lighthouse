@@ -8,7 +8,7 @@ import { DefaultToolbar} from 'components';
 import {IStateInterface} from "redux/rootReducer";
 import {loadUnit, deleteItem} from "redux/actions/unitAction";
 import { useConfirm } from "material-ui-confirm";
-import {DIALOG_NO, DIALOG_YES} from "utils/AppConst";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,8 +41,8 @@ const UnitList = () => {
     function onDeleteHandle() {
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранные записи?.`,
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
             }

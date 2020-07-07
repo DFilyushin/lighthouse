@@ -32,7 +32,7 @@ import Typography from "@material-ui/core/Typography";
 import {loadRaws} from "redux/actions/rawAction";
 import {useDialog} from "components/SelectDialog";
 import {IRawInFormula} from "../../../types/model/formula";
-import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 import {showInfoMessage} from "../../../redux/actions/infoAction";
 
 interface IFormulaItemProps {
@@ -141,10 +141,10 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const handleDeleteRawItem = (id: number)=>{
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранную запись?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
             ).then(() =>
             dispatch(deleteRawItem(id))

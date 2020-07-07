@@ -8,6 +8,7 @@ import { DefaultToolbar} from 'components';
 import {deleteTare, loadTare} from "redux/actions/tareAction";
 import {IStateInterface} from "redux/rootReducer";
 import { useConfirm } from "material-ui-confirm";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "utils/AppConst";
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,10 +43,10 @@ const TareList = () => {
     function onDeleteHandle() {
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранные записи?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
         ).then(() =>
             selected.forEach(async (item, i, selected) => {

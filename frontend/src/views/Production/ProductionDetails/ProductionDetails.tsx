@@ -66,7 +66,15 @@ import {ITare} from "types/model/tare";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import {DIALOG_CANCEL_TEXT, DIALOG_NO, DIALOG_SELECT_TEXT, DIALOG_YES, NEW_RECORD_VALUE} from "utils/AppConst";
+import {
+    DIALOG_ASK_DELETE,
+    DIALOG_CANCEL_TEXT,
+    DIALOG_NO,
+    DIALOG_SELECT_TEXT,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES,
+    NEW_RECORD_VALUE
+} from "utils/AppConst";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -200,10 +208,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         if (productionCalc.length > 0) {
             confirm(
                 {
-                    'title': 'Подтверждение',
+                    'title': DIALOG_TYPE_CONFIRM,
                     description: `Добавление автоматической калькуляции удалит имеющиеся записи. Продолжить?.`,
-                    confirmationText:'Да',
-                    cancellationText: 'Нет'
+                    confirmationText: DIALOG_YES,
+                    cancellationText: DIALOG_NO
                 }
             ).then(()=>{dispatch(getAutoCalculation())});
         }else{
@@ -240,8 +248,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleDeleteTeamItem = (id: number)=> {
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранную запись?.`,
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
             }
@@ -253,8 +261,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleDeleteTareItem = (id: number)=> {
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранную запись?.`,
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
             }
@@ -364,8 +372,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleDeleteCalcItem = (id: number) => {
         confirm(
             {
-                'title': 'Подтверждение',
-                description: `Удалить выбранную запись?.`,
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
                 confirmationText:'Да',
                 cancellationText: 'Нет'
             }
