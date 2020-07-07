@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthEndpoint from './endpoints/AuthEndpoint';
-import { parseJwt } from 'utils/AppUtils';
+import {parseJwt} from 'utils/AppUtils';
+import {AccessGroups} from "../utils/AppConst";
 
 
 export default class AuthenticationService {
@@ -101,5 +102,22 @@ export default class AuthenticationService {
         const token = localStorage.getItem('token') || '';
         const tokenObject = parseJwt(token);
         return tokenObject.groups
+    }
+
+    /**
+     * Проверка нахождения групп пользователя в списке проверяемых групп
+     * @param groups Проверяемые группы
+     */
+    static hasGroup(groups: AccessGroups[] | null){
+        if (!groups) {return true}
+        const user_groups = this.getUserGroups()
+        const isAllAccess = Boolean(groups.includes(AccessGroups.ALL))
+        const hasAccess = user_groups.filter( (item: AccessGroups) => groups.includes(item)).length > 0
+
+        console.log('hasGroup', user_groups, groups)
+        console.log('isAllAccess', isAllAccess)
+        console.log('hasAccess', hasAccess)
+
+        return isAllAccess || hasAccess
     }
 }

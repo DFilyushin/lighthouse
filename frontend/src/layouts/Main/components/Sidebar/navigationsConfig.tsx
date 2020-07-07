@@ -14,15 +14,7 @@ import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutline
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import WidgetsOutlinedIcon from '@material-ui/icons/WidgetsOutlined';
 import {Label} from 'components';
-import {
-    GROUP_ADMIN,
-    GROUP_ALL,
-    GROUP_BOSS,
-    GROUP_FACTORY,
-    GROUP_FINANCE,
-    GROUP_MANAGER,
-    GROUP_REPORT
-} from "utils/AppConst";
+import {AccessGroups} from 'utils/AppConst'
 
 export default [
     {
@@ -32,7 +24,7 @@ export default [
                 title: 'Монитор дел',
                 href: '/dashboard',
                 icon: DashboardIcon,
-                access: [GROUP_ALL]
+                access: [AccessGroups.ALL]
             },
             {
                 title: 'Справочники',
@@ -68,31 +60,31 @@ export default [
                         href: '/catalogs/cost'
                     }
                 ],
-                access: [GROUP_ADMIN]
+                access: [AccessGroups.ADMIN]
             },
             {
                 title: 'Клиенты',
                 href: '/clients',
                 icon: GroupOutlinedIcon,
-                access: [GROUP_MANAGER, GROUP_BOSS, GROUP_ADMIN]
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN]
             },
             {
                 title: 'Контракты',
                 href: '/contracts',
                 icon: WorkOutlineOutlinedIcon,
-                access: [GROUP_MANAGER, GROUP_BOSS, GROUP_ADMIN]
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN]
             },
             {
                 title: 'Производство',
                 href: '/factory',
                 icon: DomainOutlinedIcon,
-                access: [GROUP_FACTORY, GROUP_BOSS, GROUP_ADMIN]
+                access: [AccessGroups.FACTORY, AccessGroups.BOSS, AccessGroups.ADMIN]
             },
             {
                 title: 'Затраты',
                 href: '/expense',
                 icon: AccountBalanceWalletOutlinedIcon,
-                access: [GROUP_ADMIN, GROUP_FINANCE]
+                access: [AccessGroups.ADMIN, AccessGroups.FINANCE]
             },
             {
                 title: 'Склад',
@@ -116,7 +108,7 @@ export default [
                         href: '/store/reserve'
                     }
                 ],
-                access: [GROUP_ADMIN, GROUP_FINANCE]
+                access: [AccessGroups.ADMIN, AccessGroups.FINANCE]
             },
             {
                 title: 'Организация',
@@ -140,10 +132,10 @@ export default [
                         href: '/org/employee'
                     }
                 ],
-                access: [GROUP_ADMIN, GROUP_BOSS, GROUP_FINANCE]
+                access: [AccessGroups.ADMIN, AccessGroups.BOSS, AccessGroups.FINANCE]
             }
         ],
-        access: [GROUP_ADMIN, GROUP_MANAGER, GROUP_FACTORY]
+        access: [AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FACTORY]
     },
     {
         title: 'Отчётность',
@@ -152,22 +144,22 @@ export default [
                 title: 'Заключенные договоры',
                 href: '/report/contracts',
                 icon: EqualizerOutlinedIcon,
-                access: [GROUP_REPORT, GROUP_MANAGER]
+                access: [AccessGroups.REPORT, AccessGroups.MANAGER]
             },
             {
                 title: 'Продажи',
                 href: '/report/sales',
                 icon: EqualizerOutlinedIcon,
-                access: [GROUP_REPORT, GROUP_MANAGER]
+                access: [AccessGroups.REPORT, AccessGroups.MANAGER]
             },
             {
                 title: 'Производство готовой продукции',
                 href: '/report/production',
                 icon: EqualizerOutlinedIcon,
-                access: [GROUP_REPORT, GROUP_FACTORY]
+                access: [AccessGroups.REPORT, AccessGroups.FACTORY]
             }
         ],
-        access: [GROUP_ADMIN, GROUP_FACTORY, GROUP_MANAGER, GROUP_REPORT]
+        access: [AccessGroups.ADMIN, AccessGroups.FACTORY, AccessGroups.MANAGER, AccessGroups.REPORT]
     },
     {
         title: 'Администрирование',
@@ -185,7 +177,7 @@ export default [
                 access: []
             }
         ],
-        access: [GROUP_ADMIN]
+        access: [AccessGroups.ADMIN]
     },
     {
         title: 'Приложение',
@@ -204,6 +196,6 @@ export default [
                 label: () => <Label color={colors.blue['500']}>v20.05</Label>
             }
         ],
-        access: [GROUP_ALL]
+        access: [AccessGroups.ALL]
     }
 ];

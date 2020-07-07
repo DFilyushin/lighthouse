@@ -1,53 +1,51 @@
 import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
-import { RouteWithLayout } from './components';
+import {Redirect, Switch} from 'react-router-dom';
+import {AuthRouteWithLayout, RouteWithLayout} from './components';
+import {Main as MainLayout, Minimal as MinimalLayout} from './layouts';
 import {
-    Minimal as MinimalLayout,
-    Main as MainLayout
-} from './layouts';
-import {
-    Login as LoginView,
-    NotFound as NotFoundView,
-    UserList as UserListView,
-    UserDetails as UserDetailsView,
-    EmployeeList as EmployeeListView,
-    OrgName as OrgNameView,
-    Dashboard as DashboardView,
-    EmployeeItem as EmployeeItemView,
-    ClientList as ClientListView,
-    ClientItem as ClientItemView,
-    Products as ProductsView,
-    ProductItem as ProductItemView,
-    Raws as RawsView,
-    RawItem as RawItemView,
-    Formulas as FormulaView,
-    FormulaItem as FormulaItemView,
-    Tares as TareView,
-    TareItem as TareItemView,
-    Units as UnitView,
-    UnitItem as UnitItemView,
-    Staffs as StaffView,
-    StaffItem as StaffItemView,
-    ProductionList as ProductionListView,
-    FactoryLine as FactoryLineView,
-    FactoryLineItem as FactoryLineItemView,
-    ProductionDetails as ProductionDetailsView,
-    DepartmentList as DepartmentListView,
-    DepartmentItem as DepartmentItemView,
     About as AboutView,
     Changelog as ChangelogView,
-    Setup as SetupView,
-    ContractList as ContractListView,
+    ClientItem as ClientItemView,
+    ClientList as ClientListView,
     ContractItem as ContractItemView,
-    CostList as CostListView,
+    ContractList as ContractListView,
     CostItem as CostItemView,
+    CostList as CostListView,
+    Dashboard as DashboardView,
+    DepartmentItem as DepartmentItemView,
+    DepartmentList as DepartmentListView,
+    EmployeeItem as EmployeeItemView,
+    EmployeeList as EmployeeListView,
+    ExpenseList as ExpenseListView,
+    FactoryLine as FactoryLineView,
+    FactoryLineItem as FactoryLineItemView,
+    FormulaItem as FormulaItemView,
+    Formulas as FormulaView,
+    Login as LoginView,
+    NotFound as NotFoundView,
+    OrgName as OrgNameView,
+    ProductionDetails as ProductionDetailsView,
+    ProductionList as ProductionListView,
+    ProductItem as ProductItemView,
+    Products as ProductsView,
+    RawItem as RawItemView,
+    Raws as RawsView,
     ReportContracts as ReportContractsView,
     ReportProduction as ReportProductionView,
     ReportSales as ReportSalesView,
-    StoreRaw as StoreRawView,
+    Setup as SetupView,
+    StaffItem as StaffItemView,
+    Staffs as StaffView,
     StoreProduct as StoreProductView,
-    ExpenseList as ExpenseListView
+    StoreRaw as StoreRawView,
+    TareItem as TareItemView,
+    Tares as TareView,
+    UnitItem as UnitItemView,
+    Units as UnitView,
+    UserDetails as UserDetailsView,
+    UserList as UserListView
 } from './views'
+import {AccessGroups} from "./utils/AppConst";
 
 const Routes = () => {
 
@@ -55,68 +53,68 @@ const Routes = () => {
         <Switch>
             <Redirect exact from="/" to="/dashboard"/>
 
-            <RouteWithLayout isAuth={false} component={LoginView} layout={MinimalLayout} path="/login" exact/>
-            <RouteWithLayout isAuth={true} component={DashboardView} layout={MainLayout} path="/dashboard" exact/>
+            <RouteWithLayout component={LoginView} layout={MinimalLayout} path="/login" exact/>
+            <AuthRouteWithLayout component={DashboardView} layout={MainLayout} path="/dashboard" access={[AccessGroups.ALL]} exact/>
 
-            <RouteWithLayout isAuth={true} component={ClientListView} layout={MainLayout} path="/clients" exact/>
-            <RouteWithLayout isAuth={true} component={ClientItemView} layout={MainLayout} path="/client/:id" exact/>
+            <AuthRouteWithLayout component={ClientListView} layout={MainLayout} path="/clients" access={[AccessGroups.MANAGER, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
+            <AuthRouteWithLayout component={ClientItemView} layout={MainLayout} path="/client/:id" access={[AccessGroups.MANAGER, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
 
-            <RouteWithLayout isAuth={true} component={ContractListView} layout={MainLayout} path="/contracts" exact/>
-            <RouteWithLayout isAuth={true} component={ContractItemView} layout={MainLayout} path="/contracts/:id" exact/>
+            <AuthRouteWithLayout component={ContractListView} layout={MainLayout} path="/contracts" access={[AccessGroups.MANAGER, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
+            <AuthRouteWithLayout component={ContractItemView} layout={MainLayout} path="/contracts/:id" access={[AccessGroups.MANAGER, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
 
-            <RouteWithLayout isAuth={true} component={UserListView} layout={MainLayout} path="/admin/users" exact/>
-            <RouteWithLayout isAuth={true} component={UserDetailsView} layout={MainLayout} path="/admin/users/:user" exact/>
+            //пользователи
+            <AuthRouteWithLayout component={UserListView} layout={MainLayout} path="/admin/users" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={UserDetailsView} layout={MainLayout} path="/admin/users/:user" access={[AccessGroups.ADMIN]} exact/>
 
+            <AuthRouteWithLayout component={CostListView} layout={MainLayout} path="/catalogs/cost" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={CostItemView} layout={MainLayout} path="/catalogs/cost/:id" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={ExpenseListView} layout={MainLayout} path="/expense" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
 
-            <RouteWithLayout isAuth={true} component={CostListView} layout={MainLayout} path="/catalogs/cost" exact/>
-            <RouteWithLayout isAuth={true} component={CostItemView} layout={MainLayout} path="/catalogs/cost/:id" exact/>
-            <RouteWithLayout isAuth={true} component={ExpenseListView} layout={MainLayout} path="/expense" exact/>
+            <AuthRouteWithLayout component={ProductsView} layout={MainLayout} path="/catalogs/product" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={ProductItemView} layout={MainLayout} path="/catalogs/product/:id" access={[AccessGroups.ADMIN]} exact/>
 
+            <AuthRouteWithLayout component={FormulaView} layout={MainLayout} path="/catalogs/formula" access={[AccessGroups.ADMIN, AccessGroups.BOSS, AccessGroups.TECHNOLOGIST]} exact/>
+            <AuthRouteWithLayout component={FormulaItemView} layout={MainLayout} path="/catalogs/formula/:id" access={[AccessGroups.ADMIN, AccessGroups.BOSS, AccessGroups.TECHNOLOGIST]} exact/>
 
-            <RouteWithLayout isAuth={true} component={ProductsView} layout={MainLayout} path="/catalogs/product" exact/>
-            <RouteWithLayout isAuth={true} component={ProductItemView} layout={MainLayout} path="/catalogs/product/:id" exact/>
+            <AuthRouteWithLayout component={TareView} layout={MainLayout} path="/catalogs/tare" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={TareItemView} layout={MainLayout} path="/catalogs/tare/:id" access={[AccessGroups.ADMIN]} exact/>
 
-            <RouteWithLayout isAuth={true} component={FormulaView} layout={MainLayout} path="/catalogs/formula" exact/>
-            <RouteWithLayout isAuth={true} component={FormulaItemView} layout={MainLayout} path="/catalogs/formula/:id" exact/>
+            <AuthRouteWithLayout component={RawsView} layout={MainLayout} path="/catalogs/raw" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={RawItemView} layout={MainLayout} path="/catalogs/raw/:id" access={[AccessGroups.ADMIN]} exact/>
 
-            <RouteWithLayout isAuth={true} component={TareView} layout={MainLayout} path="/catalogs/tare" exact/>
-            <RouteWithLayout isAuth={true} component={TareItemView} layout={MainLayout} path="/catalogs/tare/:id" exact/>
+            <AuthRouteWithLayout component={UnitView} layout={MainLayout} path="/catalogs/units" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={UnitItemView} layout={MainLayout} path="/catalogs/units/:id" access={[AccessGroups.ADMIN]} exact/>
 
-            <RouteWithLayout isAuth={true} component={RawsView} layout={MainLayout} path="/catalogs/raw" exact/>
-            <RouteWithLayout isAuth={true} component={RawItemView} layout={MainLayout} path="/catalogs/raw/:id" exact/>
+            <AuthRouteWithLayout component={StaffView} layout={MainLayout} path="/org/staff" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={StaffItemView} layout={MainLayout} path="/org/staff/:id" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
 
-            <RouteWithLayout isAuth={true} component={UnitView} layout={MainLayout} path="/catalogs/units" exact/>
-            <RouteWithLayout isAuth={true} component={UnitItemView} layout={MainLayout} path="/catalogs/units/:id" exact/>
+            <AuthRouteWithLayout component={EmployeeListView} layout={MainLayout} path="/org/employee" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={EmployeeItemView} layout={MainLayout} path="/org/employee/:id" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={OrgNameView} layout={MainLayout} path="/org/requisite" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={DepartmentListView} layout={MainLayout} path="/org/structure" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={DepartmentItemView} layout={MainLayout} path="/org/structure/:id" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
 
-            <RouteWithLayout isAuth={true} component={StaffView} layout={MainLayout} path="/org/staff" exact/>
-            <RouteWithLayout isAuth={true} component={StaffItemView} layout={MainLayout} path="/org/staff/:id" exact/>
+            <AuthRouteWithLayout component={FactoryLineView} layout={MainLayout} path="/catalogs/lines" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={FactoryLineItemView} layout={MainLayout} path="/catalogs/lines/:id" access={[AccessGroups.ADMIN]} exact/>
 
-            <RouteWithLayout isAuth={true} component={EmployeeListView} layout={MainLayout} path="/org/employee" exact/>
-            <RouteWithLayout isAuth={true} component={EmployeeItemView} layout={MainLayout} path="/org/employee/:id" exact/>
-            <RouteWithLayout isAuth={true} component={OrgNameView} layout={MainLayout} path="/org/requisite" exact/>
-            <RouteWithLayout isAuth={true} component={DepartmentListView} layout={MainLayout} path="/org/structure" exact/>
-            <RouteWithLayout isAuth={true} component={DepartmentItemView} layout={MainLayout} path="/org/structure/:id" exact/>
+            //производство
+            <AuthRouteWithLayout component={ProductionListView} layout={MainLayout} path="/factory" access={[AccessGroups.FACTORY, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
+            <AuthRouteWithLayout component={ProductionDetailsView} layout={MainLayout} path="/factory/:id" access={[AccessGroups.FACTORY, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
 
-            <RouteWithLayout isAuth={true} component={FactoryLineView} layout={MainLayout} path="/catalogs/lines" exact/>
-            <RouteWithLayout isAuth={true} component={FactoryLineItemView} layout={MainLayout} path="/catalogs/lines/:id" exact/>
-
-            <RouteWithLayout isAuth={true} component={ProductionListView} layout={MainLayout} path="/factory" exact/>
-            <RouteWithLayout isAuth={true} component={ProductionDetailsView} layout={MainLayout} path="/factory/:id" exact/>
-
-            <RouteWithLayout isAuth={true} component={StoreRawView} layout={MainLayout}  path="/store/raw" exact/>
-            <RouteWithLayout isAuth={true} component={StoreProductView} layout={MainLayout} path="/store/product" exact/>
+            <AuthRouteWithLayout  component={StoreRawView} layout={MainLayout}  path="/store/raw" access={[AccessGroups.ALL]} exact/>
+            <AuthRouteWithLayout component={StoreProductView} layout={MainLayout} path="/store/product" access={[AccessGroups.ALL]} exact/>
 
             //отчётность
-            <RouteWithLayout isAuth={true} component={ReportContractsView} layout={MainLayout} path="/report/contracts" exact/>
-            <RouteWithLayout isAuth={true} component={ReportProductionView} layout={MainLayout} path="/report/production" exact/>
-            <RouteWithLayout isAuth={true} component={ReportSalesView} layout={MainLayout} path="/report/sales" exact/>
+            <AuthRouteWithLayout component={ReportContractsView} layout={MainLayout} path="/report/contracts" access={[AccessGroups.BOSS, AccessGroups.REPORT, AccessGroups.MANAGER]} exact/>
+            <AuthRouteWithLayout component={ReportProductionView} layout={MainLayout} path="/report/production" access={[AccessGroups.BOSS, AccessGroups.REPORT, AccessGroups.FACTORY]} exact/>
+            <AuthRouteWithLayout component={ReportSalesView} layout={MainLayout} path="/report/sales" access={[AccessGroups.BOSS, AccessGroups.REPORT, AccessGroups.MANAGER]} exact/>
 
-            //сервис
-            <RouteWithLayout isAuth={true} component={AboutView} layout={MainLayout} path="/about" exact/>
-            <RouteWithLayout isAuth={true} component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
-            <RouteWithLayout isAuth={true} component={SetupView} layout={MainLayout} path="/setup" exact/>
+            //о программе и настройки
+            <RouteWithLayout component={AboutView} layout={MainLayout} path="/about"  exact/>
+            <RouteWithLayout component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
+            <AuthRouteWithLayout component={SetupView} layout={MainLayout} path="/setup" access={[AccessGroups.ALL]} exact/>
 
-            <RouteWithLayout isAuth={true} component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
+            <RouteWithLayout component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
 
             <Redirect to="/NotFound" />
         </Switch>

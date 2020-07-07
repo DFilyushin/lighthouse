@@ -4,7 +4,6 @@ import AuthenticationService from 'services/Authentication.service'
 import {AccessGroups} from "../../utils/AppConst";
 
 interface IRouteWithLayout {
-    isAuth: boolean;
     layout: any;
     component: any;
     exact?: boolean;
@@ -13,33 +12,31 @@ interface IRouteWithLayout {
 }
 
 const AuthRouteWithLayout = (props: IRouteWithLayout) => {
-    const { isAuth, layout: Layout, component: Component, access, ...rest } = props;
+    const { layout: Layout, component: Component, access, ...rest } = props;
     const isAuthenticated = AuthenticationService.isAuthenticated()
 
-    if (isAuth && !isAuthenticated)
+    if (!isAuthenticated)
          return <Redirect to="/login"/>
 
     const hasAccess = AuthenticationService.hasGroup(access)
     console.log('AccessToRouteWithLayout', hasAccess)
 
-    if ((isAuth && isAuthenticated) || (!isAuth)) {
-        if (hasAccess) {
-            return (
-                <Route
-                    {...rest}
-                    render={matchProps => (
-                        <Layout>
-                            <Component {...matchProps} />
-                        </Layout>
-                    )}
-                />
-            );
-        }
-        else{
-            return <Redirect to={{ pathname: '/'}} />;
-        }
+
+    if (hasAccess) {
+        return (
+            <Route
+                {...rest}
+                render={matchProps => (
+                    <Layout>
+                        <Component {...matchProps} />
+                    </Layout>
+                )}
+            />
+        );
     }
-    return null
+    else{
+        return <Redirect to={{ pathname: '/'}} />;
+    }
 };
 
 export default AuthRouteWithLayout;

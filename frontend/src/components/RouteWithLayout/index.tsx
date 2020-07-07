@@ -1,1 +1,1 @@
-export { default } from './AuthRouteWithLayout';
+export { default } from './RouteWithLayout';

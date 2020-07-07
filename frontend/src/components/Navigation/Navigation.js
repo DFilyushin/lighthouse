@@ -8,7 +8,7 @@ import { List, Typography } from '@material-ui/core';
 
 import useRouter from 'utils/useRouter';
 import { NavigationListItem } from './components';
-import {GROUP_ALL} from "../../utils/AppConst";
+import {AccessGroups} from "../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,7 +39,7 @@ const reduceChildRoutes = props => {
   const { router, items, page, depth, groups } = props;
 
   // отсутствие свойства access говорит о том, что наследуется верхний уровень прав
-  const isAllAccess = !page.hasOwnProperty('access') || page.access.includes(GROUP_ALL) || page.access.length === 0
+  const isAllAccess = !page.hasOwnProperty('access') || page.access.includes(AccessGroups.ALL) || page.access.length === 0
   const isMenuIntersectGroups = !page.hasOwnProperty('access') || !!page.access.filter( (item) => groups.includes(item)).length;
   const isAccess = isAllAccess || isMenuIntersectGroups
 

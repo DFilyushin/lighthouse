@@ -1,10 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { Divider, Drawer } from '@material-ui/core';
-import { Profile } from './components';
+import {makeStyles} from '@material-ui/core/styles';
+import {Divider, Drawer} from '@material-ui/core';
+import {Profile} from './components';
 import Navigation from "components/Navigation";
 import navigationConfig from './navigationsConfig';
+import {AccessGroups} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -77,7 +78,7 @@ const Sidebar = (props:ISidebar) => {
 
         <nav className={classes.navigation}>
           {navigationConfig.map(list => {
-            const isAllAccess = list.access.includes('all')
+            const isAllAccess = list.access.includes(AccessGroups.ALL)
             const isMenuIntersectGroups = !!list.access.filter( (item) => groups.includes(item)).length;
             const isAccess = isAllAccess || isMenuIntersectGroups
             return isAccess  ?
