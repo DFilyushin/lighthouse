@@ -66,7 +66,7 @@ import {ITare} from "types/model/tare";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {DIALOG_CANCEL_TEXT, DIALOG_NO, DIALOG_SELECT_TEXT, DIALOG_YES, NEW_RECORD_VALUE} from "utils/AppConst";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -153,8 +153,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Выбор продукции',
                 description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: productItems,
                 initKey: 0,
                 valueName: 'name'
@@ -217,8 +217,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Выбор сотрудника',
                 description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: emplItems,
                 initKey: 0,
                 valueName: 'fio'
@@ -242,8 +242,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Подтверждение',
                 description: `Удалить выбранную запись?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
         ).then(() =>
             dispatch(deleteTeamItem(id))
@@ -255,8 +255,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Подтверждение',
                 description: `Удалить выбранную запись?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
         ).then(() =>
             dispatch(deleteTareItem(id))
@@ -317,8 +317,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Выбор линии',
                 description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: prodLinetItems,
                 initKey: 0,
                 valueName: 'name'
@@ -341,8 +341,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Выбор сырья',
                 description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: rawItems,
                 initKey: 0,
                 valueName: 'name'
@@ -384,8 +384,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': 'Выбор тары',
                 description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: tareItems,
                 initKey: 0,
                 valueName: 'name'

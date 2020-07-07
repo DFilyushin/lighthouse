@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {loadUnit} from "redux/actions/unitAction";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Alert from '@material-ui/lab/Alert';
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {useDialog} from "components/SelectDialog";
 
 
@@ -131,8 +131,8 @@ const TareItem = (props: ITareItemProps) => {
             {
                 'title': 'Выбор единицы измерения',
                 description: '.',
-                confirmationText:'Выбрать',
-                cancellationText: 'Отменить',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: unitItems,
                 initKey: 0,
                 valueName: 'name'

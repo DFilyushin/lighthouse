@@ -8,6 +8,7 @@ import { DefaultToolbar} from 'components';
 import {IStateInterface} from "redux/rootReducer";
 import {loadUnit, deleteItem} from "redux/actions/unitAction";
 import { useConfirm } from "material-ui-confirm";
+import {DIALOG_NO, DIALOG_YES} from "utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,8 +43,8 @@ const UnitList = () => {
             {
                 'title': 'Подтверждение',
                 description: `Удалить выбранные записи?.`,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
         ).then(() =>
             selected.forEach(async (item, i, selected) => {
