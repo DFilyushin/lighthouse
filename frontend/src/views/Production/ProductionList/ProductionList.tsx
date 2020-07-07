@@ -93,7 +93,7 @@ const ProductionList = () => {
             <ProductionToolbar
                 className={''}
                 products={products}
-                newItemUrl={'/production/new'}
+                newItemUrl={'/factory/new'}
                 onFind={onFindProductHandler}
                 onDelete={onDeleteHandle}
                 onRefresh={handleRefresh}
