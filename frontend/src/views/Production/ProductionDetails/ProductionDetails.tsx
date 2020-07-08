@@ -77,7 +77,7 @@ import {
     NEW_RECORD_VALUE
 } from "utils/AppConst";
 import {showInfoMessage} from "redux/actions/infoAction";
-import {loadFormulaReference} from "../../../redux/actions/formulaAction";
+import {loadFormulaReference} from "redux/actions/formulaAction";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -123,7 +123,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const selectDialog = useDialog();
     const { className, match } = props;
     const paramId = match.params.id;
-    const idProduction = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [tab, setTab] = React.useState(0);
@@ -132,15 +131,14 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam)
     const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc)
     const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare)
-    //const canRedirect = useSelector((state: IStateInterface)=> state.production.canRedirect);
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
-    //const hasError = useSelector((state: IStateInterface) => state.production.hasError)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
     const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.items)
     const emplItems = useSelector((state: IStateInterface) => state.employee.items)
     const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
+    const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId))
 
     const [hasProductError, setProductError] = useState(false)
     const [hasFactoryLineError, setFactoryLineError] = useState(false)
@@ -178,9 +176,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'name'
             }
         ).then((value:any) => {
-                const item = {...productionItem}
-                item.product.id = value.id
-                item.product.name = value.name
+                const item = {...productionItem, product: {id: value.id, name: value.name}}
                 dispatch(changeProductionCard(item))
                 dispatch(loadFormulaReference(value.name))
                 setProductError(false)
@@ -200,10 +196,16 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'name'
             }
         ).then((value:any) => {
-                const item = {...productionItem}
-                item.formula.id = value.id
-                item.formula.product.name = value.name
-                item.idFormula = value.id
+                const item = {
+                    ...productionItem,
+                    formula: {
+                        id: value.id,
+                        product: {id:0, name: value.name},
+                        calcAmount: 0,
+                        calcLosses: 0,
+                        specification: '',
+                        raws: []},
+                    idFormula: value.id}
                 dispatch(changeProductionCard(item))
                 setFormulaError(false);
             }
@@ -222,9 +224,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'fio'
             }
         ).then((value:any) => {
-                const item = {...productionItem};
-                item.teamLeader.id = value.id;
-                item.teamLeader.fio = value.name;
+                const item = {...productionItem, teamLeader: {id: value.id, fio: value.name, staff: '', tabNum: ''}};
                 dispatch(changeProductionCard(item));
                 setMasterError(false)
             }
@@ -244,7 +244,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * @param id
      */
     function handleAddTareItem (id: number) {
-        console.log('handleAddTareItem')
         dispatch(newTareItem())
     }
 
@@ -481,7 +480,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         const hasMaster = productionItem.teamLeader.id > 0
         const hasCorrectValue = productionItem.calcValue > 0
         const hasFormulaValue = productionItem.formula.id > 0
-        // const hasIncorrectRawValues = formulaItem.raws.filter((item:IRawInFormula) => item.raw.id === 0).length === 0
         setFormulaError(!hasFormulaValue)
         setProductError(!hasProduct)
         setFactoryLineError(!hasProductionLine)
@@ -490,16 +488,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         return hasProduct && hasProductionLine && hasCorrectValue && hasMaster && hasFormulaValue
     }
 
-
     const saveItem = (dispatch:any) => new Promise(async(resolve, reject) => {
         if (isValid()) {
             try {
+                let result = 0;
                 if (idProduction === NEW_RECORD_VALUE) {
-                    await dispatch(addNewProduction(productionItem))
+                    result = await dispatch(addNewProduction(productionItem))
                 } else {
-                    await dispatch(updateProduction(productionItem));
+                    result = await dispatch(updateProduction(productionItem));
                 }
-                resolve()
+                setIdProduction(result)
+                resolve(result)
             } catch (e) {
                 reject()
             }
@@ -514,9 +513,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * @param event
      */
     const saveHandler = (event: SyntheticEvent) => {
-        saveItem(dispatch).then(()=>{
-            console.log('Main dataset save Ok');
-
+        saveItem(dispatch).then((value)=>{
+            history.push(`/factory/${value}`)
         }).catch((e)=> {
             console.log('Error')
         });
@@ -566,7 +564,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     }
 
 const getCard = () => {
-        // if (canRedirect) { return <Redirect to='/factory/'/> }
         return (
             <Card className={className}>
                 <form autoComplete="off" onSubmit={saveHandler}>

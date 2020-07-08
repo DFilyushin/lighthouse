@@ -11,7 +11,7 @@ import {
     PROD_TEAM_CHANGE,
     PROD_CALC_CHANGE,
     PROD_TARE_CHANGE,
-    PROD_CLEAR_ERROR, PROD_SET_ERROR, PROD_SAVE_OK
+    PROD_CLEAR_ERROR, PROD_SET_ERROR, PROD_SAVE_OK, PROD_ADD_NEW_OK
 } from "./actions/types";
 import {nullProduction} from "../types/model/production";
 
@@ -60,6 +60,8 @@ export const productionReducer = (state = initState(), action: any) => {
             return {...state, error: '', hasError: false};
         case PROD_SAVE_OK:
             return {...state, canRedirect: true};
+        case PROD_ADD_NEW_OK:
+            return {...state, prodCardItem: action.item}
         default:
             return state;
     }

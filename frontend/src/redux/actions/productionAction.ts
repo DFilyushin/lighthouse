@@ -10,7 +10,7 @@ import {
     PROD_CALC_LOAD_SUCCESS,
     PROD_TEAM_CHANGE,
     PROD_CALC_CHANGE,
-    PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS, PROD_CLEAR_ERROR, PROD_SAVE_OK
+    PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS, PROD_CLEAR_ERROR, PROD_SAVE_OK, PROD_ADD_NEW_OK
 } from "./types";
 import {
     CARD_STATE_CANCEL,
@@ -26,7 +26,8 @@ import {
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
-import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
+import AuthenticationService from "services/Authentication.service";
 
 
 /**
@@ -71,7 +72,7 @@ export function loadProductionCards(startPeriod: string, endPeriod: string, find
  */
 export function loadProductionCard(id: number) {
     return async (dispatch: any, getState: any) => {
-        let item: IProduction = {...nullProduction};
+        const item: IProduction = {...nullProduction};
         if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadCardItem(item))
         }else {
@@ -93,7 +94,6 @@ export function loadProductionCard(id: number) {
                 item.prodLine = response.data['prodLine'];
                 item.idFormula = response.data['idFormula'];
                 item.formula = response.data['formula']
-                console.log(item)
                 dispatch(successLoadCardItem(item))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()));
@@ -124,7 +124,6 @@ export function deleteProductionCard(id: number) {
             }
         }catch (e) {
             if (e.response.status === 400){
-                console.log('data', e.response.data);
                 dispatch(showInfoMessage('error', e.response.data['message']));
             }else{
                 dispatch(showInfoMessage('error', 'Не удалось удалить запись!'));
@@ -191,7 +190,6 @@ export function getProductionCalc(id: number) {
                         calcValue: response.data[key]['calcValue']
                     })
                 });
-                console.log('successLoadCardCalc')
                 dispatch(successLoadCardCalc(items))
             } catch (e) {
                 const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
@@ -332,7 +330,6 @@ export function newTareItem() {
         const items = [...getState().production.prodCardTare];
         let tare = {...nullProductionTare};
         tare.id = -getRandomInt(MAX_RANDOM_VALUE);
-        console.log(tare);
         items.push(tare);
         dispatch(changeTareItem(items));
     }
@@ -366,12 +363,11 @@ export function deleteCalcItem(id: number) {
  */
 export function addNewProduction(item: IProduction) {
     return async (dispatch: any, getState: any) => {
-        //console.log(JSON.stringify(item));
         dispatch(clearError());
         dispatch(hideInfoMessage());
         try{
             const sendItem = {
-                'creator': item.creator.id,
+                'creator': AuthenticationService.currentEmployeeId(),
                 'formula': item.idFormula,
                 'prodLine': item.prodLine.id,
                 'teamLeader': item.teamLeader.id,
@@ -382,11 +378,13 @@ export function addNewProduction(item: IProduction) {
                 'lossValue': item.lossValue,
                 'comment': item.comment
             };
-            console.log(JSON.stringify(sendItem));
             const response = await axios.post(ProductionEndpoint.newProductionCard(), sendItem);
             dispatch(showInfoMessage('info', 'Сохранено успешно'))
             const id = response.data['id'];
-            console.log('ProductionEndpoint', id)
+            const newItem = {...item, id: id}
+
+            dispatch(saveNewRecordOk(newItem))
+            console.log('after saveNewRecordOk...')
 
             // сохранить изменения в калькуляции
             const calcItems = [...getState().production.prodCardCalc];
@@ -433,9 +431,10 @@ export function addNewProduction(item: IProduction) {
                 const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
                 console.log(tareResponse);
             }
+            dispatch(saveOk())
 
-            dispatch(saveOk());
-
+            console.log('before retrun', id)
+            return id
         }catch (e) {
             if (e.response.status === 400){
                 console.log('data', e.response.data);
@@ -443,6 +442,7 @@ export function addNewProduction(item: IProduction) {
             }else{
                 dispatch(showInfoMessage('error', e.response.toString()));
             }
+            return Promise.reject();
         }
     }
 }
@@ -627,6 +627,13 @@ function changeCalcItem(items: IProductionCalc[]) {
     return{
         type: PROD_CALC_CHANGE,
         items: items
+    }
+}
+
+function saveNewRecordOk(item: IProduction) {
+    return{
+        type: PROD_ADD_NEW_OK,
+        item
     }
 }
 
