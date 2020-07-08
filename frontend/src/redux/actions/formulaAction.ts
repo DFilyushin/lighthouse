@@ -222,7 +222,7 @@ function saveError(e: string) {
 export function addNewFormula(item: IFormulaItem) {
     return async (dispatch: any, getState: any) => {
         try{
-            var newItem = JSON.parse(JSON.stringify(item))
+            let newItem = JSON.parse(JSON.stringify(item))
             delete(newItem.product)
             newItem.product = item.product.id
             newItem.tare = 1
