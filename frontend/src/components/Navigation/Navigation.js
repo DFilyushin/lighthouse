@@ -44,7 +44,6 @@ const reduceChildRoutes = props => {
   const isAccess = isAllAccess || isMenuIntersectGroups
 
   if (!isAccess) { return items }
-  console.log(page.title, isAccess)
 
   if (page.children) {
     const open = matchPath(router.location.pathname, {

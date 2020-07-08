@@ -19,8 +19,6 @@ const AuthRouteWithLayout = (props: IRouteWithLayout) => {
          return <Redirect to="/login"/>
 
     const hasAccess = AuthenticationService.hasGroup(access)
-    console.log('AccessToRouteWithLayout', hasAccess)
-
 
     if (hasAccess) {
         return (
