@@ -125,7 +125,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const paramId = match.params.id;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [tab, setTab] = React.useState(0);
+    const [tab, setTab] = React.useState(PAGE_MAIN);
 
     const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem)
     const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam)
@@ -350,6 +350,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
     useEffect( ()=> {
             dispatch(loadProductionCard(idProduction));
+            setTab(PAGE_MAIN);
         }, [dispatch, idProduction]
     );
 
