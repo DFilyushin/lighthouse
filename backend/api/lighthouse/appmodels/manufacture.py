@@ -153,6 +153,18 @@ class ProductionLine(models.Model):
         ordering = ('name', )
 
 
+class ProductionWork(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Наименование работы')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Вид работы смены'
+        verbose_name_plural = 'Виды работ смены'
+        ordering = ('name', )
+
+
 class Manufacture(models.Model):
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')

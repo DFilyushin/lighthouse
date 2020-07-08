@@ -17,6 +17,14 @@ class ProductionLineView(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter, )
 
 
+class ProductionWorkView(viewsets.ModelViewSet):
+    """Работы на линиях"""
+    queryset =  ProductionWork.objects.all()
+    serializer_class = WorkSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
+
+
 class ProductionView(viewsets.ModelViewSet):
     """
     Прозводственные карты

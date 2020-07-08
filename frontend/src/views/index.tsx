@@ -47,6 +47,9 @@ export {default as StoreProduct} from './Store/StoreProduct';
 
 export {default as ExpenseList} from './Expenses/ExpenseList';
 
+export {default as WorkList} from './Works/WorkList';
+export {default as WorkItem} from './Works/WorkItem';
+
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts';
 export { default as ReportProduction} from './Reports/ReportProduction';

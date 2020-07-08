@@ -58,6 +58,10 @@ export default [
                     {
                         title: 'Затраты',
                         href: '/catalogs/cost'
+                    },
+                    {
+                        title: 'Работы',
+                        href: '/catalogs/works'
                     }
                 ],
                 access: [AccessGroups.ADMIN]

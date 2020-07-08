@@ -1,7 +1,8 @@
 from random import randint
 from datetime import datetime
 from rest_framework import serializers
-from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, ProdReadyProduct
+from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, \
+    ProdReadyProduct, ProductionWork
 from .serializer_store import ProductSerializer, FormulaSerializer, RawSerializer
 from .serializer_domain import EmployeeListSerializer
 
@@ -19,6 +20,21 @@ class ProductLineSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return ProductionLine.objects.create(name=validated_data['name'])
+
+
+class WorkSerializer(serializers.ModelSerializer):
+    """
+    Виды работ производства
+    """
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
+    class Meta:
+        model = ProductionWork
+        fields = ('id', 'name')
+
+    def create(self, validated_data):
+        return ProductionWork.objects.create(name=validated_data['name'])
 
 
 class ProdCalcRawsListSerializer(serializers.ListSerializer):
