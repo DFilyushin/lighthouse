@@ -7,6 +7,11 @@ export interface IFormula {
     amount: number
 }
 
+export interface IFormulaSelectedItem {
+    id: number;
+    name: string;
+}
+
 export interface IRawInFormula {
     id: number;
     raw: IRaw;

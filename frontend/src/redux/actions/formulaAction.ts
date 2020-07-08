@@ -1,6 +1,6 @@
 import axios from 'axios'
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint"
-import {IFormula, IFormulaItem, IRawInFormula, nullFormulaItem} from 'types/model/formula'
+import {IFormula, IFormulaItem, IFormulaSelectedItem, IRawInFormula, nullFormulaItem} from 'types/model/formula'
 import { showInfoMessage, hideInfoMessage } from './infoAction'
 import {
     FORMULA_DELETE_OK,
@@ -9,7 +9,7 @@ import {
     FORMULA_LOAD_SUCCESS,
     FORMULA_ITEM_SUCCESS,
     FORMULA_UPDATE_OBJECT,
-    FORMULA_SET_ERROR
+    FORMULA_SET_ERROR, FORMULA_GET_REFERENCE
 } from "./types";
 import {IRaw} from "types/model/raw";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
@@ -41,6 +41,40 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
             }
+        dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузить список формул по коду продукта
+ * @param byProduct Код продукта
+ */
+export function loadFormulaReference(byProduct: string) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart())
+        dispatch(hideInfoMessage())
+        const result: IFormulaSelectedItem[] = []
+        try {
+            const url = FormulaEndpoint.getFormulaList();
+            const formulaList: IFormula[] = [];
+            const response = await axios.get(url);
+            Object.keys(response.data).forEach((key, index) => {
+                formulaList.push({
+                    id: response.data[key]['id'],
+                    product: response.data[key]['product'],
+                    amount: response.data[key]['calcAmount']
+                })
+            });
+            formulaList.filter((value => value.product === byProduct)).forEach((value => {
+                result.push({
+                    id: value.id,
+                    name: `№${value.id}  ${value.product}`
+                })
+            }))
+            dispatch(loadFormulaReferenceOk(result))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
         dispatch(fetchFinish())
     }
 }
@@ -128,6 +162,13 @@ function fetchFinish(){
 function deleteOK(items: IFormula[]) {
     return{
         type: FORMULA_DELETE_OK,
+        items
+    }
+}
+
+function loadFormulaReferenceOk(items: IFormulaSelectedItem[]) {
+    return{
+        type: FORMULA_GET_REFERENCE,
         items
     }
 }

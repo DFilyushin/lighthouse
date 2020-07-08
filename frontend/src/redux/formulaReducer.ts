@@ -8,7 +8,9 @@ import {
     FORMULA_LOAD_FINISH,
     FORMULA_ITEM_SUCCESS,
     FORMULA_UPDATE_OBJECT,
-    FORMULA_SET_ERROR, FORMULA_DELETE_OK
+    FORMULA_SET_ERROR,
+    FORMULA_DELETE_OK,
+    FORMULA_GET_REFERENCE
 }
     from
         "./actions/types";
@@ -27,6 +29,7 @@ const nullFormula: IFormulaItem = {
 const initialState = (): IFormulaState => ({
     formulas: [],
     formulaItem: nullFormula,
+    formulasForSelect: [],
     isLoading: false,
     error: '',
     typeMessage: '',
@@ -53,6 +56,8 @@ export const formulaReducer = (state = initialState(), action: any) => {
             return {...state, error: action.error};
         case FORMULA_DELETE_OK:
             return {...state, formulas: action.items}
+        case FORMULA_GET_REFERENCE:
+            return {...state, formulasForSelect: action.items}
         default: return state
     }
 };
