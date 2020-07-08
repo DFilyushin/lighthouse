@@ -10,11 +10,10 @@ import {deleteFormula, loadFormula} from "redux/actions/formulaAction";
 import { useConfirm } from "material-ui-confirm";
 import {
     DIALOG_ASK_DELETE,
-    DIALOG_CANCEL_TEXT,
     DIALOG_NO,
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES
-} from "../../../utils/AppConst";
+} from "utils/AppConst";
 
 
 const useStyles = makeStyles(theme => ({
