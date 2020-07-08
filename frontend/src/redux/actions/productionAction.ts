@@ -406,16 +406,16 @@ export function addNewProduction(item: IProduction) {
                             }
                         )
                     });
-                const calcResponse = await axios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
+                const calcResponse = await axios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
                 console.log(calcResponse)
             }
 
             const teamItems = [...getState().production.prodCardTeam];
             if (teamItems.length > 0) {
                 teamItems.forEach((value)=>{
-                    value.manufactureId = item.id;
+                    value.manufactureId = id;
                 })
-                const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
+                const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
                 console.log(teamResponse);
             }
             const tareItems = [...getState().production.prodCardTare];
@@ -428,12 +428,12 @@ export function addNewProduction(item: IProduction) {
                         newValue
                     )
                 })
-                const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
+                const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
                 console.log(tareResponse);
             }
             dispatch(saveOk())
 
-            console.log('before retrun', id)
+            console.log('id new record:', id)
             return id
         }catch (e) {
             if (e.response.status === 400){
