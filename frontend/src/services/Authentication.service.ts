@@ -24,7 +24,6 @@ export default class AuthenticationService {
             const response = await axios.post(AuthEndpoint.getAuth(), data, {headers});
             const json_data = response.data;
             if (json_data.status_code === 200) {
-                console.log('Auth ok');
                 localStorage.setItem('token', json_data.token);
                 localStorage.setItem('userName', userName);
                 return true;
@@ -49,7 +48,6 @@ export default class AuthenticationService {
         });
         if (response.ok) {
             let result = await response.json();
-            console.log('Auth ok');
             localStorage.setItem('token', result.token);
             localStorage.setItem('userName', userName);
             return true
@@ -113,11 +111,6 @@ export default class AuthenticationService {
         const user_groups = this.getUserGroups()
         const isAllAccess = Boolean(groups.includes(AccessGroups.ALL))
         const hasAccess = user_groups.filter( (item: AccessGroups) => groups.includes(item)).length > 0
-
-        console.log('hasGroup', user_groups, groups)
-        console.log('isAllAccess', isAllAccess)
-        console.log('hasAccess', hasAccess)
-
         return isAllAccess || hasAccess
     }
 }
