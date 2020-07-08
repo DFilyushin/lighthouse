@@ -92,6 +92,8 @@ export function loadProductionCard(id: number) {
                 item.creator = response.data['creator'];
                 item.prodLine = response.data['prodLine'];
                 item.idFormula = response.data['idFormula'];
+                item.formula = response.data['formula']
+                console.log(item)
                 dispatch(successLoadCardItem(item))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()));
@@ -110,6 +112,7 @@ export function deleteProductionCard(id: number) {
         dispatch(startLoading());
         try{
             const response = await axios.delete(ProductionEndpoint.deleteProductionCard(id));
+
             if (response.status === 204) {
                 const items = [...getState().production.prodCardList];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -120,7 +123,12 @@ export function deleteProductionCard(id: number) {
                 dispatch(showInfoMessage('error', 'Не удалось удалить запись!'))
             }
         }catch (e) {
-            dispatch(showInfoMessage('error', 'Не удалось удалить запись!'))
+            if (e.response.status === 400){
+                console.log('data', e.response.data);
+                dispatch(showInfoMessage('error', e.response.data['message']));
+            }else{
+                dispatch(showInfoMessage('error', 'Не удалось удалить запись!'));
+            }
         }
         dispatch(endLoading())
     }
@@ -352,8 +360,91 @@ export function deleteCalcItem(id: number) {
     }
 }
 
+/**
+ * Добавление новой производственной карты
+ * @param item
+ */
 export function addNewProduction(item: IProduction) {
+    return async (dispatch: any, getState: any) => {
+        //console.log(JSON.stringify(item));
+        dispatch(clearError());
+        dispatch(hideInfoMessage());
+        try{
+            const sendItem = {
+                'creator': item.creator.id,
+                'formula': item.idFormula,
+                'prodLine': item.prodLine.id,
+                'teamLeader': item.teamLeader.id,
+                'prodStart': item.prodStart,
+                'prodFinish': item.prodFinish,
+                'calcValue': item.calcValue,
+                'outValue': item.outValue,
+                'lossValue': item.lossValue,
+                'comment': item.comment
+            };
+            console.log(JSON.stringify(sendItem));
+            const response = await axios.post(ProductionEndpoint.newProductionCard(), sendItem);
+            dispatch(showInfoMessage('info', 'Сохранено успешно'))
+            const id = response.data['id'];
+            console.log('ProductionEndpoint', id)
 
+            // сохранить изменения в калькуляции
+            const calcItems = [...getState().production.prodCardCalc];
+            let sendCalcItems: any[] = [];
+            if (calcItems.length > 0) {
+                let idRecord = 0;
+                sendCalcItems =
+                    calcItems.map((value: IProductionCalc) => {
+                        value.manufactureId === 0 ? idRecord = 0 : idRecord = value.id;
+                        return(
+                            {
+                                'id': idRecord,
+                                'manufactureId': id,
+                                'raw': {
+                                    'id': value.raw.id,
+                                    'name': value.raw.name
+                                },
+                                'calcValue': value.calcValue
+                            }
+                        )
+                    });
+                const calcResponse = await axios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
+                console.log(calcResponse)
+            }
+
+            const teamItems = [...getState().production.prodCardTeam];
+            if (teamItems.length > 0) {
+                teamItems.forEach((value)=>{
+                    value.manufactureId = item.id;
+                })
+                const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
+                console.log(teamResponse);
+            }
+            const tareItems = [...getState().production.prodCardTare];
+            let sendTareItems: any[] = [];
+            if (tareItems.length > 0){
+                sendTareItems = tareItems.map((value)=>{
+                    const newValue = {...value};
+                    if (newValue.id < 0) {newValue.id=0}
+                    return (
+                        newValue
+                    )
+                })
+                const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
+                console.log(tareResponse);
+            }
+
+            dispatch(saveOk());
+
+        }catch (e) {
+            if (e.response.status === 400){
+                console.log('data', e.response.data);
+                dispatch(showInfoMessage('error', e.response.data['message']));
+            }else{
+                dispatch(showInfoMessage('error', e.response.toString()));
+            }
+        }
+    }
 }
 
 /**

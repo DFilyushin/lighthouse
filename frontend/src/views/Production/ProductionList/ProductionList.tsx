@@ -5,9 +5,9 @@ import { useHistory } from "react-router-dom";
 import { ProductionTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { ProductionToolbar } from '../components/';
-import {clearError, deleteProduct, loadProduct} from "redux/actions/productAction";
+import {clearError, loadProduct} from "redux/actions/productAction";
 import SnackBarAlert from 'components/SnackBarAlert';
-import {loadProductionCards} from "redux/actions/productionAction";
+import {deleteProductionCard, loadProductionCards} from "redux/actions/productionAction";
 import {PROD_PERIOD_END, PROD_PERIOD_START, PROD_PRODUCT} from "../../../types/Settings";
 
 const useStyles = makeStyles(theme => ({
@@ -75,7 +75,7 @@ const ProductionList = () => {
      */
     function onDeleteHandle() {
         selected.forEach(async (item, i, selected) => {
-            dispatch(deleteProduct(item))
+            dispatch(deleteProductionCard(item))
         });
     }
 

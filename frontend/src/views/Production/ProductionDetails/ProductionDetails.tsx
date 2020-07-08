@@ -1,4 +1,4 @@
-import React, {ReactNode, SyntheticEvent, useEffect} from 'react';
+import React, {ReactNode, SyntheticEvent, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -38,7 +38,7 @@ import {
     updateProduction,
     updateTareItem,
     updateTeamItem,
-    newTareItem, executeCard, sendCardToWork, cancelCard
+    newTareItem, executeCard, sendCardToWork, cancelCard, addNewProduction
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -66,6 +66,7 @@ import {ITare} from "types/model/tare";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import { DateTimePicker } from "@material-ui/pickers";
 import {
     DIALOG_ASK_DELETE,
     DIALOG_CANCEL_TEXT,
@@ -75,6 +76,8 @@ import {
     DIALOG_YES,
     NEW_RECORD_VALUE
 } from "utils/AppConst";
+import {showInfoMessage} from "redux/actions/infoAction";
+import {loadFormulaReference} from "../../../redux/actions/formulaAction";
 
 const PAGE_MAIN: number = 0;
 const PAGE_CALC: number = 1;
@@ -125,19 +128,25 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [tab, setTab] = React.useState(0);
 
-    const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem);
-    const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam);
-    const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc);
-    const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare);
+    const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem)
+    const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam)
+    const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc)
+    const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare)
     //const canRedirect = useSelector((state: IStateInterface)=> state.production.canRedirect);
-    const isLoading = useSelector((state: IStateInterface) => state.production.isLoading);
-    const hasError = useSelector((state: IStateInterface) => state.production.hasError);
-    const productItems = useSelector((state: IStateInterface) => state.product.products);
-    const rawItems = useSelector((state: IStateInterface) => state.raw.raws);
-    const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems);
-    const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.items);
-    const emplItems = useSelector((state: IStateInterface) => state.employee.items);
+    const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
+    //const hasError = useSelector((state: IStateInterface) => state.production.hasError)
+    const productItems = useSelector((state: IStateInterface) => state.product.products)
+    const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
+    const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
+    const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.items)
+    const emplItems = useSelector((state: IStateInterface) => state.employee.items)
+    const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
 
+    const [hasProductError, setProductError] = useState(false)
+    const [hasFactoryLineError, setFactoryLineError] = useState(false)
+    const [hasMasterError, setMasterError] = useState(false)
+    const [hasCorrectValueError, setCorrectValueError] = useState(false)
+    const [hasFormulaError, setFormulaError] = useState(false)
 
     /**
      * Изменения основных компонентов
@@ -146,6 +155,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...productionItem, [event.target.name]: event.target.value};
         dispatch(changeProductionCard(item))
+        if (event.target.name === 'calcValue') {setCorrectValueError(false)}
     };
 
     const cardMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -168,13 +178,58 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'name'
             }
         ).then((value:any) => {
-                const item = {...productionItem};
-                item.product.id = value.id;
-                item.product.name = value.name;
-                dispatch(changeProductionCard(item));
+                const item = {...productionItem}
+                item.product.id = value.id
+                item.product.name = value.name
+                dispatch(changeProductionCard(item))
+                dispatch(loadFormulaReference(value.name))
+                setProductError(false)
             }
         );
     };
+
+    const handleChangeFormula = () => {
+        selectDialog(
+            {
+                'title': 'Выбор рецептуры расчёта продукции',
+                description: '.',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: formulas,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+                const item = {...productionItem}
+                item.formula.id = value.id
+                item.formula.product.name = value.name
+                item.idFormula = value.id
+                dispatch(changeProductionCard(item))
+                setFormulaError(false);
+            }
+        );
+    }
+
+    const handleChangeMaster = () => {
+        selectDialog(
+            {
+                'title': 'Выбор начальника смены',
+                description: '.',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: emplItems,
+                initKey: 0,
+                valueName: 'fio'
+            }
+        ).then((value:any) => {
+                const item = {...productionItem};
+                item.teamLeader.id = value.id;
+                item.teamLeader.fio = value.name;
+                dispatch(changeProductionCard(item));
+                setMasterError(false)
+            }
+        );
+    }
 
     /**
      * Добавить новую запись смены
@@ -278,7 +333,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      */
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setTab(newValue);
-        console.log('handleTabChange', productionCalc)
         switch (newValue) {
             case PAGE_TEAM: if (productionTeam.length === 0) dispatch(getProductionTeam(idProduction)); break;
             case PAGE_CALC: if (productionCalc.length === 0) dispatch(getProductionCalc(idProduction));break;
@@ -332,10 +386,11 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'name'
             }
         ).then((value:any) => {
-                const item = {...productionItem};
-                item.prodLine.id = value.id;
-                item.prodLine.name = value.name;
-                dispatch(updateProduction(item));
+                const item = {...productionItem}
+                item.prodLine.id = value.id
+                item.prodLine.name = value.name
+                dispatch(changeProductionCard(item))
+                setFactoryLineError(false)
             }
         );
     };
@@ -374,8 +429,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             {
                 'title': DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
-                confirmationText:'Да',
-                cancellationText: 'Нет'
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
             }
         ).then(() =>
             dispatch(deleteCalcItem(id))
@@ -417,14 +472,39 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         return ((productionItem.curState === CARD_STATE_DRAFT) || (productionItem.curState === CARD_STATE_IN_WORK))
     };
 
+    /**
+     * Проверка корректности ввода
+     */
+    function isValid() {
+        const hasProduct = productionItem.product.id > 0
+        const hasProductionLine = productionItem.prodLine.id > 0
+        const hasMaster = productionItem.teamLeader.id > 0
+        const hasCorrectValue = productionItem.calcValue > 0
+        const hasFormulaValue = productionItem.formula.id > 0
+        // const hasIncorrectRawValues = formulaItem.raws.filter((item:IRawInFormula) => item.raw.id === 0).length === 0
+        setFormulaError(!hasFormulaValue)
+        setProductError(!hasProduct)
+        setFactoryLineError(!hasProductionLine)
+        setMasterError(!hasMaster)
+        setCorrectValueError(!hasCorrectValue)
+        return hasProduct && hasProductionLine && hasCorrectValue && hasMaster && hasFormulaValue
+    }
+
+
     const saveItem = (dispatch:any) => new Promise(async(resolve, reject) => {
-        console.log('saveItem');
-        try{
-            await dispatch(updateProduction(productionItem));
-            console.log('hasError', hasError);
-            resolve()
-        }catch (e) {
-            reject()
+        if (isValid()) {
+            try {
+                if (idProduction === NEW_RECORD_VALUE) {
+                    await dispatch(addNewProduction(productionItem))
+                } else {
+                    await dispatch(updateProduction(productionItem));
+                }
+                resolve()
+            } catch (e) {
+                reject()
+            }
+        }else{
+            dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
         }
     });
 
@@ -554,12 +634,39 @@ const getCard = () => {
                                             InputProps={{
                                                 readOnly: true,
                                             }}
+                                            helperText={hasProductError ? "Обязательное поле" : ""}
+                                            error={hasProductError}
                                         />
                                         {canEditCard() ? (
                                         <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
                                             <MenuOpenIcon />
                                         </IconButton>
-                                            ):(null)
+                                            ):null
+                                        }
+                                    </Paper>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Paper  elevation={0} className={classes.paper_root}>
+                                        <TextField
+                                            fullWidth
+                                            label="Рецептура расчёта"
+                                            margin="dense"
+                                            name="formula"
+                                            onChange={handleChange}
+                                            required
+                                            value={productionItem.formula.id > 0 ? `№ ${productionItem.formula.id} на продукцию ${productionItem.formula.product.name}` : ''}
+                                            variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            helperText={hasFormulaError ? "Обязательное поле" : ""}
+                                            error={hasFormulaError}
+                                        />
+                                        {canEditCard() ? (
+                                            <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeFormula}>
+                                                <MenuOpenIcon />
+                                            </IconButton>
+                                        ):null
                                         }
                                     </Paper>
                                 </Grid>
@@ -577,23 +684,25 @@ const getCard = () => {
                                             InputProps={{
                                                 readOnly: true,
                                             }}
+                                            helperText={hasFactoryLineError ? "Обязательное поле" : ""}
+                                            error={hasFactoryLineError}
                                         />
                                         {canEditCard() ? (
                                             <IconButton color="primary" className={classes.iconButton}
                                                         aria-label="directions" onClick={handleChangeProdLine}>
                                                 <MenuOpenIcon/>
                                             </IconButton>
-                                        ) :(null)
+                                        ) :null
                                         }
                                     </Paper>
                                 </Grid>
                             </Grid>
                             <Grid container spacing={3}>
                                     <Grid item xs={3} >
-                                        <KeyboardDateTimePicker
+                                        <DateTimePicker
                                             disableToolbar
                                             inputVariant="outlined"
-                                            format="dd/MM/yyyy hh:mm"
+                                            format="dd/MM/yyyy HH:mm"
                                             ampm={false}
                                             id="prodStart"
                                             label="Начало процесса"
@@ -609,7 +718,7 @@ const getCard = () => {
                                     <KeyboardDateTimePicker
                                         disableToolbar
                                         inputVariant="outlined"
-                                        format="dd/MM/yyyy hh:mm"
+                                        format="dd/MM/yyyy HH:mm"
                                         ampm={false}
                                         margin="dense"
                                         id="prodFinish"
@@ -637,6 +746,8 @@ const getCard = () => {
                                                 readOnly: Boolean(!canEditCard()),
                                                 disabled: Boolean(!canEditCard()),
                                             }}
+                                            helperText={hasCorrectValueError ? "Укажите корректное значение" : ""}
+                                            error={hasCorrectValueError}
                                         />
                                     </Grid>
                                     <Grid item xs={3} >
@@ -704,13 +815,15 @@ const getCard = () => {
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
+                                                helperText={hasMasterError ? "Обязательное поле" : ""}
+                                                error={hasMasterError}
                                             />
                                             {canEditCard() ? (
                                                 <IconButton color="primary" className={classes.iconButton}
-                                                            aria-label="directions" onClick={handleChangeProduct}>
+                                                            aria-label="directions" onClick={handleChangeMaster}>
                                                     <MenuOpenIcon/>
                                                 </IconButton>
-                                            ): (null)
+                                            ): null
                                             }
                                         </Paper>
                                     </Grid>
