@@ -9,15 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { common } from '@material-ui/core/colors';
 import Box from "@material-ui/core/Box";
-import {ReactComponent as Lighthouse} from "images/logo.svg"
-import {ReactComponent as Lighthouse1} from "images/lighthouse_1.svg";
-import {ReactComponent as Lighthouse2} from "images/lighthouse_2.svg";
-import {ReactComponent as Lighthouse3} from "images/lighthouse_3.svg";
-import {ReactComponent as Lighthouse4} from "images/lighthouse_4.svg";
-import {ReactComponent as Lighthouse5} from "images/lighthouse_5.svg";
-import {ReactComponent as Lighthouse6} from "images/lighthouse_6.svg";
-import {ReactComponent as Lighthouse7} from "images/lighthouse_7.svg";
-import {ReactComponent as Lighthouse8} from "images/lighthouse_8.svg";
+import {ReactComponent as Lighthouse6} from "images/app_logo.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {
