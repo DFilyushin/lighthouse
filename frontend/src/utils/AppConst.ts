@@ -19,3 +19,5 @@ export const DIALOG_NO = 'Нет'
 
 
 export const DIALOG_ASK_DELETE = 'Удалить выбранные записи?'
+
+export const INVALID_DATE_FORMAT = 'Некорректно указан формат даты'

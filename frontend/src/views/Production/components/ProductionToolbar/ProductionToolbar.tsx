@@ -16,6 +16,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
+import {INVALID_DATE_FORMAT} from "../../../../utils/AppConst";
 
 
 const useStyles = makeStyles(theme => ({
@@ -213,6 +214,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
+                                invalidDateMessage={INVALID_DATE_FORMAT}
                             />
                         </Grid>
                         <Grid
@@ -232,6 +234,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
+                                invalidDateMessage={INVALID_DATE_FORMAT}
                             />
                         </Grid>
                         <Grid

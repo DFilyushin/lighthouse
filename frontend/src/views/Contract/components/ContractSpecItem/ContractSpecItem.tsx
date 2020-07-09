@@ -11,6 +11,7 @@ import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import {NumberFormatCustom} from 'components'
+import {INVALID_DATE_FORMAT} from "../../../../utils/AppConst";
 
 interface IContractSpecItemProps {
     className: string;
@@ -151,6 +152,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                         name="delivery"
                         value={item.delivery || null}
                         onChange={onChangeItem}
+                        invalidDateMessage={INVALID_DATE_FORMAT}
                     />
                 </TableCell>
                 <TableCell>
@@ -162,6 +164,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                         name="delivered"
                         value={item.delivered || null}
                         onChange={onChangeItem}
+                        invalidDateMessage={INVALID_DATE_FORMAT}
                     />
                 </TableCell>
             </Hidden>

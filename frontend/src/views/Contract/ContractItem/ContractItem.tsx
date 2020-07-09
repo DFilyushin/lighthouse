@@ -41,6 +41,7 @@ import {IClientItemList} from "types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {searchClients} from "redux/actions/clientAction";
 import Skeleton from '@material-ui/lab/Skeleton';
+import {INVALID_DATE_FORMAT} from "../../../utils/AppConst";
 
 interface IContractItemProps {
     className: string,
@@ -294,6 +295,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         name="contractDate"
                                         value={contractItem?.contractDate || null}
                                         onChange={handleContractDateChange}
+                                        invalidDateMessage={INVALID_DATE_FORMAT}
                                     />
                                 </Grid>
                                 <Grid item md={3} xs={3}>
@@ -346,6 +348,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         name="estdelivery"
                                         value={contractItem.estDelivery || null}
                                         onChange={handleEstDeliveryDateChange}
+                                        invalidDateMessage={INVALID_DATE_FORMAT}
                                     />
                                 </Grid>
                                 <Grid
@@ -363,6 +366,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         name="delivered"
                                         value={contractItem.delivered || null}
                                         onChange={handleDeliveredDateChange}
+                                        invalidDateMessage={INVALID_DATE_FORMAT}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>

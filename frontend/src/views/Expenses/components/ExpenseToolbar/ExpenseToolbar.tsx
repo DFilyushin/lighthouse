@@ -18,6 +18,7 @@ import {ICostSimple} from "types/model/cost";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {setExpenseCost, setExpenseDateEnd, setExpenseDateStart} from "redux/actions/expenseAction";
+import {INVALID_DATE_FORMAT} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -219,6 +220,7 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
+                        invalidDateMessage={INVALID_DATE_FORMAT}
                     />
                 </Grid>
                 <Grid
@@ -238,6 +240,7 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}
+                        invalidDateMessage={INVALID_DATE_FORMAT}
                     />
                 </Grid>
                 <Grid
