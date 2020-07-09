@@ -99,10 +99,11 @@ class FormulaListSerializer(serializers.ModelSerializer):
     """
     product = serializers.CharField(source='id_product.name')
     calcAmount = serializers.FloatField(source='calc_amount')
+    created = serializers.DateTimeField()
 
     class Meta:
         model = Formula
-        fields = ('id', 'product', 'calcAmount')
+        fields = ('id', 'product', 'calcAmount', 'created')
 
 
 class NewFormulaSerializer(serializers.ModelSerializer):

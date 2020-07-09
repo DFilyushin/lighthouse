@@ -2,9 +2,10 @@ import {IRaw} from "./raw";
 import {nullProduct, IProduct} from "./product";
 
 export interface IFormula {
-    id: number,
-    product: string,
-    amount: number
+    id: number;
+    product: string;
+    amount: number;
+    created: string;
 }
 
 export interface IFormulaSelectedItem {

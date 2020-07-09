@@ -13,7 +13,8 @@ import {
 } from "./types";
 import {IRaw} from "types/model/raw";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
-import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
+import moment from "moment";
 
 
 /**
@@ -34,7 +35,8 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
                     formulaList.push({
                         id: response.data[key]['id'],
                         product: response.data[key]['product'],
-                        amount: response.data[key]['calcAmount']
+                        amount: response.data[key]['calcAmount'],
+                        created: moment(response.data[key]['created']).format('DD/MM/YYYY')
                     })
                 });
                 dispatch(fetchSuccess(formulaList))
@@ -62,7 +64,8 @@ export function loadFormulaReference(byProduct: string) {
                 formulaList.push({
                     id: response.data[key]['id'],
                     product: response.data[key]['product'],
-                    amount: response.data[key]['calcAmount']
+                    amount: response.data[key]['calcAmount'],
+                    created: response.data[key]['created']
                 })
             });
             formulaList.filter((value => value.product === byProduct)).forEach((value => {

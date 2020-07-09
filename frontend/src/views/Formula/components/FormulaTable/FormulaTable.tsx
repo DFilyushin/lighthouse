@@ -124,6 +124,7 @@ const FormulaTable = (props: IFormulaTable) => {
                                             onChange={handleSelectAll}
                                         />
                                     </TableCell>
+                                    <TableCell>Дата создания</TableCell>
                                     <TableCell>Наименование</TableCell>
                                     <TableCell>Рассчётное кол-во</TableCell>
                                     <TableCell/>
@@ -144,6 +145,9 @@ const FormulaTable = (props: IFormulaTable) => {
                                                 onChange={event => handleSelectOne(event, formula.id)}
                                                 value="true"
                                             />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body1">{formula.created}</Typography>
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="body1">{formula.product}</Typography>
