@@ -38,7 +38,7 @@ import {
     updateProduction,
     updateTareItem,
     updateTeamItem,
-    newTareItem, executeCard, sendCardToWork, cancelCard, addNewProduction
+    newTareItem, executeCard, sendCardToWork, cancelCard, addNewProduction, getOriginalCalculation
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -79,10 +79,12 @@ import {
 import {showInfoMessage} from "redux/actions/infoAction";
 import {loadFormulaReference} from "redux/actions/formulaAction";
 
-const PAGE_MAIN: number = 0;
-const PAGE_CALC: number = 1;
-const PAGE_TEAM: number = 2;
-const PAGE_PRODUCT: number = 3;
+const PAGE_MAIN = 0;
+const PAGE_CALC_ORIGINAL = 1;
+const PAGE_CALC = 2;
+const PAGE_TEAM = 3;
+const PAGE_PRODUCT = 4;
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -129,7 +131,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
     const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem)
     const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam)
-    const productionCalc = useSelector((state: IStateInterface)=> state.production.prodCardCalc)
+    const calculationFact = useSelector((state: IStateInterface)=> state.production.prodCardCalc)
+    const calculationOriginal = useSelector((state: IStateInterface)=> state.production.prodCardOriginalCalc)
     const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare)
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
@@ -259,7 +262,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Добавить автоматически рассчитанную калькуляцию
     */
     const handleAddCalcAuto = () => {
-        if (productionCalc.length > 0) {
+        if (calculationFact.length > 0) {
             confirm(
                 {
                     'title': DIALOG_TYPE_CONFIRM,
@@ -312,6 +315,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    /**
+     * Удалить запись с готовой продукцией
+     * @param id
+     */
     const handleDeleteTareItem = (id: number)=> {
         confirm(
             {
@@ -333,11 +340,13 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setTab(newValue);
         switch (newValue) {
-            case PAGE_TEAM: if (productionTeam.length === 0) dispatch(getProductionTeam(idProduction)); break;
-            case PAGE_CALC: if (productionCalc.length === 0) dispatch(getProductionCalc(idProduction));break;
-            case PAGE_PRODUCT: if (productionTare.length === 0) dispatch(getProductionTare(idProduction));break;
+            case PAGE_TEAM: if (!productionTeam.length) dispatch(getProductionTeam(idProduction)); break;
+            case PAGE_CALC: if (!calculationFact.length) dispatch(getProductionCalc(idProduction));break;
+            case PAGE_PRODUCT: if (!productionTare.length) dispatch(getProductionTare(idProduction));break;
+            case PAGE_CALC_ORIGINAL: if (!calculationOriginal.length) dispatch(getOriginalCalculation());break;
         }
     };
+
 
     useEffect(()=>{
         dispatch(loadRaws());
@@ -411,7 +420,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 valueName: 'name'
             }
         ).then((value:any) => {
-            const item = [...productionCalc];
+            const item = [...calculationFact];
             const index = item.findIndex((item:IProductionCalc, index:number, array: IProductionCalc[]) => {return item.id === id});
             item[index].raw.id = value.id;
             item[index].raw.name = value.name;
@@ -496,7 +505,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 if (idProduction === NEW_RECORD_VALUE) {
                     result = await dispatch(addNewProduction(productionItem))
                 } else {
-                    result = await dispatch(updateProduction(productionItem));
+                    await dispatch(updateProduction(productionItem));
+                    result = idProduction
                 }
                 setIdProduction(result)
                 resolve(result)
@@ -507,7 +517,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
         }
     });
-
 
     /**
      * Сохранить изменения
@@ -528,7 +537,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
     //TODO Реализовать печать производственной карты
     function handleMenuPrint() {
-
     }
 
     function handleMenuCardToWork() {
@@ -564,13 +572,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         return operations
     }
 
-const getCard = () => {
+    const getCard = () => {
         return (
             <Card className={className}>
                 <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader={getCardState(productionItem.curState)}
-                        title={ idProduction === NEW_RECORD_VALUE ? 'Новая производственная карта' : `Производственная карта #${productionItem.id}`}
+                        title={
+                            idProduction === NEW_RECORD_VALUE
+                                ? 'Новая производственная карта'
+                                : `Производственная карта #${productionItem.id}`
+                        }
                         avatar={<ProductionStateIcon stateIndex={productionItem.curState}/>}
                         action={
                             <IconButton aria-label="settings" aria-controls="simple-menu" onClick={cardMenuButtonClick}>
@@ -605,7 +617,8 @@ const getCard = () => {
                                 centered
                             >
                                 <Tab label="Основное" {...a11yProps(PAGE_MAIN)} />
-                                <Tab label="Калькуляция"  {...a11yProps(PAGE_CALC)} />
+                                <Tab label="Калькуляция"  {...a11yProps(PAGE_CALC_ORIGINAL)} />
+                                <Tab label="Калькуляция факт."  {...a11yProps(PAGE_CALC)} />
                                 <Tab label="Смены" {...a11yProps(PAGE_TEAM)} />
                                 <Tab label="Выход продукции" {...a11yProps(PAGE_PRODUCT)} />
                             </Tabs>
@@ -748,23 +761,7 @@ const getCard = () => {
                                             error={hasCorrectValueError}
                                         />
                                     </Grid>
-                                    <Grid item xs={3} >
-                                        <TextField
-                                            fullWidth
-                                            type={'number'}
-                                            label="Выход"
-                                            margin="dense"
-                                            name="outValue"
-                                            onChange={handleChange}
-                                            required
-                                            value={productionItem?.outValue}
-                                            variant="outlined"
-                                            inputProps={{
-                                                readOnly: Boolean(!canEditCard()),
-                                                disabled: Boolean(!canEditCard()),
-                                            }}
-                                        />
-                                    </Grid>
+
                                     <Grid item xs={2} >
                                         <TextField
                                             fullWidth
@@ -828,41 +825,31 @@ const getCard = () => {
 
                             </Grid>
                         </TabPanel>
-                        <TabPanel value={tab} index={PAGE_TEAM}>
-                            <Grid container spacing={1}>
-                                <Grid item xs={11}>
-                                    <Typography variant={"h5"}>
-                                        Список сотрудников работающих в смене
-                                    </Typography>
-                                </Grid>
-                                {
-                                    canEditCard() &&
-                                    <Grid item xs={1}>
-                                        <Tooltip title={'Добавить смену сотрудника'}>
-                                            <Fab color="default" aria-label="add" onClick={(event => handleAddTeamItem(idProduction))}>
-                                                <AddIcon/>
-                                            </Fab>
-                                        </Tooltip>
-                                    </Grid>
-                                }
-                                {
-                                    productionTeam.map((team: any) =>(
-                                    <ProductionTeamItem
-                                        key={team.id}
-                                        item={team}
-                                        onChangeItem={handleChangeTeamItem}
-                                        onDeleteItem={handleDeleteTeamItem}
-                                        canEdit={canEditCard()}
-                                    />
-                                    ))
-                                }
-                            </Grid>
-                        </TabPanel>
-                        <TabPanel index={tab} value={PAGE_CALC}>
+                        <TabPanel value={tab} index={PAGE_CALC_ORIGINAL}>
                             <Grid container spacing={1}>
                                 <Grid item xs={10}>
                                     <Typography variant={"h5"}>
                                         Калькуляция сырья
+                                    </Typography>
+                                </Grid>
+                                {calculationOriginal.map((calc: any, index) =>(
+                                    <ProductionCalcItem
+                                        key={index}
+                                        item={calc}
+                                        onChangeItem={handleChangeCalcItem}
+                                        onDeleteItem={handleDeleteCalcItem}
+                                        canEdit={false}
+                                        canDelete={false}
+                                    />
+                                ))}
+                            </Grid>
+
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_CALC}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={10}>
+                                    <Typography variant={"h5"}>
+                                        Фактическая калькуляция сырья
                                     </Typography>
                                 </Grid>
                                 {canEditCard() &&
@@ -884,15 +871,48 @@ const getCard = () => {
                                         </Tooltip>
                                     </Grid>
                                 }
-                                {productionCalc.map((calc: any) =>(
+                                {calculationFact.map((calc: any) =>(
                                     <ProductionCalcItem
                                         item={calc}
                                         onChangeItem={handleChangeCalcItem}
-                                        onDeleteItem={handleDeleteCalcItem}/>
+                                        onDeleteItem={handleDeleteCalcItem}
+                                        canEdit={true}
+                                        canDelete={true}
+                                    />
                                 ))}
                             </Grid>
                         </TabPanel>
-                        <TabPanel index={tab} value={PAGE_PRODUCT}>
+                        <TabPanel value={tab} index={PAGE_TEAM}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={11}>
+                                    <Typography variant={"h5"}>
+                                        Список сотрудников работающих в смене
+                                    </Typography>
+                                </Grid>
+                                {
+                                    canEditCard() &&
+                                    <Grid item xs={1}>
+                                        <Tooltip title={'Добавить смену сотрудника'}>
+                                            <Fab color="default" aria-label="add" onClick={(event => handleAddTeamItem(idProduction))}>
+                                                <AddIcon/>
+                                            </Fab>
+                                        </Tooltip>
+                                    </Grid>
+                                }
+                                {
+                                    productionTeam.map((team: any) =>(
+                                        <ProductionTeamItem
+                                            key={team.id}
+                                            item={team}
+                                            onChangeItem={handleChangeTeamItem}
+                                            onDeleteItem={handleDeleteTeamItem}
+                                            canEdit={canEditCard()}
+                                        />
+                                    ))
+                                }
+                            </Grid>
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_PRODUCT}>
                             <Grid container spacing={1}>
                                 <Grid item xs={11}>
                                     <Typography variant={"h5"}>
@@ -918,6 +938,7 @@ const getCard = () => {
                                 ))}
                             </Grid>
                         </TabPanel>
+
                     </CardContent>
                     <Divider />
                     <CardActions>

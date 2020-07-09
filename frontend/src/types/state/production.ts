@@ -11,6 +11,7 @@ export interface IProductionState {
     prodCardTeam: IProductionTeam[];
     prodCardCalc: IProductionCalc[];
     prodCardTare: IProductionTare[];
+    prodCardOriginalCalc: IProductionCalc[];
     isLoading: boolean;
     error: string;
     typeMessage: string;

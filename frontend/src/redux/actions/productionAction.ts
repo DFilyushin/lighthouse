@@ -10,7 +10,12 @@ import {
     PROD_CALC_LOAD_SUCCESS,
     PROD_TEAM_CHANGE,
     PROD_CALC_CHANGE,
-    PROD_TARE_CHANGE, PROD_TARE_LOAD_SUCCESS, PROD_CLEAR_ERROR, PROD_SAVE_OK, PROD_ADD_NEW_OK
+    PROD_TARE_CHANGE,
+    PROD_TARE_LOAD_SUCCESS,
+    PROD_CLEAR_ERROR,
+    PROD_SAVE_OK,
+    PROD_ADD_NEW_OK,
+    PROD_ORIGIN_CALC_LOAD_SUCCESS
 } from "./types";
 import {
     CARD_STATE_CANCEL,
@@ -165,6 +170,10 @@ export function getProductionTeam(id: number) {
             dispatch(endLoading())
         }
     }
+}
+
+export function getProductionOriginalCalc(id: number) {
+
 }
 
 /**
@@ -447,6 +456,29 @@ export function addNewProduction(item: IProduction) {
     }
 }
 
+export function getOriginalCalculation() {
+    return async (dispatch: any, getState: any) => {
+        const currentCard = getState().production.prodCardItem;
+        const calcItems: IProductionCalc[] = [];
+        const url = FormulaEndpoint.getCalculation(currentCard.idFormula, currentCard.calcValue);
+        console.log(url)
+        const response = await axios.get(url);
+        Object.keys(response.data.raws).forEach((key, index) => {
+            calcItems.push({
+                id: response.data.raws[key]['idRaw']['id'],
+                manufactureId: 0,
+                raw: {
+                    id:response.data.raws[key]['idRaw']['id'],
+                    name: response.data.raws[key]['idRaw']['name']
+                },
+                calcValue: response.data.raws[key]['rawCount']
+            })
+        });
+        console.log('ok')
+        dispatch(successLoadOriginalCalculation(calcItems))
+    }
+}
+
 /**
  * Калькуляция на основе выбранной формулы рассчёта
  * Рассчётное количество из введённых данных
@@ -462,7 +494,10 @@ export function getAutoCalculation() {
             calcItems.push({
                 id: response.data.raws[key]['idRaw']['id'],
                 manufactureId: 0,
-                raw: {id:response.data.raws[key]['idRaw']['id'], name: response.data.raws[key]['idRaw']['name']},
+                raw: {
+                    id:response.data.raws[key]['idRaw']['id'],
+                    name: response.data.raws[key]['idRaw']['name']
+                },
                 calcValue: response.data.raws[key]['rawCount']
             })
         });
@@ -675,6 +710,13 @@ function successLoadCardItem(item: IProduction) {
     return{
         type: PROD_LOAD_ITEM_SUCCESS,
         item: item
+    }
+}
+
+function successLoadOriginalCalculation(items: IProductionCalc[]) {
+    return{
+        type: PROD_ORIGIN_CALC_LOAD_SUCCESS,
+        items: items
     }
 }
 

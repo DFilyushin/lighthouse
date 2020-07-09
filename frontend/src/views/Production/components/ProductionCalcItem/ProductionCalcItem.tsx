@@ -41,12 +41,14 @@ interface IProductionTeamItemProps {
     item: IProductionCalc;
     onDeleteItem: ( (id: number)=> void);
     onChangeItem: ( (id: number)=> void);
+    canEdit: boolean;
+    canDelete: boolean;
 }
 
 
 const ProductionCalcItem = (props: IProductionTeamItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem} = props;
+    const { item, onDeleteItem, canEdit, canDelete, onChangeItem} = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
@@ -66,7 +68,7 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
     return (
         <Fragment>
             <Grid item xs={9}>
-                <Paper component="form" elevation={0} className={classes.paper_root}>
+                <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         InputProps={{
@@ -76,9 +78,14 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
                         name="raw"
                         value={item.raw.name}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickListItem(item.id)}}>
-                        <MenuOpenIcon />
+                    {canEdit &&
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                onClick={event => {
+                                    handleClickListItem(item.id)
+                                }}>
+                        <MenuOpenIcon/>
                     </IconButton>
+                    }
                 </Paper>
             </Grid>
             <Grid item xs={2}>
@@ -91,14 +98,15 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
                     value={item.calcValue}
                 />
             </Grid>
-
-            <Grid item>
-                <Tooltip title={'Удалить запись'}>
-                    <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                        <DeleteIcon />
-                    </Fab>
-                </Tooltip>
-            </Grid>
+            {canDelete &&
+                <Grid item>
+                    <Tooltip title={'Удалить запись'}>
+                        <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
+                            <DeleteIcon/>
+                        </Fab>
+                    </Tooltip>
+                </Grid>
+            }
         </Fragment>
     );
 };
