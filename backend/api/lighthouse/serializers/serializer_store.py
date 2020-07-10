@@ -86,11 +86,13 @@ class FormulaCompSerializer(serializers.ModelSerializer):
     """
     id = serializers.IntegerField(default=0)
     raw = RawSerializer(source='id_raw')
+    concentration = serializers.FloatField(default=100)
+    substance = serializers.FloatField(default=0)
     raw_value = serializers.FloatField()
 
     class Meta:
         model = FormulaComp
-        fields = ('id', 'raw', 'raw_value')
+        fields = ('id', 'raw', 'concentration', 'substance', 'raw_value')
 
 
 class FormulaListSerializer(serializers.ModelSerializer):
@@ -117,6 +119,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
     tare = serializers.IntegerField(source='id_tare_id')
     specification = serializers.CharField()
     raws = FormulaCompSerializer(source='get_raw_in_formula', many=True)
+    density = serializers.FloatField()
 
     def create(self, validated_data):
         formula = Formula.objects.create(
@@ -124,7 +127,8 @@ class NewFormulaSerializer(serializers.ModelSerializer):
             calc_amount=validated_data['calc_amount'],
             calc_losses=validated_data['calc_losses'],
             id_tare_id=validated_data['id_tare_id'],
-            specification=validated_data['specification']
+            specification=validated_data['specification'],
+            density=validated_data['density']
         )
         id_formula = formula.id
 
@@ -132,7 +136,9 @@ class NewFormulaSerializer(serializers.ModelSerializer):
             FormulaComp.objects.create(
                 id_raw_id=raw['id_raw']['id'],
                 id_formula_id=id_formula,
-                raw_value=raw['raw_value']
+                raw_value=raw['raw_value'],
+                substance=raw['substance'],
+                concentration=raw['concentration']
             )
         return formula
 
@@ -142,6 +148,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
         instance.calc_losses = validated_data['calc_losses']
         instance.id_tare_id = validated_data['id_tare_id']
         instance.specification = validated_data['specification']
+        instance.density = validated_data['density']
 
         old_mapping = {inst.id: inst for inst in instance.get_raw_in_formula()}
         data_mapping = {item['id']: item for item in validated_data['get_raw_in_formula']}
@@ -157,6 +164,8 @@ class NewFormulaSerializer(serializers.ModelSerializer):
                 value = old_mapping.get(item['id'], None)
                 value.id_raw_id = item['id_raw']['id']
                 value.raw_value = item['raw_value']
+                value.concentration = item['concentration']
+                value.substance = item['substance']
                 value.save()
 
         for data_id, data in old_mapping.items():
@@ -168,7 +177,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Formula
-        fields = ('id', 'product', 'calcAmount', 'calcLosses', 'tare', 'specification', 'raws')
+        fields = ('id', 'product', 'calcAmount', 'calcLosses', 'tare', 'specification', 'density', 'raws')
 
 
 class FormulaSerializer(serializers.ModelSerializer):
@@ -183,6 +192,7 @@ class FormulaSerializer(serializers.ModelSerializer):
     tare = TareSerializer(source='id_tare')
     specification = serializers.CharField()
     raws = FormulaCompSerializer(source='get_raw_in_formula', many=True)
+    density = serializers.FloatField()
 
     def create(self, validated_data):
         formula = Formula.objects.create(
@@ -190,7 +200,8 @@ class FormulaSerializer(serializers.ModelSerializer):
             calc_amount=validated_data['calc_amount'],
             calc_losses=validated_data['calc_losses'],
             id_tare_id=validated_data['id_tare']['id'],
-            specification=validated_data['specification']
+            specification=validated_data['specification'],
+            density=validated_data['density']
         )
         id_formula = formula.id
 
@@ -198,7 +209,9 @@ class FormulaSerializer(serializers.ModelSerializer):
             FormulaComp.objects.create(
                 id_raw_id=raw['id_raw']['id'],
                 id_formula_id=id_formula,
-                raw_value=raw['raw_value']
+                raw_value=raw['raw_value'],
+                substance=raw['substance'],
+                concentration=raw['concentration']
             )
         return formula
 
@@ -208,6 +221,7 @@ class FormulaSerializer(serializers.ModelSerializer):
         instance.calc_losses = validated_data['calc_losses']
         instance.id_tare_id = validated_data['id_tare']['id']
         instance.specification = validated_data['specification']
+        instance.density = validated_data['density']
 
         old_mapping = {inst.id: inst for inst in instance.get_raw_in_formula()}
         data_mapping = {item['id']: item for item in validated_data['get_raw_in_formula']}
@@ -217,12 +231,16 @@ class FormulaSerializer(serializers.ModelSerializer):
                 FormulaComp.objects.create(
                     id_raw_id=item['id_raw']['id'],
                     id_formula_id=instance.id,
-                    raw_value=item['raw_value']
+                    raw_value=item['raw_value'],
+                    concentration=item['concentration'],
+                    substance=item['substance']
                 )
             else:
                 value = old_mapping.get(item['id'], None)
                 value.id_raw_id = item['id_raw']['id']
                 value.raw_value = item['raw_value']
+                value.substance = item['substance']
+                value.concentration = item['concentration']
                 value.save()
 
         for data_id, data in old_mapping.items():
@@ -234,7 +252,7 @@ class FormulaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Formula
-        fields = ['id', 'created', 'product', 'calcAmount', 'calcLosses', 'specification', 'tare', 'raws']
+        fields = ['id', 'created', 'product', 'calcAmount', 'calcLosses', 'specification', 'density', 'tare', 'raws']
 
 
 class StoreRawSerializer(serializers.Serializer):

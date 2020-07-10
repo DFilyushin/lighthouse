@@ -92,6 +92,8 @@ class Material(models.Model):
 
 
 class Formula(models.Model):
+    """ Рецептура продукции """
+
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     specification = models.TextField(blank=True, null=True, verbose_name='ТУ')
@@ -103,6 +105,7 @@ class Formula(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='Активность рассчёта')
     raws_in_formula = models.ManyToManyField(Material, through='FormulaComp', related_name='raws_in_product',
                                              through_fields=('id_formula', 'id_raw'), verbose_name='Состав сырья')
+    density = models.FloatField(default=0, null=True, verbose_name='Плотность')
 
     def __str__(self):
         return self.id_product.name
@@ -129,10 +132,14 @@ class Formula(models.Model):
 
 
 class FormulaComp(models.Model):
+    """ Компоненты рецептуры """
+
     id = models.AutoField(primary_key=True)
     id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код рецептуры')
     id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
-    raw_value = models.FloatField(default=0, verbose_name='Доля')
+    concentration = models.FloatField(default=0, null=True, verbose_name='Концентрация')
+    substance = models.FloatField(default=0, null=True, verbose_name='Содержания')
+    raw_value = models.FloatField(default=0, verbose_name='Количество')
 
     def __str__(self):
         return self.id_raw.name
@@ -142,6 +149,7 @@ class FormulaComp(models.Model):
 
 
 class ProductionLine(models.Model):
+
     name = models.CharField(max_length=100, verbose_name='Наименование линии')
 
     def __str__(self):
