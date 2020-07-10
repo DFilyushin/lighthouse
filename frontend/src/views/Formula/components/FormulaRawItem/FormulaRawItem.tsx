@@ -63,7 +63,7 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
 
     return (
         <Fragment>
-            <Grid item xs={10}>
+            <Grid item xs={8}>
                 <Paper component="form" elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
@@ -79,6 +79,29 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
                         <MenuOpenIcon />
                     </IconButton>
                 </Paper>
+            </Grid>
+            <Grid item xs={1}>
+                <TextField
+                    label="Концентрация"
+                    type={'number'}
+                    margin="dense"
+                    name="concentration"
+                    onChange={handleChange}
+                    required
+                    value={item.concentration}
+                />
+            </Grid>
+
+            <Grid item xs={1}>
+                <TextField
+                    label="Содержание"
+                    type={'number'}
+                    margin="dense"
+                    name="substance"
+                    onChange={handleChange}
+                    required
+                    value={item.substance}
+                />
             </Grid>
             <Grid item xs={1}>
                 <TextField

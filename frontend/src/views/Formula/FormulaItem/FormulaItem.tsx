@@ -296,6 +296,22 @@ const FormulaItem = (props: IFormulaItemProps) => {
                             </Grid>
                             <Grid
                                 item
+                                xs={3}
+                            >
+                                <TextField
+                                    fullWidth
+                                    type={'number'}
+                                    label="Плотность"
+                                    margin="dense"
+                                    name="density"
+                                    onChange={handleChange}
+                                    required
+                                    value={formulaItem.density}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid
+                                item
                                 xs={12}
                             >
                                 <TextField

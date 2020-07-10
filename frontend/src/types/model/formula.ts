@@ -16,16 +16,19 @@ export interface IFormulaSelectedItem {
 export interface IRawInFormula {
     id: number;
     raw: IRaw;
+    concentration: number;
+    substance: number;
     raw_value: number;
 }
 
 export interface IFormulaItem {
-    id: number,
-    product: IProduct,
-    calcAmount: number,
-    calcLosses: number,
-    specification: string,
-    raws: IRawInFormula []
+    id: number;
+    product: IProduct;
+    calcAmount: number;
+    calcLosses: number;
+    specification: string;
+    density: number;
+    raws: IRawInFormula [];
 }
 
 export const nullFormulaItem: IFormulaItem = {
@@ -34,5 +37,6 @@ export const nullFormulaItem: IFormulaItem = {
     calcAmount: 0,
     calcLosses: 0,
     specification: '',
+    density: 0,
     raws: []
 }

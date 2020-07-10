@@ -88,7 +88,7 @@ export function loadFormulaReference(byProduct: string) {
  */
 export function loadFormulaItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        let formula: IFormulaItem = nullFormulaItem;
+        let formula: IFormulaItem = {...nullFormulaItem};
         dispatch(fetchStart());
         if (id === NEW_RECORD_VALUE){
             dispatch(fetchItemSuccess(formula))
@@ -101,6 +101,7 @@ export function loadFormulaItem(id: number) {
                 formula.calcLosses = response.data['calcLosses']
                 formula.product = response.data['product']
                 formula.calcAmount = response.data['calcAmount']
+                formula.density = response.data['density']
                 formula.raws = response.data['raws']
                 dispatch(fetchItemSuccess(formula))
             } catch (e) {
@@ -187,7 +188,13 @@ export function changeFormula(item: IFormulaItem) {
 export function addNewRawItem() {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().formula.formulaItem};
-        const itemRaw: IRawInFormula = {id: -getRandomInt(MAX_RANDOM_VALUE), raw_value: 0, raw: {id: 0, name: ''}};
+        const itemRaw: IRawInFormula = {
+            id: -getRandomInt(MAX_RANDOM_VALUE),
+            raw_value: 0,
+            substance: 0,
+            concentration: 0,
+            raw: {id: 0, name: ''}
+        };
         item.raws.push(itemRaw)
         dispatch(changeFormula(item))
     }
@@ -249,6 +256,8 @@ export function updateRawItem(rawItemFormula: IRawInFormula) {
         const index = formula.raws.findIndex((elem: IRaw, index:number, array: IRawInFormula[])=>{return elem.id === rawItemFormula.id})
         formula.raws[index].raw = rawItemFormula.raw
         formula.raws[index].raw_value = rawItemFormula.raw_value
+        formula.raws[index].substance = rawItemFormula.substance
+        formula.raws[index].concentration = rawItemFormula.concentration
         dispatch(changeFormula(formula));
     }
 }

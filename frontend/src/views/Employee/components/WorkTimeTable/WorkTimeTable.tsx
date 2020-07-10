@@ -11,7 +11,6 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
     TablePagination
 } from '@material-ui/core';
 import {IEmployeeWorkTimeItem} from 'types/model/employee';

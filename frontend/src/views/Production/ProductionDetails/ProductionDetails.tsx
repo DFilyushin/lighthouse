@@ -209,6 +209,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                         calcAmount: 0,
                         calcLosses: 0,
                         specification: '',
+                        density: 0,
                         raws: []},
                     idFormula: value.id}
                 dispatch(changeProductionCard(item))
