@@ -1,0 +1,122 @@
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+    Card,
+    CardActions,
+    CardContent,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Typography,
+    TablePagination
+} from '@material-ui/core';
+import {IEmployeeWorkTimeItem} from 'types/model/employee';
+import moment from "moment";
+
+const useStyles = makeStyles(theme => ({
+    root: {},
+    content: {
+        padding: 0
+    },
+    inner: {
+        minWidth: 1050
+    },
+    nameContainer: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    avatar: {
+        marginRight: theme.spacing(2)
+    },
+    actions: {
+        justifyContent: 'flex-end'
+    },
+    tableRow: {
+
+    }
+}));
+
+interface IWorkTimeTableProps{
+    className: string;
+    timeItems: IEmployeeWorkTimeItem[];
+};
+
+const WorkTimeTable = (props: IWorkTimeTableProps) => {
+    const { className, timeItems, ...rest } = props;
+
+    const classes = useStyles();
+
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+    const [page, setPage] = useState<number>(0);
+
+
+    const handlePageChange = (event:any, page: number) => {
+        setPage(page);
+    };
+
+    const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+    };
+
+
+    return (
+        <Card
+            {...rest}
+            className={clsx(classes.root, className)}
+        >
+            <CardContent className={classes.content}>
+                <PerfectScrollbar>
+                    <div className={classes.inner}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Продукция</TableCell>
+                                    <TableCell>Линия</TableCell>
+                                    <TableCell>Работа</TableCell>
+                                    <TableCell>Начало</TableCell>
+                                    <TableCell>Окончание</TableCell>
+                                    <TableCell>Отработано часов</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {timeItems.slice(0, rowsPerPage).map(item => (
+                                    <TableRow
+                                        className={classes.tableRow}
+                                        hover
+                                        key={item.id}
+                                    >
+                                        <TableCell>{item.product}</TableCell>
+                                        <TableCell>{item.line}</TableCell>
+                                        <TableCell>{item.work.name}</TableCell>
+                                        <TableCell>{moment(item.periodStart).format('YYYY-MM-DD HH:mm')}</TableCell>
+                                        <TableCell>{moment(item.periodEnd).format('YYYY-MM-DD HH:mm')}</TableCell>
+                                        <TableCell>{item.hours}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </PerfectScrollbar>
+            </CardContent>
+            <CardActions className={classes.actions}>
+                <TablePagination
+                    component="div"
+                    count={timeItems.length}
+                    onChangePage={handlePageChange}
+                    onChangeRowsPerPage={handleRowsPerPageChange}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    labelRowsPerPage='Строк на странице:'
+                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+                />
+            </CardActions>
+        </Card>
+    );
+};
+
+export default WorkTimeTable;

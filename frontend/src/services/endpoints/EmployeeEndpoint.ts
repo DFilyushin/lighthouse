@@ -42,6 +42,14 @@ class EmployeeEndpoint{
     static updateEmployee(id: number){
         return this.getEmployeeItem(id)
     }
+
+    static getEmployeeWorkTime(id: number, start: string, end: string) {
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/employee/${id}/works`
+        const url = new URL(baseUrl);
+        url.searchParams.append('start', start);
+        url.searchParams.append('end', end)
+        return url.href
+    }
 }
 
 export default EmployeeEndpoint

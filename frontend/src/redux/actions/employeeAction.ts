@@ -1,14 +1,16 @@
 import axios from "axios";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import EmployeeEndpoint from "services/endpoints/EmployeeEndpoint";
-import {IEmployee, IEmployeeListItem} from "types/model/employee";
+import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem} from "types/model/employee";
 import {
     EMPLOYEE_CLEAR_ERROR,
     EMPLOYEE_DELETE_OK, EMPLOYEE_ITEM_OK,
     EMPLOYEE_LOAD_FINISH,
     EMPLOYEE_LOAD_START,
     EMPLOYEE_LOAD_SUCCESS,
-    EMPLOYEE_SET_ERROR, EMPLOYEE_UPDATE_ITEM
+    EMPLOYEE_LOAD_WORKTIME_SUCCESS,
+    EMPLOYEE_SET_ERROR,
+    EMPLOYEE_UPDATE_ITEM
 } from "./types";
 
 /**
@@ -38,6 +40,33 @@ export function loadEmployeeList(search?: string, limit?: number) {
             dispatch(showInfoMessage('error', e.toString()))
         }
         dispatch(fetchFinish())
+    }
+}
+
+export function loadEmployeeWorkTimeTable(id: number, start: string, end: string) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(hideInfoMessage());
+
+        try {
+            const items: IEmployeeWorkTimeItem[] = [];
+            const url = EmployeeEndpoint.getEmployeeWorkTime(id, start, end);
+            console.log(url)
+            const response = await axios.get(url);
+            console.log(response.data)
+            Object.keys(response.data).forEach((key, index) => {
+                items.push(response.data[key])
+            });
+            dispatch(fetchSuccessLoadWorkTimeTable(items))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+function fetchSuccessLoadWorkTimeTable(items: IEmployeeWorkTimeItem[]) {
+    return{
+        type: EMPLOYEE_LOAD_WORKTIME_SUCCESS,
+        items
     }
 }
 

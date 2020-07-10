@@ -8,7 +8,8 @@ import {
     EMPLOYEE_DELETE_OK,
     EMPLOYEE_ITEM_OK,
     EMPLOYEE_UPDATE_ITEM,
-    EMPLOYEE_CLEAR_ERROR
+    EMPLOYEE_CLEAR_ERROR,
+    EMPLOYEE_LOAD_WORKTIME_SUCCESS
 } from "./actions/types";
 
 const getInitState = () => ({
@@ -16,7 +17,8 @@ const getInitState = () => ({
     employeeItem: nullEmployee,
     isLoading: false,
     error: '',
-    hasError: false
+    hasError: false,
+    workTimeItems: []
 });
 
 export const employeeReducer = (state: IEmployeeState = getInitState(), action: any)=>{
@@ -29,6 +31,7 @@ export const employeeReducer = (state: IEmployeeState = getInitState(), action: 
         case EMPLOYEE_ITEM_OK: return {...state, employeeItem: action.item};
         case EMPLOYEE_UPDATE_ITEM: return {...state, employeeItem: action.item};
         case EMPLOYEE_CLEAR_ERROR: return {...state, error: '', hasError: false};
+        case EMPLOYEE_LOAD_WORKTIME_SUCCESS: return {...state, workTimeItems: action.items}
         default: return state;
     };
 };

@@ -1,4 +1,5 @@
 import {IStaff} from "./staff";
+import {IWork} from "./work";
 
 export interface IEmployeeListItem {
     id: number;
@@ -13,6 +14,17 @@ export const nullEmployeeItem = {
     fio: '',
     staff: ''
 };
+
+export interface IEmployeeWorkTimeItem {
+    id: number;
+    employee: IEmployeeListItem;
+    product: string;
+    line: string;
+    periodStart: string;
+    periodEnd: string;
+    work: IWork;
+    hours: number;
+}
 
 export interface IEmployee {
     id: number;
