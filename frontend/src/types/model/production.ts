@@ -5,6 +5,7 @@ import {nullProduct, IProduct} from "./product";
 import {IFactoryLine} from "./factorylines";
 import {IRaw} from "./raw";
 import {IFormulaItem, nullFormulaItem} from "./formula";
+import {IWork, nullWork} from "./work";
 
 export const CARD_STATE_DRAFT = 0;
 export const CARD_STATE_IN_WORK = 1;
@@ -84,6 +85,7 @@ export interface IProductionTeam {
     employee: ITempEmployee;
     periodStart: string;
     periodEnd: string;
+    work: IWork;
 }
 
 export const nullProductionTeam: IProductionTeam = {
@@ -91,7 +93,8 @@ export const nullProductionTeam: IProductionTeam = {
     manufactureId: 0,
     employee: {id: 0, tabNum: '', fio: '', staff: ''},
     periodStart: (new Date()).toISOString(),
-    periodEnd: (new Date()).toISOString()
+    periodEnd: (new Date()).toISOString(),
+    work: {...nullWork}
 };
 
 /**

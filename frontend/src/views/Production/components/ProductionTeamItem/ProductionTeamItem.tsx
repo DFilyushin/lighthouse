@@ -42,46 +42,52 @@ const useStyles = makeStyles(theme => ({
 interface IProductionTeamItemProps {
     item: IProductionTeam;
     onDeleteItem: ( (id: number)=> void);
-    onChangeItem: ( (id: number)=> void);
+    onChangeEmployeeItem: ( (id: number)=> void);
+    onChangeWorkItem: ((id: number)=> void);
     canEdit: boolean;
 }
 
 
 const ProductionTeamItem = (props: IProductionTeamItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem, canEdit } = props;
+    const { item, onDeleteItem, onChangeEmployeeItem, onChangeWorkItem, canEdit } = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
-        onChangeItem(id)
+        onChangeEmployeeItem(id)
     };
+
+    const handleClickChangeWorkItem = (id: number) => {
+        onChangeWorkItem(id)
+    }
 
     const handleClickDeleteItem = (id: number)=> {
         onDeleteItem(id);
     };
 
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const newItem = {...item, [event.target.name]: parseFloat(event.target.value)};
-    //     dispatch(updateTeamItem(newItem))
-    // };
-
     const handleDateChangeStartPeriod = (date: Date | null) => {
-        console.log(date);
-        const strDate = date?.toISOString().slice(0, 19);
-        const teamItem = {...item, 'periodStart': strDate as string};
-        dispatch(updateTeamItem(teamItem))
+        try {
+            const strDate = date?.toISOString().slice(0, 19);
+            const teamItem = {...item, 'periodStart': strDate as string};
+            dispatch(updateTeamItem(teamItem))
+        }catch (e) {
+            console.log(e.toString())
+        }
     };
 
     const handleDateChangeEndPeriod = (date: Date | null) => {
-        console.log(date);
-        const strDate = date?.toISOString().slice(0, 19);
-        const teamItem = {...item, 'periodEnd': strDate as string};
-        dispatch(updateTeamItem(teamItem))
+        try {
+            const strDate = date?.toISOString().slice(0, 19);
+            const teamItem = {...item, 'periodEnd': strDate as string};
+            dispatch(updateTeamItem(teamItem))
+        }catch (e) {
+            console.log(e.toString())
+        }
     };
 
     return (
         <Fragment>
-            <Grid item xs={7}>
+            <Grid item xs={4}>
                 <Paper component="form" elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
@@ -101,11 +107,33 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                     }
                 </Paper>
             </Grid>
+            <Grid item xs={3}>
+                <Paper component="form" elevation={0} className={classes.paper_root}>
+                    <TextField
+                        fullWidth
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        label="Вид работы"
+                        name="work"
+                        value={item.work.name}
+                    />
+                    {
+                        canEdit ? (
+                            <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                        onClick={event => {handleClickChangeWorkItem(item.id)}}>
+                                <MenuOpenIcon />
+                            </IconButton>
+                        ): (null)
+                    }
+                </Paper>
+            </Grid>
             <Grid item xs={2}>
                 <KeyboardDateTimePicker
                     disableToolbar
                     //inputVariant="standard"
-                    format="dd/MM/yyyy hh:mm"
+                    showTodayButton={true}
+                    format="dd/MM/yyyy HH:mm"
                     ampm={false}
                     id="periodStart"
                     label="Начало смены"

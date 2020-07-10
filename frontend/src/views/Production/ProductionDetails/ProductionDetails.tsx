@@ -78,6 +78,7 @@ import {
 } from "utils/AppConst";
 import {showInfoMessage} from "redux/actions/infoAction";
 import {loadFormulaReference} from "redux/actions/formulaAction";
+import {loadWorkList} from "../../../redux/actions/workAction";
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
@@ -140,6 +141,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.items)
     const emplItems = useSelector((state: IStateInterface) => state.employee.items)
+    const workItems = useSelector((state: IStateInterface) => state.works.workItems)
     const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
     const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId))
 
@@ -277,6 +279,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
     };
 
+    /**
+     * Сменить сотрудника в смене
+     * @param id
+     */
     const handleChangeTeamItem = (id: number)=> {
         selectDialog(
             {
@@ -294,6 +300,31 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             item[index].employee.id = value.id;
             item[index].employee.fio = value.name;
             dispatch(updateTeamItem(item[index]));
+            }
+        );
+    };
+
+    /**
+     * Сменить вид работы в смене сотрудника
+     * @param id
+     */
+    const handleChangeWorkItem = (id: number)=> {
+        selectDialog(
+            {
+                'title': 'Выбор вида работы',
+                description: '.',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: workItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+                const item = [...productionTeam];
+                const index = item.findIndex((item:IProductionTeam, index:number, array: IProductionTeam[]) => {return item.id === id});
+                item[index].work.id = value.id;
+                item[index].work.name = value.name;
+                dispatch(updateTeamItem(item[index]));
             }
         );
     };
@@ -349,11 +380,12 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
 
     useEffect(()=>{
-        dispatch(loadRaws());
-        dispatch(loadProduct());
-        dispatch(loadFactoryLines());
-        dispatch(loadEmployeeList());
-        dispatch(loadTare());
+        dispatch(loadRaws())
+        dispatch(loadProduct())
+        dispatch(loadFactoryLines())
+        dispatch(loadEmployeeList())
+        dispatch(loadWorkList())
+        dispatch(loadTare())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -900,11 +932,12 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                     </Grid>
                                 }
                                 {
-                                    productionTeam.map((team: any) =>(
+                                    productionTeam.map((team: IProductionTeam) =>(
                                         <ProductionTeamItem
                                             key={team.id}
                                             item={team}
-                                            onChangeItem={handleChangeTeamItem}
+                                            onChangeEmployeeItem={handleChangeTeamItem}
+                                            onChangeWorkItem={handleChangeWorkItem}
                                             onDeleteItem={handleDeleteTeamItem}
                                             canEdit={canEditCard()}
                                         />

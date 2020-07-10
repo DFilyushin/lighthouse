@@ -33,6 +33,7 @@ import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
 import AuthenticationService from "services/Authentication.service";
+import {nullWork} from "../../types/model/work";
 
 
 /**
@@ -159,7 +160,8 @@ export function getProductionTeam(id: number) {
                         manufactureId: id,
                         employee: response.data[key]['employee'],
                         periodStart: response.data[key]['periodStart'],
-                        periodEnd: response.data[key]['periodEnd']
+                        periodEnd: response.data[key]['periodEnd'],
+                        work: response.data[key]['work']
                     })
                 });
                 dispatch(successLoadTeam(items))
@@ -170,10 +172,6 @@ export function getProductionTeam(id: number) {
             dispatch(endLoading())
         }
     }
-}
-
-export function getProductionOriginalCalc(id: number) {
-
 }
 
 /**
@@ -306,6 +304,9 @@ export function deleteTeamItem(id: number) {
     }
 }
 
+/**
+ * Добавить новую пустую запись смены
+ */
 export function newTeamItem() {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTeam];
@@ -314,13 +315,17 @@ export function newTeamItem() {
             manufactureId: 0,
             employee: {id: 0, tabNum: '', fio: '', staff: ''},
             periodStart: (new Date()).toISOString(),
-            periodEnd: (new Date()).toISOString()
+            periodEnd: (new Date()).toISOString(),
+            work: {...nullWork}
         }
         items.push(newItem);
         dispatch(changeTeamItem(items));
     }
 }
 
+/**
+ * Добавить новую пустую запись калькуляции
+ */
 export function newCalcItem() {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardCalc];
@@ -334,6 +339,9 @@ export function newCalcItem() {
     }
 }
 
+/**
+ * Добавить новую пустую запись готовой продукции
+ */
 export function newTareItem() {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
@@ -344,6 +352,10 @@ export function newTareItem() {
     }
 }
 
+/**
+ * Удалить запись из готовой продукции
+ * @param id Код записи
+ */
 export function deleteTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
