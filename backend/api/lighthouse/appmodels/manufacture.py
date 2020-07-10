@@ -298,8 +298,15 @@ class ProdTeam(models.Model):
     id = models.AutoField(primary_key=True)
     id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.CASCADE, verbose_name='Код производства')
+    id_work = models.ForeignKey(ProductionWork, on_delete=models.CASCADE, null=True, default=0, verbose_name='Вид работы')
     period_start = models.DateTimeField(blank=False, null=False, verbose_name='Начало работы')
     period_end = models.DateTimeField(blank=True, null=True, verbose_name='Окончание работы')
+
+    @property
+    def get_hours(self):
+        diff = self.period_end - self.period_start
+        days, seconds = diff.days, diff.seconds
+        return days * 24 + seconds // 3600
 
     def __str__(self):
         return '#{} {} {} - {}'.format(self.id, self.id_employee.fio, self.period_start, self.period_end)
@@ -310,6 +317,7 @@ class ProdTeam(models.Model):
         indexes = [
             models.Index(name='idx_prodteam_period_start', fields=['period_start'])
         ]
+        ordering = ('period_start', )
 
 
 class ProdCalc(models.Model):

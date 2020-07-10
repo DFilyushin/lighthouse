@@ -117,6 +117,22 @@ class ProdTeamListSerializer(serializers.ListSerializer):
         return ret
 
 
+class ProdTeamReportSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    employee = EmployeeListSerializer(source='id_employee')
+    product = serializers.CharField(source='id_manufacture.id_formula.id_product.name')
+    line = serializers.CharField(source='id_manufacture.id_line.name')
+    periodStart = serializers.DateTimeField(source='period_start')
+    periodEnd = serializers.DateTimeField(source='period_end', required=False, allow_null=True)
+    work = WorkSerializer(source='id_work')
+    hours = serializers.IntegerField(source='get_hours')
+
+    class Meta:
+        model = ProdTeam
+        fields = ('id', 'employee', 'product', 'line', 'periodStart', 'periodEnd', 'work', 'hours')
+        list_serializer_class = ProdTeamListSerializer
+
+
 class ProdTeamSerializer(serializers.ModelSerializer):
     """
     Смены производства
@@ -126,26 +142,30 @@ class ProdTeamSerializer(serializers.ModelSerializer):
     employee = EmployeeListSerializer(source='id_employee')
     periodStart = serializers.DateTimeField(source='period_start')
     periodEnd = serializers.DateTimeField(source='period_end', required=False, allow_null=True)
+    work = WorkSerializer(source='id_work')
 
     def create(self, validated_data):
         id_manufacture = validated_data['id_manufacture']['id']
         id_employee = validated_data['id_employee']['id']
+        id_work = validated_data['id_work']['id']
         ProdTeam.objects.create(
             id_manufacture_id=id_manufacture,
             id_employee_id=id_employee,
             period_start=validated_data['period_start'],
-            period_end=validated_data['period_end']
+            period_end=validated_data['period_end'],
+            id_work_id=id_work
         )
 
     def update(self, instance, validated_data):
         instance.id_employee_id = validated_data['id_employee']['id']
+        instance.id_work_id = validated_data['id_work']['id']
         instance.period_start = validated_data['period_start']
         instance.period_end = validated_data['period_end']
         instance.save()
 
     class Meta:
         model = ProdTeam
-        fields = ('id', 'manufactureId', 'employee', 'periodStart', 'periodEnd')
+        fields = ('id', 'manufactureId', 'employee', 'periodStart', 'periodEnd', 'work')
         list_serializer_class = ProdTeamListSerializer
 
 
