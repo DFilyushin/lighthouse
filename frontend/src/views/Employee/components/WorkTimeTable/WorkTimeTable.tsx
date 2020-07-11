@@ -82,7 +82,7 @@ const WorkTimeTable = (props: IWorkTimeTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {timeItems.slice(0, rowsPerPage).map(item => (
+                                {timeItems.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(item => (
                                     <TableRow
                                         className={classes.tableRow}
                                         hover
