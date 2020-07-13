@@ -481,7 +481,7 @@ export function addNewProduction(item: IProduction) {
             // сохранить изменения в калькуляции
             const calcItems = [...getState().production.prodCardCalc];
             let sendCalcItems: any[] = [];
-            if (calcItems.length > 0) {
+            if (calcItems.length) {
                 let idRecord = 0;
                 sendCalcItems =
                     calcItems.map((value: IProductionCalc) => {
@@ -503,7 +503,7 @@ export function addNewProduction(item: IProduction) {
             }
 
             const teamItems = [...getState().production.prodCardTeam];
-            if (teamItems.length > 0) {
+            if (teamItems.length) {
                 teamItems.forEach((value)=>{
                     value.manufactureId = id;
                 })
@@ -513,7 +513,7 @@ export function addNewProduction(item: IProduction) {
 
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
-            if (tareItems.length > 0){
+            if (tareItems.length){
                 sendTareItems = tareItems.map((value)=>{
                     const newValue = {...value};
                     if (newValue.id < 0) {newValue.id=0}
@@ -626,7 +626,7 @@ export function updateProduction(item: IProduction) {
             // сохранить изменения в калькуляции
             const calcItems = [...getState().production.prodCardCalc];
             let sendCalcItems: any[] = [];
-            if (calcItems.length > 0) {
+            if (calcItems.length) {
                 let idRecord = 0;
                 sendCalcItems =
                 calcItems.map((value: IProductionCalc) => {
@@ -648,7 +648,7 @@ export function updateProduction(item: IProduction) {
             }
 
             const teamItems = [...getState().production.prodCardTeam];
-            if (teamItems.length > 0) {
+            if (teamItems.length) {
                 teamItems.forEach((value)=>{
                     value.manufactureId = item.id;
                 })
@@ -657,7 +657,7 @@ export function updateProduction(item: IProduction) {
             }
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
-            if (tareItems.length > 0){
+            if (tareItems.length){
                 sendTareItems = tareItems.map((value)=>{
                     const newValue = {...value};
                     if (newValue.id < 0) {newValue.id=0}
