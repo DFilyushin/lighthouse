@@ -2,7 +2,7 @@ from random import randint
 from datetime import datetime
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, \
-    ProdReadyProduct, ProductionWork
+    ProdReadyProduct, ProductionWork, ProdMaterial
 from .serializer_store import ProductSerializer, FormulaSerializer, RawSerializer
 from .serializer_domain import EmployeeListSerializer
 
@@ -345,3 +345,55 @@ class CalculationResponseSerializer(serializers.ModelSerializer):
     idFormula = serializers.IntegerField()
     count = serializers.FloatField(default=0)
     raws = CalculationRawsResponseSerializer(many=True)
+
+
+class ProdMaterialListSerializer(serializers.ListSerializer):
+
+    def update(self, instance, validated_data):
+        material_mapping = {team.id: team for team in instance}
+        data_mapping = {}
+        for item in validated_data:
+            if 'id' not in item or item['id'] == 0:
+                item['id'] = - randint(1, 100000)
+            data_mapping[item['id']] = item
+
+        ret = []
+        for record_id, data in data_mapping.items():
+            item = material_mapping.get(record_id, None)
+            if item is None:
+                ret.append(self.child.create(data))
+            else:
+                ret.append(self.child.update(item, data))
+
+        for record_id, item in material_mapping.items():
+            if record_id not in data_mapping:
+                item.delete()
+
+        return ret
+
+
+class ProdMaterialSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    materialId = serializers.IntegerField(source='id_material_id')
+    materialName = serializers.CharField(source='id_material.name', required=False)
+    total = serializers.FloatField()
+
+    def create(self, validated_data):
+        id_manufacture = int(self.context['id'])
+        ProdMaterial.objects.create(
+            id_manufacture_id=id_manufacture,
+            id_material_id=validated_data['id_material_id'],
+            total=validated_data['total']
+        )
+
+    def update(self, instance, validated_data):
+        id_manufacture = int(self.context['id'])
+        instance.id_manufacture_id = id_manufacture
+        instance.id_material_id = validated_data['id_material_id']
+        instance.total = validated_data['total']
+        instance.save()
+
+    class Meta:
+        model = ProdMaterial
+        fields = ('id', 'materialId', 'materialName', 'total')
+        list_serializer_class = ProdMaterialListSerializer

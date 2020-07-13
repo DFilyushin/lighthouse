@@ -224,3 +224,35 @@ class ProductionView(viewsets.ModelViewSet):
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+
+    @action(methods=['get', 'post', 'put'], detail=True, url_path='material', url_name='material')
+    def get_material(self, request, pk):
+        """
+        Материалы в карте
+        :param request:
+        :param pk: Код производственной карты
+        :return:
+        """
+        if request.method == 'GET':
+            try:
+                prod = Manufacture.objects.get(id=pk)
+            except Manufacture.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            materials = ProdMaterial.objects.filter(id_manufacture=prod).order_by('id_material__name')
+            serializer = ProdMaterialSerializer(materials, many=True)
+            return Response(status=status.HTTP_200_OK, data=serializer.data)
+        elif request.method == 'POST':
+            serializer = ProdMaterialSerializer(data=request.data, many=True, context={'id': pk})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+        elif request.method == 'PUT':
+            materials = ProdMaterial.objects.filter(id_manufacture_id=int(pk))
+            serializer = ProdMaterialSerializer(instance=materials, data=request.data, many=True, context={'id': pk})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})

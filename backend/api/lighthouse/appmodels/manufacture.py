@@ -352,3 +352,13 @@ class ProdReadyProduct(models.Model):
     class Meta:
         verbose_name = 'Готовая продукция в таре'
         verbose_name_plural = 'Готовая продукция в таре'
+
+
+class ProdMaterial(models.Model):
+    id_manufacture = models.ForeignKey(Manufacture, on_delete=models.CASCADE, verbose_name='Код производства')
+    id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код материала')
+    total = models.FloatField(default=0, verbose_name='Количество')
+
+    class Meta:
+        verbose_name = 'Материал в карте'
+        verbose_name_plural = 'Материалы в карте'
