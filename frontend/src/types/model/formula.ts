@@ -37,6 +37,6 @@ export const nullFormulaItem: IFormulaItem = {
     calcAmount: 0,
     calcLosses: 0,
     specification: '',
-    density: 0,
+    density: 1,
     raws: []
 }
