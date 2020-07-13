@@ -93,6 +93,14 @@ class ProductionEndpoint{
     static getProductionTare(id: number): string{
         return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/tare/`;
     }
+
+    /**
+     * Получить список затраченных материалов
+     * @param id
+     */
+    static getProductionMaterial(id: number): string{
+        return `${BaseAPIEndpoint.getBaseURL()}/prod/${id}/material/`
+    }
 }
 
 export  default ProductionEndpoint;

@@ -38,7 +38,13 @@ import {
     updateProduction,
     updateTareItem,
     updateTeamItem,
-    newTareItem, executeCard, sendCardToWork, cancelCard, addNewProduction, getOriginalCalculation
+    newTareItem,
+    executeCard,
+    sendCardToWork,
+    cancelCard,
+    addNewProduction,
+    getOriginalCalculation,
+    getProductionMaterial, deleteMaterialItem, updateMaterialItem, newMaterialItem
 } from "redux/actions/productionAction";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -51,7 +57,7 @@ import {
     CARD_STATE_DRAFT,
     CARD_STATE_IN_WORK, CARD_STATE_READY,
     CardStateString,
-    IProductionCalc,
+    IProductionCalc, IProductionMaterial,
     IProductionTare, IProductionTeam
 } from "types/model/production";
 import {loadRaws} from "redux/actions/rawAction";
@@ -79,12 +85,14 @@ import {
 import {showInfoMessage} from "redux/actions/infoAction";
 import {loadFormulaReference} from "redux/actions/formulaAction";
 import {loadWorkList} from "../../../redux/actions/workAction";
+import ProductionMaterialItem from "../components/ProductionMaterialItem";
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
 const PAGE_CALC = 2;
 const PAGE_TEAM = 3;
 const PAGE_PRODUCT = 4;
+const PAGE_MATERIAL = 5;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -135,6 +143,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const calculationFact = useSelector((state: IStateInterface)=> state.production.prodCardCalc)
     const calculationOriginal = useSelector((state: IStateInterface)=> state.production.prodCardOriginalCalc)
     const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare)
+    const productionMaterial = useSelector((state: IStateInterface)=> state.production.prodCardMaterial)
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
     const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
@@ -254,6 +263,14 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     }
 
     /**
+     * Добавить новую запись с материалом
+     * @param id
+     */
+    function handleAddMaterialItem(id: number) {
+        dispatch(newMaterialItem())
+    }
+
+    /**
      * Добавить новую запись калькуляции
      * @param id
      */
@@ -364,6 +381,19 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
+    function handleDeleteMaterialItem(id: number){
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            dispatch(deleteMaterialItem(id))
+        );
+    }
+
     /**
      * Изменение вкладки
      * @param event
@@ -376,6 +406,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             case PAGE_CALC: if (!calculationFact.length) dispatch(getProductionCalc(idProduction));break;
             case PAGE_PRODUCT: if (!productionTare.length) dispatch(getProductionTare(idProduction));break;
             case PAGE_CALC_ORIGINAL: if (!calculationOriginal.length) dispatch(getOriginalCalculation());break;
+            case PAGE_MATERIAL: if (!productionMaterial.length) dispatch(getProductionMaterial(idProduction)); break;
         }
     };
 
@@ -482,6 +513,43 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleCloseMenu = () => {
         setAnchorEl(null);
     };
+
+    /**
+     * Выбор материала из списка
+     * @param id Код изменяемой записи
+     * @param typeSelect Вид справочника: 0 - сырьё, 1 - продукция
+     */
+    function handleChangeMaterialItem(id: number, typeSelect: number) {
+        let dataItems;
+        let dialogTitle;
+        if (typeSelect === 0) {
+            dataItems = rawItems
+            dialogTitle = 'Выбор сырья'
+        }else{
+            dataItems = productItems
+            dialogTitle = 'Выбор продукции'
+        }
+
+        selectDialog(
+            {
+                'title': dialogTitle,
+                description: '.',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: dataItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+            const items = [...productionMaterial];
+            const index = items.findIndex((item:IProductionMaterial) => {return item.id === id});
+            items[index].materialId = value.id;
+            items[index].materialName = value.name;
+            dispatch(updateMaterialItem(items[index]));
+            }
+        );
+
+    }
 
     //TODO Реализовать в виде отдельного компонента
     const handleChangeTareItem = (id: number)=> {
@@ -654,6 +722,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                 <Tab label="Калькуляция факт."  {...a11yProps(PAGE_CALC)} />
                                 <Tab label="Смены" {...a11yProps(PAGE_TEAM)} />
                                 <Tab label="Выход продукции" {...a11yProps(PAGE_PRODUCT)} />
+                                <Tab label="Доп. материалы" {...a11yProps(PAGE_MATERIAL)} />
                             </Tabs>
                         </Paper>
 
@@ -972,7 +1041,32 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                 ))}
                             </Grid>
                         </TabPanel>
-
+                        <TabPanel value={tab} index={PAGE_MATERIAL}>
+                            <Grid container spacing={1}>
+                                <Grid item xs={11}>
+                                    <Typography variant={"h5"}>
+                                        Дополнительные материалы
+                                    </Typography>
+                                </Grid>
+                                { canEditCard() &&
+                                <Grid item xs={1}>
+                                    <Tooltip title={'Добавить материал'}>
+                                        <Fab color="default" aria-label="add" onClick={(event => handleAddMaterialItem(idProduction))}>
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Tooltip>
+                                </Grid>
+                                }
+                                {productionMaterial.map((tare: any) =>(
+                                    <ProductionMaterialItem
+                                        item={tare}
+                                        onChangeItem={handleChangeMaterialItem}
+                                        onDeleteItem={handleDeleteMaterialItem}
+                                        canEdit={canEditCard()}
+                                    />
+                                ))}
+                            </Grid>
+                        </TabPanel>
                     </CardContent>
                     <Divider />
                     <CardActions>

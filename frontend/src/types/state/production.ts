@@ -1,7 +1,7 @@
 import {
     IProductionList,
     IProduction,
-    IProductionTeam, IProductionCalc, IProductionTare
+    IProductionTeam, IProductionCalc, IProductionTare, IProductionMaterial
 }
     from "../model/production";
 
@@ -11,6 +11,7 @@ export interface IProductionState {
     prodCardTeam: IProductionTeam[];
     prodCardCalc: IProductionCalc[];
     prodCardTare: IProductionTare[];
+    prodCardMaterial: IProductionMaterial[];
     prodCardOriginalCalc: IProductionCalc[];
     isLoading: boolean;
     error: string;

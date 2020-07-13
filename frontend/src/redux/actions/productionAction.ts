@@ -15,18 +15,18 @@ import {
     PROD_CLEAR_ERROR,
     PROD_SAVE_OK,
     PROD_ADD_NEW_OK,
-    PROD_ORIGIN_CALC_LOAD_SUCCESS
+    PROD_ORIGIN_CALC_LOAD_SUCCESS, PROD_MATERIAL_LOAD_SUCCESS, PROD_MATERIAL_CHANGE
 } from "./types";
 import {
     CARD_STATE_CANCEL,
     CARD_STATE_IN_WORK,
     IProduction,
     IProductionCalc,
-    IProductionList,
+    IProductionList, IProductionMaterial,
     IProductionTare,
     IProductionTeam,
-    nullProduction,
-    nullProductionTare
+    nullProduction, nullProductionMaterial,
+    nullProductionTare, nullProductionTeam
 } from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
@@ -241,6 +241,43 @@ export function getProductionTare(id: number) {
     }
 }
 
+
+export function getProductionMaterial(id: number) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(hideInfoMessage());
+        if (id === NEW_RECORD_VALUE) {
+            dispatch(successLoadMaterials([]))
+        }else {
+            dispatch(startLoading());
+            try {
+                const url = ProductionEndpoint.getProductionMaterial(id);
+                const items: IProductionMaterial[] = [];
+                const response = await axios.get(url);
+                Object.keys(response.data).forEach((key, index) => {
+                    items.push({
+                        id: response.data[key]['id'],
+                        materialId: response.data[key]['materialId'],
+                        materialName: response.data[key]['materialName'],
+                        total: response.data[key]['total'],
+                    })
+                });
+                dispatch(successLoadMaterials(items))
+            } catch (e) {
+                const errMessage = `Данные не были получены. Ошибка: ${e.toString()}`;
+                dispatch(showInfoMessage('error', errMessage));
+            }
+            dispatch(endLoading())
+        }
+    }
+}
+
+function successLoadMaterials(items: IProductionMaterial[]) {
+    return{
+        type: PROD_MATERIAL_LOAD_SUCCESS,
+        items
+    }
+}
+
 /**
  * Изменить объект смены в массиве
  * @param item Смена
@@ -281,6 +318,17 @@ export function updateTareItem(item: IProductionTare) {
         items[index].tareV = item.tareV;
         items[index].count = item.count;
         dispatch(changeTareItem(items));
+    }
+}
+
+export function updateMaterialItem(item: IProductionMaterial) {
+    return async (dispatch: any, getState: any)=> {
+        const items = [...getState().production.prodCardMaterial];
+        const index = items.findIndex((elem: IProductionMaterial)=>{return elem.id === item.id});
+        items[index].materialId = item.materialId;
+        items[index].materialName = item.materialName;
+        items[index].total = item.total;
+        dispatch(changeMaterialItem(items));
     }
 }
 
@@ -352,6 +400,16 @@ export function newTareItem() {
     }
 }
 
+export function newMaterialItem() {
+    return async (dispatch: any, getState: any) => {
+        const items = [...getState().production.prodCardMaterial];
+        let newItem = {...nullProductionMaterial};
+        newItem.id = -getRandomInt(MAX_RANDOM_VALUE);
+        items.push(newItem);
+        dispatch(changeMaterialItem(items));
+    }
+}
+
 /**
  * Удалить запись из готовой продукции
  * @param id Код записи
@@ -362,6 +420,19 @@ export function deleteTareItem(id: number) {
         const index = items.findIndex((item:IProductionTare, index: number, array: IProductionTare[])=> {return item.id === id});
         items.splice(index, 1);
         dispatch(changeTareItem(items));
+    }
+}
+
+/**
+ * Удалить запись из материалов
+ * @param id Код записи
+ */
+export function deleteMaterialItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const items = [...getState().production.prodCardMaterial];
+        const index = items.findIndex((item:IProductionMaterial)=> {return item.id === id});
+        items.splice(index, 1);
+        dispatch(changeMaterialItem(items));
     }
 }
 
@@ -439,6 +510,7 @@ export function addNewProduction(item: IProduction) {
                 const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
                 console.log(teamResponse);
             }
+
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
             if (tareItems.length > 0){
@@ -452,6 +524,13 @@ export function addNewProduction(item: IProduction) {
                 const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
                 console.log(tareResponse);
             }
+
+            const materialItems = [...getState().production.prodCardMaterial]
+            if (materialItems.length) {
+                const materialResponse = await axios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
+                console.log(materialResponse)
+            }
+
             dispatch(saveOk())
 
             console.log('id new record:', id)
@@ -590,8 +669,12 @@ export function updateProduction(item: IProduction) {
                 console.log(tareResponse);
             }
 
+            const materialItems = [...getState().production.prodCardMaterial]
+            if (materialItems.length) {
+                const materialResponse = await axios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
+                console.log(materialResponse)
+            }
             dispatch(saveOk());
-
         }catch (e) {
             if (e.response.status === 400){
                 console.log('data', e.response.data);
@@ -660,6 +743,13 @@ export function cancelCard(id: number) {
             const message = e.response.data.message;
             dispatch(showInfoMessage('error', message || e.toString()))
         }
+    }
+}
+
+function changeMaterialItem(items: IProductionMaterial[]) {
+    return{
+        type: PROD_MATERIAL_CHANGE,
+        items
     }
 }
 

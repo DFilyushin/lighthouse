@@ -70,7 +70,7 @@ export const nullProduction: IProduction = {
     outValue: 0,
     lossValue: 0,
     comment: '',
-    teamLeader: nullEmployee,
+    teamLeader: {...nullEmployee},
     curState: 0,
     idFormula: 0,
     formula: {...nullFormulaItem}
@@ -96,6 +96,13 @@ export const nullProductionTeam: IProductionTeam = {
     periodEnd: (new Date()).toISOString(),
     work: {...nullWork}
 };
+
+export const nullProductionMaterial: IProductionMaterial = {
+    id: 0,
+    materialId: 0,
+    materialName: '',
+    total: 0
+}
 
 /**
  * Калькуляция
@@ -124,6 +131,13 @@ export interface IProductionTare {
     tareName: string;
     tareV: number;
     count: number;
+}
+
+export interface IProductionMaterial {
+    id: number;
+    materialId: number;
+    materialName: string;
+    total: number;
 }
 
 export const nullProductionTare: IProductionTare = {
