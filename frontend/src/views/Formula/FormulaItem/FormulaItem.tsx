@@ -332,7 +332,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                 <TextField
                                     fullWidth
                                     type={'number'}
-                                    label="Плотность"
+                                    label="Плотность, г/см3"
                                     margin="dense"
                                     name="density"
                                     onChange={handleChange}

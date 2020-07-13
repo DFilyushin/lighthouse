@@ -82,7 +82,7 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
             </Grid>
             <Grid item xs={1}>
                 <TextField
-                    label="Концентрация"
+                    label="Концентрация, %"
                     type={'number'}
                     margin="dense"
                     name="concentration"
@@ -94,7 +94,7 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
 
             <Grid item xs={1}>
                 <TextField
-                    label="Содержание"
+                    label="Содержание, г/кг"
                     type={'number'}
                     margin="dense"
                     name="substance"
