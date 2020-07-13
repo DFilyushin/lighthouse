@@ -23,6 +23,7 @@ import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import AddIcon from '@material-ui/icons/Add';
+import OpacityIcon from '@material-ui/icons/Opacity';
 import CircularIndeterminate from "components/Loader/Loader";
 import {loadProduct} from "redux/actions/productAction";
 import { useConfirm } from "material-ui-confirm";
@@ -31,9 +32,10 @@ import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
 import {loadRaws} from "redux/actions/rawAction";
 import {useDialog} from "components/SelectDialog";
-import {IRawInFormula} from "../../../types/model/formula";
-import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NEW_RECORD_VALUE} from "../../../utils/AppConst";
-import {showInfoMessage} from "../../../redux/actions/infoAction";
+import {IRawInFormula} from "types/model/formula";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NEW_RECORD_VALUE} from "utils/AppConst";
+import {showInfoMessage} from "redux/actions/infoAction";
+import Tooltip from '@material-ui/core/Tooltip';
 
 interface IFormulaItemProps {
     className: string,
@@ -159,6 +161,35 @@ const FormulaItem = (props: IFormulaItemProps) => {
         dispatch(addNewRawItem())
     };
 
+    /**
+     * Калькуляция рецептуры
+     */
+    const handleCalculation = () => {
+        const formula = {...formulaItem}
+        const workItems = formula.raws.filter((item:IRawInFormula) => item.substance !== 0)
+        if (workItems.length === formula.raws.length) {
+            dispatch(showInfoMessage('info', 'Нечего считать!'))
+            return
+        }
+        if (formulaItem.raws.length - workItems.length > 1) {
+            dispatch(showInfoMessage('info', 'Слишком много неизвестных!'))
+            return;
+        }
+        formula.raws = formula.raws.map((item: IRawInFormula) => {
+            if (item.substance !== 0){
+                item.raw_value = +(item.substance * 100 / item.concentration).toFixed(1)
+            }
+            return item
+        })
+        const components_substance = workItems.reduce((acc: number, curr: IRawInFormula) => acc + curr.substance * 100 / curr.concentration, 0);
+        formula.raws = formula.raws.map((item: IRawInFormula) => {
+            if (item.substance === 0) {
+                item.raw_value = (formula.density * formula.calcAmount) - +components_substance.toFixed(1);
+            }
+            return item
+        })
+        dispatch(changeFormula(formula))
+    };
 
     /**
      * Проверка корректности ввода
@@ -241,7 +272,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                 item
                                 xs={12}
                             >
-                                <Paper component="form" elevation={0} className={classes.paper_root}>
+                                <Paper elevation={0} className={classes.paper_root}>
                                     <TextField
                                         fullWidth
                                         disabled={true}
@@ -327,14 +358,24 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                 />
                             </Grid>
 
-                            <Grid item xs={11}>
+                            <Grid item xs={10}>
                                 <Typography variant={"h5"}>
                                     Список сырья в рецептуре
                                 </Typography>
                             </Grid>
                             <Grid item xs={1} >
+                                <Fab color="default" aria-label="add" onClick={(event) => {handleCalculation()}}>
+                                    <Tooltip title={'Калькуляция'}>
+                                        <OpacityIcon />
+                                    </Tooltip>
+                                </Fab>
+                            </Grid>
+
+                            <Grid item xs={1} >
                                 <Fab color="default" aria-label="add" onClick={(event) => {handleAddNewRawItem()}}>
-                                    <AddIcon />
+                                    <Tooltip title={'Добавить новое сырьё'}>
+                                        <AddIcon />
+                                    </Tooltip>
                                 </Fab>
                             </Grid>
                             {hasNoItemsError &&
@@ -344,11 +385,13 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     </Typography>
                                 </Grid>
                             }
-                            {formulaItem.raws.map((rawItem: any) =>(
+                            {formulaItem.raws.map((rawItem: any, index: number) =>(
                                 <FormulaRawItem
+                                    key={index}
                                     item={rawItem}
                                     onChangeItem={handleChangeRawItem}
-                                    onDeleteItem={handleDeleteRawItem}/>
+                                    onDeleteItem={handleDeleteRawItem}
+                                />
                             ))}
                         </Grid>
                     </CardContent>

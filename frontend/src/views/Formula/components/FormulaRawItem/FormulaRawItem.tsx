@@ -64,7 +64,7 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
     return (
         <Fragment>
             <Grid item xs={8}>
-                <Paper component="form" elevation={0} className={classes.paper_root}>
+                <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         InputProps={{
