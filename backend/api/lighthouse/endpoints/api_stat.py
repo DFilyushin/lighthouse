@@ -1,11 +1,6 @@
-from django.db.models import Q, F, ExpressionWrapper, Sum, FloatField
+from django.db.models import F, Sum
 from django.db.models.functions import Coalesce
-from rest_framework import viewsets
 from rest_framework import status
-from rest_framework.response import Response
-from rest_framework import filters
-from rest_framework.decorators import action
-from lighthouse.serializers.serializer_stat import *
 from lighthouse.appmodels.sales import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response

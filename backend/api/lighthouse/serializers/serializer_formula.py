@@ -1,4 +1,3 @@
-from abc import ABC
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Formula, FormulaComp
 from lighthouse.serializers.serializer_store import RawSerializer, ProductSerializer, TareSerializer

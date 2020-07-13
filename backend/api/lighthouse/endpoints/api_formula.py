@@ -1,7 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from lighthouse.appmodels.manufacture import Formula, FormulaComp
+from lighthouse.appmodels.manufacture import Formula
 from lighthouse.serializers.serializer_manufacture import FormulaSerializer, CalculationRawsResponseSerializer
 from lighthouse.serializers.serializer_formula import NewFormulaSerializer, FormulaListSerializer
 
