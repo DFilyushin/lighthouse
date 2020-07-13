@@ -22,18 +22,20 @@ import {
     CARD_STATE_IN_WORK,
     IProduction,
     IProductionCalc,
-    IProductionList, IProductionMaterial,
+    IProductionList,
+    IProductionMaterial,
     IProductionTare,
     IProductionTeam,
-    nullProduction, nullProductionMaterial,
-    nullProductionTare, nullProductionTeam
+    nullProduction,
+    nullProductionMaterial,
+    nullProductionTare
 } from "types/model/production";
 import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
-import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
+import {getRandomInt, MAX_RANDOM_VALUE} from "utils/AppUtils";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
 import AuthenticationService from "services/Authentication.service";
-import {nullWork} from "../../types/model/work";
+import {nullWork} from "types/model/work";
 
 
 /**
@@ -400,6 +402,9 @@ export function newTareItem() {
     }
 }
 
+/**
+ * Добавить новую пустую запись материала
+ */
 export function newMaterialItem() {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardMaterial];
@@ -547,6 +552,9 @@ export function addNewProduction(item: IProduction) {
     }
 }
 
+/**
+ * Получить неизменённую калькуляцию по рецептуре
+ */
 export function getOriginalCalculation() {
     return async (dispatch: any, getState: any) => {
         const currentCard = getState().production.prodCardItem;
