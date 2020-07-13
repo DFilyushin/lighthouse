@@ -134,7 +134,7 @@ const EmployeeTable = (props: IEmployeesTable) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {employees.slice(0, rowsPerPage).map(employee => (
+                                {employees.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(employee => (
                                     <TableRow
                                         className={classes.tableRow}
                                         hover

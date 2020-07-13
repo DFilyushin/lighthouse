@@ -98,7 +98,7 @@ const UsersTable = (props: IUsersTableProps) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
+                {users.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(user => (
                   <TableRow
                     className={classes.tableRow}
                     hover

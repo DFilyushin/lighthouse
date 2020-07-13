@@ -16,7 +16,7 @@ import {
     TablePagination
 } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
-import {ICost} from "../../../../types/model/cost";
+import {ICost} from "types/model/cost";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
@@ -204,7 +204,7 @@ const CostTable = (props: ICostTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {costs.slice(0, rowsPerPage).map((cost) => {
+                                {costs.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map((cost) => {
                                     return ([
                                         getCostItem(cost),
                                         (cost.childs && hiden.indexOf(cost.id) ===-1) ? getCostChilds(cost) : null
