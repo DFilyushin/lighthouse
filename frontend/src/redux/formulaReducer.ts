@@ -29,7 +29,7 @@ const nullFormula: IFormulaItem = {
 
 const initialState = (): IFormulaState => ({
     formulas: [],
-    formulaItem: nullFormula,
+    formulaItem: {...nullFormula},
     formulasForSelect: [],
     isLoading: false,
     error: '',

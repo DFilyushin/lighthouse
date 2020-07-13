@@ -33,7 +33,7 @@ export interface IFormulaItem {
 
 export const nullFormulaItem: IFormulaItem = {
     id: 0,
-    product: nullProduct,
+    product: {...nullProduct},
     calcAmount: 0,
     calcLosses: 0,
     specification: '',

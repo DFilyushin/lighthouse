@@ -88,7 +88,7 @@ export function loadFormulaReference(byProduct: string) {
  */
 export function loadFormulaItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        let formula: IFormulaItem = {...nullFormulaItem};
+        let formula: IFormulaItem = {...nullFormulaItem, raws: []};
         dispatch(fetchStart());
         if (id === NEW_RECORD_VALUE){
             dispatch(fetchItemSuccess(formula))
@@ -236,6 +236,7 @@ export function addNewFormula(item: IFormulaItem) {
             delete(newItem.product)
             newItem.product = item.product.id
             newItem.tare = 1
+            console.log(JSON.stringify(newItem))
             await axios.post(FormulaEndpoint.newFormula(), newItem);
         }catch (e) {
             dispatch(saveError(e.toString()))
