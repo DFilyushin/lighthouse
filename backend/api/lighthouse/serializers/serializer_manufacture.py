@@ -3,7 +3,8 @@ from datetime import datetime
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, \
     ProdReadyProduct, ProductionWork, ProdMaterial
-from .serializer_store import ProductSerializer, FormulaSerializer, RawSerializer
+from .serializer_store import ProductSerializer, RawSerializer
+from .serializer_formula import FormulaSerializer
 from .serializer_domain import EmployeeListSerializer
 
 

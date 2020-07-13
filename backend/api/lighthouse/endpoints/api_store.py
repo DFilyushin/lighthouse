@@ -1,7 +1,6 @@
 from builtins import staticmethod
 from django.db.models import Sum
 from rest_framework import viewsets, views
-from rest_framework.decorators import action
 from lighthouse.serializers.serializer_store import *
 from lighthouse.serializers.serializer_manufacture import *
 from lighthouse.appmodels.store import Store
@@ -25,7 +24,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     Готовая продукция
     """
-    queryset = Material.objects.filter(id_type__id=2).all().order_by('name')
+    queryset = Material.objects.filter(id_type__id=MATERIAL_PRODUCT_ID).all().order_by('name')
     serializer_class = ProductSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
@@ -35,7 +34,7 @@ class RawViewSet(viewsets.ModelViewSet):
     """
     Сырьё
     """
-    queryset = Material.objects.filter(id_type__id=1).all().order_by('name')
+    queryset = Material.objects.filter(id_type__id=MATERIAL_RAW_ID).all().order_by('name')
     serializer_class = RawSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
@@ -49,45 +48,6 @@ class TareViewSet(viewsets.ModelViewSet):
     serializer_class = TareSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
-
-
-class FormulaViewSet(viewsets.ModelViewSet):
-    """
-    Рецептура
-    """
-    serializer_class = FormulaSerializer
-
-    def get_queryset(self):
-        show_non_active: bool = self.request.GET.get('show_non_active', False)
-        if show_non_active:
-            return Formula.objects.all().order_by('id_product__name')
-        else:
-            return Formula.objects.filter(is_active=True).all().order_by('id_product__name')
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return FormulaListSerializer
-        elif self.action == 'create' or self.action == 'update':
-            return NewFormulaSerializer
-        else:
-            return FormulaSerializer
-
-    @action(methods=['get'], detail=True, url_path='calc', url_name='calculatation')
-    def calculation(self, request, pk):
-        calc_count = float(request.GET.get('count', 0))
-        try:
-            formula = Formula.objects.get(id=pk)
-        except Formula.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        queryset = formula.get_raws_calculate(calc_count)
-        serializer = CalculationRawsResponseSerializer(queryset, many=True)
-        json_data = {
-            'idFormula': formula.id,
-            'count': calc_count,
-            'raws': serializer.data
-        }
-        return Response(status=status.HTTP_200_OK, data=json_data)
 
 
 class StoreTurnover(views.APIView):

@@ -8,6 +8,7 @@ import lighthouse.endpoints.api_sales as api_sales_views
 import lighthouse.endpoints.api_store as api_store_views
 import lighthouse.endpoints.api_prod as api_prod_views
 import lighthouse.endpoints.api_user as api_user_views
+import lighthouse.endpoints.api_formula as api_formula_views
 
 router = routers.DefaultRouter()
 
@@ -15,7 +16,7 @@ router = routers.DefaultRouter()
 router.register(r'product', api_store_views.ProductViewSet)  # продукция
 router.register(r'raw', api_store_views.RawViewSet)  # сырьё
 router.register(r'tare', api_store_views.TareViewSet)  # тара
-router.register(r'formula', api_store_views.FormulaViewSet, basename='Formula')  # рецептура
+router.register(r'formula', api_formula_views.FormulaViewSet, basename='Formula')  # рецептура
 router.register(r'cost', api_store_views.RefCostViewSet, basename='RefCost')
 router.register(r'expense', api_store_views.ExpenseViewSet)  # затраты
 router.register(r'units', api_store_views.MaterialUnitViewSet)  # единицы измерения
