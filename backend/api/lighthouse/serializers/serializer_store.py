@@ -117,7 +117,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
     calcAmount = serializers.FloatField(source='calc_amount')
     calcLosses = serializers.FloatField(source='calc_losses')
     tare = serializers.IntegerField(source='id_tare_id')
-    specification = serializers.CharField()
+    specification = serializers.CharField(allow_null=True, allow_blank=True)
     raws = FormulaCompSerializer(source='get_raw_in_formula', many=True)
     density = serializers.FloatField()
 
