@@ -97,6 +97,10 @@ class StoreJournalViewSet(viewsets.ModelViewSet):
         param_oper_type = self.request.GET.get('type', None)
         param_start_date = self.request.GET.get('startPeriod', None)
         param_end_date = self.request.GET.get('endPeriod', None)
+        try:
+            oper_type = int(param_oper_type)
+        except ValueError:
+            oper_type = -1
         if param_start_date is None or param_end_date is None:
             raise ValidationError
         try:
@@ -105,8 +109,8 @@ class StoreJournalViewSet(viewsets.ModelViewSet):
         except ValueError:
             raise ValidationError
         queryset = Store.objects.filter(oper_date__range=(start_date, end_date))
-        if param_oper_type is not None:
-            queryset = queryset.filter(oper_type=int(param_oper_type))
+        if param_oper_type is not None and oper_type != -1:
+            queryset = queryset.filter(oper_type=oper_type)
         return queryset.filter(is_delete=False).order_by('-oper_date')
 
 
