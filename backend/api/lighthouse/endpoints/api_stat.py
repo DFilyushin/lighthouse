@@ -1,7 +1,7 @@
 from django.db.models import F, Sum
 from django.db.models.functions import Coalesce
 from rest_framework import status
-from lighthouse.appmodels.sales import *
+from lighthouse.appmodels.sales import ContractSpec
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
