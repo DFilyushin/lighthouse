@@ -99,7 +99,7 @@ class StoreJournalViewSet(viewsets.ModelViewSet):
         param_end_date = self.request.GET.get('endPeriod', None)
         try:
             oper_type = int(param_oper_type)
-        except ValueError:
+        except (ValueError, TypeError):
             oper_type = -1
         if param_start_date is None or param_end_date is None:
             raise ValidationError
