@@ -123,10 +123,11 @@ class StoreJournalSerializer(serializers.ModelSerializer):
     value = serializers.FloatField(source='oper_value')
     price = serializers.FloatField(source='oper_price')
     employee = EmployeeListSerializer(source='id_employee')
+    factoryId = serializers.IntegerField(source='id_manufacture.id', allow_null=True)
 
     class Meta:
         model = Store
-        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee',)
+        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId')
 
 
 class StoreTurnoverSerializer(serializers.Serializer):
