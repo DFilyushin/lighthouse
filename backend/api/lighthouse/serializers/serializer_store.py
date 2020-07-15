@@ -19,6 +19,18 @@ class MaterialUnitSerializer(serializers.ModelSerializer):
         return MaterialUnit.objects.create(name=validated_data['name'])
 
 
+class MaterialSerializer(serializers.ModelSerializer):
+    """
+    Материалы
+    """
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+
+    class Meta:
+        model = Material
+        fields = ['id', 'name']
+
+
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     """
     Продукция предприятия
@@ -102,6 +114,21 @@ class StoreProductSerializer(serializers.Serializer):
     total = serializers.FloatField()
 
 
+class StoreJournalSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    materialId = MaterialSerializer(source='id_material')
+    tareId = TareSerializer(source='id_tare')
+    date = serializers.DateField(source='oper_date')
+    type = serializers.IntegerField(source='oper_type')
+    value = serializers.FloatField(source='oper_value')
+    price = serializers.FloatField(source='oper_price')
+    employee = EmployeeListSerializer(source='id_employee')
+
+    class Meta:
+        model = Store
+        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee',)
+
+
 class StoreTurnoverSerializer(serializers.Serializer):
     """
     Операция по обороту материалов на склады
@@ -111,6 +138,7 @@ class StoreTurnoverSerializer(serializers.Serializer):
     date = serializers.DateField()
     total = serializers.FloatField()
     type = serializers.IntegerField()
+    price=serializers.FloatField()
     employeeId = serializers.IntegerField()
     manufactureId = serializers.IntegerField(allow_null=True, required=False)
     expenseId = serializers.IntegerField(allow_null=True, required=False)
@@ -123,7 +151,8 @@ class StoreTurnoverSerializer(serializers.Serializer):
             oper_value=validated_data['total'],
             oper_type=validated_data['type'],
             id_employee_id=validated_data['employeeId'],
-            id_cost_id=validated_data['expenseId']
+            id_cost_id=validated_data['expenseId'],
+            oper_price=validated_data['price']
         )
         validated_data['id'] = turnover.id
         return validated_data
