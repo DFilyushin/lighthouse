@@ -17,6 +17,7 @@ export const DIALOG_CANCEL_TEXT = 'Отменить'
 export const DIALOG_YES = 'Да'
 export const DIALOG_NO = 'Нет'
 
+export const NO_SELECT_VALUE = -1
 
 export const DIALOG_ASK_DELETE = 'Удалить выбранные записи?'
 

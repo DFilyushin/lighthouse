@@ -1,6 +1,6 @@
 import {IStoreState} from 'types/state/store'
 import {
-    STORE_CLEAR_ERROR,
+    STORE_CLEAR_ERROR, STORE_JOURNAL_SUCCESS,
     STORE_LOAD_FINISH,
     STORE_LOAD_PRODUCT_SUCCESS,
     STORE_LOAD_RAW_SUCCESS,
@@ -12,9 +12,12 @@ import {
 const initState = (): IStoreState => ({
     rawStoreOnDate: (new Date()).toISOString().slice(0, 10), // состояние склада сырья на дату
     productStoreOnDate: (new Date()).toISOString().slice(0, 10), // состояние склада готовой продукции на дату
+    journalStartDate: (new Date()).toISOString().slice(0, 10),
+    journalEndDate: (new Date()).toISOString().slice(0, 10),
     rawStore: [],
     productStore: [],
     reservedProduct: [],
+    storeJournal: [],
     isLoading: false,
     error: '',
     hasError: false
@@ -39,6 +42,8 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, hasError: true, error: action.error}
         case STORE_CLEAR_ERROR:
             return {...state, hasError: false, error: ''}
+        case STORE_JOURNAL_SUCCESS:
+            return {...state, storeJournal: action.items}
         default:
             return state
     }

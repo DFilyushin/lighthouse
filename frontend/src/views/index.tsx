@@ -50,6 +50,8 @@ export {default as ExpenseList} from './Expenses/ExpenseList';
 export {default as WorkList} from './Works/WorkList';
 export {default as WorkItem} from './Works/WorkItem';
 
+export {default as StoreJournal}  from './Store/StoreJournal'
+
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts';
 export { default as ReportProduction} from './Reports/ReportProduction';
