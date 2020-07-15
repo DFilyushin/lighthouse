@@ -124,10 +124,11 @@ class StoreJournalSerializer(serializers.ModelSerializer):
     price = serializers.FloatField(source='oper_price')
     employee = EmployeeListSerializer(source='id_employee')
     factoryId = serializers.IntegerField(source='id_manufacture.id', allow_null=True)
+    costId = serializers.IntegerField(source='id_cost.id', allow_null=True)
 
     class Meta:
         model = Store
-        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId')
+        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId', 'costId')
 
 
 class StoreTurnoverSerializer(serializers.Serializer):
@@ -239,3 +240,20 @@ class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cost
         fields = ('id', 'created', 'date', 'cost', 'total', 'count', 'employee', 'comment')
+
+
+class StoreJournalItemSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    materialId = MaterialSerializer(source='id_material')
+    tareId = TareSerializer(source='id_tare')
+    date = serializers.DateField(source='oper_date')
+    type = serializers.IntegerField(source='oper_type')
+    value = serializers.FloatField(source='oper_value')
+    price = serializers.FloatField(source='oper_price')
+    employee = EmployeeListSerializer(source='id_employee')
+    factoryId = serializers.IntegerField(source='id_manufacture.id', allow_null=True)
+    costId = ExpenseListSerializer(source='id_cost', allow_null=True)
+
+    class Meta:
+        model = Store
+        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId', 'costId')
