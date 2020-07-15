@@ -1,7 +1,6 @@
-from datetime import datetime
 from django.test import TestCase, Client
 from rest_framework import status
-from lighthouse.appmodels.store import RefCost, Cost, Store
+from lighthouse.appmodels.store import RefCost
 
 
 class TestApiRefCost(TestCase):

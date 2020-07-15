@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.test import TestCase, Client
 from rest_framework import status
 from lighthouse.appmodels.manufacture import RefMaterialType, Material, Tare, Formula
@@ -92,7 +91,7 @@ class TestApiFormula(TestCase):
         Обновление рецептуры
         :return:
         """
-        tare = Tare.objects.create(id=2, name='мешок')
+        Tare.objects.create(id=2, name='мешок')
         count = Formula.objects.count()
         self.assertEqual(count, 0)
         self.test_create_formula()

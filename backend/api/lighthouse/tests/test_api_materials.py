@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.test import TestCase, Client
 from rest_framework import status
 from lighthouse.appmodels.manufacture import RefMaterialType, Material
@@ -52,7 +51,7 @@ class TestApiProduct(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_delete_product(self):
-        material = Material.objects.create(id=1, id_type_id=MATERIAL_PRODUCT_ID, name='На удаление')
+        Material.objects.create(id=1, id_type_id=MATERIAL_PRODUCT_ID, name='На удаление')
         response = self.client.delete('/product/1/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 

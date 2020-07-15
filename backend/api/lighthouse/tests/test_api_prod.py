@@ -2,8 +2,7 @@ from datetime import datetime
 from django.test import TestCase, Client
 from rest_framework import status
 from lighthouse.appmodels.manufacture import RefMaterialType, Material, Tare, Formula, Manufacture, ProductionLine
-from lighthouse.appmodels.manufacture import ProdTeam, ProdReadyProduct,\
-    CARD_STATE_IN_WORK, CARD_STATE_DRAFT, CARD_STATE_READY
+from lighthouse.appmodels.manufacture import ProdTeam, ProdReadyProduct, CARD_STATE_IN_WORK
 from lighthouse.appmodels.manufacture import MATERIAL_RAW_ID, MATERIAL_PRODUCT_ID
 from lighthouse.appmodels.store import RefCost, Store
 from lighthouse.appmodels.org import Staff, Employee
@@ -19,10 +18,10 @@ class TestApiManufacture(TestCase):
         RefMaterialType.objects.create(id=MATERIAL_RAW_ID, name='Сырьё')
         RefCost.objects.create(id=0, name='не указано')
         Staff.objects.create(id=1, name='должность')
-        product = Material.objects.create(id=1, name='Продукция №1', id_type_id=MATERIAL_PRODUCT_ID)
-        raw_1 = Material.objects.create(id=2, name='Сырьё 1', id_type_id=MATERIAL_RAW_ID)
-        raw_2 = Material.objects.create(id=3, name='Сырьё 2', id_type_id=MATERIAL_RAW_ID)
-        raw_3 = Material.objects.create(id=4, name='Сырьё 3', id_type_id=MATERIAL_RAW_ID)
+        Material.objects.create(id=1, name='Продукция №1', id_type_id=MATERIAL_PRODUCT_ID)
+        Material.objects.create(id=2, name='Сырьё 1', id_type_id=MATERIAL_RAW_ID)
+        Material.objects.create(id=3, name='Сырьё 2', id_type_id=MATERIAL_RAW_ID)
+        Material.objects.create(id=4, name='Сырьё 3', id_type_id=MATERIAL_RAW_ID)
         self.tare1 = Tare.objects.create(id=1, name='бочка', v=10)
         self.tare2 = Tare.objects.create(id=2, name='канистра', v=5)
         self.tare3 = Tare.objects.create(id=3, name='канистра 2', v=5)
@@ -185,8 +184,8 @@ class TestApiManufacture(TestCase):
             comment='Some text',
             cur_state=0
         )
-        team_1 = ProdTeam.objects.create(id=10, id_manufacture_id=2, id_employee_id=1, period_start=datetime.today())
-        team_2 = ProdTeam.objects.create(id=11, id_manufacture_id=2, id_employee_id=2, period_start=datetime.today())
+        ProdTeam.objects.create(id=10, id_manufacture_id=2, id_employee_id=1, period_start=datetime.today())
+        ProdTeam.objects.create(id=11, id_manufacture_id=2, id_employee_id=2, period_start=datetime.today())
         teams = [
             {
                 'id': 10,
@@ -292,9 +291,9 @@ class TestApiManufacture(TestCase):
         Manufacture.objects.create(id=7, id_creator_id=1, id_team_leader_id=1, id_formula_id=1, id_line_id=1,
                                    prod_start=datetime.today(), prod_finish=datetime.today(), calc_value=0,
                                    loss_value=0, comment='Some text', cur_state=1)
-        team_1 = ProdTeam.objects.create(id=100, id_manufacture_id=7, id_employee_id=1, period_start=datetime.today(),
+        ProdTeam.objects.create(id=100, id_manufacture_id=7, id_employee_id=1, period_start=datetime.today(),
                                          period_end=datetime.today())
-        team_2 = ProdTeam.objects.create(id=101, id_manufacture_id=7, id_employee_id=2, period_start=datetime.today())
+        ProdTeam.objects.create(id=101, id_manufacture_id=7, id_employee_id=2, period_start=datetime.today())
         response = self.client.post('/prod/7/execute/')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['message'], 'Ошибка при сохранении данных: {}'.format(API_ERROR_CARD_TEAM_ERROR))
