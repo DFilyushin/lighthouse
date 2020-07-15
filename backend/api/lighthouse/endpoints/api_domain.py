@@ -1,14 +1,11 @@
 from datetime import datetime
-from rest_framework.decorators import APIView
-from rest_framework import status
+from rest_framework import viewsets, mixins, filters, status
+from rest_framework.decorators import APIView, action
 from rest_framework.response import Response
-from rest_framework import viewsets, mixins
-from rest_framework import filters
 from lighthouse.appmodels.org import Org, Employee, Staff, Department
 from lighthouse.serializers.serializer_domain import OrgSerializer, EmployeeSerializer, StaffSerializer, \
     DepartmentSerializer, EmployeeListSerializer
 from lighthouse.serializers.serializer_manufacture import ProdTeamReportSerializer
-from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import ProdTeam
 
 
