@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/core/styles';
+import TableContainer from '@material-ui/core/TableContainer';
 import {
     Card,
     CardActions,
@@ -13,7 +14,8 @@ import {
     TableHead,
     TableRow,
     Typography,
-    TablePagination
+    TablePagination,
+    Paper
 } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import moment from "moment";
@@ -39,9 +41,6 @@ const useStyles = makeStyles(theme => ({
     },
     actions: {
         justifyContent: 'flex-end'
-    },
-    tableRow: {
-
     }
 }));
 
@@ -112,6 +111,7 @@ const ProductionTable = (props: IProductionTableProps) => {
             className={clsx(classes.root, className)}
         >
             <CardContent className={classes.content}>
+                <TableContainer component={Paper}>
                 <PerfectScrollbar>
                     <div className={classes.inner}>
                         <Table>
@@ -145,7 +145,6 @@ const ProductionTable = (props: IProductionTableProps) => {
                             <TableBody>
                                 {items.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(item => (
                                     <TableRow
-                                        className={classes.tableRow}
                                         hover
                                         key={item.id}
                                         selected={selectedItems.indexOf(item.id) !== -1}
@@ -192,6 +191,7 @@ const ProductionTable = (props: IProductionTableProps) => {
                         </Table>
                     </div>
                 </PerfectScrollbar>
+                </TableContainer>
             </CardContent>
             <CardActions className={classes.actions}>
                 <TablePagination
