@@ -51,6 +51,7 @@ export {default as WorkList} from './Works/WorkList';
 export {default as WorkItem} from './Works/WorkItem';
 
 export {default as StoreJournal}  from './Store/StoreJournal'
+export {default as StoreItem} from './Store/StoreItem';
 
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts';

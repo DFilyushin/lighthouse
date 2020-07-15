@@ -37,6 +37,7 @@ import {
     StaffItem as StaffItemView,
     Staffs as StaffView,
     StoreJournal as StoreJournalView,
+    StoreItem as StoreItemView,
     StoreProduct as StoreProductView,
     StoreRaw as StoreRawView,
     TareItem as TareItemView,
@@ -92,6 +93,7 @@ const Routes = () => {
             <AuthRouteWithLayout component={WorkItemView} layout={MainLayout} path="/catalogs/works/:id" access={[AccessGroups.ADMIN]} exact/>
 
             <AuthRouteWithLayout component={StoreJournalView} layout={MainLayout} path="/store/journal" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={StoreItemView} layout={MainLayout} path="/store/journal/:id" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
 
             <AuthRouteWithLayout component={StaffView} layout={MainLayout} path="/org/staff" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={StaffItemView} layout={MainLayout} path="/org/staff/:id" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>

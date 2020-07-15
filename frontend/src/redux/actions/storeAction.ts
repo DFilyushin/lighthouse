@@ -8,7 +8,8 @@ import {
     STORE_LOAD_RAW_SUCCESS,
     STORE_LOAD_START,
     STORE_SET_ERROR,
-    STORE_JOURNAL_SUCCESS
+    STORE_JOURNAL_SUCCESS,
+    STORE_JOURNAL_ITEM_SUCCESS
 } from "./types";
 
 
@@ -41,6 +42,9 @@ export function loadRawStore() {
     }
 }
 
+/**
+ * Загрузить состояние склада готовой продукции на выбранную дату
+ */
 export function loadProductStore() {
     return async (dispatch: any, getState: any) => {
         const itemList: IStoreRaw[] = [];
@@ -83,7 +87,9 @@ export function loadStoreJournal(date1: string, date2: string, operType: number)
                     employee: response.data[key]['employee'],
                     price: response.data[key]['price'],
                     total: 0,
-                    factoryId: response.data[key]['factoryId']
+                    factoryId: response.data[key]['factoryId'],
+                    costId: response.data[key]['costId'],
+                    material: response.data[key]['materialId']
                 }
                 itemList.push(item)
             });
@@ -92,6 +98,46 @@ export function loadStoreJournal(date1: string, date2: string, operType: number)
             dispatch(fetchError('Ошибка загрузки журнала!'))
         }
         dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузить одну запись журнала складских операций
+ * @param id Код записи
+ */
+export function loadStoreItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const itemList: IStoreJournal[] = [];
+        dispatch(fetchStart());
+        try{
+            const url = StoreEndpoint.getStoreItem(id);
+            const response = await axios.get(url);
+                const item: IStoreJournal = {
+                    id: response.data['id'],
+                    count: response.data['value'],
+                    date: response.data['date'],
+                    tare: response.data['tareId'],
+                    material: response.data['materialId'],
+                    name: response.data['materialId']['name'],
+                    type: response.data['type'],
+                    employee: response.data['employee'],
+                    price: response.data['price'],
+                    total: 0,
+                    factoryId: response.data['factoryId'],
+                    costId: response.data['costId']
+                }
+            dispatch(fetchSuccessJournalItem(item))
+        }catch (e) {
+            dispatch(fetchError('Ошибка загрузки журнала!'))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+function fetchSuccessJournalItem(item: IStoreJournal) {
+    return{
+        type: STORE_JOURNAL_ITEM_SUCCESS,
+        item
     }
 }
 

@@ -9,6 +9,7 @@ export interface IStoreState {
     productStore: IStoreProduct[];
     reservedProduct: IStoreProduct[];
     storeJournal: IStoreJournal[];
+    storeJournalItem: IStoreJournal;
     isLoading: boolean;
     error: string;
     hasError: boolean;
