@@ -34,7 +34,7 @@ const ContractList = () => {
     }, [dispatch, contractStatus]);
 
     function onClickTableItem(contractId: number){
-        history.push(`/contracts/${contractId}`);
+        history.push(`/contracts/${contractId}?source=contract`);
     }
 
     async function onFindClientHandler(findNum: number){

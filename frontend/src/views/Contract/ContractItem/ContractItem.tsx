@@ -1,4 +1,5 @@
 import React, {Fragment, useState, useEffect, SyntheticEvent} from 'react';
+import {RouteComponentProps} from "react-router";
 import moment from "moment";
 import 'moment/locale/ru';
 import { makeStyles } from '@material-ui/core/styles';
@@ -43,7 +44,7 @@ import {searchClients} from "redux/actions/clientAction";
 import Skeleton from '@material-ui/lab/Skeleton';
 import {INVALID_DATE_FORMAT} from "../../../utils/AppConst";
 
-interface IContractItemProps {
+interface IContractItemProps extends RouteComponentProps{
     className: string,
     match: any
 }
@@ -80,8 +81,9 @@ const ContractItem = (props: IContractItemProps) => {
     const history = useHistory();
     const classes = useStyles();
     const dispatch = useDispatch();
-    // const confirm = useConfirm();
-    // const selectDialog = useDialog();
+    const query = new URLSearchParams(props.location.search);
+    const querySource = query.get('source') || 'contract'
+    const querySourceId = query.get('id')
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [hasLoad, setLoad] = useState <boolean>(false)
@@ -183,7 +185,6 @@ const ContractItem = (props: IContractItemProps) => {
         if (value){
             const newState = {...contractItem, 'client': value}
             dispatch(changeContractItem(newState));
-            console.log('newState', newState);
         }
     }
 
@@ -193,9 +194,17 @@ const ContractItem = (props: IContractItemProps) => {
         setAnchorEl(null)
     }
 
+    const handleClose = (event: SyntheticEvent) => {
+        let url = '/contracts'
+        if (querySource === 'client' && querySourceId){
+            url = `/client/${querySourceId}`
+        }
+        history.push(url)
+    }
+
     const handleCloseMenu = () => {
         setAnchorEl(null);
-    };
+    }
 
     const handleAddEmptySpecItem = ()=> {
         dispatch(addNewSpecItem())
@@ -205,7 +214,7 @@ const ContractItem = (props: IContractItemProps) => {
         const strDate = date?.toISOString().slice(0, 19);
         const item = {...contractItem, 'contractDate': strDate as string};
         dispatch(changeContractItem(item))
-    };
+    }
 
     const handleEstDeliveryDateChange = (date: Date | null) => {
         const strDate = date?.toISOString().slice(0, 19);
@@ -481,7 +490,7 @@ const ContractItem = (props: IContractItemProps) => {
                         <Button
                             color="default"
                             variant="contained"
-                            onClick={(event => history.push('/contracts'))}
+                            onClick={handleClose}
                         >
                             Отменить
                         </Button>

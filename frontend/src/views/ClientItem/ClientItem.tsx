@@ -105,7 +105,7 @@ const ClientItem = (props: IClientItemProps) => {
      * @param id
      */
     function onSelectContract(id: number){
-        history.push(`/contract/${id}`);
+        history.push(`/contracts/${id}?source=client&id=${clientId}`);
     }
 
     /**
