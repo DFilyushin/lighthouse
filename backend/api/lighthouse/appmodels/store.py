@@ -1,5 +1,5 @@
 from django.db import models
-from django.db import DatabaseError, transaction
+from django.db import transaction
 from .sales import Contract
 from .manufacture import Material, Manufacture, MaterialUnit, Tare
 from .org import Employee

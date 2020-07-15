@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .appmodels.org import Org, Employee, Staff
+from .appmodels.org import Org, Staff
 from .appmodels.manufacture import *
 from .appmodels.store import *
 
