@@ -25,8 +25,9 @@ store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья
     path('store/product', api_store_views.ProductStoreViewSet.as_view())  # склад готовой продукции
-]
 
+]
+router.register(r'store/journal', api_store_views.StoreJournalViewSet, basename='Store')
 
 # Производство
 router.register(r'prod', api_prod_views.ProductionView, basename='Manufacture')

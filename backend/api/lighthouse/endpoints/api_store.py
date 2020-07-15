@@ -2,9 +2,11 @@ from datetime import datetime
 from builtins import staticmethod
 from django.db.models import Sum
 from rest_framework import viewsets, views, status, filters
+from rest_framework.exceptions import ValidationError, NotFound
 from lighthouse.appmodels.store import MaterialUnit, Material, Tare, RefCost, Cost
 from lighthouse.serializers.serializer_store import MaterialUnitSerializer, TareSerializer, StoreTurnoverSerializer, \
-    StoreRawSerializer, StoreProductSerializer, RefCostSerializer, ExpenseListSerializer, ExpenseSerializer
+    StoreRawSerializer, StoreProductSerializer, RefCostSerializer, ExpenseListSerializer, ExpenseSerializer, \
+    StoreJournalSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
 from lighthouse.appmodels.store import Store
 from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
@@ -83,6 +85,29 @@ class StoreTurnover(views.APIView):
         if serializer.is_valid():
             serializer.update(instance=instance, validated_data=serializer.validated_data)
         return Response(status=status.HTTP_200_OK)
+
+
+class StoreJournalViewSet(viewsets.ModelViewSet):
+    """
+    Складской журнал
+    """
+    serializer_class = StoreJournalSerializer
+
+    def get_queryset(self):
+        param_oper_type = self.request.GET.get('type', None)
+        param_start_date = self.request.GET.get('startPeriod', None)
+        param_end_date = self.request.GET.get('endPeriod', None)
+        if param_start_date is None or param_end_date is None:
+            raise ValidationError
+        try:
+            start_date = datetime.strptime(param_start_date, '%Y-%m-%d')
+            end_date = datetime.strptime(param_end_date, '%Y-%m-%d')
+        except ValueError:
+            raise ValidationError
+        queryset = Store.objects.filter(oper_date__range=(start_date, end_date))
+        if param_oper_type is not None:
+            queryset = queryset.filter(oper_type=int(param_oper_type))
+        return queryset.filter(is_delete=False).order_by('-oper_date')
 
 
 class RawStoreViewSet(views.APIView):
