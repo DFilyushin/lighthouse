@@ -69,6 +69,7 @@ class Store(models.Model):
     oper_date = models.DateField(null=False, verbose_name='Дата оборота')
     oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False, verbose_name='Тип операции')
     oper_value = models.FloatField(default=0, verbose_name='Количество')
+    oper_price = models.FloatField(default=0, verbose_name='Цена за единицу')
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True, verbose_name='Код производства')
     id_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Код сотрудника')
     id_cost = models.ForeignKey(Cost, on_delete=models.SET_NULL, null=True, verbose_name='Код затраты')
