@@ -9,7 +9,7 @@ SECRET_KEY = 'EMPTY'
 DEBUG = True
 
 ADMINS = [
-    ('admin', 'admin@localhost')
+    ('appadmin', 'admin@localhost')
 ]
 
 ALLOWED_HOSTS = ['*']
