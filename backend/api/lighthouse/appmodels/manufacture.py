@@ -313,6 +313,10 @@ class ProdTeam(models.Model):
 
     @property
     def get_hours(self):
+        """
+        Количество часов смены
+        :return: Число часов
+        """
         diff = self.period_end - self.period_start
         days, seconds = diff.days, diff.seconds
         return days * 24 + seconds // 3600
@@ -359,6 +363,9 @@ class ProdMaterial(models.Model):
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.CASCADE, verbose_name='Код производства')
     id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код материала')
     total = models.FloatField(default=0, verbose_name='Количество')
+
+    def __str__(self):
+        return '{} {}'.format(self.id_material.name, self.total)
 
     class Meta:
         verbose_name = 'Материал в карте'
