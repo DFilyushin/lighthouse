@@ -249,14 +249,14 @@ const StoreItem = (props: IStoreItemProps) => {
                                 <Button
                                     color="primary"
                                     variant="contained"
-                                    onClick={saveHandler}
+                                    type={"submit"}
                                 >
                                     Сохранить
                                 </Button>
                                 <Button
                                     color="default"
                                     variant="contained"
-                                    type={"submit"}
+                                    onClick={(event => history.push('/store/journal/'))}
                                 >
                                     Отменить
                                 </Button>
