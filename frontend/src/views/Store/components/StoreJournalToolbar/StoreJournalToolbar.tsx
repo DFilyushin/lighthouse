@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 interface IStoreJournalToolbarProps {
     className: string;
     newItemUrl: string;
-    onRefresh: (startDate: string, endDate: string, state: number) => void;
+    onRefresh: (startDate: string, endDate: string, state: number, material: number) => void;
 }
 
 const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
@@ -74,6 +74,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
     const [firstDate, setFirstDate] = React.useState<Date>(new Date());
     const [endDate, setEndDate] = React.useState<Date>(new Date());
     const [typeOperation, setTypeOperation] = React.useState<number>(NO_SELECT_VALUE)
+    const [typeMaterial, setTypeMaterial] = React.useState<number>(NO_SELECT_VALUE)
 
 
     const handleFirstDateChange = (date: Date | null) => {
@@ -88,11 +89,15 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
         setTypeOperation(event.target.value as number)
     }
 
+    const handleChangeTypeMaterial = (event: React.ChangeEvent<{ value: unknown}>) => {
+        setTypeMaterial(event.target.value as number)
+    }
+
     /**
      * Запрос данных с сервера
      */
     const handleRefreshData = ()=> {
-        onRefresh(firstDate.toISOString(), endDate.toISOString(), typeOperation);
+        onRefresh(firstDate.toISOString(), endDate.toISOString(), typeOperation, typeMaterial);
     }
 
 
@@ -138,7 +143,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                 >
                     <div className={classes.buttonGroup}>
                         <span className={classes.spacer} />
-                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Добавить</Button>
+                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Приход сырья</Button>
                     </div>
                 </Grid>
             </Grid>
@@ -165,6 +170,27 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                             <MenuItem value={NO_SELECT_VALUE}><em>не указано</em></MenuItem>
                             <MenuItem value={0}>Приход</MenuItem>
                             <MenuItem value={1}>Расход</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid
+                    item
+                    lg={2}
+                    sm={6}
+                    md={6}
+                    xs={12}
+                >
+                    <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                        <InputLabel id="oper-type-label">Тип материала</InputLabel>
+                        <Select
+                            labelId="oper-type-label"
+                            id="demo-simple-select-helper"
+                            value={typeMaterial}
+                            onChange={handleChangeTypeMaterial}
+                        >
+                            <MenuItem value={NO_SELECT_VALUE}><em>не указано</em></MenuItem>
+                            <MenuItem value={1}>Сырьё</MenuItem>
+                            <MenuItem value={2}>Продукт</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

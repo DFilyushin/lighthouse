@@ -27,12 +27,12 @@ const StoreJournal = () => {
     const isLoading = useSelector((state: IStateInterface) => state.store.isLoading)
 
     function onClickTableItem(id: number){
-        const url = ``;
+        const url = `/store/journal/${id}`;
         history.push(url);
     }
 
-    function onRefresh(startDate: string, endDate: string, state: number) {
-        dispatch(loadStoreJournal(startDate, endDate, state))
+    function onRefresh(startDate: string, endDate: string, state: number, material: number) {
+        dispatch(loadStoreJournal(startDate, endDate, state, material))
         localStorage.setItem(STORE_PERIOD_START, startDate);
         localStorage.setItem(STORE_PERIOD_END, endDate);
     }

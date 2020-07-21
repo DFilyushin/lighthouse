@@ -69,12 +69,12 @@ export function loadProductStore() {
 /**
  * Загрузить журнал складских операций
  */
-export function loadStoreJournal(date1: string, date2: string, operType: number) {
+export function loadStoreJournal(date1: string, date2: string, operType: number, materialType: number) {
     return async (dispatch: any, getState: any) => {
         const itemList: IStoreJournal[] = [];
         dispatch(fetchStart());
         try{
-            const url = StoreEndpoint.getStoreJournal(date1.slice(0,10), date2.slice(0, 10), operType);
+            const url = StoreEndpoint.getStoreJournal(date1.slice(0,10), date2.slice(0, 10), operType, materialType);
             const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 const item: IStoreJournal = {
