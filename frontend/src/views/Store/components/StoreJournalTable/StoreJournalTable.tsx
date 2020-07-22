@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import RedoIcon from '@material-ui/icons/Redo';
 import UndoIcon from '@material-ui/icons/Undo';
 import DomainIcon from '@material-ui/icons/Domain';
+import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import {
     Card,
     CardActions,
@@ -78,16 +79,18 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
      */
     const getStateIcon = (state: number) => {
         if (state === 0) {
-            return <Tooltip title={'Приход продукции'} children={<RedoIcon />} />
+            return <Tooltip title={'Приход'} children={<RedoIcon />} />
         } else{
             return <Tooltip title={'Расход'} children={<UndoIcon />} />
         }
     }
 
-    const getTypeOfFactory = (state: number) => {
-        if (state) {
+    const getRecordIcon = (item: IStoreJournal) => {
+        if (item.factoryId) {
             return <Tooltip title={'Оборот по производственной карте'} children={<DomainIcon />} />
-        }else {
+        }else if (item.costId) {
+            return <Tooltip title={'Оборот по затратам'} children={<AccountBalanceWalletOutlinedIcon />} />
+        }else{
             return null
         }
     }
@@ -121,9 +124,9 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
                                             key={item.id}
                                         >
                                             <TableCell>
-                                                <Typography variant="body1">{moment(item.date).format('YYYY/MM/DD')}</Typography>
+                                                <Typography variant="body1">{moment(item.date).format('DD/MM/YYYY')}</Typography>
                                             </TableCell>
-                                            <TableCell>{getStateIcon(item.type)} {getTypeOfFactory(item.factoryId)}</TableCell>
+                                            <TableCell>{getStateIcon(item.type)} {getRecordIcon(item)}</TableCell>
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell>{item.tare.name}</TableCell>
                                             <TableCell>{item.count}</TableCell>

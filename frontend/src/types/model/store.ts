@@ -1,7 +1,7 @@
-import {IEmployee, IEmployeeListItem, nullEmployeeItem} from "./employee";
+import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 import {ITare, nullTare} from "./tare";
 import {NO_SELECT_VALUE} from "../../utils/AppConst";
-import {IProductionMaterial} from "./production";
+import {IProductionList} from "./production";
 
 export interface IStoreBase {
     id: number;
@@ -32,19 +32,46 @@ export interface IStoreJournal {
     material: IMaterialItem;
 }
 
-export const nullStoreItem: IStoreJournal = {
+export interface ICostJournalItem {
+    id: number;
+    cost: string;
+    date: string;
+    total: number
+}
+
+
+export interface IStoreJournalItem {
+    id: number;
+    type: number;
+    date: string;
+    name: string;
+    tare: ITare;
+    count: number;
+    price: number;
+    total: number;
+    creator: IEmployeeListItem;
+    created: string;
+    factoryId: number;
+    costId: ICostJournalItem;
+    material: IMaterialItem;
+    factory: IProductionList;
+}
+
+export const nullStoreItem: IStoreJournalItem = {
     id: 0,
     type: NO_SELECT_VALUE,
     date: '',
     factoryId: 0,
-    costId: 0,
+    costId: {id: 0, cost: '', date: '', total: 0},
     total: 0,
     price: 0,
     count: 0,
-    employee: {...nullEmployeeItem},
+    creator: {...nullEmployeeItem},
+    created: '',
     name: '',
     tare: {...nullTare},
-    material: {id:0, name: ''}
+    material: {id:0, name: ''},
+    factory: {id: 0, calcValue: 0, leaderName: '', prodFinish: '', prodStart: '', product: '', state: 0}
 }
 
 export interface IStoreRaw extends IStoreBase{}

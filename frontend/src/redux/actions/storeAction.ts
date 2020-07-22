@@ -1,6 +1,6 @@
 import StoreEndpoint from "services/endpoints/StoreEndpoint";
 import axios from "axios";
-import {IStoreJournal, IStoreProduct, IStoreRaw} from "../../types/model/store";
+import {IStoreJournal, IStoreJournalItem, IStoreProduct, IStoreRaw} from "../../types/model/store";
 import {
     STORE_CLEAR_ERROR,
     STORE_LOAD_FINISH,
@@ -9,8 +9,10 @@ import {
     STORE_LOAD_START,
     STORE_SET_ERROR,
     STORE_JOURNAL_SUCCESS,
-    STORE_JOURNAL_ITEM_SUCCESS
+    STORE_JOURNAL_ITEM_SUCCESS,
+    STORE_CHANGE_ITEM
 } from "./types";
+import CostEndpoint from "services/endpoints/CostEndpoint";
 
 
 /**
@@ -102,17 +104,41 @@ export function loadStoreJournal(date1: string, date2: string, operType: number,
 }
 
 /**
+ * Изменение записи
+ * @param item Объект складской записи
+ */
+export function changeStoreItem(item: IStoreJournalItem) {
+    return{
+        type: STORE_CHANGE_ITEM,
+        item
+    }
+}
+
+/**
+ * Сохранить изменения в БД
+ * @param item
+ */
+export function updateStoreItem(item: IStoreJournalItem) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            await axios.put(CostEndpoint.updateCost(item.id), item);
+        }catch (e) {
+            dispatch(fetchError(e.toString()))
+        }
+    }
+}
+
+/**
  * Загрузить одну запись журнала складских операций
  * @param id Код записи
  */
 export function loadStoreItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        const itemList: IStoreJournal[] = [];
         dispatch(fetchStart());
         try{
             const url = StoreEndpoint.getStoreItem(id);
             const response = await axios.get(url);
-                const item: IStoreJournal = {
+                const item: IStoreJournalItem = {
                     id: response.data['id'],
                     count: response.data['value'],
                     date: response.data['date'],
@@ -120,11 +146,13 @@ export function loadStoreItem(id: number) {
                     material: response.data['materialId'],
                     name: response.data['materialId']['name'],
                     type: response.data['type'],
-                    employee: response.data['employee'],
+                    creator: response.data['employee'],
+                    created: response.data['created'],
                     price: response.data['price'],
                     total: 0,
                     factoryId: response.data['factoryId'],
-                    costId: response.data['costId']
+                    costId: response.data['costId'],
+                    factory: response.data['factory']
                 }
             dispatch(fetchSuccessJournalItem(item))
         }catch (e) {
@@ -134,7 +162,7 @@ export function loadStoreItem(id: number) {
     }
 }
 
-function fetchSuccessJournalItem(item: IStoreJournal) {
+function fetchSuccessJournalItem(item: IStoreJournalItem) {
     return{
         type: STORE_JOURNAL_ITEM_SUCCESS,
         item

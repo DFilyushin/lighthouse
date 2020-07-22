@@ -1,5 +1,4 @@
-import React, {useEffect} from 'react';
-import moment from "moment";
+import React, {useEffect, Fragment} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -9,22 +8,16 @@ import {
     Divider,
     Grid,
     Button,
-    TextField
+    TextField,
+    Paper,
+    Typography
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {
-    loadEmployeeItem
-} from "redux/actions/employeeAction";
-import {useDialog} from "components/SelectDialog";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
-import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT} from "utils/AppConst";
-import {loadStoreItem} from "../../../redux/actions/storeAction";
-import {DatePicker} from "@material-ui/pickers";
-import {changeProductionCard} from "../../../redux/actions/productionAction";
+import {loadStoreItem} from "redux/actions/storeAction";
+import {STORE_IN} from "utils/AppConst";
+import moment from "moment";
 
 interface IStoreItemProps {
     className: string;
@@ -54,7 +47,10 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         width: '80%',
         maxHeight: 435,
-    }
+    },
+    dividerInset: {
+        margin: `5px 0 0 ${theme.spacing(9)}px`,
+    },
 }));
 
 const StoreItem = (props: IStoreItemProps) => {
@@ -63,74 +59,15 @@ const StoreItem = (props: IStoreItemProps) => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
-    const selectDialog = useDialog();
 
     const paramId = props.match.params.id;
-    const id = paramId === 'new' ? 0 :parseInt(paramId);
+    const id = paramId === 'new' ? 0 : parseInt(paramId);
     const storeItem = useSelector((state: IStateInterface)=> state.store.storeJournalItem);
-    const staffItems = useSelector((state:IStateInterface)=> state.staff.staffs);
-    const hasError = useSelector((state: IStateInterface)=> state.employee.hasError);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const item = {...storeItem, [event.target.name]: event.target.value};
-        //dispatch(changeEmployeeItem(item))
-    };
-
-    /**
-     * Сохранение изменений
-     * @param dispatch
-     */
-    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        // do anything here
-        // if (id === 0) {
-        //     await dispatch(addNewEmployeeItem(storeItem));
-        // } else {
-        //     await dispatch(updateEmployeeItem(storeItem));
-        // }
-        // resolve();
-    });
-
-    const saveHandler = (event: React.MouseEvent) => {
-        saveItem(dispatch).then( ()=>{
-                console.log('state', hasError);
-                history.push('/org/employee');
-            }
-        );
-    };
-
-    const handleDateChangeStoreDate = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
-        const item = {...storeItem, 'date': strDate as string};
-        //dispatch(changeProductionCard(item))
-    }
-
-    const handleChangeStaff =  (event: React.MouseEvent) => {
-        // selectDialog(
-        //     {
-        //         'title': 'Выбор должности',
-        //         description: '.',
-        //         confirmationText: DIALOG_SELECT_TEXT,
-        //         cancellationText: DIALOG_CANCEL_TEXT,
-        //         dataItems: staffItems,
-        //         initKey: storeItem.staff.id,
-        //         valueName: 'name'
-        //     }
-        // ).then((value:any) => {
-        //         const item = {...storeItem};
-        //         item.staff.id = value.id;
-        //         item.staff.name = value.name;
-        //         dispatch(changeEmployeeItem(item));
-        //     }
-        // );
-    };
-
-    useEffect(()=> {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     useEffect(()=> {
         dispatch(loadStoreItem(id));
     }, [dispatch, id]);
+
 
     return (
         <div className={classes.root}>
@@ -139,8 +76,8 @@ const StoreItem = (props: IStoreItemProps) => {
                 className={className}
             >
                 <CardHeader
-                    subheader=""
-                    title="..."
+                    subheader={storeItem.type === STORE_IN ? 'Приход материала' : 'Расход материала'}
+                    title="Запись движения материалов"
                 />
                 <CardContent>
                     <Paper className={classes.paper_bar}>
@@ -162,10 +99,9 @@ const StoreItem = (props: IStoreItemProps) => {
                                     >
                                         <TextField
                                             fullWidth
-                                            label="Наименование материала"
+                                            label="Наименование"
                                             margin="dense"
-                                            name="tabNum"
-                                            onChange={handleChange}
+                                            name="material"
                                             required
                                             value={storeItem.material.name}
                                             variant="outlined"
@@ -173,31 +109,43 @@ const StoreItem = (props: IStoreItemProps) => {
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={12}
+                                        xs={10}
                                     >
                                         <TextField
                                             fullWidth
                                             label="Тара"
                                             margin="dense"
                                             name="tare"
-                                            onChange={handleChange}
                                             required
                                             value={storeItem.tare.name}
                                             variant="outlined"
                                         />
                                     </Grid>
-                                    <Grid item xs={3} >
-                                        <DatePicker
-                                            disableToolbar
-                                            inputVariant="outlined"
-                                            format="dd/MM/yyyy"
-                                            id="date"
-                                            label="Дата операции"
-                                            name="date"
-                                            required
+                                    <Grid
+                                        item
+                                        xs={2}
+                                    >
+                                        <TextField
+                                            fullWidth
+                                            label="Объём"
                                             margin="dense"
-                                            value={storeItem.date}
-                                            onChange={handleDateChangeStoreDate}
+                                            name="cost"
+                                            required
+                                            value={storeItem.tare.v}
+                                            variant="outlined"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={2} >
+                                        <TextField
+                                            fullWidth
+                                            label="Дата операции"
+                                            margin="dense"
+                                            name="date"
+                                            value={moment(storeItem.date).format('YYYY-MM-DD')}
+                                            variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={3} >
@@ -207,58 +155,167 @@ const StoreItem = (props: IStoreItemProps) => {
                                             label="Кол-во"
                                             margin="dense"
                                             name="count"
-                                            onChange={handleChange}
                                             required
                                             value={storeItem.count}
                                             variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3} >
+                                    <Grid item xs={2} >
                                         <TextField
                                             fullWidth
                                             type={'number'}
                                             label="Цена за единицу"
                                             margin="dense"
                                             name="price"
-                                            onChange={handleChange}
                                             required
                                             value={storeItem.price}
                                             variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                         />
                                     </Grid>
                                     <Grid
                                         item
                                         xs={12}
+                                        >
+                                        <Divider component="div" variant="inset" />
+                                        <div>
+                                            <Typography
+                                                className={classes.dividerInset}
+                                                color="textSecondary"
+                                                display="block"
+                                                variant="caption"
+                                            >
+                                                Дополнительно
+                                            </Typography>
+                                        </div>
+                                    </Grid>
+                                    {storeItem.costId &&
+                                    <Fragment>
+                                        <Grid
+                                            item
+                                            xs={8}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Статья затрат"
+                                                margin="dense"
+                                                name="cost"
+                                                required
+                                                value={storeItem.costId.cost}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={2}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Дата"
+                                                margin="dense"
+                                                name="cost"
+                                                required
+                                                value={storeItem.costId.date}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={2}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Сумма затрат"
+                                                margin="dense"
+                                                name="cost"
+                                                required
+                                                value={storeItem.costId.total}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                    </Fragment>
+                                    }
+                                    {storeItem.factoryId &&
+                                    <Fragment>
+                                        <Grid
+                                            item
+                                            xs={10}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Производственная карта"
+                                                margin="dense"
+                                                name="cost"
+                                                required
+                                                value={ `№ ${storeItem.factory.id} на продукцию ${storeItem.factory.product}`}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={2}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Дата карты"
+                                                margin="dense"
+                                                name="cost"
+                                                required
+                                                value={moment(storeItem.factory.prodStart).format('YYYY-MM-DD HH:mm')}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                    </Fragment>
+                                    }
+                                    <Grid
+                                        item
+                                        xs={12}
+                                    >
+                                        <Divider />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={10}
                                     >
                                         <TextField
                                             fullWidth
-                                            label="Создана"
+                                            label="Запись журнала создана"
                                             margin="dense"
-                                            name="tabNum"
-                                            onChange={handleChange}
+                                            name="created"
                                             disabled
-                                            value={storeItem.employee.fio}
+                                            value={storeItem.creator.fio}
                                             variant="outlined"
                                         />
                                     </Grid>
-
+                                    <Grid
+                                        item
+                                        xs={2}
+                                    >
+                                        <TextField
+                                            fullWidth
+                                            label="Дата"
+                                            margin="dense"
+                                            name="created"
+                                            disabled
+                                            value={moment(storeItem.created).format('YYYY-MM-DD HH:mm')}
+                                            variant="outlined"
+                                        />
+                                    </Grid>
                                 </Grid>
                             </CardContent>
                             <Divider />
                             <CardActions>
                                 <Button
-                                    color="primary"
-                                    variant="contained"
-                                    type={"submit"}
-                                >
-                                    Сохранить
-                                </Button>
-                                <Button
                                     color="default"
                                     variant="contained"
                                     onClick={(event => history.push('/store/journal/'))}
                                 >
-                                    Отменить
+                                    Закрыть
                                 </Button>
                             </CardActions>
                         </form>
