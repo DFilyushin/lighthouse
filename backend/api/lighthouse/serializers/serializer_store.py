@@ -1,93 +1,11 @@
+from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Material, Tare,  MaterialUnit
 from lighthouse.appmodels.store import Store, RefCost, Cost
 from .serializer_domain import EmployeeListSerializer
-from rest_framework import serializers
+from .serializer_product import RawSerializer
+from .serializer_manufacture import ManufactureListSerializer
+from .serializer_refs import MaterialSerializer, TareSerializer
 
-
-class MaterialUnitSerializer(serializers.ModelSerializer):
-    """
-    Единицы измерения
-    """
-    id = serializers.IntegerField(required=False)
-    name = serializers.CharField()
-
-    class Meta:
-        model = MaterialUnit
-        fields = ('id', 'name')
-
-    def create(self, validated_data):
-        return MaterialUnit.objects.create(name=validated_data['name'])
-
-
-class MaterialSerializer(serializers.ModelSerializer):
-    """
-    Материалы
-    """
-    id = serializers.IntegerField()
-    name = serializers.CharField()
-
-    class Meta:
-        model = Material
-        fields = ['id', 'name']
-
-
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Продукция предприятия
-    """
-    id = serializers.IntegerField(required=False)
-    name = serializers.CharField()
-
-    class Meta:
-        model = Material
-        fields = ['id', 'name']
-
-    def create(self, validated_data):
-        return Material.objects.create(name=validated_data['name'], id_type_id=2)
-
-
-class RawSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Используемое сырьё
-    """
-    id = serializers.IntegerField(required=False)
-    name = serializers.CharField()
-
-    class Meta:
-        model = Material
-        fields = ['id', 'name']
-
-    def create(self, validated_data):
-        return Material.objects.create(name=validated_data['name'], id_type_id=1)
-
-
-class TareSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Тара
-    """
-    id = serializers.IntegerField(required=False)
-    name = serializers.CharField()
-    idUnit = serializers.IntegerField(source='id_unit_id')
-    unit = serializers.CharField(source='id_unit.name', required=False)
-    v = serializers.FloatField()
-
-    class Meta:
-        model = Tare
-        fields = ['id', 'name', 'unit', 'v', 'idUnit']
-
-    def create(self, validated_data):
-        return Tare.objects.create(
-            name=validated_data['name'],
-            v=validated_data['v'],
-            id_unit_id=validated_data['id_unit_id']
-        )
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data['name']
-        instance.id_unit_id = validated_data['id_unit_id']
-        instance.v = validated_data['v']
-        instance.save()
-        return instance
 
 
 class StoreRawSerializer(serializers.Serializer):
@@ -244,6 +162,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
 class StoreJournalItemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
+    created = serializers.DateTimeField()
     materialId = MaterialSerializer(source='id_material')
     tareId = TareSerializer(source='id_tare')
     date = serializers.DateField(source='oper_date')
@@ -253,7 +172,8 @@ class StoreJournalItemSerializer(serializers.ModelSerializer):
     employee = EmployeeListSerializer(source='id_employee')
     factoryId = serializers.IntegerField(source='id_manufacture.id', allow_null=True)
     costId = ExpenseListSerializer(source='id_cost', allow_null=True)
+    factory = ManufactureListSerializer(source='id_manufacture', allow_null=True)
 
     class Meta:
         model = Store
-        fields = ('id', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId', 'costId')
+        fields = ('id', 'created', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId', 'costId' , 'factory')

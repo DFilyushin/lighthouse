@@ -4,7 +4,8 @@ from django.db.models import Sum
 from rest_framework import viewsets, views, status, filters
 from rest_framework.exceptions import ValidationError
 from lighthouse.appmodels.store import MaterialUnit, Material, Tare, RefCost, Cost
-from lighthouse.serializers.serializer_store import MaterialUnitSerializer, TareSerializer, StoreTurnoverSerializer, \
+from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
+from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnoverSerializer, \
     StoreRawSerializer, StoreProductSerializer, RefCostSerializer, ExpenseListSerializer, ExpenseSerializer, \
     StoreJournalSerializer, StoreJournalItemSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer

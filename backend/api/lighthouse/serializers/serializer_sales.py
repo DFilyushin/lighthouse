@@ -1,6 +1,7 @@
 from lighthouse.appmodels.org import Employee
 from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment
-from .serializer_store import ProductSerializer, TareSerializer
+from .serializer_refs import TareSerializer
+from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
 from rest_framework import serializers
 

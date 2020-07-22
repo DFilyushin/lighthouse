@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Formula, FormulaComp
-from lighthouse.serializers.serializer_store import RawSerializer, ProductSerializer, TareSerializer
+from .serializer_product import RawSerializer, ProductSerializer
+from lighthouse.serializers.serializer_refs import TareSerializer
 
 
 class FormulaListSerializer(serializers.ModelSerializer):
