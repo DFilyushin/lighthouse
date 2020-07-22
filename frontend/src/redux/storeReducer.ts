@@ -1,5 +1,6 @@
 import {IStoreState} from 'types/state/store'
 import {
+    STORE_CHANGE_ITEM,
     STORE_CLEAR_ERROR, STORE_JOURNAL_ITEM_SUCCESS, STORE_JOURNAL_SUCCESS,
     STORE_LOAD_FINISH,
     STORE_LOAD_PRODUCT_SUCCESS,
@@ -47,6 +48,8 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
         case STORE_JOURNAL_SUCCESS:
             return {...state, storeJournal: action.items}
         case STORE_JOURNAL_ITEM_SUCCESS:
+            return {...state, storeJournalItem: action.item}
+        case STORE_CHANGE_ITEM:
             return {...state, storeJournalItem: action.item}
         default:
             return state
