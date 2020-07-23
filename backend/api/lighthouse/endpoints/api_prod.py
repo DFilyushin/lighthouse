@@ -46,7 +46,7 @@ class ProductionView(viewsets.ModelViewSet):
         if product is not None:
             queryset = queryset.filter(id_formula__id_product=product)
         if state is not None:
-            queryset = queryset.filter(cur_state=state)
+            queryset = queryset.filter(cur_state=int(state))
         if start_period and not card_num:
             date_start = datetime.strptime(start_period, '%Y-%m-%d')
             date_end = datetime.strptime(end_period, '%Y-%m-%d')
