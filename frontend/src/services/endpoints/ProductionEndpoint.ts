@@ -14,7 +14,7 @@ class ProductionEndpoint{
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/prod`;
         const url = new URL(baseUrl);
         if (productId) url.searchParams.append('product', productId.toString());
-        if (state) url.searchParams.append('state', state.toString());
+        if (state || state ===0 ) url.searchParams.append('state', state.toString());
         if (startPeriod) url.searchParams.append('startPeriod', startPeriod);
         if (endPeriod) url.searchParams.append('endPeriod', endPeriod);
         if (find) url.searchParams.append('find', find);

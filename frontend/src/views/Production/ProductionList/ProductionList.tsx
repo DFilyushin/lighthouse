@@ -63,7 +63,7 @@ const ProductionList = () => {
         localStorage.setItem(PROD_PERIOD_END, date2);
         product ? localStorage.setItem(PROD_PRODUCT, product.toString()) : localStorage.removeItem(PROD_PRODUCT);
 
-        dispatch(loadProductionCards(date1, date2, '', product))
+        dispatch(loadProductionCards(date1, date2, '', product, state))
     }
 
     async function onFindProductHandler(findText: string){

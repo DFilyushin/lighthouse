@@ -16,7 +16,8 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
-import {INVALID_DATE_FORMAT} from "../../../../utils/AppConst";
+import {INVALID_DATE_FORMAT, NO_SELECT_VALUE} from "../../../../utils/AppConst";
+import {CARD_STATE_ITEMS} from "../../../../types/model/production";
 
 
 const useStyles = makeStyles(theme => ({
@@ -77,6 +78,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
     const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
     const [endDate, setEndDate] = React.useState<Date | null>(new Date());
     const [product, setProduct] = React.useState<number>(0);
+    const [prodState, setProdState] = React.useState<number>(NO_SELECT_VALUE);
 
     const handleFirstDateChange = (date: Date | null) => {
         setFirstDate(date);
@@ -87,20 +89,23 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
     const handleChangeProduct = (event: React.ChangeEvent<{ value: unknown }>)=>{
         setProduct(event.target.value as number);
     };
+    const handleChangeState = (event: React.ChangeEvent<{value: unknown}>)=>{
+        setProdState(event.target.value as number)
+    }
 
     /**
      * Запрос данных с сервера
      */
     const handleRefreshData = ()=> {
-        onRefresh(firstDate, endDate, product);
+        onRefresh(firstDate, endDate, product, prodState);
     };
 
     /**
      * Сохраненные данные начала и окончания периода
      */
     useEffect(()=>{
-        const d1: string|null = localStorage.getItem(PROD_PERIOD_START);
-        const d2: string|null = localStorage.getItem(PROD_PERIOD_END);
+        const d1: string|null = localStorage.getItem(PROD_PERIOD_START)
+        const d2: string|null = localStorage.getItem(PROD_PERIOD_END)
         if (d1) {setFirstDate(new Date(d1))}
         if (d2) {setEndDate(new Date(d2))}
     }, []);
@@ -173,7 +178,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                         </Grid>
                         <Grid
                             item
-                            lg={3}
+                            lg={2}
                             sm={6}
                             md={6}
                             xs={12}
@@ -194,6 +199,33 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                                             <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                                         ))
                                     }
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid
+                            item
+                            lg={2}
+                            sm={6}
+                            md={6}
+                            xs={12}
+                        >
+                            <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                                <InputLabel id="demo-simple-select-helper-label">Состояние карты</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-helper-label"
+                                    id="demo-simple-select-helper"
+                                    value={prodState}
+                                    onChange={handleChangeState}
+                                >
+                                    <MenuItem key={NO_SELECT_VALUE} value={NO_SELECT_VALUE}>
+                                        <em>не указано</em>
+                                    </MenuItem>
+                                    {
+                                        CARD_STATE_ITEMS.map(item=>(
+                                            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                                        ))
+                                    }
+
                                 </Select>
                             </FormControl>
                         </Grid>

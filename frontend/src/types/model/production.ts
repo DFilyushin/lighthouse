@@ -13,6 +13,14 @@ export const CARD_STATE_READY = 2;
 export const CARD_STATE_ERROR = 3;
 export const CARD_STATE_CANCEL = 4;
 
+export const CARD_STATE_ITEMS = [
+    {id: CARD_STATE_DRAFT, name: 'Черновик'},
+    {id: CARD_STATE_IN_WORK, name: 'В работе'},
+    {id: CARD_STATE_READY, name: 'Выполненные'},
+    {id: CARD_STATE_ERROR, name: 'С ошибкой'},
+    {id: CARD_STATE_CANCEL, name: 'Отменённый'}
+]
+
 export interface IProductionList {
     id: number;
     prodStart: string;
