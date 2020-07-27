@@ -11,19 +11,24 @@ import {
     Divider,
     Grid,
     Button,
+    Tab,
+    Tabs,
+    Table,
+    TableHead,
+    Paper,
+    Hidden,
+    IconButton,
+    Menu,
+    Fab,
+    Tooltip,
+    Typography,
+    MenuItem,
     TextField, TableRow, TableCell
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-// import {useConfirm} from "material-ui-confirm";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
     addNewContract, addNewSpecItem,
@@ -33,21 +38,22 @@ import {
 } from "redux/actions/contractAction";
 import {ContractSpecItem} from "../components";
 import {IContractSpecItem} from "types/model/contract";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
 import { KeyboardDatePicker} from '@material-ui/pickers';
-// import {useDialog} from "components/SelectDialog";
-import Hidden from "@material-ui/core/Hidden";
 import {IClientItemList} from "types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {searchClients} from "redux/actions/clientAction";
 import Skeleton from '@material-ui/lab/Skeleton';
 import {INVALID_DATE_FORMAT} from "../../../utils/AppConst";
+import TabPanel from "../../Production/components/TabPanel";
+import ContractPaymentTable from "../components/ContractPaymentTable";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
     match: any
 }
+
+const PAGE_MAIN = 0
+const PAGE_PAYMENT = 1
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,6 +91,7 @@ const ContractItem = (props: IContractItemProps) => {
     const querySource = query.get('source') || 'contract'
     const querySourceId = query.get('id')
 
+    const [tab, setTab] = React.useState(PAGE_MAIN);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [hasLoad, setLoad] = useState <boolean>(false)
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem);
@@ -179,6 +186,14 @@ const ContractItem = (props: IContractItemProps) => {
     }, [hasLoad, inputValue, contractItem.client.id]);
 
 
+    function a11yProps(index: any) {
+        return {
+            id: `scrollable-force-tab-${index}`,
+            'aria-controls': `scrollable-force-tabpanel-${index}`,
+        };
+    }
+
+
     function onChangeClient(event: object, value: IClientItemList | null, reason: string) {
         console.log('onChangeClient', value)
         setCurClient(value);
@@ -188,11 +203,34 @@ const ContractItem = (props: IContractItemProps) => {
         }
     }
 
+    /**
+     * Печать контракта
+     */
     const handlePrint = () => {
-        //печать ...
-
+        // печать ...
         setAnchorEl(null)
     }
+
+    /**
+     * Ввод оплаты по контракту
+     */
+    const handleAddPayment = () => {
+
+    }
+
+    /**
+     * Изменение вкладки
+     * @param event
+     * @param newValue - Индекс новой вкладки
+     */
+    const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setTab(newValue);
+        switch (newValue) {
+            case PAGE_MAIN:  break;
+            case PAGE_PAYMENT: break;
+        }
+    };
+
 
     const handleClose = (event: SyntheticEvent) => {
         let url = '/contracts'
@@ -227,6 +265,10 @@ const ContractItem = (props: IContractItemProps) => {
         dispatch(changeContractItem(item))
     };
 
+    const handleClickTableItem = (id: number) => {
+        return
+    }
+
     return (
         <div className={classes.root}>
             <Card
@@ -253,10 +295,29 @@ const ContractItem = (props: IContractItemProps) => {
                         open={Boolean(anchorEl)}
                         onClose={handleCloseMenu}
                     >
+                        <MenuItem onClick={handleAddPayment}>Ввод оплаты</MenuItem>
                         <MenuItem onClick={handlePrint}>Печать</MenuItem>
                     </Menu>
                     <Divider />
+
+
+
                     <CardContent>
+                        <Paper className={classes.paper_bar}>
+                            <Tabs
+                                value={tab}
+                                onChange={handleTabChange}
+                                scrollButtons="on"
+                                indicatorColor="primary"
+                                textColor="primary"
+                                aria-label="scrollable force tabs example"
+                                centered
+                            >
+                                <Tab label="Общие сведения" {...a11yProps(PAGE_MAIN)} />
+                                <Tab label="Оплаты по контракту"  {...a11yProps(PAGE_PAYMENT)} />
+                            </Tabs>
+                        </Paper>
+                        <TabPanel value={tab} index={PAGE_MAIN}>
                         {loading ? (
                             <Fragment>
                                 <Skeleton animation="wave" height={200} width="100%" style={{ marginBottom: 2 }} />
@@ -476,7 +537,14 @@ const ContractItem = (props: IContractItemProps) => {
                                     />
                                 </Grid>
                             </Grid>
-
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_PAYMENT}>
+                            <ContractPaymentTable
+                                className={''}
+                                items={contractItem.payments}
+                                onClickTableItem={handleClickTableItem}
+                            />
+                        </TabPanel>
                     </CardContent>
                     <Divider />
                     <CardActions>
