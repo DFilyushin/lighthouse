@@ -155,7 +155,7 @@ class PaymentMethod(models.Model):
 
 class Payment(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
-    id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
+    id_contract = models.ForeignKey(Contract, related_name='payments', on_delete=models.CASCADE, verbose_name='Контракт')
     pay_date = models.DateField(null=False, verbose_name='Дата оплаты')
     pay_num = models.CharField(max_length=20, verbose_name='Номер документа')
     pay_type = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE, verbose_name='Тип оплаты')
