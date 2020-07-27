@@ -124,43 +124,6 @@ class ContractSpecSerializer(serializers.ModelSerializer):
         fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemDiscount', 'itemTotal',  'delivery', 'delivered')
 
 
-class ContractSerializer(serializers.ModelSerializer):
-    """Контракт"""
-    id = serializers.IntegerField()
-    created = serializers.DateTimeField()
-    client = ClientListSerializer(source='id_client')
-    num = serializers.CharField()
-    contractDate = serializers.DateField(source='contract_date')
-    contractState = serializers.IntegerField(source='contract_state')
-    comment = serializers.CharField(required=False, allow_blank=True)
-    estDelivery = serializers.DateField(source='est_delivery')
-    delivered = serializers.DateField(allow_null=True, required=True)
-    discount = serializers.FloatField(default=0)
-    contractId = serializers.CharField(source='contractid')
-    agent = EmployeeListSerializer(source='id_agent')
-    specs = ContractSpecSerializer(many=True)
-
-    def create(self, validated_data):
-        pass
-
-    def update(self, instance, validated_data):
-        instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
-        instance.num = validated_data['num']
-        instance.contract_date = validated_data['contract_date']
-        instance.comment = validated_data['comment']
-        instance.contractid = validated_data['contractid']
-        instance.discount = validated_data['discount']
-        instance.est_delivery = validated_data['est_delivery']
-        instance.delivered = validated_data['delivered']
-        instance.save()
-        return instance
-
-    class Meta:
-        model = Contract
-        fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
-                  'delivered', 'discount', 'contractId', 'agent', 'specs')
-
-
 class PaymentMethodSerializer(serializers.ModelSerializer):
     """Метод оплаты"""
     id = serializers.IntegerField(required=False)
@@ -190,3 +153,55 @@ class PaymentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = ('id', 'created', 'contract', 'client', 'date', 'num', 'type', 'value')
+
+
+class PaymentContractSerializer(serializers.ModelSerializer):
+    """Оплаты в контракте"""
+    id = serializers.IntegerField()
+    created = serializers.DateTimeField()
+    date = serializers.DateField(source='pay_date')
+    num = serializers.CharField(source='pay_num')
+    type = serializers.CharField(source='pay_type.name')
+    value = serializers.FloatField(source='pay_value')
+
+    class Meta:
+        model = Payment
+        fields = ('id', 'created', 'date', 'num', 'type', 'value')
+
+
+class ContractSerializer(serializers.ModelSerializer):
+    """Контракт"""
+    id = serializers.IntegerField()
+    created = serializers.DateTimeField()
+    client = ClientListSerializer(source='id_client')
+    num = serializers.CharField()
+    contractDate = serializers.DateField(source='contract_date')
+    contractState = serializers.IntegerField(source='contract_state')
+    comment = serializers.CharField(required=False, allow_blank=True)
+    estDelivery = serializers.DateField(source='est_delivery')
+    delivered = serializers.DateField(allow_null=True, required=True)
+    discount = serializers.FloatField(default=0)
+    contractId = serializers.CharField(source='contractid')
+    agent = EmployeeListSerializer(source='id_agent')
+    specs = ContractSpecSerializer(many=True)
+    payments = PaymentContractSerializer(many=True)
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
+        instance.num = validated_data['num']
+        instance.contract_date = validated_data['contract_date']
+        instance.comment = validated_data['comment']
+        instance.contractid = validated_data['contractid']
+        instance.discount = validated_data['discount']
+        instance.est_delivery = validated_data['est_delivery']
+        instance.delivered = validated_data['delivered']
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Contract
+        fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
+                  'delivered', 'discount', 'contractId', 'agent', 'specs', 'payments')
