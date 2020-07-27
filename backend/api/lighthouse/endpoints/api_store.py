@@ -248,8 +248,9 @@ class ExpenseViewSet(viewsets.ModelViewSet):
         :param kwargs: id - Код записи
         :return:
         """
+        id_record = int(kwargs.get('pk', 0))
         try:
-            expense = Cost.objects.get(id=kwargs.get('id', 0))
+            expense = Cost.objects.get(id=id_record)
         except Cost.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         expense.delete_cost()
