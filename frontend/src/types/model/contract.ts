@@ -13,6 +13,15 @@ export interface IContractListItem {
     sum: number;
 }
 
+export interface IPaymentContractItem {
+    id: number;
+    created: string;
+    date: string;
+    num: string;
+    type: string;
+    value: number;
+}
+
 export const nullContractItem: IContract = {
     id: 0,
     num: '',
@@ -26,7 +35,8 @@ export const nullContractItem: IContract = {
     contractId: '',
     estDelivery: '',
     agent: nullEmployeeItem,
-    specs: []
+    specs: [],
+    payments: []
 };
 
 export const nullContractSpecItem : IContractSpecItem = {
@@ -66,7 +76,8 @@ export interface IContract {
     comment: string;
     contractId: string;
     agent: IEmployeeListItem;
-    specs: IContractSpecItem[]
+    specs: IContractSpecItem[];
+    payments: IPaymentContractItem[];
 }
 
 export const ContractStateString = [
