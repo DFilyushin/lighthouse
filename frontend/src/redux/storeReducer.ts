@@ -1,15 +1,23 @@
 import {IStoreState} from 'types/state/store'
 import {
     STORE_CHANGE_ITEM,
-    STORE_CLEAR_ERROR, STORE_JOURNAL_ITEM_SUCCESS, STORE_JOURNAL_SUCCESS,
+    STORE_CLEAR_ERROR,
+    STORE_ITEM_MOVEMENT_CHANGE,
+    STORE_ITEM_MOVEMENT_DELETE,
+    STORE_JOURNAL_ITEM_SUCCESS,
+    STORE_JOURNAL_SUCCESS,
     STORE_LOAD_FINISH,
     STORE_LOAD_PRODUCT_SUCCESS,
     STORE_LOAD_RAW_SUCCESS,
     STORE_LOAD_START,
+    STORE_NEW_MOVEMENT,
+    STORE_NEW_MOVEMENT_ITEM,
     STORE_SET_DATE_PRODUCT_STORE,
-    STORE_SET_DATE_RAW_STORE, STORE_SET_ERROR
+    STORE_SET_DATE_RAW_STORE,
+    STORE_SET_ERROR
 } from "./actions/types";
 import {nullStoreItem} from "../types/model/store";
+import {nullEmployeeItem} from "../types/model/employee";
 
 const initState = (): IStoreState => ({
     rawStoreOnDate: (new Date()).toISOString().slice(0, 10), // состояние склада сырья на дату
@@ -17,6 +25,7 @@ const initState = (): IStoreState => ({
     journalStartDate: (new Date()).toISOString().slice(0, 10),
     journalEndDate: (new Date()).toISOString().slice(0, 10),
     storeJournalItem: {...nullStoreItem},
+    storeMovement: {date: (new Date()).toISOString().slice(0, 10), employee: {...nullEmployeeItem}, comment: '', items: []},
     rawStore: [],
     productStore: [],
     reservedProduct: [],
@@ -51,6 +60,14 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, storeJournalItem: action.item}
         case STORE_CHANGE_ITEM:
             return {...state, storeJournalItem: action.item}
+        case STORE_NEW_MOVEMENT:
+            return {...state, storeMovement: action.item}
+        case STORE_NEW_MOVEMENT_ITEM:
+            return {...state, storeMovement: action.item}
+        case STORE_ITEM_MOVEMENT_CHANGE:
+            return {...state, storeMovement: action.item}
+        case STORE_ITEM_MOVEMENT_DELETE:
+            return {...state, storeMovement: action.item}
         default:
             return state
     }

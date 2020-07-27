@@ -13,6 +13,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBoxes } from '@fortawesome/free-solid-svg-icons'
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -69,10 +70,11 @@ interface IStoreJournalToolbarProps {
 }
 
 const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
-    const classes = useStyles();
-    const { className, newItemUrl, onRefresh, ...rest } = props;
-    const [firstDate, setFirstDate] = React.useState<Date>(new Date());
-    const [endDate, setEndDate] = React.useState<Date>(new Date());
+    const classes = useStyles()
+    const history = useHistory()
+    const { className, newItemUrl, onRefresh, ...rest } = props
+    const [firstDate, setFirstDate] = React.useState<Date>(new Date())
+    const [endDate, setEndDate] = React.useState<Date>(new Date())
     const [typeOperation, setTypeOperation] = React.useState<number>(NO_SELECT_VALUE)
     const [typeMaterial, setTypeMaterial] = React.useState<number>(NO_SELECT_VALUE)
 
@@ -115,7 +117,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
      * Новая запись
      */
     function onNewItemButtonHandler() {
-
+        history.push('/store/raw/new')
     }
 
     return (

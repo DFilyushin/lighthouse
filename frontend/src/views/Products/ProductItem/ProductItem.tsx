@@ -45,6 +45,7 @@ const ProductItem = (props: IProductItemProps) => {
         const product = {...productItem, [event.target.name]: event.target.value};
         dispatch(changeProduct(product))
     };
+
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
         try{
             if (productId === NEW_RECORD_VALUE) {

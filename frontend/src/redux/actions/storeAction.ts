@@ -1,6 +1,13 @@
-import StoreEndpoint from "services/endpoints/StoreEndpoint";
-import axios from "axios";
-import {IStoreJournal, IStoreJournalItem, IStoreProduct, IStoreRaw} from "../../types/model/store";
+import StoreEndpoint from "services/endpoints/StoreEndpoint"
+import axios from "axios"
+import {
+    IStoreJournal,
+    IStoreJournalItem,
+    IStoreMaterialItem,
+    IStoreNewMovement,
+    IStoreProduct,
+    IStoreRaw
+} from "../../types/model/store"
 import {
     STORE_CLEAR_ERROR,
     STORE_LOAD_FINISH,
@@ -10,9 +17,18 @@ import {
     STORE_SET_ERROR,
     STORE_JOURNAL_SUCCESS,
     STORE_JOURNAL_ITEM_SUCCESS,
-    STORE_CHANGE_ITEM
-} from "./types";
-import CostEndpoint from "services/endpoints/CostEndpoint";
+    STORE_CHANGE_ITEM,
+    STORE_NEW_MOVEMENT,
+    STORE_NEW_MOVEMENT_ITEM,
+    STORE_ITEM_MOVEMENT_DELETE,
+    STORE_ITEM_MOVEMENT_CHANGE
+} from "./types"
+import CostEndpoint from "services/endpoints/CostEndpoint"
+import {nullEmployeeItem} from "../../types/model/employee"
+import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils"
+import {nullTare} from "../../types/model/tare"
+import AuthenticationService from "../../services/Authentication.service"
+import {showInfoMessage} from "./infoAction"
 
 
 /**
@@ -212,5 +228,128 @@ function fetchError(error: string) {
 export function clearStoreError() {
     return{
         type: STORE_CLEAR_ERROR
+    }
+}
+
+
+/**
+ * Сформировать новую запись для добавления в журнал сырья
+ */
+export function newStoreMovement() {
+    return{
+        type: STORE_NEW_MOVEMENT,
+        item: {
+            date: (new Date()).toISOString().slice(0, 10),
+            employee: {...nullEmployeeItem},
+            items: [],
+            comment: ''
+        }
+    }
+}
+
+/**
+ * Добавить новую позицию в список добавляемых записей
+ * @param item
+ */
+export function addNewRecordToStoreMovement(item: IStoreNewMovement) {
+    const newItem = {...item}
+    const newItems = [...item.items]
+    newItems.push({
+        id: -getRandomInt(MAX_RANDOM_VALUE),
+        material: {id: 0, name: ''},
+        count: 0,
+        price: 0,
+        total:0,
+        tare: {...nullTare}
+    })
+    newItem.items = newItems
+    console.log(newItem)
+    return{
+        type: STORE_NEW_MOVEMENT_ITEM,
+        item: {...newItem}
+    }
+}
+
+
+/**
+ * Удалить одну запись из списка на приход
+ * @param id Код записи
+ */
+export function deleteRecordFromStoreMovement(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const newItem = {...getState().store.storeMovement}
+        const findIndex = newItem.items.findIndex((item: IStoreMaterialItem, index: number, array: IStoreMaterialItem[])=>{ return item.id === id })
+        newItem.items.splice(findIndex, 1);
+        dispatch(deleteItemMovement(newItem))
+    }
+}
+
+
+function deleteItemMovement(item: IStoreNewMovement) {
+    return{
+        type: STORE_ITEM_MOVEMENT_DELETE,
+        item
+    }
+}
+
+/**
+ * Изменение значений записи из списка на приход
+ * @param id Код записи
+ * @param item ОБъект значения
+ */
+export function changeItemMovement(id: number, item: IStoreMaterialItem) {
+    return async (dispatch: any, getState: any) => {
+        const newItem = {...getState().store.storeMovement}
+        const findIndex = newItem.items.findIndex((item: IStoreMaterialItem, index: number, array: IStoreMaterialItem[])=>{return item.id === id})
+        newItem.items[findIndex] = item
+        dispatch(changeItemMovementElement(newItem))
+    }
+}
+
+export function updateItemMovement(item: IStoreNewMovement) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(changeItemMovementElement(item))
+    }
+}
+
+function changeItemMovementElement(item: IStoreNewMovement) {
+    return {
+        type: STORE_ITEM_MOVEMENT_CHANGE,
+        item
+    }
+}
+
+/**
+ * Сохранить изменения по приходу сырья на склад
+ */
+export function saveRawMovement() {
+    return async (dispatch: any, getState: any) => {
+        const storeMovement = {...getState().store.storeMovement} as IStoreNewMovement
+        let data = {
+            'date': storeMovement.date,
+            'employee': AuthenticationService.currentEmployeeId(),
+            'comment': storeMovement.comment,
+            'items': storeMovement.items.map((value: IStoreMaterialItem)=> {
+                return(
+                    {
+                    'material': value.material.id,
+                    'tare': value.tare.id,
+                    'count': value.count,
+                    'price': value.price
+                    }
+                )
+            })
+        }
+        console.log(JSON.stringify(data))
+        const url = StoreEndpoint.addRawStoreItems()
+        try{
+            await axios.post(url, data)
+            dispatch(showInfoMessage('info', 'Данные обработаны'))
+            return Promise.resolve()
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.response.toString()))
+            return Promise.reject()
+        }
+
     }
 }

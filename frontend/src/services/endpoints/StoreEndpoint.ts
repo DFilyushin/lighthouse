@@ -59,6 +59,13 @@ class StoreEndpoint {
         return this.getStoreItem(id)
     }
 
+    /**
+     * Добавить приход сырья
+     */
+    static addRawStoreItems(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/store/in/raw`
+    }
+
 }
 
 export default StoreEndpoint

@@ -57,6 +57,22 @@ export interface IStoreJournalItem {
     factory: IProductionList;
 }
 
+export interface IStoreMaterialItem {
+    id: number;
+    material: IMaterialItem;
+    tare: ITare;
+    count: number;
+    price: number;
+    total: number;
+}
+
+export interface IStoreNewMovement {
+    date: string;
+    employee: IEmployeeListItem;
+    comment: string;
+    items: IStoreMaterialItem [];
+}
+
 export const nullStoreItem: IStoreJournalItem = {
     id: 0,
     type: NO_SELECT_VALUE,
