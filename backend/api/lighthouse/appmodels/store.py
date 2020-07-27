@@ -48,9 +48,9 @@ class Cost(models.Model):
 
     def delete_cost(self):
         with transaction.atomic():
-            self.is_delete = True
             if self.id_cost.id_raw:
                 Store.objects.filter(id_cost_id=self.id).delete()
+            self.is_delete = True
             self.save()
 
     class Meta:
