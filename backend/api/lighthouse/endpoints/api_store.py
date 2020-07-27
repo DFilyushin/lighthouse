@@ -7,7 +7,7 @@ from lighthouse.appmodels.store import MaterialUnit, Material, Tare, RefCost, Co
 from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
 from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnoverSerializer, \
     StoreRawSerializer, StoreProductSerializer, RefCostSerializer, ExpenseListSerializer, ExpenseSerializer, \
-    StoreJournalSerializer, StoreJournalItemSerializer
+    StoreJournalSerializer, StoreJournalItemSerializer, StoreMaterialArrivalSerializer, StoreArrivalSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
 from lighthouse.appmodels.store import Store
 from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
@@ -54,6 +54,27 @@ class TareViewSet(viewsets.ModelViewSet):
     serializer_class = TareSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
+
+
+class StoreTurnoverRaw(views.APIView):
+    """
+    Приход сырья на склад
+    """
+    @staticmethod
+    def post(request):
+        serializer = StoreArrivalSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+            except Exception as e:
+                print(str(e))
+                data = {
+                    'error': API_ERROR_POST_TURNOVER
+                }
+                return Response(data=data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class StoreTurnover(views.APIView):

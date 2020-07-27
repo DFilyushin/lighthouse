@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Material, Tare,  MaterialUnit
-from lighthouse.appmodels.store import Store, RefCost, Cost
+from lighthouse.appmodels.store import Store, RefCost, Cost, STORE_OPERATION_IN
 from .serializer_domain import EmployeeListSerializer
 from .serializer_product import RawSerializer
 from .serializer_manufacture import ManufactureListSerializer
@@ -177,3 +177,62 @@ class StoreJournalItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ('id', 'created', 'materialId', 'tareId', 'date', 'type', 'value', 'price', 'employee', 'factoryId', 'costId' , 'factory')
+
+
+class StoreMaterialArrivalSerializer(serializers.Serializer):
+    """
+    Сырьё в приходе
+    """
+    material = serializers.IntegerField()
+    tare = serializers.IntegerField()
+    count = serializers.FloatField()
+    price = serializers.FloatField()
+
+
+class StoreArrivalSerializer(serializers.Serializer):
+    """
+    Приход сырья на склад
+    """
+    date = serializers.DateField()
+    employee = serializers.IntegerField()
+    items = StoreMaterialArrivalSerializer(many=True)
+    comment = serializers.CharField(allow_blank=True)
+
+    def create(self, validated_data):
+        income_date = validated_data['date']
+        id_employee = validated_data['employee']
+        comment = validated_data['comment']
+        for item in validated_data['items']:
+            count = item['count']
+            price = item['price']
+            total_value = count * price
+            id_material = item['material']
+            id_tare = item['tare']
+            tare = Tare.objects.get(pk=id_tare)
+            cost_count = tare.v * count
+
+
+            ref_cost = RefCost.objects.filter(id_raw_id=id_material)
+            if ref_cost:
+                # на затраты ставим по факт. объёму: объём тары * количество
+                cost = Cost.objects.create(
+                    id_cost_id=ref_cost[0].id,
+                    cost_date=income_date,
+                    cost_count=cost_count,
+                    total=cost_count * price,
+                    id_employee_id=id_employee,
+                    comment=comment
+                )
+
+                # на склад приходуем количество в таре
+                Store.objects.create(
+                    id_material_id=id_material,
+                    id_tare_id=id_tare,
+                    id_cost=cost,
+                    oper_date=income_date,
+                    oper_type=STORE_OPERATION_IN,
+                    oper_price=price,
+                    oper_value=count,
+                    id_employee_id=id_employee
+                )
+        return validated_data
