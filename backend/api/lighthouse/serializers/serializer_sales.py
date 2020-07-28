@@ -134,6 +134,9 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def create(self, validated_data):
+        return PaymentMethod.objects.create(name=validated_data['name'])
+
     class Meta:
         model = PaymentMethod
         fields = ('id', 'name')
