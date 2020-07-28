@@ -37,6 +37,8 @@ import {IUserState} from "../types/state/user";
 import {userReducer} from "./userReducer";
 import {IWorkState} from "../types/state/work";
 import {workReducer} from "./workReducer";
+import {IPayMethodState} from "../types/state/paymethod";
+import {payMethodReducer} from "./payMethodReducer";
 
 export interface IStateInterface {
     product: IProductState;
@@ -57,6 +59,7 @@ export interface IStateInterface {
     expense: IExpenseState;
     user: IUserState;
     works: IWorkState;
+    payMethod: IPayMethodState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -77,5 +80,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     store: storeReducer,
     expense: expenseReducer,
     user: userReducer,
-    works: workReducer
+    works: workReducer,
+    payMethod: payMethodReducer
 });
