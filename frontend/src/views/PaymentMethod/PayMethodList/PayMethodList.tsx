@@ -5,8 +5,15 @@ import { useHistory } from "react-router-dom";
 import { PayMethodTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
-import {IStateInterface} from "../../../redux/rootReducer";
-import {deletePayMethod, loadPayMethodItems} from "../../../redux/actions/payMethodAction";
+import {IStateInterface} from "redux/rootReducer";
+import {deletePayMethod, loadPayMethodItems} from "redux/actions/payMethodAction";
+import {
+    DIALOG_ASK_DELETE,
+    DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES
+} from "utils/AppConst";
+import {useConfirm} from "material-ui-confirm";
 
 
 
@@ -23,6 +30,7 @@ const PayMethodList = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const payMethodItems = useSelector((state: IStateInterface) => state.payMethod.payMethodItems);
     const isLoading = useSelector((state: IStateInterface) => state.payMethod.isLoading);
@@ -39,9 +47,19 @@ const PayMethodList = () => {
     }
 
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deletePayMethod(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            selected.forEach(async (item, i, selected) => {
+                dispatch(deletePayMethod(item))
+            })
+        )
+
     }
 
     function onClickTableItem(id: number){
