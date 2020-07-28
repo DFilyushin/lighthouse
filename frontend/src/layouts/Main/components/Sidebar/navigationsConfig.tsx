@@ -62,6 +62,10 @@ export default [
                     {
                         title: 'Работы',
                         href: '/catalogs/works'
+                    },
+                    {
+                        title: 'Методы оплат',
+                        href: '/catalogs/paymethod'
                     }
                 ],
                 access: [AccessGroups.ADMIN]
