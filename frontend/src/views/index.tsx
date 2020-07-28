@@ -30,6 +30,9 @@ export { default as TareItem} from './Tare/TareItem'
 export { default as Units} from './Units/UnitList'
 export { default as UnitItem} from './Units/UnitItem'
 
+export {default as PayMethodList} from './PaymentMethod/PayMethodList'
+export {default as PayMethodItem} from './PaymentMethod/PayMethodItem'
+
 export { default as Staffs} from './Staff/StaffList'
 export { default as StaffItem } from './Staff/StaffItem'
 
