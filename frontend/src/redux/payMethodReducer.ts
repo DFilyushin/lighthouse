@@ -1,6 +1,8 @@
 import {IPayMethodState} from "../types/state/paymethod";
 import {nullPayMethod} from "../types/model/paymethod";
 import {
+    PAY_METHOD_CHANGE_ITEM,
+    PAY_METHOD_DELETE_OK,
     PAY_METHOD_LOAD_FINISH,
     PAY_METHOD_LOAD_START,
     PAY_METHOD_SUCCESS,
@@ -26,6 +28,10 @@ export const payMethodReducer = (state: IPayMethodState = initialState(), action
             return {...state, payMethodItems: action.items}
         case PAY_METHOD_SUCCESS_ITEM:
             return {...state, payMethodItem: action.item}
+        case PAY_METHOD_CHANGE_ITEM:
+            return {...state, payMethodItem: action.item}
+        case PAY_METHOD_DELETE_OK:
+            return {...state, payMethodItems: action.items}
         default: return state
     }
 }

@@ -8,8 +8,9 @@ import {
 } from "./types"
 import PayMethodEndpoint from "services/endpoints/PayMethodEndpoint"
 import {hideInfoMessage, showInfoMessage} from "./infoAction"
-import {IPayMethod} from "types/model/paymethod"
+import {IPayMethod, nullPayMethod} from "types/model/paymethod"
 import axios from "axios"
+import {NEW_RECORD_VALUE} from "utils/AppConst";
 
 
 /**
@@ -42,12 +43,16 @@ export function loadPayMethodItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(loadStart())
         dispatch(hideInfoMessage())
-        const url = PayMethodEndpoint.getPayMethod(id)
-        try{
-            const response = await axios.get(url)
-            dispatch(fetchSuccessItem(response.data))
-        }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+        if (id === NEW_RECORD_VALUE) {
+            dispatch(fetchSuccessItem({...nullPayMethod}))
+        }else {
+            const url = PayMethodEndpoint.getPayMethod(id)
+            try {
+                const response = await axios.get(url)
+                dispatch(fetchSuccessItem(response.data))
+            } catch (e) {
+                dispatch(showInfoMessage('error', e.toString()))
+            }
         }
         dispatch(loadFinish())
     }
@@ -93,6 +98,28 @@ export function updatePayMethod(item: IPayMethod) {
     }
 }
 
+/**
+ * Добавить новую запись
+ * @param item Добавляемый объект
+ */
+export function addNewPayMethod(item: IPayMethod) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(hideInfoMessage())
+        try{
+            const response = await axios.post(PayMethodEndpoint.newPayMethod(), item);
+            const items: IPayMethod[] = [...getState().payMethod.payMethodItems]
+            items.push({...item, id: response.data['id']})
+            dispatch(fetchSuccess(items))
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+/**
+ * Изменения записи
+ * @param item
+ */
 export function changePayMethod(item: IPayMethod) {
     return async (dispatch: any, getState: any) => {
         dispatch(changePayMethodItem(item))
