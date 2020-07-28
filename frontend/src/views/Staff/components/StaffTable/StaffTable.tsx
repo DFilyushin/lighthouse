@@ -13,10 +13,10 @@ import {
     TableHead,
     TableRow,
     Typography,
-    TablePagination
+    TablePagination,
+    Button
 } from '@material-ui/core';
 import {IStaff} from 'types/model/staff'
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-interface IStaffTable{
+interface IStaffTableProps{
     className: string,
     items: IStaff[],
     onClickItem: any,
@@ -49,7 +49,7 @@ interface IStaffTable{
 }
 
 
-const StaffTable = (props: IStaffTable) => {
+const StaffTable = (props: IStaffTableProps) => {
     const { className, items, onClickItem, onChangeSelected, ...rest } = props;
 
     const classes = useStyles();
