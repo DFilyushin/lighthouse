@@ -148,6 +148,7 @@ class PaymentMethod(models.Model):
     class Meta:
         verbose_name = 'Метод оплаты'
         verbose_name_plural = 'Методы оплаты'
+        ordering = ['name']
         indexes = [
             models.Index(fields=['name'], name='idx_payment_method_name')
         ]
