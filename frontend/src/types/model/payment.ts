@@ -20,3 +20,15 @@ export interface IPaymentItem {
     type: IPayMethod;
     value: number;
 }
+
+export const nullPaymentItem: IPaymentItem = {
+    id: 0,
+    created: '',
+    date: '',
+    num: '',
+    type: {
+        id: 0,
+        name: ''
+    },
+    value: 0
+}
