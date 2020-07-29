@@ -3,6 +3,12 @@ import {IProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 
+export interface IContractListItemSimple {
+    id: number;
+    num: string;
+    date: string;
+}
+
 export interface IContractListItem {
     id: number;
     num: string;
