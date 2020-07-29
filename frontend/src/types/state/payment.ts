@@ -1,6 +1,6 @@
 import {IPaymentListItem, IPaymentItem} from 'types/model/payment'
 
-export interface IPayMethodState {
+export interface IPaymentState {
     paymentItems: IPaymentListItem[],
     paymentItem: IPaymentItem,
     isLoading: boolean,
