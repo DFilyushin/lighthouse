@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core'
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings"
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
-import {INVALID_DATE_FORMAT, NO_SELECT_VALUE} from "utils/AppConst"
+import {INVALID_DATE_FORMAT} from "utils/AppConst"
 import {IPayMethod} from "types/model/paymethod"
 
 
