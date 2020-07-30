@@ -1,10 +1,11 @@
+from datetime import datetime
 from django.db.models import F, Sum
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
-    ContractSerializer, PaymentMethodSerializer, PaymentListSerializer
-from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod
+    ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer
+from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, CONTRACT_STATE_ACTIVE
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -81,12 +82,24 @@ class ContractViewSet(viewsets.ModelViewSet):
         else:
             return Contract.objects.filter(deleted=False)
 
+    @action(methods=['get'], detail=False, url_path='active', url_name='active_contract')
+    def get_active_contracts(self, request):
+        """Активные контракты"""
+        param_find = request.GET.get('num', None)
+        if param_find:
+            contracts = Contract.objects.filter(contract_state=CONTRACT_STATE_ACTIVE).\
+                filter(num__istartswith=param_find).order_by('contract_date')
+            serializer = ContractSimpleSerializer(contracts, many=True)
+            return Response(serializer.data)
+        else:
+            return Response([])
+
 
 class PaymentMethodViewSet(viewsets.ModelViewSet):
     """Методы платежей"""
     queryset =  PaymentMethod.objects.all()
     search_fields = ['name']
-    filter_backends =  (filters.SearchFilter, )
+    filter_backends = (filters.SearchFilter, )
     serializer_class = PaymentMethodSerializer
 
 
@@ -97,3 +110,21 @@ class PaymentViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return PaymentListSerializer
+        else:
+            return PaymentSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            param_start_period = self.request.GET.get('start', None)
+            param_end_period = self.request.GET.get('end', None)
+            param_method = self.request.GET.get('method')
+
+            date_start = datetime.strptime(param_start_period, '%Y-%m-%d')
+            date_end = datetime.strptime(param_end_period, '%Y-%m-%d')
+            queryset = Payment.objects.filter(pay_date__range=(date_start, date_end))
+
+            if param_method:
+                queryset = queryset.filter(pay_type_id=int(param_method))
+            return queryset.order_by('pay_date')
+        else:
+            return Payment.objects.all()
