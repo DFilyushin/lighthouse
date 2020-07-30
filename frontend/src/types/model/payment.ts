@@ -5,7 +5,6 @@ import {IPayMethod} from "./paymethod";
 export interface IPaymentListItem {
     id: number;
     contract: IContractListItemSimple;
-    client: string;
     date: string;
     num: string;
     type: string;
@@ -15,18 +14,25 @@ export interface IPaymentListItem {
 export interface IPaymentItem {
     id: number;
     created: string;
+    contract: IContractListItemSimple;
     date: string;
     num: string;
-    type: IPayMethod;
+    method: IPayMethod;
     value: number;
 }
 
 export const nullPaymentItem: IPaymentItem = {
     id: 0,
     created: '',
-    date: '',
+    contract: {
+        id: 0,
+        num: '',
+        client: '',
+        date: ''
+    },
+    date: (new Date()).toISOString().slice(0, 10),
     num: '',
-    type: {
+    method: {
         id: 0,
         name: ''
     },
