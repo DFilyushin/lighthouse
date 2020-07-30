@@ -1,15 +1,18 @@
 import {
+    PAYMENT_CHANGE_ITEM,
     PAYMENT_DELETE_OK,
     PAYMENT_LOAD_FINISH,
     PAYMENT_LOAD_START,
     PAYMENT_SUCCESS,
     PAYMENT_SUCCESS_ITEM
 } from "./types";
-import {IPaymentItem, IPaymentListItem} from "../../types/model/payment";
+import {IPaymentItem, IPaymentListItem, nullPaymentItem} from "types/model/payment";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import axios from "axios";
-import PaymentEndpoint from "../../services/endpoints/PaymentEndpoint";
-import PayMethodEndpoint from "../../services/endpoints/PayMethodEndpoint";
+import PaymentEndpoint from "services/endpoints/PaymentEndpoint";
+import {NEW_RECORD_VALUE} from "utils/AppConst";
+import ContractEndpoint from "../../services/endpoints/ContractEndpoint";
+import {IContract} from "../../types/model/contract";
 
 
 /**
@@ -54,14 +57,95 @@ export function deletePayment(id: number) {
         }catch (e) {
             dispatch(showInfoMessage('error', 'Не удалось удалить запись!'))
         }
+    }
+}
 
+/**
+ * Загрузить элемент оплаты по коду записи
+ * @param id Код записи
+ */
+export function loadPaymentItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(loadStart())
+        dispatch(hideInfoMessage())
+        if (id === NEW_RECORD_VALUE) {
+            dispatch(loadItemSuccess({...nullPaymentItem}))
+        }else {
+            const url = PaymentEndpoint.getPaymentItem(id)
+            try {
+                const response = await axios.get(url)
+                dispatch(loadItemSuccess(response.data))
+            } catch (e) {
+                dispatch(showInfoMessage('error', e.toString()))
+            }
+        }
+        dispatch(loadFinish())
+    }
+}
+
+export function newPaymentByContract(contractId: number) {
+    return async (dispatch: any, getState: any) => {
+        const url = await ContractEndpoint.getContract(contractId)
+        try {
+            const response = await axios.get(url)
+            console.log('response', response)
+            const contract: IContract = response.data
+            console.log('contract', contract)
+            let item: IPaymentItem = {...getState().payment.paymentItem,
+                contract: {
+                    id: contract.id,
+                    client: contract.client.clientName,
+                    num: contract.num,
+                    date: contract.contractDate
+                }
+            }
+            console.log(item)
+            dispatch(loadItemSuccess(item))
+        }catch (e) {
+            dispatch(showInfoMessage('error', 'Не удалось получить контракт!' + e.toString()))
+        }
+    }
+}
+
+/**
+ * Обновить данные
+ * @param item Объект оплаты
+ */
+export function updatePaymentItem(item: IPaymentItem) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            await axios.put(PaymentEndpoint.updatePayment(item.id), item);
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+/**
+ * Добавить новую запись
+ * @param item Объект оплаты
+ */
+export function addNewPaymentItem(item: IPaymentItem) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            await axios.post(PaymentEndpoint.addNewPayment(), item);
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
     }
 }
 
 
-export function loadPaymentItem(id: number) {
+export function changePayment(item: IPaymentItem) {
     return async (dispatch: any, getState: any) => {
+        dispatch(changePaymentItem(item))
+    }
+}
 
+function changePaymentItem(item: IPaymentItem) {
+    return{
+        type: PAYMENT_CHANGE_ITEM,
+        item
     }
 }
 
