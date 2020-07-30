@@ -1,44 +1,46 @@
-import { combineReducers } from "redux";
+import { combineReducers } from "redux"
 
-import {IUnitState} from "../types/state/unit";
-import {IProductState} from "../types/state/product";
-import {IRawState} from "../types/state/raw";
-import {ITareState} from "../types/state/tare";
-import {IInfoState} from "../types/state/info";
-import {IFormulaState} from "../types/state/formula";
-import {IStaffState} from "../types/state/staff";
-import {IProductionState} from "../types/state/production";
-import {IFactoryLineState} from "../types/state/factorylines";
-import {IContractState} from "../types/state/contract";
-import {IEmployeeState} from "../types/state/employee";
-import {IDepartmentState} from "../types/state/department";
-import {IClientState} from "../types/state/client";
+import {IUnitState} from "../types/state/unit"
+import {IProductState} from "../types/state/product"
+import {IRawState} from "../types/state/raw"
+import {ITareState} from "../types/state/tare"
+import {IInfoState} from "../types/state/info"
+import {IFormulaState} from "../types/state/formula"
+import {IStaffState} from "../types/state/staff"
+import {IProductionState} from "../types/state/production"
+import {IFactoryLineState} from "../types/state/factorylines"
+import {IContractState} from "../types/state/contract"
+import {IEmployeeState} from "../types/state/employee"
+import {IDepartmentState} from "../types/state/department"
+import {IClientState} from "../types/state/client"
+import {ICostState} from "../types/state/cost"
+import {IStoreState} from "../types/state/store"
+import {IExpenseState} from "../types/state/expense"
+import {IUserState} from "../types/state/user"
+import {IPaymentState} from "../types/state/payment"
+import {IWorkState} from "../types/state/work"
+import {IPayMethodState} from "../types/state/paymethod"
 
 import {productReducer} from './productReducer'
-import {rawReducer} from "./rawReducer";
-import {formulaReducer} from "./formulaReducer";
-import {tareReducer} from "./tareReducer";
-import {infoReducer} from "./infoReducer";
-import {unitReducer} from "./unitReducer";
-import {staffReducer} from "./staffReducer";
-import {productionReducer} from "./productionReducer";
-import {factoryLineReducer} from "./factoryLineReducer";
-import {employeeReducer} from "./employeeReducer";
-import {departmentReducer} from "./departmentReducer";
-import {clientReducer} from "./clientReducer";
-import {contractReducer} from './contractReducer';
-import {ICostState} from "../types/state/cost";
-import {costReducer} from "./costReducer";
-import {IStoreState} from "../types/state/store";
-import {storeReducer} from "./storeReducer";
-import {IExpenseState} from "../types/state/expense";
-import {expenseReducer} from "./expenseReducer";
-import {IUserState} from "../types/state/user";
-import {userReducer} from "./userReducer";
-import {IWorkState} from "../types/state/work";
-import {workReducer} from "./workReducer";
-import {IPayMethodState} from "../types/state/paymethod";
-import {payMethodReducer} from "./payMethodReducer";
+import {rawReducer} from "./rawReducer"
+import {formulaReducer} from "./formulaReducer"
+import {tareReducer} from "./tareReducer"
+import {infoReducer} from "./infoReducer"
+import {unitReducer} from "./unitReducer"
+import {staffReducer} from "./staffReducer"
+import {productionReducer} from "./productionReducer"
+import {factoryLineReducer} from "./factoryLineReducer"
+import {employeeReducer} from "./employeeReducer"
+import {departmentReducer} from "./departmentReducer"
+import {clientReducer} from "./clientReducer"
+import {contractReducer} from './contractReducer'
+import {costReducer} from "./costReducer"
+import {storeReducer} from "./storeReducer"
+import {expenseReducer} from "./expenseReducer"
+import {userReducer} from "./userReducer"
+import {workReducer} from "./workReducer"
+import {payMethodReducer} from "./payMethodReducer"
+import {paymentReducer} from "./paymentReducer"
 
 export interface IStateInterface {
     product: IProductState;
@@ -60,6 +62,7 @@ export interface IStateInterface {
     user: IUserState;
     works: IWorkState;
     payMethod: IPayMethodState;
+    payment: IPaymentState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -81,5 +84,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     expense: expenseReducer,
     user: userReducer,
     works: workReducer,
-    payMethod: payMethodReducer
-});
+    payMethod: payMethodReducer,
+    payment: paymentReducer
+})
