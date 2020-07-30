@@ -7,6 +7,7 @@ export interface IContractListItemSimple {
     id: number;
     num: string;
     date: string;
+    client: string;
 }
 
 export interface IContractListItem {
