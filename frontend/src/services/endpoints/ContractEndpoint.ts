@@ -14,6 +14,13 @@ class ContractEndpoint {
     }
 
     /**
+     * Получить список активных контрактов
+     */
+    static getActiveContractList(num: string): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/contract/active?num=${num}`
+    }
+
+    /**
      * Получить контракт
      * @param id
      */

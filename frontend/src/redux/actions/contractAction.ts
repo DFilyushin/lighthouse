@@ -1,6 +1,6 @@
 import {
     IContract,
-    IContractListItem,
+    IContractListItem, IContractListItemSimple,
     IContractSpecItem,
     nullContractItem,
     nullContractSpecItem
@@ -13,7 +13,8 @@ import {
     CONTRACT_LOAD_START,
     CONTRACT_LOAD_SUCCESS,
     CONTRACT_CHANGE_ITEM,
-    CONTRACT_SET_ERROR
+    CONTRACT_SET_ERROR,
+    CONTRACT_LOAD_ACTIVE_CONTRACTS
 } from "./types";
 import ContractEndpoint from "services/endpoints/ContractEndpoint";
 
@@ -34,6 +35,29 @@ export function loadContractList(state: number) {
                 items.push(response.data[key])
             });
             dispatch(fetchSuccess(items))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузить список активных контрактов
+ */
+export function loadActiveContractsList(num: string) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart());
+        dispatch(hideInfoMessage());
+
+        try {
+            const url = ContractEndpoint.getActiveContractList(num);
+            const items: IContractListItemSimple[] = [];
+            const response = await axios.get(url);
+            Object.keys(response.data).forEach((key, index) => {
+                items.push(response.data[key])
+            });
+            dispatch(fetchSuccessActive(items))
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
@@ -144,6 +168,13 @@ export function changeContractItem(item: IContract) {
     return{
         type: CONTRACT_CHANGE_ITEM,
         item: item
+    }
+}
+
+function fetchSuccessActive(items: IContractListItemSimple[]) {
+    return{
+        type: CONTRACT_LOAD_ACTIVE_CONTRACTS,
+        items
     }
 }
 
