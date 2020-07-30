@@ -85,10 +85,11 @@ class ContractSimpleSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     num = serializers.CharField()
     date = serializers.DateField(source='contract_date')
+    client = serializers.CharField(source='id_client.clientname')
 
     class Meta:
         model = Contract
-        fields = ('id', 'num', 'date')
+        fields = ('id', 'client', 'num', 'date')
 
 
 class ContractListSerializer(serializers.ModelSerializer):
@@ -142,20 +143,19 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
-class PaymentListSerializer(serializers.ModelSerializer):
-    """Оплаты"""
+class PaymentSerializer(serializers.ModelSerializer):
+    """Платёж по контракту"""
     id = serializers.IntegerField()
     created = serializers.DateTimeField()
     contract = ContractSimpleSerializer(source='id_contract')
-    client = serializers.CharField(source='id_contract.id_client.clientname')
+    method = PaymentMethodSerializer(source='pay_type')
     date = serializers.DateField(source='pay_date')
     num = serializers.CharField(source='pay_num')
-    type = serializers.CharField(source='pay_type.name')
     value = serializers.FloatField(source='pay_value')
 
     class Meta:
         model = Payment
-        fields = ('id', 'created', 'contract', 'client', 'date', 'num', 'type', 'value')
+        fields = ('id', 'created', 'contract', 'date', 'num', 'method', 'value')
 
 
 class PaymentContractSerializer(serializers.ModelSerializer):
@@ -208,3 +208,17 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
                   'delivered', 'discount', 'contractId', 'agent', 'specs', 'payments')
+
+
+class PaymentListSerializer(serializers.ModelSerializer):
+    """Оплаты"""
+    id = serializers.IntegerField()
+    contract = ContractSimpleSerializer(source='id_contract')
+    date = serializers.DateField(source='pay_date')
+    num = serializers.CharField(source='pay_num')
+    type = serializers.CharField(source='pay_type.name')
+    value = serializers.FloatField(source='pay_value')
+
+    class Meta:
+        model = Payment
+        fields = ('id', 'contract', 'client', 'date', 'num', 'type', 'value')
