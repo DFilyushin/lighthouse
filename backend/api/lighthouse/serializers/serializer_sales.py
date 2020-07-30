@@ -145,7 +145,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
 
 class PaymentSerializer(serializers.ModelSerializer):
     """Платёж по контракту"""
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
     created = serializers.DateTimeField()
     contract = ContractSimpleSerializer(source='id_contract')
     method = PaymentMethodSerializer(source='pay_type')
@@ -156,6 +156,24 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = ('id', 'created', 'contract', 'date', 'num', 'method', 'value')
+
+    def create(self, validated_data):
+        return Payment.objects.create(
+            pay_type_id=validated_data['pay_type']['id'],
+            id_contract_id=validated_data['id_contract']['id'],
+            pay_value=validated_data['pay_value'],
+            pay_date=validated_data['pay_date'],
+            pay_num=validated_data['pay_num']
+        )
+
+    def update(self, instance, validated_data):
+        instance.pay_type_id = validated_data['pay_type']['id']
+        instance.pay_date = validated_data['pay_date']
+        instance.pay_value = validated_data['pay_value']
+        instance.pay_num = validated_data['pay_num']
+        instance.id_contract_id = validated_data['id_contract']['id']
+        instance.save()
+        return instance
 
 
 class PaymentContractSerializer(serializers.ModelSerializer):
@@ -221,4 +239,4 @@ class PaymentListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ('id', 'contract', 'client', 'date', 'num', 'type', 'value')
+        fields = ('id', 'contract', 'date', 'num', 'type', 'value')
