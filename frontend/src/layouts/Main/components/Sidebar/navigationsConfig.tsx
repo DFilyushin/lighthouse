@@ -13,6 +13,7 @@ import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import WidgetsOutlinedIcon from '@material-ui/icons/WidgetsOutlined';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 import {Label} from 'components';
 import {AccessGroups} from 'utils/AppConst'
 
@@ -80,6 +81,12 @@ export default [
                 title: 'Контракты',
                 href: '/contracts',
                 icon: WorkOutlineOutlinedIcon,
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN]
+            },
+            {
+                title: 'Платежи',
+                href: '/payments',
+                icon: AccountBalanceIcon,
                 access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN]
             },
             {

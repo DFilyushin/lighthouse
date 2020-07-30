@@ -57,6 +57,9 @@ export {default as StoreJournal}  from './Store/StoreJournal'
 export {default as StoreItem} from './Store/StoreItem'
 export {default as StoreNewItems} from './Store/StoreNewItems'
 
+export {default as PaymentList} from './Payments/PaymentList'
+export {default as PaymentItem} from './Payments/PaymentItem'
+
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts'
 export { default as ReportProduction} from './Reports/ReportProduction'
