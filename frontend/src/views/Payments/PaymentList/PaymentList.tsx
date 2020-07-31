@@ -1,21 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {useDispatch, useSelector} from "react-redux";
-import { useHistory } from "react-router-dom";
-import CircularIndeterminate from "components/Loader/Loader";
-import SnackBarAlert from 'components/SnackBarAlert';
+import React, {useEffect, useState} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import {useDispatch, useSelector} from "react-redux"
+import { useHistory } from "react-router-dom"
+import CircularIndeterminate from "components/Loader/Loader"
 import {
     PAYMENT_METHOD,
     PAYMENT_PERIOD_END,
     PAYMENT_PERIOD_START
-} from "types/Settings";
-import {IStateInterface} from "redux/rootReducer";
-import {deletePayment, loadPaymentList} from "redux/actions/paymentAction";
-import PaymentToolbar from "../components/PaymentToolbar";
-import PaymentTable from "../components/PaymentTable";
-import {loadPayMethodItems} from "../../../redux/actions/payMethodAction";
-import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
-import {useConfirm} from "material-ui-confirm";
+} from "types/Settings"
+import {IStateInterface} from "redux/rootReducer"
+import {deletePayment, loadPaymentList} from "redux/actions/paymentAction"
+import PaymentToolbar from "../components/PaymentToolbar"
+import PaymentTable from "../components/PaymentTable"
+import {loadPayMethodItems} from "redux/actions/payMethodAction"
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "utils/AppConst"
+import {useConfirm} from "material-ui-confirm"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     content: {
         marginTop: theme.spacing(2)
     }
-}));
+}))
 
 const PaymentList = () => {
     const classes = useStyles()
@@ -36,10 +35,6 @@ const PaymentList = () => {
     const payMethodItems = useSelector((state: IStateInterface) => state.payMethod.payMethodItems)
     const isLoading = useSelector((state: IStateInterface) => state.payment.isLoading)
     const [selected, setSelected] = useState<number[]>([])
-
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        //dispatch(clearError())
-    }
 
     function refreshOnLoad(){
         const d1: string|null = localStorage.getItem(PAYMENT_PERIOD_START)
@@ -104,7 +99,7 @@ const PaymentList = () => {
             <PaymentToolbar
                 className={''}
                 methods={payMethodItems}
-                newItemUrl={'/payment/new'}
+                newItemUrl={'/payments/new'}
                 onFind={onFindProductHandler}
                 onDelete={onDeleteHandle}
                 onRefresh={handleRefresh}
