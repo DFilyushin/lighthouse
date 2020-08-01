@@ -9,7 +9,10 @@ import {
     Divider,
     Grid,
     Button,
-    TextField, Typography
+    IconButton,
+    TextField,
+    Typography,
+    Paper
 } from '@material-ui/core'
 import { useHistory } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
@@ -20,14 +23,13 @@ import {
     DIALOG_SELECT_TEXT,
     NEW_RECORD_VALUE
 } from "utils/AppConst"
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {useDialog} from "components/SelectDialog";
 import {
     addNewPaymentItem,
     changePayment,
-    loadPaymentItem, newPaymentByContract,
+    loadPaymentItem,
+    newPaymentByContract,
     updatePaymentItem
 } from "redux/actions/paymentAction";
 import {KeyboardDatePicker} from "@material-ui/pickers";
@@ -76,11 +78,14 @@ const PaymentItem = (props: IPaymentItemProps) => {
     const [hasLoad, setLoad] = useState <boolean>(false)
     const paymentItem  = useSelector((state: IStateInterface)=> state.payment.paymentItem)
     const payMethodItems = useSelector((state:IStateInterface)=> state.payMethod.payMethodItems)
-    const hasError = useSelector((state: IStateInterface) => state.payment.hasError)
+    //const hasError = useSelector((state: IStateInterface) => state.payment.hasError)
     const contracts = useSelector((state: IStateInterface)=> state.contract.activeContracts)
 
     const [dataSource, setDataSource] = useState<IContractListItemSimple[]>([])
     const [inputValue, setInputValue] = useState('')
+    const [hasTotalSumError, setTotalSumError] = useState(false)
+    const [hasMethodError, setMethodError] = useState(false)
+    const [hasContractError, setContractError] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...paymentItem, [event.target.name]: event.target.value}
@@ -88,12 +93,16 @@ const PaymentItem = (props: IPaymentItemProps) => {
     }
 
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        if (paymentId === NEW_RECORD_VALUE) {
-            await dispatch(addNewPaymentItem(paymentItem));
-        } else {
-            await dispatch(updatePaymentItem(paymentItem));
+        try {
+            if (paymentId === NEW_RECORD_VALUE) {
+                await dispatch(addNewPaymentItem(paymentItem))
+            } else {
+                await dispatch(updatePaymentItem(paymentItem))
+            }
+            resolve()
+        }catch (e) {
+            reject()
         }
-        resolve();
     })
 
     /**
@@ -102,12 +111,18 @@ const PaymentItem = (props: IPaymentItemProps) => {
      */
     const saveHandler = (event: SyntheticEvent) => {
         event.preventDefault()
-        saveItem(dispatch).then( ()=>{
-                history.push('/payments/')
-            }
-        )
+        if (isValid()) {
+            saveItem(dispatch).then(() => {
+                    history.push('/payments/')
+                }
+            )
+        }
     }
 
+    /**
+     * Возврат назад
+     * @param event
+     */
     const closeHandler = (event: React.MouseEvent) => {
         if (querySource === CONTRACT_PATH_REDIRECT && querySourceId) {
             history.push(`/contract/${querySourceId}`)
@@ -116,6 +131,9 @@ const PaymentItem = (props: IPaymentItemProps) => {
         }
     }
 
+    /**
+     * Проверка возможности редактирования таблицы
+     */
     const canEditRecord = () => {
         return true
     }
@@ -129,7 +147,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
         if (!hasLoad) {
             setLoad(true)
             if (paymentId === NEW_RECORD_VALUE){
-                dispatch(newPaymentByContract(queryContractId))
+                if (queryContractId) dispatch(newPaymentByContract(queryContractId))
             }else {
                 dispatch(loadPaymentItem(paymentId))
             }
@@ -138,11 +156,9 @@ const PaymentItem = (props: IPaymentItemProps) => {
         if (inputValue.length < 2) {
             return undefined
         }else{
-            const newClients: IContractListItemSimple[] = [];
+
             dispatch(loadActiveContractsList(inputValue));
-            contracts.forEach((value)=>{
-                newClients.push(value);
-            })
+            const newClients: IContractListItemSimple[] = contracts.map(value => {return value})
             setDataSource(newClients);
         }
     }, [dispatch, inputValue])
@@ -154,7 +170,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
     const handleChangeMethodPayment = () => {
         selectDialog(
             {
-                'title': 'Выбор продукции',
+                'title': 'Выбор метода оплат',
                 description: '.',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -175,9 +191,22 @@ const PaymentItem = (props: IPaymentItemProps) => {
         dispatch(changePayment(item))
     }
 
+    /**
+     * Проверка валидности формы
+     */
+    function isValid() : boolean {
+        const hasTotalSum = paymentItem.value === 0
+        const hasMethod = paymentItem.method.id === 0
+        const hasContract = paymentItem.contract.id === 0
+        setContractError(hasContract)
+        setMethodError(hasMethod)
+        setTotalSumError(hasTotalSum)
+        console.log(hasTotalSum,  hasMethod,  hasContract)
+        return !hasTotalSum &&  !hasMethod && !hasContract
+    }
+
     function onChangeContract(event: object, value: IContractListItemSimple | null, reason: string) {
         console.log('onChangeClient', value)
-        //setCurClient(value);
         if (value){
             const newState = {...paymentItem, 'contract': value}
             dispatch(changePayment(newState));
@@ -187,7 +216,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
     return (
         <div className={classes.root}>
             <Card className={className}>
-                <form autoComplete="off" noValidate onSubmit={saveHandler}>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Платёж по контракту"
@@ -219,7 +248,15 @@ const PaymentItem = (props: IPaymentItemProps) => {
                                         setInputValue(newInputValue);
                                     }}
                                     renderInput={(params) => (
-                                        <TextField {...params} margin="dense" label="№ контракта/клиент" variant="outlined" fullWidth />
+                                        <TextField
+                                            {...params}
+                                            margin="dense"
+                                            label="№ контракта/клиент"
+                                            variant="outlined"
+                                            fullWidth
+                                            helperText={hasContractError ? "Обязательное поле" : ""}
+                                            error={hasContractError}
+                                        />
                                     )}
                                 />
                             </Grid>
@@ -233,7 +270,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
                                     fullWidth
                                     label="Номер документа"
                                     margin="dense"
-                                    name="name"
+                                    name="num"
                                     onChange={handleChange}
                                     required
                                     value={paymentItem.num}
@@ -250,7 +287,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
                                         format="dd/MM/yyyy"
                                         margin="dense"
                                         id="date"
-                                        label="Окончание процесса"
+                                        label="Дата платежа"
                                         name="date"
                                         value={paymentItem.date}
                                         onChange={handleChangeDatePayment}
@@ -271,8 +308,8 @@ const PaymentItem = (props: IPaymentItemProps) => {
                                         InputProps={{
                                             readOnly: true,
                                         }}
-                                        //helperText={hasProductError ? "Обязательное поле" : ""}
-                                        //error={hasProductError}
+                                        helperText={hasMethodError ? "Обязательное поле" : ""}
+                                        error={hasMethodError}
                                     />
                                     {canEditRecord() ? (
                                         <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeMethodPayment}>
@@ -288,7 +325,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
                                     type={'number'}
                                     label="Сумма, тнг"
                                     margin="dense"
-                                    name="calcValue"
+                                    name="value"
                                     onChange={handleChange}
                                     required
                                     value={paymentItem.value}
@@ -297,6 +334,8 @@ const PaymentItem = (props: IPaymentItemProps) => {
                                         readOnly: Boolean(!canEditRecord()),
                                         disabled: Boolean(!canEditRecord()),
                                     }}
+                                    helperText={hasTotalSumError ? "Обязательное поле" : ""}
+                                    error={hasTotalSumError}
                                 />
                             </Grid>
 
