@@ -5,14 +5,14 @@ import {
     PAYMENT_LOAD_START,
     PAYMENT_SUCCESS,
     PAYMENT_SUCCESS_ITEM
-} from "./types";
-import {IPaymentItem, IPaymentListItem, nullPaymentItem} from "types/model/payment";
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import axios from "axios";
-import PaymentEndpoint from "services/endpoints/PaymentEndpoint";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
-import ContractEndpoint from "../../services/endpoints/ContractEndpoint";
-import {IContract} from "../../types/model/contract";
+} from "./types"
+import {IPaymentItem, IPaymentListItem, nullPaymentItem} from "types/model/payment"
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
+import axios from "axios"
+import PaymentEndpoint from "services/endpoints/PaymentEndpoint"
+import {NEW_RECORD_VALUE} from "utils/AppConst"
+import ContractEndpoint from "../../services/endpoints/ContractEndpoint"
+import {IContract} from "../../types/model/contract"
 
 
 /**
@@ -88,9 +88,7 @@ export function newPaymentByContract(contractId: number) {
         const url = await ContractEndpoint.getContract(contractId)
         try {
             const response = await axios.get(url)
-            console.log('response', response)
             const contract: IContract = response.data
-            console.log('contract', contract)
             let item: IPaymentItem = {...getState().payment.paymentItem,
                 contract: {
                     id: contract.id,
@@ -99,7 +97,6 @@ export function newPaymentByContract(contractId: number) {
                     date: contract.contractDate
                 }
             }
-            console.log(item)
             dispatch(loadItemSuccess(item))
         }catch (e) {
             dispatch(showInfoMessage('error', 'Не удалось получить контракт!' + e.toString()))
@@ -128,9 +125,13 @@ export function updatePaymentItem(item: IPaymentItem) {
 export function addNewPaymentItem(item: IPaymentItem) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.post(PaymentEndpoint.addNewPayment(), item);
+            const new_item = {...item}
+            delete new_item.created
+            await axios.post(PaymentEndpoint.addNewPayment(), new_item)
+            return Promise.resolve()
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
+            return Promise.reject()
         }
     }
 }
