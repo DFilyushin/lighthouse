@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from lighthouse.appmodels.manufacture import Material, Tare,  MaterialUnit
+from lighthouse.appmodels.manufacture import Tare
+from lighthouse.appmodels.store import Reservation
 from lighthouse.appmodels.store import Store, RefCost, Cost, STORE_OPERATION_IN
 from .serializer_domain import EmployeeListSerializer
 from .serializer_product import RawSerializer
 from .serializer_manufacture import ManufactureListSerializer
 from .serializer_refs import MaterialSerializer, TareSerializer
-
+from .serializer_sales import ContractSimpleSerializer
 
 
 class StoreRawSerializer(serializers.Serializer):
@@ -187,6 +188,22 @@ class StoreMaterialArrivalSerializer(serializers.Serializer):
     tare = serializers.IntegerField()
     count = serializers.FloatField()
     price = serializers.FloatField()
+
+
+class ReservationSerializer(serializers.ModelSerializer):
+
+    id = serializers.IntegerField(required=False)
+    material = MaterialSerializer(source='id_material')
+    start = serializers.DateField(source='reserve_start')
+    end = serializers.DateField(source='reserve_end')
+    employee = EmployeeListSerializer(source='id_employee')
+    contract = ContractSimpleSerializer(source='id_contract')
+    tare = TareSerializer(source='id_tare')
+    value = serializers.FloatField(source='reserve_value')
+
+    class Meta:
+        model = Reservation
+        fields = ('id', 'material', 'start', 'end', 'employee', 'contract', 'tare', 'value')
 
 
 class StoreArrivalSerializer(serializers.Serializer):
