@@ -19,6 +19,12 @@ class StoreEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/store/product?onDate=${date}`
     }
 
+    /**
+     * Загрузить список зарезервированной продукции на текущую дату
+     */
+    static getProductReserved(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/reserve`
+    }
 
     /**
      * Журнал складских операций
