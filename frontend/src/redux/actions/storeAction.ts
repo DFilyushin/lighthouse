@@ -3,6 +3,7 @@ import axios from "axios"
 import {
     IStoreJournal,
     IStoreJournalItem,
+    IStoreListReserveProduct,
     IStoreMaterialItem,
     IStoreNewMovement,
     IStoreProduct,
@@ -21,7 +22,8 @@ import {
     STORE_NEW_MOVEMENT,
     STORE_NEW_MOVEMENT_ITEM,
     STORE_ITEM_MOVEMENT_DELETE,
-    STORE_ITEM_MOVEMENT_CHANGE
+    STORE_ITEM_MOVEMENT_CHANGE,
+    STORE_RESERVE_LOAD_SUCCESS
 } from "./types"
 import CostEndpoint from "services/endpoints/CostEndpoint"
 import {nullEmployeeItem} from "../../types/model/employee"
@@ -69,9 +71,7 @@ export function loadProductStore() {
         dispatch(fetchStart());
         try{
             const dateStore = getState().store.rawStoreOnDate;
-            console.log('state', getState().store);
             const url = StoreEndpoint.getStoreProduct(dateStore);
-            console.log('url', url);
             const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push(response.data[key])
@@ -81,6 +81,35 @@ export function loadProductStore() {
             dispatch(fetchError('Ошибка загрузки списка!'))
         }
         dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузить список резервирования продукции
+ */
+export function loadStoreReserveList() {
+    return async (dispatch: any, getState: any)=> {
+        const items: IStoreListReserveProduct[] = []
+        dispatch(fetchStart())
+
+        try{
+            const url = StoreEndpoint.getProductReserved();
+            const response = await axios.get(url);
+            Object.keys(response.data).forEach((key, index)=>{
+                items.push(response.data[key])
+            });
+            dispatch(fetchSuccessLoadReserveList(items))
+        }catch (e) {
+            dispatch(fetchError('Ошибка загрузки списка!'))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+function fetchSuccessLoadReserveList(items: IStoreListReserveProduct[]) {
+    return{
+        type: STORE_RESERVE_LOAD_SUCCESS,
+        items
     }
 }
 
