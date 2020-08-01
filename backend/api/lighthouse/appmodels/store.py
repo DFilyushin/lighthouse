@@ -104,5 +104,8 @@ class Reservation(models.Model):
         verbose_name_plural = 'Резервирование продукции'
         verbose_name = 'Резервирование продукции'
         indexes = [
-            models.Index(fields=['id_material', 'reserve_start'])
+            models.Index(fields=['id_material', 'reserve_start']),
+            models.Index(fields=['reserve_start']),
+            models.Index(fields=['reserve_end'])
         ]
+        ordering = ('reserve_start', )
