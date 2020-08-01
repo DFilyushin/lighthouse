@@ -96,6 +96,9 @@ class Reservation(models.Model):
     id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
     reserve_value = models.FloatField(default=0, verbose_name='Количество')
 
+    def __str__(self):
+        return '{} {}'.format(self.id_material.name, self.reserve_value)
+
     class Meta:
         verbose_name_plural = 'Резервирование продукции'
         verbose_name = 'Резервирование продукции'
