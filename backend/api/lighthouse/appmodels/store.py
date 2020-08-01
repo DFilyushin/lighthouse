@@ -94,6 +94,7 @@ class Reservation(models.Model):
     reserve_end = models.DateField(null=False, blank=False, verbose_name='Дата окончания')
     id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
     id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
+    id_tare = models.ForeignKey(Tare, null=True, on_delete=models.CASCADE, verbose_name='Тара')
     reserve_value = models.FloatField(default=0, verbose_name='Количество')
 
     def __str__(self):
