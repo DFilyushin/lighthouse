@@ -125,6 +125,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
             if param_method:
                 queryset = queryset.filter(pay_type_id=int(param_method))
-            return queryset.order_by('pay_date')
+            return queryset.order_by('pay_date')\
+                .only('id', 'id_contract', 'pay_date', 'pay_num', 'pay_type', 'pay_value')
         else:
             return Payment.objects.all()
