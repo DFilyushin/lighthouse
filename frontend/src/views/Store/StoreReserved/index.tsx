@@ -1,1 +1,1 @@
-export {default as StoreReserved} from './StoreReserved'
+export {default} from './StoreReserved'
