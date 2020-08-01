@@ -10,6 +10,13 @@ export interface IContractListItemSimple {
     client: string;
 }
 
+export const nullContractListItemSimple: IContractListItemSimple = {
+    id: 0,
+    num: '',
+    date: '',
+    client: ''
+}
+
 export interface IContractListItem {
     id: number;
     num: string;
