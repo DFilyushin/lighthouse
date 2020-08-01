@@ -215,10 +215,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
     """
     Резервирование продукции
     """
-    queryset = Reservation.objects.\
-        filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today()).values(
-        'id', 'reserve_start', 'reserve_end', 'reserve_value', 'id_material__name',
-        'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname')
+    queryset = Reservation.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':
