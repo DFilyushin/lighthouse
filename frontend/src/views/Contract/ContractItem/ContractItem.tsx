@@ -541,6 +541,7 @@ const ContractItem = (props: IContractItemProps) => {
                         <TabPanel value={tab} index={PAGE_PAYMENT}>
                             <ContractPaymentTable
                                 className={''}
+                                contract={contractItem.id}
                                 items={contractItem.payments}
                                 onClickTableItem={handleClickTableItem}
                             />
