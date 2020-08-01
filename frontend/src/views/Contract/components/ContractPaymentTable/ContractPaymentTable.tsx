@@ -1,4 +1,7 @@
-import {IPaymentContractItem} from "types/model/contract";
+import React from "react"
+import moment from "moment"
+import {makeStyles} from "@material-ui/core/styles"
+import {useHistory} from "react-router-dom"
 import {
     Button,
     Card, CardActions,
@@ -9,16 +12,14 @@ import {
     TableHead,
     TableRow,
     Typography
-} from "@material-ui/core";
-import clsx from "clsx";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import moment from "moment";
-import React from "react";
-import {makeStyles} from "@material-ui/core/styles";
-
+} from "@material-ui/core"
+import clsx from "clsx"
+import PerfectScrollbar from "react-perfect-scrollbar"
+import {IPaymentContractItem} from "types/model/contract"
 
 export interface IContractPaymentTableProps {
     className: string;
+    contract: number;
     items: IPaymentContractItem[];
     onClickTableItem: ( (id: number)=> void);
 }
@@ -43,19 +44,36 @@ const useStyles = makeStyles(theme => ({
     },
     tableRow: {
 
-    }
-}));
+    },
+    addButton: {
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2)
+    },
+}))
 
 
 
 const ContractPaymentTable = (props: IContractPaymentTableProps) => {
-    const { className, items, onClickTableItem, ...rest } = props;
-    const classes = useStyles();
+    const { className, items, contract, onClickTableItem, ...rest } = props
+    const classes = useStyles()
+    const history = useHistory()
 
-    function subtotal(items: IPaymentContractItem[]) {
+    /**
+     * Подсчитать сумму платежей
+     * @param items
+     */
+    function getSubTotalPayment(items: IPaymentContractItem[]) {
         return items.map(({ value }) => value).reduce((sum, i) => sum + i, 0);
     }
 
+    /**
+     * Добавление нового сырья в рецептуру
+     */
+    const handleAddNewPayment = () => {
+        history.push(`/payments/new/?contractId=${contract}`)
+    }
 
     return (
         <Card
@@ -76,6 +94,13 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+                                <Button
+                                    className={classes.addButton}
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={(event) => {handleAddNewPayment()}}>
+                                    Добавить оплату
+                                </Button>
                                 {
                                     items.map(item => (
                                         <TableRow
@@ -97,7 +122,7 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
                                     <TableCell>
                                         <Typography variant="body1">Итого</Typography>
                                     </TableCell>
-                                    <TableCell align={'right'}>{subtotal(items).toLocaleString('ru-RU')}</TableCell>
+                                    <TableCell align={'right'}>{getSubTotalPayment(items).toLocaleString('ru-RU')}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -109,7 +134,5 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
         </Card>
     );
 }
-
-
 
 export default ContractPaymentTable
