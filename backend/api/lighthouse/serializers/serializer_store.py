@@ -190,6 +190,22 @@ class StoreMaterialArrivalSerializer(serializers.Serializer):
     price = serializers.FloatField()
 
 
+class ReservationListSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    material = serializers.CharField(source='id_material__name')
+    start = serializers.DateField(source='reserve_start')
+    end = serializers.DateField(source='reserve_end')
+    employee = serializers.CharField(source='id_employee__fio')
+    contract = serializers.CharField(source='id_contract__id_client__clientname')
+    tare = serializers.CharField(source='id_tare__name')
+    value = serializers.FloatField(source='reserve_value')
+
+    class Meta:
+        model = Reservation
+        # fields = ('id', 'material', 'start', 'end', 'employee', 'contract', 'tare', 'value')
+        fields = ('id', 'start', 'end', 'value', 'material', 'employee', 'contract', 'tare')
+
+
 class ReservationSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(required=False)
@@ -227,7 +243,6 @@ class StoreArrivalSerializer(serializers.Serializer):
             id_tare = item['tare']
             tare = Tare.objects.get(pk=id_tare)
             cost_count = tare.v * count
-
 
             ref_cost = RefCost.objects.filter(id_raw_id=id_material)
             if ref_cost:
