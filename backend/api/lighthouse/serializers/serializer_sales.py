@@ -146,7 +146,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     """Платёж по контракту"""
     id = serializers.IntegerField(required=False)
-    created = serializers.DateTimeField()
+    created = serializers.DateTimeField(required=False, allow_null=True)
     contract = ContractSimpleSerializer(source='id_contract')
     method = PaymentMethodSerializer(source='pay_type')
     date = serializers.DateField(source='pay_date')
