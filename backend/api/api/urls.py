@@ -21,6 +21,7 @@ router.register(r'cost', api_store_views.RefCostViewSet, basename='RefCost')
 router.register(r'expense', api_store_views.ExpenseViewSet)  # затраты
 router.register(r'units', api_store_views.MaterialUnitViewSet)  # единицы измерения
 router.register(r'works', api_prod_views.ProductionWorkView)  # работы
+router.register(r'reserve', api_store_views.ReservationViewSet)  # резервирование материала
 store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья

@@ -7,9 +7,10 @@ from lighthouse.appmodels.store import MaterialUnit, Material, Tare, RefCost, Co
 from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
 from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnoverSerializer, \
     StoreRawSerializer, StoreProductSerializer, RefCostSerializer, ExpenseListSerializer, ExpenseSerializer, \
-    StoreJournalSerializer, StoreJournalItemSerializer, StoreMaterialArrivalSerializer, StoreArrivalSerializer
+    StoreJournalSerializer, StoreJournalItemSerializer, StoreMaterialArrivalSerializer, StoreArrivalSerializer,\
+    ReservationSerializer, ReservationListSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
-from lighthouse.appmodels.store import Store
+from lighthouse.appmodels.store import Store, Reservation
 from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
 from rest_framework.response import Response
 from .api_utils import RoundFunc
@@ -208,6 +209,31 @@ class RefCostViewSet(viewsets.ModelViewSet):
             return RefCost.objects.filter(id_parent__isnull=True)
         else:
             return RefCost.objects.all()
+
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    """
+    Резервирование продукции
+    """
+    queryset = Reservation.objects.\
+        filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today()).values(
+        'id', 'reserve_start', 'reserve_end', 'reserve_value', 'id_material__name',
+        'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname')
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ReservationListSerializer
+        else:
+            return ReservationSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return Reservation.objects.\
+                filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today()).values(
+                'id', 'reserve_start', 'reserve_end', 'reserve_value', 'id_material__name',
+                'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname')
+        else:
+            return Reservation.objects.all()
 
 
 class ExpenseViewSet(viewsets.ModelViewSet):
