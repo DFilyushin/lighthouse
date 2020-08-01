@@ -47,6 +47,7 @@ export { default as DepartmentItem} from './Department/DepartmentItem'
 
 export {default as StoreRaw} from './Store/StoreRaw'
 export {default as StoreProduct} from './Store/StoreProduct'
+export {default as StoreReserved} from './Store/StoreReserved'
 
 export {default as ExpenseList} from './Expenses/ExpenseList'
 

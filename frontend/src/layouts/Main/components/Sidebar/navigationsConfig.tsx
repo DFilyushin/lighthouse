@@ -120,7 +120,7 @@ export default [
                     },
                     {
                         title: 'Резерв продукции',
-                        href: '/store/reserve'
+                        href: '/store/reserved'
                     }
                 ],
                 access: [AccessGroups.ADMIN, AccessGroups.FINANCE]
