@@ -1,4 +1,11 @@
-import {IStoreRaw, IStoreProduct, IStoreJournal, IStoreJournalItem, IStoreNewMovement} from 'types/model/store'
+import {
+    IStoreRaw,
+    IStoreProduct,
+    IStoreJournal,
+    IStoreJournalItem,
+    IStoreNewMovement,
+    IStoreListReserveProduct, IStoreReserveProduct
+} from 'types/model/store'
 
 export interface IStoreState {
     rawStoreOnDate: string; // состояние склада сырья на дату
@@ -11,6 +18,8 @@ export interface IStoreState {
     storeJournal: IStoreJournal[];
     storeJournalItem: IStoreJournalItem;
     storeMovement: IStoreNewMovement;
+    storeReservedList: IStoreListReserveProduct[];
+    storeReserveItem: IStoreReserveProduct;
     isLoading: boolean;
     error: string;
     hasError: boolean;

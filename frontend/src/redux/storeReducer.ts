@@ -14,9 +14,11 @@ import {
     STORE_NEW_MOVEMENT_ITEM,
     STORE_SET_DATE_PRODUCT_STORE,
     STORE_SET_DATE_RAW_STORE,
-    STORE_SET_ERROR
+    STORE_SET_ERROR,
+    STORE_RESERVE_LOAD_SUCCESS,
+    STORE_RESERVE_ITEM_LOAD_SUCCESS
 } from "./actions/types";
-import {nullStoreItem} from "../types/model/store";
+import {nullStoreItem, nullStoreReserveProduct} from "../types/model/store";
 import {nullEmployeeItem} from "../types/model/employee";
 
 const initState = (): IStoreState => ({
@@ -26,6 +28,8 @@ const initState = (): IStoreState => ({
     journalEndDate: (new Date()).toISOString().slice(0, 10),
     storeJournalItem: {...nullStoreItem},
     storeMovement: {date: (new Date()).toISOString().slice(0, 10), employee: {...nullEmployeeItem}, comment: '', items: []},
+    storeReservedList: [],
+    storeReserveItem: {...nullStoreReserveProduct},
     rawStore: [],
     productStore: [],
     reservedProduct: [],
@@ -68,6 +72,10 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, storeMovement: action.item}
         case STORE_ITEM_MOVEMENT_DELETE:
             return {...state, storeMovement: action.item}
+        case STORE_RESERVE_ITEM_LOAD_SUCCESS:
+            return {...state, storeReserveItem: action.item}
+        case STORE_RESERVE_LOAD_SUCCESS:
+            return {...state, storeReservedList: action.items}
         default:
             return state
     }
