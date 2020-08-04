@@ -28,12 +28,7 @@ export function loadEmployeeList(search?: string, limit?: number) {
             const items: IEmployeeListItem[] = [];
             const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    tabNum: response.data[key]['tabNum'],
-                    fio: response.data[key]['fio'],
-                    staff: response.data[key]['staff']
-                })
+                items.push({...response.data[key]})
             });
             dispatch(fetchSuccess(items))
         } catch (e) {
@@ -46,13 +41,10 @@ export function loadEmployeeList(search?: string, limit?: number) {
 export function loadEmployeeWorkTimeTable(id: number, start: string, end: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
-
         try {
             const items: IEmployeeWorkTimeItem[] = [];
             const url = EmployeeEndpoint.getEmployeeWorkTime(id, start, end);
-            console.log(url)
             const response = await axios.get(url);
-            console.log(response.data)
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
