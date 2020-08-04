@@ -6,16 +6,14 @@ class OrganizationEndpoint {
      * Реквизиты организации
      */
     static getOrg() {
-        const baseUrl = BaseAPIEndpoint.getBaseURL();
-        return `${baseUrl}/org`
+        return `${BaseAPIEndpoint.getBaseURL()}/org/`
     }
 
     /**
      * Сохранить реквизиты организации
      */
-    static putOrg(){
-        const baseUrl = BaseAPIEndpoint.getBaseURL();
-        return `${baseUrl}/org/`
+    static saveOrg(){
+        return `${BaseAPIEndpoint.getBaseURL()}/org/`
     }
 }
 

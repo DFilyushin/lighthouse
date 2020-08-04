@@ -65,7 +65,7 @@ const AccountDetails = (props: IAccountDetails) => {
   const [typeAlert, setTypeAlert] = useState<Color>('success');
 
   async function saveOrg() {
-    const saveUrl = OrganizationEndpoint.putOrg();
+    const saveUrl = OrganizationEndpoint.saveOrg();
     try{
       const response = await axios.put(saveUrl, values);
       if (response.status === 200){
