@@ -1,4 +1,4 @@
-import {IEmployeeListItem} from "./employee";
+import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 
 export interface IAccountListItem {
     login: string;
@@ -27,3 +27,17 @@ export interface IAccount {
     employee: IEmployeeListItem;
     isAdmin: boolean;
 }
+
+
+export const nullAccountItem: IAccount = {
+    login: '',
+    lastName: '',
+    firstName: '',
+    email: '',
+    active: false,
+    lastLogin: '',
+    joined: '',
+    groups: [],
+    employee: {...nullEmployeeItem},
+    isAdmin: false
+};
