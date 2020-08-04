@@ -1,5 +1,4 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import axios from "axios";
 import {
     CLIENT_LOAD_CONTRACT_SUCCESS,
     CLIENT_LOAD_FINISH,
@@ -11,6 +10,7 @@ import {IClientItem, IClientItemList, nullClientItem} from "types/model/client";
 import ClientEndpoint from "services/endpoints/ClientEndpoint";
 import AuthenticationService from "services/Authentication.service";
 import {IContractListItem} from "types/model/contract";
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -27,7 +27,7 @@ export function loadClients(search?: string, limit?: number, offset?: number) {
         try {
             const url = ClientEndpoint.getClientList(search);
             const items: IClientItemList[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -56,7 +56,7 @@ export function loadClientItem(id: number) {
         }else {
             try {
                 const url = ClientEndpoint.getClientItem(id);
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 const item: IClientItem = response.data;
                 dispatch(fetchItemSuccess(item))
             } catch (e) {
@@ -75,7 +75,7 @@ export function deleteClient(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(ClientEndpoint.deleteClient(id));
+            const response = await authAxios.delete(ClientEndpoint.deleteClient(id));
             if (response.status === 204) {
                 const items = [...getState().client.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -101,7 +101,7 @@ export function searchClients(name: string) {
         try {
             const url = ClientEndpoint.getClientList(name);
             const items: IClientItemList[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -113,6 +113,7 @@ export function searchClients(name: string) {
     }
 }
 
+
 /**
  * Новый клиент
  * @param item
@@ -121,10 +122,8 @@ export function addNewClient(item: IClientItem) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
         let curItem = {...item, 'agentId': AuthenticationService.currentEmployeeId()};
-        console.log(JSON.stringify(curItem));
-
         try{
-            await axios.post(ClientEndpoint.newClient(), curItem);
+            await authAxios.post(ClientEndpoint.newClient(), curItem);
             return Promise.resolve();
         }
         catch (e) {
@@ -142,7 +141,7 @@ export function updateClient(item: IClientItem) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
         try{
-            await axios.put(ClientEndpoint.saveClient(item.id), item);
+            await authAxios.put(ClientEndpoint.saveClient(item.id), item);
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
@@ -158,8 +157,7 @@ export function loadClientContracts(id: number) {
         const items: IContractListItem[] = [];
         dispatch(hideInfoMessage());
         try{
-            const response = await axios.get(ClientEndpoint.getClientContract(id));
-            console.log(response)
+            const response = await authAxios.get(ClientEndpoint.getClientContract(id));
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });

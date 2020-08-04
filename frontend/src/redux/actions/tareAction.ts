@@ -1,7 +1,6 @@
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import TareEndpoint from "services/endpoints/TareEndpoint";
-import {ITare} from "types/model/tare";
-import axios from "axios";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
+import TareEndpoint from "services/endpoints/TareEndpoint"
+import {ITare} from "types/model/tare"
 import {
     TARE_CLEAR_ERROR,
     TARE_DELETE_OK,
@@ -12,11 +11,18 @@ import {
     TARE_OK_OPERATION,
     TARE_SET_ERROR,
     TARE_UPDATE_OBJECT
-} from "./types";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+} from "./types"
+import {NEW_RECORD_VALUE} from "utils/AppConst"
+import authAxios from "../../services/axios-api"
 
 const LS_TARE_KEY = 'tares'
 
+/**
+ * Загрузить список тары
+ * @param search строка поиска
+ * @param limit Лимит выбора записей
+ * @param offset Сдвиг
+ */
 export function loadTare(search?: string, limit?: number, offset?:number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
@@ -24,7 +30,7 @@ export function loadTare(search?: string, limit?: number, offset?:number) {
             try {
                 const url = TareEndpoint.getTareList(search, limit, offset);
                 const tareList: ITare[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     tareList.push(response.data[key])
                 });
@@ -37,6 +43,10 @@ export function loadTare(search?: string, limit?: number, offset?:number) {
     }
 }
 
+/**
+ * Загрузить объект тары
+ * @param id Код записи
+ */
 export function loadTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let item: ITare = {id: 0, name: '', v:0, unit:'', idUnit: 0};
@@ -45,7 +55,7 @@ export function loadTareItem(id: number) {
         }else{
             dispatch(fetchStart());
             try{
-                const response = await axios.get(TareEndpoint.getTareItem(id));
+                const response = await authAxios.get(TareEndpoint.getTareItem(id));
                 item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
@@ -56,11 +66,15 @@ export function loadTareItem(id: number) {
     }
 }
 
+/**
+ * Удалить объект тары
+ * @param id Код записи
+ */
 export function deleteTare(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(TareEndpoint.deleteTare(id));
+            const response = await authAxios.delete(TareEndpoint.deleteTare(id));
             if (response.status === 204) {
                 const items = [...getState().tare.tareItems];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -96,7 +110,7 @@ export function addNewTare(item: ITare) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(TareEndpoint.newTare(), item);
+            await authAxios.post(TareEndpoint.newTare(), item);
             dispatch(okOperation());
             return Promise.resolve();
         }
@@ -114,7 +128,7 @@ export function addNewTare(item: ITare) {
 export function updateTare(item: ITare) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(TareEndpoint.saveTare(item.id), item);
+            await authAxios.put(TareEndpoint.saveTare(item.id), item);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }

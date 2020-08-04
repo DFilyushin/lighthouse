@@ -1,4 +1,3 @@
-import axios from 'axios'
 import RawEndpoint from "services/endpoints/RawEndpoint"
 import {IRaw} from 'types/model/raw'
 import {
@@ -12,6 +11,7 @@ import {
     RAW_UPDATE_OBJECT
 } from "./types";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import authAxios from "../../services/axios-api";
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
@@ -27,12 +27,9 @@ export function loadRaws(search?: string, limit?: number, offset?: number) {
         dispatch(fetchStart());
         try{
             const url = RawEndpoint.getRawList(search, limit, offset);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
-                itemList.push({
-                    id: response.data[key]['id'],
-                    name: response.data[key]['name'],
-                })
+                itemList.push(response.data[key])
             });
             dispatch(fetchSuccess(itemList))
         }catch (e) {
@@ -50,7 +47,7 @@ export function deleteRaw(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(RawEndpoint.deleteRaw(id));
+            const response = await authAxios.delete(RawEndpoint.deleteRaw(id));
             if (response.status === 204) {
                 const items = [...getState().raw.raws];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -81,7 +78,7 @@ export function loadRawItem(id: number){
         }else {
 
             try {
-                const response = await axios.get(RawEndpoint.getRawItem(id));
+                const response = await authAxios.get(RawEndpoint.getRawItem(id));
                 const raw = response.data;
                 dispatch(rawLoadItemSuccess(raw))
             } catch (e) {
@@ -100,7 +97,7 @@ export function addNewRaw(raw: IRaw) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(RawEndpoint.newRaw(), raw);
+            const response = await authAxios.post(RawEndpoint.newRaw(), raw);
             const items = [...getState().raws.raws]
             items.push(response.data)
             dispatch(fetchSuccess(items))
@@ -124,7 +121,7 @@ export function changeRaw(raw: IRaw) {
 export function updateRaw(raw: IRaw) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(RawEndpoint.saveRaw(raw.id), raw);
+            await authAxios.put(RawEndpoint.saveRaw(raw.id), raw);
             const items = [...getState().raws.raws]
             const index = items.findIndex(value => value.id === raw.id)
             items[index] = raw

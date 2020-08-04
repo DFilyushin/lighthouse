@@ -8,11 +8,11 @@ import {
 } from "./types"
 import {IPaymentItem, IPaymentListItem, nullPaymentItem} from "types/model/payment"
 import {hideInfoMessage, showInfoMessage} from "./infoAction"
-import axios from "axios"
 import PaymentEndpoint from "services/endpoints/PaymentEndpoint"
 import {NEW_RECORD_VALUE} from "utils/AppConst"
 import ContractEndpoint from "../../services/endpoints/ContractEndpoint"
 import {IContract} from "../../types/model/contract"
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -28,7 +28,7 @@ export function loadPaymentList(startDate: string, endDate: string, method?: num
         const url = PaymentEndpoint.getPaymentList(startDate, endDate, method)
         const items: IPaymentListItem[] = []
         try{
-            const response = await axios.get(url)
+            const response = await authAxios.get(url)
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -44,7 +44,7 @@ export function deletePayment(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage())
         try{
-            const response = await axios.delete(PaymentEndpoint.deletePayment(id));
+            const response = await authAxios.delete(PaymentEndpoint.deletePayment(id));
             if (response.status === 204) {
                 const items = [...getState().payment.paymentItems];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -73,7 +73,7 @@ export function loadPaymentItem(id: number) {
         }else {
             const url = PaymentEndpoint.getPaymentItem(id)
             try {
-                const response = await axios.get(url)
+                const response = await authAxios.get(url)
                 dispatch(loadItemSuccess(response.data))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -87,7 +87,7 @@ export function newPaymentByContract(contractId: number) {
     return async (dispatch: any, getState: any) => {
         const url = await ContractEndpoint.getContract(contractId)
         try {
-            const response = await axios.get(url)
+            const response = await authAxios.get(url)
             const contract: IContract = response.data
             let item: IPaymentItem = {...getState().payment.paymentItem,
                 contract: {
@@ -111,7 +111,7 @@ export function newPaymentByContract(contractId: number) {
 export function updatePaymentItem(item: IPaymentItem) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(PaymentEndpoint.updatePayment(item.id), item);
+            await authAxios.put(PaymentEndpoint.updatePayment(item.id), item);
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
@@ -127,7 +127,7 @@ export function addNewPaymentItem(item: IPaymentItem) {
         try{
             const new_item = {...item}
             delete new_item.created
-            await axios.post(PaymentEndpoint.addNewPayment(), new_item)
+            await authAxios.post(PaymentEndpoint.addNewPayment(), new_item)
             return Promise.resolve()
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))

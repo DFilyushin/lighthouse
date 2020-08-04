@@ -6,7 +6,6 @@ import {
     nullContractSpecItem
 } from "types/model/contract";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import axios from "axios";
 import {
     CONTRACT_LOAD_FINISH,
     CONTRACT_LOAD_ITEM_SUCCESS,
@@ -17,6 +16,7 @@ import {
     CONTRACT_LOAD_ACTIVE_CONTRACTS
 } from "./types";
 import ContractEndpoint from "services/endpoints/ContractEndpoint";
+import authAxios from "../../services/axios-api";
 
 /**
  * Получить список контрактов
@@ -30,7 +30,7 @@ export function loadContractList(state: number) {
         try {
             const url = ContractEndpoint.getContractList(state);
             const items: IContractListItem[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -53,7 +53,7 @@ export function loadActiveContractsList(num: string) {
         try {
             const url = ContractEndpoint.getActiveContractList(num);
             const items: IContractListItemSimple[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -73,7 +73,7 @@ export function deleteContract(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(ContractEndpoint.deleteContract(id));
+            const response = await authAxios.delete(ContractEndpoint.deleteContract(id));
             if (response.status === 204) {
                 const items = [...getState().contract.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -104,7 +104,7 @@ export function loadContractItem(id: number, func0?: any) {
         }else {
             try {
                 const url = ContractEndpoint.getContract(id);
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 const item: IContract = response.data;
                 console.log(item)
                 if (func0) {func0(item)}
@@ -155,7 +155,7 @@ export function updateContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
         try{
             console.log(JSON.stringify(item));
-            const response = await axios.put(ContractEndpoint.updateContract(item.id), item);
+            const response = await authAxios.put(ContractEndpoint.updateContract(item.id), item);
             console.log(response);
         }catch (e) {
             dispatch(saveError(e.toString()))

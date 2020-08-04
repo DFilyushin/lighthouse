@@ -1,4 +1,3 @@
-import axios from 'axios'
 import FormulaEndpoint from "services/endpoints/FormulaEndpoint"
 import {IFormula, IFormulaItem, IFormulaSelectedItem, IRawInFormula, nullFormulaItem} from 'types/model/formula'
 import { showInfoMessage, hideInfoMessage } from './infoAction'
@@ -15,6 +14,7 @@ import {IRaw} from "types/model/raw";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
 import moment from "moment";
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -30,7 +30,7 @@ export function loadFormula(search?: string, limit?: number, offset?:number) {
             try {
                 const url = FormulaEndpoint.getFormulaList(search, limit, offset);
                 const formulaList: IFormula[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     formulaList.push({
                         id: response.data[key]['id'],
@@ -59,7 +59,7 @@ export function loadFormulaReference(byProduct: string) {
         try {
             const url = FormulaEndpoint.getFormulaList();
             const formulaList: IFormula[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 formulaList.push({
                     id: response.data[key]['id'],
@@ -95,14 +95,8 @@ export function loadFormulaItem(id: number) {
         }else {
 
             try {
-                const response = await axios.get(FormulaEndpoint.getFormulaItem(id));
-                formula.id = response.data['id']
-                formula.specification = response.data['specification']
-                formula.calcLosses = response.data['calcLosses']
-                formula.product = response.data['product']
-                formula.calcAmount = response.data['calcAmount']
-                formula.density = response.data['density']
-                formula.raws = response.data['raws']
+                const response = await authAxios.get(FormulaEndpoint.getFormulaItem(id));
+                formula = response.data
                 dispatch(fetchItemSuccess(formula))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -120,7 +114,7 @@ export function deleteFormula(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(FormulaEndpoint.deleteFormula(id));
+            const response = await authAxios.delete(FormulaEndpoint.deleteFormula(id));
             if (response.status === 204) {
                 const formulas = [...getState().formula.formulas];
                 const index = formulas.findIndex((elem, index, array)=>{return elem.id === id});
@@ -211,7 +205,7 @@ export function updateFormula(item: IFormulaItem) {
             delete(clone.product)
             clone.product = item.product.id
             clone.tare = 1
-            await axios.put(FormulaEndpoint.saveFormula(item.id), clone);
+            await authAxios.put(FormulaEndpoint.saveFormula(item.id), clone);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }
@@ -236,8 +230,7 @@ export function addNewFormula(item: IFormulaItem) {
             delete(newItem.product)
             newItem.product = item.product.id
             newItem.tare = 1
-            console.log(JSON.stringify(newItem))
-            await axios.post(FormulaEndpoint.newFormula(), newItem);
+            await authAxios.post(FormulaEndpoint.newFormula(), newItem);
         }catch (e) {
             dispatch(saveError(e.toString()))
             throw e

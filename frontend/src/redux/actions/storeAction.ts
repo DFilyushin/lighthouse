@@ -1,5 +1,4 @@
 import StoreEndpoint from "services/endpoints/StoreEndpoint"
-import axios from "axios"
 import {
     IStoreJournal,
     IStoreJournalItem,
@@ -31,6 +30,7 @@ import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils"
 import {nullTare} from "../../types/model/tare"
 import AuthenticationService from "../../services/Authentication.service"
 import {showInfoMessage} from "./infoAction"
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -42,10 +42,8 @@ export function loadRawStore() {
         dispatch(fetchStart());
         try{
             const dateStore = getState().store.rawStoreOnDate;
-            console.log('state', getState().store);
             const url = StoreEndpoint.getStoreRaw(dateStore);
-            console.log('url', url);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push(response.data[key])
             });
@@ -72,7 +70,7 @@ export function loadProductStore() {
         try{
             const dateStore = getState().store.rawStoreOnDate;
             const url = StoreEndpoint.getStoreProduct(dateStore);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push(response.data[key])
             });
@@ -94,7 +92,7 @@ export function loadStoreReserveList() {
 
         try{
             const url = StoreEndpoint.getProductReserved();
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 items.push(response.data[key])
             });
@@ -122,7 +120,7 @@ export function loadStoreJournal(date1: string, date2: string, operType: number,
         dispatch(fetchStart());
         try{
             const url = StoreEndpoint.getStoreJournal(date1.slice(0,10), date2.slice(0, 10), operType, materialType);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 const item: IStoreJournal = {
                     id: response.data[key]['id'],
@@ -166,7 +164,7 @@ export function changeStoreItem(item: IStoreJournalItem) {
 export function updateStoreItem(item: IStoreJournalItem) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(CostEndpoint.updateCost(item.id), item);
+            await authAxios.put(CostEndpoint.updateCost(item.id), item);
         }catch (e) {
             dispatch(fetchError(e.toString()))
         }
@@ -182,7 +180,7 @@ export function loadStoreItem(id: number) {
         dispatch(fetchStart());
         try{
             const url = StoreEndpoint.getStoreItem(id);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
                 const item: IStoreJournalItem = {
                     id: response.data['id'],
                     count: response.data['value'],
@@ -369,10 +367,9 @@ export function saveRawMovement() {
                 )
             })
         }
-        console.log(JSON.stringify(data))
         const url = StoreEndpoint.addRawStoreItems()
         try{
-            await axios.post(url, data)
+            await authAxios.post(url, data)
             dispatch(showInfoMessage('info', 'Данные обработаны'))
             return Promise.resolve()
         }catch (e) {

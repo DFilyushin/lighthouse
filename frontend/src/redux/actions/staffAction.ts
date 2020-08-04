@@ -1,4 +1,3 @@
-import axios from 'axios'
 import StaffEndpoint from "services/endpoints/StaffEndpoint"
 import {IStaff} from 'types/model/staff'
 import {
@@ -11,6 +10,7 @@ import {
     STAFF_UPDATE_OBJECT,
     STAFF_ITEM_SUCCESS
 } from "./types";
+import authAxios from "../../services/axios-api";
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
@@ -27,7 +27,7 @@ export function loadStaffs(search?: string, limit?: number, offset?: number) {
         dispatch(fetchStart());
         try{
             const url = StaffEndpoint.getStaffList(search, limit, offset);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push({
                     id: response.data[key]['id'],
@@ -50,7 +50,7 @@ export function deleteStaff(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(StaffEndpoint.deleteItem(id));
+            const response = await authAxios.delete(StaffEndpoint.deleteItem(id));
             if (response.status === 204) {
                 const items = [...getState().staff.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -76,7 +76,7 @@ export function loadItem(id: number){
         let item: IStaff = {id: 0, name: ""};
         dispatch(fetchStart());
         try{
-            const response = await axios.get(StaffEndpoint.getStaffItem(id));
+            const response = await authAxios.get(StaffEndpoint.getStaffItem(id));
             item.id = response.data['id'];
             item.name = response.data['name'];
             dispatch(rawLoadItemSuccess(item))
@@ -91,7 +91,7 @@ export function addNew(item: IStaff) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(StaffEndpoint.newStaff(), item);
+            await authAxios.post(StaffEndpoint.newStaff(), item);
             dispatch(rawLoadItemSuccess(item))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новую запись!'))
@@ -113,7 +113,7 @@ export function changeItem(item: IStaff) {
 export function updateItem(item: IStaff) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(StaffEndpoint.saveStaff(item.id), item);
+            await authAxios.put(StaffEndpoint.saveStaff(item.id), item);
         }catch (e) {
             dispatch(fetchError(e))
         }

@@ -1,9 +1,7 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import GroupEndpoint from "services/endpoints/GroupEndpoint";
 import UserEndpoint from "services/endpoints/UserEndpoint";
-import {IAccount, IAccountListItem, IUserGroup} from "types/model/user";
-import {nullEmployeeItem} from "types/model/employee";
-import axios from "axios";
+import {IAccount, IAccountListItem, IUserGroup, nullAccountItem} from "types/model/user";
 import {
     USER_CHANGE_ITEM,
     USER_GROUP_LOAD_SUCCESS,
@@ -13,6 +11,7 @@ import {
     USER_LOAD_SUCCESS,
     USER_SET_ERROR
 } from "./types";
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -22,20 +21,13 @@ export function loadGroupList() {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage())
-        // const tareInLocalStorage = localStorage.getItem(LS_TARE_KEY);
-        // if (tareInLocalStorage){
-        //     const tareList = JSON.parse(tareInLocalStorage);
-        //     dispatch(fetchSuccess(tareList))
-        //
-        // }else {
         try {
             const url = GroupEndpoint.getGroupList();
             const groupList: IUserGroup[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 groupList.push(response.data[key])
             });
-            // localStorage.setItem(LS_TARE_KEY, JSON.stringify(tareList))
             dispatch(fetchGroupSuccess(groupList))
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
@@ -58,7 +50,7 @@ export function loadUserList(showOnlyActive: boolean, search: string) {
         try {
             const url = UserEndpoint.getUserList(active, search);
             const userList: IAccountListItem[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 userList.push(response.data[key])
             });
@@ -77,32 +69,21 @@ export function loadUserList(showOnlyActive: boolean, search: string) {
  */
 export async function checkUserExist(login: string) {
     const url = UserEndpoint.checkUserLogin(login)
-    const response = await axios.get(url)
+    const response = await authAxios.get(url)
     const result = response.data.message;
     return Promise.resolve(result === 'User exist')
 }
 
 export function getUserItem(login: string) {
     return async (dispatch: any, getState: any) => {
-        let item: IAccount = {
-            login: "",
-            lastName: "",
-            firstName: "",
-            email: "",
-            active: false,
-            lastLogin: "",
-            joined: "",
-            groups: [],
-            employee: nullEmployeeItem,
-            isAdmin: false
-        };
+        let item: IAccount = {...nullAccountItem};
         dispatch(fetchStart())
         if (login === 'new') {
             dispatch(getItemSuccess(item))
         }else{
             dispatch(fetchStart());
             try{
-                const response = await axios.get(UserEndpoint.getUser(login));
+                const response = await authAxios.get(UserEndpoint.getUser(login));
                 item = response.data;
                 dispatch(getItemSuccess(item))
             }catch (e) {
@@ -120,7 +101,7 @@ export function getUserItem(login: string) {
 export function addUser(item: IAccount) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.post(UserEndpoint.newUser(), item);
+            await authAxios.post(UserEndpoint.newUser(), item);
         }catch (e) {
             console.log(e.response)
             dispatch(saveError(e.response.toString()))
@@ -135,7 +116,7 @@ export function addUser(item: IAccount) {
 export function saveUser(item: IAccount) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(UserEndpoint.saveUser(item.login), item);
+            await authAxios.put(UserEndpoint.saveUser(item.login), item);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }

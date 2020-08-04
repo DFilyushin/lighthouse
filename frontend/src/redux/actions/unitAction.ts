@@ -1,7 +1,6 @@
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import UnitEndpoint from "services/endpoints/UnitEndpoint";
-import axios from "axios";
-import {IUnit} from "../../types/model/unit";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
+import UnitEndpoint from "services/endpoints/UnitEndpoint"
+import {IUnit} from "../../types/model/unit"
 import {
     UNIT_SET_ERROR,
     UNIT_DELETE_OK,
@@ -10,9 +9,10 @@ import {
     UNIT_LOAD_START,
     UNIT_LOAD_SUCCESS,
     UNIT_UPDATE_OBJECT
-} from "./types";
-import {clearError} from "./rawAction";
-import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+} from "./types"
+import {clearError} from "./rawAction"
+import {NEW_RECORD_VALUE} from "../../utils/AppConst"
+import authAxios from "../../services/axios-api"
 
 //FIXME После обновления, добавления, удаления записей обновить глобальный объект списка
 
@@ -26,28 +26,17 @@ export function loadUnit(search?: string, limit?: number, offset?: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage())
-        // const tareInLocalStorage = localStorage.getItem(LS_TARE_KEY);
-        // if (tareInLocalStorage){
-        //     const tareList = JSON.parse(tareInLocalStorage);
-        //     dispatch(fetchSuccess(tareList))
-        //
-        // }else {
         try {
             const url = UnitEndpoint.getUnits(search, limit, offset);
             const unitList: IUnit[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
-                unitList.push({
-                    id: response.data[key]['id'],
-                    name: response.data[key]['name']
-                })
+                unitList.push(response.data[key])
             });
-            // localStorage.setItem(LS_TARE_KEY, JSON.stringify(tareList))
             dispatch(fetchSuccess(unitList))
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
-        // }
         dispatch(fetchFinish())
     }
 }
@@ -61,7 +50,7 @@ export function deleteItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(UnitEndpoint.deleteUnit(id));
+            const response = await authAxios.delete(UnitEndpoint.deleteUnit(id));
             if (response.status === 204) {
                 const items = [...getState().unit.unitItems];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -92,7 +81,7 @@ export function loadUnitItem(id: number) {
         }else{
             dispatch(fetchStart());
             try{
-                const response = await axios.get(UnitEndpoint.getUnitItem(id));
+                const response = await authAxios.get(UnitEndpoint.getUnitItem(id));
                 item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
@@ -111,7 +100,7 @@ export function addNewUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(UnitEndpoint.newUnit(), item);
+            const response = await authAxios.post(UnitEndpoint.newUnit(), item);
             const items = [...getState().unit.unitItems]
             items.push(response.data)
             dispatch(fetchSuccess(items))
@@ -128,7 +117,7 @@ export function addNewUnit(item: IUnit) {
 export function updateUnit(item: IUnit) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(UnitEndpoint.saveUnit(item.id), item);
+            await authAxios.put(UnitEndpoint.saveUnit(item.id), item);
             const items = [...getState().unit.unitItems]
             const index = items.findIndex(value => value.id === item.id)
             items[index] = item

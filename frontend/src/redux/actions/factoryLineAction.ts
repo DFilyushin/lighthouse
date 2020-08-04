@@ -1,15 +1,15 @@
-import axios from "axios";
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
 import {
     FACTORY_CLEAR_ERROR,
     FACTORY_LINE_DELETE_OK,
     FACTORY_LINE_LOAD_FINISH, FACTORY_LINE_LOAD_ITEM,
     FACTORY_LINE_LOAD_START,
     FACTORY_LINE_LOAD_SUCCESS, FACTORY_LINE_SET_ERROR, FACTORY_LINE_UPDATE
-} from "./types";
-import {IFactoryLine} from "types/model/factorylines";
-import FactoryLineEndpoint from "services/endpoints/FactoryLineEndpoint";
-import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+} from "./types"
+import {IFactoryLine} from "types/model/factorylines"
+import FactoryLineEndpoint from "services/endpoints/FactoryLineEndpoint"
+import {NEW_RECORD_VALUE} from "../../utils/AppConst"
+import authAxios from "../../services/axios-api"
 
 /**
  * Загрузить список линий производства
@@ -22,12 +22,9 @@ export function loadFactoryLines(search?: string) {
         try {
             const url = FactoryLineEndpoint.getFactoryLinesList(search);
             const items: IFactoryLine[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    name: response.data[key]['name']
-                })
+                items.push(response.data[key])
             });
             dispatch(fetchSuccess(items))
         } catch (e) {
@@ -45,7 +42,7 @@ export function deleteFactoryItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(FactoryLineEndpoint.deleteFactoryLine(id));
+            const response = await authAxios.delete(FactoryLineEndpoint.deleteFactoryLine(id));
             if (response.status === 204) {
                 const items = [...getState().factoryLine.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -77,7 +74,7 @@ export function loadFactoryItem(id: number) {
         }else{
             dispatch(fetchStart());
             try{
-                const response = await axios.get(FactoryLineEndpoint.getFactoryLineItem(id));
+                const response = await authAxios.get(FactoryLineEndpoint.getFactoryLineItem(id));
                 const item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
@@ -103,7 +100,7 @@ export function addNewFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(FactoryLineEndpoint.newFactoryLine(), item);
+            const response = await authAxios.post(FactoryLineEndpoint.newFactoryLine(), item);
             const items = [...getState().factoryLine.items]
             items.push(response.data)
             await dispatch(fetchSuccess(items))
@@ -123,7 +120,7 @@ export function addNewFactoryItem(item: IFactoryLine) {
 export function updateFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(FactoryLineEndpoint.saveFactoryLine(item.id), item);
+            await authAxios.put(FactoryLineEndpoint.saveFactoryLine(item.id), item);
             const items = [...getState().factoryLine.items]
             const index = items.findIndex(value => value.id === item.id)
             items[index] = item

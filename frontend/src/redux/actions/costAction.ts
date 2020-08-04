@@ -1,7 +1,6 @@
-import axios from "axios";
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import CostEndpoint from "services/endpoints/CostEndpoint";
-import {ICost, ICostSimple} from "types/model/cost";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
+import CostEndpoint from "services/endpoints/CostEndpoint"
+import {ICost, ICostSimple} from "types/model/cost"
 import {
     COST_CHANGE_ITEM, COST_CLEAR_ERROR,
     COST_DELETE_OK,
@@ -10,8 +9,9 @@ import {
     COST_LOAD_PARENT_ITEMS,
     COST_LOAD_START,
     COST_LOAD_SUCCESS, COST_SAVE_OK, COST_SET_ERROR
-} from "./types";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+} from "./types"
+import {NEW_RECORD_VALUE} from "utils/AppConst"
+import authAxios from "../../services/axios-api"
 
 
 /**
@@ -24,7 +24,7 @@ export function getCostList() {
         try {
             const url = CostEndpoint.getCostList();
             const items: ICost[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             console.log(response);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
@@ -50,10 +50,8 @@ export function getCostItem(id: number) {
         }
         dispatch(fetchStart());
         try{
-            const response = await axios.get(CostEndpoint.getCostItem(id))
-            item.id = response.data['id']
-            item.name = response.data['name']
-            item.parent = response.data['parent']
+            const response = await authAxios.get(CostEndpoint.getCostItem(id))
+            item = response.data
             dispatch(fetchItemSuccess(item))
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
@@ -72,7 +70,7 @@ export function getFirstLevelCost() {
         try {
             const url = CostEndpoint.getCostList();
             const items: ICostSimple[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push({id: response.data[key]['id'], name: response.data[key]['name']})
             });
@@ -88,7 +86,7 @@ export function deleteCostItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(CostEndpoint.deleteCost(id));
+            const response = await authAxios.delete(CostEndpoint.deleteCost(id));
             if (response.status === 204) {
                 const items = [...getState().cost.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -110,7 +108,7 @@ export function addNewCost(item: ICost) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(CostEndpoint.newCost(), item);
+            await authAxios.post(CostEndpoint.newCost(), item);
             dispatch(saveOk(item));
             return Promise.resolve();
         }
@@ -124,7 +122,7 @@ export function addNewCost(item: ICost) {
 export function updateCost(item: ICost) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(CostEndpoint.updateCost(item.id), item);
+            await authAxios.put(CostEndpoint.updateCost(item.id), item);
         }catch (e) {
             dispatch(saveError(e.toString()))
         }

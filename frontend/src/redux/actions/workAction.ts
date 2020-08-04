@@ -1,10 +1,10 @@
-import axios from "axios";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import {WORK_LOAD_FINISH, WORK_LOAD_START, WORK_LOAD_SUCCESS, WORK_DELETE_OK, WORK_LOAD_ITEM_SUCCESS} from "./types";
 import {IWork} from "types/model/work";
 import {WorkEndpoint} from "services/endpoints/WorkEndpoint";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
 import {clearError} from "./rawAction";
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -18,7 +18,7 @@ export function loadWorkList(search?: string) {
         try {
             const url = WorkEndpoint.getWorkList(search);
             const unitList: IWork[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 unitList.push(response.data[key])
             });
@@ -45,7 +45,7 @@ export function deleteWork(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(WorkEndpoint.deleteWorkItem(id));
+            const response = await authAxios.delete(WorkEndpoint.deleteWorkItem(id));
             if (response.status === 204) {
                 const items = [...getState().works.workItems];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -75,7 +75,7 @@ export function loadWorkItem(id: number) {
         }else{
             dispatch(fetchStart());
             try{
-                const response = await axios.get(WorkEndpoint.getWorkItem(id));
+                const response = await authAxios.get(WorkEndpoint.getWorkItem(id));
                 item = response.data
                 dispatch(getItemSuccess(item))
             }catch (e) {
@@ -94,7 +94,7 @@ export function addNewWorks(item: IWork) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(WorkEndpoint.newWorkItem(), item);
+            const response = await authAxios.post(WorkEndpoint.newWorkItem(), item);
             const items = [...getState().works.workItems]
             items.push(response.data)
             dispatch(fetchSuccess(items))
@@ -112,7 +112,7 @@ export function addNewWorks(item: IWork) {
 export function updateWorks(item: IWork) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(WorkEndpoint.updateWorkItem(item.id), item);
+            await authAxios.put(WorkEndpoint.updateWorkItem(item.id), item);
         }catch (e) {
             dispatch(showInfoMessage('error', 'Не удалось обновить запись!'))
             throw e

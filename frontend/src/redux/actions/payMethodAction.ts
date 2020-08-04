@@ -9,8 +9,8 @@ import {
 import PayMethodEndpoint from "services/endpoints/PayMethodEndpoint"
 import {hideInfoMessage, showInfoMessage} from "./infoAction"
 import {IPayMethod, nullPayMethod} from "types/model/paymethod"
-import axios from "axios"
 import {NEW_RECORD_VALUE} from "utils/AppConst";
+import authAxios from "../../services/axios-api";
 
 
 /**
@@ -23,7 +23,7 @@ export function loadPayMethodItems() {
         const url = PayMethodEndpoint.getPayMethodList()
         const items: IPayMethod[] = []
         try{
-            const response = await axios.get(url)
+            const response = await authAxios.get(url)
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -48,7 +48,7 @@ export function loadPayMethodItem(id: number) {
         }else {
             const url = PayMethodEndpoint.getPayMethod(id)
             try {
-                const response = await axios.get(url)
+                const response = await authAxios.get(url)
                 dispatch(fetchSuccessItem(response.data))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
@@ -66,7 +66,7 @@ export function deletePayMethod(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(loadStart());
         try{
-            const response = await axios.delete(PayMethodEndpoint.deletePayMethod(id));
+            const response = await authAxios.delete(PayMethodEndpoint.deletePayMethod(id));
             if (response.status === 204) {
                 const items = [...getState().payMethod.payMethodItems];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -91,7 +91,7 @@ export function updatePayMethod(item: IPayMethod) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
         try{
-            await axios.put(PayMethodEndpoint.updatePayMethod(item.id), item);
+            await authAxios.put(PayMethodEndpoint.updatePayMethod(item.id), item);
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
@@ -106,7 +106,7 @@ export function addNewPayMethod(item: IPayMethod) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage())
         try{
-            const response = await axios.post(PayMethodEndpoint.newPayMethod(), item);
+            const response = await authAxios.post(PayMethodEndpoint.newPayMethod(), item);
             const items: IPayMethod[] = [...getState().payMethod.payMethodItems]
             items.push({...item, id: response.data['id']})
             dispatch(fetchSuccess(items))

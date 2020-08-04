@@ -1,5 +1,4 @@
-import axios from "axios";
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
 import {
     PROD_LOAD_START,
     PROD_LOAD_FINISH,
@@ -16,7 +15,7 @@ import {
     PROD_SAVE_OK,
     PROD_ADD_NEW_OK,
     PROD_ORIGIN_CALC_LOAD_SUCCESS, PROD_MATERIAL_LOAD_SUCCESS, PROD_MATERIAL_CHANGE
-} from "./types";
+} from "./types"
 import {
     CARD_STATE_CANCEL,
     CARD_STATE_IN_WORK,
@@ -30,12 +29,13 @@ import {
     nullProductionMaterial,
     nullProductionTare
 } from "types/model/production";
-import ProductionEndpoint from "services/endpoints/ProductionEndpoint";
-import FormulaEndpoint from "services/endpoints/FormulaEndpoint";
-import {getRandomInt, MAX_RANDOM_VALUE} from "utils/AppUtils";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
-import AuthenticationService from "services/Authentication.service";
-import {nullWork} from "types/model/work";
+import ProductionEndpoint from "services/endpoints/ProductionEndpoint"
+import FormulaEndpoint from "services/endpoints/FormulaEndpoint"
+import {getRandomInt, MAX_RANDOM_VALUE} from "utils/AppUtils"
+import {NEW_RECORD_VALUE} from "utils/AppConst"
+import AuthenticationService from "services/Authentication.service"
+import {nullWork} from "types/model/work"
+import authAxios from "../../services/axios-api"
 
 
 /**
@@ -53,7 +53,7 @@ export function loadProductionCards(startPeriod: string, endPeriod: string, find
 
             const url = ProductionEndpoint.getProductionList(startPeriod, endPeriod, findByNum, productId, state);
             const items: IProductionList[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push({
                     id: response.data[key]['id'],
@@ -86,7 +86,7 @@ export function loadProductionCard(id: number) {
         }else {
             dispatch(startLoading());
             try {
-                const response = await axios.get(ProductionEndpoint.getProductionCard(id));
+                const response = await authAxios.get(ProductionEndpoint.getProductionCard(id));
                 item.id = response.data['id'];
                 item.comment = response.data['comment'];
                 item.calcValue = response.data['calcValue'];
@@ -119,7 +119,7 @@ export function deleteProductionCard(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(startLoading());
         try{
-            const response = await axios.delete(ProductionEndpoint.deleteProductionCard(id));
+            const response = await authAxios.delete(ProductionEndpoint.deleteProductionCard(id));
 
             if (response.status === 204) {
                 const items = [...getState().production.prodCardList];
@@ -155,7 +155,7 @@ export function getProductionTeam(id: number) {
             try {
                 const url = ProductionEndpoint.getProductionTeam(id);
                 const items: IProductionTeam[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     items.push({
                         id: response.data[key]['id'],
@@ -190,7 +190,7 @@ export function getProductionCalc(id: number) {
             try {
                 const url = ProductionEndpoint.getProductionCalc(id);
                 const items: IProductionCalc[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     items.push({
                         id: response.data[key]['id'],
@@ -223,7 +223,7 @@ export function getProductionTare(id: number) {
             try {
                 const url = ProductionEndpoint.getProductionTare(id);
                 const items: IProductionTare[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     items.push({
                         id: response.data[key]['id'],
@@ -254,7 +254,7 @@ export function getProductionMaterial(id: number) {
             try {
                 const url = ProductionEndpoint.getProductionMaterial(id);
                 const items: IProductionMaterial[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     items.push({
                         id: response.data[key]['id'],
@@ -475,7 +475,7 @@ export function addNewProduction(item: IProduction) {
                 'lossValue': item.lossValue,
                 'comment': item.comment
             };
-            const response = await axios.post(ProductionEndpoint.newProductionCard(), sendItem);
+            const response = await authAxios.post(ProductionEndpoint.newProductionCard(), sendItem);
             dispatch(showInfoMessage('info', 'Сохранено успешно'))
             const id = response.data['id'];
             const newItem = {...item, id: id}
@@ -503,7 +503,7 @@ export function addNewProduction(item: IProduction) {
                             }
                         )
                     });
-                const calcResponse = await axios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
+                const calcResponse = await authAxios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
                 console.log(calcResponse)
             }
 
@@ -512,7 +512,7 @@ export function addNewProduction(item: IProduction) {
                 teamItems.forEach((value)=>{
                     value.manufactureId = id;
                 })
-                const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
+                const teamResponse = await authAxios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
                 console.log(teamResponse);
             }
 
@@ -526,13 +526,13 @@ export function addNewProduction(item: IProduction) {
                         newValue
                     )
                 })
-                const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
+                const tareResponse = await authAxios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
                 console.log(tareResponse);
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
-                const materialResponse = await axios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
+                const materialResponse = await authAxios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
                 console.log(materialResponse)
             }
 
@@ -561,7 +561,7 @@ export function getOriginalCalculation() {
         const calcItems: IProductionCalc[] = [];
         const url = FormulaEndpoint.getCalculation(currentCard.idFormula, currentCard.calcValue);
         console.log(url)
-        const response = await axios.get(url);
+        const response = await authAxios.get(url);
         Object.keys(response.data.raws).forEach((key, index) => {
             calcItems.push({
                 id: response.data.raws[key]['idRaw']['id'],
@@ -588,7 +588,7 @@ export function getAutoCalculation() {
         const calcItems: IProductionCalc[] = [...getState().production.prodCardCalc];
         calcItems.splice(0, calcItems.length); //удалить имеющиейся данные
         const url = FormulaEndpoint.getCalculation(currentCard.idFormula, currentCard.calcValue);
-        const response = await axios.get(url);
+        const response = await authAxios.get(url);
         Object.keys(response.data.raws).forEach((key, index) => {
             calcItems.push({
                 id: response.data.raws[key]['idRaw']['id'],
@@ -627,7 +627,7 @@ export function updateProduction(item: IProduction) {
                 'comment': item.comment
             };
             console.log(JSON.stringify(sendItem));
-            const response = await axios.put(ProductionEndpoint.saveProductionCard(item.id), sendItem);
+            const response = await authAxios.put(ProductionEndpoint.saveProductionCard(item.id), sendItem);
             dispatch(showInfoMessage('info', 'Сохранено успешно'))
             const id = response.data['id'];
 
@@ -651,7 +651,7 @@ export function updateProduction(item: IProduction) {
                         }
                     )
                 });
-                const calcResponse = await axios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
+                const calcResponse = await authAxios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
                 console.log(calcResponse)
             }
 
@@ -660,7 +660,7 @@ export function updateProduction(item: IProduction) {
                 teamItems.forEach((value)=>{
                     value.manufactureId = item.id;
                 })
-                const teamResponse = await axios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
+                const teamResponse = await authAxios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
                 console.log(teamResponse);
             }
             const tareItems = [...getState().production.prodCardTare];
@@ -673,13 +673,13 @@ export function updateProduction(item: IProduction) {
                         newValue
                     )
                 })
-                const tareResponse = await axios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
+                const tareResponse = await authAxios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
                 console.log(tareResponse);
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
-                const materialResponse = await axios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
+                const materialResponse = await authAxios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
                 console.log(materialResponse)
             }
             dispatch(saveOk());
@@ -702,7 +702,7 @@ export function executeCard(id: number) {
     return async (dispatch: any, getState: any) => {
         console.log('executeCard', id)
         try{
-            const response = await axios.post(ProductionEndpoint.executeProductionCard(id));
+            const response = await authAxios.post(ProductionEndpoint.executeProductionCard(id));
             console.log(response)
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
@@ -723,7 +723,7 @@ export function executeCard(id: number) {
 export function sendCardToWork(id: number) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_IN_WORK));
+            const response = await authAxios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_IN_WORK));
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
                 dispatch(showInfoMessage('info', 'Выполнено'))
@@ -742,7 +742,7 @@ export function sendCardToWork(id: number) {
 export function cancelCard(id: number) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await axios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_CANCEL));
+            const response = await authAxios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_CANCEL));
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
                 dispatch(showInfoMessage('info', 'Выполнено'))
