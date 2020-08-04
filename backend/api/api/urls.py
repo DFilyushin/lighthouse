@@ -1,14 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_jwt.views import refresh_jwt_token, ObtainJSONWebToken, RefreshJSONWebToken
+from rest_framework_jwt.views import refresh_jwt_token
 from rest_framework import routers
-import lighthouse.endpoints.api_auth as api_auth_views
 import lighthouse.endpoints.api_domain as api_domain_views
 import lighthouse.endpoints.api_sales as api_sales_views
 import lighthouse.endpoints.api_store as api_store_views
 import lighthouse.endpoints.api_prod as api_prod_views
 import lighthouse.endpoints.api_user as api_user_views
 import lighthouse.endpoints.api_formula as api_formula_views
+import lighthouse.endpoints.api_auth as api_token_views
 
 router = routers.DefaultRouter()
 
@@ -46,16 +46,15 @@ router.register(r'department', api_domain_views.DepartmentViewSet)
 router.register(r'staff', api_domain_views.StaffViewSet)
 router.register(r'employee', api_domain_views.EmployeeView, basename='Employee')
 
+# Пользователи
 router.register(r'user', api_user_views.UserView, basename='User')
 router.register(r'group', api_user_views.GroupView)
 
 
 # Аутентификация
 auth_urls = [
+    path('api/auth/', api_token_views.ApplicationTokenView.as_view(), name='token_obtain_pair'),
     path('api/refresh_token/', refresh_jwt_token, name='refresh'),
-    path('api/auth/', api_auth_views.UserLoginView.as_view(), name='login'),
-    path('api/get_token/', ObtainJSONWebToken.as_view(), name='token_obtain_pair'),
-    path('api/get_refresh_token/', RefreshJSONWebToken.as_view()),
 ]
 
 urlpatterns = [

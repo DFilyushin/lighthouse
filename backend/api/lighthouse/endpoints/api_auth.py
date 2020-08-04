@@ -1,27 +1,28 @@
-from rest_framework import status
-from rest_framework.generics import RetrieveAPIView
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from lighthouse.serializers.serializer_auth import UserLoginSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from lighthouse.appmodels.org import Employee
 
 
-class UserLoginView(RetrieveAPIView):
-    """
-    Аутентификация пользователя
-    """
+class ApplicationTokenObtainSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
 
-    permission_classes = (AllowAny,)
-    serializer_class = UserLoginSerializer
+        try:
+            employee = Employee.objects.get(userId=self.user.id)
+            employee_id = employee.id
+        except Employee.DoesNotExist:
+            employee_id = 0
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        response = {
-            'success': 'True',
-            'status_code': status.HTTP_200_OK,
-            'message': 'User logged in  successfully',
-            'token': serializer.data['token'],
-            }
-        status_code = status.HTTP_200_OK
+        data['username'] = self.user.username
+        data['lastName'] = self.user.last_name
+        data['firstName'] = self.user.first_name
+        data['employee'] = employee_id
+        data['groups'] = self.user.groups.values_list('name', flat=True)
+        return data
 
-        return Response(response, status=status_code)
+
+class ApplicationTokenView(TokenObtainPairView):
+    serializer_class = ApplicationTokenObtainSerializer

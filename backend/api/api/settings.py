@@ -7,7 +7,12 @@ SECRET_KEY = 'y$oi7_$hf$%rw(itxz&be_-+krcz4(6y_2)eca3zdq8g(lortv'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+ADMINS = [
+    ('appadmin', 'admin@localhost')
+]
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,9 +45,13 @@ FRONTEND_URL = os.getenv('HTTP_FRONTEND_URL')
 if FRONTEND_URL == '':
     print('Empty FRONTEND_URL!')
 
-CORS_ORIGIN_WHITELIST = (
-    FRONTEND_URL,
-)
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://localhost:8080',
+    'http://amanita.ru:3000',
+]
+
 
 ALLOWED_HOSTS.append(FRONTEND_URL)
 
@@ -73,37 +82,26 @@ DATABASES = {
         'PASSWORD': 'qwerty',
         'HOST': 'localhost',
         'PORT': '5432',
+        'CONN_MAX_AGE': 0
     }
 }
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'verbose': {
-#             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-#             'style': '{',
-#         },
-#         'simple': {
-#             'format': '{levelname} {message}',
-#             'style': '{',
-#         },
-#     },
-#     'handlers': {
-#         'file': {
-#             'level': 'ERROR',
-#             'class': 'logging.FileHandler',
-#             'filename': './debug.log',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['file'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+    }
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -135,19 +133,30 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
   'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+      'rest_framework_simplejwt.authentication.JWTAuthentication',
   ),
   # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
   'DEFAULT_PAGINATION_CLASS': 'lighthouse.endpoints.api_utils.PageNumberPaginationDataOnly'
   # 'PAGE_SIZE': 10
 }
 
-JWT_AUTH = {
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=180),
-    # 'JWT_PAYLOAD_HANDLER': 'lighthouse.views.jwt_custom_payload_handler',
-    # 'JWT_RESPONSE_PAYLOAD_HANDLER': 'lighthouse.views.jwt_response_payload_handler',
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'JTI_CLAIM': 'jti',
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': datetime.timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=1),
 }
-
