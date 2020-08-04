@@ -247,9 +247,7 @@ export function addNewFormula(item: IFormulaItem) {
 
 /**
  * Обновить запись о сырье в рецептуре
- * @param id Код записи
- * @param idRaw Код сырья
- * @param value Количество
+ * @param rawItemFormula Объект  записи
  */
 export function updateRawItem(rawItemFormula: IRawInFormula) {
     return async (dispatch: any, getState: any)=> {
