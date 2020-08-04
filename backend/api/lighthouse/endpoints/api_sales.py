@@ -34,6 +34,12 @@ class ClientViewSet(viewsets.ModelViewSet):
         else:
             return ClientSerializer
 
+    def get_queryset(self):
+        if self.action == 'list':
+            return Client.objects.filter(deleted=False).values('id', 'clientname', 'addr_reg', 'id_agent__fio', 'contact_employee')
+        else:
+            return Client.objects.filter(deleted=False)
+
     @action(methods=['get'], detail=True, url_path='contract', url_name='contract')
     def get_contracts(self, request, pk):
         """
