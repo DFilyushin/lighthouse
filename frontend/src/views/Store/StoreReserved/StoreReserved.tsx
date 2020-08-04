@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CircularIndeterminate from "components/Loader/Loader";
-import {StoreReserveTable, StoreTable, StoreToolbar} from '../components';
+import {StoreReserveTable, StoreToolbar} from '../components';
 import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {loadRawStore, loadStoreReserveList} from "redux/actions/storeAction";
+import {loadStoreReserveList} from "redux/actions/storeAction";
 import { ReactComponent as RawTrain } from 'images/train.svg';
 
 const useStyles = makeStyles(theme => ({
