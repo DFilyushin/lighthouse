@@ -73,7 +73,7 @@ export default function SignIn() {
 
     const  handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const result = await AuthenticationService.login2(login, password);
+        const result = await AuthenticationService.login(login, password);
          if (result === true){
              history.push("/");
          }else{

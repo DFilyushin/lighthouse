@@ -1,55 +1,30 @@
 import axios from 'axios';
 import AuthEndpoint from './endpoints/AuthEndpoint';
-import {parseJwt} from 'utils/AppUtils';
 import {AccessGroups} from "../utils/AppConst";
 
 
 export default class AuthenticationService {
 
     /**
-     *
-     * @param userName
-     * @param password
+     * Аутентификация пользователя
+     * @param login логин
+     * @param password пароль
      */
-    static async login(userName: string, password: string) {
-        let data = JSON.stringify({
-            username: userName,
+    static async login(login: string, password: string) {
+        const data = {
+            username: login,
             password: password
-        });
-        let headers = {
-            'Content-Type': 'application/json',
-        };
-
-        try {
-            const response = await axios.post(AuthEndpoint.getAuth(), data, {headers});
-            const json_data = response.data;
-            if (json_data.status_code === 200) {
-                localStorage.setItem('token', json_data.token);
-                localStorage.setItem('userName', userName);
-                return true;
-            }
-        } catch (error) {
-            return false;
         }
-    }
-
-    static async login2(userName: string, password: string) {
-        const data = JSON.stringify({
-            username: userName,
-            password: password
-        });
-        const headers = {
-            'Content-Type': 'application/json',
-        };
-        const response = await fetch(AuthEndpoint.getAuth(), {
-            method: 'POST',
-            headers: headers,
-            body: data
-        });
-        if (response.ok) {
-            let result = await response.json();
-            localStorage.setItem('token', result.token);
-            localStorage.setItem('userName', userName);
+        const response = await axios.post(AuthEndpoint.getAuth(), data);
+        if (response.status === 200) {
+            let result = response.data;
+            localStorage.setItem('token', result.access);
+            localStorage.setItem('userName', login);
+            localStorage.setItem('refresh', result.refresh)
+            localStorage.setItem('groups', JSON.stringify(result.groups))
+            localStorage.setItem('lastName', result.lastName)
+            localStorage.setItem('firstName', result.firstName)
+            localStorage.setItem('employee', result.employee)
             return true
         }
         else{
@@ -66,15 +41,13 @@ export default class AuthenticationService {
     }
 
     static currentUserName() {
-        const token = localStorage.getItem('token') || '';
-        const tokenObject = parseJwt(token);
-        return tokenObject.username
+        return localStorage.getItem('userName') || ''
     }
 
     static currentEmployee() {
-        const token = localStorage.getItem('token') || '';
-        const tokenObject = parseJwt(token);
-        return `${tokenObject.lastName} ${tokenObject.firstName}`;
+        const lastName = localStorage.getItem('lastName') || ''
+        const firstName = localStorage.getItem('firstName') || ''
+        return `${lastName} ${firstName}`
     }
 
     /**
@@ -88,18 +61,16 @@ export default class AuthenticationService {
      * Код сотрудника
      */
     static currentEmployeeId(){
-        const token = localStorage.getItem('token') || '';
-        const tokenObject = parseJwt(token);
-        return tokenObject.user_id
+        const employee = localStorage.getItem('employee') || '0'
+        return parseInt(employee)
     }
 
     /**
      * Список доступных групп
      */
     static getUserGroups(){
-        const token = localStorage.getItem('token') || '';
-        const tokenObject = parseJwt(token);
-        return tokenObject.groups
+        const groups = localStorage.getItem('groups') || ''
+        return JSON.parse(groups)
     }
 
     /**
