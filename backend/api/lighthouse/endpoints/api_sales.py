@@ -3,6 +3,7 @@ from django.db.models import F, Sum
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, CONTRACT_STATE_ACTIVE
@@ -15,6 +16,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.filter(deleted=False)
     search_fields = ['clientname']
     filter_backends = (filters.SearchFilter,)
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -56,6 +58,7 @@ class ContractViewSet(viewsets.ModelViewSet):
     queryset = Contract.objects.filter(deleted=False)
     search_fields = ['num']
     filter_backends = (filters.SearchFilter,)
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -101,11 +104,13 @@ class PaymentMethodViewSet(viewsets.ModelViewSet):
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
     serializer_class = PaymentMethodSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
     """Оплаты по контрактам"""
     queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':

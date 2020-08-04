@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import Formula
 from lighthouse.serializers.serializer_manufacture import FormulaSerializer, CalculationRawsResponseSerializer
 from lighthouse.serializers.serializer_formula import NewFormulaSerializer, FormulaListSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 class FormulaViewSet(viewsets.ModelViewSet):
@@ -11,6 +12,7 @@ class FormulaViewSet(viewsets.ModelViewSet):
     Рецептура
     """
     serializer_class = FormulaSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         show_non_active: bool = self.request.GET.get('show_non_active', False)

@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from lighthouse.serializers.serializer_user import UserListSerializer, GroupListSerializer, UserSerializer, NewUserSerializer
 from rest_framework.response import Response
@@ -10,6 +11,8 @@ class UserView(viewsets.ModelViewSet):
     """
     Список пользователей
     """
+    permission_classes = [IsAuthenticated]
+
     def get_serializer_class(self):
         if self.action == 'list':
             return UserListSerializer
@@ -62,3 +65,4 @@ class GroupView(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupListSerializer
+    permission_classes = [IsAuthenticated]

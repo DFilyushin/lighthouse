@@ -9,6 +9,7 @@ from lighthouse.serializers.serializer_manufacture import ProductLineSerializer,
     ProdCalcRawsSerializer, ProdReadyProductSerializer, ProdMaterialSerializer
 from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA
 from .api_utils import parse_integer
+from rest_framework.permissions import IsAuthenticated
 
 
 class ProductionLineView(viewsets.ModelViewSet):
@@ -33,6 +34,7 @@ class ProductionView(viewsets.ModelViewSet):
     """
     Прозводственные карты
     """
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         product = self.request.GET.get('product', None)

@@ -7,6 +7,7 @@ from lighthouse.serializers.serializer_domain import OrgSerializer, EmployeeSeri
     DepartmentSerializer, EmployeeListSerializer
 from lighthouse.serializers.serializer_manufacture import ProdTeamReportSerializer
 from lighthouse.appmodels.manufacture import ProdTeam
+from rest_framework.permissions import IsAuthenticated
 
 
 class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
@@ -15,6 +16,7 @@ class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     """
     queryset = Org.objects.filter(id=1)
     serializer_class = OrgSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         print(request.method)
@@ -41,6 +43,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     """
     serializer_class = DepartmentSerializer
     queryset = Department.objects.all().order_by('name')
+    permission_classes = [IsAuthenticated]
 
 
 class StaffViewSet(viewsets.ModelViewSet):
@@ -49,6 +52,7 @@ class StaffViewSet(viewsets.ModelViewSet):
     """
     serializer_class = StaffSerializer
     queryset = Staff.objects.all().order_by('name')
+    permission_classes = [IsAuthenticated]
 
 
 class EmployeeView(viewsets.ModelViewSet):
@@ -58,6 +62,7 @@ class EmployeeView(viewsets.ModelViewSet):
     queryset = Employee.objects.filter(fired__isnull=True)
     search_fields = ['fio', 'tabNum']
     filter_backends = (filters.SearchFilter, )
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':

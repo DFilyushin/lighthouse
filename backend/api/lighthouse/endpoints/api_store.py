@@ -2,6 +2,7 @@ from datetime import datetime
 from builtins import staticmethod
 from django.db.models import Sum
 from rest_framework import viewsets, views, status, filters
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from lighthouse.appmodels.store import MaterialUnit, Material, Tare, RefCost, Cost
 from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
@@ -25,6 +26,7 @@ class MaterialUnitViewSet(viewsets.ModelViewSet):
     serializer_class = MaterialUnitSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
+    permission_classes = [IsAuthenticated]
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -35,6 +37,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
+    permission_classes = [IsAuthenticated]
 
 
 class RawViewSet(viewsets.ModelViewSet):
@@ -45,6 +48,7 @@ class RawViewSet(viewsets.ModelViewSet):
     serializer_class = RawSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
+    permission_classes = [IsAuthenticated]
 
 
 class TareViewSet(viewsets.ModelViewSet):
@@ -55,12 +59,15 @@ class TareViewSet(viewsets.ModelViewSet):
     serializer_class = TareSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
+    permission_classes = [IsAuthenticated]
 
 
 class StoreTurnoverRaw(views.APIView):
     """
     Приход сырья на склад
     """
+    permission_classes = [IsAuthenticated]
+
     @staticmethod
     def post(request):
         serializer = StoreArrivalSerializer(data=request.data)
@@ -82,6 +89,8 @@ class StoreTurnover(views.APIView):
     """
     Складские операции
     """
+    permission_classes = [IsAuthenticated]
+
     @staticmethod
     def post(request):
         serializer = StoreTurnoverSerializer(data=request.data)
@@ -115,6 +124,7 @@ class StoreJournalViewSet(viewsets.ModelViewSet):
     Складской журнал
     """
     serializer_class = StoreJournalSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -158,6 +168,8 @@ class RawStoreViewSet(views.APIView):
     """
     Состояние склада сырья
     """
+    permission_classes = [IsAuthenticated]
+
     @staticmethod
     def get(request):
         on_date_data = request.GET.get('onDate', None)
@@ -180,6 +192,8 @@ class ProductStoreViewSet(views.APIView):
     """
     Состояние склада готовой продукции
     """
+    permission_classes = [IsAuthenticated]
+
     @staticmethod
     def get(request):
         on_date_data = request.GET.get('onDate', None)
@@ -203,6 +217,7 @@ class RefCostViewSet(viewsets.ModelViewSet):
     Статьи затрат
     """
     serializer_class = RefCostSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -216,6 +231,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
     Резервирование продукции
     """
     queryset = Reservation.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -238,6 +254,7 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     Затраты
     """
     queryset = Cost.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':
