@@ -1,15 +1,15 @@
-import axios from "axios";
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import DepartmentEndpoint from "services/endpoints/DepartmentEndpoint";
-import {IDepartment} from "types/model/department";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
+import DepartmentEndpoint from "services/endpoints/DepartmentEndpoint"
+import {IDepartment} from "types/model/department"
 import {
     DEPARTMENT_CLEAR_ERROR,
     DEPARTMENT_DELETE_OK,
     DEPARTMENT_LOAD_FINISH, DEPARTMENT_LOAD_ITEM_SUCCESS,
     DEPARTMENT_LOAD_START,
     DEPARTMENT_LOAD_SUCCESS, DEPARTMENT_SET_ERROR
-} from "./types";
-import {IStaff} from "../../types/model/staff";
+} from "./types"
+import authAxios from "../../services/axios-api"
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 
 /**
@@ -26,7 +26,7 @@ export function loadDepartments(search?: string, limit?: number, offset?: number
         try {
             const url = DepartmentEndpoint.getDepartmentList(search, limit, offset);
             const items: IDepartment[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             console.log(response.data)
             Object.keys(response.data).forEach((key, index) => {
                 items.push({
@@ -48,15 +48,14 @@ export function loadDepartments(search?: string, limit?: number, offset?: number
  */
 export function loadDepartmentItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        let item: IStaff = {id: 0, name: ""};
+        let item: IDepartment = {id: 0, name: ""};
         dispatch(fetchStart());
-        if (id===0) {
+        if (id===NEW_RECORD_VALUE) {
             dispatch(loadItemSuccess(item))
         }else {
             try {
-                const response = await axios.get(DepartmentEndpoint.getDepartment(id));
-                item.id = response.data['id'];
-                item.name = response.data['name'];
+                const response = await authAxios.get(DepartmentEndpoint.getDepartment(id));
+                item = response.data
                 dispatch(loadItemSuccess(item))
             } catch (e) {
                 dispatch(fetchError(e))
@@ -74,7 +73,7 @@ export function deleteDepartment(id: number){
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(DepartmentEndpoint.deleteDepartment(id));
+            const response = await authAxios.delete(DepartmentEndpoint.deleteDepartment(id));
             if (response.status === 204) {
                 const items = [...getState().department.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -100,7 +99,7 @@ export function addNewDepartment(item: IDepartment) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await axios.post(DepartmentEndpoint.newDepartment(), item);
+            const response = await authAxios.post(DepartmentEndpoint.newDepartment(), item);
             if (response.status === 201){
                 const items = [...getState().department.items];
                 items.push(item);
@@ -121,7 +120,7 @@ export function addNewDepartment(item: IDepartment) {
 export function updateDepartmentItem(item: IDepartment) {
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(DepartmentEndpoint.updateDepartment(item.id), item);
+            await authAxios.put(DepartmentEndpoint.updateDepartment(item.id), item);
         }catch (e) {
             dispatch(fetchError(e))
         }
