@@ -10,7 +10,7 @@ class ExpenseEndpoint {
      * @param idCost - Код затраты
      */
     static getExpenseList(startDate: string, endDate: string, idCost: number): string {
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/expense`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/expense/`;
         const url = new URL(baseUrl);
         url.searchParams.append('startDate', startDate);
         url.searchParams.append('endDate', endDate);

@@ -9,7 +9,7 @@ class UserEndpoint {
      * @param search Поиск по логину
      */
     static getUserList(active: string, search: string): string {
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/user`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/user/`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
         if (active) url.searchParams.append('active', active);

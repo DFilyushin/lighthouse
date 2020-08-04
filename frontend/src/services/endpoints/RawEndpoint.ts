@@ -4,7 +4,7 @@ import BaseAPIEndpoint from "./BaseEndpoint";
 class RawEndpoint{
 
     static getRawList(search?: string, limit?: number, offset?: number){
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/raw`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/raw/`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
         if (limit) url.searchParams.append('limit', limit.toString());
@@ -13,7 +13,7 @@ class RawEndpoint{
     }
 
     static getRawItem(id: number){
-        return `${BaseAPIEndpoint.getBaseURL()}/raw/${id}`
+        return `${BaseAPIEndpoint.getBaseURL()}/raw/${id}/`
     }
 
     static deleteRaw(id: number){

@@ -26,7 +26,7 @@ class StaffEndpoint {
      * @param offset сдвиг
      */
     static getStaffList(search?: string, limit?: number, offset?: number): string {
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/staff`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/staff/`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
         if (limit) url.searchParams.append('limit', limit.toString());

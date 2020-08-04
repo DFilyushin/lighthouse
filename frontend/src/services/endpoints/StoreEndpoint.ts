@@ -23,7 +23,7 @@ class StoreEndpoint {
      * Загрузить список зарезервированной продукции на текущую дату
      */
     static getProductReserved(): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/reserve`
+        return `${BaseAPIEndpoint.getBaseURL()}/reserve/`
     }
 
     /**
@@ -33,7 +33,7 @@ class StoreEndpoint {
      * @param operType Тип операций
      */
     static getStoreJournal(startDate: string, endDate: string, operType: number, materialType: number):string {
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/journal`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/journal/`;
         const url = new URL(baseUrl);
         if (startDate) url.searchParams.append('startPeriod', startDate);
         if (endDate) url.searchParams.append('endPeriod', endDate);
@@ -69,7 +69,7 @@ class StoreEndpoint {
      * Добавить приход сырья
      */
     static addRawStoreItems(): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/store/in/raw`
+        return `${BaseAPIEndpoint.getBaseURL()}/store/in/raw/`
     }
 
 }

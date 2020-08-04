@@ -9,7 +9,7 @@ class FormulaEndpoint {
      * @param offset - сдвиг при ограничении
      */
     static getFormulaList(search?: string, limit?: number, offset?: number){
-        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/formula`;
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/formula/`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
         if (limit) url.searchParams.append('limit', limit.toString());
