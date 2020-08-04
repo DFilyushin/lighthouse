@@ -15,11 +15,15 @@ class FormulaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        show_non_active: bool = self.request.GET.get('show_non_active', False)
-        if show_non_active:
-            return Formula.objects.all().order_by('id_product__name')
+        if self.action == 'list':
+            show_non_active: bool = self.request.GET.get('show_non_active', False)
+            if show_non_active:
+                queryset = Formula.objects.all()
+            else:
+                queryset = Formula.objects.filter(is_active=True)
+            return queryset.order_by('id_product__name').values('id', 'id_product__name', 'calc_amount', 'created')
         else:
-            return Formula.objects.filter(is_active=True).all().order_by('id_product__name')
+            return Formula.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':

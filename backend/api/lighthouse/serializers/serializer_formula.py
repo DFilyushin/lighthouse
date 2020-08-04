@@ -8,7 +8,7 @@ class FormulaListSerializer(serializers.ModelSerializer):
     """
     Рецептура (список)
     """
-    product = serializers.CharField(source='id_product.name')
+    product = serializers.CharField(source='id_product__name')
     calcAmount = serializers.FloatField(source='calc_amount')
     created = serializers.DateTimeField()
 
