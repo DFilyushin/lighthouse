@@ -24,7 +24,7 @@ class ProductionLineView(viewsets.ModelViewSet):
 
 class ProductionWorkView(viewsets.ModelViewSet):
     """Работы на линиях"""
-    queryset =  ProductionWork.objects.all()
+    queryset = ProductionWork.objects.all()
     serializer_class = WorkSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
@@ -37,26 +37,30 @@ class ProductionView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        product = self.request.GET.get('product', None)
-        state = self.request.GET.get('state', None)
-        start_period = self.request.GET.get('startPeriod', None)
-        end_period = self.request.GET.get('endPeriod', None)
-        card_num = self.request.GET.get('find', None)
-        if start_period and not end_period:
-            end_period = datetime.today().strftime('%d-%m-%Y')
-        queryset = Manufacture.objects.filter(is_delete=False)
-        if product is not None:
-            queryset = queryset.filter(id_formula__id_product=product)
-        if state is not None:
-            queryset = queryset.filter(cur_state=int(state))
-        if start_period and not card_num:
-            date_start = datetime.strptime(start_period, '%Y-%m-%d')
-            date_end = datetime.strptime(end_period, '%Y-%m-%d')
-            queryset = queryset.filter(prod_start__range=(date_start, date_end))
-        if card_num:
-            if parse_integer(card_num):
-                queryset = queryset.filter(id=card_num)
-        return queryset.order_by('-prod_start')
+        if self.action == 'list':
+            product = self.request.GET.get('product', None)
+            state = self.request.GET.get('state', None)
+            start_period = self.request.GET.get('startPeriod', None)
+            end_period = self.request.GET.get('endPeriod', None)
+            card_num = self.request.GET.get('find', None)
+            if start_period and not end_period:
+                end_period = datetime.today().strftime('%d-%m-%Y')
+            queryset = Manufacture.objects.filter(is_delete=False)
+            if product is not None:
+                queryset = queryset.filter(id_formula__id_product=product)
+            if state is not None:
+                queryset = queryset.filter(cur_state=int(state))
+            if start_period and not card_num:
+                date_start = datetime.strptime(start_period, '%Y-%m-%d')
+                date_end = datetime.strptime(end_period, '%Y-%m-%d')
+                queryset = queryset.filter(prod_start__range=(date_start, date_end))
+            if card_num:
+                if parse_integer(card_num):
+                    queryset = queryset.filter(id=card_num)
+            return queryset.order_by('-prod_start')\
+                .values('id', 'prod_start', 'prod_finish', 'id_formula__id_product__name', 'calc_value', 'id_team_leader__fio', 'cur_state')
+        else:
+            return Manufacture.objects.all()
 
     def update(self, request, *args, **kwargs):
         card = self.get_object()
