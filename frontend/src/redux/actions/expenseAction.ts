@@ -16,22 +16,15 @@ export function loadExpenseList() {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
-        console.log('test state', getState().expense)
         const dateStart = getState().expense.dateStart;
         const dateEnd = getState().expense.dateEnd;
         const costId = getState().expense.cost;
         try {
             const url = ExpenseEndpoint.getExpenseList(dateStart, dateEnd, costId);
-            console.log(url);
             const items: IExpenseTableItem[] = [];
             const response = await axios.get(url);
             Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    cost: response.data[key]['cost'],
-                    date: response.data[key]['date'],
-                    total: response.data[key]['total']
-                })
+                items.push({...response.data[key]})
             });
             dispatch(fetchSuccess(items))
         } catch (e) {
