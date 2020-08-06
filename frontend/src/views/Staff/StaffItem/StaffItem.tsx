@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {SyntheticEvent, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNew, changeItem, loadStaffItem, updateItem} from "redux/actions/staffAction";
+import {addNewStaff, changeItem, loadStaffItem, updateItem} from "redux/actions/staffAction";
 import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 
@@ -49,9 +49,9 @@ const StaffItem = (props: IStaffItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
+    const saveHandler = (event: React.SyntheticEvent) => {
         if (staffId === NEW_RECORD_VALUE) {
-            dispatch(addNew(staffItem));
+            dispatch(addNewStaff(staffItem));
         } else {
             dispatch(updateItem(staffItem));
         }
@@ -66,7 +66,7 @@ const StaffItem = (props: IStaffItemProps) => {
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off">
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Должность"
@@ -97,7 +97,7 @@ const StaffItem = (props: IStaffItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={'submit'}
                         >
                             Сохранить
                         </Button>

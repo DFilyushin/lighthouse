@@ -13,7 +13,7 @@ import {
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
-//FIXME При добавлении и удалении не обновляется результирующий стор
+
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
 /**
@@ -53,7 +53,7 @@ export function deleteStaff(id: number) {
         try{
             const response = await authAxios.delete(StaffEndpoint.deleteItem(id));
             if (response.status === 204) {
-                const items = [...getState().staff.items];
+                const items = [...getState().staff.staffs];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
@@ -91,12 +91,27 @@ export function loadStaffItem(id: number){
     }
 }
 
-export function addNew(item: IStaff) {
+/**
+ * Добавить новую запись должности
+ * @param item Объект записи
+ */
+export function addNewStaff(item: IStaff) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await authAxios.post(StaffEndpoint.newStaff(), item);
-            dispatch(rawLoadItemSuccess(item))
+            const response = await authAxios.post(StaffEndpoint.newStaff(), item)
+            const items: IStaff[] = [...getState().staff.staffs]
+            items.push({...item, 'id': response.data['id']})
+            items.sort(function (a, b) {
+                const nameA=a.name.toLowerCase()
+                const nameB=b.name.toLowerCase()
+                if (nameA < nameB) //сортируем строки по возрастанию
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0 // Никакой сортировки
+            })
+            dispatch(fetchSuccess(items))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новую запись!'))
         }
