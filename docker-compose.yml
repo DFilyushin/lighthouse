@@ -17,6 +17,7 @@ services:
     - POSTGRES_HOST=postgres
     - DJANGO_SETTINGS_MODULE=api.production
     - HTTP_FRONTEND_URL=http://lighthouse.kz
+    - TIME_ZONE=Asia/Almaty
     volumes:
       - ./static_files:/static_files
     links:
