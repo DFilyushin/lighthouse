@@ -41,6 +41,8 @@ import {userReducer} from "./userReducer"
 import {workReducer} from "./workReducer"
 import {payMethodReducer} from "./payMethodReducer"
 import {paymentReducer} from "./paymentReducer"
+import {IOrganizationState} from "../types/state/requsite";
+import {organizationReducer} from "./organizationReducer";
 
 export interface IStateInterface {
     product: IProductState;
@@ -63,6 +65,7 @@ export interface IStateInterface {
     works: IWorkState;
     payMethod: IPayMethodState;
     payment: IPaymentState;
+    org: IOrganizationState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -85,5 +88,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     user: userReducer,
     works: workReducer,
     payMethod: payMethodReducer,
-    payment: paymentReducer
+    payment: paymentReducer,
+    org: organizationReducer
 })
