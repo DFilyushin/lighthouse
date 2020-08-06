@@ -10,3 +10,16 @@ export interface IOrganization {
     reqBik: string;
     bossName: string;
 }
+
+export const nullOrganization =  {
+    name: '',
+    addrReg: '',
+    contactEmail: '',
+    contactPhone: '',
+    contactFax: '',
+    reqBank: '',
+    reqBin: '',
+    reqAccount: '',
+    reqBik: '',
+    bossName: ''
+};
