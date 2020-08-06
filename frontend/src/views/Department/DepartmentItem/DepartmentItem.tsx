@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import {
     Card,
     CardHeader,
@@ -9,16 +9,17 @@ import {
     Grid,
     Button,
     TextField
-} from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "redux/rootReducer";
+} from '@material-ui/core'
+import { useHistory } from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import {IStateInterface} from "redux/rootReducer"
 import {
     addNewDepartment,
     changeDepartmentItem,
     loadDepartmentItem,
     updateDepartmentItem
-} from "redux/actions/departmentAction";
+} from "redux/actions/departmentAction"
+import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 
 interface IDepartmentItemProps {
@@ -37,12 +38,10 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const depId = paramId === 'new' ? 0 :parseInt(paramId);
+    const depId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const departmentItem  = useSelector((state: IStateInterface)=> state.department.departmentItem);
-    //const isLoading = useSelector((state: any) => state.staff.isLoading);
-    //const errorValue = useSelector((state: any) => state.staff.error);
     const hasError = useSelector((state: IStateInterface) => state.department.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +53,8 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
-        if (depId === 0) {
+    const saveHandler = (event: React.SyntheticEvent) => {
+        if (depId === NEW_RECORD_VALUE) {
             dispatch(addNewDepartment(departmentItem));
         } else {
             dispatch(updateDepartmentItem(departmentItem));
@@ -71,7 +70,7 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Подразделение"
@@ -102,7 +101,7 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={'submit'}
                         >
                             Сохранить
                         </Button>

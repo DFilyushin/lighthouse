@@ -29,11 +29,8 @@ export function loadDepartments(search?: string, limit?: number, offset?: number
             const response = await authAxios.get(url);
             console.log(response.data)
             Object.keys(response.data).forEach((key, index) => {
-                items.push({
-                    id: response.data[key]['id'],
-                    name: response.data[key]['name']
-                })
-            });
+                items.push(response.data[key])
+            })
             dispatch(fetchSuccess(items))
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
@@ -50,7 +47,7 @@ export function loadDepartmentItem(id: number) {
     return async (dispatch: any, getState: any) => {
         let item: IDepartment = {id: 0, name: ""};
         dispatch(fetchStart());
-        if (id===NEW_RECORD_VALUE) {
+        if (id === NEW_RECORD_VALUE) {
             dispatch(loadItemSuccess(item))
         }else {
             try {
@@ -102,8 +99,17 @@ export function addNewDepartment(item: IDepartment) {
             const response = await authAxios.post(DepartmentEndpoint.newDepartment(), item);
             if (response.status === 201){
                 const items = [...getState().department.items];
-                items.push(item);
-                dispatch(loadItemSuccess(item));
+                const newItem = response.data
+                items.push(newItem)
+                items.sort(function (a, b) {
+                    const nameA=a.name.toLowerCase()
+                    const nameB=b.name.toLowerCase()
+                    if (nameA < nameB) //сортируем строки по возрастанию
+                        return -1
+                    if (nameA > nameB)
+                        return 1
+                    return 0 // Никакой сортировки
+                })
                 dispatch(fetchSuccess(items));
             }
 
