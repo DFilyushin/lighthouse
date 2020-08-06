@@ -113,6 +113,5 @@ venv.bak/
 /backend/api/lighthouse/migrations/
 /backend/requirements/
 /frontend/.idea/
-/graphic/
 /documentation/
 /pgsql/
