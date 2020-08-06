@@ -1,4 +1,4 @@
-import {IStaff} from "./staff";
+import {IStaff, nullStaff} from "./staff";
 import {IWork} from "./work";
 
 export interface IEmployeeListItem {
@@ -59,7 +59,7 @@ export const nullEmployee = {
     addrResidence: '',
     contactEmail: '',
     contactPhone: '',
-    staff: {id: 0, name: ''}
+    staff: {...nullStaff}
 };
 
 export const docType = [
