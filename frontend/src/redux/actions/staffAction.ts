@@ -11,6 +11,7 @@ import {
     STAFF_ITEM_SUCCESS
 } from "./types";
 import authAxios from "../../services/axios-api";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
@@ -71,17 +72,20 @@ export function deleteStaff(id: number) {
  * Загрузить сырьё по коду
  * @param id Код сырья
  */
-export function loadItem(id: number){
+export function loadStaffItem(id: number){
     return async (dispatch: any, getState: any) => {
         let item: IStaff = {id: 0, name: ""};
         dispatch(fetchStart());
-        try{
-            const response = await authAxios.get(StaffEndpoint.getStaffItem(id));
-            item.id = response.data['id'];
-            item.name = response.data['name'];
+        if (id === NEW_RECORD_VALUE) {
             dispatch(rawLoadItemSuccess(item))
-        }catch (e) {
-            dispatch(fetchError(e))
+        }else {
+            try {
+                const response = await authAxios.get(StaffEndpoint.getStaffItem(id));
+                item = response.data
+                dispatch(rawLoadItemSuccess(item))
+            } catch (e) {
+                dispatch(fetchError(e))
+            }
         }
         dispatch(fetchFinish())
     }

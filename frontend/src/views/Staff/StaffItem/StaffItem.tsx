@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNew, changeItem, loadItem, updateItem} from "redux/actions/staffAction";
+import {addNew, changeItem, loadStaffItem, updateItem} from "redux/actions/staffAction";
+import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 
 interface IStaffItemProps {
@@ -31,7 +32,7 @@ const StaffItem = (props: IStaffItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const staffId = paramId === 'new' ? 0 :parseInt(paramId);
+    const staffId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const staffItem  = useSelector((state: any)=> state.staff.staffItem);
@@ -49,7 +50,7 @@ const StaffItem = (props: IStaffItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.MouseEvent) => {
-        if (staffId === 0) {
+        if (staffId === NEW_RECORD_VALUE) {
             dispatch(addNew(staffItem));
         } else {
             dispatch(updateItem(staffItem));
@@ -58,14 +59,14 @@ const StaffItem = (props: IStaffItemProps) => {
     };
 
     useEffect( ()=> {
-            dispatch(loadItem(staffId));
+            dispatch(loadStaffItem(staffId));
         }, [dispatch, staffId]
     );
 
     return (
         <div className={classes.root}>
             <Card {...rest} className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off">
                     <CardHeader
                         subheader=""
                         title="Должность"
