@@ -1,6 +1,6 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import EmployeeEndpoint from "services/endpoints/EmployeeEndpoint";
-import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem} from "types/model/employee";
+import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem, nullEmployee} from "types/model/employee";
 import {
     EMPLOYEE_CLEAR_ERROR,
     EMPLOYEE_DELETE_OK, EMPLOYEE_ITEM_OK,
@@ -12,6 +12,7 @@ import {
     EMPLOYEE_UPDATE_ITEM
 } from "./types";
 import authAxios from "../../services/axios-api";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 /**
  * Загрузить список сотрудников
@@ -68,15 +69,20 @@ function fetchSuccessLoadWorkTimeTable(items: IEmployeeWorkTimeItem[]) {
  */
 export function loadEmployeeItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        dispatch(fetchStart());
+        dispatch(fetchStart())
         dispatch(hideInfoMessage());
-        try {
-            const url = EmployeeEndpoint.getEmployeeItem(id);
-            const response = await authAxios.get(url);
-            const item: IEmployee = response.data;
+        if (id === NEW_RECORD_VALUE) {
+            const item: IEmployee = {...nullEmployee}
             dispatch(fetchItemSuccess(item))
-        } catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+        }else {
+            try {
+                const url = EmployeeEndpoint.getEmployeeItem(id)
+                const response = await authAxios.get(url)
+                const item: IEmployee = response.data
+                dispatch(fetchItemSuccess(item))
+            } catch (e) {
+                dispatch(showInfoMessage('error', e.toString()))
+            }
         }
         dispatch(fetchFinish())
     }
@@ -116,7 +122,8 @@ export function addNewEmployeeItem(item: IEmployee) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await authAxios.post(EmployeeEndpoint.newEmployee(), item);
+            delete item.created
+            const response = await authAxios.post(EmployeeEndpoint.newEmployee(), item);
             return Promise.resolve();
         }
         catch (e) {
