@@ -1,7 +1,5 @@
-import axios from 'axios'
 import ProductEndpoint from "services/endpoints/ProductEndpoint"
 import {IProduct} from 'types/model/product'
-
 import {
     PRODUCT_LOAD_FINISH,
     PRODUCT_LOAD_START,
@@ -13,6 +11,7 @@ import {
     PRODUCT_CLEAR_ERROR
 } from './types'
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import authAxios from "../../services/axios-api";
 
 
 //FIXME При добавлении и удалении не обновляется результирующий стор
@@ -30,7 +29,7 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
             try {
                 const url = ProductEndpoint.getProductList(search, limit, offset);
                 const productList: IProduct[] = [];
-                const response = await axios.get(url);
+                const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
                     productList.push({
                         id: response.data[key]['id'],
@@ -57,7 +56,7 @@ export function loadProductItem(id: number) {
         }else{
             dispatch(fetchProductStart());
             try {
-                const response = await axios.get(ProductEndpoint.getProductItem(id));
+                const response = await authAxios.get(ProductEndpoint.getProductItem(id));
                 product.id = response.data['id'];
                 product.name = response.data['name'];
                 dispatch(productLoadItemSuccess(product))
@@ -78,7 +77,7 @@ export function deleteProduct(id: number) {
 
         dispatch(fetchProductStart());
         try{
-            const response = await axios.delete(ProductEndpoint.deleteProduct(id));
+            const response = await authAxios.delete(ProductEndpoint.deleteProduct(id));
             if (response.status === 204) {
                 const products = [...getState().product.products];
                 const index = products.findIndex((elem, index, array)=>{return elem.id === id});
@@ -113,7 +112,7 @@ export function changeProduct(product: IProduct) {
 export function updateProduct(product: IProduct){
     return async (dispatch: any, getState: any) => {
         try{
-            await axios.put(ProductEndpoint.saveProduct(product.id), product);
+            await authAxios.put(ProductEndpoint.saveProduct(product.id), product);
         }catch (e) {
             dispatch(productLoadError(e))
         }
@@ -128,7 +127,7 @@ export function addNewProduct(product: IProduct) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(ProductEndpoint.newProduct(), product);
+            await authAxios.post(ProductEndpoint.newProduct(), product);
             dispatch(productLoadItemSuccess(product))
         }catch (e) {
             dispatch(productLoadError('Не удалось добавить новый продукт!'))

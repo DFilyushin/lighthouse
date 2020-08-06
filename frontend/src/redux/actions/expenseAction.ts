@@ -1,5 +1,4 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import axios from "axios";
 import {
     EXPENSE_DELETE_OK,
     EXPENSE_LOAD_FINISH,
@@ -10,6 +9,7 @@ import {
 } from "./types";
 import {IExpenseTableItem} from "../../types/model/expense";
 import ExpenseEndpoint from "../../services/endpoints/ExpenseEndpoint";
+import authAxios from "../../services/axios-api";
 
 
 export function loadExpenseList() {
@@ -22,7 +22,7 @@ export function loadExpenseList() {
         try {
             const url = ExpenseEndpoint.getExpenseList(dateStart, dateEnd, costId);
             const items: IExpenseTableItem[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push({...response.data[key]})
             });
@@ -38,7 +38,7 @@ export function deleteExpense(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(ExpenseEndpoint.deleteExpense(id));
+            const response = await authAxios.delete(ExpenseEndpoint.deleteExpense(id));
             if (response.status === 204) {
                 const items = [...getState().employee.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});

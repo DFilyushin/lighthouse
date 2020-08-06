@@ -1,4 +1,3 @@
-import axios from "axios";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import EmployeeEndpoint from "services/endpoints/EmployeeEndpoint";
 import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem} from "types/model/employee";
@@ -12,6 +11,7 @@ import {
     EMPLOYEE_SET_ERROR,
     EMPLOYEE_UPDATE_ITEM
 } from "./types";
+import authAxios from "../../services/axios-api";
 
 /**
  * Загрузить список сотрудников
@@ -26,7 +26,7 @@ export function loadEmployeeList(search?: string, limit?: number) {
         try {
             const url = EmployeeEndpoint.getEmployeeList(search);
             const items: IEmployeeListItem[] = [];
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push({...response.data[key]})
             });
@@ -44,7 +44,7 @@ export function loadEmployeeWorkTimeTable(id: number, start: string, end: string
         try {
             const items: IEmployeeWorkTimeItem[] = [];
             const url = EmployeeEndpoint.getEmployeeWorkTime(id, start, end);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
@@ -72,7 +72,7 @@ export function loadEmployeeItem(id: number) {
         dispatch(hideInfoMessage());
         try {
             const url = EmployeeEndpoint.getEmployeeItem(id);
-            const response = await axios.get(url);
+            const response = await authAxios.get(url);
             const item: IEmployee = response.data;
             dispatch(fetchItemSuccess(item))
         } catch (e) {
@@ -90,7 +90,7 @@ export function deleteEmployee(id: number){
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         try{
-            const response = await axios.delete(EmployeeEndpoint.deleteEmployee(id));
+            const response = await authAxios.delete(EmployeeEndpoint.deleteEmployee(id));
             if (response.status === 204) {
                 const items = [...getState().employee.items];
                 const index = items.findIndex((elem, index, array)=>{return elem.id === id});
@@ -116,7 +116,7 @@ export function addNewEmployeeItem(item: IEmployee) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await axios.post(EmployeeEndpoint.newEmployee(), item);
+            await authAxios.post(EmployeeEndpoint.newEmployee(), item);
             return Promise.resolve();
         }
         catch (e) {
@@ -147,7 +147,7 @@ export function updateEmployeeItem(item: IEmployee) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError())
         try{
-            await axios.put(EmployeeEndpoint.updateEmployee(item.id), item);
+            await authAxios.put(EmployeeEndpoint.updateEmployee(item.id), item);
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
