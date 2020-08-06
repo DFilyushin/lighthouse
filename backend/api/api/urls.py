@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_simplejwt.views import token_refresh
 from rest_framework import routers
 import lighthouse.endpoints.api_domain as api_domain_views
 import lighthouse.endpoints.api_sales as api_sales_views
@@ -54,7 +54,7 @@ router.register(r'group', api_user_views.GroupView)
 # Аутентификация
 auth_urls = [
     path('api/auth/', api_token_views.ApplicationTokenView.as_view(), name='token_obtain_pair'),
-    path('api/refresh_token/', refresh_jwt_token, name='refresh'),
+    path('api/refresh_token/', token_refresh, name='refresh'),
 ]
 
 urlpatterns = [
