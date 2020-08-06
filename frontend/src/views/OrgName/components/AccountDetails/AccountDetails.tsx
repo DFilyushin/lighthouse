@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
+import React, {useEffect, SyntheticEvent} from 'react'
+import clsx from 'clsx'
+import { makeStyles } from '@material-ui/styles'
 import {
   Card,
   CardHeader,
@@ -10,81 +10,63 @@ import {
   Grid,
   Button,
   TextField
-} from '@material-ui/core';
-import {IOrganization} from 'types/model/org';
-import axios from "axios";
-import OrganizationEndpoint from 'services/endpoints/OrgEndpoint';
-import { useHistory } from "react-router-dom";
-import SnackBarAlert from 'components/SnackBarAlert';
-import {Color} from "@material-ui/lab/Alert";
+} from '@material-ui/core'
+import {IOrganization} from 'types/model/org'
+import { useHistory } from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import {IStateInterface} from "redux/rootReducer"
+import {changeOrganization, loadOrganization, saveOrganization} from "redux/actions/organizationAction"
+
 
 
 const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-
-const nullOrganization =  {
-  name: '',
-  addrReg: '',
-  contactEmail: '',
-  contactPhone: '',
-  contactFax: '',
-  reqBank: '',
-  reqBin: '',
-  reqAccount: '',
-  reqBik: '',
-  bossName: ''
-};
-
 interface IAccountDetails {
   className: string
 }
 
 const AccountDetails = (props: IAccountDetails) => {
-  const { className, ...rest } = props;
-  const classes = useStyles();
-  const history = useHistory();
-  const [values, setValues] = useState<IOrganization>(nullOrganization);
+  const { className, ...rest } = props
+  const classes = useStyles()
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const orgItem  = useSelector((state: IStateInterface)=> state.org.org)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({
-      ...values,
+    const item:IOrganization = {
+      ...orgItem,
       [event.target.name]: event.target.value
-    });
-  };
-
-  async function loadData() {
-    const response = await axios.get(OrganizationEndpoint.getOrg());
-    const data = await response.data;
-    setValues(data);
-  };
-
-  const [showAlert, setShowAlert] = useState(false);
-  const [messageAlert, setMessageAlert] = useState('');
-  const [typeAlert, setTypeAlert] = useState<Color>('success');
-
-  async function saveOrg() {
-    const saveUrl = OrganizationEndpoint.saveOrg();
-    try{
-      const response = await axios.put(saveUrl, values);
-      if (response.status === 200){
-        setMessageAlert('Реквизиты сохранены');
-        setShowAlert(true);
-      }else{
-        setTypeAlert('error')
-        setMessageAlert('Ошибка при сохранении данных!')
-        console.log(response.statusText)
-      }
     }
-    catch (e) {
-      console.log(e.message)
+    dispatch(changeOrganization(item))
+  }
+
+
+  const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+    try {
+        await dispatch(saveOrganization(orgItem))
+      resolve()
+    }catch (e) {
+      reject()
     }
+  })
+
+  /**
+   * Сохранить изменения
+   * @param event
+   */
+  const saveHandler = (event: SyntheticEvent) => {
+    event.preventDefault()
+      saveItem(dispatch).then(() => {
+          }
+      )
   }
 
   useEffect(() => {
-    loadData();
-  }, []);
+    dispatch(loadOrganization())
+  }, [dispatch])
 
 
   return (
@@ -94,7 +76,7 @@ const AccountDetails = (props: IAccountDetails) => {
     >
       <form
         autoComplete="off"
-        noValidate
+        onSubmit={saveHandler}
       >
         <CardHeader
           subheader="Регистрационные данные"
@@ -118,7 +100,7 @@ const AccountDetails = (props: IAccountDetails) => {
                 name="name"
                 onChange={handleChange}
                 required
-                value={values?.name}
+                value={orgItem.name}
                 variant="outlined"
                 inputProps={{'maxLength': 255 }}
               />
@@ -134,7 +116,7 @@ const AccountDetails = (props: IAccountDetails) => {
                 name="addrReg"
                 onChange={handleChange}
                 required
-                value={values?.addrReg}
+                value={orgItem.addrReg}
                 variant="outlined"
                 inputProps={{'maxLength': 512 }}
               />
@@ -151,7 +133,7 @@ const AccountDetails = (props: IAccountDetails) => {
                 name="contactPhone"
                 onChange={handleChange}
                 required
-                value={values?.contactPhone}
+                value={orgItem.contactPhone}
                 variant="outlined"
                 inputProps={{'maxLength': 100 }}
               />
@@ -168,7 +150,7 @@ const AccountDetails = (props: IAccountDetails) => {
                 name="contactEmail"
                 onChange={handleChange}
                 required
-                value={values?.contactEmail}
+                value={orgItem.contactEmail}
                 variant="outlined"
                 inputProps={{'maxLength': 100 }}
               />
@@ -185,7 +167,7 @@ const AccountDetails = (props: IAccountDetails) => {
                   name="contactFax"
                   onChange={handleChange}
                   required
-                  value={values?.contactFax}
+                  value={orgItem.contactFax}
                   variant="outlined"
                   inputProps={{'maxLength': 100 }}
               />
@@ -202,7 +184,7 @@ const AccountDetails = (props: IAccountDetails) => {
                   name="reqBin"
                   onChange={handleChange}
                   required
-                  value={values?.reqBin}
+                  value={orgItem.reqBin}
                   variant="outlined"
                   inputProps={{'maxLength': 12 }}
               />
@@ -219,7 +201,7 @@ const AccountDetails = (props: IAccountDetails) => {
                   name="reqAccount"
                   onChange={handleChange}
                   required
-                  value={values?.reqAccount}
+                  value={orgItem.reqAccount}
                   variant="outlined"
                   inputProps={{'maxLength': 20 }}
               />
@@ -236,7 +218,7 @@ const AccountDetails = (props: IAccountDetails) => {
                   name="reqBank"
                   onChange={handleChange}
                   required
-                  value={values?.reqBank}
+                  value={orgItem.reqBank}
                   variant="outlined"
                   inputProps={{'maxLength': 255 }}
               />
@@ -253,7 +235,7 @@ const AccountDetails = (props: IAccountDetails) => {
                   name="reqBik"
                   onChange={handleChange}
                   required
-                  value={values?.reqBik}
+                  value={orgItem.reqBik}
                   variant="outlined"
                   inputProps={{'maxLength': 10 }}
               />
@@ -270,7 +252,7 @@ const AccountDetails = (props: IAccountDetails) => {
                   name="bossName"
                   onChange={handleChange}
                   required
-                  value={values?.bossName}
+                  value={orgItem.bossName}
                   variant="outlined"
                   inputProps={{'maxLength': 255 }}
               />
@@ -283,7 +265,7 @@ const AccountDetails = (props: IAccountDetails) => {
           <Button
             color="primary"
             variant="contained"
-            onClick={saveOrg}
+            type={'submit'}
           >
             Сохранить
           </Button>
@@ -296,12 +278,6 @@ const AccountDetails = (props: IAccountDetails) => {
           </Button>
         </CardActions>
       </form>
-      <SnackBarAlert
-          typeMessage={typeAlert}
-          messageText={messageAlert}
-          isOpen={showAlert}
-          onSetOpenState={setShowAlert}
-      />
     </Card>
   );
 };
