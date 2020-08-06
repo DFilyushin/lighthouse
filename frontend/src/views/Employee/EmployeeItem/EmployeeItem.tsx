@@ -9,7 +9,11 @@ import {
     Divider,
     Grid,
     Button,
-    TextField
+    TextField,
+    Tab,
+    Tabs,
+    Paper,
+    IconButton
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,18 +25,15 @@ import {
     updateEmployeeItem
 } from "redux/actions/employeeAction";
 import {useDialog} from "components/SelectDialog";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {loadStaffs} from "redux/actions/staffAction";
 import { docType } from 'types/model/employee';
-import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT} from "utils/AppConst";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import TabPanel from "../../Production/components/TabPanel";
 import WorkTimeToolbar from "../components/WorkTimeToolbar";
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "../../../types/Settings";
 import WorkTimeTable from "../components/WorkTimeTable/WorkTimeTable";
+import {KeyboardDatePicker} from "@material-ui/pickers";
 
 const PAGE_MAIN = 0
 const PAGE_TIME = 1
@@ -77,7 +78,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const selectDialog = useDialog();
 
     const paramId = props.match.params.id;
-    const id = paramId === 'new' ? 0 :parseInt(paramId);
+    const id = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const employeeItem = useSelector((state: IStateInterface)=> state.employee.employeeItem);
     const staffItems = useSelector((state:IStateInterface)=> state.staff.staffs);
     const workTimeItems = useSelector((state: IStateInterface)=> state.employee.workTimeItems);
@@ -95,16 +96,22 @@ const EmployeeItem = (props: IEmployeeItem) => {
      * @param dispatch
      */
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        // do anything here
-        if (id === 0) {
+        if (id === NEW_RECORD_VALUE) {
             await dispatch(addNewEmployeeItem(employeeItem));
         } else {
             await dispatch(updateEmployeeItem(employeeItem));
         }
         resolve();
-    });
+    })
 
-    const saveHandler = (event: React.MouseEvent) => {
+    const handleChangeDOB = (date: Date | null) => {
+        const strDate = date?.toISOString().slice(0, 19);
+        const item = {...employeeItem, 'dob': strDate as string};
+        dispatch(changeEmployeeItem(item))
+    }
+
+    const saveHandler = (event: React.SyntheticEvent) => {
+        event.preventDefault()
         saveItem(dispatch).then( ()=>{
                 console.log('state', hasError);
                 history.push('/org/employee');
@@ -118,8 +125,6 @@ const EmployeeItem = (props: IEmployeeItem) => {
         localStorage.setItem(PROD_PERIOD_START, date1);
         localStorage.setItem(PROD_PERIOD_END, date2);
         dispatch(loadEmployeeWorkTimeTable(id, date1, date2))
-
-        //dispatch(loadProductionCards(date1, date2, '', product))
     }
 
     const handleChangeStaff =  (event: React.MouseEvent) => {
@@ -199,7 +204,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
                 <TabPanel value={tab} index={PAGE_MAIN}>
                         <form
                             autoComplete="off"
-                            noValidate
+                            onSubmit={saveHandler}
                         >
 
                             <Divider />
@@ -210,7 +215,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 >
                                     <Grid
                                         item
-                                        xs={1}
+                                        xs={2}
                                     >
                                         <TextField
                                             fullWidth
@@ -225,7 +230,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={11}
+                                        xs={10}
                                     >
                                         <TextField
                                             fullWidth
@@ -266,9 +271,10 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                             fullWidth
                                             label="Дата рождения"
                                             margin="dense"
-                                            name="dob"
+                                            name="docDate"
                                             onChange={handleChange}
                                             required
+                                            type="date"
                                             value={employeeItem.dob}
                                             variant="outlined"
                                         />
@@ -382,7 +388,8 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                             name="docDate"
                                             onChange={handleChange}
                                             required
-                                            value={moment(employeeItem.docDate).format('DD/MM/YYYY')}
+                                            type="date"
+                                            value={employeeItem.docDate}
                                             variant="outlined"
                                         />
                                     </Grid>
@@ -441,7 +448,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                 <Button
                                     color="primary"
                                     variant="contained"
-                                    onClick={saveHandler}
+                                    type={'submit'}
                                 >
                                     Сохранить
                                 </Button>
