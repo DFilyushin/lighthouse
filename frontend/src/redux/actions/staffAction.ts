@@ -30,10 +30,7 @@ export function loadStaffs(search?: string, limit?: number, offset?: number) {
             const url = StaffEndpoint.getStaffList(search, limit, offset);
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
-                itemList.push({
-                    id: response.data[key]['id'],
-                    name: response.data[key]['name'],
-                })
+                itemList.push(response.data[key])
             });
             dispatch(fetchSuccess(itemList))
         }catch (e) {
