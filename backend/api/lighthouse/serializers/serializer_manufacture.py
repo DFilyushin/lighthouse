@@ -230,9 +230,9 @@ class ManufactureListSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     prodStart = serializers.DateTimeField(source='prod_start')
     prodFinish = serializers.DateTimeField(source='prod_finish')
-    product = serializers.CharField(source='id_formula.id_product.name')
+    product = serializers.CharField(source='id_formula__id_product__name')
     calcValue = serializers.FloatField(source='calc_value')
-    leaderName = serializers.CharField(source='id_team_leader.fio')
+    leaderName = serializers.CharField(source='id_team_leader__fio')
     state = serializers.IntegerField(source='cur_state')
 
     class Meta:
