@@ -52,7 +52,7 @@ const EmployeeList = () => {
                 onFind={onFindHandler}
                 findCaption={'Поиск сотрудника'}
                 newItemTitle={'Новый сотрудник'}
-                newItemUrl={'/employee/new/'}
+                newItemUrl={'/org/employee/new/'}
                 showDelete={true}
             />
             <div className={classes.content}>
