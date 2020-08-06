@@ -11,7 +11,8 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    TablePagination
+    TablePagination,
+    Typography
 } from '@material-ui/core';
 import {IEmployeeWorkTimeItem} from 'types/model/employee';
 import moment from "moment";
@@ -42,24 +43,32 @@ const useStyles = makeStyles(theme => ({
 interface IWorkTimeTableProps{
     className: string;
     timeItems: IEmployeeWorkTimeItem[];
-};
+}
 
 const WorkTimeTable = (props: IWorkTimeTableProps) => {
-    const { className, timeItems, ...rest } = props;
+    const { className, timeItems, ...rest } = props
 
-    const classes = useStyles();
+    const classes = useStyles()
 
-    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-    const [page, setPage] = useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10)
+    const [page, setPage] = useState<number>(0)
 
 
     const handlePageChange = (event:any, page: number) => {
         setPage(page);
-    };
+    }
 
     const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
-    };
+    }
+
+    /**
+     * Подсчитать сумму отработанных часов
+     * @param items
+     */
+    function getSubTotalHours(items: IEmployeeWorkTimeItem[]) {
+        return items.map(({ hours }) => hours).reduce((sum, i) => sum + i, 0);
+    }
 
 
     return (
@@ -93,9 +102,16 @@ const WorkTimeTable = (props: IWorkTimeTableProps) => {
                                         <TableCell>{item.work.name}</TableCell>
                                         <TableCell>{moment(item.periodStart).format('YYYY-MM-DD HH:mm')}</TableCell>
                                         <TableCell>{moment(item.periodEnd).format('YYYY-MM-DD HH:mm')}</TableCell>
-                                        <TableCell>{item.hours}</TableCell>
+                                        <TableCell align={'right'}>{item.hours}</TableCell>
                                     </TableRow>
                                 ))}
+                                <TableRow>
+                                    <TableCell colSpan={4}/>
+                                    <TableCell>
+                                        <Typography variant="body1">Итого</Typography>
+                                    </TableCell>
+                                    <TableCell align={'right'}>{getSubTotalHours(timeItems).toLocaleString('ru-RU')}</TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </div>
