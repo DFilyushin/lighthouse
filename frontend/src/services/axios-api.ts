@@ -38,7 +38,10 @@ authAxios.interceptors.response.use((response)=> {
             }else {
                 console.log('res', res)
             }
-        })
+        }).catch(error=>{
+            console.log(error)
+            }
+        )
     }
     return Promise.reject(error)
 })
