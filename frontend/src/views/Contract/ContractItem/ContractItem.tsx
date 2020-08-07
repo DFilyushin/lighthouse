@@ -232,10 +232,16 @@ const ContractItem = (props: IContractItemProps) => {
     };
 
 
+    /**
+     * Закрыть страницу с переходом в родительскую ссылку
+     * @param event
+     */
     const handleClose = (event: SyntheticEvent) => {
         let url = '/contracts'
         if (querySource === 'client' && querySourceId){
             url = `/client/${querySourceId}`
+        } else if (querySource === 'reserved'){
+            url = `/store/reserved/`
         }
         history.push(url)
     }

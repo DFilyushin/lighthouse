@@ -38,7 +38,7 @@ const StoreReserved = () => {
     }, [dispatch]);
 
     function onClickTableItem(contractId: number){
-        const clientUrl = `/contracts/${contractId}`;
+        const clientUrl = `/contracts/${contractId}?source=reserved`;
         history.push(clientUrl);
     }
 
