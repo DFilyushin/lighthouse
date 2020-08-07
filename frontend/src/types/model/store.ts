@@ -99,6 +99,7 @@ export interface IStoreListReserveProduct {
     contract: string;
     tare: string;
     value: number;
+    contractId: number;
 }
 
 export interface IStoreReserveProduct {
