@@ -37,8 +37,8 @@ const StoreReserved = () => {
         dispatch(loadStoreReserveList())
     }, [dispatch]);
 
-    function onClickTableItem(clientId: number){
-        const clientUrl = `/client/${clientId}`;
+    function onClickTableItem(contractId: number){
+        const clientUrl = `/contracts/${contractId}`;
         history.push(clientUrl);
     }
 

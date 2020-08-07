@@ -64,8 +64,8 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const cellClicked = (clientId: number) => {
-        onClickItem(clientId);
+    const cellClicked = (contractId: number) => {
+        onClickItem(contractId);
     }
 
 
@@ -109,7 +109,7 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                             <TableCell>{item.value}</TableCell>
                                             <TableCell>{item.employee}</TableCell>
                                             <TableCell>{item.contract}</TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Подробнее</Button></TableCell>
+                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.contractId)}>Подробнее</Button></TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
