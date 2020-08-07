@@ -27,8 +27,7 @@ const StoreJournal = () => {
     const isLoading = useSelector((state: IStateInterface) => state.store.isLoading)
 
     function onClickTableItem(id: number){
-        const url = `/store/journal/${id}`;
-        history.push(url);
+        history.push(`/store/journal/${id}`);
     }
 
     function onRefresh(startDate: string, endDate: string, state: number, material: number) {
@@ -41,7 +40,7 @@ const StoreJournal = () => {
         <div className={classes.root}>
             <StoreJournalToolbar
                 className={''}
-                newItemUrl={'/org/staff/new'}
+                newItemUrl={'/store/raw/new'}
                 onRefresh={onRefresh}
             />
             <div className={classes.content}>

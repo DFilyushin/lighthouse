@@ -117,7 +117,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
      * Новая запись
      */
     function onNewItemButtonHandler() {
-        history.push('/store/raw/new')
+        history.push(newItemUrl)
     }
 
     return (
