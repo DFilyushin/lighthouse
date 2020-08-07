@@ -70,6 +70,12 @@ class EmployeeView(viewsets.ModelViewSet):
         else:
             return EmployeeSerializer
 
+    def get_queryset(self):
+        if self.action == 'list':
+            return Employee.objects.filter(fired__isnull=True).values('id', 'tab_num', 'fio', 'id_staff__name')
+        else:
+            return Employee.objects.filter(fired__isnull=True)
+
     @action(methods=['get'], url_path='works', detail=True, url_name='employee_works')
     def get_works(self, request, pk):
         param_start_date = request.GET.get('start', None)

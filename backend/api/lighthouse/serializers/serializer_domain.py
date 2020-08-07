@@ -114,7 +114,7 @@ class EmployeeListSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     tabNum = serializers.CharField(source='tab_num',allow_blank=True)
     fio = serializers.CharField()
-    staff = serializers.CharField(source='id_staff.name', allow_blank=True)
+    staff = serializers.CharField(source='id_staff__name', allow_blank=True)
 
     class Meta:
         model = Employee
