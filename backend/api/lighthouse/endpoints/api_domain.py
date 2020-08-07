@@ -4,7 +4,7 @@ from rest_framework.decorators import APIView, action
 from rest_framework.response import Response
 from lighthouse.appmodels.org import Org, Employee, Staff, Department
 from lighthouse.serializers.serializer_domain import OrgSerializer, EmployeeSerializer, StaffSerializer, \
-    DepartmentSerializer, EmployeeListSerializer
+    DepartmentSerializer, EmployeeListSimpleSerializer
 from lighthouse.serializers.serializer_manufacture import ProdTeamReportSerializer
 from lighthouse.appmodels.manufacture import ProdTeam
 from rest_framework.permissions import IsAuthenticated
@@ -66,7 +66,7 @@ class EmployeeView(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return EmployeeListSerializer
+            return EmployeeListSimpleSerializer
         else:
             return EmployeeSerializer
 
