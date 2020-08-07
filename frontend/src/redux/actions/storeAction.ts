@@ -127,14 +127,12 @@ export function loadStoreJournal(date1: string, date2: string, operType: number,
                     count: response.data[key]['value'],
                     date: response.data[key]['date'],
                     tare: response.data[key]['tareId'],
-                    name: response.data[key]['materialId']['name'],
+                    name: response.data[key]['material'],
                     type: response.data[key]['type'],
-                    employee: response.data[key]['employee'],
                     price: response.data[key]['price'],
                     total: 0,
                     factoryId: response.data[key]['factoryId'],
-                    costId: response.data[key]['costId'],
-                    material: response.data[key]['materialId']
+                    costId: response.data[key]['costId']
                 }
                 itemList.push(item)
             });

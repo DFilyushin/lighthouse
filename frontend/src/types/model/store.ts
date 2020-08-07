@@ -27,10 +27,8 @@ export interface IStoreJournal {
     count: number;
     price: number;
     total: number;
-    employee: IEmployeeListItem;
     factoryId: number;
     costId: number;
-    material: IMaterialItem;
 }
 
 export interface ICostJournalItem {

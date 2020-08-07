@@ -158,8 +158,9 @@ class StoreJournalViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(oper_type=oper_type)
             if param_material_type is not None and material_type != -1:
                 queryset = queryset.filter(id_material__id_type__id=material_type)
-
-            return queryset.filter(is_delete=False).order_by('-oper_date')
+            return queryset.filter(is_delete=False).order_by('-oper_date')\
+                .values('id', 'id_material__name', 'id_tare__name', 'oper_date', 'oper_type', 'oper_value',
+                        'oper_price', 'id_manufacture_id', 'id_cost_id')
         elif self.action == 'retrieve':
             return Store.objects.filter(is_delete=False)
 
@@ -277,7 +278,8 @@ class ExpenseViewSet(viewsets.ModelViewSet):
             cost_date__range=(start_date, end_date))
         if id_cost:
             queryset = queryset.filter(id_cost_id=int(id_cost))
-        serializer = ExpenseListSerializer(queryset.filter(is_delete=False), many=True)
+        queryset = queryset.filter(is_delete=False).values('id', 'id_cost__name', 'cost_date', 'total')
+        serializer = ExpenseListSerializer(queryset, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     def destroy(self, request, *args, **kwargs):
