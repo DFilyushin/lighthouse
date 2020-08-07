@@ -50,7 +50,6 @@ const DepartmentList = () => {
 
     return (
         <div className={classes.root}>
-            {console.log('items', items)}
             <DefaultToolbar
                 className={''}
                 title={'Структура предприятия'}
