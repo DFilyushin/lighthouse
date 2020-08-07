@@ -245,7 +245,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
             return Reservation.objects.\
                 filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today()).values(
                 'id', 'reserve_start', 'reserve_end', 'reserve_value', 'id_material__name',
-                'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname')
+                'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname', 'id_contract__id')
         else:
             return Reservation.objects.all()
 
