@@ -144,7 +144,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
     total = serializers.FloatField()
     count = serializers.FloatField(source='cost_count')
     employee = EmployeeListSerializer(source='id_employee')
-    comment = serializers.CharField()
+    comment = serializers.CharField(allow_blank=True)
 
     def update(self, instance, validated_data):
         instance.cost_date = validated_data['cost_date']
