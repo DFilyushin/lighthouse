@@ -11,7 +11,6 @@ const authAxios = axios.create()
  */
 authAxios.interceptors.request.use((config)=>{
     const token = localStorage.getItem('token') || ''
-    console.log('interceptor request: ', token)
     config.headers.Authorization = `Bearer ${token}`
     return config
 })
@@ -30,13 +29,13 @@ authAxios.interceptors.response.use((response)=> {
             "refresh": refreshToken
         }).then(res=>{
             if (res.status === 200){
-                console.log('newToken', res)
+                console.log('refresh session token...')
                 const newAccessToken = res.data.access
                 localStorage.setItem('token', newAccessToken)
                 axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`
                 return axios(originalRequest)
             }else {
-                console.log('res', res)
+                console.log('Refresh token error: ', res)
             }
         }).catch(error=>{
             console.log(error)
