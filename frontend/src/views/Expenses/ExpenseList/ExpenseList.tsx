@@ -43,10 +43,6 @@ const ExpenseList = (props: IExpenseListProps) => {
         }, [dispatch]
     );
 
-    async function onFindProductHandler(findText: string){
-
-    }
-
     /**
      * Удаление затраты
      */
@@ -70,7 +66,6 @@ const ExpenseList = (props: IExpenseListProps) => {
             <ExpenseToolbar
                 className={''}
                 newItemUrl={'/expense/new'}
-                onFind={onFindProductHandler}
                 onDelete={onDeleteHandle}
                 onRefresh={handleRefresh}
                 costs={costs}

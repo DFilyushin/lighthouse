@@ -65,7 +65,6 @@ const useStyles = makeStyles(theme => ({
 interface IExpenseToolbar {
     className: string;
     newItemUrl: string;
-    onFind: any;
     onDelete: any;
     costs: ICostSimple[];
     onRefresh: () => void;
@@ -80,7 +79,7 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
     const dateEnd = useSelector((state: IStateInterface) => state.expense.dateEnd);
     const costId = useSelector((state: IStateInterface) => state.expense.cost);
 
-    const { className, newItemUrl, onFind, onDelete, costs, onRefresh, ...rest } = props;
+    const { className, newItemUrl, onDelete, costs, onRefresh, ...rest } = props;
 
     const handleFirstDateChange = (date: Date | null) => {
         const value = date ? date : (new Date())
@@ -100,27 +99,6 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
     const handleRefreshData = ()=> {
         onRefresh();
     };
-
-    /**
-     * Сохраненные данные начала и окончания периода
-     */
-    // useEffect(()=>{
-    //     const d1: string|null = localStorage.getItem(PROD_PERIOD_START);
-    //     const d2: string|null = localStorage.getItem(PROD_PERIOD_END);
-    //     if (d1) {setFirstDate(new Date(d1))}
-    //     if (d2) {setEndDate(new Date(d2))}
-    // }, []);
-
-    /**
-     * Поиск по Enter
-     * @param event
-     */
-    function onKeyDownHandler (event: React.KeyboardEvent<HTMLInputElement>) {
-        if(event.key === 'Enter'){
-            const findText = event.currentTarget.value.trim();
-            onFind(findText);
-        }
-    }
 
     /**
      * Новая производственная карта
@@ -164,19 +142,6 @@ const ExpenseToolbar = (props: IExpenseToolbar) => {
                 spacing={3}
                 className={classes.row}
             >
-                <Grid
-                    item
-                    lg={3}
-                    sm={6}
-                    md={6}
-                    xs={12}
-                >
-                    <SearchInput
-                        className={classes.searchInput}
-                        onEnterKeyDown={onKeyDownHandler}
-                        placeholder='Поиск'
-                    />
-                </Grid>
                 <Grid
                     item
                     lg={3}
