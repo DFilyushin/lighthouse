@@ -229,7 +229,7 @@ class RefCostViewSet(viewsets.ModelViewSet):
 
     @action(methods=['get'], detail=False, url_path='flat', url_name='flat')
     def get_flat_list(self, request):
-        cost = RefCost.objects.filter(id_parent__isnull=False) | RefCost.objects.filter(id_parent__isnull=True)\
+        cost = RefCost.objects.filter(id_parent__isnull=False).filter(~Q(id_parent_id=0)) | RefCost.objects.filter(id_parent__isnull=True)\
             .filter(~Exists(RefCost.objects.filter(id_parent_id=OuterRef('pk'))))
         serializer = RefCostFlatSerializer(cost, many=True)
         return Response(serializer.data)
