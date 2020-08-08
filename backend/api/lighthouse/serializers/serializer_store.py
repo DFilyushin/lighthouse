@@ -96,6 +96,15 @@ class RefCostSubSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class RefCostFlatSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
+    class Meta:
+        model = RefCost
+        fields = ('id', 'name')
+
+
 class RefCostSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField()
@@ -145,6 +154,16 @@ class ExpenseSerializer(serializers.ModelSerializer):
     count = serializers.FloatField(source='cost_count')
     employee = EmployeeListSerializer(source='id_employee')
     comment = serializers.CharField(allow_blank=True)
+
+    def create(self, validated_data):
+        return Cost.objects.create(
+            id_cost_id=validated_data['id_cost']['id'],
+            total=validated_data['total'],
+            cost_count=validated_data['cost_count'],
+            id_employee_id=validated_data['id_employee']['id'],
+            cost_date=validated_data['cost_date'],
+            comment=validated_data['comment']
+        )
 
     def update(self, instance, validated_data):
         instance.cost_date = validated_data['cost_date']
