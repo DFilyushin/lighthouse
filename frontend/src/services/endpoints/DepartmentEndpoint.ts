@@ -10,7 +10,10 @@ class DepartmentEndpoint{
      * @param offset сдвиг
      */
     static getDepartmentList(search?: string, limit?: number, offset?: number){
-        return `${BaseAPIEndpoint.getBaseURL()}/department/`
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/department/`;
+        const url = new URL(baseUrl);
+        if (search) url.searchParams.append('search', search);
+        return url.href
     }
 
     /**
