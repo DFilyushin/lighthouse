@@ -44,6 +44,8 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = DepartmentSerializer
     queryset = Department.objects.all().order_by('name')
     permission_classes = [IsAuthenticated]
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['name']
 
 
 class StaffViewSet(viewsets.ModelViewSet):
