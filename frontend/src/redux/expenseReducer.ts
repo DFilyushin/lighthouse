@@ -1,13 +1,20 @@
 import {IExpenseState} from "../types/state/expense";
 import {nullEmployeeItem} from "../types/model/employee";
 import {
+    EXPENSE_CHANGE_ITEM,
     EXPENSE_DELETE_OK,
     EXPENSE_LOAD_FINISH,
     EXPENSE_LOAD_START,
-    EXPENSE_LOAD_SUCCESS, EXPENSE_SET_COST_VALUE,
+    EXPENSE_LOAD_SUCCESS,
+    EXPENSE_LOAD_SUCCESS_ITEM,
+    EXPENSE_SET_COST_VALUE,
     EXPENSE_SET_END_DATE,
     EXPENSE_SET_START_DATE
 } from "./actions/types";
+import {
+	EXPENSE_PERIOD_END,
+	EXPENSE_PERIOD_START
+} from "../types/Settings";
 
 
 const getInitialState = () => ({
@@ -27,8 +34,8 @@ const getInitialState = () => ({
         employee: nullEmployeeItem,
         total: 0
     },
-    dateStart: (new Date()).toISOString().slice(0, 10),
-    dateEnd: (new Date()).toISOString().slice(0, 10),
+    dateStart: localStorage.getItem(EXPENSE_PERIOD_START) ||  (new Date()).toISOString().slice(0, 10),
+    dateEnd: localStorage.getItem(EXPENSE_PERIOD_END) || (new Date()).toISOString().slice(0, 10),
     cost: 0,
     error: "",
     hasError: false,
@@ -51,6 +58,10 @@ export const expenseReducer = (state: IExpenseState = getInitialState(), action:
             return {...state, items: action.items}
         case EXPENSE_SET_COST_VALUE:
             return {...state, cost: action.value}
+        case EXPENSE_LOAD_SUCCESS_ITEM:
+            return {...state, item: action.item}
+        case EXPENSE_CHANGE_ITEM:
+            return {...state, item: action.item}
         default:
             return state;
     }
