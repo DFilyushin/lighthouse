@@ -9,7 +9,10 @@ class EmployeeEndpoint{
      * @param offset Сдвиг
      */
     static getEmployeeList(search?: string, limit?: number, offset?: number){
-        return `${BaseAPIEndpoint.getBaseURL()}/employee/`
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/employee/`;
+        const url = new URL(baseUrl);
+        if (search) url.searchParams.append('search', search);
+        return url.href
     }
 
     /**
