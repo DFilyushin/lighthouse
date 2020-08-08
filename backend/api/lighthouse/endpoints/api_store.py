@@ -1,18 +1,19 @@
 from datetime import datetime
 from builtins import staticmethod
-from django.db.models import Sum
+from django.db.models import Sum, Q, Exists, OuterRef
 from rest_framework import viewsets, views, status, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from lighthouse.appmodels.store import MaterialUnit, Material, Tare, RefCost, Cost
 from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
 from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnoverSerializer, \
-    StoreRawSerializer, StoreProductSerializer, RefCostSerializer, ExpenseListSerializer, ExpenseSerializer, \
-    StoreJournalSerializer, StoreJournalItemSerializer, StoreMaterialArrivalSerializer, StoreArrivalSerializer,\
-    ReservationSerializer, ReservationListSerializer
+    StoreRawSerializer, StoreProductSerializer, RefCostSerializer, RefCostFlatSerializer, \
+    ExpenseListSerializer, ExpenseSerializer, StoreJournalItemSerializer, \
+    StoreJournalSerializer,  StoreArrivalSerializer, ReservationSerializer, ReservationListSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
 from lighthouse.appmodels.store import Store, Reservation
 from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from .api_utils import RoundFunc
 from .api_errors import API_ERROR_POST_TURNOVER
@@ -225,6 +226,13 @@ class RefCostViewSet(viewsets.ModelViewSet):
             return RefCost.objects.filter(id_parent__isnull=True)
         else:
             return RefCost.objects.all()
+
+    @action(methods=['get'], detail=False, url_path='flat', url_name='flat')
+    def get_flat_list(self, request):
+        cost = RefCost.objects.filter(id_parent__isnull=False) | RefCost.objects.filter(id_parent__isnull=True)\
+            .filter(~Exists(RefCost.objects.filter(id_parent_id=OuterRef('pk'))))
+        serializer = RefCostFlatSerializer(cost, many=True)
+        return Response(serializer.data)
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
