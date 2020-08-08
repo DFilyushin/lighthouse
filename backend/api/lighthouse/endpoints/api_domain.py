@@ -62,7 +62,7 @@ class EmployeeView(viewsets.ModelViewSet):
     Сотрудник
     """
     queryset = Employee.objects.filter(fired__isnull=True)
-    search_fields = ['fio', 'tabNum']
+    search_fields = ['fio', 'tab_num']
     filter_backends = (filters.SearchFilter, )
     permission_classes = [IsAuthenticated]
 
