@@ -4,7 +4,7 @@ import {ICost, ICostSimple} from "types/model/cost"
 import {
     COST_CHANGE_ITEM, COST_CLEAR_ERROR,
     COST_DELETE_OK,
-    COST_LOAD_FINISH,
+    COST_LOAD_FINISH, COST_LOAD_FLAT_SUCCESS,
     COST_LOAD_ITEM_SUCCESS,
     COST_LOAD_PARENT_ITEMS,
     COST_LOAD_START,
@@ -25,11 +25,32 @@ export function getCostList() {
             const url = CostEndpoint.getCostList();
             const items: ICost[] = [];
             const response = await authAxios.get(url);
-            console.log(response);
             Object.keys(response.data).forEach((key, index) => {
                 items.push(response.data[key])
             });
             dispatch(fetchSuccess(items))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузить список статей затрат без статей прихода сырья
+ */
+export function getFlatCostList() {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart())
+        dispatch(hideInfoMessage());
+        try {
+            const url = CostEndpoint.getCostFlatList();
+            const items: ICostSimple[] = [];
+            const response = await authAxios.get(url);
+            Object.keys(response.data).forEach((key, index) => {
+                items.push(response.data[key])
+            });
+            dispatch(fetchFlatSuccess(items))
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
@@ -187,6 +208,13 @@ function fetchFinish() {
 function fetchSuccess(items: ICost[]) {
     return{
         type: COST_LOAD_SUCCESS,
+        items
+    }
+}
+
+function fetchFlatSuccess(items: ICostSimple[]) {
+    return{
+        type: COST_LOAD_FLAT_SUCCESS,
         items
     }
 }

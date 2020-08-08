@@ -3,15 +3,24 @@ import {
     EXPENSE_DELETE_OK,
     EXPENSE_LOAD_FINISH,
     EXPENSE_LOAD_START,
-    EXPENSE_LOAD_SUCCESS, EXPENSE_SET_COST_VALUE,
+    EXPENSE_LOAD_SUCCESS,
+    EXPENSE_SET_COST_VALUE,
     EXPENSE_SET_END_DATE,
-    EXPENSE_SET_START_DATE
+    EXPENSE_SET_START_DATE,
+    EXPENSE_LOAD_SUCCESS_ITEM, EXPENSE_CHANGE_ITEM
 } from "./types";
-import {IExpenseTableItem} from "../../types/model/expense";
+import {IExpense, IExpenseTableItem, nullExpenseItem} from "../../types/model/expense";
 import ExpenseEndpoint from "../../services/endpoints/ExpenseEndpoint";
 import authAxios from "../../services/axios-api";
+import TareEndpoint from "../../services/endpoints/TareEndpoint";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import AuthenticationService from "../../services/Authentication.service";
+import {EXPENSE_PERIOD_END, EXPENSE_PERIOD_START} from "../../types/Settings";
 
 
+/**
+ * Загрузить список затрат
+ */
 export function loadExpenseList() {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
@@ -34,16 +43,84 @@ export function loadExpenseList() {
     }
 }
 
+/**
+ * Загрузить объект затрат
+ * @param id Код записи
+ */
+export function loadExpenseItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart())
+        dispatch(hideInfoMessage())
+        if (id === NEW_RECORD_VALUE) {
+            const idEmployee = AuthenticationService.currentEmployeeId()
+            const fio = AuthenticationService.currentEmployee()
+            const item = {...nullExpenseItem, employee: {
+                id: idEmployee,
+                    tabNum: '',
+                    fio: fio,
+                    staff: ''}
+            }
+            dispatch(fetchSuccessItem(item))
+        }else {
+            try {
+                const url = ExpenseEndpoint.getExpense(id)
+                const response = await authAxios.get(url)
+                const item: IExpense = response.data
+
+                dispatch(fetchSuccessItem(item))
+            } catch (e) {
+                dispatch(showInfoMessage('error', e.toString()))
+            }
+            dispatch(fetchFinish())
+        }
+    }
+}
+
+/**
+ * ОБновление затраты
+ * @param item Объект затраты
+ */
+export function updateExpenseItem(item: IExpense) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            delete item.created
+            await authAxios.put(ExpenseEndpoint.updateExpense(item.id), item);
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+/**
+ * Новая затрата
+ * @param item Объект затраты
+ */
+export function addExpenseItem(item: IExpense) {
+    return async (dispatch: any, getState: any)=> {
+        try{
+            delete item.created
+            console.log(JSON.stringify(item))
+            await authAxios.post(ExpenseEndpoint.newExpense(), item)
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+/**
+ * Удаление затраты
+ * @param id Код записи
+ */
 export function deleteExpense(id: number) {
     return async (dispatch: any, getState: any) => {
-        dispatch(fetchStart());
+        dispatch(fetchStart())
         try{
-            const response = await authAxios.delete(ExpenseEndpoint.deleteExpense(id));
+            const response = await authAxios.delete(ExpenseEndpoint.deleteExpense(id))
             if (response.status === 204) {
-                const items = [...getState().employee.items];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
-                items.splice(index, 1);
-                dispatch(deleteOk(items));
+                const items = [...getState().employee.items]
+                const index = items.findIndex((elem, index, array)=>{return elem.id === id})
+                items.splice(index, 1)
+                dispatch(deleteOk(items))
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))
             }
             else {
@@ -56,6 +133,13 @@ export function deleteExpense(id: number) {
     }
 }
 
+export function changeExpense(item: IExpense) {
+    return{
+        type: EXPENSE_CHANGE_ITEM,
+        item
+    }
+}
+
 export function setExpenseCost(newValue: number) {
     return{
         type: EXPENSE_SET_COST_VALUE,
@@ -63,14 +147,24 @@ export function setExpenseCost(newValue: number) {
     }
 }
 
+/**
+ * Установить начальную дату просмотра
+ * @param newDate Новое значение даты
+ */
 export function setExpenseDateStart(newDate: string) {
+    localStorage.setItem(EXPENSE_PERIOD_START, newDate)
     return{
         type: EXPENSE_SET_START_DATE,
         date: newDate
     }
 }
 
+/**
+ * Установить конечную дату просмотра
+ * @param newDate Новое значение даты
+ */
 export function setExpenseDateEnd(newDate: string) {
+    localStorage.setItem(EXPENSE_PERIOD_END, newDate)
     return{
         type: EXPENSE_SET_END_DATE,
         date: newDate
@@ -94,6 +188,13 @@ function fetchSuccess(items: IExpenseTableItem[]) {
     return{
         type: EXPENSE_LOAD_SUCCESS,
         items
+    }
+}
+
+function fetchSuccessItem(item: IExpense) {
+    return{
+        type: EXPENSE_LOAD_SUCCESS_ITEM,
+        item
     }
 }
 
