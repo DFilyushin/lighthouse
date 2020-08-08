@@ -1,6 +1,7 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .manufacture import Material
+from .org import Employee
 from .store import RefCost, Cost, Store, REF_COST_PARENT_RAW, REF_COST_PARENT_SALARY
 
 
@@ -25,6 +26,7 @@ def material_post_save_handler(sender, **kwargs):
         )
 
 
+@receiver(post_save, sender=Employee)
 def employee_post_save_handler(sender, **kwargs):
     """
     Триггер after insert Employee
