@@ -7,6 +7,7 @@ import CircularIndeterminate from "components/Loader/Loader";
 import {IStateInterface} from "redux/rootReducer";
 import {deleteExpense, loadExpenseList} from "redux/actions/expenseAction";
 import {getCostList} from "redux/actions/costAction";
+import {RouteComponentProps} from "react-router";
 
 
 const useStyles = makeStyles(theme => ({
@@ -18,10 +19,17 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ExpenseList = () => {
+interface IExpenseListProps extends RouteComponentProps{
+
+}
+
+const ExpenseList = (props: IExpenseListProps) => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const query = new URLSearchParams(props.location.search);
+    const querySource = query.get('source') || ''
 
     const costs = useSelector((state: IStateInterface) => state.cost.items);
     const expenses = useSelector((state: IStateInterface) => state.expense.items);
@@ -29,6 +37,7 @@ const ExpenseList = () => {
     const [selected, setSelected] = useState<number[]>([]);
 
     useEffect( ()=>{
+        if (querySource === 'return' && expenses) {return}
         dispatch(loadExpenseList())
         dispatch(getCostList())
         }, [dispatch]
@@ -47,8 +56,8 @@ const ExpenseList = () => {
         });
     }
 
-    function onClickTableItem(tareId: number){
-        const newItemUrl = `/catalogs/tare/${tareId}`;
+    function onClickTableItem(id: number){
+        const newItemUrl = `/expense/${id}`;
         history.push(newItemUrl);
     };
 
@@ -60,7 +69,7 @@ const ExpenseList = () => {
         <div className={classes.root}>
             <ExpenseToolbar
                 className={''}
-                newItemUrl={'/catalogs/tare/new'}
+                newItemUrl={'/expense/new'}
                 onFind={onFindProductHandler}
                 onDelete={onDeleteHandle}
                 onRefresh={handleRefresh}
