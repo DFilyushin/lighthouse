@@ -55,7 +55,9 @@ class StaffViewSet(viewsets.ModelViewSet):
     serializer_class = StaffSerializer
     queryset = Staff.objects.all().order_by('name')
     permission_classes = [IsAuthenticated]
-
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['name']
+    
 
 class EmployeeView(viewsets.ModelViewSet):
     """
