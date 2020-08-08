@@ -10,6 +10,13 @@ class CostEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/cost/`
     }
 
+    /**
+     * Список затрат второго уровня
+     */
+    static getCostFlatList(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/cost/flat/`
+    }
+
 
     /**
      * Получить затрату

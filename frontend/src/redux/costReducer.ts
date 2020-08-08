@@ -1,7 +1,7 @@
 import {ICostState, nullCost} from "../types/state/cost";
 import {
     COST_CHANGE_ITEM, COST_CLEAR_ERROR,
-    COST_LOAD_FINISH,
+    COST_LOAD_FINISH, COST_LOAD_FLAT_SUCCESS,
     COST_LOAD_ITEM_SUCCESS,
     COST_LOAD_PARENT_ITEMS,
     COST_LOAD_START,
@@ -11,6 +11,7 @@ import {
 const getInitialState= (): ICostState => ({
     items: [],
     costItem: nullCost,
+    costFlatItems: [],
     error: '',
     hasError: false,
     isLoading: false,
@@ -35,6 +36,8 @@ export const costReducer = (state: ICostState = getInitialState(), action:any) =
             return {...state, error: action.error, hasError: true}
         case COST_CLEAR_ERROR:
             return {...state, error: '', hasError: false}
+        case COST_LOAD_FLAT_SUCCESS:
+            return {...state, costFlatItems: action.items}
         default:
             return state;
     }
