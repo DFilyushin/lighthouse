@@ -25,9 +25,8 @@ import {
 } from "utils/AppConst"
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {useDialog} from "components/SelectDialog";
-import {IContractListItemSimple} from "types/model/contract";
 import {addExpenseItem, changeExpense, loadExpenseItem, updateExpenseItem} from "../../../redux/actions/expenseAction";
-import {getCostList, getFlatCostList} from "../../../redux/actions/costAction";
+import {getFlatCostList} from "../../../redux/actions/costAction";
 
 interface IExpenseItemProps extends RouteComponentProps{
     className: string,
@@ -104,17 +103,10 @@ const ExpenseItem = (props: IExpenseItemProps) => {
         history.push('/expense/?source=return')
     }
 
-    /**
-     * Проверка возможности редактирования таблицы
-     */
-    const canEditRecord = () => {
-        return true
-    }
-
     useEffect( ()=> {
         dispatch(loadExpenseItem(expenseId))
         dispatch(getFlatCostList())
-        }, [dispatch]
+        }, [dispatch, expenseId]
     )
 
 
@@ -163,6 +155,7 @@ const ExpenseItem = (props: IExpenseItemProps) => {
                     <Divider />
                     <CardContent>
                         <Grid container spacing={3}>
+                            {expenseId === NEW_RECORD_VALUE &&
                             <Grid item xs={12}>
                                 <Typography>
                                     Расходы по приобретению сырья вносятся через <Link href="/store/raw/new">
@@ -170,6 +163,7 @@ const ExpenseItem = (props: IExpenseItemProps) => {
                                 </Link>
                                 </Typography>
                             </Grid>
+                            }
                             <Grid item xs={12}>
                                 <Paper  elevation={0} className={classes.paper_root}>
                                     <TextField
