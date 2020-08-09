@@ -13,8 +13,9 @@ import {
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import authAxios from "../../services/axios-api";
 
-//FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
+
+
 /**
  * Загрузить список продукции
  * @param search поисковая строка
@@ -98,8 +99,17 @@ export function addNewRaw(raw: IRaw) {
         dispatch(clearError());
         try{
             const response = await authAxios.post(RawEndpoint.newRaw(), raw);
-            const items = [...getState().raws.raws]
+            const items = [...getState().raw.raws]
             items.push(response.data)
+            items.sort(function (a, b) {
+                const nameA=a.name.toLowerCase()
+                const nameB=b.name.toLowerCase()
+                if (nameA < nameB) //сортируем строки по возрастанию
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0 // Никакой сортировки
+            })
             dispatch(fetchSuccess(items))
         }catch (e) {
             dispatch(fetchError('Не удалось добавить новое сырьё!'))
