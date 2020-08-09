@@ -22,13 +22,13 @@ import authAxios from "../../services/axios-api";
  * Получить список контрактов
  * @param state Состояние контракта
  */
-export function loadContractList(state: number) {
+export function loadContractList(state: number, search?: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
 
         try {
-            const url = ContractEndpoint.getContractList(state);
+            const url = ContractEndpoint.getContractList(state, search);
             const items: IContractListItem[] = [];
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {

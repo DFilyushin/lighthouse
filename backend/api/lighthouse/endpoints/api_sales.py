@@ -62,7 +62,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 class ContractViewSet(viewsets.ModelViewSet):
     """Контракт"""
     queryset = Contract.objects.filter(deleted=False)
-    search_fields = ['num']
+    search_fields = ['id_contract__num']
     filter_backends = (filters.SearchFilter,)
     permission_classes = [IsAuthenticated]
 

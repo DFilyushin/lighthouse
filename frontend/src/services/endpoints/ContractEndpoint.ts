@@ -6,10 +6,11 @@ class ContractEndpoint {
      * Получить список контрактов
      * @param state Состояние контракта
      */
-    static getContractList(state: number): string {
+    static getContractList(state: number, search?: string): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/contract/`;
         const url = new URL(baseUrl);
         if (state) url.searchParams.append('state', state.toString());
+        if (search) url.searchParams.append('search', search)
         return url.href
     }
 

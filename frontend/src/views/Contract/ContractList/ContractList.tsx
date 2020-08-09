@@ -37,8 +37,8 @@ const ContractList = () => {
         history.push(`/contracts/${contractId}?source=contract`);
     }
 
-    async function onFindClientHandler(findNum: number){
-        dispatch(loadContractList(findNum))
+    async function onFindClientHandler(findNum: string){
+        dispatch(loadContractList(-1, findNum))
     }
 
     function onDeleteHandle() {
