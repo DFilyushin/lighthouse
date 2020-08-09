@@ -13,8 +13,6 @@ import {
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import authAxios from "../../services/axios-api";
 
-
-//FIXME При добавлении и удалении не обновляется результирующий стор
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
 /**
@@ -31,10 +29,7 @@ export function loadProduct(search?: string, limit?: number, offset?: number) {
                 const productList: IProduct[] = [];
                 const response = await authAxios.get(url);
                 Object.keys(response.data).forEach((key, index) => {
-                    productList.push({
-                        id: response.data[key]['id'],
-                        name: response.data[key]['name'],
-                    })
+                    productList.push(response.data[key])
                 });
                 dispatch(productLoadSuccess(productList))
             } catch (e) {
@@ -127,8 +122,19 @@ export function addNewProduct(product: IProduct) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            await authAxios.post(ProductEndpoint.newProduct(), product);
-            dispatch(productLoadItemSuccess(product))
+            const response = await authAxios.post(ProductEndpoint.newProduct(), product);
+            const items = [...getState().product.products]
+            items.push(response.data)
+            items.sort(function (a, b) {
+                const nameA=a.name.toLowerCase()
+                const nameB=b.name.toLowerCase()
+                if (nameA < nameB) //сортируем строки по возрастанию
+                    return -1
+                if (nameA > nameB)
+                    return 1
+                return 0 // Никакой сортировки
+            })
+            dispatch(productLoadSuccess(items))
         }catch (e) {
             dispatch(productLoadError('Не удалось добавить новый продукт!'))
         }
