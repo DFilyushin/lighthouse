@@ -1,9 +1,6 @@
 import axios from 'axios'
 import AuthEndpoint from "./endpoints/AuthEndpoint";
 
-
-const token = localStorage.getItem('token') || ''
-console.log('token', token)
 const authAxios = axios.create()
 
 /**
@@ -23,7 +20,6 @@ authAxios.interceptors.response.use((response)=> {
 }, error => {
     const originalRequest = error.config
     if (error.response.status === 401) {
-        console.log('401', originalRequest.url)
         const refreshToken = localStorage.getItem('refresh')
         return axios.post(AuthEndpoint.getUpdateToken(), {
             "refresh": refreshToken

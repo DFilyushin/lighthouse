@@ -123,7 +123,7 @@ export function addNewEmployeeItem(item: IEmployee) {
         dispatch(clearError());
         try{
             delete item.created
-            const response = await authAxios.post(EmployeeEndpoint.newEmployee(), item);
+            await authAxios.post(EmployeeEndpoint.newEmployee(), item);
             return Promise.resolve();
         }
         catch (e) {

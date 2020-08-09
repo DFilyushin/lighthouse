@@ -12,7 +12,6 @@ import {
 import {IExpense, IExpenseTableItem, nullExpenseItem} from "../../types/model/expense";
 import ExpenseEndpoint from "../../services/endpoints/ExpenseEndpoint";
 import authAxios from "../../services/axios-api";
-import TareEndpoint from "../../services/endpoints/TareEndpoint";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import AuthenticationService from "../../services/Authentication.service";
 import {EXPENSE_PERIOD_END, EXPENSE_PERIOD_START} from "../../types/Settings";

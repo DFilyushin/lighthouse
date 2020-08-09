@@ -161,6 +161,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
             const newClients: IContractListItemSimple[] = contracts.map(value => {return value})
             setDataSource(newClients);
         }
+        // eslint-disable-next-line
     }, [dispatch, inputValue])
 
     //TODO Реализовать в виде отдельного компонента

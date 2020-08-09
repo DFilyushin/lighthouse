@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -33,7 +32,6 @@ import TabPanel from "../../Production/components/TabPanel";
 import WorkTimeToolbar from "../components/WorkTimeToolbar";
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "../../../types/Settings";
 import WorkTimeTable from "../components/WorkTimeTable/WorkTimeTable";
-import {KeyboardDatePicker} from "@material-ui/pickers";
 
 const PAGE_MAIN = 0
 const PAGE_TIME = 1
@@ -103,12 +101,6 @@ const EmployeeItem = (props: IEmployeeItem) => {
         }
         resolve();
     })
-
-    const handleChangeDOB = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
-        const item = {...employeeItem, 'dob': strDate as string};
-        dispatch(changeEmployeeItem(item))
-    }
 
     const saveHandler = (event: React.SyntheticEvent) => {
         event.preventDefault()

@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button, Grid, Typography} from '@material-ui/core';
-import { SearchInput } from 'components';
 import { useHistory } from "react-router-dom";
 import { KeyboardDatePicker} from '@material-ui/pickers';
 import InputLabel from '@material-ui/core/InputLabel';
