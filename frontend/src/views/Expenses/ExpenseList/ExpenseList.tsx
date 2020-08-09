@@ -24,24 +24,25 @@ interface IExpenseListProps extends RouteComponentProps{
 }
 
 const ExpenseList = (props: IExpenseListProps) => {
-    const classes = useStyles();
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const classes = useStyles()
+    const history = useHistory()
+    const dispatch = useDispatch()
 
-    const query = new URLSearchParams(props.location.search);
+    const query = new URLSearchParams(props.location.search)
     const querySource = query.get('source') || ''
 
-    const costs = useSelector((state: IStateInterface) => state.cost.items);
-    const expenses = useSelector((state: IStateInterface) => state.expense.items);
-    const isLoading = useSelector((state: IStateInterface) => state.expense.isLoading);
-    const [selected, setSelected] = useState<number[]>([]);
+    const costs = useSelector((state: IStateInterface) => state.cost.items)
+    const expenses = useSelector((state: IStateInterface) => state.expense.items)
+    const isLoading = useSelector((state: IStateInterface) => state.expense.isLoading)
+    const [selected, setSelected] = useState<number[]>([])
 
     useEffect( ()=>{
         if (querySource === 'return' && expenses) {return}
         dispatch(loadExpenseList())
         dispatch(getCostList())
+        // eslint-disable-next-line
         }, [dispatch]
-    );
+    )
 
     /**
      * Удаление затраты
