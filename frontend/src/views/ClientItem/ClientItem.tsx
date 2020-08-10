@@ -333,6 +333,23 @@ const ClientItem = (props: IClientItemProps) => {
                             md={12}
                             xs={12}
                         >
+                            <TextField
+                                fullWidth
+                                label="Руководитель"
+                                margin="dense"
+                                name="reqBoss"
+                                onChange={handleChange}
+                                required
+                                value={clientItem.reqBoss}
+                                variant="outlined"
+                                inputProps={{'maxLength': 255}}
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={12}
+                            xs={12}
+                        >
                         <TextField
                             fullWidth
                             id="outlined-multiline-flexible"

@@ -27,8 +27,9 @@ export interface IClientItem {
     reqBin: string,
     reqAccount: string,
     reqBank: string,
-    reqBik: string
-    comment: string
+    reqBik: string,
+    reqBoss: string,
+    comment: string,
     clientId: string
 }
 
@@ -52,5 +53,6 @@ export const nullClientItem: IClientItem = {
     reqBank: '',
     reqBik: '',
     reqBin: '',
+    reqBoss: '',
     comment: ''
 };
