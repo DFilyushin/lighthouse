@@ -194,7 +194,7 @@ class ContractSerializer(serializers.ModelSerializer):
     """Контракт"""
     id = serializers.IntegerField()
     created = serializers.DateTimeField()
-    client = ClientListSerializer(source='id_client')
+    client = ClientSerializer(source='id_client')
     num = serializers.CharField()
     contractDate = serializers.DateField(source='contract_date')
     contractState = serializers.IntegerField(source='contract_state')
