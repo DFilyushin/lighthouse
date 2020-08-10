@@ -36,6 +36,7 @@ class Client(models.Model):
     req_account = models.CharField(max_length=20, blank=True, null=True, verbose_name='Лицевой счёт')
     req_bank = models.CharField(max_length=255, blank=True, null=True, verbose_name='Банк')
     req_bik = models.CharField(max_length=8, blank=True, null=True, verbose_name='БИК')
+    req_boss = models.CharField(max_length=255, blank=True, null=True, verbose_name='Руководитель')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
     clientid  = models.CharField(max_length=10, blank=True, null=True, verbose_name='Код клиента из сторонних систем')
     deleted = models.BooleanField(default=False, null=False, verbose_name='Удалён')
