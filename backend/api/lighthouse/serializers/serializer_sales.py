@@ -10,6 +10,7 @@ class ClientSerializer(serializers.ModelSerializer):
     """
     Клиент (объект)
     """
+    id = serializers.IntegerField()
     created = serializers.DateTimeField(read_only=True)
     clientName = serializers.CharField(source='clientname')
     clientAddr = serializers.CharField(source='addr_reg')
@@ -192,7 +193,7 @@ class PaymentContractSerializer(serializers.ModelSerializer):
 
 class ContractSerializer(serializers.ModelSerializer):
     """Контракт"""
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
     created = serializers.DateTimeField()
     client = ClientSerializer(source='id_client')
     num = serializers.CharField()
@@ -202,7 +203,7 @@ class ContractSerializer(serializers.ModelSerializer):
     estDelivery = serializers.DateField(source='est_delivery')
     delivered = serializers.DateField(allow_null=True, required=True)
     discount = serializers.FloatField(default=0)
-    contractId = serializers.CharField(source='contractid')
+    contractId = serializers.CharField(source='contractid', allow_null=True, allow_blank=True)
     agent = EmployeeListSerializer(source='id_agent')
     specs = ContractSpecSerializer(many=True)
     payments = PaymentContractSerializer(many=True)
@@ -227,7 +228,7 @@ class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
-                  'delivered', 'discount', 'contractId', 'agent', 'specs', 'payments')
+                  'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments')
 
 
 class PaymentListSerializer(serializers.ModelSerializer):
