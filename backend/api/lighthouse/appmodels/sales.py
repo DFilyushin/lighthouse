@@ -108,6 +108,21 @@ class ContractSpec(models.Model):
         ]
 
 
+class ContractExpectedPayment(models.Model):
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
+    id_contract = models.ForeignKey(Contract, related_name='expected_payment', on_delete=models.CASCADE,
+                                    verbose_name='Контракт')
+    wait_date = models.DateField(null=False, verbose_name='Ожидаемая дата оплаты')
+    wait_value = models.FloatField(default=0, verbose_name='Сумма оплаты')
+
+    class Meta:
+        verbose_name = 'График оплата'
+        verbose_name_plural = 'График оплат'
+        indexes = [
+            models.Index(fields=['id_contract', 'wait_date'], name='idx_wait_01')
+        ]
+
+
 class Claim(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
