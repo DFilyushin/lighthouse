@@ -40,6 +40,13 @@ class ClientViewSet(viewsets.ModelViewSet):
         else:
             return Client.objects.filter(deleted=False)
 
+    @action(methods=['get'], detail=False, url_path='byContract/(?P<contract_id>\d+)', url_name='by_contract')
+    def get_client_by_contract(self, request, contract_id):
+        contract = Contract.objects.get(pk=contract_id)
+        client = Client.objects.get(pk=contract.id_client_id)
+        serializer = ClientSerializer(client, many=False)
+        return Response(serializer.data)
+
     @action(methods=['get'], detail=True, url_path='contract', url_name='contract')
     def get_contracts(self, request, pk):
         """
