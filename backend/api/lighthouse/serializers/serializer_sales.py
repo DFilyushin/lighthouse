@@ -205,6 +205,7 @@ class ContractSerializer(serializers.ModelSerializer):
     contractId = serializers.CharField(source='contractid')
     agent = EmployeeListSerializer(source='id_agent')
     specs = ContractSpecSerializer(many=True)
+    deliveryTerms = serializers.CharField(source='delivery_terms')
     payments = PaymentContractSerializer(many=True)
 
     def create(self, validated_data):
@@ -225,7 +226,7 @@ class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
-                  'delivered', 'discount', 'contractId', 'agent', 'specs', 'payments')
+                  'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments')
 
 
 class PaymentListSerializer(serializers.ModelSerializer):
