@@ -39,7 +39,7 @@ import {
 import {ContractSpecItem} from "../components";
 import {IContractSpecItem} from "types/model/contract";
 import { KeyboardDatePicker} from '@material-ui/pickers';
-import {IClientItemList} from "types/model/client";
+import {IClientItemList, nullClientItem} from "types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {searchClients} from "redux/actions/clientAction";
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -198,7 +198,15 @@ const ContractItem = (props: IContractItemProps) => {
         console.log('onChangeClient', value)
         setCurClient(value);
         if (value){
-            const newState = {...contractItem, 'client': value}
+            const newClient= {
+                ...nullClientItem,
+                id: value.id,
+                clientName: value.clientName,
+                clientAddr: value.clientAddr,
+                clientEmployee: value.clientEmployee,
+                clientAgent: value.clientAgent
+            }
+            const newState = {...contractItem, 'client': newClient}
             dispatch(changeContractItem(newState));
         }
     }
@@ -443,6 +451,20 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.delivered || null}
                                         onChange={handleDeliveredDateChange}
                                         invalidDateMessage={INVALID_DATE_FORMAT}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        id="outlined-multiline-flexible"
+                                        label="Условия поставки"
+                                        multiline
+                                        margin="dense"
+                                        rows="3"
+                                        name="deliveryTerms"
+                                        value={contractItem.deliveryTerms}
+                                        onChange={handleChange}
+                                        variant="outlined"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import {IClientItemList} from "./client";
+import {IClientItem, IClientItemList, nullClientItem} from "./client";
 import {IProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
@@ -39,7 +39,7 @@ export interface IPaymentContractItem {
 export const nullContractItem: IContract = {
     id: 0,
     num: '',
-    client: {id: 0, clientName: '', clientAddr: '', clientAgent: '', clientEmployee: ''},
+    client: {...nullClientItem},
     contractDate: '',
     delivered: '',
     contractState: 0,
@@ -49,6 +49,7 @@ export const nullContractItem: IContract = {
     contractId: '',
     estDelivery: '',
     agent: nullEmployeeItem,
+    deliveryTerms: '',
     specs: [],
     payments: []
 };
@@ -80,7 +81,7 @@ export interface IContractSpecItem {
 export interface IContract {
     id: number;
     created: string;
-    client: IClientItemList;
+    client: IClientItem;
     num: string;
     contractDate: string;
     contractState: number;
@@ -90,6 +91,7 @@ export interface IContract {
     comment: string;
     contractId: string;
     agent: IEmployeeListItem;
+    deliveryTerms: string;
     specs: IContractSpecItem[];
     payments: IPaymentContractItem[];
 }
