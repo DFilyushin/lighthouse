@@ -23,6 +23,7 @@ class ClientSerializer(serializers.ModelSerializer):
     reqAccount = serializers.CharField(source='req_account')
     reqBik = serializers.CharField(source='req_bik')
     reqBank = serializers.CharField(source='req_bank')
+    reqBoss = serializers.CharField(source='req_boss')
     comment = serializers.CharField(required=False, allow_blank=True)
     clientId = serializers.CharField(source='clientid', required=False, allow_blank=True)
     agentId = serializers.IntegerField(source='id_agent.id', required=False)
@@ -30,7 +31,7 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ('id', 'created', 'clientName', 'clientAddr', 'clientAgent', 'clientEmployee', 'contactPhone', 'agentId',
-                  'contactEmail', 'contactFax', 'reqBin', 'reqBik', 'reqBank', 'reqAccount', 'comment', 'clientId')
+                  'contactEmail', 'contactFax', 'reqBin', 'reqBik', 'reqBank', 'reqAccount', 'reqBoss', 'comment', 'clientId')
 
     def create(self, validated_data):
         id_agent = validated_data.pop('id_agent')
@@ -54,6 +55,7 @@ class ClientSerializer(serializers.ModelSerializer):
         instance.req_bank = validated_data.get('req_bank', instance.req_bank)
         instance.comment = validated_data.get('comment', instance.comment)
         instance.clientid = validated_data.get('clientid', instance.clientid)
+        instance.req_boss = validated_data.get('req_boss', instance.req_boss)
         instance.save()
         return instance
 
