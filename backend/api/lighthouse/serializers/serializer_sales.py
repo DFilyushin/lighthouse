@@ -206,6 +206,7 @@ class ContractSerializer(serializers.ModelSerializer):
     agent = EmployeeListSerializer(source='id_agent')
     specs = ContractSpecSerializer(many=True)
     payments = PaymentContractSerializer(many=True)
+    deliveryTerms = serializers.CharField(source='delivery_terms')
 
     def create(self, validated_data):
         pass
@@ -219,6 +220,7 @@ class ContractSerializer(serializers.ModelSerializer):
         instance.discount = validated_data['discount']
         instance.est_delivery = validated_data['est_delivery']
         instance.delivered = validated_data['delivered']
+        instance.delivery_terms = validated_data['delivery_terms']
         instance.save()
         return instance
 
