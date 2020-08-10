@@ -64,6 +64,7 @@ class Contract(models.Model):
     contractid = models.CharField(max_length=10, null=True, verbose_name='Код контракта из сторонней системы')
     id_agent = models.ForeignKey(Employee, on_delete=models.CASCADE, default=0, verbose_name='Агент')
     deleted = models.BooleanField(default=False, null=False, verbose_name='Удалён')
+    delivery_terms = models.CharField(max_length=512, null=True, blank=True, verbose_name='Условия доставки')
 
     def __str__(self):
         return '{} {} {}'.format(self.num, self.id_client.clientname, self.contract_date)
