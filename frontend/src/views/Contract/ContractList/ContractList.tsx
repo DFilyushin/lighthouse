@@ -17,13 +17,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ContractList = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const classes = useStyles()
+    const dispatch = useDispatch()
+    const history = useHistory()
 
     // @ts-ignore
-    const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading);
-    const clients = useSelector((state: IStateInterface) => state.contract.items);
+    const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading)
+    const clients = useSelector((state: IStateInterface) => state.contract.items)
     const [selected, setSelected] = useState<number[]>([]);
 
     // eslint-disable-next-line
@@ -47,11 +47,16 @@ const ContractList = () => {
         });
     }
 
+    function onNewItemHandler() {
+        history.push('/contracts/new');
+    }
+
     return (
         <div className={classes.root}>
             <ContractToolbar
                 className={''}
                 onFind={onFindClientHandler}
+                onNew={onNewItemHandler}
                 onDelete={onDeleteHandle}
             />
             <div className={classes.content}>

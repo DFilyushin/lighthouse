@@ -50,12 +50,13 @@ const useStyles = makeStyles(theme => ({
 interface IContractToolbar {
     className: string,
     onFind: any,
+    onNew: any,
     onDelete: any
 }
 
 const ContractToolbar = (props: IContractToolbar) => {
     const history = useHistory();
-    const { className, onFind, onDelete, ...rest } = props;
+    const { className, onFind, onNew, onDelete, ...rest } = props;
 
     const classes = useStyles();
 
@@ -64,10 +65,6 @@ const ContractToolbar = (props: IContractToolbar) => {
             const findText = event.currentTarget.value.trim();
             onFind(findText);
         }
-    }
-
-    function onNewClientHandler() {
-        history.push('/client/new');
     }
 
     return (
@@ -85,7 +82,7 @@ const ContractToolbar = (props: IContractToolbar) => {
             </List>
             <div className={classes.buttonGroup}>
                 <span className={classes.spacer} />
-                <Button color="primary" variant="contained" onClick={onNewClientHandler}>Новый контракт</Button>
+                <Button color="primary" variant="contained" onClick={onNew}>Новый контракт</Button>
                 <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
             </div>
             <div className={classes.row}>
