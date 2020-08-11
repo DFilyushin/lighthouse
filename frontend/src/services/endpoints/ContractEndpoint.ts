@@ -29,6 +29,15 @@ class ContractEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/contract/${id}/`
     }
 
+    /**
+     * Установить статус контракта
+     * @param id Код контракта
+     * @param newStatus Код статуса
+     */
+    static setContractStatus(id: number, newStatus: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/contract/${id}/setStatus/${newStatus}/`
+    }
+
 
     /**
      * Удалить контракт
