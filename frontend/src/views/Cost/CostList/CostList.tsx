@@ -35,7 +35,6 @@ const CostList = () => {
     }
 
     function onDeleteHandle() {
-        console.log('selected', selected);
         selected.forEach(async (item, i, selected) => {
             dispatch(deleteCostItem(item))
         });

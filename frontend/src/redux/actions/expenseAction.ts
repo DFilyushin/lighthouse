@@ -98,7 +98,6 @@ export function addExpenseItem(item: IExpense) {
     return async (dispatch: any, getState: any)=> {
         try{
             delete item.created
-            console.log(JSON.stringify(item))
             await authAxios.post(ExpenseEndpoint.newExpense(), item)
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))

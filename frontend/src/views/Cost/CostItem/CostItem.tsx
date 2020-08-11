@@ -68,7 +68,6 @@ const CostItem = (props: ICostItemProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
         value =  event.target.value;
-        console.log(event.target.name, value);
         const item = {...costItem, [event.target.name]: value};
         dispatch(changeCost(item))
     };
@@ -101,7 +100,6 @@ const CostItem = (props: ICostItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.MouseEvent) => {
-        console.log('saveHandler_start');
         saveItem(dispatch).then( ()=>{
                 history.push('/catalogs/cost');
             }

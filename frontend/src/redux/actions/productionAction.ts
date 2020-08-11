@@ -481,7 +481,6 @@ export function addNewProduction(item: IProduction) {
             const newItem = {...item, id: id}
 
             dispatch(saveNewRecordOk(newItem))
-            console.log('after saveNewRecordOk...')
 
             // сохранить изменения в калькуляции
             const calcItems = [...getState().production.prodCardCalc];
@@ -504,7 +503,6 @@ export function addNewProduction(item: IProduction) {
                         )
                     });
                 const calcResponse = await authAxios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
-                console.log(calcResponse)
             }
 
             const teamItems = [...getState().production.prodCardTeam];
@@ -513,7 +511,6 @@ export function addNewProduction(item: IProduction) {
                     value.manufactureId = id;
                 })
                 const teamResponse = await authAxios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
-                console.log(teamResponse);
             }
 
             const tareItems = [...getState().production.prodCardTare];
@@ -527,22 +524,17 @@ export function addNewProduction(item: IProduction) {
                     )
                 })
                 const tareResponse = await authAxios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
-                console.log(tareResponse);
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
                 const materialResponse = await authAxios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
-                console.log(materialResponse)
             }
 
             dispatch(saveOk())
-
-            console.log('id new record:', id)
             return id
         }catch (e) {
             if (e.response.status === 400){
-                console.log('data', e.response.data);
                 dispatch(showInfoMessage('error', e.response.data['message']));
             }else{
                 dispatch(showInfoMessage('error', e.response.toString()));
@@ -560,7 +552,6 @@ export function getOriginalCalculation() {
         const currentCard = getState().production.prodCardItem;
         const calcItems: IProductionCalc[] = [];
         const url = FormulaEndpoint.getCalculation(currentCard.idFormula, currentCard.calcValue);
-        console.log(url)
         const response = await authAxios.get(url);
         Object.keys(response.data.raws).forEach((key, index) => {
             calcItems.push({
@@ -573,7 +564,6 @@ export function getOriginalCalculation() {
                 calcValue: response.data.raws[key]['rawCount']
             })
         });
-        console.log('ok')
         dispatch(successLoadOriginalCalculation(calcItems))
     }
 }
@@ -610,7 +600,6 @@ export function getAutoCalculation() {
  */
 export function updateProduction(item: IProduction) {
     return async (dispatch: any, getState: any) => {
-        console.log(JSON.stringify(item));
         dispatch(clearError());
         dispatch(hideInfoMessage());
         try{
@@ -626,7 +615,6 @@ export function updateProduction(item: IProduction) {
                 'lossValue': item.lossValue,
                 'comment': item.comment
             };
-            console.log(JSON.stringify(sendItem));
             const response = await authAxios.put(ProductionEndpoint.saveProductionCard(item.id), sendItem);
             dispatch(showInfoMessage('info', 'Сохранено успешно'))
             const id = response.data['id'];
@@ -652,7 +640,6 @@ export function updateProduction(item: IProduction) {
                     )
                 });
                 const calcResponse = await authAxios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
-                console.log(calcResponse)
             }
 
             const teamItems = [...getState().production.prodCardTeam];
@@ -661,7 +648,6 @@ export function updateProduction(item: IProduction) {
                     value.manufactureId = item.id;
                 })
                 const teamResponse = await authAxios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
-                console.log(teamResponse);
             }
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
@@ -674,18 +660,15 @@ export function updateProduction(item: IProduction) {
                     )
                 })
                 const tareResponse = await authAxios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
-                console.log(tareResponse);
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
                 const materialResponse = await authAxios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
-                console.log(materialResponse)
             }
             dispatch(saveOk());
         }catch (e) {
             if (e.response.status === 400){
-                console.log('data', e.response.data);
                 dispatch(showInfoMessage('error', e.response.data['message']));
             }else{
                 dispatch(showInfoMessage('error', e.response.toString()));
@@ -700,10 +683,8 @@ export function updateProduction(item: IProduction) {
  */
 export function executeCard(id: number) {
     return async (dispatch: any, getState: any) => {
-        console.log('executeCard', id)
         try{
             const response = await authAxios.post(ProductionEndpoint.executeProductionCard(id));
-            console.log(response)
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
                 dispatch(showInfoMessage('info', 'Выполнено'))

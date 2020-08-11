@@ -50,7 +50,6 @@ export function loadRawStore() {
             dispatch(fetchSuccessRawStore(itemList))
         }catch (e) {
             if (e.response) {
-                console.log(e.response)
                 dispatch(fetchError(`Ошибка загрузки списка! Сообщение: ${e.response.statusText}`))
             }else{
                 dispatch(fetchError(`Ошибка загрузки списка!`))
@@ -288,7 +287,6 @@ export function addNewRecordToStoreMovement(item: IStoreNewMovement) {
         tare: {...nullTare}
     })
     newItem.items = newItems
-    console.log(newItem)
     return{
         type: STORE_NEW_MOVEMENT_ITEM,
         item: {...newItem}

@@ -103,7 +103,6 @@ export function addUser(item: IAccount) {
         try{
             await authAxios.post(UserEndpoint.newUser(), item);
         }catch (e) {
-            console.log(e.response)
             dispatch(saveError(e.response.toString()))
         }
     }

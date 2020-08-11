@@ -14,8 +14,6 @@ import {clearError} from "./rawAction"
 import {NEW_RECORD_VALUE} from "../../utils/AppConst"
 import authAxios from "../../services/axios-api"
 
-//FIXME После обновления, добавления, удаления записей обновить глобальный объект списка
-
 /**
  * Загрузить список ед. изм.
  * @param search строка поиска

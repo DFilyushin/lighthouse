@@ -74,7 +74,6 @@ export function loadRawItem(id: number){
         const raw: IRaw = {id: 0, name: ""};
         dispatch(fetchStart());
         if (id === NEW_RECORD_VALUE){
-            console.log(raw)
             dispatch(rawLoadItemSuccess(raw))
         }else {
 
