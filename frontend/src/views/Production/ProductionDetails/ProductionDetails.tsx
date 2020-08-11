@@ -8,18 +8,23 @@ import {
     Divider,
     Grid,
     Button,
-    TextField
+    TextField,
+    Fab,
+    IconButton,
+    Typography,
+    Paper,
+    Tab,
+    Tabs,
+    Tooltip,
+    Menu,
+    MenuItem
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import AddIcon from '@material-ui/icons/Add';
 import CircularIndeterminate from "components/Loader/Loader";
 import { useConfirm } from "material-ui-confirm";
-import Fab from "@material-ui/core/Fab";
-import Typography from "@material-ui/core/Typography";
 import {useDialog} from "components/SelectDialog";
 import {IStateInterface} from "redux/rootReducer";
 import {
@@ -44,21 +49,24 @@ import {
     cancelCard,
     addNewProduction,
     getOriginalCalculation,
-    getProductionMaterial, deleteMaterialItem, updateMaterialItem, newMaterialItem
+    getProductionMaterial,
+    deleteMaterialItem,
+    updateMaterialItem,
+    newMaterialItem
 } from "redux/actions/productionAction";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import LayersIcon from '@material-ui/icons/Layers';
-import Tooltip from '@material-ui/core/Tooltip';
 import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import ProductionTeamItem from "../components/ProductionTeamItem";
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
 import {
     CARD_STATE_DRAFT,
-    CARD_STATE_IN_WORK, CARD_STATE_READY,
+    CARD_STATE_IN_WORK,
+    CARD_STATE_READY,
     CardStateString,
-    IProductionCalc, IProductionMaterial,
-    IProductionTare, IProductionTeam
+    IProductionCalc,
+    IProductionMaterial,
+    IProductionTare,
+    IProductionTeam
 } from "types/model/production";
 import {loadRaws} from "redux/actions/rawAction";
 import {loadProduct} from "redux/actions/productAction";
@@ -70,8 +78,6 @@ import {loadEmployeeList} from "redux/actions/employeeAction";
 import {loadTare} from "redux/actions/tareAction";
 import {ITare} from "types/model/tare";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
 import { DateTimePicker } from "@material-ui/pickers";
 import {
     DIALOG_ASK_DELETE,
