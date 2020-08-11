@@ -1,5 +1,5 @@
 from lighthouse.appmodels.org import Employee
-from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment
+from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, ContractExpectedPayment
 from .serializer_refs import TareSerializer
 from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
@@ -193,6 +193,15 @@ class PaymentContractSerializer(serializers.ModelSerializer):
         fields = ('id', 'created', 'date', 'num', 'type', 'value')
 
 
+class ContractExpectedPaymentSerializer(serializers.ModelSerializer):
+    created = serializers.DateTimeField(required=False, allow_null=True)
+    waitDate = serializers.DateField(source='wait_date')
+    waitSum = serializers.FloatField(source='wait_value')
+
+    class Meta:
+        model = ContractExpectedPayment
+
+
 class ContractSerializer(serializers.ModelSerializer):
     """Контракт"""
     id = serializers.IntegerField(required=False)
@@ -209,6 +218,7 @@ class ContractSerializer(serializers.ModelSerializer):
     agent = EmployeeListSerializer(source='id_agent')
     specs = ContractSpecSerializer(many=True)
     payments = PaymentContractSerializer(many=True)
+    waitPayments = ContractExpectedPaymentSerializer(many=True, source='expected_payment')
     deliveryTerms = serializers.CharField(source='delivery_terms')
 
     def create(self, validated_data):
@@ -230,7 +240,7 @@ class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
-                  'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments')
+                  'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments', 'waitPayments')
 
 
 class PaymentListSerializer(serializers.ModelSerializer):
