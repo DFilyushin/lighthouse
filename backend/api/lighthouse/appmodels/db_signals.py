@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from .manufacture import Material
 from .org import Employee
 from .store import RefCost, Cost, Store, REF_COST_PARENT_RAW, REF_COST_PARENT_SALARY
+from .sales import Payment, Contract, CONTRACT_STATE_READY, CONTRACT_STATE_DRAFT
 
 
 @receiver(post_save, sender=Material)
@@ -71,4 +72,15 @@ def cost_post_save_handler(sender, **kwargs):
                     store.is_delete = False
                     store.save()
             except Store.DoesNotExist:
-                return 
+                return
+
+
+@receiver(pre_save, sender=Payment)
+def payment_post_before_handler(sender, **kwargs):
+    instance = kwargs['instance']
+    contract = Contract.objects.get(pk=instance.id_contract.id)
+    print(contract.contract_state)
+    if contract.contract_state == CONTRACT_STATE_DRAFT:
+        raise Exception('Контракт в состоянии черновика, оплата невозможна!')
+    if contract.contract_state == CONTRACT_STATE_READY:
+        raise Exception('Контракт исполнен!')
