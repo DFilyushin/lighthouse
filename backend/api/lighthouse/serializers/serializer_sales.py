@@ -30,8 +30,9 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ('id', 'created', 'clientName', 'clientAddr', 'clientAgent', 'clientEmployee', 'contactPhone', 'agentId',
-                  'contactEmail', 'contactFax', 'reqBin', 'reqBik', 'reqBank', 'reqAccount', 'reqBoss', 'comment', 'clientId')
+        fields = ('id', 'created', 'clientName', 'clientAddr', 'clientAgent', 'clientEmployee', 'contactPhone',
+                  'agentId', 'contactEmail', 'contactFax', 'reqBin', 'reqBik', 'reqBank', 'reqAccount', 'reqBoss',
+                  'comment', 'clientId')
 
     def create(self, validated_data):
         id_agent = validated_data.pop('id_agent')
@@ -125,7 +126,8 @@ class ContractSpecSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ContractSpec
-        fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemDiscount', 'itemTotal',  'delivery', 'delivered')
+        fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemDiscount', 'itemTotal',
+                  'delivery', 'delivered')
 
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
@@ -194,12 +196,14 @@ class PaymentContractSerializer(serializers.ModelSerializer):
 
 
 class ContractExpectedPaymentSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
     created = serializers.DateTimeField(required=False, allow_null=True)
     waitDate = serializers.DateField(source='wait_date')
     waitSum = serializers.FloatField(source='wait_value')
 
     class Meta:
         model = ContractExpectedPayment
+        fields = ('id', 'created', 'waitDate', 'waitSum')
 
 
 class ContractSerializer(serializers.ModelSerializer):
