@@ -198,9 +198,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
         const hasProduct = formulaItem.product.id > 0
         const hasCalcAmount = formulaItem.calcAmount > 0
         const hasRawItems = formulaItem.raws.length > 0
-        console.log(formulaItem.raws)
         const hasIncorrectRawValues = formulaItem.raws.filter((item:IRawInFormula) => item.raw.id === 0).length === 0
-        console.log('hasIncorrectRawValues', hasRawItems, hasIncorrectRawValues)
         setProductError(!hasProduct)
         setCountError(!hasCalcAmount)
         setNoItemError(!hasRawItems || !hasIncorrectRawValues)
@@ -243,7 +241,6 @@ const FormulaItem = (props: IFormulaItemProps) => {
             );
         }
         else{
-            console.log('???')
             dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
         }
         event.preventDefault();

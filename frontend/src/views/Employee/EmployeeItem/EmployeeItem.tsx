@@ -105,7 +105,6 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const saveHandler = (event: React.SyntheticEvent) => {
         event.preventDefault()
         saveItem(dispatch).then( ()=>{
-                console.log('state', hasError);
                 history.push('/org/employee');
             }
         );

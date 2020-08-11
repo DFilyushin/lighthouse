@@ -97,7 +97,6 @@ const WorkItem = (props: IWorkItemProps) => {
     const saveHandler = (event: React.SyntheticEvent) => {
          event.preventDefault();
         saveItem(dispatch).then( ()=>{
-                console.log('!')
             history.push('/catalogs/works');
         }
         ).catch(()=>{

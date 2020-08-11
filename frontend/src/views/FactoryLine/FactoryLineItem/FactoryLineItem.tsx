@@ -55,7 +55,6 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
      */
     const saveHandler = (event: React.SyntheticEvent) => {
         if (id === NEW_RECORD_VALUE) {
-            console.log(factoryLineItem);
             dispatch(addNewFactoryItem(factoryLineItem));
         } else {
             dispatch(updateFactoryItem(factoryLineItem));

@@ -140,7 +140,6 @@ const ExpenseItem = (props: IExpenseItemProps) => {
         const hasCost = expenseItem.cost.id === 0
         setTotalSumError(hasTotalSum)
         setCostId(hasCost)
-        console.log(hasTotalSum, hasCost)
         return !hasTotalSum && !hasCost
     }
 

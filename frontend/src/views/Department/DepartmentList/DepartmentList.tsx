@@ -9,8 +9,6 @@ import {IStateInterface} from "redux/rootReducer";
 import {deleteDepartment, loadDepartments} from "redux/actions/departmentAction";
 
 
-//FIXME Отсутствует поиск в ендпоинте
-
 const useStyles = makeStyles(theme => ({
     root: {
         padding: theme.spacing(3)
