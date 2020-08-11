@@ -43,7 +43,7 @@ import {IClientItemList, nullClientItem} from "types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {searchClients} from "redux/actions/clientAction";
 import Skeleton from '@material-ui/lab/Skeleton';
-import {INVALID_DATE_FORMAT} from "../../../utils/AppConst";
+import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 import TabPanel from "../../Production/components/TabPanel";
 import ContractPaymentTable from "../components/ContractPaymentTable";
 
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ContractItem = (props: IContractItemProps) => {
     const paramId = props.match.params.id;
-    const contractId = paramId === 'new' ? 0 :parseInt(paramId);
+    const contractId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
     const history = useHistory();
     const classes = useStyles();
@@ -135,12 +135,10 @@ const ContractItem = (props: IContractItemProps) => {
      * @param id
      */
     function onSelectContract(id: number){
-        console.log('!onSelectContract')
         history.push(`/contracts/${id}`);
     }
 
     function onDeleteSpecItem(id: number) {
-        console.log('onDeleteSpecItem')
         dispatch(deleteContractSpecItem(id))
     }
 
@@ -149,10 +147,8 @@ const ContractItem = (props: IContractItemProps) => {
      * @param event
      */
     const saveHandler = (event: SyntheticEvent) => {
-        console.log('!saveHandler')
         event.preventDefault();
         saveItem(dispatch).then( ()=>{
-                console.log('state', hasError);
                 history.push('/contracts/');
             }
         )
@@ -195,7 +191,6 @@ const ContractItem = (props: IContractItemProps) => {
 
 
     function onChangeClient(event: object, value: IClientItemList | null, reason: string) {
-        console.log('onChangeClient', value)
         setCurClient(value);
         if (value){
             const newClient= {
@@ -537,34 +532,36 @@ const ContractItem = (props: IContractItemProps) => {
                                         </Fragment>
                                     )}
                             </Grid>
-                            <Grid container spacing={1}>
-                                <Grid item xs={10} sm={10}>
-                                    <TextField
-                                        fullWidth
-                                        disabled
-                                        id="outlined-multiline-flexible"
-                                        label="Договор зарегистрирован"
-                                        margin="dense"
-                                        name="agent"
-                                        value={contractItem.agent.fio}
-                                        variant="outlined"
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                    />
+                            {contractId !== NEW_RECORD_VALUE &&
+                                <Grid container spacing={1}>
+                                    <Grid item xs={10} sm={10}>
+                                        <TextField
+                                            fullWidth
+                                            disabled
+                                            id="outlined-multiline-flexible"
+                                            label="Договор зарегистрирован"
+                                            margin="dense"
+                                            name="agent"
+                                            value={contractItem.agent.fio}
+                                            variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={2} sm={2}>
+                                        <TextField
+                                            disabled
+                                            id="outlined-multiline-flexible"
+                                            label="Дата"
+                                            margin="dense"
+                                            name="created"
+                                            value={moment(contractItem.created).isValid() ? moment(contractItem.created).format('YYYY.MM.DD') : ''}
+                                            variant="outlined"
+                                        />
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={2} sm={2}>
-                                    <TextField
-                                        disabled
-                                        id="outlined-multiline-flexible"
-                                        label="Дата"
-                                        margin="dense"
-                                        name="created"
-                                        value={moment(contractItem.created).format('DD/MM/YYYY HH:MM')}
-                                        variant="outlined"
-                                    />
-                                </Grid>
-                            </Grid>
+                            }
                         </TabPanel>
                         <TabPanel value={tab} index={PAGE_PAYMENT}>
                             <ContractPaymentTable

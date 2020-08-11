@@ -17,6 +17,7 @@ import {
 } from "./types";
 import ContractEndpoint from "services/endpoints/ContractEndpoint";
 import authAxios from "../../services/axios-api";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 /**
  * Получить список контрактов
@@ -99,14 +100,13 @@ export function loadContractItem(id: number, func0?: any) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
-        if (id===0){
+        if (id===NEW_RECORD_VALUE){
             dispatch(fetchItemSuccess(nullContractItem))
         }else {
             try {
                 const url = ContractEndpoint.getContract(id);
                 const response = await authAxios.get(url);
                 const item: IContract = response.data;
-                console.log(item)
                 if (func0) {func0(item)}
                 dispatch(fetchItemSuccess(item))
             } catch (e) {
@@ -154,7 +154,6 @@ export function addNewContract(item: IContract) {
 export function updateContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
         try{
-            console.log(JSON.stringify(item));
             const response = await authAxios.put(ContractEndpoint.updateContract(item.id), item);
             console.log(response);
         }catch (e) {
