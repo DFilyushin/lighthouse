@@ -1,7 +1,7 @@
-import React, {useEffect, SyntheticEvent} from 'react';
-import moment from "moment";
-import 'moment/locale/ru';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect, SyntheticEvent} from 'react'
+import moment from "moment"
+import 'moment/locale/ru'
+import { makeStyles } from '@material-ui/core/styles'
 import {
     Card,
     CardHeader,
@@ -10,31 +10,31 @@ import {
     Divider,
     Grid,
     Button,
-    TextField
-} from '@material-ui/core';
-import { useHistory } from "react-router-dom";
+    TextField,
+    Tabs,
+    Tab,
+    Paper,
+    Fab,
+    Typography,
+    Tooltip
+} from '@material-ui/core'
+import { useHistory } from "react-router-dom"
 import {
     addNewClient,
     changeClientItem,
     loadClientContracts,
     loadClientItem,
     updateClient
-} from "redux/actions/clientAction";
-import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "redux/rootReducer";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Paper from "@material-ui/core/Paper";
-import TabPanel from "../Production/components/TabPanel";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import ClientContractItem from "./components/ClientContractItem";
-//import {useConfirm} from "material-ui-confirm";
+} from "redux/actions/clientAction"
+import {useDispatch, useSelector} from "react-redux"
+import TabPanel from "../Production/components/TabPanel"
+import {IStateInterface} from "redux/rootReducer"
+import AddIcon from "@material-ui/icons/Add"
+import ClientContractItem from "./components/ClientContractItem"
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
-const PAGE_MAIN = 0;
-const PAGE_CONTRACT = 1;
+const PAGE_MAIN = 0
+const PAGE_CONTRACT = 1
 
 interface IClientItemProps {
     className: string,
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ClientItem = (props: IClientItemProps) => {
     const paramId = props.match.params.id;
-    const clientId = paramId === 'new' ? 0 :parseInt(paramId);
+    const clientId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
     const history = useHistory();
     const classes = useStyles();
@@ -92,7 +92,7 @@ const ClientItem = (props: IClientItemProps) => {
     };
 
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        if (clientId === 0) {
+        if (clientId === NEW_RECORD_VALUE) {
             await dispatch(addNewClient(clientItem));
         } else {
             await dispatch(updateClient(clientItem));
@@ -115,7 +115,6 @@ const ClientItem = (props: IClientItemProps) => {
     const saveHandler = (event: SyntheticEvent) => {
         event.preventDefault();
         saveItem(dispatch).then( ()=>{
-                console.log('state', hasError);
                 history.push('/clients/');
             }
         )
@@ -363,36 +362,40 @@ const ClientItem = (props: IClientItemProps) => {
                             variant="outlined"
                         />
                         </Grid>
-                        <Grid
-                            item
-                            xs={2}
-                        >
-                            <TextField
-                                fullWidth
-                                disabled
-                                name="created"
-                                margin="dense"
-                                id="filled-disabled"
-                                label="Создан"
-                                value={moment(clientItem.created).isValid() ? moment(clientItem.created).format('YYYY.MM.DD'): ''}
-                                variant="outlined"
-                            />
+                        {clientId !== NEW_RECORD_VALUE &&
+                        <Grid container spacing={1}>
+                            <Grid
+                                item
+                                xs={2}
+                            >
+                                <TextField
+                                    fullWidth
+                                    disabled
+                                    name="created"
+                                    margin="dense"
+                                    id="filled-disabled"
+                                    label="Создан"
+                                    value={moment(clientItem.created).isValid() ? moment(clientItem.created).format('YYYY.MM.DD') : ''}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={10}
+                            >
+                                <TextField
+                                    fullWidth
+                                    disabled
+                                    name="clientAgent"
+                                    margin="dense"
+                                    id="filled-disabled"
+                                    label="Агент"
+                                    value={clientItem.clientAgent}
+                                    variant="outlined"
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid
-                            item
-                            xs={10}
-                        >
-                            <TextField
-                                fullWidth
-                                disabled
-                                name="clientAgent"
-                                margin="dense"
-                                id="filled-disabled"
-                                label="Агент"
-                                value={clientItem.clientAgent}
-                                variant="outlined"
-                            />
-                        </Grid>
+                        }
                     </Grid>
                     </TabPanel>
                     <TabPanel value={tab} index={PAGE_CONTRACT}>

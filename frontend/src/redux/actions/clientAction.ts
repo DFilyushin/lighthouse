@@ -1,4 +1,7 @@
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
+import {
+    hideInfoMessage,
+    showInfoMessage
+} from "./infoAction";
 import {
     CLIENT_LOAD_CONTRACT_SUCCESS,
     CLIENT_LOAD_FINISH,
@@ -11,6 +14,7 @@ import ClientEndpoint from "services/endpoints/ClientEndpoint";
 import AuthenticationService from "services/Authentication.service";
 import {IContractListItem} from "types/model/contract";
 import authAxios from "../../services/axios-api";
+import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 
 
 /**
@@ -51,7 +55,7 @@ export function loadClientItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
-        if (id===0){
+        if (id===NEW_RECORD_VALUE){
             dispatch(fetchItemSuccess(nullClientItem))
         }else {
             try {
@@ -62,6 +66,26 @@ export function loadClientItem(id: number) {
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()))
             }
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Получить клиента по коду контракта
+ * @param contractId Код контракта
+ */
+export function loadClientByContractId(contractId: number) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart())
+        dispatch(hideInfoMessage())
+        try {
+            const url = ClientEndpoint.getClientByContract(contractId)
+            const response = await authAxios.get(url)
+            const item: IClientItem = response.data
+            dispatch(fetchItemSuccess(item))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
         }
         dispatch(fetchFinish())
     }
