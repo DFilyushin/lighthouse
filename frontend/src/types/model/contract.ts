@@ -3,6 +3,14 @@ import {IProduct, nullProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 
+/**
+ * Статусы контрактов
+ */
+export const CONTRACT_STATE_DRAFT = 1
+export const CONTRACT_STATE_ACTIVE = 2
+export const CONTRACT_STATE_READY = 3
+
+
 export interface IContractListItemSimple {
     id: number;
     num: string;
