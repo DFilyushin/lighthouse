@@ -1,6 +1,7 @@
 from django.db import models
 from .org import Employee
 from .manufacture import Material, Tare
+from lighthouse.endpoints.api_errors import AppError, API_ERROR_CONTRACT_INCORRECT_STATUS
 
 CONTRACT_STATE_DRAFT = 1
 CONTRACT_STATE_ACTIVE = 2
@@ -69,6 +70,17 @@ class Contract(models.Model):
 
     def __str__(self):
         return '{} {} {}'.format(self.num, self.id_client.clientname, self.contract_date)
+
+    def set_contract_status(self, new_status: int):
+        """
+        Установить статус контракта
+        :param new_status: Новый статус
+        :return:
+        """
+        if (new_status < CONTRACT_STATE_DRAFT) & (new_status > CONTRACT_STATE_READY):
+            raise AppError('sales.set_contract_status', API_ERROR_CONTRACT_INCORRECT_STATUS)
+        self.contract_state = new_status
+        self.save()
 
     class Meta:
         verbose_name = 'Контракт'
