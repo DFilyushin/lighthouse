@@ -26,6 +26,14 @@ class ClientEndpoint {
     }
 
     /**
+     * Получить клиента по коду контракта
+     * @param contractId Код контракта
+     */
+    static getClientByContract(contractId: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/client/byContract/${contractId}/`
+    }
+
+    /**
      * Удалить клиента
      * @param id - Код клиента
      */
