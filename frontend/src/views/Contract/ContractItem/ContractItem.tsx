@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, SyntheticEvent} from 'react';
+import React, {Fragment, useState, useEffect, SyntheticEvent, ReactNode} from 'react';
 import {RouteComponentProps} from "react-router";
 import moment from "moment";
 import 'moment/locale/ru';
@@ -33,11 +33,16 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
     addNewContract, addNewSpecItem,
     changeContractItem, deleteContractSpecItem,
-    loadContractItem,
+    loadContractItem, setContractStatus,
     updateContract
 } from "redux/actions/contractAction";
 import {ContractSpecItem} from "../components";
-import {IContractSpecItem} from "types/model/contract";
+import {
+    CONTRACT_STATE_ACTIVE,
+    CONTRACT_STATE_DRAFT,
+    CONTRACT_STATE_READY, ContractStateString,
+    IContractSpecItem
+} from "types/model/contract";
 import { KeyboardDatePicker} from '@material-ui/pickers';
 import {IClientItemList, nullClientItem} from "types/model/client";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -46,6 +51,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 import TabPanel from "../../Production/components/TabPanel";
 import ContractPaymentTable from "../components/ContractPaymentTable";
+import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -53,7 +59,8 @@ interface IContractItemProps extends RouteComponentProps{
 }
 
 const PAGE_MAIN = 0
-const PAGE_PAYMENT = 1
+const PAGE_WAIT_PAYMENT = 1
+const PAGE_PAYMENT = 2
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -218,7 +225,7 @@ const ContractItem = (props: IContractItemProps) => {
      * Ввод оплаты по контракту
      */
     const handleAddPayment = () => {
-
+        history.push(`/payments/new/?contractId=${contractId}&source=contract&id=${contractId}`)
     }
 
     /**
@@ -230,9 +237,40 @@ const ContractItem = (props: IContractItemProps) => {
         setTab(newValue);
         switch (newValue) {
             case PAGE_MAIN:  break;
+            case PAGE_WAIT_PAYMENT: break;
             case PAGE_PAYMENT: break;
         }
-    };
+    }
+    
+    function handleContractToWork() {
+        dispatch(setContractStatus(CONTRACT_STATE_ACTIVE))
+    }
+
+    function handleContractToDraft() {
+        dispatch(setContractStatus(CONTRACT_STATE_DRAFT))
+    }
+
+    function handleContractToReady() {
+        dispatch(setContractStatus(CONTRACT_STATE_READY))
+    }
+    
+    function getStateName(state: number) {
+        return ContractStateString[state]
+    }
+
+    function getAvailableOperations(state: number) {
+        const operations: ReactNode[] = []
+        if (state === CONTRACT_STATE_DRAFT){
+            operations.push(<MenuItem key={1} onClick={handleContractToWork}>В работу</MenuItem>)
+        }
+        if (state === CONTRACT_STATE_ACTIVE){
+            operations.push(<MenuItem key={2} onClick={handleContractToDraft}>Вернуть в черновики</MenuItem>)
+            operations.push(<MenuItem key={3} onClick={handleContractToReady}>Закрыть договор</MenuItem>)
+            operations.push(<MenuItem key={4} onClick={handleAddPayment}>Ввод оплаты</MenuItem>)
+        }
+        operations.push(<MenuItem key={5} onClick={handlePrint}>Печать</MenuItem>)
+        return operations
+    }
 
 
     /**
@@ -289,7 +327,7 @@ const ContractItem = (props: IContractItemProps) => {
                     onSubmit={saveHandler}
                 >
                     <CardHeader
-                        subheader=""
+                        subheader={getStateName(contractItem.contractState)}
                         title="Контракт"
                         action={
                             <IconButton aria-label="settings" aria-controls="simple-menu" onClick={contractMenuButtonClick}>
@@ -304,13 +342,9 @@ const ContractItem = (props: IContractItemProps) => {
                         open={Boolean(anchorEl)}
                         onClose={handleCloseMenu}
                     >
-                        <MenuItem onClick={handleAddPayment}>Ввод оплаты</MenuItem>
-                        <MenuItem onClick={handlePrint}>Печать</MenuItem>
+                        {getAvailableOperations(contractItem.contractState)}
                     </Menu>
                     <Divider />
-
-
-
                     <CardContent>
                         <Paper className={classes.paper_bar}>
                             <Tabs
@@ -323,6 +357,7 @@ const ContractItem = (props: IContractItemProps) => {
                                 centered
                             >
                                 <Tab label="Общие сведения" {...a11yProps(PAGE_MAIN)} />
+                                <Tab label="График платежей" {...a11yProps(PAGE_WAIT_PAYMENT)} />
                                 <Tab label="Оплаты по контракту"  {...a11yProps(PAGE_PAYMENT)} />
                             </Tabs>
                         </Paper>
@@ -413,7 +448,6 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.discount}
                                         variant="outlined"
                                         type={'number'}
-                                        inputProps={{'maxLength': 12}}
                                     />
                                 </Grid>
                                 <Grid item md={3} xs={3}>
@@ -562,6 +596,14 @@ const ContractItem = (props: IContractItemProps) => {
                                     </Grid>
                                 </Grid>
                             }
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_WAIT_PAYMENT}>
+                            <ContractWaitPaymentTable
+                                className={''}
+                                contract={contractItem.id}
+                                items={contractItem.waitPayments}
+                                onClickTableItem={handleClickTableItem}
+                            />
                         </TabPanel>
                         <TabPanel value={tab} index={PAGE_PAYMENT}>
                             <ContractPaymentTable
