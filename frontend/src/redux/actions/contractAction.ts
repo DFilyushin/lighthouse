@@ -162,6 +162,24 @@ export function updateContract(item: IContract) {
     }
 }
 
+/**
+ * Установить статус контракта
+ * @param newStatus Код статуса
+ */
+export function setContractStatus(newStatus: number) {
+    return async (dispatch: any, getState: any) => {
+        const contractItem = {...getState().contract.contractItem}
+        try{
+            const response = await authAxios.post(ContractEndpoint.setContractStatus(contractItem.id, newStatus));
+            dispatch(loadContractItem(contractItem.id))
+            return Promise.resolve()
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+            return Promise.reject()
+        }
+    }
+}
+
 
 export function changeContractItem(item: IContract) {
     return{
