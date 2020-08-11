@@ -1,9 +1,9 @@
 import {
     IContract,
     IContractListItem, IContractListItemSimple,
-    IContractSpecItem,
+    IContractSpecItem, IWaitPaymentContractItem,
     nullContractItem,
-    nullContractSpecItem
+    nullContractSpecItem, nullWaitPaymentContractItem
 } from "types/model/contract";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import {
@@ -117,6 +117,10 @@ export function loadContractItem(id: number, func0?: any) {
     }
 }
 
+/**
+ * Удалить строку спецификации контракта
+ * @param id Код записи
+ */
 export function deleteContractSpecItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
@@ -133,8 +137,32 @@ export function deleteContractSpecItem(id: number) {
 export function addNewSpecItem() {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        item.specs.unshift(nullContractSpecItem);
+        item.specs.unshift({...nullContractSpecItem});
         dispatch(fetchItemSuccess(item))
+    }
+}
+
+/**
+ * Добавить новую пустую строку графика платежей
+ */
+export function addNewWaitPaymentItem() {
+    return async (dispatch: any, getState: any) => {
+        const item = {...getState().contract.contractItem}
+        item.waitPayments.unshift({...nullWaitPaymentContractItem})
+        dispatch(fetchItemSuccess(item))
+    }
+}
+
+/**
+ * Удалить строку графика платежей
+ * @param id
+ */
+export function deleteWaitPaymentItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const item = {...getState().contract.contractItem};
+        const index = item.waitPayments.findIndex((item:IWaitPaymentContractItem, index: number, array: IWaitPaymentContractItem[])=> {return item.id === id});
+        item.waitPayments.splice(index, 1);
+        dispatch(fetchItemSuccess(item));
     }
 }
 
