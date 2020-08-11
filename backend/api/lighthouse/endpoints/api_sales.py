@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, CONTRACT_STATE_ACTIVE
+from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -56,7 +57,6 @@ class ClientViewSet(viewsets.ModelViewSet):
         :return: Массив контрактов клиента
         """
         if request.method == 'GET':
-            # contracts = Contract.objects.filter(id_client_id=int(pk)).order_by('-contract_date')
             contracts = ContractSpec.objects.filter(id_contract__id_client_id=pk)\
                 .values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
                         'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__id_agent__fio',
@@ -109,6 +109,26 @@ class ContractViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         else:
             return Response([])
+
+    @action(methods=['post'], detail=True, url_path='setStatus/(?P<new_status>[0-9]+)', url_name='setStatus')
+    def set_contract_status(self, request, pk, new_status: int):
+        """
+        Установить статус контракта
+        :param request:
+        :param pk: Код контракта
+        :param new_status: Новый статус контракта
+        :return: Success - OK (200), NotFound - 404
+        """
+        try:
+            contract = Contract.objects.get(pk=pk)
+        except Contract.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            param_new_status = int(new_status)
+            contract.set_contract_status(param_new_status)
+            return Response(status=status.HTTP_200_OK)
+        except Exception as e:
+            return api_error_response(API_ERROR_SAVE_DATA.format(str(e)))
 
 
 class PaymentMethodViewSet(viewsets.ModelViewSet):
