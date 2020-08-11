@@ -2,6 +2,7 @@ import {IClientItem, nullClientItem} from "./client";
 import {IProduct, nullProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
+import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
 
 /**
  * Статусы контрактов
@@ -49,6 +50,13 @@ export interface IWaitPaymentContractItem {
     created: string;
     waitDate: string;
     waitSum: number;
+}
+
+export const nullWaitPaymentContractItem: IWaitPaymentContractItem = {
+    id: -getRandomInt(MAX_RANDOM_VALUE),
+    created: '',
+    waitDate: '',
+    waitSum: 0
 }
 
 export const nullContractItem: IContract = {
