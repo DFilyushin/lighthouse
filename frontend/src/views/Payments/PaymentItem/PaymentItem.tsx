@@ -1,4 +1,5 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react'
+import { useHistory } from "react-router-dom"
 import {RouteComponentProps} from "react-router"
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -14,7 +15,6 @@ import {
     Typography,
     Paper
 } from '@material-ui/core'
-import { useHistory } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import {IStateInterface} from "redux/rootReducer"
 import {loadPayMethodItems} from "redux/actions/payMethodAction"
@@ -125,7 +125,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
      */
     const closeHandler = (event: React.MouseEvent) => {
         if (querySource === CONTRACT_PATH_REDIRECT && querySourceId) {
-            history.push(`/contract/${querySourceId}`)
+            history.push(`/contracts/${querySourceId}`)
         }else{
             history.push('/payments/')
         }
@@ -207,7 +207,6 @@ const PaymentItem = (props: IPaymentItemProps) => {
     }
 
     function onChangeContract(event: object, value: IContractListItemSimple | null, reason: string) {
-        console.log('onChangeClient', value)
         if (value){
             const newState = {...paymentItem, 'contract': value}
             dispatch(changePayment(newState));
