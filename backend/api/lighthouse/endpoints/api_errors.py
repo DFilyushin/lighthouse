@@ -11,6 +11,7 @@ API_ERROR_CARD_INCORRECT_STATUS = 'Некорретный статус для с
 API_ERROR_CARD_INCORRECT_TARE = 'Некорректно указана фасовка продукции. Расфасовано больше, чем выпущено.'
 API_ERROR_CONTRACT_INCORRECT_STATUS = 'Указан некорректный статус!'
 API_ERROR_CONTRACT_NO_PAYMENT = 'Оплата не соответствует стоимости контракта!'
+API_ERROR_CONTRACT_IS_CLOSE = 'Контракт исполнен, изменения невозможны'
 
 
 

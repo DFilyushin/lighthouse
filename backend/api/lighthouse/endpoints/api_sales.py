@@ -7,8 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, \
-    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED
-from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA
+    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY
+from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -77,6 +77,8 @@ class ContractViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         try:
             contract = Contract.objects.get(pk=kwargs.get('pk', 0))
+            if contract.contract_state == CONTRACT_STATE_READY:
+                return api_error_response(API_ERROR_CONTRACT_IS_CLOSE)
             contract.deleted = True
             contract.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
