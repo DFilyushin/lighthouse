@@ -1,6 +1,6 @@
 from lighthouse.appmodels.org import Employee
-from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, ContractExpectedPayment, \
-    CONTRACT_STATE_DRAFT
+from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, \
+    ContractExpectedPayment, CONTRACT_STATE_DRAFT
 from .serializer_refs import TareSerializer
 from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
@@ -20,12 +20,12 @@ class ClientSerializer(serializers.ModelSerializer):
     contactPhone = serializers.CharField(source='contact_phone', allow_blank=True)
     contactEmail = serializers.CharField(source='contact_email', required=False, allow_blank=True, allow_null=True)
     contactFax = serializers.CharField(source='contact_fax', required=False, allow_blank=True, allow_null=True)
-    reqBin = serializers.CharField(source='req_bin', allow_blank=True)
-    reqAccount = serializers.CharField(source='req_account', allow_blank=True)
-    reqBik = serializers.CharField(source='req_bik', allow_blank=True)
-    reqBank = serializers.CharField(source='req_bank', allow_blank=True)
-    reqBoss = serializers.CharField(source='req_boss', allow_blank=True)
-    comment = serializers.CharField(required=False, allow_blank=True)
+    reqBin = serializers.CharField(source='req_bin', allow_blank=True, allow_null=True)
+    reqAccount = serializers.CharField(source='req_account', allow_blank=True, allow_null=True)
+    reqBik = serializers.CharField(source='req_bik', allow_blank=True, allow_null=True)
+    reqBank = serializers.CharField(source='req_bank', allow_blank=True, allow_null=True)
+    reqBoss = serializers.CharField(source='req_boss', allow_blank=True, allow_null=True)
+    comment = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     clientId = serializers.CharField(source='clientid', required=False, allow_blank=True)
     agentId = serializers.IntegerField(source='id_agent.id', required=False)
 
@@ -78,6 +78,7 @@ class ClientListSerializer(serializers.ModelSerializer):
 
 
 class ClientSimpleList(serializers.ModelSerializer):
+    """Простой список клиентов"""
     id = serializers.IntegerField(required=True)
     clientName = serializers.CharField(source='clientname')
 
@@ -87,6 +88,7 @@ class ClientSimpleList(serializers.ModelSerializer):
 
 
 class ContractSimpleSerializer(serializers.ModelSerializer):
+    """Простой список контрактов"""
     id = serializers.IntegerField()
     num = serializers.CharField()
     date = serializers.DateField(source='contract_date')
@@ -197,6 +199,7 @@ class PaymentContractSerializer(serializers.ModelSerializer):
 
 
 class ContractExpectedPaymentSerializer(serializers.ModelSerializer):
+    """График платежей"""
     id = serializers.IntegerField()
     created = serializers.DateTimeField(required=False, allow_null=True)
     waitDate = serializers.DateField(source='wait_date')
@@ -224,7 +227,7 @@ class ContractSerializer(serializers.ModelSerializer):
     specs = ContractSpecSerializer(many=True)
     payments = PaymentContractSerializer(many=True)
     waitPayments = ContractExpectedPaymentSerializer(many=True, source='expected_payment')
-    deliveryTerms = serializers.CharField(source='delivery_terms', allow_blank=True)
+    deliveryTerms = serializers.CharField(source='delivery_terms', allow_blank=True, allow_null=True)
 
     def create(self, validated_data):
         contract = Contract.objects.create(
@@ -243,6 +246,22 @@ class ContractSerializer(serializers.ModelSerializer):
         return contract
 
     def update(self, instance, validated_data):
+        specs = validated_data.pop('specs')
+        original_specs = instance.specs.all()
+
+        wait_payments = validated_data.pop('expected_payment')
+        original_payment = instance.expected_payment.all()
+
+        original_specs_ids = {item.id: item for item in original_specs}
+        data_mapping_specs = {}
+        for item in specs:
+            data_mapping_specs[item['id']] = item
+
+        original_pay_ids = {item.id: item for item in original_payment}
+        data_mapping_payment = {}
+        for item in wait_payments:
+            data_mapping_payment[item['id']] = item
+
         instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
         instance.num = validated_data['num']
         instance.contract_date = validated_data['contract_date']
@@ -253,6 +272,49 @@ class ContractSerializer(serializers.ModelSerializer):
         instance.delivered = validated_data['delivered']
         instance.delivery_terms = validated_data['delivery_terms']
         instance.save()
+
+        # Сохранить изменения в графике платежей
+        for object_id, item in data_mapping_payment.items():
+            object_item = original_pay_ids.get(object_id, None)
+            if object_item:
+                payment = ContractExpectedPayment.objects.get(pk=object_id)
+                payment.wait_date = item['wait_date']
+                payment.wait_value = item['wait_value']
+                payment.save()
+            else:
+                ContractExpectedPayment.objects.create(
+                    id_contract=instance,
+                    wait_date=item['wait_date'],
+                    wait_value=item['wait_value']
+                )
+        for object_id, item in original_pay_ids.items():
+            if object_id not in data_mapping_payment:
+                item.delete()
+
+        # Сохранить изменения в спецификации контракта
+        for object_id, item in data_mapping_specs.items():
+            object_item = original_specs_ids.get(object_id, None)
+            if object_item:
+                spec = ContractSpec.objects.get(pk=object_id)
+                spec.item_count = item['item_count']
+                spec.item_price = item['item_price']
+                spec.delivered = item['delivered']
+                spec.delivery_date = item['delivery_date']
+                spec.id_tare = item['id_tare']['id']
+                spec.save()
+            else:
+                ContractSpec.objects.create(
+                    id_contract=instance,
+                    item_count=item['item_count'],
+                    item_price=item['item_price'],
+                    item_discount=item['item_discount'],
+                    id_tare_id=item['id_tare']['id'],
+                    delivered=item['delivered'],
+                    delivery_date=item['delivery_date']
+                )
+        for object_id, item in original_specs_ids.items():
+            if object_id not in data_mapping_specs:
+                item.delete()
         return instance
 
     class Meta:
