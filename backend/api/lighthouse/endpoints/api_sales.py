@@ -6,7 +6,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer
-from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, CONTRACT_STATE_ACTIVE
+from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, \
+    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED
 from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA
 
 
@@ -90,8 +91,11 @@ class ContractViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return ContractSpec.objects.filter(id_contract__deleted=False)\
-                .values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
+            param_state = int(self.request.GET.get('state', CONTRACT_STATE_UNDEFINED))
+            queryset = ContractSpec.objects.filter(id_contract__deleted=False)
+            if param_state != CONTRACT_STATE_UNDEFINED:
+                queryset = queryset.filter(id_contract__contract_state=param_state)
+            return queryset.values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
                         'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__contract_state',
                         'id_contract__id_agent__fio')\
                 .annotate(sum=Sum(F('item_price')*F('item_count')))
@@ -133,7 +137,7 @@ class ContractViewSet(viewsets.ModelViewSet):
 
 class PaymentMethodViewSet(viewsets.ModelViewSet):
     """Методы платежей"""
-    queryset =  PaymentMethod.objects.all()
+    queryset = PaymentMethod.objects.all()
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
     serializer_class = PaymentMethodSerializer
