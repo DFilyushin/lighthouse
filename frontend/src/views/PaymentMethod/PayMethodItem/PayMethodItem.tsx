@@ -48,7 +48,7 @@ const PayMethodItem = (props: IPayMethodItemProps) => {
      * Сохранить изменения
      * @param event
      */
-    const saveHandler = (event: React.MouseEvent) => {
+    const saveHandler = (event: React.SyntheticEvent) => {
         if (payMethodId === NEW_RECORD_VALUE) {
             dispatch(addNewPayMethod(payMethodItem))
         } else {
@@ -65,7 +65,7 @@ const PayMethodItem = (props: IPayMethodItemProps) => {
     return (
         <div className={classes.root}>
             <Card className={className}>
-                <form autoComplete="off" noValidate>
+                <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
                         title="Методы оплат"
@@ -95,7 +95,7 @@ const PayMethodItem = (props: IPayMethodItemProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            onClick={saveHandler}
+                            type={"submit"}
                         >
                             Сохранить
                         </Button>
