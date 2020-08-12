@@ -24,10 +24,10 @@ const ContractList = () => {
     // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading)
     const clients = useSelector((state: IStateInterface) => state.contract.items)
-    const [selected, setSelected] = useState<number[]>([]);
+    const [selected, setSelected] = useState<number[]>([])
 
     // eslint-disable-next-line
-    const [contractStatus, setContractStatus] = useState(0);
+    const [contractStatus, setContractStatus] = useState(0)
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus))
@@ -58,6 +58,8 @@ const ContractList = () => {
                 onFind={onFindClientHandler}
                 onNew={onNewItemHandler}
                 onDelete={onDeleteHandle}
+                contractState={contractStatus}
+                onSetState={setContractStatus}
             />
             <div className={classes.content}>
                 {

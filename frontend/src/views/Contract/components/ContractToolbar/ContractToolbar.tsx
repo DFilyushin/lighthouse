@@ -1,15 +1,22 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import {Button, Typography} from '@material-ui/core';
-import { SearchInput } from '../../../../components';
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography,
+    ListItem,
+    ListItemAvatar,
+    List,
+    Avatar
+} from '@material-ui/core';
+import { SearchInput } from 'components';
 import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
+import {NO_SELECT_VALUE} from "utils/AppConst";
+import {CONTRACT_STATE_ITEMS} from "types/model/contract";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -44,6 +51,12 @@ const useStyles = makeStyles(theme => ({
     white: {
         color: theme.palette.grey["100"],
         backgroundColor: theme.palette.background.default
+    },
+    formControl: {
+        margin: theme.spacing(1),
+    },
+    formControlWidth: {
+        minWidth: 250
     }
 }));
 
@@ -51,12 +64,13 @@ interface IContractToolbar {
     className: string,
     onFind: any,
     onNew: any,
-    onDelete: any
+    onDelete: any,
+    onSetState: any,
+    contractState: number
 }
 
 const ContractToolbar = (props: IContractToolbar) => {
-    const history = useHistory();
-    const { className, onFind, onNew, onDelete, ...rest } = props;
+    const { className, onFind, onNew, onDelete, onSetState, contractState, ...rest } = props;
 
     const classes = useStyles();
 
@@ -65,6 +79,10 @@ const ContractToolbar = (props: IContractToolbar) => {
             const findText = event.currentTarget.value.trim();
             onFind(findText);
         }
+    }
+
+    const handleChangeState = (event: React.ChangeEvent<{value: unknown}>)=>{
+        onSetState(event.target.value as number)
     }
 
     return (
@@ -91,14 +109,27 @@ const ContractToolbar = (props: IContractToolbar) => {
                     onEnterKeyDown={onKeyDownHandler}
                     placeholder="Поиск контракта"
                 />
+                <FormControl className={clsx(classes.formControl, classes.formControlWidth)} >
+                    <InputLabel id="demo-simple-select-helper-label">Состояние контракта</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={contractState}
+                        onChange={handleChangeState}
+                    >
+                        <MenuItem key={NO_SELECT_VALUE} value={NO_SELECT_VALUE}>
+                            <em>не указано</em>
+                        </MenuItem>
+                        {
+                            CONTRACT_STATE_ITEMS.map(item=>(
+                                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                            ))
+                        }
+                    </Select>
+                </FormControl>
             </div>
         </div>
     );
-};
-
-ContractToolbar.propTypes = {
-    className: PropTypes.string,
-    onFind: PropTypes.func.isRequired
 };
 
 export default ContractToolbar;
