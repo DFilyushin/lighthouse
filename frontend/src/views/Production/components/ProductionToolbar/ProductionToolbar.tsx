@@ -1,20 +1,24 @@
 import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import {Button, Grid, Typography} from '@material-ui/core';
+import {
+    Button,
+    Grid,
+    Typography,
+    Select,
+    ListItem,
+    List,
+    Avatar,
+    ListItemAvatar,
+    FormControl,
+    MenuItem,
+    InputLabel
+} from '@material-ui/core';
 import { SearchInput } from 'components';
 import { useHistory } from "react-router-dom";
 import { KeyboardDatePicker} from '@material-ui/pickers';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import {IProduct} from "types/model/product";
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import {INVALID_DATE_FORMAT, NO_SELECT_VALUE} from "../../../../utils/AppConst";
 import {CARD_STATE_ITEMS} from "../../../../types/model/production";
