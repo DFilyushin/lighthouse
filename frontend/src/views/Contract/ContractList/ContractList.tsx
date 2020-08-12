@@ -6,6 +6,7 @@ import {ContractTable, ContractToolbar} from '../components';
 import {deleteContract, loadContractList} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
+import {NO_SELECT_VALUE} from "../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,9 +26,7 @@ const ContractList = () => {
     const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading)
     const clients = useSelector((state: IStateInterface) => state.contract.items)
     const [selected, setSelected] = useState<number[]>([])
-
-    // eslint-disable-next-line
-    const [contractStatus, setContractStatus] = useState(0)
+    const [contractStatus, setContractStatus] = useState(NO_SELECT_VALUE)
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus))
