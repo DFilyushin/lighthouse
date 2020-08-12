@@ -70,7 +70,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 class ContractViewSet(viewsets.ModelViewSet):
     """Контракт"""
     queryset = Contract.objects.filter(deleted=False)
-    search_fields = ['id_contract__num']
+    search_fields = ['num']
     filter_backends = (filters.SearchFilter,)
     permission_classes = [IsAuthenticated]
 
@@ -92,13 +92,12 @@ class ContractViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             param_state = int(self.request.GET.get('state', CONTRACT_STATE_UNDEFINED))
-            queryset = ContractSpec.objects.filter(id_contract__deleted=False)
+            queryset = Contract.objects.filter(deleted=False)
             if param_state != CONTRACT_STATE_UNDEFINED:
-                queryset = queryset.filter(id_contract__contract_state=param_state)
-            return queryset.values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
-                        'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__contract_state',
-                        'id_contract__id_agent__fio')\
-                .annotate(sum=Sum(F('item_price')*F('item_count')))
+                queryset = queryset.filter(contract_state=param_state)
+            return queryset.values('id', 'num', 'id_client__clientname', 'contract_date', 'est_delivery', 'contract_state',
+                                   'id_agent__fio')\
+                .annotate(sum=Sum(F('specs__item_price')*F('specs__item_count')))
         else:
             return Contract.objects.filter(deleted=False)
 

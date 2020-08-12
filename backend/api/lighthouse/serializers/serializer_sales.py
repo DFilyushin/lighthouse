@@ -101,13 +101,13 @@ class ContractSimpleSerializer(serializers.ModelSerializer):
 
 class ContractListSerializer(serializers.ModelSerializer):
     """Контракты в договоре (список)"""
-    id = serializers.IntegerField(source='id_contract__id')
-    num = serializers.CharField(source='id_contract__num')
-    clientName = serializers.CharField(source='id_contract__id_client__clientname')
-    contractDate = serializers.DateField(source='id_contract__contract_date')
-    estDelivery = serializers.DateField(source='id_contract__est_delivery')
-    status = serializers.IntegerField(source='id_contract__contract_state')
-    agent = serializers.CharField(source='id_contract__id_agent__fio')
+    id = serializers.IntegerField()
+    num = serializers.CharField()
+    clientName = serializers.CharField(source='id_client__clientname')
+    contractDate = serializers.DateField(source='contract_date')
+    estDelivery = serializers.DateField(source='est_delivery')
+    status = serializers.IntegerField(source='contract_state')
+    agent = serializers.CharField(source='id_agent__fio')
     sum = serializers.FloatField()
 
     class Meta:
