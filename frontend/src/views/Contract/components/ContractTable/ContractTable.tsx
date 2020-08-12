@@ -17,6 +17,7 @@ import {
     TablePagination
 } from '@material-ui/core';
 import {IContractListItem} from 'types/model/contract';
+import ContractStateIcon from "../ContractStateIcon";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -128,6 +129,7 @@ const ClientTable = (props: IClientTable) => {
                                             onChange={handleSelectAll}
                                         />
                                     </TableCell>
+                                    <TableCell/>
                                     <TableCell>Клиент</TableCell>
                                     <TableCell>Номер</TableCell>
                                     <TableCell>Номер сист.</TableCell>
@@ -153,6 +155,7 @@ const ClientTable = (props: IClientTable) => {
                                                     value="true"
                                                 />
                                             </TableCell>
+                                            <TableCell><ContractStateIcon stateIndex={contract.status}/></TableCell>
                                             <TableCell>
                                                 <Typography variant="body1">{contract.clientName}</Typography>
                                             </TableCell>
