@@ -129,7 +129,7 @@ const ContractItem = (props: IContractItemProps) => {
     }
 
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        if (contractId === 0) {
+        if (contractId === NEW_RECORD_VALUE) {
             await dispatch(addNewContract(contractItem));
         } else {
             await dispatch(updateContract(contractItem));
@@ -296,18 +296,18 @@ const ContractItem = (props: IContractItemProps) => {
     }
 
     const handleContractDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
+        const strDate = date?.toISOString().slice(0, 10);
         const item = {...contractItem, 'contractDate': strDate as string};
         dispatch(changeContractItem(item))
     }
 
     const handleEstDeliveryDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
+        const strDate = date?.toISOString().slice(0, 10);
         const item = {...contractItem, 'estDelivery': strDate as string};
         dispatch(changeContractItem(item))
     };
     const handleDeliveredDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
+        const strDate = date?.toISOString().slice(0, 10);
         const item = {...contractItem, 'delivered': strDate as string};
         dispatch(changeContractItem(item))
     };
