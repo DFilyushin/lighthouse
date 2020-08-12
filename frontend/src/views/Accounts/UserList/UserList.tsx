@@ -1,11 +1,15 @@
-import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { UsersToolbar, UsersTable } from '../components/index';
-import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "redux/rootReducer";
-import {loadUserList} from "redux/actions/userAction";
-import {useHistory} from "react-router-dom";
-import {SearchInput} from "components";
+import React, {useEffect, useState} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { UsersToolbar, UsersTable } from '../components/index'
+import {useDispatch, useSelector} from "react-redux"
+import {IStateInterface} from "redux/rootReducer"
+import {loadUserList} from "redux/actions/userAction"
+import {useHistory} from "react-router-dom"
+import {SearchInput} from "components"
+import {
+    Switch,
+    FormControlLabel
+} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,26 +24,26 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserList = () => {
-    const classes = useStyles();
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const classes = useStyles()
+    const history = useHistory()
+    const dispatch = useDispatch()
 
-    const users = useSelector((state: IStateInterface) => state.user.userItems);
+    const users = useSelector((state: IStateInterface) => state.user.userItems)
+    const [showHidden, setShowHidden] = useState(false)
 
     useEffect(()=>{
-        dispatch(loadUserList(true, ''))
-    }, [dispatch])
+        dispatch(loadUserList(!showHidden, ''))
+    }, [dispatch, showHidden])
 
     function onClickTableItem(login: string){
-        const newItemUrl = `/admin/users/${login}`;
-        //console.log(newItemUrl)
-        history.push(newItemUrl);
+        const newItemUrl = `/admin/users/${login}`
+        history.push(newItemUrl)
     }
 
     function onKeyDownHandler (event: any) {
         if(event.key === 'Enter'){
-            const findText = event.currentTarget.value.trim();
-            onFindHandler(findText);
+            const findText = event.currentTarget.value.trim()
+            onFindHandler(findText)
         }
     }
 
@@ -51,17 +55,32 @@ const UserList = () => {
         dispatch(loadUserList(true, findText))
     }
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setShowHidden(event.target.checked);
+    };
+
   return (
     <div className={classes.root}>
-      <UsersToolbar
-        onNewRecord={onNewAccount}
-      />
+        <UsersToolbar
+            onNewRecord={onNewAccount}
+        />
         <SearchInput
             className={classes.searchInput}
             onEnterKeyDown={onKeyDownHandler}
             placeholder='Поиск по логину'
         />
-      <div className={classes.content}>
+        <FormControlLabel
+            control={
+                <Switch
+                    checked={showHidden}
+                    onChange={handleChange}
+                    color="primary"
+                />
+            }
+            label="Отображать  блокированных"
+        />
+
+        <div className={classes.content}>
         <UsersTable
             users={users}
             className={''}
