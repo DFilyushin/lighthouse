@@ -6,6 +6,7 @@ from .manufacture import Material, Tare
 from lighthouse.endpoints.api_errors import AppError, \
     API_ERROR_CONTRACT_INCORRECT_STATUS, API_ERROR_CONTRACT_NO_PAYMENT
 
+CONTRACT_STATE_UNDEFINED = -1
 CONTRACT_STATE_DRAFT = 1
 CONTRACT_STATE_ACTIVE = 2
 CONTRACT_STATE_READY = 3
