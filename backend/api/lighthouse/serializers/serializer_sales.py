@@ -16,14 +16,14 @@ class ClientSerializer(serializers.ModelSerializer):
     clientAddr = serializers.CharField(source='addr_reg')
     clientAgent = serializers.CharField(source='id_agent.fio', read_only=True)
     clientEmployee = serializers.CharField(source='contact_employee')
-    contactPhone = serializers.CharField(source='contact_phone')
+    contactPhone = serializers.CharField(source='contact_phone', allow_blank=True)
     contactEmail = serializers.CharField(source='contact_email', required=False, allow_blank=True, allow_null=True)
     contactFax = serializers.CharField(source='contact_fax', required=False, allow_blank=True, allow_null=True)
-    reqBin = serializers.CharField(source='req_bin')
-    reqAccount = serializers.CharField(source='req_account')
-    reqBik = serializers.CharField(source='req_bik')
-    reqBank = serializers.CharField(source='req_bank')
-    reqBoss = serializers.CharField(source='req_boss')
+    reqBin = serializers.CharField(source='req_bin', allow_blank=True)
+    reqAccount = serializers.CharField(source='req_account', allow_blank=True)
+    reqBik = serializers.CharField(source='req_bik', allow_blank=True)
+    reqBank = serializers.CharField(source='req_bank', allow_blank=True)
+    reqBoss = serializers.CharField(source='req_boss', allow_blank=True)
     comment = serializers.CharField(required=False, allow_blank=True)
     clientId = serializers.CharField(source='clientid', required=False, allow_blank=True)
     agentId = serializers.IntegerField(source='id_agent.id', required=False)
@@ -209,24 +209,22 @@ class ContractExpectedPaymentSerializer(serializers.ModelSerializer):
 class ContractSerializer(serializers.ModelSerializer):
     """Контракт"""
     id = serializers.IntegerField(required=False)
-    created = serializers.DateTimeField()
+    created = serializers.DateTimeField(required=False)
     client = ClientSerializer(source='id_client')
     num = serializers.CharField()
     contractDate = serializers.DateField(source='contract_date')
     contractState = serializers.IntegerField(source='contract_state')
     comment = serializers.CharField(required=False, allow_blank=True)
     estDelivery = serializers.DateField(source='est_delivery')
-    delivered = serializers.DateField(allow_null=True, required=True)
+    delivered = serializers.DateField(allow_null=True)
     discount = serializers.FloatField(default=0)
     contractId = serializers.CharField(source='contractid', allow_null=True, allow_blank=True)
     agent = EmployeeListSerializer(source='id_agent')
     specs = ContractSpecSerializer(many=True)
     payments = PaymentContractSerializer(many=True)
     waitPayments = ContractExpectedPaymentSerializer(many=True, source='expected_payment')
-    deliveryTerms = serializers.CharField(source='delivery_terms')
+    deliveryTerms = serializers.CharField(source='delivery_terms', allow_blank=True)
 
-    def create(self, validated_data):
-        pass
 
     def update(self, instance, validated_data):
         instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
