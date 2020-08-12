@@ -18,6 +18,7 @@ import {
 import ContractEndpoint from "services/endpoints/ContractEndpoint";
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import AuthenticationService from "../../services/Authentication.service";
 
 /**
  * Получить список контрактов
@@ -101,7 +102,15 @@ export function loadContractItem(id: number, func0?: any) {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
         if (id===NEW_RECORD_VALUE){
-            dispatch(fetchItemSuccess(nullContractItem))
+            const item = {...nullContractItem,
+                'agent': {
+                    id: AuthenticationService.currentEmployeeId(),
+                    fio: AuthenticationService.currentEmployee(),
+                    staff: '',
+                    tabNum: ''
+                }
+            }
+            dispatch(fetchItemSuccess(item))
         }else {
             try {
                 const url = ContractEndpoint.getContract(id);
