@@ -1,5 +1,6 @@
 from lighthouse.appmodels.org import Employee
-from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, ContractExpectedPayment
+from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, ContractExpectedPayment, \
+    CONTRACT_STATE_DRAFT
 from .serializer_refs import TareSerializer
 from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
@@ -225,6 +226,21 @@ class ContractSerializer(serializers.ModelSerializer):
     waitPayments = ContractExpectedPaymentSerializer(many=True, source='expected_payment')
     deliveryTerms = serializers.CharField(source='delivery_terms', allow_blank=True)
 
+    def create(self, validated_data):
+        contract = Contract.objects.create(
+            id_client_id=validated_data['id_client']['id'],
+            num=validated_data['num'],
+            comment=validated_data['comment'],
+            deleted=False,
+            delivered=validated_data['delivered'],
+            est_delivery=validated_data['est_delivery'],
+            contract_date=validated_data['contract_date'],
+            contractid=validated_data['contractid'],
+            discount=validated_data['discount'],
+            delivery_terms=validated_data['delivery_terms'],
+            contract_state=CONTRACT_STATE_DRAFT
+        )
+        return contract
 
     def update(self, instance, validated_data):
         instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
