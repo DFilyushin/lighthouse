@@ -181,7 +181,18 @@ export function deleteWaitPaymentItem(id: number) {
  * @param item Объект контракта
  */
 export function addNewContract(item: IContract) {
-
+    return async (dispatch: any, getState: any) => {
+        try{
+            delete item.created
+            if (item.delivered === '') {item.delivered = null}
+            const response = await authAxios.post(ContractEndpoint.newContract(), item)
+            return Promise.resolve()
+        }catch (e) {
+            console.log(e.toString())
+            dispatch(saveError(e.toString()))
+            return Promise.reject()
+        }
+    }
 }
 
 /**
@@ -191,8 +202,7 @@ export function addNewContract(item: IContract) {
 export function updateContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await authAxios.put(ContractEndpoint.updateContract(item.id), item);
-            console.log(response);
+            const response = await authAxios.put(ContractEndpoint.updateContract(item.id), item)
         }catch (e) {
             dispatch(saveError(e.toString()))
         }
