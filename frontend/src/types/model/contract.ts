@@ -110,7 +110,7 @@ export interface IContract {
     contractDate: string;
     contractState: number;
     estDelivery: string;
-    delivered: string;
+    delivered: string | null;
     discount: number;
     comment: string;
     contractId: string;
