@@ -1,11 +1,8 @@
 import React from 'react';
 import {IWaitPaymentContractItem} from "types/model/contract";
 import {
-    IconButton,
     Fab,
-    Hidden,
     Tooltip,
-    Paper,
     TableCell,
     TableRow,
     TextField

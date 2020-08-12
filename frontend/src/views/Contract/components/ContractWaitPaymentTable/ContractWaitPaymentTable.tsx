@@ -1,5 +1,4 @@
 import React from "react"
-import moment from "moment"
 import {makeStyles} from "@material-ui/core/styles"
 import {useHistory} from "react-router-dom"
 import {
@@ -19,7 +18,6 @@ import {IWaitPaymentContractItem} from "types/model/contract"
 import {useDispatch} from "react-redux";
 import {
     addNewWaitPaymentItem,
-    deleteContractSpecItem,
     deleteWaitPaymentItem
 } from "../../../../redux/actions/contractAction";
 import ContractWaitPaymentItem from "../ContractWaitPaymentItem";
@@ -78,7 +76,6 @@ const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
     }
 
     function onDeleteItem(id: number) {
-        console.log('!!!')
         dispatch(deleteWaitPaymentItem(id))
     }
     
