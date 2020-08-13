@@ -9,6 +9,7 @@ import lighthouse.endpoints.api_prod as api_prod_views
 import lighthouse.endpoints.api_user as api_user_views
 import lighthouse.endpoints.api_formula as api_formula_views
 import lighthouse.endpoints.api_auth as api_token_views
+import lighthouse.endpoints.api_setup as api_setup_views
 
 router = routers.DefaultRouter()
 
@@ -62,6 +63,8 @@ urlpatterns = [
     path('api/admin/', admin.site.urls),
 
     path('org/', api_domain_views.OrgViewSet.as_view()),
+    path('setup/<str:code>/', api_setup_views.AppSetupViewSet.as_view()),
+    path('setup/', api_setup_views.AppAllSetupViewSet.as_view())
 ]
 urlpatterns += auth_urls
 urlpatterns += store_urls
