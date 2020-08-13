@@ -19,7 +19,6 @@ class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print(request.method)
         org = Org.objects.get(pk=1)
         serializer = OrgSerializer(instance=org)
         return Response(serializer.data)
