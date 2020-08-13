@@ -3,17 +3,11 @@ import {IProduct, nullProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
-import {
-    CARD_STATE_CANCEL,
-    CARD_STATE_DRAFT,
-    CARD_STATE_ERROR,
-    CARD_STATE_IN_WORK,
-    CARD_STATE_READY
-} from "./production";
 
 /**
  * Статусы контрактов
  */
+export const CONTRACT_UNDEFINED_STATE = -1
 export const CONTRACT_STATE_DRAFT = 1
 export const CONTRACT_STATE_ACTIVE = 2
 export const CONTRACT_STATE_READY = 3
