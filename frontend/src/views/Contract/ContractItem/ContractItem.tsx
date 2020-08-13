@@ -1,8 +1,8 @@
-import React, {Fragment, useState, useEffect, SyntheticEvent, ReactNode} from 'react';
-import {RouteComponentProps} from "react-router";
-import moment from "moment";
-import 'moment/locale/ru';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {Fragment, useState, useEffect, SyntheticEvent, ReactNode} from 'react'
+import {RouteComponentProps} from "react-router"
+import moment from "moment"
+import 'moment/locale/ru'
+import { makeStyles } from '@material-ui/core/styles'
 import {
     Card,
     CardHeader,
@@ -24,34 +24,34 @@ import {
     Typography,
     MenuItem,
     TextField, TableRow, TableCell
-} from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {IStateInterface} from "redux/rootReducer";
-import AddIcon from "@material-ui/icons/Add";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+} from '@material-ui/core'
+import { useHistory } from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import {IStateInterface} from "redux/rootReducer"
+import AddIcon from "@material-ui/icons/Add"
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 import {
-    addNewContract, addNewSpecItem,
+    addNewContract, addNewSpecItem, calculateDiscount,
     changeContractItem, deleteContractSpecItem,
     loadContractItem, setContractStatus,
     updateContract
-} from "redux/actions/contractAction";
-import {ContractSpecItem} from "../components";
+} from "redux/actions/contractAction"
+import {ContractSpecItem} from "../components"
 import {
     CONTRACT_STATE_ACTIVE,
     CONTRACT_STATE_DRAFT,
     CONTRACT_STATE_READY, ContractStateString,
     IContractSpecItem
-} from "types/model/contract";
-import { KeyboardDatePicker} from '@material-ui/pickers';
-import {IClientItemList, nullClientItem} from "types/model/client";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import {searchClients} from "redux/actions/clientAction";
-import Skeleton from '@material-ui/lab/Skeleton';
-import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
-import TabPanel from "../../Production/components/TabPanel";
-import ContractPaymentTable from "../components/ContractPaymentTable";
-import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable";
+} from "types/model/contract"
+import { KeyboardDatePicker} from '@material-ui/pickers'
+import {IClientItemList, nullClientItem} from "types/model/client"
+import Autocomplete from "@material-ui/lab/Autocomplete"
+import {searchClients} from "redux/actions/clientAction"
+import Skeleton from '@material-ui/lab/Skeleton'
+import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst"
+import TabPanel from "../../Production/components/TabPanel"
+import ContractPaymentTable from "../components/ContractPaymentTable"
+import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable"
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -65,6 +65,9 @@ const PAGE_PAYMENT = 2
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(4)
+    },
+    buttonTop: {
+        marginTop: 8,
     },
     paper: {
         width: '80%',
@@ -272,6 +275,10 @@ const ContractItem = (props: IContractItemProps) => {
         return operations
     }
 
+    const handleCalculateDiscount = (event: SyntheticEvent) => {
+        dispatch(calculateDiscount())
+    }
+
 
     /**
      * Закрыть страницу с переходом в родительскую ссылку
@@ -437,10 +444,10 @@ const ContractItem = (props: IContractItemProps) => {
                                         inputProps={{'maxLength': 10}}
                                     />
                                 </Grid>
-                                <Grid item md={3} xs={3}>
+                                <Grid item md={1} xs={1}>
                                     <TextField
                                         fullWidth
-                                        label="Скидка по контракту"
+                                        label="% скидки"
                                         margin="dense"
                                         name="discount"
                                         onChange={handleChange}
@@ -449,6 +456,16 @@ const ContractItem = (props: IContractItemProps) => {
                                         variant="outlined"
                                         type={'number'}
                                     />
+                                </Grid>
+                                <Grid item md={1} xs={1}>
+                                    <Button
+                                        color="default"
+                                        variant="outlined"
+                                        onClick={handleCalculateDiscount}
+                                        className={classes.buttonTop}
+                                    >
+                                        Пересчитать
+                                    </Button>
                                 </Grid>
                                 <Grid item md={3} xs={3}>
                                     <KeyboardDatePicker
@@ -543,8 +560,8 @@ const ContractItem = (props: IContractItemProps) => {
                                             <TableCell>Тара</TableCell>
                                             <TableCell>Количество</TableCell>
                                             <TableCell>Цена</TableCell>
-                                            <TableCell>Скидка</TableCell>
-                                            <TableCell>Итого</TableCell>
+                                            <TableCell>Сумма скидки, тенге</TableCell>
+                                            <TableCell>Итого, тенге</TableCell>
                                             <Hidden only={['xs', 'sm']}>
                                             <TableCell>Отгрузка</TableCell>
                                             <TableCell>Отгружен</TableCell>
