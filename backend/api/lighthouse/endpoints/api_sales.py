@@ -94,9 +94,12 @@ class ContractViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             param_state = int(self.request.GET.get('state', CONTRACT_STATE_UNDEFINED))
+            param_agent = self.request.GET.get('byAgent', None)
             queryset = Contract.objects.filter(deleted=False)
             if param_state != CONTRACT_STATE_UNDEFINED:
-                queryset = queryset.filter(contract_state=param_state)
+                queryset = queryset.filter(contract_state=int(param_state))
+            if param_agent:
+                queryset = queryset.filter(id_agent__id=param_agent)
             return queryset.values('id', 'num', 'id_client__clientname', 'contract_date', 'est_delivery', 'contract_state',
                                    'id_agent__fio')\
                 .annotate(sum=Sum(F('specs__item_price')*F('specs__item_count')))
