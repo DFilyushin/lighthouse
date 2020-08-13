@@ -124,6 +124,7 @@ class ContractSpec(models.Model):
     id_contract = models.ForeignKey(Contract, related_name='specs', on_delete=models.CASCADE, verbose_name='Контракт')
     id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукт')
     id_tare = models.ForeignKey(Tare, null=True, on_delete=models.SET_NULL, verbose_name='Код тары')
+    item_nds = models.FloatField(default=0, verbose_name='Ставка НДС')
     item_count = models.FloatField(default=0, verbose_name='Количество')
     item_price = models.FloatField(default=0, verbose_name='Цена')
     item_discount = models.FloatField(default=0, verbose_name='Скидка')
