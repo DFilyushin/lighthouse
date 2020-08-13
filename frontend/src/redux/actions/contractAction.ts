@@ -210,6 +210,22 @@ export function updateContract(item: IContract) {
 }
 
 /**
+ * Калькуляция скидки
+ */
+export function calculateDiscount() {
+    return async (dispatch: any, getState: any)=> {
+        const contract: IContract = {...getState().contract.contractItem}
+        const discount = contract.discount
+        const specs = contract.specs.map((value, index, array)=>{
+            value.itemDiscount = (value.itemPrice * value.itemCount) * (discount / 100)
+            value.itemTotal = (value.itemPrice * value.itemCount) - value.itemDiscount
+            return value
+        })
+        dispatch(fetchItemSuccess({...contract, specs: specs}))
+    }
+}
+
+/**
  * Установить статус контракта
  * @param newStatus Код статуса
  */
