@@ -15,7 +15,7 @@ import {
     CONTRACT_SET_ERROR,
     CONTRACT_LOAD_ACTIVE_CONTRACTS
 } from "./types";
-import ContractEndpoint from "services/endpoints/ContractEndpoint";
+import ContractEndpoint, {UNDEFINED_AGENT} from "services/endpoints/ContractEndpoint";
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import AuthenticationService from "../../services/Authentication.service";
@@ -24,13 +24,13 @@ import AuthenticationService from "../../services/Authentication.service";
  * Получить список контрактов
  * @param state Состояние контракта
  */
-export function loadContractList(state: number, search?: string) {
+export function loadContractList(state: number, onlyOwnContract: boolean, search?: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
-
+        const agentId = onlyOwnContract ? AuthenticationService.currentEmployeeId() : UNDEFINED_AGENT
         try {
-            const url = ContractEndpoint.getContractList(state, search);
+            const url = ContractEndpoint.getContractList(state, agentId, search);
             const items: IContractListItem[] = [];
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {

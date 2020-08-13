@@ -7,6 +7,7 @@ import {deleteContract, loadContractList} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {NO_SELECT_VALUE} from "../../../utils/AppConst";
+import {CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,17 +28,18 @@ const ContractList = () => {
     const clients = useSelector((state: IStateInterface) => state.contract.items)
     const [selected, setSelected] = useState<number[]>([])
     const [contractStatus, setContractStatus] = useState(NO_SELECT_VALUE)
+    const [showOnlyOwnContract, setShowOnlyOwnContract] = useState(true)
 
     useEffect(() => {
-        dispatch(loadContractList(contractStatus))
-    }, [dispatch, contractStatus]);
+        dispatch(loadContractList(contractStatus, showOnlyOwnContract))
+    }, [dispatch, contractStatus, showOnlyOwnContract]);
 
     function onClickTableItem(contractId: number){
         history.push(`/contracts/${contractId}?source=contract`);
     }
 
     async function onFindClientHandler(findNum: string){
-        dispatch(loadContractList(-1, findNum))
+        dispatch(loadContractList(CONTRACT_UNDEFINED_STATE, showOnlyOwnContract, findNum))
     }
 
     function onDeleteHandle() {
@@ -59,6 +61,8 @@ const ContractList = () => {
                 onDelete={onDeleteHandle}
                 contractState={contractStatus}
                 onSetState={setContractStatus}
+                showOwnContract={showOnlyOwnContract}
+                handleChangeHidden={setShowOnlyOwnContract}
             />
             <div className={classes.content}>
                 {

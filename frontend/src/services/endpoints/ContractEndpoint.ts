@@ -1,16 +1,19 @@
 import BaseAPIEndpoint from './BaseEndpoint'
 
+export const UNDEFINED_AGENT = 0
+
 class ContractEndpoint {
 
     /**
      * Получить список контрактов
      * @param state Состояние контракта
      */
-    static getContractList(state: number, search?: string): string {
+    static getContractList(state: number, byAgent: number, search?: string): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/contract/`;
         const url = new URL(baseUrl);
         if (state) url.searchParams.append('state', state.toString());
         if (search) url.searchParams.append('search', search)
+        if (byAgent !== UNDEFINED_AGENT) url.searchParams.append('byAgent', byAgent.toString())
         return url.href
     }
 

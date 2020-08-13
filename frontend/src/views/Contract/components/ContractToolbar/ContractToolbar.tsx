@@ -11,7 +11,7 @@ import {
     ListItem,
     ListItemAvatar,
     List,
-    Avatar
+    Avatar, Switch, FormControlLabel
 } from '@material-ui/core';
 import { SearchInput } from 'components';
 import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
@@ -66,11 +66,13 @@ interface IContractToolbar {
     onNew: any,
     onDelete: any,
     onSetState: any,
-    contractState: number
+    contractState: number,
+    showOwnContract: boolean,
+    handleChangeHidden: any
 }
 
 const ContractToolbar = (props: IContractToolbar) => {
-    const { className, onFind, onNew, onDelete, onSetState, contractState, ...rest } = props;
+    const { className, onFind, onNew, onDelete, onSetState, contractState, showOwnContract, handleChangeHidden, ...rest } = props;
 
     const classes = useStyles();
 
@@ -83,6 +85,10 @@ const ContractToolbar = (props: IContractToolbar) => {
 
     const handleChangeState = (event: React.ChangeEvent<{value: unknown}>)=>{
         onSetState(event.target.value as number)
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        handleChangeHidden(event.target.checked);
     }
 
     return (
@@ -127,6 +133,16 @@ const ContractToolbar = (props: IContractToolbar) => {
                         }
                     </Select>
                 </FormControl>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={showOwnContract}
+                            onChange={handleChange}
+                            color="primary"
+                        />
+                    }
+                    label="Показывать только мои контракты"
+                />
             </div>
         </div>
     );
