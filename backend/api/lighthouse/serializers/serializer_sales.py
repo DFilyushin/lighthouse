@@ -1,9 +1,10 @@
 from lighthouse.appmodels.org import Employee
-from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, \
+from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, PriceList, \
     ContractExpectedPayment, CONTRACT_STATE_DRAFT
 from .serializer_refs import TareSerializer
 from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
+from .serializer_refs import MaterialSerializer
 from rest_framework import serializers
 
 
@@ -335,3 +336,29 @@ class PaymentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = ('id', 'contract', 'date', 'num', 'type', 'value')
+
+
+class PriceListSerializer(serializers.ModelSerializer):
+    productId = serializers.IntegerField(source='id_product__id')
+    productName = serializers.CharField(source='id_product__name')
+    tareId = serializers.IntegerField(source='id_tare__id')
+    tareName = serializers.CharField(source='id_tare__name')
+    tareV = serializers.FloatField(source='id_tare__v')
+    date = serializers.DateField(source='on_date')
+    price = serializers.FloatField()
+
+    class Meta:
+        model = PriceList
+        fields = ['productId', 'productName', 'date', 'price', 'tareId', 'tareName', 'tareV']
+
+
+class PriceListItemSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    product = ProductSerializer(source='id_product')
+    tare = TareSerializer(source='id_tare')
+    date = serializers.DateField(source='on_date')
+    price = serializers.FloatField()
+
+    class Meta:
+        model = PriceList
+        fields = ['id', 'product', 'tare', 'date', 'price']
