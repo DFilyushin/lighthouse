@@ -89,7 +89,7 @@ class Contract(models.Model):
         :return: Сумма контракта
         """
         p = ContractSpec.objects.filter(id_contract=self)\
-            .aggregate(value=Coalesce(Sum(F('item_price') * F('item_count')-F('item_discount')), 0))
+            .aggregate(value=Coalesce(Sum((F('item_price') * F('item_count') * (F('item_nds')/100 + 1)) - F('item_discount')), 0))
         return p['value']
 
     def set_contract_status(self, new_status: int):
