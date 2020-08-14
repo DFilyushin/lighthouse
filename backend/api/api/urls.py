@@ -23,6 +23,7 @@ router.register(r'expense', api_store_views.ExpenseViewSet)  # затраты
 router.register(r'units', api_store_views.MaterialUnitViewSet)  # единицы измерения
 router.register(r'works', api_prod_views.ProductionWorkView)  # работы
 router.register(r'reserve', api_store_views.ReservationViewSet)  # резервирование материала
+router.register(r'price', api_sales_views.PriceListViewSet, basename='PriceList')
 store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья

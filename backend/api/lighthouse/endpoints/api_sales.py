@@ -1,12 +1,13 @@
 from datetime import datetime
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Max
 from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
-    ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer
-from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, \
+    ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer, \
+    PriceListSerializer, PriceListItemSerializer
+from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY
 from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
 
@@ -175,3 +176,23 @@ class PaymentViewSet(viewsets.ModelViewSet):
                 .only('id', 'id_contract', 'pay_date', 'pay_num', 'pay_type', 'pay_value')
         else:
             return Payment.objects.all()
+
+
+class PriceListViewSet(viewsets.ModelViewSet):
+    """Прайс-листы"""
+    # queryset = PriceList.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return PriceListSerializer
+        else:
+            return PriceListItemSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            queryset = PriceList.objects\
+                .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v', 'price')\
+                .annotate(on_date=Max('on_date'))
+        else:
+            queryset = PriceList.objects.all()
+        return queryset
