@@ -16,6 +16,8 @@ import WidgetsOutlinedIcon from '@material-ui/icons/WidgetsOutlined';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 import {Label} from 'components';
 import {AccessGroups} from 'utils/AppConst'
+import { ReactComponent as Price2 } from 'images/barcode.svg';
+
 
 export default [
     {
@@ -70,6 +72,12 @@ export default [
                     }
                 ],
                 access: [AccessGroups.ADMIN]
+            },
+            {
+                title: 'Прайс',
+                href: '/price',
+                icon: Price2,
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN]
             },
             {
                 title: 'Клиенты',
