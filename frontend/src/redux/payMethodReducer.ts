@@ -12,7 +12,7 @@ import {
 
 const initialState = (): IPayMethodState => ({
     payMethodItems: [],
-    payMethodItem: nullPayMethod,
+    payMethodItem: {...nullPayMethod},
     error: '',
     hasError: false,
     isLoading: false
