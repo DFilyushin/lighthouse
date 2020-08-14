@@ -27,6 +27,21 @@ CLAIM_RESULT = [
 ]
 
 
+class PriceList(models.Model):
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукт')
+    id_tare = models.ForeignKey(Tare, on_delete=models.CASCADE, verbose_name='Тара')
+    on_date = models.DateField(null=False, verbose_name='Начало действия')
+    price = models.FloatField(default=0, verbose_name='Цена')
+
+    def __str__(self):
+        return '{} {} на {} {}'.format(self.product.name, self.tare.name, self.on_date, self.price)
+
+    class Meta:
+        verbose_name = 'Прайс-лист'
+        verbose_name_plural = 'Прайс-листы'
+
+
 class Client(models.Model):
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
