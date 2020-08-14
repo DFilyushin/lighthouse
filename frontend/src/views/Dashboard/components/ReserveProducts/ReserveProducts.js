@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LatestProducts = props => {
+const ReserveProducts = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -50,7 +50,7 @@ const LatestProducts = props => {
     >
       <CardHeader
         subtitle={`${products.length} in total`}
-        title="Latest products"
+        title="Резерв продукции"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -88,15 +88,15 @@ const LatestProducts = props => {
           size="small"
           variant="text"
         >
-          View all <ArrowRightIcon />
+          Смотреть все <ArrowRightIcon />
         </Button>
       </CardActions>
     </Card>
   );
 };
 
-LatestProducts.propTypes = {
+ReserveProducts.propTypes = {
   className: PropTypes.string
 };
 
-export default LatestProducts;
+export default ReserveProducts;
