@@ -63,10 +63,10 @@ const LatestOrders = props => {
             size="small"
             variant="outlined"
           >
-            New entry
+            Новый контракт
           </Button>
         }
-        title="Latest Orders"
+        title="Последние контракты"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -75,8 +75,8 @@ const LatestOrders = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Order Ref</TableCell>
-                  <TableCell>Customer</TableCell>
+                  <TableCell>Номер контракта</TableCell>
+                  <TableCell>Клиент</TableCell>
                   <TableCell sortDirection="desc">
                     <Tooltip
                       enterDelay={300}
@@ -86,11 +86,11 @@ const LatestOrders = props => {
                         active
                         direction="desc"
                       >
-                        Date
+                        Дата
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Статус</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -123,7 +123,7 @@ const LatestOrders = props => {
           size="small"
           variant="text"
         >
-          View all <ArrowRightIcon />
+          Смотреть все <ArrowRightIcon />
         </Button>
       </CardActions>
     </Card>
