@@ -9,6 +9,7 @@ import {clearError, deleteProduct, loadProduct} from "redux/actions/productActio
 import SnackBarAlert from 'components/SnackBarAlert';
 import { useConfirm } from "material-ui-confirm";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -25,11 +26,11 @@ const ProductList = () => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
 
-    const products = useSelector((state: any) => state.product.products);
-    const isLoading = useSelector((state: any) => state.product.isLoading);
-    const errorValue = useSelector((state: any) => state.product.error);
+    const products = useSelector((state: IStateInterface) => state.product.products);
+    const isLoading = useSelector((state: IStateInterface) => state.product.isLoading);
+    const errorValue = useSelector((state: IStateInterface) => state.product.error);
     const alertType = useSelector((state: any) => state.product.typeMessage);
-    const hasError = useSelector((state: any) => state.product.hasError);
+    const hasError = useSelector((state: IStateInterface) => state.product.hasError);
     const [selected, setSelected] = useState<number[]>([]);
 
 
