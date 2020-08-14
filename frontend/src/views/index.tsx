@@ -62,6 +62,8 @@ export {default as StoreNewItems} from './Store/StoreNewItems'
 export {default as PaymentList} from './Payments/PaymentList'
 export {default as PaymentItem} from './Payments/PaymentItem'
 
+export {default as PriceList} from './Price/PriceList'
+
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts'
 export { default as ReportProduction} from './Reports/ReportProduction'

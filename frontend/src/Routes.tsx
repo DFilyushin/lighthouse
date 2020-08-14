@@ -55,7 +55,8 @@ import {
     PaymentItem as PaymentItemView,
     StoreReserved as StoreReservedView,
     ExpenseItem as ExpenseItemView,
-    ContractPdf as ContractPdfView
+    ContractPdf as ContractPdfView,
+    PriceList as PriceLIstView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -125,6 +126,8 @@ const Routes = () => {
 
             <AuthRouteWithLayout component={FactoryLineView} layout={MainLayout} path="/catalogs/lines" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={FactoryLineItemView} layout={MainLayout} path="/catalogs/lines/:id" access={[AccessGroups.ADMIN]} exact/>
+
+            <AuthRouteWithLayout component={PriceLIstView} layout={MainLayout} path="/price" access={[AccessGroups.ADMIN]} exact/>
 
             //производство
             <AuthRouteWithLayout component={ProductionListView} layout={MainLayout} path="/factory" access={[AccessGroups.FACTORY, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
