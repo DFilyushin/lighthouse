@@ -44,11 +44,16 @@ import {
     IContractSpecItem
 } from "types/model/contract"
 import { KeyboardDatePicker} from '@material-ui/pickers'
-import {IClientItemList, nullClientItem} from "types/model/client"
-import Autocomplete from "@material-ui/lab/Autocomplete"
+import {
+    IClientItemList,
+    nullClientItem
+} from "types/model/client"
+import {Autocomplete, Skeleton} from "@material-ui/lab"
 import {searchClients} from "redux/actions/clientAction"
-import Skeleton from '@material-ui/lab/Skeleton'
-import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst"
+import {
+    INVALID_DATE_FORMAT,
+    NEW_RECORD_VALUE
+} from "../../../utils/AppConst"
 import TabPanel from "../../Production/components/TabPanel"
 import ContractPaymentTable from "../components/ContractPaymentTable"
 import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable"
