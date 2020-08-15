@@ -7,9 +7,15 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import SnackBarAlert from 'components/SnackBarAlert';
 import { useConfirm } from "material-ui-confirm";
-import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
-import {loadActualPriceList} from "../../../redux/actions/priceAction";
+import {
+    DIALOG_ASK_DELETE,
+    DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES
+} from "../../../utils/AppConst";
+import {deletePriceList, loadActualPriceList} from "../../../redux/actions/priceAction";
 import {IStateInterface} from "../../../redux/rootReducer";
+import { ReactComponent as Price2 } from 'images/barcode.svg';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,6 +25,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2)
     }
 }));
+
 
 const PriceList = () => {
     const classes = useStyles();
@@ -57,6 +64,7 @@ const PriceList = () => {
             }
         ).then(() =>
             selected.forEach(async (item, i, selected) => {
+                dispatch(deletePriceList(item))
             })
         )
         ;
@@ -65,7 +73,11 @@ const PriceList = () => {
     function onClickTableItem(productId: number){
         const newItemUrl = `/price/${productId}`;
         history.push(newItemUrl);
-    };
+    }
+
+    function onClickHistoryItem(productId: number){
+        history.push(`/price/history/${productId}`);
+    }
 
     return (
         <div className={classes.root}>
@@ -77,15 +89,19 @@ const PriceList = () => {
                 findCaption={'Поиск продукции'}
                 showDelete={true}
                 onFind={onFindProductHandler}
-                onDelete={onDeleteHandle}/>
+                onDelete={onDeleteHandle}
+                icon={<Price2 color={"primary"}/>}
+            />
             <div className={classes.content}>
                 {isLoading ? <CircularIndeterminate/>
                     :
                     <PriceTable
                         items={priceList}
+                        showHistory={true}
                         onClickItem={onClickTableItem}
                         className={''}
                         onChangeSelected={setSelected}
+                        onClickHistory={onClickHistoryItem}
                     />
                 }
             </div>

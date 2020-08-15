@@ -13,10 +13,10 @@ import {
     TableHead,
     TableRow,
     Typography,
-    TablePagination
+    TablePagination,
+    Button
 } from '@material-ui/core';
-import Button from "@material-ui/core/Button";
-import {IPrice} from "../../../../types/model/price";
+import {IPrice} from "types/model/price";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -43,14 +43,16 @@ const useStyles = makeStyles(theme => ({
 
 interface IPriceTableProps{
     className: string,
+    showHistory: boolean,
     items: IPrice[],
     onClickItem: any,
     onChangeSelected: any,
+    onClickHistory?: any
 }
 
 
 const PriceTable = (props: IPriceTableProps) => {
-    const { className, items, onClickItem, onChangeSelected, ...rest } = props;
+    const { className, items, onClickItem, onChangeSelected, showHistory, onClickHistory, ...rest } = props;
 
     const classes = useStyles();
 
@@ -74,35 +76,40 @@ const PriceTable = (props: IPriceTableProps) => {
 
     const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:number) => {
         const selectedIndex = selectedItems.indexOf(id);
-        let newSelectedEmployees: number[] = [];
+        let newSelectedElements: number[] = [];
 
         if (selectedIndex === -1) {
-            newSelectedEmployees = newSelectedEmployees.concat(selectedItems, id);
+            newSelectedElements = newSelectedElements.concat(selectedItems, id);
         } else if (selectedIndex === 0) {
-            newSelectedEmployees = newSelectedEmployees.concat(selectedItems.slice(1));
+            newSelectedElements = newSelectedElements.concat(selectedItems.slice(1));
         } else if (selectedIndex === selectedItems.length - 1) {
-            newSelectedEmployees = newSelectedEmployees.concat(selectedItems.slice(0, -1));
+            newSelectedElements = newSelectedElements.concat(selectedItems.slice(0, -1));
         } else if (selectedIndex > 0) {
-            newSelectedEmployees = newSelectedEmployees.concat(
+            newSelectedElements = newSelectedElements.concat(
                 selectedItems.slice(0, selectedIndex),
                 selectedItems.slice(selectedIndex + 1)
             );
         }
-        onChangeSelected(newSelectedEmployees);
-        setSelectedItems(newSelectedEmployees);
+        onChangeSelected(newSelectedElements);
+        setSelectedItems(newSelectedElements);
     };
 
     const handlePageChange = (event:any, page: number) => {
         setPage(page);
-    };
+    }
 
     const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
-    };
+    }
 
     const cellClicked = (id: number) => {
         onClickItem(id);
-    };
+    }
+
+    const cellClickedHistory = (id: number) => {
+        if (onClickHistory) {onClickHistory(id)}
+    }
+
 
     return (
         <Card
@@ -129,6 +136,10 @@ const PriceTable = (props: IPriceTableProps) => {
                                     <TableCell>Наименование</TableCell>
                                     <TableCell>Начало действия</TableCell>
                                     <TableCell>Цена</TableCell>
+                                    {
+                                        showHistory &&
+                                            <TableCell/>
+                                    }
                                     <TableCell/>
                                 </TableRow>
                             </TableHead>
@@ -157,6 +168,12 @@ const PriceTable = (props: IPriceTableProps) => {
                                         <TableCell>
                                             <Typography variant="body1">{item.price}</Typography>
                                         </TableCell>
+                                        {
+                                            showHistory &&
+                                            <TableCell align="right">
+                                                <Button variant="outlined" color="primary" onClick={event => cellClickedHistory(item.productId)}>История</Button>
+                                            </TableCell>
+                                        }
                                         <TableCell align="right">
                                             <Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Открыть</Button>
                                         </TableCell>
