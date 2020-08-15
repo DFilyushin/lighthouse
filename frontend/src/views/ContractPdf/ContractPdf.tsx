@@ -48,9 +48,6 @@ const ContractPdf = (props: ContractPdfProps) => {
     return (
 
         <div id="row" style={{height: "100vh", width: "100vw", display: "flex", overflow: "hidden"}}>
-            {
-                console.log(moneyToStr.convert(199, 0), getTotalSumContract())
-            }
             <PDFViewer width={'90%'} >
                 <Document>
                     <Page size="A4" style={styles.body}>
