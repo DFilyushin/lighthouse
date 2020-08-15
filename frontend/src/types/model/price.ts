@@ -13,7 +13,7 @@ export const nullPrice: IPrice = {
     id: 0,
     productId: 0,
     productName: '',
-    date: '',
+    date: (new Date()).toISOString().slice(0, 10),
     price: 0,
     tareId: 0,
     tareName: '',
