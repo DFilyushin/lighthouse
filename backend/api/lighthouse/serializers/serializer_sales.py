@@ -355,11 +355,31 @@ class PriceListSerializer(serializers.ModelSerializer):
 
 class PriceListItemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
-    product = ProductSerializer(source='id_product')
-    tare = TareSerializer(source='id_tare')
+    productId = serializers.IntegerField(source='id_product.id')
+    productName = serializers.CharField(source='id_product.name')
+    tareId = serializers.IntegerField(source='id_tare.id')
+    tareName = serializers.CharField(source='id_tare.name')
+    tareV = serializers.FloatField(source='id_tare.v')
     date = serializers.DateField(source='on_date')
     price = serializers.FloatField()
 
+    def update(self, instance, validated_data):
+        instance.id_product_id = validated_data['id_product']['id']
+        instance.id_tare_id = validated_data['id_tare']['id']
+        instance.on_date = validated_data['on_date']
+        instance.price = validated_data['price']
+        instance.save()
+        return instance
+
+    def create(self, validated_data):
+        price = PriceList.objects.create(
+            id_product_id=validated_data['id_product']['id'],
+            id_tare_id=validated_data['id_tare']['id'],
+            on_date=validated_data['on_date'],
+            price=validated_data['price']
+        )
+        return price
+
     class Meta:
         model = PriceList
-        fields = ['id', 'product', 'tare', 'date', 'price']
+        fields = ['id', 'productId', 'productName', 'tareId', 'tareName', 'tareV', 'date', 'price']
