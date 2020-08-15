@@ -1,4 +1,5 @@
 export interface IPrice {
+    id: number;
     productId: number;
     productName: string;
     date: string;
@@ -9,6 +10,7 @@ export interface IPrice {
 }
 
 export const nullPrice: IPrice = {
+    id: 0,
     productId: 0,
     productName: '',
     date: '',

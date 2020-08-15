@@ -64,7 +64,7 @@ const PriceTable = (props: IPriceTableProps) => {
         let selectedElements: number[];
 
         if (event.target.checked) {
-            selectedElements = items.map(item => item.productId);
+            selectedElements = items.map(item => item.id);
         } else {
             selectedElements = [];
         }
@@ -100,8 +100,8 @@ const PriceTable = (props: IPriceTableProps) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const cellClicked = (productId: number) => {
-        onClickItem(productId);
+    const cellClicked = (id: number) => {
+        onClickItem(id);
     };
 
     return (
@@ -137,14 +137,14 @@ const PriceTable = (props: IPriceTableProps) => {
                                     <TableRow
                                         className={classes.tableRow}
                                         hover
-                                        key={item.productId}
-                                        selected={selectedItems.indexOf(item.productId) !== -1}
+                                        key={item.id}
+                                        selected={selectedItems.indexOf(item.id) !== -1}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
-                                                checked={selectedItems.indexOf(item.productId) !== -1}
+                                                checked={selectedItems.indexOf(item.id) !== -1}
                                                 color="primary"
-                                                onChange={event => handleSelectOne(event, item.productId)}
+                                                onChange={event => handleSelectOne(event, item.id)}
                                                 value="true"
                                             />
                                         </TableCell>
@@ -158,7 +158,7 @@ const PriceTable = (props: IPriceTableProps) => {
                                             <Typography variant="body1">{item.price}</Typography>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Button variant="outlined" color="primary" onClick={event => cellClicked(item.productId)}>Открыть</Button>
+                                            <Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Открыть</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
