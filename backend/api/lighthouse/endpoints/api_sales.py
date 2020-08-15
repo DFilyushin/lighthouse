@@ -204,3 +204,16 @@ class PriceListViewSet(viewsets.ModelViewSet):
         else:
             queryset = PriceList.objects.all()
         return queryset
+
+    @action(methods=['get'], detail=False, url_path='history/(?P<product>[0-9]+)', url_name='getHistory')
+    def get_history_price_by_product(self, request, product):
+        """
+        История прайсов по продукции
+        :param request:
+        :param product: Код продукции
+        :return:
+        """
+        param_product = int(product)
+        queryset = PriceList.objects.filter(id_product_id=param_product)
+        serializer = PriceListItemSerializer(queryset, many=True)
+        return Response(serializer.data)
