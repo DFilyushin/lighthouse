@@ -63,6 +63,8 @@ export {default as PaymentList} from './Payments/PaymentList'
 export {default as PaymentItem} from './Payments/PaymentItem'
 
 export {default as PriceList} from './Price/PriceList'
+export {default as PriceItem} from './Price/PriceItem'
+export {default as PriceListHistory} from './Price/PriceListHistory'
 
 //отчётность
 export { default as ReportContracts} from './Reports/ReportContracts'
