@@ -19,11 +19,33 @@ class PriceEndpoint {
     }
 
     /**
-     * Удалить прайс-лист по коду продукта и дате
-     * @param productId Код продукта
-     * @param date Дата прайса
+     * История прайс-листов по продукции
+     * @param productId Код продукции
      */
-    static deletePriceList(productId: number, date: string): string {
+    static loadPriceByProduct(productId: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/price/history/${productId}/`
+    }
+
+    /**
+     * Удалить прайс-лист по коду продукта и дате
+     * @param id Код прайса
+     */
+    static deletePriceList(id: number): string {
+        return this.loadPriceById(id)
+    }
+
+    /**
+     * Обновление прайс-листа по коду записи
+     * @param id Код записи
+     */
+    static updatePriceList(id: number): string{
+        return this.loadPriceById(id)
+    }
+
+    /**
+     * Добавить новый прайс-лист
+     */
+    static newPriceList(): string {
         return `${BaseAPIEndpoint.getBaseURL()}/price/`
     }
 }
