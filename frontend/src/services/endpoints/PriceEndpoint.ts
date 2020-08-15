@@ -11,13 +11,12 @@ class PriceEndpoint {
     }
 
     /**
-     * Загрузить актуальный прайс-лист на продукт
-     * @param productId Код продукта
+     * Загрузить прайс-лист по коду записи
+     * @param id Код записи
      */
-    static loadPriceListByProduct(productId: number): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/price/${productId}/`
+    static loadPriceById(id: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/price/${id}/`
     }
-
 
     /**
      * Удалить прайс-лист по коду продукта и дате
