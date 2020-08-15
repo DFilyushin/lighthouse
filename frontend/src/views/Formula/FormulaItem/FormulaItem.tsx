@@ -8,7 +8,12 @@ import {
     Divider,
     Grid,
     Button,
-    TextField
+    TextField,
+    Tooltip,
+    Paper,
+    Fab,
+    Typography,
+    IconButton
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -17,10 +22,9 @@ import {
     changeFormula,
     updateFormula,
     addNewFormula,
-    deleteRawItem, addNewRawItem
+    deleteRawItem,
+    addNewRawItem
 } from "redux/actions/formulaAction";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import AddIcon from '@material-ui/icons/Add';
 import OpacityIcon from '@material-ui/icons/Opacity';
@@ -28,14 +32,17 @@ import CircularIndeterminate from "components/Loader/Loader";
 import {loadProduct} from "redux/actions/productAction";
 import { useConfirm } from "material-ui-confirm";
 import FormulaRawItem from "../components/FormulaRawItem";
-import Fab from "@material-ui/core/Fab";
-import Typography from "@material-ui/core/Typography";
 import {loadRaws} from "redux/actions/rawAction";
 import {useDialog} from "components/SelectDialog";
 import {IRawInFormula} from "types/model/formula";
-import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NEW_RECORD_VALUE} from "utils/AppConst";
+import {
+    DIALOG_ASK_DELETE,
+    DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES,
+    NEW_RECORD_VALUE
+} from "utils/AppConst";
 import {showInfoMessage} from "redux/actions/infoAction";
-import Tooltip from '@material-ui/core/Tooltip';
 
 interface IFormulaItemProps {
     className: string,
