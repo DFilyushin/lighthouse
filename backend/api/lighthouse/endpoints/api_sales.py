@@ -9,7 +9,7 @@ from lighthouse.serializers.serializer_sales import ClientListSerializer, Client
     PriceListSerializer, PriceListItemSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY
-from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
+from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -180,7 +180,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 class PriceListViewSet(viewsets.ModelViewSet):
     """Прайс-листы"""
-    # queryset = PriceList.objects.all()
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -191,8 +190,17 @@ class PriceListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             queryset = PriceList.objects\
-                .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v', 'price')\
-                .annotate(on_date=Max('on_date'))
+                .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v')\
+                .annotate(on_date=Max('on_date'))\
+                .order_by('id_product__name')
+            for item in queryset:
+                p = PriceList.objects\
+                    .filter(id_product_id=item['id_product__id'])\
+                    .filter(id_tare_id=item['id_tare__id'])\
+                    .filter(on_date=item['on_date'])\
+                    .only('price')
+                item['price'] = p[0].price
+                item['id'] = p[0].id
         else:
             queryset = PriceList.objects.all()
         return queryset

@@ -339,6 +339,7 @@ class PaymentListSerializer(serializers.ModelSerializer):
 
 
 class PriceListSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
     productId = serializers.IntegerField(source='id_product__id')
     productName = serializers.CharField(source='id_product__name')
     tareId = serializers.IntegerField(source='id_tare__id')
@@ -349,7 +350,7 @@ class PriceListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PriceList
-        fields = ['productId', 'productName', 'date', 'price', 'tareId', 'tareName', 'tareV']
+        fields = ['id', 'productId', 'productName', 'date', 'price', 'tareId', 'tareName', 'tareV']
 
 
 class PriceListItemSerializer(serializers.ModelSerializer):
