@@ -35,7 +35,7 @@ class PriceList(models.Model):
     price = models.FloatField(default=0, verbose_name='Цена')
 
     def __str__(self):
-        return '{} {} на {} {}'.format(self.product.name, self.tare.name, self.on_date, self.price)
+        return '{} {} на {} {}'.format(self.id_product.name, self.id_tare.name, self.on_date, self.price)
 
     class Meta:
         verbose_name = 'Прайс-лист'
