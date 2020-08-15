@@ -214,6 +214,6 @@ class PriceListViewSet(viewsets.ModelViewSet):
         :return:
         """
         param_product = int(product)
-        queryset = PriceList.objects.filter(id_product_id=param_product)
+        queryset = PriceList.objects.filter(id_product_id=param_product).order_by('-on_date')
         serializer = PriceListItemSerializer(queryset, many=True)
         return Response(serializer.data)
