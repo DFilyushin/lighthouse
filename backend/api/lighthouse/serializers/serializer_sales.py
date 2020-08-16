@@ -123,6 +123,7 @@ class ContractSpecSerializer(serializers.ModelSerializer):
     tare = TareSerializer(source='id_tare')
     itemCount = serializers.FloatField(source='item_count')
     itemPrice = serializers.FloatField(source='item_price')
+    itemNds = serializers.FloatField(source='item_nds')
     itemDiscount = serializers.FloatField(source='item_discount')
     itemTotal = serializers.FloatField(source='total')
     delivery = serializers.DateField(source='delivery_date', allow_null=True)
@@ -130,7 +131,7 @@ class ContractSpecSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ContractSpec
-        fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemDiscount', 'itemTotal',
+        fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemNds', 'itemDiscount', 'itemTotal',
                   'delivery', 'delivered')
 
 
