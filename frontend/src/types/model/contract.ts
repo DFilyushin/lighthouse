@@ -85,6 +85,7 @@ export const nullContractSpecItem : IContractSpecItem = {
     tare: nullTare,
     itemCount: 0,
     itemPrice: 0,
+    itemNds: 0,
     itemTotal: 0,
     itemDiscount: 0,
     delivered: '',
