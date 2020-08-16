@@ -97,6 +97,7 @@ export interface IContractSpecItem {
     tare: ITare;
     itemCount: number;
     itemPrice: number;
+    itemNds: number;
     itemTotal: number;
     itemDiscount: number;
     delivery: string;
