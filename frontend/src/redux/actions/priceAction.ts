@@ -118,15 +118,12 @@ export function updatePrice(item: IPrice) {
 
 /**
  * Новый прайс-лист
- * @param item
+ * @param item Объект нового прайса
  */
 export function newPriceList(item: IPrice) {
     return async (dispatch: any, getState: any) => {
         try{
-            const items = [...getState().price.priceList]
             await authAxios.post(PriceEndpoint.newPriceList(), item)
-            // items.push(item)
-            // dispatch(fetchSuccess(items))
             dispatch(loadActualPriceList())
             return Promise.resolve()
         }catch (e) {
