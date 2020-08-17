@@ -300,17 +300,21 @@ class ContractSerializer(serializers.ModelSerializer):
                 spec = ContractSpec.objects.get(pk=object_id)
                 spec.item_count = item['item_count']
                 spec.item_price = item['item_price']
+                spec.item_nds = item['item_nds']
                 spec.delivered = item['delivered']
                 spec.delivery_date = item['delivery_date']
-                spec.id_tare = item['id_tare']['id']
+                spec.id_tare_id = item['id_tare']['id']
+                spec.id_product_id = item['id_product']['id']
                 spec.save()
             else:
                 ContractSpec.objects.create(
                     id_contract=instance,
                     item_count=item['item_count'],
                     item_price=item['item_price'],
+                    item_nds=item['item_nds'],
                     item_discount=item['item_discount'],
                     id_tare_id=item['id_tare']['id'],
+                    id_product_id=item['id_product']['id'],
                     delivered=item['delivered'],
                     delivery_date=item['delivery_date']
                 )
