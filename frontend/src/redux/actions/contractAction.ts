@@ -186,7 +186,7 @@ export function addNewContract(item: IContract) {
         try{
             delete item.created
             if (item.delivered === '') {item.delivered = null}
-            const response = await authAxios.post(ContractEndpoint.newContract(), item)
+            await authAxios.post(ContractEndpoint.newContract(), item)
             return Promise.resolve()
         }catch (e) {
             console.log(e.toString())
@@ -203,9 +203,11 @@ export function addNewContract(item: IContract) {
 export function updateContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
         try{
-            const response = await authAxios.put(ContractEndpoint.updateContract(item.id), item)
+            await authAxios.put(ContractEndpoint.updateContract(item.id), item)
+            return Promise.resolve()
         }catch (e) {
             dispatch(saveError(e.toString()))
+            return Promise.reject()
         }
     }
 }
