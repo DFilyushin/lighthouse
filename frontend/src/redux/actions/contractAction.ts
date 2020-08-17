@@ -267,6 +267,20 @@ export function changeContractSpecItem(item: IContractSpecItem) {
     }
 }
 
+/**
+ * Изменить элемент графика оплат
+ * @param item Объект графика оплат
+ */
+export function changePaymentWaitItem(item: IWaitPaymentContractItem) {
+    return async (dispatch: any, getState: any)=> {
+        console.log('test........')
+        const contract = {...getState().contract.contractItem};
+        const index = contract.waitPayments.findIndex((elem: IWaitPaymentContractItem, index:number, array: IWaitPaymentContractItem[])=>{return elem.id === item.id})
+        contract.waitPayments[index] = item
+        dispatch(changeContractItem(contract));
+    }
+}
+
 
 export function changeContractItem(item: IContract) {
     return{
