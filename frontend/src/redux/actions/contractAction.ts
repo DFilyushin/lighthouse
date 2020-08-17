@@ -146,7 +146,8 @@ export function deleteContractSpecItem(id: number) {
 export function addNewSpecItem() {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        item.specs.unshift({...nullContractSpecItem});
+        const newItem = {...nullContractSpecItem, itemNds: getState().setup.nds}
+        item.specs.unshift(newItem);
         dispatch(fetchItemSuccess(item))
     }
 }
@@ -240,6 +241,20 @@ export function setContractStatus(newStatus: number) {
             dispatch(showInfoMessage('error', e.toString()))
             return Promise.reject()
         }
+    }
+}
+
+/**
+ * Изменить элемент спецификации контракта
+ * @param item ОБъект спецификации
+ */
+export function changeContractSpecItem(item: IContractSpecItem) {
+    return async (dispatch: any, getState: any)=> {
+        console.log('test', item)
+        const contract = {...getState().contract.contractItem};
+        const index = contract.specs.findIndex((elem: IContractSpecItem, index:number, array: IContractSpecItem[])=>{return elem.id === item.id})
+        contract.specs[index] = item
+        dispatch(changeContractItem(contract));
     }
 }
 
