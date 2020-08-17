@@ -245,6 +245,29 @@ class ContractSerializer(serializers.ModelSerializer):
             delivery_terms=validated_data['delivery_terms'],
             contract_state=CONTRACT_STATE_DRAFT
         )
+        specs = validated_data.pop('specs')
+        wait_payments = validated_data.pop('expected_payment')
+
+        # сохранить спецификацию
+        for item in specs:
+            ContractSpec.objects.create(
+                id_contract=contract,
+                item_count=item['item_count'],
+                item_price=item['item_price'],
+                item_nds=item['item_nds'],
+                item_discount=item['item_discount'],
+                id_tare_id=item['id_tare']['id'],
+                id_product_id=item['id_product']['id'],
+                delivered=item['delivered'],
+                delivery_date=item['delivery_date']
+            )
+        # сохранить график платежей
+        for item in wait_payments:
+            ContractExpectedPayment.objects.create(
+                id_contract=contract,
+                wait_date=item['wait_date'],
+                wait_value=item['wait_value']
+            )
         return contract
 
     def update(self, instance, validated_data):
