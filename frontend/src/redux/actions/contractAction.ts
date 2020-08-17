@@ -19,6 +19,7 @@ import ContractEndpoint, {UNDEFINED_AGENT} from "services/endpoints/ContractEndp
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import AuthenticationService from "../../services/Authentication.service";
+import {RoundValue} from "../../utils/AppUtils";
 
 /**
  * Получить список контрактов
@@ -116,6 +117,9 @@ export function loadContractItem(id: number, func0?: any) {
                 const url = ContractEndpoint.getContract(id);
                 const response = await authAxios.get(url);
                 const item: IContract = response.data;
+                // for (const spec of item.specs){
+                //     spec.itemTotal = Math.round(spec.itemCount * spec.itemPrice * (spec.itemNds/100 +1) - spec.itemDiscount)
+                // }
                 if (func0) {func0(item)}
                 dispatch(fetchItemSuccess(item))
             } catch (e) {
@@ -220,8 +224,11 @@ export function calculateDiscount() {
         const contract: IContract = {...getState().contract.contractItem}
         const discount = contract.discount
         const specs = contract.specs.map((value, index, array)=>{
-            value.itemDiscount = (value.itemPrice * value.itemCount) * (discount / 100)
-            value.itemTotal = (value.itemPrice * value.itemCount) - value.itemDiscount
+            const ndsValue = value.itemNds/100 +1
+            const price_with_nds = value.itemPrice * (ndsValue)
+            const discount_value = RoundValue(price_with_nds  * (discount / 100))
+            value.itemDiscount = discount_value * value.itemCount
+            value.itemTotal = RoundValue(value.itemCount * price_with_nds *  - discount_value)
             return value
         })
         dispatch(fetchItemSuccess({...contract, specs: specs}))
@@ -248,13 +255,13 @@ export function setContractStatus(newStatus: number) {
 
 /**
  * Изменить элемент спецификации контракта
- * @param item ОБъект спецификации
+ * @param item Объект спецификации
  */
 export function changeContractSpecItem(item: IContractSpecItem) {
     return async (dispatch: any, getState: any)=> {
-        console.log('test', item)
         const contract = {...getState().contract.contractItem};
         const index = contract.specs.findIndex((elem: IContractSpecItem, index:number, array: IContractSpecItem[])=>{return elem.id === item.id})
+        item.itemTotal = Math.round(item.itemCount * item.itemPrice * (item.itemNds/100 +1) - item.itemDiscount)
         contract.specs[index] = item
         dispatch(changeContractItem(contract));
     }
