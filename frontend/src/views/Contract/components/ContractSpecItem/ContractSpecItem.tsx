@@ -14,8 +14,10 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {makeStyles} from "@material-ui/core/styles";
 import {KeyboardDatePicker} from "@material-ui/pickers";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {NumberFormatCustom} from 'components'
 import {INVALID_DATE_FORMAT} from "../../../../utils/AppConst";
+import {useDialog} from "../../../../components/SelectDialog";
+import {ITare} from "../../../../types/model/tare";
+import {IPrice} from "../../../../types/model/price";
 
 interface IContractSpecItemProps {
     className: string;
@@ -23,6 +25,8 @@ interface IContractSpecItemProps {
     item: IContractSpecItem;
     onDeleteItem: any;
     onChangeItem: any;
+    productItems: IPrice[];
+    tareItems: ITare[];
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -51,9 +55,78 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ContractSpecItem = (props: IContractSpecItemProps) => {
-    const { item, onDeleteItem, onChangeItem } = props;
+    const { item, onDeleteItem, onChangeItem, productItems, tareItems } = props;
 
     const classes = useStyles();
+    const selectDialog = useDialog();
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let value: any = null;
+        const property: string = event.target.name;
+        // @ts-ignore
+        const typeOfProperty: string = typeof (item[property]);
+        if ( typeOfProperty === 'number') {
+            value = parseFloat(event.target.value);
+        }else{
+            value =  event.target.value;
+        }
+        const newItem = {...item, [event.target.name]: value};
+        onChangeItem(newItem)
+    };
+
+
+    /**
+     * Сменить продукцию
+     */
+    const handleChangeProduct = () => {
+        selectDialog(
+            {
+                'title': 'Выбор продукции',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: productItems,
+                initKey: 0,
+                valueName: 'productName'
+            }
+        ).then((value:any) => {
+            const newItem = {...item};
+            const idPrice = productItems.findIndex((elem: IPrice, index:number, array: IPrice[])=>{return elem.id === value.id})
+            const priceItem = productItems[idPrice]
+
+            newItem.product.id = priceItem.productId;
+            newItem.product.name = priceItem.productName;
+            newItem.itemPrice = priceItem.price
+            newItem.tare.id = priceItem.tareId
+            newItem.tare.name = priceItem.tareName
+            newItem.tare.v = priceItem.tareV
+            onChangeItem(newItem)
+            }
+        );
+    };
+
+    /**
+     * Сменить продукцию
+     */
+    const handleChangeTare = () => {
+        selectDialog(
+            {
+                'title': 'Выбор тары',
+                description: '.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: tareItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+                const newItem = {...item};
+                newItem.tare.id = value.id;
+                newItem.tare.name = value.name;
+                onChangeItem(newItem)
+            }
+        );
+    };
 
 
     return (
@@ -73,7 +146,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                             readOnly: true,
                         }}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
                         <MenuOpenIcon />
                     </IconButton>
                 </Paper>
@@ -93,7 +166,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                             readOnly: true,
                         }}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeTare}>
                         <MenuOpenIcon />
                     </IconButton>
                 </Paper>
@@ -103,8 +176,8 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     fullWidth
                     type={'number'}
                     margin="dense"
-                    name="num"
-                    onChange={onChangeItem}
+                    name="itemCount"
+                    onChange={handleChange}
                     required
                     value={item.itemCount}
 
@@ -115,8 +188,8 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     fullWidth
                     type={'number'}
                     margin="dense"
-                    name="num"
-                    onChange={onChangeItem}
+                    name="itemPrice"
+                    onChange={handleChange}
                     required
                     value={item.itemPrice}
 
@@ -127,10 +200,12 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     fullWidth
                     type={'number'}
                     margin="dense"
-                    name="num"
-                    onChange={onChangeItem}
+                    name="priceNds"
                     required
-                    value={item.itemPrice * (item.itemNds/100 +1)}
+                    value={Math.round(item.itemPrice * (item.itemNds/100 +1))}
+                    InputProps={{
+                        readOnly: true,
+                    }}
                 />
             </TableCell>
             <TableCell>
@@ -138,8 +213,8 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     fullWidth
                     type={'number'}
                     margin="dense"
-                    name="num"
-                    onChange={onChangeItem}
+                    name="itemDiscount"
+                    onChange={handleChange}
                     required
                     value={item.itemDiscount}
                 />
@@ -148,38 +223,35 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                 <TextField
                     fullWidth
                     margin="dense"
-                    name="num"
-                    onChange={onChangeItem}
+                    name="itemTotal"
                     required
                     value={item.itemTotal}
                     InputProps={{
-                        inputComponent: NumberFormatCustom as any,
+                        readOnly: true,
                     }}
                 />
             </TableCell>
             <Hidden only={['xs', 'sm']}>
                 <TableCell>
-                    <KeyboardDatePicker
+                    <TextField
                         className=''
                         id="dp_delivery"
-                        format="dd/MM/yyyy"
+                        type={"date"}
                         margin="dense"
                         name="delivery"
                         value={item.delivery || null}
-                        onChange={onChangeItem}
-                        invalidDateMessage={INVALID_DATE_FORMAT}
+                        onChange={handleChange}
                     />
                 </TableCell>
                 <TableCell>
-                    <KeyboardDatePicker
+                    <TextField
                         className=''
                         id="dp_delivered"
-                        format="dd/MM/yyyy"
+                        type={"date"}
                         margin="dense"
                         name="delivered"
                         value={item.delivered || null}
-                        onChange={onChangeItem}
-                        invalidDateMessage={INVALID_DATE_FORMAT}
+                        onChange={handleChange}
                     />
                 </TableCell>
             </Hidden>

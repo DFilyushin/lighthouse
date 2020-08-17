@@ -23,7 +23,9 @@ import {
     Tooltip,
     Typography,
     MenuItem,
-    TextField, TableRow, TableCell
+    TextField,
+    TableRow,
+    TableCell
 } from '@material-ui/core'
 import { useHistory } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
@@ -32,7 +34,7 @@ import AddIcon from "@material-ui/icons/Add"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import {
     addNewContract, addNewSpecItem, calculateDiscount,
-    changeContractItem, deleteContractSpecItem,
+    changeContractItem, changeContractSpecItem, deleteContractSpecItem,
     loadContractItem, setContractStatus,
     updateContract
 } from "redux/actions/contractAction"
@@ -58,6 +60,9 @@ import TabPanel from "../../Production/components/TabPanel"
 import ContractPaymentTable from "../components/ContractPaymentTable"
 import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable"
 import {getSetupNdsRate} from "../../../redux/actions/setupAction";
+import {loadTare} from "../../../redux/actions/tareAction";
+import {loadActualPriceList} from "../../../redux/actions/priceAction";
+import {RoundValue} from "../../../utils/AppUtils";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -93,6 +98,9 @@ const useStyles = makeStyles((theme) => ({
     iconButton: {
         padding: 10,
     },
+    footer_row: {
+        fontSize: "1.3rem",
+    }
 }));
 
 
@@ -113,8 +121,8 @@ const ContractItem = (props: IContractItemProps) => {
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem)
     const loading = useSelector((state: IStateInterface) => state.contract.isLoading)
     const clients = useSelector((state: IStateInterface)=> state.client.searchClients)
-    const hasError = useSelector((state: IStateInterface)=> state.client.hasError)
-    const ndsRate = useSelector((state: IStateInterface) => state.setup.nds)
+    const products = useSelector((state:IStateInterface) => state.price.priceList)
+    const tares = useSelector((state:IStateInterface) => state.tare.tareItems)
     const [dataSource, setDataSource] = useState<IClientItemList[]>([])
     const [curClient, setCurClient] = useState<IClientItemList|null>(null)
     const [inputValue, setInputValue] = useState('')
@@ -147,17 +155,23 @@ const ContractItem = (props: IContractItemProps) => {
         resolve();
     });
 
-    /**
-     * Выбор контракта
-     * @param id
-     */
-    function onSelectContract(id: number){
-        history.push(`/contracts/${id}`);
-    }
 
+    /**
+     * Удаление позиции из спецификации
+     * @param id Код записи
+     */
     function onDeleteSpecItem(id: number) {
         dispatch(deleteContractSpecItem(id))
     }
+
+    /**
+     * Изменение позиции в спефикации
+     * @param item Объект позиции
+     */
+    function onChangeSpecItem(item: IContractSpecItem) {
+        dispatch(changeContractSpecItem(item))
+    }
+
 
     /**
      * Сохранить изменения
@@ -179,6 +193,8 @@ const ContractItem = (props: IContractItemProps) => {
             setLoad(true);
             dispatch(loadContractItem(contractId, loadData));
             dispatch(getSetupNdsRate())
+            dispatch(loadActualPriceList())
+            dispatch(loadTare())
         }
 
         if (contractItem.client.id !== 0 && curClient){
@@ -329,6 +345,14 @@ const ContractItem = (props: IContractItemProps) => {
 
     const handleClickTableItem = (id: number) => {
         return
+    }
+
+    const getTotalSpecSum = (spec: IContractSpecItem[]) => {
+        return RoundValue(spec.map(({ itemTotal }) => itemTotal).reduce((sum, i) => sum + i, 0));
+    }
+
+    const getTotalSumDiscount = (spec: IContractSpecItem[]) => {
+        return RoundValue(spec.map(({ itemDiscount }) => itemDiscount).reduce((sum, i) => sum + i, 0));
     }
 
     return (
@@ -572,8 +596,8 @@ const ContractItem = (props: IContractItemProps) => {
                                                 <TableCell>Сумма скидки, тенге</TableCell>
                                                 <TableCell>Итого, тенге</TableCell>
                                                 <Hidden only={['xs', 'sm']}>
-                                                <TableCell>Отгрузка</TableCell>
-                                                <TableCell>Отгружен</TableCell>
+                                                    <TableCell>Отгрузка</TableCell>
+                                                    <TableCell>Отгружен</TableCell>
                                                 </Hidden>
                                                 </TableRow>
                                             </TableHead>
@@ -584,10 +608,21 @@ const ContractItem = (props: IContractItemProps) => {
                                                         match={''}
                                                         item={specItem}
                                                         onDeleteItem={onDeleteSpecItem}
-                                                        onChangeItem={onSelectContract}
+                                                        onChangeItem={onChangeSpecItem}
+                                                        productItems={products}
+                                                        tareItems={tares}
                                                     />
                                                 ))
                                             }
+                                            <TableRow>
+                                                <TableCell className={classes.footer_row} colSpan={5}>Итого по контракту</TableCell>
+                                                <TableCell className={classes.footer_row}>{getTotalSumDiscount(contractItem.specs)}</TableCell>
+                                                <TableCell className={classes.footer_row}>{getTotalSpecSum(contractItem.specs)}</TableCell>
+                                                <Hidden only={['xs', 'sm']}>
+                                                    <TableCell/>
+                                                    <TableCell/>
+                                                </Hidden>
+                                            </TableRow>
                                             </Table>
                                         </Fragment>
                                     )}
