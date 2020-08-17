@@ -48,6 +48,21 @@ const ContractWaitPaymentItem = (props: IContractWaitItemProps) => {
 
     const classes = useStyles();
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let value: any = null;
+        const property: string = event.target.name;
+        // @ts-ignore
+        const typeOfProperty: string = typeof (item[property]);
+        if ( typeOfProperty === 'number') {
+            value = parseFloat(event.target.value);
+        }else{
+            value =  event.target.value;
+        }
+        const newItem = {...item, [event.target.name]: value};
+        onChangeItem(newItem)
+    };
+
+
     return (
         <TableRow>
             <TableCell>
@@ -55,14 +70,11 @@ const ContractWaitPaymentItem = (props: IContractWaitItemProps) => {
                     fullWidth
                     margin="dense"
                     name="waitDate"
-                    onChange={onChangeItem}
+                    onChange={handleChange}
                     required
                     value={item.waitDate}
                     id="waitDate"
                     type="date"
-                    InputProps={{
-                        readOnly: true,
-                    }}
                 />
             </TableCell>
             <TableCell>
@@ -71,7 +83,7 @@ const ContractWaitPaymentItem = (props: IContractWaitItemProps) => {
                     type={'number'}
                     margin="dense"
                     name="waitSum"
-                    onChange={onChangeItem}
+                    onChange={handleChange}
                     required
                     value={item.waitSum}
                 />

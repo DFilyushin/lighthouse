@@ -16,7 +16,7 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import {IWaitPaymentContractItem} from "types/model/contract"
 import {useDispatch} from "react-redux";
 import {
-    addNewWaitPaymentItem,
+    addNewWaitPaymentItem, changePaymentWaitItem,
     deleteWaitPaymentItem
 } from "../../../../redux/actions/contractAction";
 import ContractWaitPaymentItem from "../ContractWaitPaymentItem";
@@ -77,8 +77,8 @@ const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
         dispatch(deleteWaitPaymentItem(id))
     }
     
-    function onChangeItem(id: number) {
-
+    function onChangeItem(item: IWaitPaymentContractItem) {
+        dispatch(changePaymentWaitItem(item))
     }
 
     /**
