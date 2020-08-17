@@ -48,14 +48,14 @@ export interface IPaymentContractItem {
 
 export interface IWaitPaymentContractItem {
     id: number;
-    created: string;
+    created: string | null;
     waitDate: string;
     waitSum: number;
 }
 
 export const nullWaitPaymentContractItem: IWaitPaymentContractItem = {
     id: -getRandomInt(MAX_RANDOM_VALUE),
-    created: '',
+    created: null,
     waitDate: '',
     waitSum: 0
 }
