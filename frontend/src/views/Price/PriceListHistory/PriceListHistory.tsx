@@ -70,7 +70,7 @@ const PriceListHistory = (props: IPriceListHistoryProps) => {
 
     useEffect( ()=>{
             dispatch(loadPriceListByProduct(productId))
-        }, [dispatch]
+        }, [dispatch, productId]
     );
 
     async function onFindProductHandler(findText: string){
