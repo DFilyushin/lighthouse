@@ -1,0 +1,107 @@
+[
+{
+  "model": "lighthouse.staff",
+  "pk": 0,
+  "fields": {
+    "name": "не указано"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 1,
+  "fields": {
+    "name": "Директор"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 2,
+  "fields": {
+    "name": "Главный бухгалтер"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 3,
+  "fields": {
+    "name": "Бухгалтер кассы"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 4,
+  "fields": {
+    "name": "Бухгалтер материального стола"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 5,
+  "fields": {
+    "name": "Финансовый директор"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 6,
+  "fields": {
+    "name": "Начальник отдела продаж"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 7,
+  "fields": {
+    "name": "Менеджер по продажам"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 8,
+  "fields": {
+    "name": "Начальник юридического отдела"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 9,
+  "fields": {
+    "name": "Юрист"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 10,
+  "fields": {
+    "name": "Начальник производственного цеха"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 11,
+  "fields": {
+    "name": "Химик - технолог"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 12,
+  "fields": {
+    "name": "Заведующий складом"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 13,
+  "fields": {
+    "name": "Секретарь - делопроизводитель"
+  }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 14,
+  "fields": {
+    "name": "Агроном"
+  }
+}
+]

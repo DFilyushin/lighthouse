@@ -1,0 +1,30 @@
+[
+{
+  "model": "lighthouse.materialunit",
+  "pk": 0,
+  "fields": {
+    "name": "\u043d\u0435 \u0443\u043a\u0430\u0437\u0430\u043d\u043e"
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 1,
+  "fields": {
+    "name": "кг."
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 2,
+  "fields": {
+    "name": "л."
+  }
+},
+{
+  "model": "lighthouse.materialunit",
+  "pk": 6,
+  "fields": {
+    "name": "т."
+  }
+}
+]

@@ -1,0 +1,29 @@
+[
+{
+  "model": "lighthouse.tare",
+  "pk": 0,
+  "fields": {
+    "name": "Канистра",
+    "id_unit": 0,
+    "v": 25.0
+  }
+},
+{
+  "model": "lighthouse.tare",
+  "pk": 1,
+  "fields": {
+    "name": "Мешок",
+    "id_unit": 0,
+    "v": 25.0
+  }
+},
+{
+  "model": "lighthouse.tare",
+  "pk": 2,
+  "fields": {
+    "name": "Бочка",
+    "id_unit": 0,
+    "v": 50.0
+  }
+}
+]
