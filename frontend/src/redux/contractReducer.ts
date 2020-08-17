@@ -8,7 +8,8 @@ import {
     CONTRACT_CHANGE_ITEM,
     CONTRACT_SET_ERROR,
     CONTRACT_CLEAR_ERROR,
-    CONTRACT_LOAD_ACTIVE_CONTRACTS
+    CONTRACT_LOAD_ACTIVE_CONTRACTS,
+    CONTRACT_SHOW_OWN_CONTRACT_STATE
 } from "./actions/types";
 import {nullContractItem} from "../types/model/contract";
 
@@ -18,7 +19,8 @@ const getInitialState = () => ({
     activeContracts: [],
     isLoading: false,
     error: '',
-    hasError: false
+    hasError: false,
+    showOwnContract: true
 });
 
 export const contractReducer = (state: IContractState = getInitialState(), action:any) => {
@@ -32,6 +34,7 @@ export const contractReducer = (state: IContractState = getInitialState(), actio
         case CONTRACT_SET_ERROR: return {...state, error: action.error, hasError: true}
         case CONTRACT_CLEAR_ERROR: return {...state, error: '', hasError: false}
         case CONTRACT_LOAD_ACTIVE_CONTRACTS: return {...state, activeContracts: action.items}
+        case CONTRACT_SHOW_OWN_CONTRACT_STATE: return {...state, showOwnContract: action.value}
         default: return state;
     }
 };

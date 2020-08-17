@@ -13,7 +13,7 @@ import {
     CONTRACT_LOAD_SUCCESS,
     CONTRACT_CHANGE_ITEM,
     CONTRACT_SET_ERROR,
-    CONTRACT_LOAD_ACTIVE_CONTRACTS
+    CONTRACT_LOAD_ACTIVE_CONTRACTS, CONTRACT_SHOW_OWN_CONTRACT_STATE
 } from "./types";
 import ContractEndpoint, {UNDEFINED_AGENT} from "services/endpoints/ContractEndpoint";
 import authAxios from "../../services/axios-api";
@@ -278,6 +278,13 @@ export function changePaymentWaitItem(item: IWaitPaymentContractItem) {
         const index = contract.waitPayments.findIndex((elem: IWaitPaymentContractItem, index:number, array: IWaitPaymentContractItem[])=>{return elem.id === item.id})
         contract.waitPayments[index] = item
         dispatch(changeContractItem(contract));
+    }
+}
+
+export function setShowOwnContract(value: boolean) {
+    return{
+        type: CONTRACT_SHOW_OWN_CONTRACT_STATE,
+        value
     }
 }
 

@@ -7,4 +7,5 @@ export interface IContractState {
     isLoading: boolean;
     error: string;
     hasError: boolean;
+    showOwnContract: boolean;
 }
