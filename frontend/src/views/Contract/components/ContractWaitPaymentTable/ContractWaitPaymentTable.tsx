@@ -1,6 +1,5 @@
 import React from "react"
 import {makeStyles} from "@material-ui/core/styles"
-import {useHistory} from "react-router-dom"
 import {
     Button,
     Card, CardActions,
@@ -64,8 +63,7 @@ const useStyles = makeStyles(theme => ({
 const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
     const { className, items, contract, onClickTableItem, ...rest } = props
     const classes = useStyles()
-    const history = useHistory()
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     /**
      * Подсчитать общую сумму
