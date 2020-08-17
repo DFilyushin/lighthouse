@@ -64,7 +64,7 @@ export const nullContractItem: IContract = {
     id: 0,
     num: '',
     client: {...nullClientItem},
-    contractDate: '',
+    contractDate: (new Date()).toISOString().slice(0, 10),
     delivered: '',
     contractState: 0,
     comment: '',
