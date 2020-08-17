@@ -57,6 +57,7 @@ import {
 import TabPanel from "../../Production/components/TabPanel"
 import ContractPaymentTable from "../components/ContractPaymentTable"
 import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable"
+import {getSetupNdsRate} from "../../../redux/actions/setupAction";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -107,12 +108,13 @@ const ContractItem = (props: IContractItemProps) => {
     const querySourceId = query.get('id')
 
     const [tab, setTab] = React.useState(PAGE_MAIN);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const [hasLoad, setLoad] = useState <boolean>(false)
-    const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem);
-    const loading = useSelector((state: IStateInterface) => state.contract.isLoading);
-    const clients = useSelector((state: IStateInterface)=> state.client.searchClients);
-    const hasError = useSelector((state: IStateInterface)=> state.client.hasError);
+    const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem)
+    const loading = useSelector((state: IStateInterface) => state.contract.isLoading)
+    const clients = useSelector((state: IStateInterface)=> state.client.searchClients)
+    const hasError = useSelector((state: IStateInterface)=> state.client.hasError)
+    const ndsRate = useSelector((state: IStateInterface) => state.setup.nds)
     const [dataSource, setDataSource] = useState<IClientItemList[]>([])
     const [curClient, setCurClient] = useState<IClientItemList|null>(null)
     const [inputValue, setInputValue] = useState('')
@@ -176,6 +178,7 @@ const ContractItem = (props: IContractItemProps) => {
         if (!hasLoad) {
             setLoad(true);
             dispatch(loadContractItem(contractId, loadData));
+            dispatch(getSetupNdsRate())
         }
 
         if (contractItem.client.id !== 0 && curClient){
@@ -560,18 +563,18 @@ const ContractItem = (props: IContractItemProps) => {
                                             <Table size="small">
 
                                             <TableHead>
-                                            <TableRow>
-                                            <TableCell>Продукт</TableCell>
-                                            <TableCell>Тара</TableCell>
-                                            <TableCell>Количество</TableCell>
-                                            <TableCell>Цена</TableCell>
-                                            <TableCell>Сумма скидки, тенге</TableCell>
-                                            <TableCell>Итого, тенге</TableCell>
-                                            <Hidden only={['xs', 'sm']}>
-                                            <TableCell>Отгрузка</TableCell>
-                                            <TableCell>Отгружен</TableCell>
-                                            </Hidden>
-                                            </TableRow>
+                                                <TableRow>
+                                                <TableCell>Продукт</TableCell>
+                                                <TableCell>Тара</TableCell>
+                                                <TableCell>Количество</TableCell>
+                                                <TableCell>Цена</TableCell>
+                                                <TableCell>Сумма скидки, тенге</TableCell>
+                                                <TableCell>Итого, тенге</TableCell>
+                                                <Hidden only={['xs', 'sm']}>
+                                                <TableCell>Отгрузка</TableCell>
+                                                <TableCell>Отгружен</TableCell>
+                                                </Hidden>
+                                                </TableRow>
                                             </TableHead>
                                             {
                                                 contractItem.specs.map((specItem: IContractSpecItem) => (
