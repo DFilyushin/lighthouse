@@ -29,7 +29,6 @@ class MaterialSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-
 class TareSerializer(serializers.HyperlinkedModelSerializer):
     """
     Тара
@@ -37,7 +36,7 @@ class TareSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField()
     idUnit = serializers.IntegerField(source='id_unit_id')
-    unit = serializers.CharField(source='id_unit.name', required=False)
+    unit = serializers.CharField(source='id_unit.name', required=False, allow_blank=True)
     v = serializers.FloatField()
 
     class Meta:
