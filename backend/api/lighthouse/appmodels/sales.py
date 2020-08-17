@@ -148,7 +148,9 @@ class ContractSpec(models.Model):
 
     @property
     def total(self):
-        return (self.item_count * self.item_price) - (self.item_count * self.item_price) * self.item_discount / 100
+        nds_value = (self.item_nds/100+1)
+        full_price = (self.item_count * self.item_price) * nds_value
+        return round(full_price - self.item_discount, 2)
 
     def __str__(self):
         return '{} {} {}'.format(self.id_contract.id_client.clientname, self.id_product.name, self.item_count)
