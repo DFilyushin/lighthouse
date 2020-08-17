@@ -568,6 +568,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                 <TableCell>Тара</TableCell>
                                                 <TableCell>Количество</TableCell>
                                                 <TableCell>Цена</TableCell>
+                                                <TableCell>Цена с НДС</TableCell>
                                                 <TableCell>Сумма скидки, тенге</TableCell>
                                                 <TableCell>Итого, тенге</TableCell>
                                                 <Hidden only={['xs', 'sm']}>

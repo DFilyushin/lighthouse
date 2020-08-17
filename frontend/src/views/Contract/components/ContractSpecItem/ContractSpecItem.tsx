@@ -130,6 +130,17 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     name="num"
                     onChange={onChangeItem}
                     required
+                    value={item.itemPrice * (item.itemNds/100 +1)}
+                />
+            </TableCell>
+            <TableCell>
+                <TextField
+                    fullWidth
+                    type={'number'}
+                    margin="dense"
+                    name="num"
+                    onChange={onChangeItem}
+                    required
                     value={item.itemDiscount}
                 />
             </TableCell>
