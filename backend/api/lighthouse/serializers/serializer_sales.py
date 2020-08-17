@@ -305,6 +305,7 @@ class ContractSerializer(serializers.ModelSerializer):
                 spec.delivery_date = item['delivery_date']
                 spec.id_tare_id = item['id_tare']['id']
                 spec.id_product_id = item['id_product']['id']
+                spec.item_discount = item['item_discount']
                 spec.save()
             else:
                 ContractSpec.objects.create(
