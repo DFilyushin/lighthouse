@@ -130,18 +130,16 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
 
 
     return (
-        <TableRow>
+        <TableRow key={item.id}>
             <TableCell>
                 <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         margin="dense"
-                        name="clientName"
-                        onChange={onChangeItem}
+                        name="productName"
                         required
                         value={item.product.name}
-
-                        id="IdClientName"
+                        id="productName"
                         InputProps={{
                             readOnly: true,
                         }}
@@ -157,10 +155,8 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                         fullWidth
                         margin="dense"
                         name="tareName"
-                        onChange={onChangeItem}
                         required
                         value={item.tare.name}
-
                         id="tareItem"
                         InputProps={{
                             readOnly: true,
