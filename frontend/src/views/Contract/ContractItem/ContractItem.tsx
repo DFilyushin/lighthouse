@@ -64,6 +64,7 @@ import {getSetupNdsRate} from "../../../redux/actions/setupAction";
 import {loadTare} from "../../../redux/actions/tareAction";
 import {loadActualPriceList} from "../../../redux/actions/priceAction";
 import {RoundValue} from "../../../utils/AppUtils";
+import {showInfoMessage} from "../../../redux/actions/infoAction";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -128,6 +129,10 @@ const ContractItem = (props: IContractItemProps) => {
     const [curClient, setCurClient] = useState<IClientItemList|null>(null)
     const [inputValue, setInputValue] = useState('')
 
+    const [hasClientError, setClientError] = useState(false)
+    const [hasDeliveryError, setDeliveryError] = useState(false)
+    const [hasSpecError, setSpecError] = useState(false)
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
         const property: string = event.target.name;
@@ -147,16 +152,6 @@ const ContractItem = (props: IContractItemProps) => {
         setAnchorEl(event.currentTarget);
     }
 
-    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        if (contractId === NEW_RECORD_VALUE) {
-            await dispatch(addNewContract(contractItem));
-        } else {
-            await dispatch(updateContract(contractItem));
-        }
-        resolve();
-    });
-
-
     /**
      * Удаление позиции из спецификации
      * @param id Код записи
@@ -173,6 +168,18 @@ const ContractItem = (props: IContractItemProps) => {
         dispatch(changeContractSpecItem(item))
     }
 
+    /**
+     * Сохранение изменений через промисы
+     * @param dispatch
+     */
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        if (contractId === NEW_RECORD_VALUE) {
+            await dispatch(addNewContract(contractItem));
+        } else {
+            await dispatch(updateContract(contractItem));
+        }
+        resolve();
+    });
 
     /**
      * Сохранить изменения
@@ -180,11 +187,33 @@ const ContractItem = (props: IContractItemProps) => {
      */
     const saveHandler = (event: SyntheticEvent) => {
         event.preventDefault();
-        saveItem(dispatch).then( ()=>{
-                history.push('/contracts/');
+        if (isValid()){
+            saveItem(dispatch).then(() => {
+                    history.push('/contracts/');
+                }
+            )
+        }else{
+            dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
+        }
+    }
+
+    function isValid():boolean {
+        const checkClient = (contractItem.client.id !== 0)
+        const checkDateDelivery = (contractItem.estDelivery !== '')
+        let checkSpec: boolean = true
+        for (const item of contractItem.specs){
+            if ((item.product.id === 0) || (item.tare.id === 0)){
+                checkSpec = false
+                break
             }
-        )
-    };
+        }
+        setClientError(!checkClient)
+        setDeliveryError(!checkDateDelivery)
+        setSpecError(!checkSpec)
+        const result = checkClient && checkDateDelivery && checkSpec
+        console.log(contractItem.estDelivery, checkSpec)
+        return result
+    }
 
     useEffect( () => {
         const loadData = () => {
@@ -418,6 +447,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         onChange={onChangeClient}
                                         value={curClient}
                                         clearText={'Очистить'}
+
                                         renderOption={option => (
                                             <Grid container alignItems="center">
                                                 <Grid item>
@@ -434,7 +464,15 @@ const ContractItem = (props: IContractItemProps) => {
                                             setInputValue(newInputValue);
                                         }}
                                         renderInput={(params) => (
-                                            <TextField {...params} margin="dense" label="Клиент" variant="outlined" fullWidth />
+                                            <TextField
+                                                {...params}
+                                                margin="dense"
+                                                label="Клиент"
+                                                variant="outlined"
+                                                fullWidth
+                                                helperText={hasClientError ? "Обязательное поле" : ""}
+                                                error={hasClientError}
+                                            />
                                         )}
                                     />
                                 </Grid>
@@ -512,6 +550,8 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.estDelivery || null}
                                         onChange={handleEstDeliveryDateChange}
                                         invalidDateMessage={INVALID_DATE_FORMAT}
+                                        helperText={hasDeliveryError ? "Обязательное поле" : ""}
+                                        error={hasDeliveryError}
                                     />
                                 </Grid>
                                 <Grid
@@ -585,6 +625,13 @@ const ContractItem = (props: IContractItemProps) => {
                                                 </Tooltip>
                                                 </Grid>
                                             }
+                                            {hasSpecError &&
+                                                <Grid item xs={12}>
+                                                    <Typography color={"error"}>
+                                                        Проверьте корректность спецификации...
+                                                    </Typography>
+                                                </Grid>
+                                            }
                                             <Table size="small">
                                                 <TableHead>
                                                     <TableRow>
@@ -616,15 +663,20 @@ const ContractItem = (props: IContractItemProps) => {
                                                             />
                                                         ))
                                                     }
-                                                    <TableRow>
-                                                        <TableCell className={classes.footer_row} colSpan={5}>Итого по контракту</TableCell>
-                                                        <TableCell className={classes.footer_row}>{getTotalSumDiscount(contractItem.specs)}</TableCell>
-                                                        <TableCell className={classes.footer_row}>{getTotalSpecSum(contractItem.specs)}</TableCell>
-                                                        <Hidden only={['xs', 'sm']}>
-                                                            <TableCell/>
-                                                            <TableCell/>
-                                                        </Hidden>
-                                                    </TableRow>
+                                                    {contractItem.specs.length > 0 &&
+                                                        <TableRow>
+                                                            <TableCell className={classes.footer_row} colSpan={5}>Итого
+                                                                по контракту</TableCell>
+                                                            <TableCell
+                                                                className={classes.footer_row}>{getTotalSumDiscount(contractItem.specs)}</TableCell>
+                                                            <TableCell
+                                                                className={classes.footer_row}>{getTotalSpecSum(contractItem.specs)}</TableCell>
+                                                            <Hidden only={['xs', 'sm']}>
+                                                                <TableCell/>
+                                                                <TableCell/>
+                                                            </Hidden>
+                                                        </TableRow>
+                                                    }
                                                 </TableBody>
                                             </Table>
                                         </Fragment>
