@@ -25,7 +25,8 @@ import {
     MenuItem,
     TextField,
     TableRow,
-    TableCell
+    TableCell,
+    TableBody
 } from '@material-ui/core'
 import { useHistory } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
@@ -575,54 +576,56 @@ const ContractItem = (props: IContractItemProps) => {
                                                     Спецификация контракта
                                                 </Typography>
                                             </Grid>
-                                        {
-                                            <Grid item xs={1}>
-                                            <Tooltip title={'Добавить новый продукт'}>
-                                            <Fab color="default" aria-label="add" onClick={handleAddEmptySpecItem}>
-                                            <AddIcon/>
-                                            </Fab>
-                                            </Tooltip>
-                                            </Grid>
-                                        }
-                                            <Table size="small">
-
-                                            <TableHead>
-                                                <TableRow>
-                                                <TableCell>Продукт</TableCell>
-                                                <TableCell>Тара</TableCell>
-                                                <TableCell>Количество</TableCell>
-                                                <TableCell>Цена</TableCell>
-                                                <TableCell>Цена с НДС</TableCell>
-                                                <TableCell>Сумма скидки, тенге</TableCell>
-                                                <TableCell>Итого, тенге</TableCell>
-                                                <Hidden only={['xs', 'sm']}>
-                                                    <TableCell>Отгрузка</TableCell>
-                                                    <TableCell>Отгружен</TableCell>
-                                                </Hidden>
-                                                </TableRow>
-                                            </TableHead>
                                             {
-                                                contractItem.specs.map((specItem: IContractSpecItem) => (
-                                                    <ContractSpecItem
-                                                        className={''}
-                                                        match={''}
-                                                        item={specItem}
-                                                        onDeleteItem={onDeleteSpecItem}
-                                                        onChangeItem={onChangeSpecItem}
-                                                        productItems={products}
-                                                        tareItems={tares}
-                                                    />
-                                                ))
+                                                <Grid item xs={1}>
+                                                <Tooltip title={'Добавить новый продукт'}>
+                                                <Fab color="default" aria-label="add" onClick={handleAddEmptySpecItem}>
+                                                <AddIcon/>
+                                                </Fab>
+                                                </Tooltip>
+                                                </Grid>
                                             }
-                                            <TableRow>
-                                                <TableCell className={classes.footer_row} colSpan={5}>Итого по контракту</TableCell>
-                                                <TableCell className={classes.footer_row}>{getTotalSumDiscount(contractItem.specs)}</TableCell>
-                                                <TableCell className={classes.footer_row}>{getTotalSpecSum(contractItem.specs)}</TableCell>
-                                                <Hidden only={['xs', 'sm']}>
-                                                    <TableCell/>
-                                                    <TableCell/>
-                                                </Hidden>
-                                            </TableRow>
+                                            <Table size="small">
+                                                <TableHead>
+                                                    <TableRow>
+                                                    <TableCell>Продукт</TableCell>
+                                                    <TableCell>Тара</TableCell>
+                                                    <TableCell>Количество</TableCell>
+                                                    <TableCell>Цена</TableCell>
+                                                    <TableCell>Цена с НДС</TableCell>
+                                                    <TableCell>Сумма скидки, тенге</TableCell>
+                                                    <TableCell>Итого, тенге</TableCell>
+                                                    <Hidden only={['xs', 'sm']}>
+                                                        <TableCell>Отгрузка</TableCell>
+                                                        <TableCell>Отгружен</TableCell>
+                                                    </Hidden>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {
+                                                        contractItem.specs.map((specItem: IContractSpecItem) => (
+                                                            <ContractSpecItem
+                                                                key={specItem.id}
+                                                                className={''}
+                                                                match={''}
+                                                                item={specItem}
+                                                                onDeleteItem={onDeleteSpecItem}
+                                                                onChangeItem={onChangeSpecItem}
+                                                                productItems={products}
+                                                                tareItems={tares}
+                                                            />
+                                                        ))
+                                                    }
+                                                    <TableRow>
+                                                        <TableCell className={classes.footer_row} colSpan={5}>Итого по контракту</TableCell>
+                                                        <TableCell className={classes.footer_row}>{getTotalSumDiscount(contractItem.specs)}</TableCell>
+                                                        <TableCell className={classes.footer_row}>{getTotalSpecSum(contractItem.specs)}</TableCell>
+                                                        <Hidden only={['xs', 'sm']}>
+                                                            <TableCell/>
+                                                            <TableCell/>
+                                                        </Hidden>
+                                                    </TableRow>
+                                                </TableBody>
                                             </Table>
                                         </Fragment>
                                     )}
