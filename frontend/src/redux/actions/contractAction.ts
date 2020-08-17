@@ -19,7 +19,7 @@ import ContractEndpoint, {UNDEFINED_AGENT} from "services/endpoints/ContractEndp
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import AuthenticationService from "../../services/Authentication.service";
-import {RoundValue} from "../../utils/AppUtils";
+import {getRandomInt, MAX_RANDOM_VALUE, RoundValue} from "../../utils/AppUtils";
 
 /**
  * Получить список контрактов
@@ -150,7 +150,7 @@ export function deleteContractSpecItem(id: number) {
 export function addNewSpecItem() {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const newItem = {...nullContractSpecItem, itemNds: getState().setup.nds}
+        const newItem = {...nullContractSpecItem, id: -getRandomInt(MAX_RANDOM_VALUE), itemNds: getState().setup.nds}
         item.specs.unshift(newItem);
         dispatch(fetchItemSuccess(item))
     }
@@ -162,7 +162,8 @@ export function addNewSpecItem() {
 export function addNewWaitPaymentItem() {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem}
-        item.waitPayments.unshift({...nullWaitPaymentContractItem})
+        const newItem = {...nullWaitPaymentContractItem, id: -getRandomInt(MAX_RANDOM_VALUE)}
+        item.waitPayments.unshift(newItem)
         dispatch(fetchItemSuccess(item))
     }
 }
@@ -243,7 +244,7 @@ export function setContractStatus(newStatus: number) {
     return async (dispatch: any, getState: any) => {
         const contractItem = {...getState().contract.contractItem}
         try{
-            const response = await authAxios.post(ContractEndpoint.setContractStatus(contractItem.id, newStatus));
+            await authAxios.post(ContractEndpoint.setContractStatus(contractItem.id, newStatus));
             dispatch(loadContractItem(contractItem.id))
             return Promise.resolve()
         }catch (e) {
