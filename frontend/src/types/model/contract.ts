@@ -80,7 +80,7 @@ export const nullContractItem: IContract = {
 };
 
 export const nullContractSpecItem : IContractSpecItem = {
-    id: 0,
+    id: -getRandomInt(MAX_RANDOM_VALUE),
     product: {...nullProduct},
     tare: nullTare,
     itemCount: 0,
@@ -88,8 +88,8 @@ export const nullContractSpecItem : IContractSpecItem = {
     itemNds: 0,
     itemTotal: 0,
     itemDiscount: 0,
-    delivered: '',
-    delivery: ''
+    delivered: null,
+    delivery: null
 }
 
 export interface IContractSpecItem {
@@ -101,8 +101,8 @@ export interface IContractSpecItem {
     itemNds: number;
     itemTotal: number;
     itemDiscount: number;
-    delivery: string;
-    delivered: string;
+    delivery: string|null;
+    delivered: string|null;
 }
 
 export interface IContract {
