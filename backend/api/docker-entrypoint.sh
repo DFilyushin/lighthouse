@@ -39,10 +39,12 @@ python manage.py loaddata ./fixtures/cost.json
 
 echo "initial factory"
 python manage.py loaddata ./fixtures/productionline.json
+python manage.py loaddata ./fixtures/productionwork.json
 python manage.py loaddata ./fixtures/manufacture.json
 python manage.py loaddata ./fixtures/prodteam.json
 python manage.py loaddata ./fixtures/prodcalc.json
 python manage.py loaddata ./fixtures/prodreadyproduct.json
+python manage.py loaddata ./fixtures/contractexpectedpayment.json
 
 echo "initial sales"
 python manage.py loaddata ./fixtures/client.json
@@ -50,6 +52,8 @@ python manage.py loaddata ./fixtures/contract.json
 python manage.py loaddata ./fixtures/contractspec.json
 python manage.py loaddata ./fixtures/claim.json
 python manage.py loaddata ./fixtures/claimhistory.json
+python manage.py loaddata ./fixtures/pricelist.json
+python manage.py loaddata ./fixtures/reservation.json
 
 echo "Starting server"
 gunicorn -w 3 api.wsgi -b 0.0.0.0:8000

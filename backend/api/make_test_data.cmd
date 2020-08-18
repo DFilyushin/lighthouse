@@ -17,6 +17,7 @@ python manage.py dumpdata lighthouse.refcost --indent 2 > ./fixtures/refcost.jso
 python manage.py dumpdata lighthouse.cost --indent 2 > ./fixtures/cost.json
 
 python manage.py dumpdata lighthouse.productionline --indent 2 > ./fixtures/productionline.json
+python manage.py dumpdata lighthouse.productionwork --indent 2 > ./fixtures/productionwork.json
 python manage.py dumpdata lighthouse.manufacture --indent 2 > ./fixtures/manufacture.json
 python manage.py dumpdata lighthouse.prodcalc --indent 2 > ./fixtures/prodcalc.json
 python manage.py dumpdata lighthouse.prodteam --indent 2 > ./fixtures/prodteam.json
@@ -25,6 +26,9 @@ python manage.py dumpdata lighthouse.prodreadyproduct --indent 2 > ./fixtures/pr
 python manage.py dumpdata lighthouse.client --indent 2 > ./fixtures/client.json
 python manage.py dumpdata lighthouse.contract --indent 2 > ./fixtures/contract.json
 python manage.py dumpdata lighthouse.contractspec --indent 2 > ./fixtures/contractspec.json
+python manage.py dumpdata lighthouse.contractexpectedpayment --indent 2 > ./fixtures/contractexpectedpayment.json
 python manage.py dumpdata lighthouse.claim --indent 2 > ./fixtures/claim.json
 python manage.py dumpdata lighthouse.claimhistory --indent 2 > ./fixtures/claimhistory.json
 
+python manage.py dumpdata lighthouse.pricelist --indent 2 > ./fixtures/pricelist.json
+python manage.py dumpdata lighthouse.reservation --indent 2 > ./fixtures/reservation.json
