@@ -80,29 +80,13 @@ export function loadProductionCards(startPeriod: string, endPeriod: string, find
  */
 export function loadProductionCard(id: number) {
     return async (dispatch: any, getState: any) => {
-        const item: IProduction = {...nullProduction};
         if (id === NEW_RECORD_VALUE) {
-            dispatch(successLoadCardItem(item))
+            dispatch(successLoadCardItem({...nullProduction, id: -getRandomInt(MAX_RANDOM_VALUE)}))
         }else {
             dispatch(startLoading());
             try {
                 const response = await authAxios.get(ProductionEndpoint.getProductionCard(id));
-                item.id = response.data['id'];
-                item.comment = response.data['comment'];
-                item.calcValue = response.data['calcValue'];
-                item.curState = response.data['curState'];
-                item.created = response.data['created'];
-                item.prodStart = response.data['prodStart'];
-                item.prodFinish = response.data['prodFinish'];
-                item.lossValue = response.data['lossValue'];
-                item.outValue = response.data['outValue'];
-                item.product = response.data['product'];
-                item.teamLeader = response.data['teamLeader'];
-                item.creator = response.data['creator'];
-                item.prodLine = response.data['prodLine'];
-                item.idFormula = response.data['idFormula'];
-                item.formula = response.data['formula']
-                dispatch(successLoadCardItem(item))
+                dispatch(successLoadCardItem(response.data))
             } catch (e) {
                 dispatch(showInfoMessage('error', e.toString()));
             }
