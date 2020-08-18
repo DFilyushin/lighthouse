@@ -24,7 +24,7 @@ export function updateSetupNdsRate() {
         const value = getState().setup.nds
         const url = SetupEndpoint.getSetupFloatValue('NDS')
         try {
-            const response = await authAxios.put(url, {'value': value})
+            await authAxios.put(url, {'value': value})
         }catch (e) {
 
         }
