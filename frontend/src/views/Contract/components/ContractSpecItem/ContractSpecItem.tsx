@@ -12,9 +12,7 @@ import {
 } from "@material-ui/core";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {makeStyles} from "@material-ui/core/styles";
-import {KeyboardDatePicker} from "@material-ui/pickers";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {INVALID_DATE_FORMAT} from "../../../../utils/AppConst";
 import {useDialog} from "../../../../components/SelectDialog";
 import {ITare} from "../../../../types/model/tare";
 import {IPrice} from "../../../../types/model/price";
