@@ -40,12 +40,5 @@
   "fields": {
     "name": "\u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0441\u0442\u0432\u043e"
   }
-},
-{
-  "model": "lighthouse.productionwork",
-  "pk": 6,
-  "fields": {
-    "name": "erwerwer"
-  }
 }
 ]

@@ -40,12 +40,5 @@
   "fields": {
     "name": "\u0446."
   }
-},
-{
-  "model": "lighthouse.materialunit",
-  "pk": 14,
-  "fields": {
-    "name": "\u0432\u0444\u0432\u0444\u044b\u0432"
-  }
 }
 ]
