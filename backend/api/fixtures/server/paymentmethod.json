@@ -1,0 +1,30 @@
+[
+    {
+        "model": "lighthouse.paymentmethod",
+        "pk": 1,
+        "fields": {
+            "name": "Метод 1"
+        }
+    },
+    {
+        "model": "lighthouse.paymentmethod",
+        "pk": 2,
+        "fields": {
+            "name": "Метод 2"
+        }
+    },
+    {
+        "model": "lighthouse.paymentmethod",
+        "pk": 3,
+        "fields": {
+            "name": "Метод 3"
+        }
+    },
+    {
+        "model": "lighthouse.paymentmethod",
+        "pk": 4,
+        "fields": {
+            "name": "Метод 4"
+        }
+    }
+]

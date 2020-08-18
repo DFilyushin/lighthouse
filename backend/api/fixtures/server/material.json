@@ -1,0 +1,290 @@
+[
+{
+  "model": "lighthouse.material",
+  "pk": 0,
+  "fields": {
+    "name": "не указано",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 2,
+  "fields": {
+    "name": "Амониевая соль ортофосфата, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 3,
+  "fields": {
+    "name": "Фосфат амония",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 4,
+  "fields": {
+    "name": "Эмульгатор",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 5,
+  "fields": {
+    "name": "Кретибузин, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 6,
+  "fields": {
+    "name": "Наполнитель",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 7,
+  "fields": {
+    "name": "Клеоламид, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 8,
+  "fields": {
+    "name": "Метил-сурацин, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 9,
+  "fields": {
+    "name": "Сандадарон-метил, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 10,
+  "fields": {
+    "name": "Метил-уронат, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 11,
+  "fields": {
+    "name": "Парацетамиприд, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 12,
+  "fields": {
+    "name": "Гексафлуказол, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 13,
+  "fields": {
+    "name": "Фосфид алюминия, 90%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 14,
+  "fields": {
+    "name": "Тебуконазол, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 15,
+  "fields": {
+    "name": "Краситель",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 16,
+  "fields": {
+    "name": "Вода дисст.",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 17,
+  "fields": {
+    "name": "Изопропиламинная соль глифосата, 62%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 18,
+  "fields": {
+    "name": "2-этилгек эфир 1,7-Д кислота, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 19,
+  "fields": {
+    "name": "2,4-Д диметиламинная соль, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 20,
+  "fields": {
+    "name": "Фенилпропилен, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 21,
+  "fields": {
+    "name": "Галоксифоп-п-метил, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 22,
+  "fields": {
+    "name": "Дурофосат, 75%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 23,
+  "fields": {
+    "name": "Мутамба, 35%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 24,
+  "fields": {
+    "name": "Оксифлуорфен, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 25,
+  "fields": {
+    "name": "Максофлукацин, 95%",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 34,
+  "fields": {
+    "name": "Продукт 1!",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 35,
+  "fields": {
+    "name": "Продукт 2",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 36,
+  "fields": {
+    "name": "Продукт 3",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 37,
+  "fields": {
+    "name": "Продукт 4",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 38,
+  "fields": {
+    "name": "Продукт 5",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 39,
+  "fields": {
+    "name": "Продукт 6",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 40,
+  "fields": {
+    "name": "Продукт 7",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 95,
+  "fields": {
+    "name": "Викинг",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 96,
+  "fields": {
+    "name": "Шторм",
+    "id_type": 2
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 100,
+  "fields": {
+    "name": "Штурм",
+    "id_type": 1
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 107,
+  "fields": {
+    "name": "Осада",
+    "id_type": 1
+  }
+}
+]

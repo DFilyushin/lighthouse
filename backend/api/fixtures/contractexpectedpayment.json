@@ -1,0 +1,72 @@
+[
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 1,
+  "fields": {
+    "created": "2020-08-11T14:54:59.707",
+    "id_contract": 903,
+    "wait_date": "2020-08-01",
+    "wait_value": 15000.0
+  }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 3,
+  "fields": {
+    "created": "2020-08-12T01:29:46.539",
+    "id_contract": 1156,
+    "wait_date": "2020-06-01",
+    "wait_value": 100.0
+  }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 4,
+  "fields": {
+    "created": "2020-08-12T01:29:48.894",
+    "id_contract": 1156,
+    "wait_date": "2020-07-08",
+    "wait_value": 200.0
+  }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 5,
+  "fields": {
+    "created": "2020-08-12T01:29:49.933",
+    "id_contract": 1156,
+    "wait_date": "2020-08-11",
+    "wait_value": 300.0
+  }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 6,
+  "fields": {
+    "created": "2020-08-12T01:29:50.714",
+    "id_contract": 1156,
+    "wait_date": "2020-09-24",
+    "wait_value": 400.0
+  }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 8,
+  "fields": {
+    "created": "2020-08-12T16:25:52.501",
+    "id_contract": 1156,
+    "wait_date": "2020-09-26",
+    "wait_value": 444.0
+  }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 9,
+  "fields": {
+    "created": "2020-08-17T13:54:19.032",
+    "id_contract": 1221,
+    "wait_date": "2020-08-01",
+    "wait_value": 5000.0
+  }
+}
+]
