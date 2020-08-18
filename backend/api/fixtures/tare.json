@@ -12,8 +12,8 @@
   "model": "lighthouse.tare",
   "pk": 1,
   "fields": {
-    "name": "\u0411\u043e\u0447\u043a\u04302",
-    "id_unit": 0,
+    "name": "\u0411\u043e\u0447\u043a\u0430 25 \u043b",
+    "id_unit": 2,
     "v": 25.0
   }
 },
@@ -39,7 +39,7 @@
   "model": "lighthouse.tare",
   "pk": 4,
   "fields": {
-    "name": "\u043a\u0430\u043d\u0438\u0441\u0442\u0440\u0430",
+    "name": "\u043a\u0430\u043d\u0438\u0441\u0442\u0440\u0430 5 \u043b.",
     "id_unit": 2,
     "v": 5.0
   }
@@ -114,6 +114,15 @@
     "name": "\u043f\u0440\u043e",
     "id_unit": 6,
     "v": 1200.0
+  }
+},
+{
+  "model": "lighthouse.tare",
+  "pk": 30,
+  "fields": {
+    "name": "1",
+    "id_unit": 1,
+    "v": 0.0
   }
 }
 ]

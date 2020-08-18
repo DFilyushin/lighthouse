@@ -15,6 +15,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "\u041f\u0440\u043e\u0441\u0442\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
     "clientid": null,
     "deleted": false
@@ -36,6 +37,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id",
     "clientid": "8284",
     "deleted": false
@@ -57,6 +59,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer mauris id sapien. Cras dolor dolor,",
     "clientid": "5879",
     "deleted": false
@@ -73,11 +76,12 @@
     "addr_reg": "P.O. Box 756, 2743 Feugiat. Rd.",
     "contact_phone": "1-668-798-2837",
     "contact_email": "lectus@aliquamarcu.com",
-    "contact_fax": null,
-    "req_bin": null,
-    "req_account": null,
-    "req_bank": null,
-    "req_bik": null,
+    "contact_fax": "+73183562352",
+    "req_bin": "123123123123",
+    "req_account": "KZ100212125888",
+    "req_bank": "\u0410\u041e \u041d\u0430\u0440\u043e\u0434\u043d\u044b\u0439 \u0431\u0430\u043d\u043a \u041a\u0430\u0437\u0430\u0445\u0441\u0442\u0430\u043d\u0430",
+    "req_bik": "4564564",
+    "req_boss": null,
     "comment": "euismod ac, fermentum vel, mauris. Integer sem elit, pharetra ut, pharetra sed, hendrerit a, arcu. Sed et libero.",
     "clientid": "5365",
     "deleted": false
@@ -99,6 +103,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac",
     "clientid": "6899",
     "deleted": false
@@ -120,6 +125,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae velit egestas lacinia. Sed congue, elit sed",
     "clientid": "7571",
     "deleted": false
@@ -141,6 +147,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Nunc lectus pede, ultrices a, auctor non, feugiat nec, diam. Duis mi enim,",
     "clientid": "3588",
     "deleted": false
@@ -162,6 +169,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "egestas. Duis ac arcu. Nunc mauris. Morbi non sapien molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare,",
     "clientid": "7430",
     "deleted": true
@@ -183,6 +191,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus",
     "clientid": "5594",
     "deleted": false
@@ -204,6 +213,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis",
     "clientid": "7314",
     "deleted": false
@@ -225,6 +235,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Maecenas mi felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum.",
     "clientid": "8121",
     "deleted": false
@@ -246,6 +257,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus",
     "clientid": "8808",
     "deleted": false
@@ -267,6 +279,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel,",
     "clientid": "7596",
     "deleted": true
@@ -288,6 +301,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tincidunt. Donec vitae erat vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus vitae",
     "clientid": "8933",
     "deleted": false
@@ -309,6 +323,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien. Nunc pulvinar arcu",
     "clientid": "2330",
     "deleted": true
@@ -330,6 +345,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse",
     "clientid": "2843",
     "deleted": false
@@ -351,6 +367,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl.",
     "clientid": "9369",
     "deleted": false
@@ -372,6 +389,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim",
     "clientid": "6179",
     "deleted": false
@@ -393,6 +411,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "justo sit amet nulla. Donec non justo. Proin non massa non",
     "clientid": "7359",
     "deleted": false
@@ -414,6 +433,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ipsum dolor sit amet, consectetuer adipiscing elit. Etiam laoreet, libero",
     "clientid": "6678",
     "deleted": false
@@ -435,6 +455,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et,",
     "clientid": "7532",
     "deleted": false
@@ -456,6 +477,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "cursus vestibulum. Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim",
     "clientid": "8547",
     "deleted": true
@@ -477,6 +499,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia",
     "clientid": "6873",
     "deleted": false
@@ -498,6 +521,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium",
     "clientid": "2546",
     "deleted": false
@@ -519,6 +543,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sagittis lobortis mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis",
     "clientid": "6147",
     "deleted": false
@@ -540,6 +565,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "auctor quis, tristique ac, eleifend vitae, erat. Vivamus nisi. Mauris nulla. Integer urna. Vivamus",
     "clientid": "4451",
     "deleted": false
@@ -561,6 +587,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat metus sit amet ante. Vivamus",
     "clientid": "8398",
     "deleted": false
@@ -582,6 +609,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "non justo. Proin non massa non ante bibendum ullamcorper. Duis cursus, diam at pretium aliquet, metus urna",
     "clientid": "8569",
     "deleted": false
@@ -603,6 +631,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "lorem vitae odio sagittis semper. Nam tempor diam dictum sapien. Aenean massa. Integer vitae",
     "clientid": "2773",
     "deleted": false
@@ -624,6 +653,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et",
     "clientid": "8048",
     "deleted": false
@@ -645,6 +675,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nec ligula consectetuer rhoncus. Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum",
     "clientid": "5201",
     "deleted": false
@@ -666,6 +697,7 @@
     "req_account": "4234",
     "req_bank": "!!!!\"\u2116\";",
     "req_bik": "42",
+    "req_boss": null,
     "comment": "molestie orci tincidunt adipiscing. Mauris molestie pharetra nibh. Aliquam ornare, libero at auctor ullamcorper,",
     "clientid": "4285",
     "deleted": false
@@ -687,6 +719,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor.",
     "clientid": "4487",
     "deleted": false
@@ -708,6 +741,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris",
     "clientid": "5070",
     "deleted": false
@@ -729,6 +763,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus",
     "clientid": "8238",
     "deleted": true
@@ -750,6 +785,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis",
     "clientid": "3861",
     "deleted": false
@@ -771,6 +807,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor",
     "clientid": "7052",
     "deleted": false
@@ -792,6 +829,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus",
     "clientid": "1924",
     "deleted": false
@@ -813,6 +851,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nunc sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus",
     "clientid": "6601",
     "deleted": false
@@ -834,6 +873,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Fusce mi lorem, vehicula et, rutrum eu, ultrices sit amet, risus. Donec nibh enim, gravida",
     "clientid": "7855",
     "deleted": false
@@ -855,6 +895,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci.",
     "clientid": "8616",
     "deleted": false
@@ -876,6 +917,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "augue ut lacus. Nulla tincidunt, neque vitae semper egestas, urna justo faucibus",
     "clientid": "9222",
     "deleted": true
@@ -897,6 +939,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Nullam velit dui, semper et, lacinia vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum",
     "clientid": "6537",
     "deleted": true
@@ -918,6 +961,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sed pede nec ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum lorem, sit",
     "clientid": "5382",
     "deleted": false
@@ -939,6 +983,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mauris. Suspendisse aliquet molestie tellus. Aenean egestas hendrerit neque. In ornare sagittis felis.",
     "clientid": "2971",
     "deleted": false
@@ -960,6 +1005,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ante blandit viverra. Donec tempus, lorem fringilla ornare placerat, orci lacus vestibulum",
     "clientid": "8731",
     "deleted": false
@@ -981,6 +1027,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "egestas a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque",
     "clientid": "2477",
     "deleted": false
@@ -1002,6 +1049,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sed, facilisis vitae, orci. Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada",
     "clientid": "4912",
     "deleted": false
@@ -1023,6 +1071,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Sed nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis",
     "clientid": "8800",
     "deleted": false
@@ -1044,6 +1093,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Praesent eu dui. Cum sociis natoque penatibus et magnis dis parturient",
     "clientid": "3528",
     "deleted": false
@@ -1065,6 +1115,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui",
     "clientid": "5472",
     "deleted": false
@@ -1086,6 +1137,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non",
     "clientid": "8685",
     "deleted": true
@@ -1107,6 +1159,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec nibh enim, gravida sit amet, dapibus id, blandit at, nisi. Cum",
     "clientid": "7331",
     "deleted": false
@@ -1128,6 +1181,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sed pede. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
     "clientid": "5812",
     "deleted": true
@@ -1149,6 +1203,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "purus ac tellus. Suspendisse sed dolor. Fusce mi lorem, vehicula",
     "clientid": "2899",
     "deleted": false
@@ -1170,6 +1225,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "in sodales elit erat vitae risus. Duis a mi fringilla mi lacinia mattis. Integer eu lacus.",
     "clientid": "4409",
     "deleted": false
@@ -1191,6 +1247,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec",
     "clientid": "5328",
     "deleted": false
@@ -1212,6 +1269,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eget metus eu erat semper rutrum. Fusce dolor quam, elementum at,",
     "clientid": "2171",
     "deleted": true
@@ -1233,6 +1291,7 @@
     "req_account": "2",
     "req_bank": null,
     "req_bik": "2",
+    "req_boss": null,
     "comment": "ut dolor dapibus gravida. Aliquam tincidunt, nunc ac mattis ornare, lectus ante dictum mi,2",
     "clientid": "7826",
     "deleted": true
@@ -1254,6 +1313,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
     "clientid": "4794",
     "deleted": false
@@ -1275,6 +1335,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor",
     "clientid": "7673",
     "deleted": false
@@ -1296,6 +1357,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Phasellus fermentum convallis ligula. Donec luctus aliquet odio. Etiam ligula tortor, dictum eu, placerat eget, venenatis a,",
     "clientid": "2427",
     "deleted": false
@@ -1317,6 +1379,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam.",
     "clientid": "7929",
     "deleted": true
@@ -1338,6 +1401,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non ante bibendum",
     "clientid": "5394",
     "deleted": false
@@ -1355,10 +1419,11 @@
     "contact_phone": "1-149-379-1916",
     "contact_email": "molestie.sodales.Mauris@magnisdisparturient.org",
     "contact_fax": null,
-    "req_bin": null,
-    "req_account": null,
-    "req_bank": null,
-    "req_bik": null,
+    "req_bin": "234",
+    "req_account": "6456",
+    "req_bank": "456456",
+    "req_bik": "456456",
+    "req_boss": null,
     "comment": "egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu metus. In lorem.",
     "clientid": "3406",
     "deleted": false
@@ -1380,6 +1445,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "luctus, ipsum leo elementum sem, vitae aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida.",
     "clientid": "5536",
     "deleted": false
@@ -1401,6 +1467,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus",
     "clientid": "1207",
     "deleted": false
@@ -1422,6 +1489,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem,",
     "clientid": "1500",
     "deleted": true
@@ -1443,6 +1511,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor",
     "clientid": "4497",
     "deleted": true
@@ -1464,6 +1533,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum",
     "clientid": "8300",
     "deleted": true
@@ -1485,6 +1555,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sed tortor. Integer aliquam adipiscing lacus. Ut nec urna et arcu imperdiet ullamcorper. Duis at lacus.",
     "clientid": "9814",
     "deleted": true
@@ -1506,6 +1577,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "volutpat. Nulla facilisis. Suspendisse commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim",
     "clientid": "2800",
     "deleted": true
@@ -1527,6 +1599,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce",
     "clientid": "6787",
     "deleted": false
@@ -1548,6 +1621,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris,",
     "clientid": "5496",
     "deleted": true
@@ -1569,6 +1643,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "vel pede blandit congue. In scelerisque scelerisque dui. Suspendisse ac metus",
     "clientid": "5845",
     "deleted": false
@@ -1590,6 +1665,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "vel arcu eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer rhoncus. Nullam velit",
     "clientid": "6876",
     "deleted": false
@@ -1611,6 +1687,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec at arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec",
     "clientid": "3922",
     "deleted": true
@@ -1632,6 +1709,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum",
     "clientid": "1455",
     "deleted": false
@@ -1653,6 +1731,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Cras interdum. Nunc sollicitudin commodo ipsum. Suspendisse non leo. Vivamus nibh dolor, nonummy ac, feugiat",
     "clientid": "3735",
     "deleted": false
@@ -1674,6 +1753,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus",
     "clientid": "4191",
     "deleted": true
@@ -1695,6 +1775,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "neque. Morbi quis urna. Nunc quis arcu vel quam dignissim pharetra. Nam ac nulla. In",
     "clientid": "7970",
     "deleted": true
@@ -1716,6 +1797,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ac mattis semper, dui lectus rutrum urna, nec luctus felis purus ac tellus. Suspendisse sed dolor. Fusce",
     "clientid": "3845",
     "deleted": true
@@ -1737,6 +1819,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc",
     "clientid": "6501",
     "deleted": true
@@ -1758,6 +1841,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec",
     "clientid": "1483",
     "deleted": true
@@ -1779,6 +1863,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tempus risus. Donec egestas. Duis ac arcu. Nunc mauris. Morbi",
     "clientid": "1556",
     "deleted": true
@@ -1800,6 +1885,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec est. Nunc ullamcorper, velit in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci.",
     "clientid": "9819",
     "deleted": false
@@ -1821,6 +1907,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu neque",
     "clientid": "9926",
     "deleted": true
@@ -1842,6 +1929,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ut, molestie in, tempus eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris",
     "clientid": "7288",
     "deleted": false
@@ -1863,6 +1951,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec vitae erat",
     "clientid": "3473",
     "deleted": false
@@ -1873,18 +1962,19 @@
   "pk": 196,
   "fields": {
     "created": "2019-12-22T02:09:03",
-    "clientname": "Ante Associates",
-    "contact_employee": "Amir Nguyen",
+    "clientname": "Ante Associates2",
+    "contact_employee": "Amir Nguyen2",
     "id_agent": 13,
-    "addr_reg": "P.O. Box 484, 4789 Phasellus St.",
-    "contact_phone": "1-860-203-5380",
+    "addr_reg": "P.O. Box 484, 4789 Phasellus St.2",
+    "contact_phone": "1-860-203-53802",
     "contact_email": "molestie.tortor@nasceturridiculusmus.org",
-    "contact_fax": null,
-    "req_bin": null,
-    "req_account": null,
-    "req_bank": null,
-    "req_bik": null,
-    "comment": "non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida.",
+    "contact_fax": "sss",
+    "req_bin": "sdsdsdsd",
+    "req_account": "sdsdsd",
+    "req_bank": "21312312",
+    "req_bik": "sdsdsd",
+    "req_boss": "~~~~~",
+    "comment": "non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida.2",
     "clientid": "5470",
     "deleted": false
   }
@@ -1905,6 +1995,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam",
     "clientid": "9648",
     "deleted": false
@@ -1926,6 +2017,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis,",
     "clientid": "4920",
     "deleted": true
@@ -1947,6 +2039,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "a, auctor non, feugiat nec, diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin",
     "clientid": "7524",
     "deleted": true
@@ -1968,6 +2061,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eu nibh vulputate mauris sagittis placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus",
     "clientid": "3864",
     "deleted": true
@@ -1989,6 +2083,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ullamcorper. Duis at lacus. Quisque purus sapien, gravida non, sollicitudin",
     "clientid": "6879",
     "deleted": true
@@ -2010,6 +2105,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue",
     "clientid": "8805",
     "deleted": false
@@ -2031,6 +2127,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed orci lobortis augue scelerisque",
     "clientid": "7300",
     "deleted": true
@@ -2052,6 +2149,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "lorem ut aliquam iaculis, lacus pede sagittis augue, eu tempor erat",
     "clientid": "3931",
     "deleted": true
@@ -2073,6 +2171,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae odio sagittis semper. Nam tempor",
     "clientid": "9470",
     "deleted": true
@@ -2094,6 +2193,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mollis nec, cursus a, enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam",
     "clientid": "7414",
     "deleted": true
@@ -2115,6 +2215,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque,",
     "clientid": "3299",
     "deleted": true
@@ -2136,6 +2237,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "non enim commodo hendrerit. Donec porttitor tellus non magna. Nam",
     "clientid": "7694",
     "deleted": true
@@ -2157,6 +2259,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nec, leo. Morbi neque tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet, consectetuer",
     "clientid": "2713",
     "deleted": true
@@ -2178,6 +2281,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam vel sapien imperdiet",
     "clientid": "1504",
     "deleted": true
@@ -2199,6 +2303,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Praesent luctus. Curabitur egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi dictum augue",
     "clientid": "3252",
     "deleted": true
@@ -2220,6 +2325,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ad litora torquent per conubia nostra, per inceptos hymenaeos. Mauris ut quam",
     "clientid": "4110",
     "deleted": true
@@ -2241,6 +2347,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ac metus vitae velit egestas lacinia. Sed congue, elit sed consequat auctor, nunc nulla vulputate",
     "clientid": "5621",
     "deleted": false
@@ -2262,6 +2369,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam ligula elit, pretium",
     "clientid": "3759",
     "deleted": false
@@ -2283,6 +2391,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam lorem, auctor quis, tristique ac, eleifend vitae,",
     "clientid": "7086",
     "deleted": true
@@ -2304,6 +2413,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sem. Nulla interdum. Curabitur dictum. Phasellus in felis. Nulla tempor",
     "clientid": "3120",
     "deleted": false
@@ -2325,6 +2435,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Aliquam nisl. Nulla eu neque pellentesque massa lobortis ultrices. Vivamus rhoncus. Donec est. Nunc ullamcorper, velit in",
     "clientid": "9261",
     "deleted": false
@@ -2346,6 +2457,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit,",
     "clientid": "8354",
     "deleted": true
@@ -2367,6 +2479,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "et ultrices posuere cubilia Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam",
     "clientid": "9618",
     "deleted": false
@@ -2388,6 +2501,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "a, malesuada id, erat. Etiam vestibulum massa rutrum magna. Cras convallis convallis dolor. Quisque tincidunt pede ac urna.",
     "clientid": "6061",
     "deleted": false
@@ -2409,6 +2523,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit",
     "clientid": "7160",
     "deleted": true
@@ -2430,6 +2545,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tincidunt dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis vel, faucibus id, libero. Donec consectetuer",
     "clientid": "8377",
     "deleted": true
@@ -2451,6 +2567,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "est ac mattis semper, dui lectus rutrum urna, nec luctus felis purus",
     "clientid": "8724",
     "deleted": true
@@ -2472,6 +2589,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus",
     "clientid": "6583",
     "deleted": true
@@ -2493,6 +2611,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
     "clientid": "8076",
     "deleted": false
@@ -2514,6 +2633,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dui lectus rutrum urna, nec luctus felis purus ac tellus.",
     "clientid": "1465",
     "deleted": true
@@ -2535,6 +2655,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem",
     "clientid": "3469",
     "deleted": true
@@ -2556,6 +2677,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sit amet ultricies sem magna nec quam. Curabitur vel lectus.",
     "clientid": "2319",
     "deleted": true
@@ -2577,6 +2699,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "aliquam eros turpis non enim. Mauris quis turpis vitae purus gravida sagittis. Duis gravida. Praesent eu nulla at sem",
     "clientid": "6586",
     "deleted": false
@@ -2598,6 +2721,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ut nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam",
     "clientid": "2648",
     "deleted": true
@@ -2619,6 +2743,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "hendrerit consectetuer, cursus et, magna. Praesent interdum ligula eu enim.",
     "clientid": "1285",
     "deleted": false
@@ -2640,6 +2765,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "aliquet, sem ut cursus luctus, ipsum leo elementum sem, vitae aliquam eros turpis non",
     "clientid": "9749",
     "deleted": true
@@ -2661,6 +2787,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla",
     "clientid": "5837",
     "deleted": false
@@ -2682,6 +2809,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "egestas nunc sed libero. Proin sed turpis nec mauris blandit mattis. Cras eget nisi",
     "clientid": "5681",
     "deleted": true
@@ -2703,6 +2831,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "elit, pretium et, rutrum non, hendrerit id, ante. Nunc mauris sapien, cursus in, hendrerit consectetuer, cursus",
     "clientid": "4478",
     "deleted": true
@@ -2724,6 +2853,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tincidunt orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in lobortis",
     "clientid": "6461",
     "deleted": true
@@ -2745,6 +2875,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum magna. Cras convallis convallis",
     "clientid": "1689",
     "deleted": false
@@ -2766,6 +2897,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "vestibulum lorem, sit amet ultricies sem magna nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis",
     "clientid": "3402",
     "deleted": true
@@ -2787,6 +2919,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mus. Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam bibendum",
     "clientid": "7554",
     "deleted": true
@@ -2808,6 +2941,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed",
     "clientid": "9388",
     "deleted": true
@@ -2829,6 +2963,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "fermentum risus, at fringilla purus mauris a nunc. In at",
     "clientid": "9671",
     "deleted": true
@@ -2850,6 +2985,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "enim. Suspendisse aliquet, sem ut cursus luctus, ipsum leo elementum",
     "clientid": "7116",
     "deleted": false
@@ -2871,6 +3007,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "diam. Duis mi enim, condimentum eget, volutpat ornare, facilisis eget, ipsum. Donec",
     "clientid": "3873",
     "deleted": true
@@ -2892,6 +3029,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac",
     "clientid": "7079",
     "deleted": true
@@ -2913,6 +3051,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "felis, adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum.",
     "clientid": "3697",
     "deleted": true
@@ -2934,6 +3073,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam",
     "clientid": "4148",
     "deleted": false
@@ -2955,6 +3095,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Phasellus dapibus quam quis diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames",
     "clientid": "9852",
     "deleted": true
@@ -2976,6 +3117,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "fringilla mi lacinia mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit",
     "clientid": "3896",
     "deleted": true
@@ -2997,6 +3139,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Vivamus euismod urna. Nullam lobortis quam a felis ullamcorper viverra. Maecenas iaculis aliquet diam. Sed diam",
     "clientid": "9621",
     "deleted": true
@@ -3018,6 +3161,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "id enim. Curabitur massa. Vestibulum accumsan neque et nunc. Quisque ornare tortor at risus. Nunc ac sem ut dolor dapibus",
     "clientid": "8007",
     "deleted": false
@@ -3039,6 +3183,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula.",
     "clientid": "4919",
     "deleted": true
@@ -3060,6 +3205,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Curae; Phasellus ornare. Fusce mollis. Duis sit amet diam eu",
     "clientid": "4543",
     "deleted": true
@@ -3081,6 +3227,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis massa. Mauris vestibulum, neque sed",
     "clientid": "3251",
     "deleted": false
@@ -3102,6 +3249,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Donec fringilla. Donec feugiat metus sit amet ante. Vivamus non lorem vitae",
     "clientid": "6335",
     "deleted": false
@@ -3123,6 +3271,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sed, hendrerit a, arcu. Sed et libero. Proin mi. Aliquam gravida mauris ut mi. Duis risus",
     "clientid": "2741",
     "deleted": true
@@ -3144,6 +3293,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "et pede. Nunc sed orci lobortis augue scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed, facilisis",
     "clientid": "5472",
     "deleted": false
@@ -3165,6 +3315,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eros. Nam consequat dolor vitae dolor. Donec fringilla. Donec feugiat",
     "clientid": "5182",
     "deleted": false
@@ -3186,6 +3337,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu",
     "clientid": "3192",
     "deleted": false
@@ -3207,6 +3359,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tellus, imperdiet non, vestibulum nec, euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet, consectetuer",
     "clientid": "7653",
     "deleted": true
@@ -3228,6 +3381,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "arcu vel quam dignissim pharetra. Nam ac nulla. In tincidunt",
     "clientid": "5086",
     "deleted": true
@@ -3249,6 +3403,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Mauris ut quam vel sapien imperdiet ornare. In faucibus. Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis",
     "clientid": "4074",
     "deleted": false
@@ -3270,6 +3425,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Cras dictum ultricies ligula. Nullam enim. Sed nulla ante, iaculis nec, eleifend non, dapibus",
     "clientid": "7501",
     "deleted": true
@@ -3291,6 +3447,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "augue id ante dictum cursus. Nunc mauris elit, dictum eu, eleifend nec, malesuada ut,",
     "clientid": "3148",
     "deleted": false
@@ -3312,6 +3469,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui",
     "clientid": "8606",
     "deleted": true
@@ -3333,6 +3491,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat,",
     "clientid": "8475",
     "deleted": false
@@ -3354,6 +3513,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Nulla facilisi. Sed neque. Sed eget lacus. Mauris non dui nec urna suscipit nonummy. Fusce fermentum",
     "clientid": "6014",
     "deleted": true
@@ -3375,6 +3535,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Mauris non dui nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante ipsum primis in",
     "clientid": "5131",
     "deleted": false
@@ -3396,6 +3557,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam suscipit,",
     "clientid": "5350",
     "deleted": false
@@ -3417,6 +3579,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Proin mi. Aliquam gravida mauris ut mi. Duis risus odio, auctor vitae, aliquet nec, imperdiet nec, leo. Morbi neque tellus,",
     "clientid": "4576",
     "deleted": true
@@ -3438,6 +3601,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas.",
     "clientid": "9351",
     "deleted": false
@@ -3459,6 +3623,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "sit amet massa. Quisque porttitor eros nec tellus. Nunc lectus pede, ultrices a, auctor non, feugiat",
     "clientid": "5536",
     "deleted": true
@@ -3480,6 +3645,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eget massa. Suspendisse eleifend. Cras sed leo. Cras vehicula aliquet libero. Integer in magna. Phasellus dolor elit, pellentesque a, facilisis",
     "clientid": "6226",
     "deleted": false
@@ -3501,6 +3667,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "metus. In nec orci. Donec nibh. Quisque nonummy ipsum non arcu. Vivamus sit amet risus. Donec egestas. Aliquam",
     "clientid": "7801",
     "deleted": true
@@ -3522,6 +3689,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "orci quis lectus. Nullam suscipit, est ac facilisis facilisis, magna tellus faucibus leo, in",
     "clientid": "5930",
     "deleted": true
@@ -3543,6 +3711,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eu, ligula. Aenean euismod mauris eu elit. Nulla facilisi. Sed neque. Sed eget lacus. Mauris non",
     "clientid": "3774",
     "deleted": true
@@ -3564,6 +3733,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Aenean egestas hendrerit neque. In ornare sagittis felis. Donec tempor, est ac mattis semper, dui lectus rutrum urna, nec luctus",
     "clientid": "8661",
     "deleted": true
@@ -3585,6 +3755,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nec quam. Curabitur vel lectus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
     "clientid": "7495",
     "deleted": true
@@ -3606,6 +3777,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum lorem ac risus. Morbi",
     "clientid": "8920",
     "deleted": false
@@ -3627,6 +3799,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim",
     "clientid": "4706",
     "deleted": true
@@ -3648,6 +3821,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "enim. Etiam imperdiet dictum magna. Ut tincidunt orci quis lectus. Nullam",
     "clientid": "2139",
     "deleted": true
@@ -3669,6 +3843,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "gravida. Praesent eu nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet",
     "clientid": "5617",
     "deleted": true
@@ -3690,6 +3865,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "at auctor ullamcorper, nisl arcu iaculis enim, sit amet ornare lectus justo eu arcu. Morbi sit amet",
     "clientid": "2195",
     "deleted": true
@@ -3711,6 +3887,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dolor dolor, tempus non, lacinia at, iaculis quis, pede. Praesent eu dui. Cum",
     "clientid": "8540",
     "deleted": false
@@ -3732,6 +3909,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim",
     "clientid": "6348",
     "deleted": true
@@ -3753,6 +3931,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque",
     "clientid": "9204",
     "deleted": true
@@ -3774,6 +3953,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nulla ante, iaculis nec, eleifend non, dapibus rutrum, justo. Praesent luctus. Curabitur egestas nunc",
     "clientid": "2695",
     "deleted": false
@@ -3795,6 +3975,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Morbi vehicula. Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu.",
     "clientid": "6360",
     "deleted": true
@@ -3816,6 +3997,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Duis cursus, diam at pretium aliquet, metus urna convallis erat, eget tincidunt dui augue eu tellus. Phasellus elit pede, malesuada",
     "clientid": "2907",
     "deleted": true
@@ -3837,6 +4019,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "eget, volutpat ornare, facilisis eget, ipsum. Donec sollicitudin adipiscing ligula. Aenean gravida nunc sed pede. Cum sociis natoque penatibus et",
     "clientid": "4313",
     "deleted": true
@@ -3858,6 +4041,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "in aliquet lobortis, nisi nibh lacinia orci, consectetuer euismod est arcu ac orci.",
     "clientid": "2608",
     "deleted": true
@@ -3879,6 +4063,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "congue turpis. In condimentum. Donec at arcu. Vestibulum ante ipsum primis",
     "clientid": "1328",
     "deleted": true
@@ -3900,6 +4085,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel nisl. Quisque fringilla euismod enim. Etiam gravida",
     "clientid": "6241",
     "deleted": true
@@ -3921,6 +4107,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "cursus. Integer mollis. Integer tincidunt aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum enim non",
     "clientid": "2853",
     "deleted": true
@@ -3942,6 +4129,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tellus faucibus leo, in lobortis tellus justo sit amet nulla. Donec non justo. Proin non massa non",
     "clientid": "5860",
     "deleted": true
@@ -3963,6 +4151,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nec urna suscipit nonummy. Fusce fermentum fermentum arcu. Vestibulum ante",
     "clientid": "2571",
     "deleted": true
@@ -3984,6 +4173,7 @@
     "req_account": "Account",
     "req_bank": "\u0410\u041e \u041d\u0430\u0440\u043e\u0434\u043d\u044b\u0439 \u0431\u0430\u043d\u043a \u041a\u0430\u0437\u0430\u0445\u0441\u0442\u0430\u043d\u0430",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "\u0418\u043d\u043e\u0433\u0434\u0430 \u0432\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u0437\u0430\u0445\u043e\u0442\u0435\u0442\u044c \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0442\u0435\u043a\u0441\u0442 \u0434\u043b\u044f \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u0438, \u0447\u0442\u043e\u0431\u044b \u0443\u043b\u0443\u0447\u0448\u0438\u0442\u044c UX, \u043f\u043e\u0441\u043a\u043e\u043b\u044c\u043a\u0443 \u043c\u044b \u0440\u0430\u0441\u043f\u043e\u0437\u043d\u0430\u0435\u043c \u043b\u043e\u0433\u043e\u0442\u0438\u043f\u044b \u043b\u0435\u0433\u0447\u0435, \u0447\u0435\u043c \u043e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0435\u043a\u0441\u0442. \u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0435\u0441\u043b\u0438 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c \u043a\u043d\u043e\u043f\u043a\u0430 \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u044f, \u0432\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u043f\u043e\u043c\u0435\u0442\u0438\u0442\u044c \u0435\u0435 \u0437\u043d\u0430\u0447\u043a\u043e\u043c \u043c\u0443\u0441\u043e\u0440\u043d\u043e\u0439 \u043a\u043e\u0440\u0437\u0438\u043d\u044b. \u041a\u043d\u043e\u043f\u043a\u0438 \u0441 \u0438\u043a\u043e\u043d\u043a\u0430\u043c\u0438 \u043e\u0431\u044b\u0447\u043d\u043e \u043d\u0430\u0445\u043e\u0434\u044f\u0442\u0441\u044f \u043d\u0430 \u043f\u0430\u043d\u0435\u043b\u044f\u0445 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438 \u0438 \u043d\u0430 \u043f\u0430\u043d\u0435\u043b\u044f\u0445 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432. \u0417\u043d\u0430\u0447\u043a\u0438 \u0442\u0430\u043a\u0436\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u044f\u0442 \u0434\u043b\u044f \u043a\u043d\u043e\u043f\u043e\u043a \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u044e\u0442 \u0432\u044b\u0431\u0440\u0430\u0442\u044c \u044d\u043b\u0435\u043c\u0435\u043d\u0442 \u0438\u043b\u0438 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0432\u044b\u0431\u043e\u0440, \u043d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0438\u043b\u0438 \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u0435 \u0437\u0432\u0435\u0437\u0434\u044b \u0434\u043b\u044f \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430.",
     "clientid": "111",
     "deleted": false
@@ -4005,6 +4195,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Mauris magna. Duis dignissim tempor arcu. Vestibulum ut eros non enim commodo hendrerit. Donec porttitor tellus non magna. Nam",
     "clientid": "1259",
     "deleted": true
@@ -4026,6 +4217,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "a feugiat tellus lorem eu metus. In lorem. Donec elementum, lorem ut aliquam iaculis, lacus pede sagittis augue, eu",
     "clientid": "9772",
     "deleted": true
@@ -4047,6 +4239,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "a, scelerisque sed, sapien. Nunc pulvinar arcu et pede. Nunc sed",
     "clientid": "6472",
     "deleted": true
@@ -4068,6 +4261,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "nascetur ridiculus mus. Donec dignissim magna a tortor. Nunc commodo",
     "clientid": "9219",
     "deleted": false
@@ -4089,6 +4283,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec tincidunt. Donec",
     "clientid": "9235",
     "deleted": false
@@ -4110,6 +4305,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Aenean massa. Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec, cursus",
     "clientid": "1538",
     "deleted": true
@@ -4131,6 +4327,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "dui. Cras pellentesque. Sed dictum. Proin eget odio. Aliquam vulputate ullamcorper magna. Sed eu eros. Nam",
     "clientid": "1933",
     "deleted": true
@@ -4152,6 +4349,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "erat semper rutrum. Fusce dolor quam, elementum at, egestas a, scelerisque sed, sapien.",
     "clientid": "8194",
     "deleted": true
@@ -4173,6 +4371,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "Quisque purus sapien, gravida non, sollicitudin a, malesuada id, erat. Etiam vestibulum massa rutrum magna. Cras",
     "clientid": "2368",
     "deleted": true
@@ -4194,6 +4393,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum",
     "clientid": "5361",
     "deleted": true
@@ -4215,6 +4415,7 @@
     "req_account": null,
     "req_bank": null,
     "req_bik": null,
+    "req_boss": null,
     "comment": "tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at,",
     "clientid": "5499",
     "deleted": false
@@ -4236,6 +4437,7 @@
     "req_account": "Account",
     "req_bank": "Bank",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy",
     "clientid": "111",
     "deleted": false
@@ -4257,6 +4459,7 @@
     "req_account": "Account",
     "req_bank": "Bank",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy",
     "clientid": "111",
     "deleted": false
@@ -4278,6 +4481,7 @@
     "req_account": "Account",
     "req_bank": "Bank",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy",
     "clientid": "111",
     "deleted": false
@@ -4299,6 +4503,7 @@
     "req_account": "Account",
     "req_bank": "Bank",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "arcu. Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus. In nec orci. Donec nibh. Quisque nonummy",
     "clientid": "111",
     "deleted": false
@@ -4320,6 +4525,7 @@
     "req_account": "Account",
     "req_bank": "Bank",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "\u0418\u043d\u043e\u0433\u0434\u0430 \u0432\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u0437\u0430\u0445\u043e\u0442\u0435\u0442\u044c \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0442\u0435\u043a\u0441\u0442 \u0434\u043b\u044f \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u0438, \u0447\u0442\u043e\u0431\u044b \u0443\u043b\u0443\u0447\u0448\u0438\u0442\u044c UX, \u043f\u043e\u0441\u043a\u043e\u043b\u044c\u043a\u0443 \u043c\u044b \u0440\u0430\u0441\u043f\u043e\u0437\u043d\u0430\u0435\u043c \u043b\u043e\u0433\u043e\u0442\u0438\u043f\u044b \u043b\u0435\u0433\u0447\u0435, \u0447\u0435\u043c \u043e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0435\u043a\u0441\u0442. \u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0435\u0441\u043b\u0438 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c \u043a\u043d\u043e\u043f\u043a\u0430 \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u044f, \u0432\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u043f\u043e\u043c\u0435\u0442\u0438\u0442\u044c \u0435\u0435 \u0437\u043d\u0430\u0447\u043a\u043e\u043c \u043c\u0443\u0441\u043e\u0440\u043d\u043e\u0439 \u043a\u043e\u0440\u0437\u0438\u043d\u044b. \u041a\u043d\u043e\u043f\u043a\u0438 \u0441 \u0438\u043a\u043e\u043d\u043a\u0430\u043c\u0438 \u043e\u0431\u044b\u0447\u043d\u043e \u043d\u0430\u0445\u043e\u0434\u044f\u0442\u0441\u044f \u043d\u0430 \u043f\u0430\u043d\u0435\u043b\u044f\u0445 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438 \u0438 \u043d\u0430 \u043f\u0430\u043d\u0435\u043b\u044f\u0445 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432. \u0417\u043d\u0430\u0447\u043a\u0438 \u0442\u0430\u043a\u0436\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u044f\u0442 \u0434\u043b\u044f \u043a\u043d\u043e\u043f\u043e\u043a \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u044e\u0442 \u0432\u044b\u0431\u0440\u0430\u0442\u044c \u044d\u043b\u0435\u043c\u0435\u043d\u0442 \u0438\u043b\u0438 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0432\u044b\u0431\u043e\u0440, \u043d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0438\u043b\u0438 \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u0435 \u0437\u0432\u0435\u0437\u0434\u044b \u0434\u043b\u044f \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430.",
     "clientid": "111",
     "deleted": false
@@ -4341,6 +4547,7 @@
     "req_account": "Account",
     "req_bank": "Bank",
     "req_bik": "BIK",
+    "req_boss": null,
     "comment": "\u0418\u043d\u043e\u0433\u0434\u0430 \u0432\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u0437\u0430\u0445\u043e\u0442\u0435\u0442\u044c \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0442\u0435\u043a\u0441\u0442 \u0434\u043b\u044f \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u043d\u043e\u0439 \u043a\u043d\u043e\u043f\u043a\u0438, \u0447\u0442\u043e\u0431\u044b \u0443\u043b\u0443\u0447\u0448\u0438\u0442\u044c UX, \u043f\u043e\u0441\u043a\u043e\u043b\u044c\u043a\u0443 \u043c\u044b \u0440\u0430\u0441\u043f\u043e\u0437\u043d\u0430\u0435\u043c \u043b\u043e\u0433\u043e\u0442\u0438\u043f\u044b \u043b\u0435\u0433\u0447\u0435, \u0447\u0435\u043c \u043e\u0431\u044b\u0447\u043d\u044b\u0439 \u0442\u0435\u043a\u0441\u0442. \u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0435\u0441\u043b\u0438 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c \u043a\u043d\u043e\u043f\u043a\u0430 \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u044f, \u0432\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u043f\u043e\u043c\u0435\u0442\u0438\u0442\u044c \u0435\u0435 \u0437\u043d\u0430\u0447\u043a\u043e\u043c \u043c\u0443\u0441\u043e\u0440\u043d\u043e\u0439 \u043a\u043e\u0440\u0437\u0438\u043d\u044b. \u041a\u043d\u043e\u043f\u043a\u0438 \u0441 \u0438\u043a\u043e\u043d\u043a\u0430\u043c\u0438 \u043e\u0431\u044b\u0447\u043d\u043e \u043d\u0430\u0445\u043e\u0434\u044f\u0442\u0441\u044f \u043d\u0430 \u043f\u0430\u043d\u0435\u043b\u044f\u0445 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438 \u0438 \u043d\u0430 \u043f\u0430\u043d\u0435\u043b\u044f\u0445 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432. \u0417\u043d\u0430\u0447\u043a\u0438 \u0442\u0430\u043a\u0436\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u044f\u0442 \u0434\u043b\u044f \u043a\u043d\u043e\u043f\u043e\u043a \u043f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u044e\u0442 \u0432\u044b\u0431\u0440\u0430\u0442\u044c \u044d\u043b\u0435\u043c\u0435\u043d\u0442 \u0438\u043b\u0438 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0432\u044b\u0431\u043e\u0440, \u043d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0438\u043b\u0438 \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u0435 \u0437\u0432\u0435\u0437\u0434\u044b \u0434\u043b\u044f \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430.",
     "clientid": "111",
     "deleted": false
@@ -4362,6 +4569,7 @@
     "req_account": "098098",
     "req_bank": "0809809",
     "req_bik": "098098",
+    "req_boss": null,
     "comment": "098098098",
     "clientid": "8888",
     "deleted": false
@@ -4383,6 +4591,7 @@
     "req_account": "098098",
     "req_bank": "0809809",
     "req_bik": "098098",
+    "req_boss": null,
     "comment": "098098098",
     "clientid": "8888",
     "deleted": false
@@ -4404,6 +4613,7 @@
     "req_account": "098098",
     "req_bank": "9809",
     "req_bik": "08098",
+    "req_boss": null,
     "comment": "\u044b\u0444\u0432\u0430\u043b\u0434\u044b\u043e\u0430\u043b\u0434\u043e",
     "clientid": "8888",
     "deleted": true
@@ -4425,6 +4635,7 @@
     "req_account": "\u0448\u0449\u0433\u0448\u0449",
     "req_bank": "\u0449\u0433\u0448\u0449",
     "req_bik": "\u0449\u0448\u0433\u0449\u0448\u0433",
+    "req_boss": null,
     "comment": "\u0433\u0449\u0448\u0433\u0448\u0449\u0433\u0449",
     "clientid": "8888",
     "deleted": false
@@ -4446,6 +4657,7 @@
     "req_account": "098098",
     "req_bank": "0809809",
     "req_bik": "098098",
+    "req_boss": null,
     "comment": "098098098",
     "clientid": "8888",
     "deleted": false
@@ -4467,6 +4679,7 @@
     "req_account": "44343",
     "req_bank": "234234234",
     "req_bik": "3434",
+    "req_boss": null,
     "comment": "sdfsdfsdfsdfsdfsd",
     "clientid": "",
     "deleted": true

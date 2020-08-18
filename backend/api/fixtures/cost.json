@@ -14998,5 +14998,230 @@
     "id_employee": 3,
     "is_delete": false
   }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3002,
+  "fields": {
+    "created": "2020-07-24T16:17:54.209",
+    "id_cost": 57,
+    "cost_date": "2019-10-27",
+    "cost_count": 10.0,
+    "id_unit": 0,
+    "total": 1000.0,
+    "comment": null,
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3003,
+  "fields": {
+    "created": "2020-07-24T16:23:01.264",
+    "id_cost": 57,
+    "cost_date": "2019-10-27",
+    "cost_count": 10.0,
+    "id_unit": 0,
+    "total": 1000.0,
+    "comment": null,
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3004,
+  "fields": {
+    "created": "2020-07-24T16:23:01.297",
+    "id_cost": 58,
+    "cost_date": "2019-10-27",
+    "cost_count": 20.0,
+    "id_unit": 0,
+    "total": 2000.0,
+    "comment": null,
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3005,
+  "fields": {
+    "created": "2020-07-24T16:57:26.812",
+    "id_cost": 57,
+    "cost_date": "2019-10-27",
+    "cost_count": 10.0,
+    "id_unit": 0,
+    "total": 1000.0,
+    "comment": "\u0414\u043e\u043f\u043e. \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3006,
+  "fields": {
+    "created": "2020-07-24T16:57:26.856",
+    "id_cost": 58,
+    "cost_date": "2019-10-27",
+    "cost_count": 20.0,
+    "id_unit": 0,
+    "total": 2000.0,
+    "comment": "\u0414\u043e\u043f\u043e. \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3007,
+  "fields": {
+    "created": "2020-07-24T18:21:19.232",
+    "id_cost": 57,
+    "cost_date": "2019-10-27",
+    "cost_count": 10.0,
+    "id_unit": 0,
+    "total": 1000.0,
+    "comment": "\u0414\u043e\u043f\u043e. \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3008,
+  "fields": {
+    "created": "2020-07-24T18:21:19.288",
+    "id_cost": 58,
+    "cost_date": "2019-10-27",
+    "cost_count": 20.0,
+    "id_unit": 0,
+    "total": 2000.0,
+    "comment": "\u0414\u043e\u043f\u043e. \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3010,
+  "fields": {
+    "created": "2020-07-24T18:30:22.210",
+    "id_cost": 57,
+    "cost_date": "2020-07-24",
+    "cost_count": 111.0,
+    "id_unit": 0,
+    "total": 178.0,
+    "comment": "",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3011,
+  "fields": {
+    "created": "2020-07-27T11:03:44.901",
+    "id_cost": 84,
+    "cost_date": "2020-07-27",
+    "cost_count": 1.0,
+    "id_unit": 0,
+    "total": 100.0,
+    "comment": "\u043a\u043e\u043c\u043c\u0435\u043d\u04421",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3012,
+  "fields": {
+    "created": "2020-07-27T11:03:44.931",
+    "id_cost": 83,
+    "cost_date": "2020-07-27",
+    "cost_count": 2.0,
+    "id_unit": 0,
+    "total": 396.0,
+    "comment": "\u043a\u043e\u043c\u043c\u0435\u043d\u04421",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3013,
+  "fields": {
+    "created": "2020-07-27T11:13:52.858",
+    "id_cost": 66,
+    "cost_date": "2020-07-27",
+    "cost_count": 1.0,
+    "id_unit": 0,
+    "total": 10.0,
+    "comment": "",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3014,
+  "fields": {
+    "created": "2020-07-27T11:19:01.121",
+    "id_cost": 65,
+    "cost_date": "2020-07-27",
+    "cost_count": 20.0,
+    "id_unit": 0,
+    "total": 200.0,
+    "comment": "",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3015,
+  "fields": {
+    "created": "2020-07-27T11:43:47.405",
+    "id_cost": 72,
+    "cost_date": "2020-07-27",
+    "cost_count": 50.0,
+    "id_unit": 0,
+    "total": 200.0,
+    "comment": "\u044b\u044b\u044b\u044b",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3016,
+  "fields": {
+    "created": "2020-07-27T11:50:10.576",
+    "id_cost": 73,
+    "cost_date": "2020-07-27",
+    "cost_count": 75.0,
+    "id_unit": 0,
+    "total": 750.0,
+    "comment": "\u0444\u0444\u0444\u0444\u0444",
+    "id_employee": 1,
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3017,
+  "fields": {
+    "created": "2020-08-07T23:21:54.274",
+    "id_cost": 11,
+    "cost_date": "2020-08-07",
+    "cost_count": 1.0,
+    "id_unit": 0,
+    "total": 33323.0,
+    "comment": "",
+    "id_employee": 9,
+    "is_delete": false
+  }
 }
 ]

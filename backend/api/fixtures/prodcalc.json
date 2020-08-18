@@ -127,29 +127,65 @@
 },
 {
   "model": "lighthouse.prodcalc",
-  "pk": 35,
+  "pk": 38,
   "fields": {
     "id_manufacture": 120,
-    "id_raw": 21,
+    "id_raw": 16,
     "calc_value": 1000.0
   }
 },
 {
   "model": "lighthouse.prodcalc",
-  "pk": 36,
+  "pk": 39,
   "fields": {
     "id_manufacture": 120,
-    "id_raw": 23,
-    "calc_value": 5000.0
+    "id_raw": 3,
+    "calc_value": 2000.0
   }
 },
 {
   "model": "lighthouse.prodcalc",
-  "pk": 37,
+  "pk": 40,
   "fields": {
     "id_manufacture": 120,
-    "id_raw": 14,
-    "calc_value": 2.0
+    "id_raw": 4,
+    "calc_value": 3000.0
+  }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 41,
+  "fields": {
+    "id_manufacture": 120,
+    "id_raw": 11,
+    "calc_value": 4000.0
+  }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 51,
+  "fields": {
+    "id_manufacture": 157,
+    "id_raw": 4,
+    "calc_value": 975.2
+  }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 52,
+  "fields": {
+    "id_manufacture": 157,
+    "id_raw": 109,
+    "calc_value": 512.2
+  }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 53,
+  "fields": {
+    "id_manufacture": 157,
+    "id_raw": 110,
+    "calc_value": 52.6
   }
 }
 ]
