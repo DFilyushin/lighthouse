@@ -2,15 +2,11 @@ FROM node:lts-alpine
 
 MAINTAINER dmitiry.filyushin@ya.ru
 
-WORKDIR /app/
+WORKDIR /app
 
-COPY ./package.json ./yarn.lock /app/
+COPY . /app
 
-RUN yarn install
-
-COPY ./ /app/
-
-RUN yarn build
+RUN yarn install && yarn build && rm -r node_modules
 
 EXPOSE 3000
 
