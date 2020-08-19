@@ -4,9 +4,13 @@ MAINTAINER dmitiry.filyushin@ya.ru
 
 WORKDIR /app
 
+COPY ./package.json ./yarn.lock /app/
+
+RUN yarn install
+
 COPY . /app
 
-RUN yarn install && yarn build && rm -r node_modules
+RUN yarn build
 
 EXPOSE 3000
 
