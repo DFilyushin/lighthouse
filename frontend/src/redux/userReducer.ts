@@ -24,7 +24,8 @@ const initState = (): IUserState => ({
         firstName: "",
         lastName: "",
         lastLogin: "",
-        isAdmin: false
+        isAdmin: false,
+        password: ''
     }
 });
 
