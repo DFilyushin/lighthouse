@@ -10,6 +10,8 @@ import {
     Switch,
     FormControlLabel
 } from '@material-ui/core'
+import CircularIndeterminate from "../../../components/Loader/Loader";
+import {DepartmentTable} from "../../Department/components";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +31,7 @@ const UserList = () => {
     const dispatch = useDispatch()
 
     const users = useSelector((state: IStateInterface) => state.user.userItems)
+    const isLoading = useSelector((state: IStateInterface) => state.user.isLoading);
     const [showHidden, setShowHidden] = useState(false)
 
     useEffect(()=>{
@@ -81,11 +84,15 @@ const UserList = () => {
         />
 
         <div className={classes.content}>
-        <UsersTable
-            users={users}
-            className={''}
-            onClickItem={onClickTableItem}
-        />
+
+            {isLoading ? <CircularIndeterminate/>
+                :
+                <UsersTable
+                    users={users}
+                    className={''}
+                    onClickItem={onClickTableItem}
+                />
+            }
       </div>
     </div>
   );
