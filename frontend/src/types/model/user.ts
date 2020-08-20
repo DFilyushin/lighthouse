@@ -26,6 +26,7 @@ export interface IAccount {
     groups: IUserGroup[];
     employee: IEmployeeListItem;
     isAdmin: boolean;
+    password: string | null;
 }
 
 
@@ -34,10 +35,11 @@ export const nullAccountItem: IAccount = {
     lastName: '',
     firstName: '',
     email: '',
-    active: false,
+    active: true,
     lastLogin: '',
     joined: '',
     groups: [],
     employee: {...nullEmployeeItem},
-    isAdmin: false
+    isAdmin: false,
+    password: ''
 };
