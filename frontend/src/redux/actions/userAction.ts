@@ -12,6 +12,7 @@ import {
     USER_SET_ERROR
 } from "./types";
 import authAxios from "../../services/axios-api";
+import {NEW_RECORD_TEXT} from "../../utils/AppConst";
 
 
 /**
@@ -74,11 +75,12 @@ export async function checkUserExist(login: string) {
     return Promise.resolve(result === 'User exist')
 }
 
+
 export function getUserItem(login: string) {
     return async (dispatch: any, getState: any) => {
         let item: IAccount = {...nullAccountItem};
         dispatch(fetchStart())
-        if (login === 'new') {
+        if (login === NEW_RECORD_TEXT) {
             dispatch(getItemSuccess(item))
         }else{
             dispatch(fetchStart());
@@ -101,7 +103,10 @@ export function getUserItem(login: string) {
 export function addUser(item: IAccount) {
     return async (dispatch: any, getState: any) => {
         try{
-            await authAxios.post(UserEndpoint.newUser(), item);
+            const postItem = {...item}
+            const idEmployee = postItem.employee.id
+            delete postItem.employee
+            await authAxios.post(UserEndpoint.newUser(), {...postItem, 'employee': idEmployee});
         }catch (e) {
             dispatch(saveError(e.response.toString()))
         }
@@ -115,7 +120,10 @@ export function addUser(item: IAccount) {
 export function saveUser(item: IAccount) {
     return async (dispatch: any, getState: any) => {
         try{
-            await authAxios.put(UserEndpoint.saveUser(item.login), item);
+            const postItem = {...item}
+            const idEmployee = postItem.employee.id
+            delete postItem.employee
+            await authAxios.put(UserEndpoint.saveUser(item.login), {...postItem, 'employee': idEmployee});
         }catch (e) {
             dispatch(saveError(e.toString()))
         }
