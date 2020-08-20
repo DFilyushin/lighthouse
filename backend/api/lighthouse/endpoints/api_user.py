@@ -16,7 +16,7 @@ class UserView(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return UserListSerializer
-        elif self.action == 'create':
+        elif self.action == 'create' or self.action == 'update':
             return NewUserSerializer
         else:
             return UserSerializer
@@ -46,6 +46,14 @@ class UserView(viewsets.ModelViewSet):
         instance = self.perform_create(serializer)
         instance_serializer = UserSerializer(instance)
         return Response({'message': 'Пользователь успешно создан'}, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        login = kwargs['pk']
+        user = User.objects.get(username=login)
+        serializer = NewUserSerializer(data=request.data, instance=user)
+        serializer.is_valid(raise_exception=True)
+        instance = self.perform_update(serializer)
+        return Response(status=status.HTTP_200_OK)
 
     @action(methods=['get'], url_path='check', detail=False, url_name='checkLoginExists')
     def check_user_exists(self, request):
