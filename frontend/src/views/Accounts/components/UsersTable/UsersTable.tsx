@@ -134,6 +134,8 @@ const UsersTable = (props: IUsersTableProps) => {
           page={page}
           rowsPerPage={rowsPerPage}
           rowsPerPageOptions={[5, 10, 25]}
+          labelRowsPerPage={'Строк на странице'}
+          labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
         />
       </CardActions>
     </Card>
