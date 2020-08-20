@@ -173,6 +173,9 @@ class ContractExpectedPayment(models.Model):
     wait_date = models.DateField(null=False, verbose_name='Ожидаемая дата оплаты')
     wait_value = models.FloatField(default=0, verbose_name='Сумма оплаты')
 
+    def __str__(self):
+        return '{} {} {}'.format(self.id_contract, self.wait_date, self.wait_value)
+
     class Meta:
         verbose_name = 'График оплата'
         verbose_name_plural = 'График оплат'
