@@ -24,13 +24,30 @@ export function getRandomInt(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+/**
+ * Проверка валидности email
+ * @param email Текстовая строка с почтовым адресом
+ */
 export function validateEmail(email: string) {
     //eslint-disable-next-line
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
 
+/**
+ * Проверка строки на латинские строки
+ * @param text Входная строка
+ */
+export function validateLatin(text: string) {
+    const re = /^[A-Za-z]+$/
+    return re.test(String(text.toLowerCase()))
+}
 
+/**
+ * Округление значения до сотых
+ * @param value
+ * @constructor
+ */
 export function RoundValue(value: number) {
     return Math.round((value + Number.EPSILON) * 100) / 100
 }
