@@ -10,6 +10,9 @@ class AppSetup(models.Model):
     str_value = models.CharField(max_length=255, null=True, blank=True, verbose_name='Строковое значение')
     date_value = models.DateTimeField(null=True, verbose_name='Дата/время')
 
+    def __str__(self):
+        return '{} {}'.format(self.name, self.kind)
+
     class Meta:
         verbose_name = 'Настройка приложения'
         verbose_name_plural = 'Настройки приложения'
