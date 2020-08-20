@@ -9,7 +9,8 @@ import {
     EMPLOYEE_ITEM_OK,
     EMPLOYEE_UPDATE_ITEM,
     EMPLOYEE_CLEAR_ERROR,
-    EMPLOYEE_LOAD_WORKTIME_SUCCESS
+    EMPLOYEE_LOAD_WORKTIME_SUCCESS,
+    EMPLOYEE_LOAD_WITHOUT_LOGINS
 } from "./actions/types";
 
 const getInitState = () => ({
@@ -18,7 +19,8 @@ const getInitState = () => ({
     isLoading: false,
     error: '',
     hasError: false,
-    workTimeItems: []
+    workTimeItems: [],
+    employeeWithoutLogins: []
 });
 
 export const employeeReducer = (state: IEmployeeState = getInitState(), action: any)=>{
@@ -32,6 +34,7 @@ export const employeeReducer = (state: IEmployeeState = getInitState(), action: 
         case EMPLOYEE_UPDATE_ITEM: return {...state, employeeItem: action.item};
         case EMPLOYEE_CLEAR_ERROR: return {...state, error: '', hasError: false};
         case EMPLOYEE_LOAD_WORKTIME_SUCCESS: return {...state, workTimeItems: action.items}
+        case EMPLOYEE_LOAD_WITHOUT_LOGINS: return {...state, employeeWithoutLogins: action.items}
         default: return state;
-    };
-};
+    }
+}
