@@ -1,7 +1,69 @@
 from django.contrib import admin
-from .appmodels.org import Org, Staff
+from .appmodels.org import *
 from .appmodels.manufacture import *
 from .appmodels.store import *
+from .appmodels.sales import *
+from .appmodels.appsetup import *
+
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('id_material', 'reserve_start', 'reserve_end', 'reserve_value')
+
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ProductionWork)
+class ProductionWorkAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(AppSetup)
+class AppSetupAdmin(admin.ModelAdmin):
+    list_display = ('code', 'name')
+    search_fields = ('code', 'name')
+
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('clientname', 'deleted')
+    search_fields = ('clientname', )
+
+
+@admin.register(Contract)
+class ContractAdmin(admin.ModelAdmin):
+    list_display = ('id_client', 'num', 'contract_date')
+    search_fields = ('id_client', 'num')
+
+
+@admin.register(ContractSpec)
+class ContractSpecAdmin(admin.ModelAdmin):
+    list_display = ('id_contract', 'id_product', 'item_count')
+    search_fields = ('id_contract',)
+
+
+@admin.register(ContractExpectedPayment)
+class ContractExpectedPaymentAdmin(admin.ModelAdmin):
+    list_display = ('id_contract', 'wait_date', 'wait_value')
+
+
+@admin.register(PaymentMethod)
+class PaymentMethodAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('id_contract', 'pay_date', 'pay_num', 'pay_value')
+
+
+@admin.register(PriceList)
+class PriceListAdmin(admin.ModelAdmin):
+    list_display = ('id_product', 'id_tare', 'on_date', 'price')
 
 
 @admin.register(Org)
@@ -12,7 +74,7 @@ class OrgAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('fio', )
+    list_display = ('fio', 'id_staff')
     search_fields = ('fio', )
 
 
@@ -36,7 +98,12 @@ class MaterialAdmin(admin.ModelAdmin):
 
 @admin.register(Formula)
 class FormulaAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'id_product', 'calc_amount', 'calc_losses')
+
+
+@admin.register(FormulaComp)
+class FormulaCompAdmin(admin.ModelAdmin):
+    list_display = ('id', 'id_formula', 'id_raw', 'concentration', 'raw_value')
 
 
 @admin.register(ProductionLine)
@@ -57,17 +124,22 @@ class MaterialUnitAdmin(admin.ModelAdmin):
 
 @admin.register(Manufacture)
 class ManufactureAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'prod_start', 'id_line', 'id_formula')
 
 
 @admin.register(ProdTeam)
 class ProdTeamAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id_manufacture', 'id_employee', 'id_work')
 
 
 @admin.register(ProdCalc)
 class ProdCalcAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(ProdMaterial)
+class ProdMaterialAdmin(admin.ModelAdmin):
+    list_display = ('id_manufacture', 'id_material', 'total')
 
 
 @admin.register(ProdReadyProduct)
