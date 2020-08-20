@@ -1,4 +1,5 @@
 export const NEW_RECORD_VALUE = -1
+export const NEW_RECORD_TEXT = 'new'
 
 export const STORE_IN = 0
 export const STORE_OUT = 1
