@@ -46,12 +46,25 @@ class EmployeeEndpoint{
         return this.getEmployeeItem(id)
     }
 
+    /**
+     * Отработанное сотрудником время
+     * @param id Код сотрудника
+     * @param start Начало периода
+     * @param end Окончание периода
+     */
     static getEmployeeWorkTime(id: number, start: string, end: string) {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/employee/${id}/works`
         const url = new URL(baseUrl);
         url.searchParams.append('start', start);
         url.searchParams.append('end', end)
         return url.href
+    }
+
+    /**
+     * Получить список сотрудников не имеющих учётные данные в системе
+     */
+    static getEmployeeWithoutUsername(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/employee/noLogins/`
     }
 }
 
