@@ -240,6 +240,9 @@ class Payment(models.Model):
     pay_type = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE, verbose_name='Тип оплаты')
     pay_value = models.FloatField(default=0, verbose_name='Сумма оплаты')
 
+    def __str__(self):
+        return '{} {} {}'.format(self.pay_date, self.pay_num, self.pay_value)
+
     class Meta:
         verbose_name = 'Оплата'
         verbose_name_plural = 'Оплаты'
