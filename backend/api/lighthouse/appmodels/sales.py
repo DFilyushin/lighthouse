@@ -220,6 +220,9 @@ class ClaimHistory(models.Model):
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=255, verbose_name='Тип оплаты')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Метод оплаты'
         verbose_name_plural = 'Методы оплаты'
