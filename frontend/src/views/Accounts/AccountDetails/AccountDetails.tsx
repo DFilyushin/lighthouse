@@ -12,7 +12,10 @@ import {
     TextField,
     Switch,
     FormControlLabel,
-    FormHelperText
+    FormHelperText,
+    InputAdornment,
+    IconButton,
+    Paper
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,10 +23,17 @@ import {IStateInterface} from "redux/rootReducer";
 import {addUser, changeUserItem, checkUserExist, getUserItem, saveUser} from "redux/actions/userAction";
 import {Groups} from '../components'
 import {IUserGroup} from "types/model/user";
-import {validateEmail} from "utils/AppUtils";
+import {validateEmail, validateLatin} from "utils/AppUtils";
 import {showInfoMessage} from "redux/actions/infoAction";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_TEXT} from "../../../utils/AppConst";
+import {useDialog} from "components/SelectDialog"
+import {loadEmployeeWithoutLogins} from "../../../redux/actions/employeeAction";
 
-interface IEmployeeItem {
+
+interface IAccountDetailsProps {
     className: string;
     match: any;
 }
@@ -54,15 +64,40 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AccountDetails = (props: IEmployeeItem) => {
-    const { className, ...rest } = props;
+const AccountDetails = (props: IAccountDetailsProps) => {
+    const { className, ...rest } = props
 
-    const classes = useStyles();
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const classes = useStyles()
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const selectDialog = useDialog()
+
     const id = props.match.params.user;
-    const accountItem = useSelector((state: IStateInterface)=> state.user.userAccount);
+    const isNewUser = id === NEW_RECORD_TEXT;
+    const accountItem = useSelector((state: IStateInterface)=> state.user.userAccount)
+    const employees = useSelector((state: IStateInterface) => state.employee.employeeWithoutLogins)
     const [userExist, setUserExist] = useState<boolean>(false)
+    const [password, setPassword] = useState<string>('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [badEmail, setBadEmail] = useState(false)
+    const [badPass, setBadPass] = useState(false)
+    const [badLogin, setBadLogin] = useState(false)
+    const [badEmployee, setBadEmployee] = useState(false)
+
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword)
+    const handleMouseDownPassword = () => setShowPassword(!showPassword)
+
+    /**
+     * Изменение пароля
+     * @param event
+     */
+    const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const passValue = event.target.value
+        setPassword(passValue)
+        const newItem = {...accountItem, password: passValue}
+        dispatch(changeUserItem(newItem))
+    }
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +130,7 @@ const AccountDetails = (props: IEmployeeItem) => {
      */
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
         try {
-            if (id === 'new') {
+            if (isNewUser) {
                 await dispatch(addUser(accountItem));
             } else {
                 await dispatch(saveUser(accountItem));
@@ -106,9 +141,19 @@ const AccountDetails = (props: IEmployeeItem) => {
         }
     });
 
+    /**
+     * Проверка формы
+     */
     const isValid = () => {
-        const retValue = validateEmail(accountItem.email);
-        return retValue && !userExist;
+        const checkLoginLatin = validateLatin(accountItem.login)
+        setBadLogin(!checkLoginLatin)
+        const checkEmail = validateEmail(accountItem.email)
+        setBadEmail(!checkEmail)
+        const checkPass = ( password.length > 7 && (password !== '') && (isNewUser)) || ( id !== isNewUser )
+        setBadPass(!checkPass)
+        const checkEmployee = (accountItem.employee.id !== 0)
+        setBadEmployee(!checkEmployee)
+        return checkLoginLatin && checkEmail && !userExist && checkPass && checkEmployee;
     }
 
     const onLoginBur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -133,15 +178,37 @@ const AccountDetails = (props: IEmployeeItem) => {
             dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
         }
         event.preventDefault();
-    };
+    }
 
-    // useEffect(()=> {
-    //     dispatch(loadStaffs());
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [])
+    /**
+     * Выбор сотрудника
+     * @param event
+     */
+    const handleChangeEmployee = (event: React.MouseEvent) => {
+        selectDialog(
+            {
+                'title': 'Выбор сотрудника',
+                description: '.',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: employees,
+                initKey: accountItem.employee.id,
+                valueName: 'fio'
+            }
+        ).then((value:any) => {
+                const item = {...accountItem}
+                item.employee.id = value.id
+                item.employee.fio = value.name
+                dispatch(changeUserItem(item))
+            }
+        );
+
+    }
+
 
     useEffect(()=> {
-        dispatch(getUserItem(id));
+        dispatch(getUserItem(id))
+        dispatch(loadEmployeeWithoutLogins())
     }, [dispatch, id]);
 
 
@@ -184,10 +251,10 @@ const AccountDetails = (props: IEmployeeItem) => {
                                             required
                                             value={accountItem.login}
                                             variant="outlined"
-                                            disabled={id !== 'new'}
+                                            disabled={!isNewUser}
                                             onBlur={onLoginBur}
-                                            helperText={userExist ? "Логин уже существует" : ""}
-                                            error={userExist}
+                                            helperText={userExist ? "Логин уже существует" : badLogin ? 'Некорретный логин' :  ""}
+                                            error={userExist || badLogin}
                                         />
                                     </Grid>
                                     <Grid
@@ -203,6 +270,8 @@ const AccountDetails = (props: IEmployeeItem) => {
                                             required
                                             value={accountItem.email}
                                             variant="outlined"
+                                            helperText={badEmail ? "Некорректно указан email" : ""}
+                                            error={badEmail}
                                         />
                                     </Grid>
                                     <Grid
@@ -235,6 +304,59 @@ const AccountDetails = (props: IEmployeeItem) => {
                                             variant="outlined"
                                         />
                                     </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                    >
+                                        <Paper  elevation={0} className={classes.paper_root}>
+                                            <TextField
+                                                fullWidth
+                                                label="Сотрудник"
+                                                margin="dense"
+                                                name="product"
+                                                onChange={handleChange}
+                                                required
+                                                value={accountItem.employee.fio}
+                                                variant="outlined"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                helperText={badEmployee ? "Не указан сотрудник" : ""}
+                                                error={badEmployee}
+                                            />
+                                            <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeEmployee}>
+                                                <MenuOpenIcon />
+                                            </IconButton>
+                                        </Paper>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                    >
+                                        <TextField
+                                            fullWidth
+                                            label='Пароль'
+                                            variant="outlined"
+                                            type={showPassword ? "text" : "password"}
+                                            onChange={handleChangePassword}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                        >
+                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            helperText={badPass ? "Пароль должен быть не менее 8 символов" : ""}
+                                            error={badPass}
+                                        />
+                                    </Grid>
+
                                     {id !== 'new' &&
                                         <Fragment>
                                     <Grid
