@@ -94,3 +94,10 @@ class EmployeeView(viewsets.ModelViewSet):
         queryset = ProdTeam.objects.filter(id_employee_id=pk).filter(period_start__range=(start_date, end_date))
         serializer = ProdTeamReportSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(methods=['get'], url_path='noLogins', detail=False, url_name='employee_no_have_login')
+    def no_login_employee(self, request):
+        """Сотрудники без связи с учётными записями"""
+        queryset = Employee.objects.filter(userId_id__isnull=True).values('id', 'tab_num', 'fio', 'id_staff__name')
+        serializer = EmployeeListSimpleSerializer(queryset, many=True)
+        return Response(serializer.data)
