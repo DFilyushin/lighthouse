@@ -7,6 +7,7 @@ import {
     EMPLOYEE_LOAD_FINISH,
     EMPLOYEE_LOAD_START,
     EMPLOYEE_LOAD_SUCCESS,
+    EMPLOYEE_LOAD_WITHOUT_LOGINS,
     EMPLOYEE_LOAD_WORKTIME_SUCCESS,
     EMPLOYEE_SET_ERROR,
     EMPLOYEE_UPDATE_ITEM
@@ -53,6 +54,31 @@ export function loadEmployeeWorkTimeTable(id: number, start: string, end: string
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
+    }
+}
+
+/**
+ * Загрузить список сотрудников без учётных данных
+ */
+export function loadEmployeeWithoutLogins() {
+    return async (dispatch: any, getState: any) => {
+        try{
+            const items: IEmployeeListItem[] = []
+            const response = await authAxios.get(EmployeeEndpoint.getEmployeeWithoutUsername())
+            Object.keys(response.data).forEach((key, index) => {
+                items.push(response.data[key])
+            })
+            dispatch(fetchLoadEmployeeWithoutLogins(items))
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+function fetchLoadEmployeeWithoutLogins(items: IEmployeeListItem[]) {
+    return{
+        type: EMPLOYEE_LOAD_WITHOUT_LOGINS,
+        items
     }
 }
 
