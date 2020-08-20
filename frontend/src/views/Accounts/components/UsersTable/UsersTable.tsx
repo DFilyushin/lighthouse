@@ -4,20 +4,21 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Card,
-  CardActions,
-  CardContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination
+    Card,
+    CardActions,
+    CardContent,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    Typography,
+    TablePagination,
+    Button
 } from '@material-ui/core';
 import {IAccountListItem} from 'types/model/user';
-import Button from "@material-ui/core/Button";
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import PersonIcon from '@material-ui/icons/Person';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const useStyles = makeStyles(theme => ({
@@ -76,7 +77,13 @@ const UsersTable = (props: IUsersTableProps) => {
   };
 
   function getAccountIcon(account: IAccountListItem) {
-    return account.isAdmin ? <SupervisorAccountIcon color={"primary"} /> : <PersonOutlineIcon />
+    if (account.isAdmin) return <SupervisorAccountIcon color={"primary"} />
+    if (account.active) {
+      return <PersonIcon />
+    }
+    else {
+      return <PermIdentityIcon />
+    }
   }
 
   return (
