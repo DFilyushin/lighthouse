@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import {IAccountListItem} from 'types/model/user';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import DeleteIcon from '@material-ui/icons/Delete';
 import PersonIcon from '@material-ui/icons/Person';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
@@ -52,12 +53,13 @@ interface IUsersTableProps{
   className: string;
   users: IAccountListItem[];
   onClickItem: any;
-};
+  onDeleteItem: any;
+}
 
 
 
 const UsersTable = (props: IUsersTableProps) => {
-  const { className, users, onClickItem, ...rest } = props;
+  const { className, users, onClickItem, onDeleteItem, ...rest } = props;
 
   const classes = useStyles();
 
@@ -66,6 +68,10 @@ const UsersTable = (props: IUsersTableProps) => {
 
   const cellClicked = (userId: string) => {
     onClickItem(userId);
+  }
+
+  const cellDeleteClicked = (userId: string) => {
+    onDeleteItem(userId);
   };
 
   const handlePageChange = (event:any, page: number) => {
@@ -77,7 +83,9 @@ const UsersTable = (props: IUsersTableProps) => {
   };
 
   function getAccountIcon(account: IAccountListItem) {
-    if (account.isAdmin) return <SupervisorAccountIcon color={"primary"} />
+    if (account.isAdmin) {
+      return <SupervisorAccountIcon color={"primary"} />
+    }
     if (account.active) {
       return <PersonIcon />
     }
@@ -102,6 +110,7 @@ const UsersTable = (props: IUsersTableProps) => {
                   <TableCell className={classes.rowHeader}>Email</TableCell>
                   <TableCell className={classes.rowHeader}>Зарегистрирован</TableCell>
                   <TableCell />
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -123,7 +132,23 @@ const UsersTable = (props: IUsersTableProps) => {
                     </TableCell>
                     <TableCell>{moment(user.joined).format('DD/MM/YYYY')}</TableCell>
                     <TableCell align="right">
-                      <Button variant="outlined" color="primary" onClick={event => cellClicked(user.login)}>Открыть</Button>
+                      <Button
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<DeleteIcon />}
+                          onClick={event => cellDeleteClicked(user.login)}
+                      >
+                        Удалить
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={event => cellClicked(user.login)}
+                      >
+                        Открыть
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

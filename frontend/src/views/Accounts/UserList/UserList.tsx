@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { UsersToolbar, UsersTable } from '../components/index'
 import {useDispatch, useSelector} from "react-redux"
 import {IStateInterface} from "redux/rootReducer"
-import {loadUserList} from "redux/actions/userAction"
+import {deleteUser, loadUserList} from "redux/actions/userAction"
 import {useHistory} from "react-router-dom"
 import {SearchInput} from "components"
 import {
@@ -11,7 +11,8 @@ import {
     FormControlLabel
 } from '@material-ui/core'
 import CircularIndeterminate from "../../../components/Loader/Loader";
-import {DepartmentTable} from "../../Department/components";
+import {useConfirm} from "material-ui-confirm";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +30,7 @@ const UserList = () => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useDispatch()
+    const confirm = useConfirm()
 
     const users = useSelector((state: IStateInterface) => state.user.userItems)
     const isLoading = useSelector((state: IStateInterface) => state.user.isLoading);
@@ -38,9 +40,28 @@ const UserList = () => {
         dispatch(loadUserList(!showHidden, ''))
     }, [dispatch, showHidden])
 
+
     function onClickTableItem(login: string){
         const newItemUrl = `/admin/users/${login}`
         history.push(newItemUrl)
+    }
+
+    /**
+     * Удалить пользователя
+     * @param login
+     */
+    function onDeleteTableItem(login: string){
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            dispatch(deleteUser(login))
+        )
+
     }
 
     function onKeyDownHandler (event: any) {
@@ -91,6 +112,7 @@ const UserList = () => {
                     users={users}
                     className={''}
                     onClickItem={onClickTableItem}
+                    onDeleteItem={onDeleteTableItem}
                 />
             }
       </div>
