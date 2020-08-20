@@ -61,6 +61,9 @@ class Client(models.Model):
     clientid  = models.CharField(max_length=10, blank=True, null=True, verbose_name='Код клиента из сторонних систем')
     deleted = models.BooleanField(default=False, null=False, verbose_name='Удалён')
 
+    def __str__(self):
+        return self.clientname
+
     class Meta:
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
