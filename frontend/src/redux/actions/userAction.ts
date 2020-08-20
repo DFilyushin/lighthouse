@@ -130,10 +130,36 @@ export function saveUser(item: IAccount) {
     }
 }
 
+/**
+ * Удаление пользователя
+ * @param login
+ */
+export function deleteUser(login: string) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            await authAxios.delete(UserEndpoint.deleteUser(login))
+            const items = [...getState().user.userItems];
+            const index = items.findIndex((elem, index, array)=>{return elem.login === login});
+            items.splice(index, 1);
+            dispatch(deleteOk(items));
+
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
 export function changeUserItem(item: IAccount) {
     return{
         type: USER_CHANGE_ITEM,
         item
+    }
+}
+
+function deleteOk(items: IAccount[]) {
+    return{
+        type: USER_LOAD_SUCCESS,
+        items
     }
 }
 
