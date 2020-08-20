@@ -146,7 +146,8 @@ class FormulaComp(models.Model):
         return self.id_raw.name
 
     class Meta:
-        verbose_name = 'Состав рецептуры'
+        verbose_name = 'Компонент рецептуры'
+        verbose_name_plural = 'Компоненты рецептуры'
 
 
 class ProductionLine(models.Model):
