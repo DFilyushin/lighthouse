@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link as RouterLink } from 'react-router-dom'
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Button from '@material-ui/core/Button';
@@ -13,8 +14,8 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
-    TablePagination
+    TablePagination,
+    Link
 } from '@material-ui/core';
 import {IClientItemList} from 'types/model/client';
 
@@ -152,7 +153,20 @@ const ClientTable = (props: IClientTable) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{client.clientName}</Typography>
+                                            <div>
+                                                <Link
+                                                    color="inherit"
+                                                    component={RouterLink}
+                                                    to={`/client/${client.id}`}
+                                                    variant="h6"
+                                                >
+                                                {client.clientName}
+                                                </Link>
+                                                <div>
+                                                    БИН: {client.clientBin}
+                                                </div>
+
+                                            </div>
                                         </TableCell>
                                         <TableCell>{client.clientAddr}</TableCell>
                                         <TableCell>{client.clientEmployee}</TableCell>
