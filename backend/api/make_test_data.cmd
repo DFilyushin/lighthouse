@@ -1,5 +1,6 @@
 python manage.py dumpdata auth.user --indent 2 > ./fixtures/user.json
 python manage.py dumpdata auth.group --indent 2 > ./fixtures/group.json
+python manage.py dumpdata auth.user_groups --indent 2 > ./fixtures/user_groups.json
 
 python manage.py dumpdata lighthouse.refmaterialtype --indent 2 > ./fixtures/refmaterialtype.json
 python manage.py dumpdata lighthouse.materialunit --indent 2 > ./fixtures/materialunit.json
