@@ -72,10 +72,11 @@ class ClientListSerializer(serializers.ModelSerializer):
     clientAddr = serializers.CharField(source='addr_reg', read_only=True)
     clientAgent = serializers.CharField(source='id_agent.fio', read_only=True)
     clientEmployee = serializers.CharField(source='contact_employee', read_only=True)
+    clientBin = serializers.CharField(source='req_bin', read_only=True)
 
     class Meta:
         model = Client
-        fields = ('id', 'clientName', 'clientAddr', 'clientAgent', 'clientEmployee')
+        fields = ('id', 'clientName', 'clientAddr', 'clientAgent', 'clientEmployee', 'clientBin')
 
 
 class ClientSimpleList(serializers.ModelSerializer):

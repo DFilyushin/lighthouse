@@ -17,7 +17,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     Клиент
     """
     queryset = Client.objects.filter(deleted=False)
-    search_fields = ['clientname']
+    search_fields = ['clientname', 'req_bin']
     filter_backends = (filters.SearchFilter,)
     permission_classes = [IsAuthenticated]
 
@@ -39,7 +39,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Client.objects.filter(deleted=False).values('id', 'clientname', 'addr_reg', 'id_agent__fio', 'contact_employee')
+            return Client.objects.filter(deleted=False).values('id', 'clientname', 'addr_reg', 'id_agent__fio', 'contact_employee', 'req_bin')
         else:
             return Client.objects.filter(deleted=False)
 
