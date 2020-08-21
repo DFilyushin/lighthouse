@@ -57,7 +57,7 @@ const ClientList = () => {
                 title={'Клиенты'}
                 newItemUrl={'/client/new'}
                 newItemTitle={'Новый клиент'}
-                findCaption={'Поиск клиента'}
+                findCaption={'Поиск клиента по наименованию или БИН'}
                 onFind={onFindClientHandler}
                 onDelete={onDeleteHandle}
                 icon={<GroupOutlinedIcon color={"primary"}/>}
