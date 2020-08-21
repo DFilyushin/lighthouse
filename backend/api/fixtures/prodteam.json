@@ -23,17 +23,6 @@
 },
 {
   "model": "lighthouse.prodteam",
-  "pk": 3,
-  "fields": {
-    "id_employee": 3,
-    "id_manufacture": 117,
-    "id_work": 4,
-    "period_start": "2020-05-25T23:42:16",
-    "period_end": "2020-05-28T20:47:31"
-  }
-},
-{
-  "model": "lighthouse.prodteam",
   "pk": 21,
   "fields": {
     "id_employee": 1,
@@ -56,17 +45,6 @@
 },
 {
   "model": "lighthouse.prodteam",
-  "pk": 23,
-  "fields": {
-    "id_employee": 3,
-    "id_manufacture": 117,
-    "id_work": 3,
-    "period_start": "2020-05-25T23:42:16",
-    "period_end": "2020-05-26T20:47:31"
-  }
-},
-{
-  "model": "lighthouse.prodteam",
   "pk": 24,
   "fields": {
     "id_employee": 1,
@@ -85,17 +63,6 @@
     "id_work": 5,
     "period_start": "2020-05-25T23:42:14",
     "period_end": "2020-06-26T02:47:27"
-  }
-},
-{
-  "model": "lighthouse.prodteam",
-  "pk": 26,
-  "fields": {
-    "id_employee": 3,
-    "id_manufacture": 109,
-    "id_work": 2,
-    "period_start": "2020-05-25T23:42:16",
-    "period_end": "2020-05-26T20:47:31"
   }
 },
 {

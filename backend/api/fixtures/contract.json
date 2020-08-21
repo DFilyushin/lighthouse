@@ -153,25 +153,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 20,
-  "fields": {
-    "created": "2020-03-11T07:00:00",
-    "id_client": 200,
-    "num": "6029",
-    "contract_date": "2019-12-19",
-    "contract_state": 1,
-    "comment": "Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.",
-    "est_delivery": "2019-06-18",
-    "delivered": "2020-05-03",
-    "discount": 4.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 23,
   "fields": {
     "created": "2019-12-20T07:00:00",
@@ -1117,25 +1098,6 @@
     "contractid": null,
     "id_agent": 23,
     "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 114,
-  "fields": {
-    "created": "2020-01-15T07:00:00",
-    "id_client": 164,
-    "num": "7642",
-    "contract_date": "2019-09-10",
-    "contract_state": 3,
-    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat.",
-    "est_delivery": "2020-03-23",
-    "delivered": "2019-06-11",
-    "discount": 5.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
     "delivery_terms": null
   }
 },
@@ -2143,25 +2105,6 @@
     "contractid": null,
     "id_agent": 22,
     "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 239,
-  "fields": {
-    "created": "2019-08-22T07:00:00",
-    "id_client": 200,
-    "num": "5535",
-    "contract_date": "2020-02-15",
-    "contract_state": 1,
-    "comment": "Morbi a ipsum.",
-    "est_delivery": "2019-08-17",
-    "delivered": "2019-06-23",
-    "discount": 9.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
     "delivery_terms": null
   }
 },
@@ -4067,25 +4010,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 369,
-  "fields": {
-    "created": "2019-11-21T07:00:00",
-    "id_client": 271,
-    "num": "5674",
-    "contract_date": "2019-12-27",
-    "contract_state": 2,
-    "comment": "Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.",
-    "est_delivery": "2020-01-05",
-    "delivered": "2019-06-02",
-    "discount": 15.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 370,
   "fields": {
     "created": "2019-07-09T07:00:00",
@@ -4802,25 +4726,6 @@
     "discount": 4.0,
     "contractid": null,
     "id_agent": 15,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 408,
-  "fields": {
-    "created": "2020-04-06T07:00:00",
-    "id_client": 164,
-    "num": "5234",
-    "contract_date": "2020-02-18",
-    "contract_state": 1,
-    "comment": "In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum.",
-    "est_delivery": "2020-02-07",
-    "delivered": "2020-03-15",
-    "discount": 4.0,
-    "contractid": null,
-    "id_agent": 14,
     "deleted": true,
     "delivery_terms": null
   }
@@ -5891,25 +5796,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 465,
-  "fields": {
-    "created": "2019-06-04T07:00:00",
-    "id_client": 200,
-    "num": "6027",
-    "contract_date": "2020-02-16",
-    "contract_state": 2,
-    "comment": "Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo.",
-    "est_delivery": "2019-11-23",
-    "delivered": "2019-10-22",
-    "discount": 12.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 466,
   "fields": {
     "created": "2019-08-13T07:00:00",
@@ -6341,25 +6227,6 @@
     "discount": 1.0,
     "contractid": null,
     "id_agent": 26,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 489,
-  "fields": {
-    "created": "2020-01-26T07:00:00",
-    "id_client": 111,
-    "num": "6710",
-    "contract_date": "2019-10-16",
-    "contract_state": 3,
-    "comment": "Suspendisse potenti. In eleifend quam a odio.",
-    "est_delivery": "2019-11-17",
-    "delivered": null,
-    "discount": 10.0,
-    "contractid": null,
-    "id_agent": 14,
     "deleted": true,
     "delivery_terms": null
   }
@@ -7639,25 +7506,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 557,
-  "fields": {
-    "created": "2019-05-08T07:00:00",
-    "id_client": 271,
-    "num": "6847",
-    "contract_date": "2019-09-20",
-    "contract_state": 3,
-    "comment": "Donec ut mauris eget massa tempor convallis.",
-    "est_delivery": "2019-11-28",
-    "delivered": null,
-    "discount": 3.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 558,
   "fields": {
     "created": "2020-04-29T07:00:00",
@@ -8627,25 +8475,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 609,
-  "fields": {
-    "created": "2019-12-23T07:00:00",
-    "id_client": 111,
-    "num": "5603",
-    "contract_date": "2019-06-04",
-    "contract_state": 3,
-    "comment": "Vivamus vestibulum sagittis sapien.",
-    "est_delivery": "2019-12-13",
-    "delivered": null,
-    "discount": 10.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 610,
   "fields": {
     "created": "2020-02-14T07:00:00",
@@ -9007,25 +8836,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 629,
-  "fields": {
-    "created": "2020-04-09T07:00:00",
-    "id_client": 271,
-    "num": "6447",
-    "contract_date": "2019-10-23",
-    "contract_state": 1,
-    "comment": "Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat.",
-    "est_delivery": "2019-08-07",
-    "delivered": "2019-12-08",
-    "discount": 8.0,
-    "contractid": "42291-230",
-    "id_agent": 14,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 630,
   "fields": {
     "created": "2019-11-28T07:00:00",
@@ -9325,25 +9135,6 @@
     "contractid": "99207-464",
     "id_agent": 13,
     "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 646,
-  "fields": {
-    "created": "2019-11-01T07:00:00",
-    "id_client": 111,
-    "num": "6872",
-    "contract_date": "2019-06-01",
-    "contract_state": 3,
-    "comment": "Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus.",
-    "est_delivery": "2019-11-20",
-    "delivered": "2019-10-13",
-    "discount": 2.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -10470,25 +10261,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 706,
-  "fields": {
-    "created": "2020-03-07T07:00:00",
-    "id_client": 164,
-    "num": "7289",
-    "contract_date": "2019-11-20",
-    "contract_state": 2,
-    "comment": "Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
-    "est_delivery": "2019-10-29",
-    "delivered": "2020-01-08",
-    "discount": 14.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 707,
   "fields": {
     "created": "2019-05-09T07:00:00",
@@ -10540,25 +10312,6 @@
     "discount": 7.0,
     "contractid": null,
     "id_agent": 26,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 710,
-  "fields": {
-    "created": "2019-10-19T07:00:00",
-    "id_client": 111,
-    "num": "6231",
-    "contract_date": "2019-12-01",
-    "contract_state": 1,
-    "comment": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor.",
-    "est_delivery": "2020-05-22",
-    "delivered": "2019-07-24",
-    "discount": 10.0,
-    "contractid": null,
-    "id_agent": 14,
     "deleted": true,
     "delivery_terms": null
   }
@@ -10788,25 +10541,6 @@
     "contractid": null,
     "id_agent": 21,
     "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 723,
-  "fields": {
-    "created": "2020-04-11T07:00:00",
-    "id_client": 111,
-    "num": "7368",
-    "contract_date": "2019-08-06",
-    "contract_state": 1,
-    "comment": "Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.",
-    "est_delivery": "2020-03-16",
-    "delivered": null,
-    "discount": 11.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -11420,25 +11154,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 756,
-  "fields": {
-    "created": "2019-11-26T07:00:00",
-    "id_client": 123,
-    "num": "5317",
-    "contract_date": "2019-07-06",
-    "contract_state": 1,
-    "comment": "Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.",
-    "est_delivery": "2020-02-13",
-    "delivered": null,
-    "discount": 3.0,
-    "contractid": "55154-6629",
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 757,
   "fields": {
     "created": "2019-06-21T07:00:00",
@@ -11984,25 +11699,6 @@
     "discount": 0.0,
     "contractid": null,
     "id_agent": 23,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 786,
-  "fields": {
-    "created": "2020-02-23T07:00:00",
-    "id_client": 111,
-    "num": "5139",
-    "contract_date": "2020-04-10",
-    "contract_state": 2,
-    "comment": "Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla.",
-    "est_delivery": "2020-02-02",
-    "delivered": "2020-04-13",
-    "discount": 12.0,
-    "contractid": null,
-    "id_agent": 14,
     "deleted": false,
     "delivery_terms": null
   }
@@ -13510,25 +13206,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 866,
-  "fields": {
-    "created": "2019-11-15T07:00:00",
-    "id_client": 123,
-    "num": "5939",
-    "contract_date": "2019-07-24",
-    "contract_state": 3,
-    "comment": "Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.",
-    "est_delivery": "2020-02-20",
-    "delivered": "2019-07-14",
-    "discount": 10.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 867,
   "fields": {
     "created": "2019-09-05T07:00:00",
@@ -13638,25 +13315,6 @@
     "contractid": null,
     "id_agent": 23,
     "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 873,
-  "fields": {
-    "created": "2019-11-04T07:00:00",
-    "id_client": 271,
-    "num": "7310",
-    "contract_date": "2020-03-28",
-    "contract_state": 3,
-    "comment": "Donec dapibus.",
-    "est_delivery": "2019-09-27",
-    "delivered": null,
-    "discount": 3.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
     "delivery_terms": null
   }
 },
@@ -13865,25 +13523,6 @@
     "discount": 7.0,
     "contractid": "10812-304",
     "id_agent": 13,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 885,
-  "fields": {
-    "created": "2019-11-08T07:00:00",
-    "id_client": 200,
-    "num": "7979",
-    "contract_date": "2019-06-16",
-    "contract_state": 3,
-    "comment": "Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-    "est_delivery": "2019-10-02",
-    "delivered": "2020-04-15",
-    "discount": 4.0,
-    "contractid": null,
-    "id_agent": 14,
     "deleted": true,
     "delivery_terms": null
   }
@@ -15809,25 +15448,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 987,
-  "fields": {
-    "created": "2019-05-12T07:00:00",
-    "id_client": 200,
-    "num": "6455",
-    "contract_date": "2020-03-30",
-    "contract_state": 3,
-    "comment": "Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.",
-    "est_delivery": "2019-11-08",
-    "delivered": null,
-    "discount": 8.0,
-    "contractid": "55301-357",
-    "id_agent": 14,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 988,
   "fields": {
     "created": "2020-01-03T07:00:00",
@@ -16778,25 +16398,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 1038,
-  "fields": {
-    "created": "2020-02-11T07:00:00",
-    "id_client": 200,
-    "num": "7033",
-    "contract_date": "2019-06-08",
-    "contract_state": 1,
-    "comment": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat.",
-    "est_delivery": "2019-11-07",
-    "delivered": null,
-    "discount": 0.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 1039,
   "fields": {
     "created": "2019-08-22T07:00:00",
@@ -17215,25 +16816,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 1061,
-  "fields": {
-    "created": "2020-04-17T07:00:00",
-    "id_client": 200,
-    "num": "5730",
-    "contract_date": "2020-01-02",
-    "contract_state": 3,
-    "comment": "Fusce consequat. Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.",
-    "est_delivery": "2019-12-20",
-    "delivered": "2020-05-21",
-    "discount": 7.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 1062,
   "fields": {
     "created": "2020-01-30T07:00:00",
@@ -17361,25 +16943,6 @@
     "discount": 12.0,
     "contractid": null,
     "id_agent": 23,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 1069,
-  "fields": {
-    "created": "2020-03-28T07:00:00",
-    "id_client": 164,
-    "num": "5776",
-    "contract_date": "2019-11-01",
-    "contract_state": 2,
-    "comment": "Fusce consequat. Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.",
-    "est_delivery": "2020-02-11",
-    "delivered": null,
-    "discount": 12.0,
-    "contractid": "36987-3194",
-    "id_agent": 14,
     "deleted": true,
     "delivery_terms": null
   }
@@ -17747,25 +17310,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 1089,
-  "fields": {
-    "created": "2019-11-20T07:00:00",
-    "id_client": 123,
-    "num": "6530",
-    "contract_date": "2019-09-05",
-    "contract_state": 2,
-    "comment": "Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
-    "est_delivery": "2019-09-30",
-    "delivered": "2019-08-23",
-    "discount": 11.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 1090,
   "fields": {
     "created": "2019-11-24T07:00:00",
@@ -17989,25 +17533,6 @@
     "contractid": null,
     "id_agent": 18,
     "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 1102,
-  "fields": {
-    "created": "2020-03-26T07:00:00",
-    "id_client": 123,
-    "num": "6672",
-    "contract_date": "2019-11-02",
-    "contract_state": 3,
-    "comment": "Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum.",
-    "est_delivery": "2020-01-19",
-    "delivered": "2020-01-03",
-    "discount": 15.0,
-    "contractid": "59779-415",
-    "id_agent": 14,
-    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -20084,25 +19609,6 @@
 },
 {
   "model": "lighthouse.contract",
-  "pk": 1212,
-  "fields": {
-    "created": "2019-10-21T07:00:00",
-    "id_client": 164,
-    "num": "5159",
-    "contract_date": "2019-08-04",
-    "contract_state": 1,
-    "comment": "Nunc rhoncus dui vel sem.",
-    "est_delivery": "2020-03-25",
-    "delivered": "2020-02-19",
-    "discount": 13.0,
-    "contractid": null,
-    "id_agent": 14,
-    "deleted": false,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
   "pk": 1213,
   "fields": {
     "created": "2020-03-15T07:00:00",
@@ -20288,25 +19794,6 @@
     "contractid": null,
     "id_agent": 18,
     "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 1223,
-  "fields": {
-    "created": "2019-07-27T07:00:00",
-    "id_client": 164,
-    "num": "5283",
-    "contract_date": "2020-02-09",
-    "contract_state": 2,
-    "comment": "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.",
-    "est_delivery": "2019-08-25",
-    "delivered": "2019-12-02",
-    "discount": 9.0,
-    "contractid": "51672-4132",
-    "id_agent": 14,
-    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -20895,25 +20382,6 @@
     "discount": 5.0,
     "contractid": null,
     "id_agent": 21,
-    "deleted": true,
-    "delivery_terms": null
-  }
-},
-{
-  "model": "lighthouse.contract",
-  "pk": 1255,
-  "fields": {
-    "created": "2019-11-21T07:00:00",
-    "id_client": 123,
-    "num": "5303",
-    "contract_date": "2019-12-07",
-    "contract_state": 1,
-    "comment": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
-    "est_delivery": "2019-10-31",
-    "delivered": "2020-02-16",
-    "discount": 2.0,
-    "contractid": "16590-737",
-    "id_agent": 14,
     "deleted": true,
     "delivery_terms": null
   }

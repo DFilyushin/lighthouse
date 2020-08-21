@@ -301,21 +301,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2022,
-  "fields": {
-    "created": "2020-02-03T07:12:21",
-    "id_cost": 1,
-    "cost_date": "2020-01-19",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 444052.21,
-    "comment": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2023,
   "fields": {
     "created": "2020-01-17T21:56:55",
@@ -326,21 +311,6 @@
     "total": 791183.4,
     "comment": "Etiam vel augue. Vestibulum rutrum rutrum neque.",
     "id_employee": 15,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2024,
-  "fields": {
-    "created": "2020-04-06T15:52:12",
-    "id_cost": 9,
-    "cost_date": "2020-01-13",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1512191.69,
-    "comment": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -646,21 +616,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2045,
-  "fields": {
-    "created": "2020-01-29T06:28:29",
-    "id_cost": 5,
-    "cost_date": "2020-02-10",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1780515.07,
-    "comment": "Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2046,
   "fields": {
     "created": "2020-01-07T06:19:00",
@@ -791,21 +746,6 @@
     "total": 1505585.57,
     "comment": "Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
     "id_employee": 24,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2055,
-  "fields": {
-    "created": "2020-01-12T04:58:22",
-    "id_cost": 3,
-    "cost_date": "2020-03-24",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1048017.1,
-    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -976,21 +916,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2067,
-  "fields": {
-    "created": "2020-04-05T18:09:51",
-    "id_cost": 3,
-    "cost_date": "2020-02-03",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2427825.78,
-    "comment": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2068,
   "fields": {
     "created": "2020-03-22T00:13:48",
@@ -1111,21 +1036,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2076,
-  "fields": {
-    "created": "2020-03-23T21:25:07",
-    "id_cost": 2,
-    "cost_date": "2020-01-23",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1818607.63,
-    "comment": "Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2077,
   "fields": {
     "created": "2020-02-26T15:52:28",
@@ -1196,21 +1106,6 @@
     "total": 1664879.2,
     "comment": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi.",
     "id_employee": 2,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2082,
-  "fields": {
-    "created": "2020-01-29T11:01:32",
-    "id_cost": 9,
-    "cost_date": "2020-02-24",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 221103.09,
-    "comment": "Pellentesque ultrices mattis odio.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -1336,21 +1231,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2091,
-  "fields": {
-    "created": "2020-01-22T13:35:16",
-    "id_cost": 1,
-    "cost_date": "2020-01-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1937084.48,
-    "comment": "Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2092,
   "fields": {
     "created": "2020-01-19T02:19:47",
@@ -1441,21 +1321,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2098,
-  "fields": {
-    "created": "2020-03-22T00:38:49",
-    "id_cost": 3,
-    "cost_date": "2020-03-29",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2418638.98,
-    "comment": "Quisque porta volutpat erat.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2099,
   "fields": {
     "created": "2020-01-21T12:40:46",
@@ -1511,21 +1376,6 @@
     "total": 1693332.4,
     "comment": "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor.",
     "id_employee": 16,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2103,
-  "fields": {
-    "created": "2020-03-16T11:48:23",
-    "id_cost": 4,
-    "cost_date": "2020-01-27",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1071221.09,
-    "comment": null,
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -1921,21 +1771,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2130,
-  "fields": {
-    "created": "2020-03-28T14:37:07",
-    "id_cost": 10,
-    "cost_date": "2020-02-10",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2181227.92,
-    "comment": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2131,
   "fields": {
     "created": "2020-01-11T23:12:25",
@@ -2176,21 +2011,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2147,
-  "fields": {
-    "created": "2020-01-31T10:02:12",
-    "id_cost": 9,
-    "cost_date": "2020-03-09",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1420646.84,
-    "comment": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2148,
   "fields": {
     "created": "2020-04-10T21:46:37",
@@ -2371,21 +2191,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2160,
-  "fields": {
-    "created": "2020-02-15T20:21:02",
-    "id_cost": 8,
-    "cost_date": "2020-04-19",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1296825.0,
-    "comment": "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2161,
   "fields": {
     "created": "2020-02-05T19:45:59",
@@ -2551,21 +2356,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2172,
-  "fields": {
-    "created": "2020-01-29T04:02:34",
-    "id_cost": 3,
-    "cost_date": "2020-01-14",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 750717.46,
-    "comment": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2173,
   "fields": {
     "created": "2020-02-13T17:42:45",
@@ -2591,21 +2381,6 @@
     "total": 1939858.28,
     "comment": "Duis mattis egestas metus. Aenean fermentum.",
     "id_employee": 9,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2175,
-  "fields": {
-    "created": "2020-02-14T00:52:54",
-    "id_cost": 4,
-    "cost_date": "2020-04-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2457335.61,
-    "comment": "Phasellus id sapien in sapien iaculis congue.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -2791,21 +2566,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2188,
-  "fields": {
-    "created": "2020-03-22T05:08:54",
-    "id_cost": 7,
-    "cost_date": "2020-03-18",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2421851.18,
-    "comment": null,
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2189,
   "fields": {
     "created": "2020-02-18T16:46:57",
@@ -2966,21 +2726,6 @@
     "total": 161200.51,
     "comment": "Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.",
     "id_employee": 24,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2200,
-  "fields": {
-    "created": "2020-01-09T10:27:06",
-    "id_cost": 1,
-    "cost_date": "2020-04-14",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 839052.12,
-    "comment": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -3151,21 +2896,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2212,
-  "fields": {
-    "created": "2020-04-20T18:28:37",
-    "id_cost": 9,
-    "cost_date": "2020-01-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2041948.51,
-    "comment": "Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2213,
   "fields": {
     "created": "2020-02-14T03:37:50",
@@ -3316,21 +3046,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2223,
-  "fields": {
-    "created": "2020-03-08T02:32:33",
-    "id_cost": 4,
-    "cost_date": "2020-03-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1209981.98,
-    "comment": "Pellentesque viverra pede ac diam.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2224,
   "fields": {
     "created": "2020-01-22T17:26:43",
@@ -3371,21 +3086,6 @@
     "total": 2463306.07,
     "comment": "Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis.",
     "id_employee": 24,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2227,
-  "fields": {
-    "created": "2020-03-25T14:03:41",
-    "id_cost": 8,
-    "cost_date": "2020-01-24",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1354843.61,
-    "comment": "Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -3571,21 +3271,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2240,
-  "fields": {
-    "created": "2020-02-27T08:02:36",
-    "id_cost": 3,
-    "cost_date": "2020-02-09",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 759873.53,
-    "comment": "Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2241,
   "fields": {
     "created": "2020-03-15T02:30:32",
@@ -3706,21 +3391,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2249,
-  "fields": {
-    "created": "2020-01-29T12:52:25",
-    "id_cost": 2,
-    "cost_date": "2020-03-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 589911.98,
-    "comment": "Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2250,
   "fields": {
     "created": "2020-04-10T08:04:26",
@@ -3791,21 +3461,6 @@
     "total": 1631545.54,
     "comment": "Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.",
     "id_employee": 7,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2255,
-  "fields": {
-    "created": "2020-04-21T01:28:49",
-    "id_cost": 6,
-    "cost_date": "2020-04-05",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 742319.6,
-    "comment": null,
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -4636,36 +4291,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2311,
-  "fields": {
-    "created": "2020-02-15T07:14:58",
-    "id_cost": 2,
-    "cost_date": "2020-03-11",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2155278.55,
-    "comment": "In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2312,
-  "fields": {
-    "created": "2020-02-03T09:46:24",
-    "id_cost": 2,
-    "cost_date": "2020-02-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1734946.19,
-    "comment": "Vivamus tortor. Duis mattis egestas metus.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2313,
   "fields": {
     "created": "2020-02-03T20:31:38",
@@ -4721,21 +4346,6 @@
     "total": 1719143.04,
     "comment": "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis.",
     "id_employee": 20,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2317,
-  "fields": {
-    "created": "2020-04-13T02:57:56",
-    "id_cost": 2,
-    "cost_date": "2020-01-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1423826.0,
-    "comment": "Curabitur at ipsum ac tellus semper interdum.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -4906,21 +4516,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2329,
-  "fields": {
-    "created": "2020-01-08T16:58:45",
-    "id_cost": 9,
-    "cost_date": "2020-01-14",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1858752.01,
-    "comment": "Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2330,
   "fields": {
     "created": "2020-04-15T10:36:36",
@@ -5056,21 +4651,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2339,
-  "fields": {
-    "created": "2020-02-01T09:31:55",
-    "id_cost": 7,
-    "cost_date": "2020-04-07",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 51928.24,
-    "comment": "Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus. Phasellus in felis. Donec semper sapien a libero.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2340,
   "fields": {
     "created": "2020-03-04T05:32:03",
@@ -5096,21 +4676,6 @@
     "total": 592669.13,
     "comment": null,
     "id_employee": 22,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2342,
-  "fields": {
-    "created": "2020-01-18T11:42:30",
-    "id_cost": 4,
-    "cost_date": "2020-02-09",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 390495.62,
-    "comment": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -5231,21 +4796,6 @@
     "total": 1853090.92,
     "comment": "Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.",
     "id_employee": 15,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2351,
-  "fields": {
-    "created": "2020-01-29T17:30:01",
-    "id_cost": 6,
-    "cost_date": "2020-01-14",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1153020.67,
-    "comment": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -5521,21 +5071,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2370,
-  "fields": {
-    "created": "2020-03-07T17:15:54",
-    "id_cost": 2,
-    "cost_date": "2020-02-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2304777.91,
-    "comment": "In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2371,
   "fields": {
     "created": "2020-02-06T23:49:36",
@@ -5591,21 +5126,6 @@
     "total": 1300550.57,
     "comment": "In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.",
     "id_employee": 13,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2375,
-  "fields": {
-    "created": "2020-04-10T06:52:58",
-    "id_cost": 2,
-    "cost_date": "2020-01-09",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1671099.27,
-    "comment": "Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -5956,21 +5476,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2399,
-  "fields": {
-    "created": "2020-02-13T01:08:12",
-    "id_cost": 2,
-    "cost_date": "2020-03-24",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2072144.24,
-    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2400,
   "fields": {
     "created": "2020-01-04T04:58:52",
@@ -6031,21 +5536,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2404,
-  "fields": {
-    "created": "2020-01-06T10:19:10",
-    "id_cost": 5,
-    "cost_date": "2020-02-29",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2317739.99,
-    "comment": "Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2405,
   "fields": {
     "created": "2020-03-22T15:08:38",
@@ -6101,21 +5591,6 @@
     "total": 1688571.91,
     "comment": "Donec ut mauris eget massa tempor convallis.",
     "id_employee": 1,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2409,
-  "fields": {
-    "created": "2020-02-17T22:52:27",
-    "id_cost": 10,
-    "cost_date": "2020-03-23",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1324325.94,
-    "comment": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -6406,21 +5881,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2429,
-  "fields": {
-    "created": "2020-03-24T18:40:08",
-    "id_cost": 8,
-    "cost_date": "2020-02-26",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2400853.77,
-    "comment": null,
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2430,
   "fields": {
     "created": "2020-02-04T06:09:47",
@@ -6506,21 +5966,6 @@
     "total": 1355716.71,
     "comment": "Vestibulum sed magna at nunc commodo placerat. Praesent blandit.",
     "id_employee": 8,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2436,
-  "fields": {
-    "created": "2020-03-15T17:41:08",
-    "id_cost": 6,
-    "cost_date": "2020-04-06",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1258894.92,
-    "comment": "Sed sagittis.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -6856,21 +6301,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2459,
-  "fields": {
-    "created": "2020-01-16T07:59:47",
-    "id_cost": 6,
-    "cost_date": "2020-03-31",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 50554.15,
-    "comment": "Vivamus tortor. Duis mattis egestas metus. Aenean fermentum.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2460,
   "fields": {
     "created": "2020-03-23T12:41:56",
@@ -7001,21 +6431,6 @@
     "total": 2371424.51,
     "comment": "Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.",
     "id_employee": 15,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2469,
-  "fields": {
-    "created": "2020-03-15T06:34:58",
-    "id_cost": 4,
-    "cost_date": "2020-01-27",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1045523.96,
-    "comment": "Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -7381,21 +6796,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2494,
-  "fields": {
-    "created": "2020-02-03T09:04:07",
-    "id_cost": 8,
-    "cost_date": "2020-03-26",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2381307.55,
-    "comment": "Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2495,
   "fields": {
     "created": "2020-03-30T05:49:25",
@@ -7496,21 +6896,6 @@
     "total": 858016.11,
     "comment": "Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy.",
     "id_employee": 25,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2502,
-  "fields": {
-    "created": "2020-03-24T22:54:06",
-    "id_cost": 3,
-    "cost_date": "2020-01-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1691834.0,
-    "comment": "Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -7676,21 +7061,6 @@
     "total": 2060551.04,
     "comment": "Aenean fermentum. Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh.",
     "id_employee": 4,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2514,
-  "fields": {
-    "created": "2020-01-27T22:37:17",
-    "id_cost": 6,
-    "cost_date": "2020-04-16",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1419871.68,
-    "comment": "Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -8071,21 +7441,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2540,
-  "fields": {
-    "created": "2020-03-05T13:14:59",
-    "id_cost": 8,
-    "cost_date": "2020-02-25",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1738666.5,
-    "comment": null,
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2541,
   "fields": {
     "created": "2020-01-14T07:24:29",
@@ -8236,21 +7591,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2551,
-  "fields": {
-    "created": "2020-03-02T19:37:15",
-    "id_cost": 4,
-    "cost_date": "2020-01-12",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1521233.44,
-    "comment": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2552,
   "fields": {
     "created": "2020-01-22T15:20:11",
@@ -8336,36 +7676,6 @@
     "total": 1453575.76,
     "comment": null,
     "id_employee": 17,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2558,
-  "fields": {
-    "created": "2020-04-06T21:10:12",
-    "id_cost": 10,
-    "cost_date": "2020-02-29",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 381077.32,
-    "comment": "In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2559,
-  "fields": {
-    "created": "2020-03-17T02:13:22",
-    "id_cost": 4,
-    "cost_date": "2020-04-03",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1964377.16,
-    "comment": "Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -8536,21 +7846,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2571,
-  "fields": {
-    "created": "2020-01-27T23:22:59",
-    "id_cost": 5,
-    "cost_date": "2020-01-31",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1452179.55,
-    "comment": "Nunc purus. Phasellus in felis. Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2572,
   "fields": {
     "created": "2020-03-28T08:51:45",
@@ -8636,21 +7931,6 @@
     "total": 2384545.6,
     "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque.",
     "id_employee": 23,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2578,
-  "fields": {
-    "created": "2020-01-05T23:08:05",
-    "id_cost": 4,
-    "cost_date": "2020-04-17",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 215467.41,
-    "comment": "Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -8816,21 +8096,6 @@
     "total": 197570.61,
     "comment": "Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
     "id_employee": 24,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2590,
-  "fields": {
-    "created": "2020-03-20T13:41:05",
-    "id_cost": 5,
-    "cost_date": "2020-02-25",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2478519.25,
-    "comment": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -9061,21 +8326,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2606,
-  "fields": {
-    "created": "2020-02-18T11:10:43",
-    "id_cost": 6,
-    "cost_date": "2020-01-14",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 182422.24,
-    "comment": "In sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2607,
   "fields": {
     "created": "2020-02-18T20:42:31",
@@ -9151,21 +8401,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2612,
-  "fields": {
-    "created": "2020-01-14T22:41:12",
-    "id_cost": 6,
-    "cost_date": "2020-02-03",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 837903.29,
-    "comment": "Nulla tellus.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2613,
   "fields": {
     "created": "2020-02-13T13:55:51",
@@ -9176,21 +8411,6 @@
     "total": 901609.21,
     "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis.",
     "id_employee": 2,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2614,
-  "fields": {
-    "created": "2020-03-25T15:40:10",
-    "id_cost": 8,
-    "cost_date": "2020-04-21",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 770105.36,
-    "comment": "Phasellus sit amet erat. Nulla tempus.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -9271,21 +8491,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2620,
-  "fields": {
-    "created": "2020-03-22T11:45:54",
-    "id_cost": 1,
-    "cost_date": "2020-03-29",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1272994.0,
-    "comment": "Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2621,
   "fields": {
     "created": "2020-01-28T02:28:37",
@@ -9296,21 +8501,6 @@
     "total": 1068575.83,
     "comment": null,
     "id_employee": 2,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2622,
-  "fields": {
-    "created": "2020-01-02T15:54:15",
-    "id_cost": 6,
-    "cost_date": "2020-01-28",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2292993.82,
-    "comment": "Etiam vel augue.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -9346,21 +8536,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2625,
-  "fields": {
-    "created": "2020-02-25T23:20:55",
-    "id_cost": 3,
-    "cost_date": "2020-03-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1968499.75,
-    "comment": "Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2626,
   "fields": {
     "created": "2020-04-15T16:48:24",
@@ -9371,21 +8546,6 @@
     "total": 107228.61,
     "comment": "Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.",
     "id_employee": 5,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2627,
-  "fields": {
-    "created": "2020-01-13T16:13:27",
-    "id_cost": 1,
-    "cost_date": "2020-01-23",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2171194.0,
-    "comment": "Etiam faucibus cursus urna.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -9446,21 +8606,6 @@
     "total": 463366.85,
     "comment": "Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit.",
     "id_employee": 1,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2632,
-  "fields": {
-    "created": "2020-03-24T13:42:29",
-    "id_cost": 10,
-    "cost_date": "2020-02-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 461568.6,
-    "comment": "Nunc rhoncus dui vel sem.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -9781,21 +8926,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2654,
-  "fields": {
-    "created": "2020-02-14T19:40:48",
-    "id_cost": 8,
-    "cost_date": "2020-03-11",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1443867.9,
-    "comment": "In hac habitasse platea dictumst.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2655,
   "fields": {
     "created": "2020-02-09T10:48:03",
@@ -10096,21 +9226,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2675,
-  "fields": {
-    "created": "2020-04-10T11:18:28",
-    "id_cost": 3,
-    "cost_date": "2020-04-06",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1385983.42,
-    "comment": null,
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2676,
   "fields": {
     "created": "2020-03-10T12:35:11",
@@ -10321,21 +9436,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2690,
-  "fields": {
-    "created": "2020-02-14T13:44:15",
-    "id_cost": 10,
-    "cost_date": "2020-03-26",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2194885.77,
-    "comment": "Cras non velit nec nisi vulputate nonummy.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2691,
   "fields": {
     "created": "2020-03-29T01:28:58",
@@ -10486,21 +9586,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2701,
-  "fields": {
-    "created": "2020-03-19T11:30:47",
-    "id_cost": 2,
-    "cost_date": "2020-03-15",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2192950.0,
-    "comment": "Vivamus tortor. Duis mattis egestas metus.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2702,
   "fields": {
     "created": "2020-03-31T20:03:30",
@@ -10511,21 +9596,6 @@
     "total": 368897.07,
     "comment": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla. Sed vel enim sit amet nunc viverra dapibus.",
     "id_employee": 16,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2703,
-  "fields": {
-    "created": "2020-01-14T05:11:54",
-    "id_cost": 8,
-    "cost_date": "2020-04-13",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 465380.16,
-    "comment": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -10831,21 +9901,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2724,
-  "fields": {
-    "created": "2020-03-09T13:36:07",
-    "id_cost": 2,
-    "cost_date": "2020-03-05",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 565481.29,
-    "comment": "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2725,
   "fields": {
     "created": "2020-04-22T09:40:36",
@@ -10966,21 +10021,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2733,
-  "fields": {
-    "created": "2020-04-11T13:23:53",
-    "id_cost": 2,
-    "cost_date": "2020-03-26",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1924511.67,
-    "comment": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2734,
   "fields": {
     "created": "2020-04-21T10:11:23",
@@ -11006,21 +10046,6 @@
     "total": 56813.0,
     "comment": "Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.",
     "id_employee": 17,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2736,
-  "fields": {
-    "created": "2020-01-14T05:39:22",
-    "id_cost": 4,
-    "cost_date": "2020-02-28",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1776818.84,
-    "comment": "Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -11146,21 +10171,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2745,
-  "fields": {
-    "created": "2020-01-31T23:55:47",
-    "id_cost": 3,
-    "cost_date": "2020-02-12",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 317072.5,
-    "comment": "Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2746,
   "fields": {
     "created": "2020-04-12T21:12:17",
@@ -11231,21 +10241,6 @@
     "total": 102264.5,
     "comment": "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus. Pellentesque eget nunc.",
     "id_employee": 19,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2751,
-  "fields": {
-    "created": "2020-02-16T21:12:37",
-    "id_cost": 8,
-    "cost_date": "2020-02-29",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1021711.68,
-    "comment": "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -11731,21 +10726,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2784,
-  "fields": {
-    "created": "2020-02-13T04:00:24",
-    "id_cost": 4,
-    "cost_date": "2020-03-24",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1146880.47,
-    "comment": "Maecenas pulvinar lobortis est. Phasellus sit amet erat. Nulla tempus.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2785,
   "fields": {
     "created": "2020-01-19T09:54:34",
@@ -11881,21 +10861,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2794,
-  "fields": {
-    "created": "2020-03-28T20:21:41",
-    "id_cost": 8,
-    "cost_date": "2020-04-07",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 537084.68,
-    "comment": null,
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2795,
   "fields": {
     "created": "2020-02-29T15:57:50",
@@ -11951,21 +10916,6 @@
     "total": 987395.4,
     "comment": "Duis at velit eu est congue elementum. In hac habitasse platea dictumst.",
     "id_employee": 18,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2799,
-  "fields": {
-    "created": "2020-04-02T00:09:06",
-    "id_cost": 8,
-    "cost_date": "2020-01-17",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 215557.43,
-    "comment": "Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -12106,21 +11056,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2809,
-  "fields": {
-    "created": "2020-01-06T03:49:03",
-    "id_cost": 4,
-    "cost_date": "2020-01-13",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1179261.8,
-    "comment": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2810,
   "fields": {
     "created": "2020-03-12T05:33:09",
@@ -12221,21 +11156,6 @@
     "total": 1325625.9,
     "comment": "Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.",
     "id_employee": 21,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2817,
-  "fields": {
-    "created": "2020-03-30T01:37:54",
-    "id_cost": 10,
-    "cost_date": "2020-04-14",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 479162.73,
-    "comment": "In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -12361,21 +11281,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2826,
-  "fields": {
-    "created": "2020-02-29T02:43:51",
-    "id_cost": 2,
-    "cost_date": "2020-01-03",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1185751.58,
-    "comment": null,
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2827,
   "fields": {
     "created": "2020-04-21T00:16:09",
@@ -12446,21 +11351,6 @@
     "total": 832897.64,
     "comment": "Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla.",
     "id_employee": 13,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2832,
-  "fields": {
-    "created": "2020-04-14T18:09:15",
-    "id_cost": 2,
-    "cost_date": "2020-01-21",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 385332.21,
-    "comment": "Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -12731,21 +11621,6 @@
     "total": 1797697.9,
     "comment": "Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique.",
     "id_employee": 21,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2851,
-  "fields": {
-    "created": "2020-03-05T21:43:13",
-    "id_cost": 1,
-    "cost_date": "2020-01-21",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1120905.47,
-    "comment": "Morbi a ipsum. Integer a nibh. In quis justo.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -13036,21 +11911,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2871,
-  "fields": {
-    "created": "2020-04-17T12:01:09",
-    "id_cost": 7,
-    "cost_date": "2020-02-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2279700.11,
-    "comment": "Integer ac leo. Pellentesque ultrices mattis odio.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2872,
   "fields": {
     "created": "2020-02-20T09:15:00",
@@ -13151,21 +12011,6 @@
     "total": 402039.52,
     "comment": null,
     "id_employee": 19,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2879,
-  "fields": {
-    "created": "2020-01-06T02:19:44",
-    "id_cost": 9,
-    "cost_date": "2020-02-07",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 774174.49,
-    "comment": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -13651,36 +12496,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2912,
-  "fields": {
-    "created": "2020-02-26T15:29:59",
-    "id_cost": 9,
-    "cost_date": "2020-02-12",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2172343.0,
-    "comment": "Aliquam non mauris. Morbi non lectus.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2913,
-  "fields": {
-    "created": "2020-02-14T11:35:46",
-    "id_cost": 8,
-    "cost_date": "2020-04-07",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2490808.23,
-    "comment": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2914,
   "fields": {
     "created": "2020-01-20T17:24:10",
@@ -13691,36 +12506,6 @@
     "total": 14566.83,
     "comment": "Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.",
     "id_employee": 17,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2915,
-  "fields": {
-    "created": "2020-01-25T13:24:26",
-    "id_cost": 7,
-    "cost_date": "2020-02-12",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 217852.94,
-    "comment": "In est risus, auctor sed, tristique in, tempus sit amet, sem.",
-    "id_employee": 14,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2916,
-  "fields": {
-    "created": "2020-04-20T22:51:39",
-    "id_cost": 6,
-    "cost_date": "2020-04-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 1907978.15,
-    "comment": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.",
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -13766,36 +12551,6 @@
     "total": 773198.44,
     "comment": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.",
     "id_employee": 8,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2920,
-  "fields": {
-    "created": "2020-04-02T17:54:38",
-    "id_cost": 8,
-    "cost_date": "2020-04-16",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 611490.72,
-    "comment": null,
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2921,
-  "fields": {
-    "created": "2020-02-17T17:14:43",
-    "id_cost": 2,
-    "cost_date": "2020-03-01",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2453199.12,
-    "comment": null,
-    "id_employee": 14,
     "is_delete": false
   }
 },
@@ -14281,21 +13036,6 @@
 },
 {
   "model": "lighthouse.cost",
-  "pk": 2954,
-  "fields": {
-    "created": "2020-02-03T07:50:22",
-    "id_cost": 7,
-    "cost_date": "2020-04-12",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 107262.01,
-    "comment": "Nulla nisl. Nunc nisl.",
-    "id_employee": 3,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
   "pk": 2955,
   "fields": {
     "created": "2020-02-05T15:08:37",
@@ -14426,21 +13166,6 @@
     "total": 2467371.7,
     "comment": "In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo. Aliquam quis turpis eget elit sodales scelerisque.",
     "id_employee": 12,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2964,
-  "fields": {
-    "created": "2020-03-09T22:18:19",
-    "id_cost": 8,
-    "cost_date": "2020-01-22",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 381893.02,
-    "comment": "Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.",
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -14636,21 +13361,6 @@
     "total": 548332.72,
     "comment": "Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique.",
     "id_employee": 1,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 2978,
-  "fields": {
-    "created": "2020-04-18T09:12:26",
-    "id_cost": 3,
-    "cost_date": "2020-02-08",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 2414881.15,
-    "comment": null,
-    "id_employee": 3,
     "is_delete": false
   }
 },
@@ -14981,21 +13691,6 @@
     "total": 1597035.47,
     "comment": "Mauris ullamcorper purus sit amet nulla.",
     "id_employee": 12,
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.cost",
-  "pk": 3001,
-  "fields": {
-    "created": "2020-01-05T09:39:19",
-    "id_cost": 1,
-    "cost_date": "2020-04-04",
-    "cost_count": 0.0,
-    "id_unit": 0,
-    "total": 616264.25,
-    "comment": "Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
-    "id_employee": 3,
     "is_delete": false
   }
 },

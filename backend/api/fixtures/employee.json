@@ -62,29 +62,7 @@
     "contact_email": "m@mail.ru",
     "id_staff": 7,
     "fired": null,
-    "userId": null
-  }
-},
-{
-  "model": "lighthouse.employee",
-  "pk": 3,
-  "fields": {
-    "created": "2020-04-09T08:40:57.945",
-    "tab_num": "100-09",
-    "fio": "\u041a\u0438\u043c \u0410\u0431\u0430\u0439 ",
-    "dob": "1984-02-28",
-    "iin": "572624448735",
-    "doc_type": 1,
-    "doc_num": "4138435",
-    "doc_date": "2018-09-26",
-    "doc_auth": "\u041c\u0412\u0414 \u0420\u041a",
-    "addr_registration": "\u041f\u0430\u0432\u043b\u043e\u0434\u0430\u0440 \u041f\u0440\u043f. \u041d\u0430\u0437\u0430\u0440\u0431\u0430\u0435\u0432\u0430 1",
-    "addr_residence": "\u0442\u043e\u0442 \u0436\u0435",
-    "contact_phone": "+7 701 1453676",
-    "contact_email": "m@mail.ru",
-    "id_staff": 6,
-    "fired": "2020-04-01",
-    "userId": null
+    "userId": 1012
   }
 },
 {
@@ -192,9 +170,9 @@
     "addr_residence": "\u0442\u043e\u0442 \u0436\u0435",
     "contact_phone": "+7 701 9417661",
     "contact_email": "m@mail.ru",
-    "id_staff": 0,
+    "id_staff": 10,
     "fired": null,
-    "userId": null
+    "userId": 1016
   }
 },
 {
@@ -309,28 +287,6 @@
 },
 {
   "model": "lighthouse.employee",
-  "pk": 14,
-  "fields": {
-    "created": "2020-04-09T08:40:57.945",
-    "tab_num": "100-10",
-    "fio": "\u041a\u0443\u0437\u043d\u0435\u0446\u043e\u0432  \u0410\u0439\u0442\u0443\u0433\u0430\u043d",
-    "dob": "1973-12-18",
-    "iin": "691544100818",
-    "doc_type": 1,
-    "doc_num": "7109080",
-    "doc_date": "2015-03-15",
-    "doc_auth": "\u041c\u0412\u0414 \u0420\u041a",
-    "addr_registration": "\u041f\u0430\u0432\u043b\u043e\u0434\u0430\u0440 \u041f\u0440\u043f. \u041d\u0430\u0437\u0430\u0440\u0431\u0430\u0435\u0432\u0430 4",
-    "addr_residence": "\u0442\u043e\u0442 \u0436\u0435",
-    "contact_phone": "+7 701 1834910",
-    "contact_email": "m@mail.ru",
-    "id_staff": 3,
-    "fired": null,
-    "userId": null
-  }
-},
-{
-  "model": "lighthouse.employee",
   "pk": 15,
   "fields": {
     "created": "2020-04-09T08:40:57.945",
@@ -370,7 +326,7 @@
     "contact_email": "m@mail.ru",
     "id_staff": 8,
     "fired": null,
-    "userId": null
+    "userId": 1015
   }
 },
 {
@@ -392,7 +348,7 @@
     "contact_email": "m@mail.ru",
     "id_staff": 1,
     "fired": null,
-    "userId": null
+    "userId": 1014
   }
 },
 {
@@ -566,9 +522,9 @@
     "addr_residence": "\u0442\u043e\u0442 \u0436\u0435",
     "contact_phone": "+7 701 7772662",
     "contact_email": "m@mail.ru",
-    "id_staff": 0,
+    "id_staff": 11,
     "fired": null,
-    "userId": null
+    "userId": 1013
   }
 },
 {

@@ -1,58 +1,66 @@
 [
 {
   "model": "auth.user_groups",
-  "pk": 1,
+  "pk": 8,
   "fields": {
-    "user": 932,
+    "user": 1,
     "group": 1
   }
 },
 {
   "model": "auth.user_groups",
-  "pk": 2,
+  "pk": 9,
   "fields": {
-    "user": 932,
-    "group": 4
-  }
-},
-{
-  "model": "auth.user_groups",
-  "pk": 3,
-  "fields": {
-    "user": 21,
-    "group": 1
-  }
-},
-{
-  "model": "auth.user_groups",
-  "pk": 4,
-  "fields": {
-    "user": 21,
-    "group": 2
-  }
-},
-{
-  "model": "auth.user_groups",
-  "pk": 5,
-  "fields": {
-    "user": 21,
+    "user": 1,
     "group": 3
   }
 },
 {
   "model": "auth.user_groups",
-  "pk": 6,
+  "pk": 10,
   "fields": {
-    "user": 21,
+    "user": 1,
     "group": 4
   }
 },
 {
   "model": "auth.user_groups",
-  "pk": 7,
+  "pk": 11,
   "fields": {
-    "user": 789,
+    "user": 1012,
+    "group": 3
+  }
+},
+{
+  "model": "auth.user_groups",
+  "pk": 12,
+  "fields": {
+    "user": 1013,
+    "group": 4
+  }
+},
+{
+  "model": "auth.user_groups",
+  "pk": 13,
+  "fields": {
+    "user": 1014,
+    "group": 6
+  }
+},
+{
+  "model": "auth.user_groups",
+  "pk": 14,
+  "fields": {
+    "user": 1015,
     "group": 2
+  }
+},
+{
+  "model": "auth.user_groups",
+  "pk": 15,
+  "fields": {
+    "user": 1016,
+    "group": 5
   }
 }
 ]

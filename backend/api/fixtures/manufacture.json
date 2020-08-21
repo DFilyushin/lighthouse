@@ -362,25 +362,6 @@
 },
 {
   "model": "lighthouse.manufacture",
-  "pk": 123,
-  "fields": {
-    "created": "2020-02-05T02:46:08",
-    "id_line": 0,
-    "id_creator": 10,
-    "id_formula": 2,
-    "id_team_leader": 3,
-    "prod_start": "2019-05-28T09:32:01",
-    "prod_finish": null,
-    "calc_value": 5035.0,
-    "cur_state": 2,
-    "out_value": 1970.0,
-    "loss_value": 761.0,
-    "comment": "Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo.",
-    "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.manufacture",
   "pk": 124,
   "fields": {
     "created": "2020-03-02T11:35:23",
@@ -510,25 +491,6 @@
     "loss_value": 419.0,
     "comment": "Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue.",
     "is_delete": false
-  }
-},
-{
-  "model": "lighthouse.manufacture",
-  "pk": 136,
-  "fields": {
-    "created": "2019-09-09T17:39:54",
-    "id_line": 0,
-    "id_creator": 7,
-    "id_formula": 5,
-    "id_team_leader": 3,
-    "prod_start": "2020-03-17T16:51:13",
-    "prod_finish": null,
-    "calc_value": 3313.0,
-    "cur_state": 1,
-    "out_value": 7192.0,
-    "loss_value": 362.0,
-    "comment": "Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh. In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.",
-    "is_delete": true
   }
 },
 {
