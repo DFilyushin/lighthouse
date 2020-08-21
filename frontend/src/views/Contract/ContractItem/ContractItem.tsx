@@ -217,7 +217,14 @@ const ContractItem = (props: IContractItemProps) => {
 
     useEffect( () => {
         const loadData = () => {
-            setCurClient(contractItem.client);
+            setCurClient({
+                id: contractItem.client.id,
+                clientBin: contractItem.client.reqBin,
+                clientAgent: contractItem.client.clientAgent,
+                clientEmployee: contractItem.client.clientEmployee,
+                clientAddr: contractItem.client.clientAddr,
+                clientName: contractItem.client.clientName
+            });
         }
         if (!hasLoad) {
             setLoad(true);
@@ -228,7 +235,14 @@ const ContractItem = (props: IContractItemProps) => {
         }
 
         if (contractItem.client.id !== 0 && curClient){
-            setCurClient(contractItem.client);
+            setCurClient({
+                id: contractItem.client.id,
+                clientBin: contractItem.client.reqBin,
+                clientAgent: contractItem.client.clientAgent,
+                clientEmployee: contractItem.client.clientEmployee,
+                clientAddr: contractItem.client.clientAddr,
+                clientName: contractItem.client.clientName
+            });
         }
 
 

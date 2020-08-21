@@ -3,14 +3,16 @@ export interface IClientItemList {
     clientName: string,
     clientAddr: string,
     clientAgent: string,
-    clientEmployee: string
+    clientEmployee: string,
+    clientBin: string
 }
 export const nullClientItemList: IClientItemList = {
     id: 0,
     clientName: '',
     clientAddr: '',
     clientEmployee: '',
-    clientAgent: ''
+    clientAgent: '',
+    clientBin: ''
 };
 
 
