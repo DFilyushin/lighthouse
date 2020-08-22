@@ -16,7 +16,7 @@ import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {loadStoreItem} from "redux/actions/storeAction";
-import {STORE_IN} from "utils/AppConst";
+import {NEW_RECORD_VALUE, STORE_IN} from "utils/AppConst";
 import moment from "moment";
 
 interface IStoreItemProps {
@@ -61,7 +61,7 @@ const StoreItem = (props: IStoreItemProps) => {
     const dispatch = useDispatch();
 
     const paramId = props.match.params.id;
-    const id = paramId === 'new' ? 0 : parseInt(paramId);
+    const id = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
     const storeItem = useSelector((state: IStateInterface)=> state.store.storeJournalItem);
 
     useEffect(()=> {
