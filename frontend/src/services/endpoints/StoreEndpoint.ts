@@ -27,6 +27,14 @@ class StoreEndpoint {
     }
 
     /**
+     * Удалить зарезервированную продукцию
+     * @param id Код резерва
+     */
+    static deleteProductReserve(id: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/reserve/${id}/`
+    }
+
+    /**
      * Журнал складских операций
      * @param startDate Начальная дата
      * @param endDate Конечная дата
