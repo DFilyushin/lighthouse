@@ -1,17 +1,21 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import {Button, Grid, Typography} from '@material-ui/core';
+import {
+    Button,
+    Grid,
+    Typography,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    List
+} from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { KeyboardDatePicker} from '@material-ui/pickers';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import {ICostSimple} from "types/model/cost";
 import {useDispatch, useSelector} from "react-redux";
@@ -27,7 +31,6 @@ const useStyles = makeStyles(theme => ({
         }
     },
     row: {
-        //height: '42px',
         display: 'flex',
         alignItems: 'center',
         marginTop: theme.spacing(1),
