@@ -61,7 +61,7 @@ const FormulaList = () => {
                 cancellationText: DIALOG_NO
             }
         ).then(() =>
-            selected.forEach(async (item, i, selected) => {
+            selected.forEach(async (item) => {
                 dispatch(deleteFormula(item))
             })
         )
