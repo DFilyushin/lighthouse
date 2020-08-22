@@ -70,7 +70,7 @@ const ClientItem = (props: IClientItemProps) => {
 
     const clientItem = useSelector((state: IStateInterface) => state.client.clientItem);
     const contracts = useSelector((state: IStateInterface) => state.client.contracts);
-    const hasError = useSelector((state: IStateInterface)=> state.client.hasError);
+    //const hasError = useSelector((state: IStateInterface)=> state.client.hasError);
     const [tab, setTab] = React.useState(0);
 
     /**

@@ -7,7 +7,6 @@ import {
     TableRow,
     TextField
 } from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 interface IContractWaitItemProps {
@@ -18,35 +17,8 @@ interface IContractWaitItemProps {
     onChangeItem: any;
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(1)
-    },
-    paper: {
-        width: '80%',
-        maxHeight: 435,
-    },
-    paper_root: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    paper_bar: {
-        flexGrow: 1,
-        padding: 1
-    },
-    formControl: {
-        margin: theme.spacing(0),
-    },
-    iconButton: {
-        padding: 10,
-    },
-}));
-
-
 const ContractWaitPaymentItem = (props: IContractWaitItemProps) => {
     const { item, onDeleteItem, onChangeItem } = props;
-
-    const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;

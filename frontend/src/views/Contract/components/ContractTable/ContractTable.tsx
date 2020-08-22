@@ -14,7 +14,6 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
     TablePagination,
     Paper, Link
 } from '@material-ui/core';

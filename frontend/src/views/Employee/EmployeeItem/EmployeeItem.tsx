@@ -80,7 +80,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const employeeItem = useSelector((state: IStateInterface)=> state.employee.employeeItem);
     const staffItems = useSelector((state:IStateInterface)=> state.staff.staffs);
     const workTimeItems = useSelector((state: IStateInterface)=> state.employee.workTimeItems);
-    const hasError = useSelector((state: IStateInterface)=> state.employee.hasError);
+    //const hasError = useSelector((state: IStateInterface)=> state.employee.hasError);
 
     const [tab, setTab] = React.useState(PAGE_MAIN);
 
