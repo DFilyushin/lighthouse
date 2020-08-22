@@ -6,8 +6,9 @@ import {ContractTable, ContractToolbar} from '../components';
 import {deleteContract, loadContractList, setShowOwnContract} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {NO_SELECT_VALUE} from "../../../utils/AppConst";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NO_SELECT_VALUE} from "../../../utils/AppConst";
 import {CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
+import {useConfirm} from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,6 +23,7 @@ const ContractList = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const history = useHistory()
+    const confirm = useConfirm()
 
     // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading)
@@ -29,7 +31,6 @@ const ContractList = () => {
     const showOnlyOwnContract = useSelector((state: IStateInterface)=> state.contract.showOwnContract)
     const [selected, setSelected] = useState<number[]>([])
     const [contractStatus, setContractStatus] = useState(NO_SELECT_VALUE)
-    //const [showOnlyOwnContract, setShowOnlyOwnContract] = useState(true)
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus, showOnlyOwnContract))
@@ -44,9 +45,18 @@ const ContractList = () => {
     }
 
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteContract(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() => {
+            selected.forEach(async (item) => {
+                dispatch(deleteContract(item))
+            })
+        })
     }
 
     function onNewItemHandler() {
