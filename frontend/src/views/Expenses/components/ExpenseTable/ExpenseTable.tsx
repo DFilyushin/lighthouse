@@ -108,9 +108,8 @@ const ExpenseTable = (props: IExpenseTableProps) => {
 
     /**
      * Сумма расходов
-     * @param spec
      */
-    const getTotalSpecSum = () => {
+    const getTotalTableSum = () => {
         return RoundValue(items.map(({ total }) => total).reduce((sum, i) => sum + i, 0));
     }
 
@@ -174,11 +173,10 @@ const ExpenseTable = (props: IExpenseTableProps) => {
                                 ))}
                                 {items.length > 0 &&
                                     <TableRow>
-                                        <TableCell className={classes.footer_row} colSpan={3}>Итого
-                                            по контракту</TableCell>
+                                        <TableCell className={classes.footer_row} colSpan={3}>Итого</TableCell>
                                         <TableCell
                                             className={classes.footer_row}>
-                                            {getTotalSpecSum()}
+                                            {getTotalTableSum()}
                                         </TableCell>
                                         <TableCell/>
                                     </TableRow>
