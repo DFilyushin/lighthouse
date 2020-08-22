@@ -45,7 +45,6 @@ python manage.py loaddata ./fixtures/prodteam.json
 python manage.py loaddata ./fixtures/prodcalc.json
 python manage.py loaddata ./fixtures/prodreadyproduct.json
 
-
 echo "initial sales"
 python manage.py loaddata ./fixtures/client.json
 python manage.py loaddata ./fixtures/contract.json
@@ -55,6 +54,8 @@ python manage.py loaddata ./fixtures/claimhistory.json
 python manage.py loaddata ./fixtures/pricelist.json
 python manage.py loaddata ./fixtures/reservation.json
 python manage.py loaddata ./fixtures/contractexpectedpayment.json
+python manage.py loaddata ./fixtures/paymentmethod.json
+python manage.py loaddata ./fixtures/payment.json
 
 echo "Starting server"
-gunicorn -w 3 api.wsgi -b 0.0.0.0:8000
+gunicorn -w 5 api.wsgi -b 0.0.0.0:8000
