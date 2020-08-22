@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import {IExpenseTableItem} from "types/model/expense";
+import {RoundValue} from "../../../../utils/AppUtils";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -38,6 +39,9 @@ const useStyles = makeStyles(theme => ({
     },
     tableRow: {
 
+    },
+    footer_row: {
+        fontSize: "1.3rem",
     }
 }));
 
@@ -102,6 +106,14 @@ const ExpenseTable = (props: IExpenseTableProps) => {
         onClickItem(itemId);
     };
 
+    /**
+     * Сумма расходов
+     * @param spec
+     */
+    const getTotalSpecSum = () => {
+        return RoundValue(items.map(({ total }) => total).reduce((sum, i) => sum + i, 0));
+    }
+
     return (
         <Card
             {...rest}
@@ -160,6 +172,17 @@ const ExpenseTable = (props: IExpenseTableProps) => {
                                         </TableCell>
                                     </TableRow>
                                 ))}
+                                {items.length > 0 &&
+                                    <TableRow>
+                                        <TableCell className={classes.footer_row} colSpan={3}>Итого
+                                            по контракту</TableCell>
+                                        <TableCell
+                                            className={classes.footer_row}>
+                                            {getTotalSpecSum()}
+                                        </TableCell>
+                                        <TableCell/>
+                                    </TableRow>
+                                }
                             </TableBody>
                         </Table>
                     </div>
