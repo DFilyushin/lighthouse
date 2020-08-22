@@ -7,8 +7,14 @@ import SnackBarAlert from 'components/SnackBarAlert';
 import { Color } from '@material-ui/lab/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {loadStoreReserveList} from "redux/actions/storeAction";
+import {deleteReserve, loadStoreReserveList} from "redux/actions/storeAction";
 import { ReactComponent as RawTrain } from 'images/train.svg';
+import {
+    DIALOG_ASK_DELETE,
+    DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES} from "../../../utils/AppConst";
+import {useConfirm} from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,9 +27,10 @@ const useStyles = makeStyles(theme => ({
 
 
 const StoreReserved = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const classes = useStyles()
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const confirm = useConfirm();
 
     // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.store.isLoading)
@@ -40,6 +47,20 @@ const StoreReserved = () => {
     function onClickTableItem(contractId: number){
         const clientUrl = `/contracts/${contractId}?source=reserved`;
         history.push(clientUrl);
+    }
+
+    function onDeleteTableItem(id: number){
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            dispatch(deleteReserve(id))
+        )
+
     }
 
     async function onFindProductHandler(findText: string){
@@ -61,6 +82,7 @@ const StoreReserved = () => {
                             store={storeReserve}
                             className={''}
                             onClickItem={onClickTableItem}
+                            onDeleteItem={onDeleteTableItem}
                         />
                 }
             </div>

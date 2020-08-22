@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import {IStoreListReserveProduct} from "types/model/store";
 import moment from "moment";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -44,12 +45,13 @@ const useStyles = makeStyles(theme => ({
 interface IStoreReserveTableProps{
     className: string,
     store: IStoreListReserveProduct[],
-    onClickItem: any
+    onClickItem: any,
+    onDeleteItem: any
 }
 
 
 const StoreReserveTable = (props: IStoreReserveTableProps) => {
-    const { className, store, onClickItem, ...rest } = props;
+    const { className, store, onClickItem, onDeleteItem, ...rest } = props;
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
@@ -64,8 +66,20 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
+    /**
+     * Переход к контракту
+     * @param contractId
+     */
     const cellClicked = (contractId: number) => {
         onClickItem(contractId);
+    }
+
+    /**
+     * Удаление резерва
+     * @param id Код записи
+     */
+    const deleteReserveHandler = (id: number) => {
+        onDeleteItem(id)
     }
 
 
@@ -80,8 +94,8 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Дата постановки в резерв</TableCell>
-                                    <TableCell>Дата снятия</TableCell>
+                                    <TableCell>Поставлен</TableCell>
+                                    <TableCell>До даты</TableCell>
                                     <TableCell>Материал</TableCell>
                                     <TableCell>Тара</TableCell>
                                     <TableCell>Кол-во</TableCell>
@@ -109,7 +123,15 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                             <TableCell>{item.value}</TableCell>
                                             <TableCell>{item.employee}</TableCell>
                                             <TableCell>{item.contract}</TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.contractId)}>Подробнее</Button></TableCell>
+                                            <TableCell align="right"><Button
+                                                variant="contained"
+                                                color="secondary"
+                                                startIcon={<DeleteIcon />}
+                                                onClick={event => deleteReserveHandler(item.id)}
+                                            >
+                                                Удалить
+                                            </Button></TableCell>
+                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.contractId)}>Контракт</Button></TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
