@@ -51,3 +51,12 @@ export function validateLatin(text: string) {
 export function RoundValue(value: number) {
     return Math.round((value + Number.EPSILON) * 100) / 100
 }
+
+/**
+ * Начало текущего месяца
+ */
+export function getStartCurrentMonthDate() {
+    const now = new Date()
+    return new Date(now.getFullYear(), now.getMonth(), 1)
+}
+
