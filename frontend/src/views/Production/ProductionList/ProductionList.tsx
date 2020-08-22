@@ -11,7 +11,6 @@ import {deleteProductionCard, loadProductionCards} from "redux/actions/productio
 import {PROD_PERIOD_END, PROD_PERIOD_START, PROD_PRODUCT} from "../../../types/Settings";
 import {useConfirm} from "material-ui-confirm";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
-import {deleteWork} from "../../../redux/actions/workAction";
 
 const useStyles = makeStyles(theme => ({
     root: {

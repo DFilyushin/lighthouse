@@ -486,7 +486,7 @@ export function addNewProduction(item: IProduction) {
                             }
                         )
                     });
-                const calcResponse = await authAxios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
+                await authAxios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
             }
 
             const teamItems = [...getState().production.prodCardTeam];
@@ -494,7 +494,7 @@ export function addNewProduction(item: IProduction) {
                 teamItems.forEach((value)=>{
                     value.manufactureId = id;
                 })
-                const teamResponse = await authAxios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
+                await authAxios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
             }
 
             const tareItems = [...getState().production.prodCardTare];
@@ -507,12 +507,12 @@ export function addNewProduction(item: IProduction) {
                         newValue
                     )
                 })
-                const tareResponse = await authAxios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
+                await authAxios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
-                const materialResponse = await authAxios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
+                await authAxios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
             }
 
             dispatch(saveOk())
@@ -623,7 +623,7 @@ export function updateProduction(item: IProduction) {
                         }
                     )
                 });
-                const calcResponse = await authAxios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
+                await authAxios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
             }
 
             const teamItems = [...getState().production.prodCardTeam];
@@ -631,7 +631,7 @@ export function updateProduction(item: IProduction) {
                 teamItems.forEach((value)=>{
                     value.manufactureId = item.id;
                 })
-                const teamResponse = await authAxios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
+                await authAxios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
             }
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
@@ -643,12 +643,12 @@ export function updateProduction(item: IProduction) {
                         newValue
                     )
                 })
-                const tareResponse = await authAxios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
+                await authAxios.put(ProductionEndpoint.getProductionTare(item.id), sendTareItems)
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
-                const materialResponse = await authAxios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
+                await authAxios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
             }
             dispatch(saveOk());
         }catch (e) {

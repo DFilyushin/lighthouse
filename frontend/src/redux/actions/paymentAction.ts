@@ -40,20 +40,19 @@ export function loadPaymentList(startDate: string, endDate: string, method?: num
     }
 }
 
+/**
+ * Удалить платёж по коду
+ * @param id Код записи
+ */
 export function deletePayment(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage())
         try{
-            const response = await authAxios.delete(PaymentEndpoint.deletePayment(id));
-            if (response.status === 204) {
-                const items = [...getState().payment.paymentItems];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
-                items.splice(index, 1);
-                dispatch(deleteOK(items));
-            }
-            else {
-                dispatch(showInfoMessage('error', 'Не удалось удалить запись!'))
-            }
+            await authAxios.delete(PaymentEndpoint.deletePayment(id));
+            const items = [...getState().payment.paymentItems];
+            const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+            items.splice(index, 1);
+            dispatch(deleteOK(items));
         }catch (e) {
             dispatch(showInfoMessage('error', 'Не удалось удалить запись!'))
         }

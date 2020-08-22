@@ -7,7 +7,6 @@ import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import { deleteStaff, loadStaffs } from "redux/actions/staffAction";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
-import {deleteWork} from "../../../redux/actions/workAction";
 import {useConfirm} from "material-ui-confirm";
 
 
