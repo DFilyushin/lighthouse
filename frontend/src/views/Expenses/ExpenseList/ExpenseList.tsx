@@ -8,6 +8,8 @@ import {IStateInterface} from "redux/rootReducer";
 import {deleteExpense, loadExpenseList} from "redux/actions/expenseAction";
 import {getCostList} from "redux/actions/costAction";
 import {RouteComponentProps} from "react-router";
+import {useConfirm} from "material-ui-confirm";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
 
 
 const useStyles = makeStyles(theme => ({
@@ -27,6 +29,7 @@ const ExpenseList = (props: IExpenseListProps) => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useDispatch()
+    const confirm = useConfirm()
 
     const query = new URLSearchParams(props.location.search)
     const querySource = query.get('source') || ''
@@ -48,9 +51,18 @@ const ExpenseList = (props: IExpenseListProps) => {
      * Удаление затраты
      */
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteExpense(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            selected.forEach(async (item) => {
+                dispatch(deleteExpense(item))
+            })
+        )
     }
 
     function onClickTableItem(id: number){
