@@ -38,7 +38,8 @@ class NewUserSerializer(serializers.Serializer):
     isAdmin = serializers.BooleanField(default=False)
     groups = GroupListSerializer(many=True)
     employee = serializers.IntegerField(default=0)
-    password = serializers.CharField()
+    password = serializers.CharField(required=False)
+    active = serializers.BooleanField(default=True)
 
     def create(self, validated_data):
         login = validated_data['login']
@@ -75,14 +76,15 @@ class NewUserSerializer(serializers.Serializer):
         return user
 
     def update(self, instance, validated_data):
-        new_password = validated_data['password']
+        new_password = validated_data.get('password', None)
+        if new_password:
+            instance.set_password(new_password)
         instance.login = validated_data['login']
         instance.email = validated_data['email']
         instance.first_name = validated_data['firstName']
         instance.last_name = validated_data['lastName']
         instance.is_superuser = validated_data['isAdmin']
-        if new_password:
-            instance.set_password(new_password)
+        instance.is_active = validated_data['active']
         instance.save()
         return instance
 
