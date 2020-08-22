@@ -21,11 +21,11 @@ import authAxios from "../../services/axios-api";
  * @param endDate Конечная дата
  * @param method Метод оплаты
  */
-export function loadPaymentList(startDate: string, endDate: string, method?: number) {
+export function loadPaymentList(startDate: string, endDate: string, method?: number, numContract?: string) {
     return async (dispatch: any, getState: any)=> {
         dispatch(loadStart())
         dispatch(hideInfoMessage())
-        const url = PaymentEndpoint.getPaymentList(startDate, endDate, method)
+        const url = PaymentEndpoint.getPaymentList(startDate, endDate, method, numContract)
         const items: IPaymentListItem[] = []
         try{
             const response = await authAxios.get(url)
