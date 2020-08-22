@@ -8,12 +8,13 @@ class PaymentEndpoint {
      * @param endDate Конечная дата
      * @param methodPayment Код метода оплат
      */
-    static getPaymentList(startDate: string, endDate: string, methodPayment?: number): string {
+    static getPaymentList(startDate: string, endDate: string, methodPayment?: number, numContract?: string): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/payment/`;
         const url = new URL(baseUrl);
         url.searchParams.append('start', startDate);
         url.searchParams.append('end', endDate);
         if (methodPayment) url.searchParams.append('method', methodPayment.toString());
+        if (numContract) url.searchParams.append('numContract', numContract)
         return url.href
     }
 
