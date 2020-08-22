@@ -6,6 +6,8 @@ import {IStateInterface} from "redux/rootReducer";
 import {useHistory} from "react-router-dom";
 import {deleteEmployee, loadEmployeeList} from "redux/actions/employeeAction";
 import {DefaultToolbar} from "components";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
+import {useConfirm} from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -17,22 +19,36 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const EmployeeList = () => {
-    const classes = useStyles();
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const classes = useStyles()
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const confirm = useConfirm()
 
-    const [selected, setSelected] = useState<number[]>([]);
-    const employees = useSelector((state: IStateInterface)=> state.employee.items);
+    const [selected, setSelected] = useState<number[]>([])
+    const employees = useSelector((state: IStateInterface)=> state.employee.items)
 
     useEffect(()=>{
         dispatch(loadEmployeeList())
     }, [dispatch])
 
 
+    /**
+     * Удалить записи
+     */
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteEmployee(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            selected.forEach(async (item) => {
+                dispatch(deleteEmployee(item))
+            })
+        )
+
     }
 
     function onClickTableItem(id: number){
