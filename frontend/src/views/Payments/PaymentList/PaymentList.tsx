@@ -69,7 +69,7 @@ const PaymentList = () => {
      * @param findText - строка поиска
      */
     async function onFindProductHandler(findText: string){
-        dispatch(loadPaymentList('', '', 0, findText))
+        if (findText) dispatch(loadPaymentList('', '', 0, findText))
     }
 
     /**
