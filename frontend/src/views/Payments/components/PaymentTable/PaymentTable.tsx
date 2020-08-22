@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core';
 import moment from "moment";
 import {IPaymentListItem} from "../../../../types/model/payment";
+import {RoundValue} from "../../../../utils/AppUtils";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -39,6 +40,9 @@ const useStyles = makeStyles(theme => ({
     },
     actions: {
         justifyContent: 'flex-end'
+    },
+    footer_row: {
+        fontSize: "1.3rem",
     }
 }));
 
@@ -101,7 +105,14 @@ const PaymentTable = (props: IPaymentTableProps) => {
 
     const cellClicked = (id: number) => {
         onClickItem(id);
-    };
+    }
+
+    /**
+     * Общая сумма платежей
+     */
+    const getTotalTableSum = () => {
+        return RoundValue(items.map(({ value }) => value).reduce((sum, i) => sum + i, 0));
+    }
 
     return (
         <Card
@@ -186,6 +197,11 @@ const PaymentTable = (props: IPaymentTableProps) => {
                                         </TableCell>
                                     </TableRow>
                                 ))}
+                                {items.length > 0 &&
+                                <TableRow>
+                                    <TableCell className={classes.footer_row} colSpan={3}>Итого: {getTotalTableSum()}</TableCell>
+                                </TableRow>
+                                }
                             </TableBody>
                         </Table>
                     </div>
