@@ -9,6 +9,9 @@ import {clearError, loadProduct} from "redux/actions/productAction";
 import SnackBarAlert from 'components/SnackBarAlert';
 import {deleteProductionCard, loadProductionCards} from "redux/actions/productionAction";
 import {PROD_PERIOD_END, PROD_PERIOD_START, PROD_PRODUCT} from "../../../types/Settings";
+import {useConfirm} from "material-ui-confirm";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
+import {deleteWork} from "../../../redux/actions/workAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,6 +26,7 @@ const ProductionList = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const confirm = useConfirm();
 
     const cards = useSelector((state: any) => state.production.prodCardList);
     const products = useSelector((state: any) => state.product.products);
@@ -74,9 +78,19 @@ const ProductionList = () => {
      * Обработчик удаления карт
      */
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteProductionCard(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            selected.forEach(async (item) => {
+                dispatch(deleteProductionCard(item))
+            })
+        )
+
     }
 
     /**
