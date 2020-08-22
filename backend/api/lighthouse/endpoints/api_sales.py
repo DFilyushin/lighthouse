@@ -164,14 +164,18 @@ class PaymentViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             param_start_period = self.request.GET.get('start', None)
             param_end_period = self.request.GET.get('end', None)
-            param_method = self.request.GET.get('method')
+            param_method = self.request.GET.get('method', None)
+            param_num_contract = self.request.GET.get('numContract', None)
 
-            date_start = datetime.strptime(param_start_period, '%Y-%m-%d')
-            date_end = datetime.strptime(param_end_period, '%Y-%m-%d')
-            queryset = Payment.objects.filter(pay_date__range=(date_start, date_end))
+            if param_num_contract:  # Если указан контракт, значит ищем только по номеру контракта
+                queryset = Payment.objects.filter(id_contract__num__contains=param_num_contract)
+            else:
+                date_start = datetime.strptime(param_start_period, '%Y-%m-%d')
+                date_end = datetime.strptime(param_end_period, '%Y-%m-%d')
+                queryset = Payment.objects.filter(pay_date__range=(date_start, date_end))
 
-            if param_method:
-                queryset = queryset.filter(pay_type_id=int(param_method))
+                if param_method:
+                    queryset = queryset.filter(pay_type_id=int(param_method))
             return queryset.order_by('pay_date')\
                 .only('id', 'id_contract', 'pay_date', 'pay_num', 'pay_type', 'pay_value')
         else:
