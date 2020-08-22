@@ -22,7 +22,6 @@ import {
 import moment from "moment";
 import {IPaymentListItem} from "../../../../types/model/payment";
 
-
 const useStyles = makeStyles(theme => ({
     root: {},
     content: {

@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
         }
     },
     row: {
-        //height: '42px',
         display: 'flex',
         alignItems: 'center',
         marginTop: theme.spacing(1),
@@ -152,7 +151,6 @@ const PaymentToolbar = (props: IPaymentToolbarProps) => {
                     xs={12}
                 >
                 <div className={classes.buttonGroup}>
-                    <span className={classes.spacer} />
                     <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Новый платёж</Button>
                     <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
                 </div>
