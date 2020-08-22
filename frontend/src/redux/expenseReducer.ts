@@ -15,6 +15,7 @@ import {
 	EXPENSE_PERIOD_END,
 	EXPENSE_PERIOD_START
 } from "../types/Settings";
+import {getStartCurrentMonthDate} from "../utils/AppUtils";
 
 
 const getInitialState = () => ({
@@ -34,7 +35,7 @@ const getInitialState = () => ({
         employee: nullEmployeeItem,
         total: 0
     },
-    dateStart: localStorage.getItem(EXPENSE_PERIOD_START) ||  (new Date()).toISOString().slice(0, 10),
+    dateStart: localStorage.getItem(EXPENSE_PERIOD_START) ||  (getStartCurrentMonthDate()).toISOString().slice(0, 10),
     dateEnd: localStorage.getItem(EXPENSE_PERIOD_END) || (new Date()).toISOString().slice(0, 10),
     cost: 0,
     error: "",
