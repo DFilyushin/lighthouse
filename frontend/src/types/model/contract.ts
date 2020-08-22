@@ -133,5 +133,5 @@ export const ContractStateString = [
 export const CONTRACT_STATE_ITEMS = [
     {id: CONTRACT_STATE_DRAFT, name: 'Черновик'},
     {id: CONTRACT_STATE_ACTIVE, name: 'В работе'},
-    {id: CONTRACT_STATE_READY, name: 'Выполненные'}
+    {id: CONTRACT_STATE_READY, name: 'Исполненные'}
 ]
