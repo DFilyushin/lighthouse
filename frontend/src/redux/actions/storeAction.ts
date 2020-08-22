@@ -103,6 +103,28 @@ export function loadStoreReserveList() {
     }
 }
 
+/**
+ * Удалить продукцию из резерва
+ * @param id Код резерва
+ */
+export function deleteReserve(id: number) {
+    return async (dispatch: any, getState: any)=> {
+        dispatch(fetchStart())
+        try{
+            const url = StoreEndpoint.deleteProductReserve(id);
+            console.log(url)
+            await authAxios.delete(url);
+            const items = [...getState().store.storeReservedList]
+            const findIndex = items.findIndex((item: IStoreListReserveProduct)=>{ return item.id === id })
+            items.splice(findIndex, 1)
+            dispatch(fetchSuccessLoadReserveList(items))
+        }catch (e) {
+            dispatch(fetchError('Ошибка удаления записи!'))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
 function fetchSuccessLoadReserveList(items: IStoreListReserveProduct[]) {
     return{
         type: STORE_RESERVE_LOAD_SUCCESS,
