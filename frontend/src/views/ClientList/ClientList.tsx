@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {DefaultToolbar} from "components";
 import {IStateInterface} from "redux/rootReducer";
 import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../utils/AppConst";
+import {useConfirm} from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,9 +21,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ClientList = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
+    const classes = useStyles()
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const confirm = useConfirm()
 
     // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.client.isLoading);
@@ -42,10 +45,22 @@ const ClientList = () => {
         dispatch(loadClients(findText))
     }
 
+    /**
+     * Удаление клиента
+     */
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteClient(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() => {
+            selected.forEach(async (item) => {
+                dispatch(deleteClient(item))
+            });
+        })
     }
 
 
