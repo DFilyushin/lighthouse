@@ -6,6 +6,9 @@ import { StaffTable } from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import { DefaultToolbar} from 'components';
 import { deleteStaff, loadStaffs } from "redux/actions/staffAction";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
+import {deleteWork} from "../../../redux/actions/workAction";
+import {useConfirm} from "material-ui-confirm";
 
 
 
@@ -19,9 +22,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const StaffList = () => {
-    const classes = useStyles();
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const classes = useStyles()
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const confirm = useConfirm()
 
     const staffs = useSelector((state: any) => state.staff.staffs);
     const isLoading = useSelector((state: any) => state.staff.isLoading);
@@ -39,10 +43,23 @@ const StaffList = () => {
         dispatch(loadStaffs(findText))
     }
 
+    /**
+     * Удалить выбранные записи
+     */
     function onDeleteHandle() {
-        selected.forEach(async (item, i, selected) => {
-            dispatch(deleteStaff(item))
-        });
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() =>
+            selected.forEach(async (item) => {
+                dispatch(deleteStaff(item))
+            })
+        )
+
     }
 
     function onClickTableItem(id: number){
