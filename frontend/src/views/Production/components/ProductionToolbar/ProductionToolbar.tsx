@@ -21,7 +21,7 @@ import {IProduct} from "types/model/product";
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import {INVALID_DATE_FORMAT, NO_SELECT_VALUE} from "../../../../utils/AppConst";
-import {CARD_STATE_ITEMS} from "../../../../types/model/production";
+import {CARD_STATE_IN_WORK, CARD_STATE_ITEMS} from "../../../../types/model/production";
 
 
 const useStyles = makeStyles(theme => ({
@@ -82,7 +82,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
     const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
     const [endDate, setEndDate] = React.useState<Date | null>(new Date());
     const [product, setProduct] = React.useState<number>(0);
-    const [prodState, setProdState] = React.useState<number>(NO_SELECT_VALUE);
+    const [prodState, setProdState] = React.useState<number>(CARD_STATE_IN_WORK);
 
     const handleFirstDateChange = (date: Date | null) => {
         setFirstDate(date);
