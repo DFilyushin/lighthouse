@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link as RouterLink } from 'react-router-dom'
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,7 @@ import {
     TableRow,
     Typography,
     TablePagination,
-    Paper
+    Paper, Link
 } from '@material-ui/core';
 import {IContractListItem} from 'types/model/contract';
 import ContractStateIcon from "../ContractStateIcon";
@@ -160,7 +161,14 @@ const ContractTable = (props: IContractTableProps) => {
                                                 </TableCell>
                                                 <TableCell><ContractStateIcon stateIndex={contract.status}/></TableCell>
                                                 <TableCell>
-                                                    <Typography variant="body1">{contract.clientName}</Typography>
+                                                    <Link
+                                                        color="inherit"
+                                                        component={RouterLink}
+                                                        to={`/contracts/${contract.id}?source=contract/`}
+                                                        variant="h6"
+                                                    >
+                                                    {contract.clientName}
+                                                    </Link>
                                                 </TableCell>
                                                 <TableCell>{contract.num}</TableCell>
                                                 <TableCell>{contract.id}</TableCell>
