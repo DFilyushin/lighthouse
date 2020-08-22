@@ -171,7 +171,7 @@ const PaymentToolbar = (props: IPaymentToolbarProps) => {
                             <SearchInput
                                 className={classes.searchInput}
                                 onEnterKeyDown={onKeyDownHandler}
-                                placeholder='Поиск по номеру документа'
+                                placeholder='Поиск по номеру контракта'
                             />
                         </Grid>
                         <Grid
