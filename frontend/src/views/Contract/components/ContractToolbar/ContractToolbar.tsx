@@ -4,18 +4,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
     FormControl,
-    InputLabel,
     MenuItem,
     Select,
     Typography,
     ListItem,
     ListItemAvatar,
     List,
+    Grid,
     Avatar, Switch, FormControlLabel
 } from '@material-ui/core';
 import { SearchInput } from 'components';
 import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
-import {NO_SELECT_VALUE} from "utils/AppConst";
+import { NO_SELECT_VALUE} from "utils/AppConst";
 import {CONTRACT_STATE_ITEMS} from "types/model/contract";
 
 const useStyles = makeStyles(theme => ({
@@ -26,11 +26,10 @@ const useStyles = makeStyles(theme => ({
         }
     },
     row: {
-        height: '42px',
         display: 'flex',
         alignItems: 'center',
-        marginTop: theme.spacing(1),
-        margin: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        margin: theme.spacing(0),
     },
     spacer: {
         flexGrow: 1
@@ -42,7 +41,7 @@ const useStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1)
     },
     searchInput: {
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(1),
     },
     large: {
         width: theme.spacing(7),
@@ -104,46 +103,87 @@ const ContractToolbar = (props: IContractToolbar) => {
                     <Typography variant="h4">Контракты</Typography>
                 </ListItem>
             </List>
-            <div className={classes.buttonGroup}>
-                <span className={classes.spacer} />
-                <Button color="primary" variant="contained" onClick={onNew}>Новый контракт</Button>
-                <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
-            </div>
-            <div className={classes.row}>
-                <SearchInput
-                    className={classes.searchInput}
-                    onEnterKeyDown={onKeyDownHandler}
-                    placeholder="Поиск контракта"
-                />
-                <FormControl className={clsx(classes.formControl, classes.formControlWidth)} >
-                    <InputLabel id="demo-simple-select-helper-label">Состояние контракта</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={contractState}
-                        onChange={handleChangeState}
-                    >
-                        <MenuItem key={NO_SELECT_VALUE} value={NO_SELECT_VALUE}>
-                            <em>не указано</em>
-                        </MenuItem>
-                        {
-                            CONTRACT_STATE_ITEMS.map(item=>(
-                                <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                            ))
+            <Grid
+                container
+                spacing={3}
+            >
+                <Grid
+                    item
+                    lg={3}
+                    sm={6}
+                    xs={12}
+                >
+                    <div className={classes.buttonGroup}>
+                        <Button color="primary" variant="contained" onClick={onNew}>Новый контракт</Button>
+                        <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
+                    </div>
+                </Grid>
+            </Grid>
+            <Grid
+                container
+                spacing={3}
+                className={classes.row}
+            >
+                <Grid
+                    item
+                    lg={3}
+                    sm={6}
+                    md={6}
+                    xs={12}
+                >
+                    <SearchInput
+                        className={classes.searchInput}
+                        onEnterKeyDown={onKeyDownHandler}
+                        placeholder="Поиск контракта"
+                    />
+                </Grid>
+                <Grid
+                    item
+                    lg={2}
+                    sm={6}
+                    md={6}
+                    xs={12}
+                >
+                    <FormControl className={clsx(classes.formControl, classes.formControlWidth)} >
+                        <Select
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            value={contractState}
+                            onChange={handleChangeState}
+                        >
+                            <MenuItem key={NO_SELECT_VALUE} value={NO_SELECT_VALUE}>
+                                <em>не указано</em>
+                            </MenuItem>
+                            {
+                                CONTRACT_STATE_ITEMS.map(item=>(
+                                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                    </FormControl>
+                </Grid>
+
+                <Grid
+                    item
+                    lg={2}
+                    sm={6}
+                    md={6}
+                    xs={12}
+                >
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={showOwnContract}
+                                onChange={handleChange}
+                                color="primary"
+                            />
                         }
-                    </Select>
-                </FormControl>
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={showOwnContract}
-                            onChange={handleChange}
-                            color="primary"
-                        />
-                    }
-                    label="Показывать только мои контракты"
-                />
-            </div>
+                        label="Мои контракты"
+                    />
+                </Grid>
+
+            </Grid>
+
         </div>
     );
 };

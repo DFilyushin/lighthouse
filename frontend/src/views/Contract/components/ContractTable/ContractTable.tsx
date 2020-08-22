@@ -14,10 +14,12 @@ import {
     TableHead,
     TableRow,
     Typography,
-    TablePagination
+    TablePagination,
+    Paper
 } from '@material-ui/core';
 import {IContractListItem} from 'types/model/contract';
 import ContractStateIcon from "../ContractStateIcon";
+import TableContainer from "@material-ui/core/TableContainer";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -42,15 +44,15 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-interface IClientTable{
+interface IContractTableProps{
     className: string,
     contracts: IContractListItem[],
     onClickItem: any,
     onChangeSelected: any
-};
+}
 
 
-const ClientTable = (props: IClientTable) => {
+const ContractTable = (props: IContractTableProps) => {
     const { className, contracts, onClickItem, onChangeSelected, ...rest } = props;
 
     const classes = useStyles();
@@ -113,64 +115,66 @@ const ClientTable = (props: IClientTable) => {
             className={clsx(classes.root, className)}
         >
             <CardContent className={classes.content}>
-                <PerfectScrollbar>
-                    <div className={classes.inner}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell padding="checkbox">
-                                        <Checkbox
-                                            checked={selectedContracts.length === contracts.length}
-                                            color="primary"
-                                            indeterminate={
-                                                selectedContracts.length > 0 &&
-                                                selectedContracts.length < contracts.length
-                                            }
-                                            onChange={handleSelectAll}
-                                        />
-                                    </TableCell>
-                                    <TableCell/>
-                                    <TableCell>Клиент</TableCell>
-                                    <TableCell>Номер</TableCell>
-                                    <TableCell>Номер сист.</TableCell>
-                                    <TableCell>Дата заключения</TableCell>
-                                    <TableCell>Дата поставки</TableCell>
-                                    <TableCell/>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    contracts.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(contract => (
-                                        <TableRow
-                                            className={classes.tableRow}
-                                            hover
-                                            key={contract.id}
-                                            selected={selectedContracts.indexOf(contract.id) !== -1}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    checked={selectedContracts.indexOf(contract.id) !== -1}
-                                                    color="primary"
-                                                    onChange={event => handleSelectOne(event, contract.id)}
-                                                    value="true"
-                                                />
-                                            </TableCell>
-                                            <TableCell><ContractStateIcon stateIndex={contract.status}/></TableCell>
-                                            <TableCell>
-                                                <Typography variant="body1">{contract.clientName}</Typography>
-                                            </TableCell>
-                                            <TableCell>{contract.num}</TableCell>
-                                            <TableCell>{contract.id}</TableCell>
-                                            <TableCell>{contract.contractDate}</TableCell>
-                                            <TableCell>{contract.estDelivery}</TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(contract.id)}>Открыть</Button></TableCell>
-                                        </TableRow>
+                <TableContainer component={Paper}>
+                    <PerfectScrollbar>
+                        <div className={classes.inner}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell padding="checkbox">
+                                            <Checkbox
+                                                checked={selectedContracts.length === contracts.length}
+                                                color="primary"
+                                                indeterminate={
+                                                    selectedContracts.length > 0 &&
+                                                    selectedContracts.length < contracts.length
+                                                }
+                                                onChange={handleSelectAll}
+                                            />
+                                        </TableCell>
+                                        <TableCell/>
+                                        <TableCell>Клиент</TableCell>
+                                        <TableCell>Номер</TableCell>
+                                        <TableCell>Номер сист.</TableCell>
+                                        <TableCell>Дата заключения</TableCell>
+                                        <TableCell>Дата поставки</TableCell>
+                                        <TableCell/>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        contracts.slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage).map(contract => (
+                                            <TableRow
+                                                className={classes.tableRow}
+                                                hover
+                                                key={contract.id}
+                                                selected={selectedContracts.indexOf(contract.id) !== -1}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        checked={selectedContracts.indexOf(contract.id) !== -1}
+                                                        color="primary"
+                                                        onChange={event => handleSelectOne(event, contract.id)}
+                                                        value="true"
+                                                    />
+                                                </TableCell>
+                                                <TableCell><ContractStateIcon stateIndex={contract.status}/></TableCell>
+                                                <TableCell>
+                                                    <Typography variant="body1">{contract.clientName}</Typography>
+                                                </TableCell>
+                                                <TableCell>{contract.num}</TableCell>
+                                                <TableCell>{contract.id}</TableCell>
+                                                <TableCell>{contract.contractDate}</TableCell>
+                                                <TableCell>{contract.estDelivery}</TableCell>
+                                                <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(contract.id)}>Открыть</Button></TableCell>
+                                            </TableRow>
 
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </PerfectScrollbar>
+                                        ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </PerfectScrollbar>
+                </TableContainer>
             </CardContent>
             <CardActions className={classes.actions}>
                 <TablePagination
@@ -189,4 +193,4 @@ const ClientTable = (props: IClientTable) => {
     );
 };
 
-export default ClientTable;
+export default ContractTable;
