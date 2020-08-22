@@ -17,7 +17,7 @@ import {
     Grid,
     Typography
 } from '@material-ui/core'
-import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings"
+import {PAYMENT_PERIOD_END, PAYMENT_PERIOD_START} from "types/Settings"
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 import {INVALID_DATE_FORMAT} from "utils/AppConst"
 import {IPayMethod} from "types/model/paymethod"
@@ -103,8 +103,8 @@ const PaymentToolbar = (props: IPaymentToolbarProps) => {
      * Сохраненные данные начала и окончания периода
      */
     useEffect(()=>{
-        const d1: string|null = localStorage.getItem(PROD_PERIOD_START)
-        const d2: string|null = localStorage.getItem(PROD_PERIOD_END)
+        const d1: string|null = localStorage.getItem(PAYMENT_PERIOD_START)
+        const d2: string|null = localStorage.getItem(PAYMENT_PERIOD_END)
         if (d1) {setFirstDate(new Date(d1))}
         if (d2) {setEndDate(new Date(d2))}
     }, []);
