@@ -848,28 +848,49 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         readOnly={!canEditCard()}
                                     />
                                 </Grid>
+
                             </Grid>
                             <Grid container spacing={3}>
                                     <Grid item xs={3} >
-                                        <TextField
-                                            fullWidth
-                                            type={'number'}
-                                            label="Рассчёт"
-                                            margin="dense"
-                                            name="calcValue"
-                                            onChange={handleChange}
-                                            required
-                                            value={productionItem?.calcValue}
-                                            variant="outlined"
-                                            inputProps={{
-                                                readOnly: Boolean(!canEditCard()),
-                                                disabled: Boolean(!canEditCard()),
-                                            }}
-                                            helperText={hasCorrectValueError ? "Укажите корректное значение" : ""}
-                                            error={hasCorrectValueError}
-                                        />
+                                        <Tooltip title="Рассчётное количество готовой продукции">
+                                            <TextField
+                                                fullWidth
+                                                type={'number'}
+                                                label="Рассчёт"
+                                                margin="dense"
+                                                name="calcValue"
+                                                onChange={handleChange}
+                                                required
+                                                value={productionItem?.calcValue}
+                                                variant="outlined"
+                                                inputProps={{
+                                                    readOnly: Boolean(!canEditCard()),
+                                                    disabled: Boolean(!canEditCard()),
+                                                }}
+                                                helperText={hasCorrectValueError ? "Укажите корректное значение" : ""}
+                                                error={hasCorrectValueError}
+                                            />
+                                        </Tooltip>
                                     </Grid>
-
+                                    <Grid item xs={3} >
+                                        <Tooltip title="Фактический выход продукции">
+                                            <TextField
+                                                fullWidth
+                                                type={'number'}
+                                                label="Выход"
+                                                margin="dense"
+                                                name="outValue"
+                                                onChange={handleChange}
+                                                required
+                                                value={productionItem?.outValue}
+                                                variant="outlined"
+                                                inputProps={{
+                                                    readOnly: Boolean(!canEditCard()),
+                                                    disabled: Boolean(!canEditCard()),
+                                                }}
+                                            />
+                                        </Tooltip>
+                                    </Grid>
                                     <Grid item xs={2} >
                                         <TextField
                                             fullWidth
