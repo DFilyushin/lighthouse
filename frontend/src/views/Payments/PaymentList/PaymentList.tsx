@@ -54,7 +54,7 @@ const PaymentList = () => {
         }, [dispatch]
     )
 
-    function handleRefresh(startDate: Date | null, endDate: Date | null, method?: number){
+    function handleRefresh(startDate: Date | null, endDate: Date | null, method?: number, numContract?: string){
         const date1 = startDate!.toISOString().slice(0, 10);
         const date2 = endDate!.toISOString().slice(0, 10);
         localStorage.setItem(PAYMENT_PERIOD_START, date1);
@@ -64,8 +64,12 @@ const PaymentList = () => {
         dispatch(loadPaymentList(date1, date2, method))
     }
 
+    /**
+     * Поиск по номеру контракта
+     * @param findText - строка поиска
+     */
     async function onFindProductHandler(findText: string){
-        //dispatch(loadProductionCards('', '', findText))
+        dispatch(loadPaymentList('', '', 0, findText))
     }
 
     /**
