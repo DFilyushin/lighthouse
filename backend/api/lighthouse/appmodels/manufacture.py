@@ -237,7 +237,7 @@ class Manufacture(models.Model):
         if sum_value is None:
             return False
         else:
-            return sum_value <= self.out_value
+            return sum_value == self.out_value
 
     def set_card_status(self, new_status: int):
         expression = 'manufacture.set_card_status'
