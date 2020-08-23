@@ -301,6 +301,7 @@ class Manufacture(models.Model):
         indexes = [
             models.Index(name='idx_prod_start01', fields=['prod_start']),
             models.Index(name='idx_prod_created', fields=['created']),
+            models.Index(name='idx_prod_state', fields=['cur_state'])
         ]
 
 
