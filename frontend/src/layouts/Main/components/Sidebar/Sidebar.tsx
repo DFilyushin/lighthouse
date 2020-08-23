@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     overflowY: 'auto'
   },
   drawer: {
-    width: 260,
+    width: 200,
     [theme.breakpoints.up('lg')]: {
       marginTop: 64,
       height: 'calc(100% - 64px)'
