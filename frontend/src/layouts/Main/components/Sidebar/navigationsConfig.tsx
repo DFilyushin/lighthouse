@@ -1,5 +1,4 @@
 import React from 'react';
-import {colors} from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
@@ -14,7 +13,6 @@ import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutline
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import WidgetsOutlinedIcon from '@material-ui/icons/WidgetsOutlined';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
-import {Label} from 'components';
 import {AccessGroups} from 'utils/AppConst'
 import { ReactComponent as Price2 } from 'images/barcode.svg';
 
@@ -215,8 +213,7 @@ export default [
                 title: 'Изменения',
                 href: '/changelog',
                 access: [],
-                icon: NewReleasesOutlinedIcon,
-                label: () => <Label color={colors.blue['500']}>v20.05</Label>
+                icon: NewReleasesOutlinedIcon
             }
         ],
         access: [AccessGroups.ALL]
