@@ -3,7 +3,7 @@ from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import CARD_STATE_READY, ProductionWork, Manufacture, ProdTeam, ProductionLine, \
-    ProdCalc, ProdReadyProduct, ProdMaterial
+    ProdCalc, ProdReadyProduct, ProdMaterial, CARD_STATE_IN_WORK
 from lighthouse.serializers.serializer_manufacture import ProductLineSerializer, WorkSerializer, \
     ManufactureListSerializer, ManufactureSerializer, NewManufactureSerializer, ProdTeamSerializer, \
     ProdCalcRawsSerializer, ProdReadyProductSerializer, ProdMaterialSerializer
@@ -50,7 +50,7 @@ class ProductionView(viewsets.ModelViewSet):
                 queryset = queryset.filter(id_formula__id_product=product)
             if state is not None:
                 queryset = queryset.filter(cur_state=int(state))
-            if start_period and not card_num:
+            if start_period and not card_num and (state is None or int(state) > CARD_STATE_IN_WORK):
                 date_start = datetime.strptime(start_period, '%Y-%m-%d')
                 date_end = datetime.strptime(end_period, '%Y-%m-%d')
                 queryset = queryset.filter(prod_start__range=(date_start, date_end))
