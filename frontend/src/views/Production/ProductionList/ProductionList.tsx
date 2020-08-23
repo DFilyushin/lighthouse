@@ -8,9 +8,11 @@ import { ProductionToolbar } from '../components/';
 import {clearError, loadProduct} from "redux/actions/productAction";
 import SnackBarAlert from 'components/SnackBarAlert';
 import {deleteProductionCard, loadProductionCards} from "redux/actions/productionAction";
-import {PROD_PERIOD_END, PROD_PERIOD_START, PROD_PRODUCT} from "../../../types/Settings";
+import {PROD_PERIOD_END, PROD_PERIOD_START, PROD_PRODUCT, PROD_STATE} from "../../../types/Settings";
 import {useConfirm} from "material-ui-confirm";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
+import {CARD_STATE_IN_WORK} from "../../../types/model/production";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,12 +29,12 @@ const ProductionList = () => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
 
-    const cards = useSelector((state: any) => state.production.prodCardList);
-    const products = useSelector((state: any) => state.product.products);
-    const isLoading = useSelector((state: any) => state.production.isLoading);
-    const errorValue = useSelector((state: any) => state.production.error);
+    const cards = useSelector((state: IStateInterface) => state.production.prodCardList);
+    const products = useSelector((state: IStateInterface) => state.product.products);
+    const isLoading = useSelector((state: IStateInterface) => state.production.isLoading);
+    const errorValue = useSelector((state: IStateInterface) => state.production.error);
     const alertType = useSelector((state: any) => state.production.typeMessage);
-    const hasError = useSelector((state: any) => state.product.hasError);
+    const hasError = useSelector((state: IStateInterface) => state.product.hasError);
     const [selected, setSelected] = useState<number[]>([]);
 
 
@@ -41,12 +43,8 @@ const ProductionList = () => {
     };
 
     function refreshOnLoad(){
-        const d1: string|null = localStorage.getItem(PROD_PERIOD_START);
-        const d2: string|null = localStorage.getItem(PROD_PERIOD_END);
-        //const product: string|null = localStorage.getItem(PROD_PRODUCT);
-        if (d1 && d2){
-            handleRefresh(new Date(d1), new Date(d2))
-        }
+        const date = (new Date()).toISOString().slice(0, 10)
+        handleRefresh(date, date, CARD_STATE_IN_WORK)
     }
 
     useEffect(()=>{
@@ -59,14 +57,13 @@ const ProductionList = () => {
         }, [dispatch]
     );
 
-    function handleRefresh(startDate: Date | null, endDate: Date | null, product?: number, state?: number){
-        const date1 = startDate!.toISOString().slice(0, 10);
-        const date2 = endDate!.toISOString().slice(0, 10);
-        localStorage.setItem(PROD_PERIOD_START, date1);
-        localStorage.setItem(PROD_PERIOD_END, date2);
+    function handleRefresh(startDate: string, endDate: string, state?: number, product?: number ){
+        localStorage.setItem(PROD_PERIOD_START, startDate);
+        localStorage.setItem(PROD_PERIOD_END, endDate);
+        state ? localStorage.setItem(PROD_STATE, state.toString()) : localStorage.removeItem(PROD_STATE)
         product ? localStorage.setItem(PROD_PRODUCT, product.toString()) : localStorage.removeItem(PROD_PRODUCT);
 
-        dispatch(loadProductionCards(date1, date2, '', product, state))
+        dispatch(loadProductionCards(startDate, endDate, '', product, state))
     }
 
     async function onFindProductHandler(findText: string){

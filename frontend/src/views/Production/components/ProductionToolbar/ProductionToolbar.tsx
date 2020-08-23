@@ -12,15 +12,15 @@ import {
     ListItemAvatar,
     FormControl,
     MenuItem,
-    InputLabel
+    InputLabel,
+    TextField
 } from '@material-ui/core';
 import { SearchInput } from 'components';
 import { useHistory } from "react-router-dom";
-import { KeyboardDatePicker} from '@material-ui/pickers';
 import {IProduct} from "types/model/product";
 import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
 import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
-import {INVALID_DATE_FORMAT, NO_SELECT_VALUE} from "../../../../utils/AppConst";
+import { NO_SELECT_VALUE} from "../../../../utils/AppConst";
 import {CARD_STATE_IN_WORK, CARD_STATE_ITEMS} from "../../../../types/model/production";
 
 
@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
         }
     },
     row: {
-        //height: '42px',
         display: 'flex',
         alignItems: 'center',
         marginTop: theme.spacing(1),
@@ -72,36 +71,39 @@ interface IDefaultToolbar {
     onFind: any;
     onDelete: any;
     products: IProduct[];
-    onRefresh: (startDate: Date | null, endDate: Date | null, product?: number, state?: number) => void;
+    onRefresh: (startDate: string, endDate: string, state?: number, product?: number) => void;
 }
 
 const ProductionToolbar = (props: IDefaultToolbar) => {
     const classes = useStyles();
     const history = useHistory();
     const { className, newItemUrl, onFind, onDelete, products, onRefresh, ...rest } = props;
-    const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
-    const [endDate, setEndDate] = React.useState<Date | null>(new Date());
+    const [firstDate, setFirstDate] = React.useState(new Date().toISOString().slice(0,10));
+    const [endDate, setEndDate] = React.useState(new Date().toISOString().slice(0,10));
     const [product, setProduct] = React.useState<number>(0);
     const [prodState, setProdState] = React.useState<number>(CARD_STATE_IN_WORK);
+    const [activeDates, setActiveDate] = React.useState(false)
 
-    const handleFirstDateChange = (date: Date | null) => {
-        setFirstDate(date);
+    const handleFirstDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstDate(event.target.value);
     };
-    const handleEndDateChange = (date: Date | null) => {
-        setEndDate(date)
+    const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEndDate(event.target.value)
     };
     const handleChangeProduct = (event: React.ChangeEvent<{ value: unknown }>)=>{
         setProduct(event.target.value as number);
     };
     const handleChangeState = (event: React.ChangeEvent<{value: unknown}>)=>{
-        setProdState(event.target.value as number)
+        const state = event.target.value as number
+        setProdState(state)
+        setActiveDate(state > CARD_STATE_IN_WORK)
     }
 
     /**
      * Запрос данных с сервера
      */
     const handleRefreshData = ()=> {
-        onRefresh(firstDate, endDate, product, prodState);
+        onRefresh(firstDate, endDate, prodState, product);
     };
 
     /**
@@ -110,8 +112,8 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
     useEffect(()=>{
         const d1: string|null = localStorage.getItem(PROD_PERIOD_START)
         const d2: string|null = localStorage.getItem(PROD_PERIOD_END)
-        if (d1) {setFirstDate(new Date(d1))}
-        if (d2) {setEndDate(new Date(d2))}
+        if (d1) {setFirstDate((new Date(d1)).toISOString().slice(0,10))}
+        if (d2) {setEndDate( (new Date(d2)).toISOString().slice(0,10))}
     }, []);
 
     /**
@@ -233,6 +235,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                                 </Select>
                             </FormControl>
                         </Grid>
+                        {activeDates &&
                         <Grid
                             item
                             lg={2}
@@ -240,39 +243,42 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                             md={6}
                             xs={12}
                         >
-                            <KeyboardDatePicker
-                                className={classes.formControl}
-                                id="start_date-picker-dialog"
-                                label="Начало периода"
-                                format="dd/MM/yyyy"
+                            <TextField
+                                id="datetime-local"
+                                label="Начало"
+                                type="date"
+                                defaultValue={firstDate}
                                 value={firstDate}
-                                onChange={handleFirstDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
+                                className={classes.formControl}
+                                InputLabelProps={{
+                                    shrink: true,
                                 }}
-                                invalidDateMessage={INVALID_DATE_FORMAT}
+                                onChange={handleFirstDateChange}
                             />
                         </Grid>
-                        <Grid
+                        }
+                        {activeDates &&
+                            <Grid
                             item
                             lg={2}
                             sm={6}
                             md={6}
                             xs={12}
-                        >
-                            <KeyboardDatePicker
-                                className={classes.formControl}
-                                id="end_date-picker-dialog"
-                                label="Окончание периода"
-                                format="dd/MM/yyyy"
-                                value={endDate}
-                                onChange={handleEndDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                                invalidDateMessage={INVALID_DATE_FORMAT}
+                            >
+                            <TextField
+                            id="datetime-local"
+                            label="Окончание"
+                            type="date"
+                            defaultValue={endDate}
+                            value={endDate}
+                            className={classes.formControl}
+                            InputLabelProps={{
+                            shrink: true,
+                        }}
+                            onChange={handleEndDateChange}
                             />
-                        </Grid>
+                            </Grid>
+                        }
                         <Grid
                             item
                             lg={2}
