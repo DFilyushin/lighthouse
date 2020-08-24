@@ -161,7 +161,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                     md={6}
                     xs={12}
                 >
-                    <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                    <FormControl className={clsx(classes.formControl)}>
                         <InputLabel id="oper-type-label">Тип операции</InputLabel>
                         <Select
                             labelId="oper-type-label"
@@ -182,7 +182,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                     md={6}
                     xs={12}
                 >
-                    <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                    <FormControl className={clsx(classes.formControl)}>
                         <InputLabel id="oper-type-label">Тип материала</InputLabel>
                         <Select
                             labelId="oper-type-label"

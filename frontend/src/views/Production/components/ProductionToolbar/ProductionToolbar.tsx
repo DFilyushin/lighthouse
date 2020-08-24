@@ -189,7 +189,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                             md={6}
                             xs={12}
                         >
-                            <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                            <FormControl className={clsx(classes.formControl)}>
                                 <InputLabel id="demo-simple-select-helper-label">Продукция</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-helper-label"
@@ -215,7 +215,7 @@ const ProductionToolbar = (props: IDefaultToolbar) => {
                             md={6}
                             xs={12}
                         >
-                            <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                            <FormControl className={clsx(classes.formControl)}>
                                 <InputLabel id="demo-simple-select-helper-label">Состояние карты</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-helper-label"
