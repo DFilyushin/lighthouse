@@ -224,12 +224,12 @@ export function calculateDiscount() {
     return async (dispatch: any, getState: any)=> {
         const contract: IContract = {...getState().contract.contractItem}
         const discount = contract.discount
-        const specs = contract.specs.map((value, index, array)=>{
-            const ndsValue = value.itemNds/100 +1
-            const price_with_nds = value.itemPrice * (ndsValue)
+        const specs = contract.specs.map((value)=>{
+            const ndsValue = value.itemNds/100 + 1
+            const price_with_nds = value.itemPrice * ndsValue
             const discount_value = RoundValue(price_with_nds  * (discount / 100))
-            value.itemDiscount = discount_value * value.itemCount
-            value.itemTotal = RoundValue(value.itemCount * price_with_nds *  - discount_value)
+            value.itemDiscount = RoundValue(discount_value * value.itemCount)
+            value.itemTotal = RoundValue((value.itemCount * price_with_nds) - discount_value)
             return value
         })
         dispatch(fetchItemSuccess({...contract, specs: specs}))
