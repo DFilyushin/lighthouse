@@ -25,14 +25,15 @@ interface IContractSpecItemProps {
     onChangeItem: any;
     productItems: IPrice[];
     tareItems: ITare[];
+    canEditItem: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(1)
+        padding: theme.spacing(0)
     },
     paper: {
-        width: '80%',
+        width: '100%',
         maxHeight: 435,
     },
     paper_root: {
@@ -47,13 +48,13 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0),
     },
     iconButton: {
-        padding: 10,
-    },
+        padding: 0,
+    }
 }));
 
 
 const ContractSpecItem = (props: IContractSpecItemProps) => {
-    const { item, onDeleteItem, onChangeItem, productItems, tareItems } = props;
+    const { item, onDeleteItem, onChangeItem, productItems, tareItems, canEditItem } = props;
 
     const classes = useStyles();
     const selectDialog = useDialog();
@@ -249,13 +250,15 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     />
                 </TableCell>
             </Hidden>
-            <TableCell>
-                <Tooltip title={'Удалить запись'}>
-                    <Fab color="secondary" aria-label="add" onClick={event => onDeleteItem(item.id)}>
-                        <DeleteIcon />
-                    </Fab>
-                </Tooltip>
-            </TableCell>
+            {canEditItem &&
+                <TableCell>
+                    <Tooltip title={'Удалить запись'}>
+                        <Fab color="secondary" aria-label="add" onClick={event => onDeleteItem(item.id)}>
+                            <DeleteIcon/>
+                        </Fab>
+                    </Tooltip>
+                </TableCell>
+            }
         </TableRow>
     )
 }

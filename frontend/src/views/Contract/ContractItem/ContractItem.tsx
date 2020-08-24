@@ -77,7 +77,7 @@ const PAGE_PAYMENT = 2
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(4)
+        padding: theme.spacing(1)
     },
     buttonTop: {
         marginTop: 8,
@@ -98,11 +98,14 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     iconButton: {
-        padding: 10,
+        padding: 5,
     },
     footer_row: {
         fontSize: "1.3rem",
-    }
+    },
+    table: {
+        minWidth: 650,
+    },
 }));
 
 
@@ -399,6 +402,11 @@ const ContractItem = (props: IContractItemProps) => {
         return RoundValue(spec.map(({ itemDiscount }) => itemDiscount).reduce((sum, i) => sum + i, 0));
     }
 
+
+    const canEditContract = () => {
+        return (contractItem.contractState === CONTRACT_STATE_DRAFT) || (contractItem.contractState === CONTRACT_STATE_ACTIVE)
+    }
+
     return (
         <div className={classes.root}>
             <Card
@@ -515,6 +523,9 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.num}
                                         variant="outlined"
                                         inputProps={{'maxLength': 8}}
+                                        InputProps={{
+                                            readOnly: !canEditContract(),
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item md={3} xs={3}>
@@ -527,6 +538,9 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.contractId}
                                         variant="outlined"
                                         inputProps={{'maxLength': 10}}
+                                        InputProps={{
+                                            readOnly: !canEditContract(),
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item md={1} xs={1}>
@@ -540,17 +554,23 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.discount}
                                         variant="outlined"
                                         type={'number'}
+                                        InputProps={{
+                                            readOnly: !canEditContract(),
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item md={1} xs={1}>
-                                    <Button
-                                        color="default"
-                                        variant="outlined"
-                                        onClick={handleCalculateDiscount}
-                                        className={classes.buttonTop}
-                                    >
-                                        Пересчитать
-                                    </Button>
+                                    {
+                                        canEditContract() &&
+                                        <Button
+                                            color="default"
+                                            variant="outlined"
+                                            onClick={handleCalculateDiscount}
+                                            className={classes.buttonTop}
+                                        >
+                                            Пересчитать
+                                        </Button>
+                                    }
                                 </Grid>
                                 <Grid item md={3} xs={3}>
                                     <KeyboardDatePicker
@@ -598,6 +618,9 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.deliveryTerms}
                                         onChange={handleChange}
                                         variant="outlined"
+                                        InputProps={{
+                                            readOnly: !canEditContract(),
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -612,11 +635,14 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.comment}
                                         onChange={handleChange}
                                         variant="outlined"
+                                        InputProps={{
+                                            readOnly: !canEditContract(),
+                                        }}
                                     />
                                 </Grid>
                             </Grid>
                                 </Fragment> )}
-                            <Grid container spacing={1}>
+                            <Grid container spacing={0}>
                                 {loading ?
                                     (
                                         <Fragment>
@@ -630,13 +656,13 @@ const ContractItem = (props: IContractItemProps) => {
                                                     Спецификация контракта
                                                 </Typography>
                                             </Grid>
-                                            {
+                                            {canEditContract() &&
                                                 <Grid item xs={1}>
-                                                <Tooltip title={'Добавить новый продукт'}>
-                                                <Fab color="default" aria-label="add" onClick={handleAddEmptySpecItem}>
-                                                <AddIcon/>
-                                                </Fab>
-                                                </Tooltip>
+                                                    <Tooltip title={'Добавить новый продукт'}>
+                                                        <Fab color="default" aria-label="add" onClick={handleAddEmptySpecItem}>
+                                                            <AddIcon/>
+                                                        </Fab>
+                                                    </Tooltip>
                                                 </Grid>
                                             }
                                             {hasSpecError &&
@@ -646,20 +672,20 @@ const ContractItem = (props: IContractItemProps) => {
                                                     </Typography>
                                                 </Grid>
                                             }
-                                            <Table size="small">
+                                            <Table className={classes.table}>
                                                 <TableHead>
                                                     <TableRow>
-                                                    <TableCell>Продукт</TableCell>
-                                                    <TableCell>Тара</TableCell>
-                                                    <TableCell>Количество</TableCell>
-                                                    <TableCell>Цена</TableCell>
-                                                    <TableCell>Цена с НДС</TableCell>
-                                                    <TableCell>Сумма скидки, тенге</TableCell>
-                                                    <TableCell>Итого, тенге</TableCell>
-                                                    <Hidden only={['xs', 'sm']}>
-                                                        <TableCell>Отгрузка</TableCell>
-                                                        <TableCell>Отгружен</TableCell>
-                                                    </Hidden>
+                                                        <TableCell>Продукт</TableCell>
+                                                        <TableCell>Тара</TableCell>
+                                                        <TableCell>Количество</TableCell>
+                                                        <TableCell>Цена</TableCell>
+                                                        <TableCell>Цена с НДС</TableCell>
+                                                        <TableCell>Сумма скидки, тенге</TableCell>
+                                                        <TableCell>Итого, тенге</TableCell>
+                                                        <Hidden only={['xs', 'sm']}>
+                                                            <TableCell>Отгрузка</TableCell>
+                                                            <TableCell>Отгружен</TableCell>
+                                                        </Hidden>
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
@@ -674,6 +700,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                                 onChangeItem={onChangeSpecItem}
                                                                 productItems={products}
                                                                 tareItems={tares}
+                                                                canEditItem={canEditContract()}
                                                             />
                                                         ))
                                                     }
