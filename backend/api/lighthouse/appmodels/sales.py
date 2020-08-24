@@ -255,3 +255,12 @@ class Payment(models.Model):
 
         ]
 
+
+class ContractTemplate(models.Model):
+    position = models.IntegerField(default=0)
+    chapter = models.CharField(max_length=25, verbose_name='Раздел')
+    text = models.TextField(verbose_name='Содержимое')
+
+    class Meta:
+        verbose_name = 'Текст контракта'
+        managed = False
