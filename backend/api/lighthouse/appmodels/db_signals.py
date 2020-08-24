@@ -78,6 +78,14 @@ def cost_post_save_handler(sender, **kwargs):
 
 @receiver(pre_save, sender=Payment)
 def payment_post_before_handler(sender, **kwargs):
+    """
+    Триггер проверки контракта перед сохранением оплаты
+    :param sender:
+    :param kwargs:
+    :return:
+    """
+    if kwargs['raw']:
+        return
     instance = kwargs['instance']
     contract = Contract.objects.get(pk=instance.id_contract.id)
     print(contract.contract_state)
