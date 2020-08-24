@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.db.models import F, Sum, Max
 from rest_framework import viewsets, status, filters
-from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
@@ -10,6 +9,8 @@ from lighthouse.serializers.serializer_sales import ClientListSerializer, Client
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY
 from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
+from django.db import ProgrammingError
+from rest_framework.response import Response
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -159,6 +160,27 @@ class PaymentViewSet(viewsets.ModelViewSet):
             return PaymentListSerializer
         else:
             return PaymentSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super(PaymentViewSet, self).create(request, *args, **kwargs)
+        except Exception as error:
+            content = {'error': str(error)}
+            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            return super(PaymentViewSet, self).update(request, *args, **kwargs)
+        except Exception as error:
+            content = {'error': str(error)}
+            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            return super(PaymentViewSet, self).destroy(request, *args, **kwargs)
+        except Exception as error:
+            content = {'error': str(error)}
+            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get_queryset(self):
         if self.action == 'list':
