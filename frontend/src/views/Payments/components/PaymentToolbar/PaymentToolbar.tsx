@@ -181,7 +181,7 @@ const PaymentToolbar = (props: IPaymentToolbarProps) => {
                             md={6}
                             xs={12}
                         >
-                            <FormControl className={clsx(classes.formControl, classes.formControlWidth)}>
+                            <FormControl className={clsx(classes.formControl)}>
                                 <InputLabel id="select-payment-method-label">Метод оплаты</InputLabel>
                                 <Select
                                     labelId="select-payment-method-label"
