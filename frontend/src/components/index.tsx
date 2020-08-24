@@ -5,3 +5,4 @@ export { default as Label} from './Label';
 export { default as DefaultToolbar } from './DefaultToolbar';
 export { default as NumberFormatCustom } from './NumberFormatCustom';
 export { default as Page } from './Page';
+export { default as TextFieldReadOnlyComponent } from './TextFieldReadOnlyComponent';
