@@ -46,6 +46,11 @@ services:
       - ./static_files:/static_files
     ports:
       - 8000:80
+
+  cache:
+    image: memcached
+    ports:
+      - 12211:12211
   
   frontend:
     build:
