@@ -54,6 +54,9 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
     },
+    formCheck: {
+        paddingLeft: 2,
+    },
     formControlWidth: {
         minWidth: 250
     }
@@ -144,7 +147,7 @@ const ContractToolbar = (props: IContractToolbar) => {
                     md={6}
                     xs={12}
                 >
-                    <FormControl className={clsx(classes.formControl, classes.formControlWidth)} >
+                    <FormControl className={clsx(classes.formControl)} >
                         <Select
                             labelId="demo-simple-select-helper-label"
                             id="demo-simple-select-helper"
@@ -179,6 +182,7 @@ const ContractToolbar = (props: IContractToolbar) => {
                             />
                         }
                         label="Мои контракты"
+                        className={classes.formCheck}
                     />
                 </Grid>
 
