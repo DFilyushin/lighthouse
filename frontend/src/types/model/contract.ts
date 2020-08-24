@@ -65,7 +65,7 @@ export const nullContractItem: IContract = {
     client: {...nullClientItem},
     contractDate: (new Date()).toISOString().slice(0, 10),
     delivered: '',
-    contractState: 0,
+    contractState: CONTRACT_STATE_DRAFT,
     comment: '',
     created: '',
     discount: 0,
