@@ -7,7 +7,7 @@ import {deleteContract, loadContractList, setShowOwnContract} from "redux/action
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NO_SELECT_VALUE} from "../../../utils/AppConst";
-import {CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
+import {CONTRACT_STATE_ACTIVE, CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
 import {useConfirm} from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,7 @@ const ContractList = () => {
     const clients = useSelector((state: IStateInterface) => state.contract.items)
     const showOnlyOwnContract = useSelector((state: IStateInterface)=> state.contract.showOwnContract)
     const [selected, setSelected] = useState<number[]>([])
-    const [contractStatus, setContractStatus] = useState(NO_SELECT_VALUE)
+    const [contractStatus, setContractStatus] = useState(CONTRACT_STATE_ACTIVE)
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus, showOnlyOwnContract))
