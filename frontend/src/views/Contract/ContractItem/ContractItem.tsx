@@ -65,6 +65,7 @@ import {loadTare} from "../../../redux/actions/tareAction";
 import {loadActualPriceList} from "../../../redux/actions/priceAction";
 import {RoundValue} from "../../../utils/AppUtils";
 import {showInfoMessage} from "../../../redux/actions/infoAction";
+import {TextFieldReadOnlyComponent} from "../../../components";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -510,6 +511,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem?.contractDate || null}
                                         onChange={handleContractDateChange}
                                         invalidDateMessage={INVALID_DATE_FORMAT}
+                                        TextFieldComponent={ !canEditContract() ? TextFieldReadOnlyComponent : TextField}
                                     />
                                 </Grid>
                                 <Grid item md={3} xs={3}>
@@ -586,6 +588,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         invalidDateMessage={INVALID_DATE_FORMAT}
                                         helperText={hasDeliveryError ? "Обязательное поле" : ""}
                                         error={hasDeliveryError}
+                                        TextFieldComponent={ !canEditContract() ? TextFieldReadOnlyComponent : TextField}
                                     />
                                 </Grid>
                                 <Grid
@@ -604,6 +607,7 @@ const ContractItem = (props: IContractItemProps) => {
                                         value={contractItem.delivered || null}
                                         onChange={handleDeliveredDateChange}
                                         invalidDateMessage={INVALID_DATE_FORMAT}
+                                        TextFieldComponent={ !canEditContract() ? TextFieldReadOnlyComponent : TextField}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
