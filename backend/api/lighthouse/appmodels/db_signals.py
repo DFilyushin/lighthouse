@@ -4,6 +4,7 @@ from .manufacture import Material
 from .org import Employee
 from .store import RefCost, Cost, Store, REF_COST_PARENT_RAW, REF_COST_PARENT_SALARY
 from .sales import Payment, Contract, CONTRACT_STATE_READY, CONTRACT_STATE_DRAFT
+from django.db import IntegrityError, ProgrammingError
 
 
 @receiver(post_save, sender=Material)
@@ -81,6 +82,6 @@ def payment_post_before_handler(sender, **kwargs):
     contract = Contract.objects.get(pk=instance.id_contract.id)
     print(contract.contract_state)
     if contract.contract_state == CONTRACT_STATE_DRAFT:
-        raise Exception('Контракт в состоянии черновика, оплата невозможна!')
+        raise ProgrammingError('Контракт в состоянии черновика, оплата невозможна!')
     if contract.contract_state == CONTRACT_STATE_READY:
-        raise Exception('Контракт исполнен!')
+        raise ProgrammingError('Контракт исполнен!')
