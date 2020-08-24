@@ -888,5 +888,35 @@
     "id_raw": null,
     "is_system": true
   }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 96,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0410\u0439\u0441\u0431\u0435\u0440\u0433",
+    "id_raw": 119,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 97,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u041a\u0430\u0440\u0431\u043e\u043d\u0430\u0442 \u043a\u0430\u043b\u044c\u0446\u0438\u044f",
+    "id_raw": 120,
+    "is_system": true
+  }
+},
+{
+  "model": "lighthouse.refcost",
+  "pk": 98,
+  "fields": {
+    "id_parent": 0,
+    "name": "\u0417\u0430\u043a\u0443\u043f \u0441\u044b\u0440\u044c\u044f \u0421\u0443\u0445\u043e\u0439 \u043b\u0451\u0434",
+    "id_raw": 121,
+    "is_system": true
+  }
 }
 ]

@@ -351,9 +351,9 @@
     "id_formula": 5,
     "id_team_leader": 10,
     "prod_start": "2019-11-03T05:57:56",
-    "prod_finish": null,
+    "prod_finish": "2020-08-23T11:38:35",
     "calc_value": 5589.0,
-    "cur_state": 1,
+    "cur_state": 2,
     "out_value": 7270.0,
     "loss_value": 672.0,
     "comment": "Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.",
@@ -736,6 +736,25 @@
     "cur_state": 0,
     "out_value": 0.0,
     "loss_value": 1.0,
+    "comment": "",
+    "is_delete": false
+  }
+},
+{
+  "model": "lighthouse.manufacture",
+  "pk": 158,
+  "fields": {
+    "created": "2020-08-22T22:32:15.907",
+    "id_line": 8,
+    "id_creator": 9,
+    "id_formula": 40,
+    "id_team_leader": 28,
+    "prod_start": "2020-08-22T15:26:50",
+    "prod_finish": "2020-08-22T15:26:50.221",
+    "calc_value": 2000.0,
+    "cur_state": 0,
+    "out_value": 0.0,
+    "loss_value": 0.0,
     "comment": "",
     "is_delete": false
   }

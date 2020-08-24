@@ -1,2 +1,16 @@
 [
+{
+  "model": "lighthouse.claim",
+  "pk": 1,
+  "fields": {
+    "created": "2020-08-24T15:45:13.494",
+    "id_contract": 719,
+    "claim_date": "2020-08-24",
+    "claim_type": 1,
+    "num": "1",
+    "cur_state": 1,
+    "content": "\u041d\u0435 \u043f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u0430 \u043e\u043f\u043b\u0430\u0442\u0430",
+    "id_creator": 9
+  }
+}
 ]

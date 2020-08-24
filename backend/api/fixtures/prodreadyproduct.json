@@ -169,5 +169,14 @@
     "id_tare": 5,
     "tare_count": 100
   }
+},
+{
+  "model": "lighthouse.prodreadyproduct",
+  "pk": 52,
+  "fields": {
+    "id_manufacture": 122,
+    "id_tare": 1,
+    "tare_count": 1
+  }
 }
 ]

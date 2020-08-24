@@ -13918,5 +13918,20 @@
     "id_employee": 9,
     "is_delete": false
   }
+},
+{
+  "model": "lighthouse.cost",
+  "pk": 3018,
+  "fields": {
+    "created": "2020-08-22T12:15:35.013",
+    "id_cost": 1,
+    "cost_date": "2020-08-22",
+    "cost_count": 0.0,
+    "id_unit": 0,
+    "total": 5850.0,
+    "comment": "",
+    "id_employee": 9,
+    "is_delete": false
+  }
 }
 ]

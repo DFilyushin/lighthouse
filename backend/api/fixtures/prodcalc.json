@@ -187,5 +187,32 @@
     "id_raw": 110,
     "calc_value": 52.6
   }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 54,
+  "fields": {
+    "id_manufacture": 158,
+    "id_raw": 4,
+    "calc_value": 1950.4
+  }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 55,
+  "fields": {
+    "id_manufacture": 158,
+    "id_raw": 109,
+    "calc_value": 1024.4
+  }
+},
+{
+  "model": "lighthouse.prodcalc",
+  "pk": 56,
+  "fields": {
+    "id_manufacture": 158,
+    "id_raw": 110,
+    "calc_value": 105.2
+  }
 }
 ]

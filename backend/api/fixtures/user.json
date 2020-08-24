@@ -73,7 +73,7 @@
     "last_name": "\u0410\u0431\u0434\u0443\u043b\u043b\u0430\u0435\u0432",
     "email": "abdulaev_a@localhost.kz",
     "is_staff": false,
-    "is_active": false,
+    "is_active": true,
     "date_joined": "2020-07-05T16:46:21",
     "groups": [
       6

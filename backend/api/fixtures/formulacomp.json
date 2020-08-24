@@ -284,5 +284,27 @@
     "substance": 50.0,
     "raw_value": 52.6
   }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 63,
+  "fields": {
+    "id_formula": 41,
+    "id_raw": 120,
+    "concentration": 90.0,
+    "substance": 540.0,
+    "raw_value": 600.0
+  }
+},
+{
+  "model": "lighthouse.formulacomp",
+  "pk": 64,
+  "fields": {
+    "id_formula": 41,
+    "id_raw": 121,
+    "concentration": 100.0,
+    "substance": 0.0,
+    "raw_value": 400.0
+  }
 }
 ]

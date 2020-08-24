@@ -278,5 +278,19 @@
     "is_active": true,
     "density": 1.54
   }
+},
+{
+  "model": "lighthouse.formula",
+  "pk": 41,
+  "fields": {
+    "created": "2020-08-24T11:48:05.067",
+    "specification": "",
+    "id_tare": 1,
+    "id_product": 119,
+    "calc_amount": 1000.0,
+    "calc_losses": 0.0,
+    "is_active": true,
+    "density": 1.0
+  }
 }
 ]

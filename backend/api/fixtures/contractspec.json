@@ -5587,9 +5587,9 @@
     "id_product": 38,
     "id_tare": 1,
     "item_nds": 12.0,
-    "item_count": 864.0,
+    "item_count": 5.0,
     "item_price": 38851.0,
-    "item_discount": 15.0,
+    "item_discount": 1200.0,
     "delivery_date": null,
     "delivered": null
   }
@@ -13702,9 +13702,9 @@
     "id_product": 39,
     "id_tare": 1,
     "item_nds": 12.0,
-    "item_count": 1136.0,
+    "item_count": 5.0,
     "item_price": 37550.0,
-    "item_discount": 0.0,
+    "item_discount": 2300.0,
     "delivery_date": null,
     "delivered": null
   }
@@ -28087,9 +28087,9 @@
     "id_product": 37,
     "id_tare": 4,
     "item_nds": 12.0,
-    "item_count": 3109.0,
+    "item_count": 4.0,
     "item_price": 37484.0,
-    "item_discount": 8.0,
+    "item_discount": 2300.0,
     "delivery_date": null,
     "delivered": null
   }
@@ -35617,9 +35617,9 @@
     "id_product": 35,
     "id_tare": 1,
     "item_nds": 12.0,
-    "item_count": 5344.0,
+    "item_count": 6.0,
     "item_price": 23666.0,
-    "item_discount": 4.0,
+    "item_discount": 2500.0,
     "delivery_date": null,
     "delivered": null
   }
@@ -38497,9 +38497,9 @@
     "id_product": 38,
     "id_tare": 2,
     "item_nds": 12.0,
-    "item_count": 6035.0,
+    "item_count": 2.0,
     "item_price": 22650.0,
-    "item_discount": 5.0,
+    "item_discount": 2150.0,
     "delivery_date": null,
     "delivered": "2019-12-02"
   }
@@ -44032,9 +44032,9 @@
     "id_product": 35,
     "id_tare": 1,
     "item_nds": 12.0,
-    "item_count": 478.0,
+    "item_count": 3.0,
     "item_price": 33433.0,
-    "item_discount": 2.0,
+    "item_discount": 2000.0,
     "delivery_date": null,
     "delivered": null
   }
@@ -58147,9 +58147,9 @@
     "id_product": 35,
     "id_tare": 2,
     "item_nds": 12.0,
-    "item_count": 2716.0,
+    "item_count": 3.0,
     "item_price": 29949.0,
-    "item_discount": 9.0,
+    "item_discount": 2010.0,
     "delivery_date": null,
     "delivered": "2019-04-27"
   }
