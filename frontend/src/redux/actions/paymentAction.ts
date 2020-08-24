@@ -112,7 +112,7 @@ export function updatePaymentItem(item: IPaymentItem) {
         try{
             await authAxios.put(PaymentEndpoint.updatePayment(item.id), item);
         }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            dispatch(showInfoMessage('error', e.response.data.error.toString()))
         }
     }
 }
@@ -129,7 +129,7 @@ export function addNewPaymentItem(item: IPaymentItem) {
             await authAxios.post(PaymentEndpoint.addNewPayment(), new_item)
             return Promise.resolve()
         }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            dispatch(showInfoMessage('error', e.response.data.error.toString()))
             return Promise.reject()
         }
     }
