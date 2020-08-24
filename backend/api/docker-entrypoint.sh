@@ -15,11 +15,13 @@ python manage.py createadmin
 
 echo "Initial store"
 
-echo "initial auth"
+echo "initial auth and appsetup"
 python manage.py loaddata ./fixtures/group.json
 python manage.py loaddata ./fixtures/user.json
+python manage.py loaddata ./fixtures/user_groups.json
+python manage.py loaddata ./fixtures/appsetup.json
 
-echo "initial material, formula, compoenents"
+echo "initial material, formula, components"
 python manage.py loaddata ./fixtures/refmaterialtype.json
 python manage.py loaddata ./fixtures/materialunit.json
 python manage.py loaddata ./fixtures/tare.json
@@ -57,5 +59,8 @@ python manage.py loaddata ./fixtures/contractexpectedpayment.json
 python manage.py loaddata ./fixtures/paymentmethod.json
 python manage.py loaddata ./fixtures/payment.json
 
+echo "initial store"
+python manage.py loaddata ./fixtures/store.json
+
 echo "Starting server"
-gunicorn -w 5 api.wsgi -b 0.0.0.0:8000
+gunicorn -w 3 api.wsgi -b 0.0.0.0:8000
