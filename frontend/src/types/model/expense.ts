@@ -11,7 +11,7 @@ export interface IExpenseTableItem {
 
 export interface IExpense {
     id: number;
-    created: string;
+    created: string | undefined | null;
     date: string;
     cost: ICost;
     total: number;
