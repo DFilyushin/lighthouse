@@ -164,7 +164,7 @@ const ContractTable = (props: IContractTableProps) => {
                                                         color="inherit"
                                                         component={RouterLink}
                                                         to={`/contracts/${contract.id}?source=contract/`}
-                                                        variant="h6"
+
                                                     >
                                                     {contract.clientName}
                                                     </Link>
