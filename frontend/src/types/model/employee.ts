@@ -28,7 +28,7 @@ export interface IEmployeeWorkTimeItem {
 
 export interface IEmployee {
     id: number;
-    created: string;
+    created: string | undefined | null;
     tabNum: string;
     fio: string;
     dob: string;
