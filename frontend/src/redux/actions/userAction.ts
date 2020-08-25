@@ -105,7 +105,7 @@ export function addUser(item: IAccount) {
         try{
             const postItem = {...item}
             const idEmployee = postItem.employee.id
-            delete postItem.employee
+            //delete postItem.employee
             await authAxios.post(UserEndpoint.newUser(), {...postItem, 'employee': idEmployee});
         }catch (e) {
             dispatch(saveError(e.response.toString()))
@@ -122,7 +122,7 @@ export function saveUser(item: IAccount) {
         try{
             const postItem = {...item}
             const idEmployee = postItem.employee.id
-            delete postItem.employee
+            //delete postItem.employee
             await authAxios.put(UserEndpoint.saveUser(item.login), {...postItem, 'employee': idEmployee});
         }catch (e) {
             dispatch(saveError(e.toString()))
