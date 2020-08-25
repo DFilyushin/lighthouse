@@ -106,7 +106,7 @@ export interface IContractSpecItem {
 
 export interface IContract {
     id: number;
-    created: string;
+    created: string | undefined;
     client: IClientItem;
     num: string;
     contractDate: string;
