@@ -13,7 +13,7 @@ export interface IPaymentListItem {
 
 export interface IPaymentItem {
     id: number;
-    created: string;
+    created: string | undefined | null;
     contract: IContractListItemSimple;
     date: string;
     num: string;
