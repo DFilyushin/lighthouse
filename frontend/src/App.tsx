@@ -5,7 +5,6 @@ import { createStore, compose, applyMiddleware} from 'redux';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
 import { createBrowserHistory } from 'history';
-import { createMuiTheme } from '@material-ui/core/styles';
 import { rootReducer } from "./redux/rootReducer";
 import { ConfirmProvider } from "material-ui-confirm";
 import {SelectDialogProvider} from './components/SelectDialog'
@@ -13,12 +12,12 @@ import thunk from "redux-thunk";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from "date-fns/locale/ru";
+import theme from "./theme";
+
 const browserHistory = createBrowserHistory();
-const theme = createMuiTheme();
 const store = createStore(rootReducer, compose(
     applyMiddleware(thunk)
 ));
-
 
 function App() {
   return (

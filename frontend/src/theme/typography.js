@@ -70,7 +70,7 @@ export default {
   },
   button: {
     color: palette.text.primary,
-    fontSize: '14px'
+    fontSize: '12px'
   },
   caption: {
     color: palette.text.secondary,
