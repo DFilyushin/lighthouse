@@ -171,6 +171,11 @@ export function saveUserProfile(profile: IProfile) {
     return async (dispatch: any, getState: any) => {
         try {
             await authAxios.put(UserEndpoint.saveProfile(), profile)
+
+            localStorage.setItem('lastName', profile.lastName)
+            localStorage.setItem('firstName', profile.firstName)
+
+            dispatch(showInfoMessage('info', 'Данные успешно сохранены!'))
             return Promise.resolve()
         }catch (e) {
             const text = e.response.data['message']
