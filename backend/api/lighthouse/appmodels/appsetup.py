@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class AppSetup(models.Model):
@@ -17,3 +18,16 @@ class AppSetup(models.Model):
         verbose_name = 'Настройка приложения'
         verbose_name_plural = 'Настройки приложения'
         ordering = ['name']
+
+
+class UserSettings(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
+    phone = models.CharField(max_length=15, verbose_name='Телефон')
+    ntf_password = models.BooleanField(default=True, verbose_name='Устаревший пароль')
+    ntf_ctl_contract = models.BooleanField(default=True, verbose_name='Контроль контракта')
+    ntf_claim = models.BooleanField(default=True, verbose_name='Контроль претензионной работы')
+    ntf_payment = models.BooleanField(default=True, verbose_name='Контроль оплаты по контрактам')
+
+    class Meta:
+        verbose_name = 'Настройка пользователя'
+        verbose_name_plural = 'Настройки пользователей'
