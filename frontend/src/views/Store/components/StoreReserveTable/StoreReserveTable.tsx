@@ -102,6 +102,7 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                     <TableCell>Поставил</TableCell>
                                     <TableCell>Для клиента</TableCell>
                                     <TableCell/>
+                                    <TableCell/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
