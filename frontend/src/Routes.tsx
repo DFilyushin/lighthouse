@@ -58,7 +58,8 @@ import {
     ContractPdf as ContractPdfView,
     PriceList as PriceLIstView,
     PriceItem as PriceItemView,
-    PriceListHistory as PriceListHistoryView
+    PriceListHistory as PriceListHistoryView,
+    UserProfile as UserProfileView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -140,9 +141,6 @@ const Routes = () => {
             <AuthRouteWithLayout  component={StoreRawView} layout={MainLayout}  path="/store/raw" access={[AccessGroups.ALL]} exact/>
             <AuthRouteWithLayout component={StoreProductView} layout={MainLayout} path="/store/product" access={[AccessGroups.ALL]} exact/>
 
-
-
-
             //отчётность
             <AuthRouteWithLayout component={ReportContractsView} layout={MainLayout} path="/report/contracts" access={[AccessGroups.BOSS, AccessGroups.REPORT, AccessGroups.MANAGER]} exact/>
             <AuthRouteWithLayout component={ReportProductionView} layout={MainLayout} path="/report/production" access={[AccessGroups.BOSS, AccessGroups.REPORT, AccessGroups.FACTORY]} exact/>
@@ -151,6 +149,7 @@ const Routes = () => {
             //о программе и настройки
             <RouteWithLayout component={AboutView} layout={MainLayout} path="/about"  exact/>
             <RouteWithLayout component={ChangelogView} layout={MainLayout} path="/changelog" exact/>
+            <RouteWithLayout component={UserProfileView} layout={MainLayout} path="/profile" exact/>
             <AuthRouteWithLayout component={SetupView} layout={MainLayout} path="/setup" access={[AccessGroups.ALL]} exact/>
 
             <RouteWithLayout component={NotFoundView} layout={MainLayout} path="/NotFound" exact/>
