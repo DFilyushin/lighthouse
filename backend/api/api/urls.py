@@ -65,7 +65,10 @@ urlpatterns = [
 
     path('org/', api_domain_views.OrgViewSet.as_view()),
     path('setup/<str:code>/', api_setup_views.AppSetupViewSet.as_view()),
-    path('setup/', api_setup_views.AppAllSetupViewSet.as_view())
+    path('setup/', api_setup_views.AppAllSetupViewSet.as_view()),
+    path('profile/', api_user_views.ProfileView.as_view()),
+    path('change_password/', api_user_views.UserPassView.as_view()),
+
 ]
 urlpatterns += auth_urls
 urlpatterns += store_urls
