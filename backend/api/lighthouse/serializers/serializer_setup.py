@@ -53,7 +53,7 @@ class UserSettingSerializer(serializers.Serializer):
     phone = serializers.CharField()
     mail = serializers.CharField(source='user.email')
     ntfPassword = serializers.BooleanField(source='ntf_password')
-    ntfCtrContract = serializers.BooleanField(source='ntf_ctl_contract')
+    ntfCtlContract = serializers.BooleanField(source='ntf_ctl_contract')
     ntfClaim = serializers.BooleanField(source='ntf_claim')
     ntfPayment = serializers.BooleanField(source='ntf_payment')
     groups = GroupListSerializer(source='user.groups', many=True, required=False)
@@ -63,5 +63,6 @@ class UserSettingSerializer(serializers.Serializer):
         instance.ntf_password = validated_data['ntf_password']
         instance.ntf_claim = validated_data['ntf_claim']
         instance.ntf_payment = validated_data['ntf_payment']
+        instance.ntf_ctl_contract = validated_data['ntf_ctl_contract']
         instance.save()
         return instance
