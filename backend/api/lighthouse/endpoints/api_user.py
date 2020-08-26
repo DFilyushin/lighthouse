@@ -27,7 +27,7 @@ class UserPassView(views.APIView):
         try:
             validate_password(new_pass)
         except ValidationError as e:
-            return Response(data={'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'message': e.messages}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.get(username=request.user)
         user.set_password(new_pass)
         return Response(status=status.HTTP_200_OK)
