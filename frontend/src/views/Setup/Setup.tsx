@@ -5,12 +5,22 @@ import {
     Divider,
     colors,
     Grid,
-    TextField, Card, CardContent, CardActions, Button
+    TextField,
+    Card,
+    CardContent,
+    CardActions,
+    Button
 } from '@material-ui/core'
 import {Page} from "components"
 import {useDispatch, useSelector} from "react-redux"
 import {IStateInterface} from "../../redux/rootReducer"
-import {changeNdsValue, getSetupNdsRate, updateSetupNdsRate} from "../../redux/actions/setupAction"
+import {
+    changeNdsValue,
+    changeReserveInterval,
+    getSetupNdsRate,
+    getSetupReserveInterval,
+    updateSetupNdsRate
+} from "../../redux/actions/setupAction"
 import clsx from "clsx";
 import {useHistory} from "react-router-dom";
 
@@ -44,13 +54,19 @@ const Setup = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const ndsValue  = useSelector((state: IStateInterface)=> state.setup.nds)
+    const reserveInterval  = useSelector((state: IStateInterface)=> state.setup.reserveInterval)
 
     useEffect(() => {
         dispatch(getSetupNdsRate())
+        dispatch(getSetupReserveInterval())
     }, [dispatch])
 
     function onChangeNdsHandler(event: React.ChangeEvent<HTMLInputElement>) {
         dispatch(changeNdsValue(parseFloat(event.target.value)))
+    }
+
+    function onChangeReserveHandler(event: React.ChangeEvent<HTMLInputElement>) {
+        dispatch(changeReserveInterval(parseInt(event.target.value)))
     }
 
     function saveHandler(event: React.SyntheticEvent) {
@@ -89,13 +105,30 @@ const Setup = () => {
                                 fullWidth
                                 label="Ставка НДС"
                                 margin="dense"
-                                name="name"
+                                name="nds"
                                 onChange={onChangeNdsHandler}
                                 required
                                 value={ndsValue}
                                 variant="outlined"
                             />
                         </Grid>
+
+                        <Grid
+                            item
+                            xs={2}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Дни резерва"
+                                margin="dense"
+                                name="reserve"
+                                onChange={onChangeReserveHandler}
+                                required
+                                value={reserveInterval}
+                                variant="outlined"
+                            />
+                        </Grid>
+
                     </Grid>
                 </CardContent>
                 <Divider />
