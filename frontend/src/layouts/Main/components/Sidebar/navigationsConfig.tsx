@@ -1,4 +1,3 @@
-import React from 'react';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
