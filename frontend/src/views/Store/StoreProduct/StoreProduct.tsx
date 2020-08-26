@@ -33,9 +33,8 @@ const StoreProduct = () => {
         dispatch(loadProductStore())
     }, [dispatch]);
 
-    function onClickTableItem(clientId: number){
-        const clientUrl = ``;
-        history.push(clientUrl);
+    function onClickTableItem(id: number){
+        history.push(`#`);
     }
 
     async function onFindHandler(findText: string){
