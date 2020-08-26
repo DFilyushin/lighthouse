@@ -6,7 +6,7 @@ import {ContractTable, ContractToolbar} from '../components';
 import {deleteContract, loadContractList, setShowOwnContract} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES, NO_SELECT_VALUE} from "../../../utils/AppConst";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
 import {CONTRACT_STATE_ACTIVE, CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
 import {useConfirm} from "material-ui-confirm";
 
