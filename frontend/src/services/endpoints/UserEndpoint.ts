@@ -55,6 +55,28 @@ class UserEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/user/check?login=${login}`
     }
 
+    /**
+     * Получить профиль пользователя
+     */
+    static getProfile(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/profile/`
+    }
+
+
+    /**
+     * Сохранить профиль пользователя
+     */
+    static saveProfile(): string {
+        return this.getProfile()
+    }
+
+    /**
+     * Смена пароля пользователя
+     */
+    static changePassword(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/change_password/`
+    }
+
 }
 
 export default UserEndpoint
