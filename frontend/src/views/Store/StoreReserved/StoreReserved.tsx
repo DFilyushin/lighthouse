@@ -32,11 +32,12 @@ const StoreReserved = () => {
     const history = useHistory()
     const confirm = useConfirm();
 
-    // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.store.isLoading)
     const storeReserve = useSelector((state: IStateInterface) => state.store.storeReservedList)
     const [showAlert, setShowAlert] = useState(false)
+    // eslint-disable-next-line
     const [messageAlert, setMessageAlert] = useState('')
+    // eslint-disable-next-line
     const [typeAlert, setTypeAlert] = useState<Color>('success')
 
 
