@@ -33,9 +33,8 @@ const StoreRaw = () => {
         dispatch(loadRawStore())
     }, [dispatch]);
 
-    function onClickTableItem(clientId: number){
-        const clientUrl = `/client/${clientId}`;
-        history.push(clientUrl);
+    function onClickTableItem(id: number){
+        history.push(`#`);
     }
 
     async function onFindHandler(findText: string){
