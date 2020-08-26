@@ -1,9 +1,10 @@
-import {IAccount, IAccountListItem, IUserGroup} from "../model/user";
+import {IAccount, IAccountListItem, IProfile, IUserGroup} from "../model/user";
 
 export interface IUserState {
     groups: IUserGroup[];
     userItems: IAccountListItem[];
     userAccount: IAccount;
+    userProfile: IProfile;
     isLoading: boolean;
     hasError: boolean;
     error: string;
