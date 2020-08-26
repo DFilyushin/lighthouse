@@ -1,14 +1,14 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import GroupEndpoint from "services/endpoints/GroupEndpoint";
 import UserEndpoint from "services/endpoints/UserEndpoint";
-import {IAccount, IAccountListItem, IUserGroup, nullAccountItem} from "types/model/user";
+import {IAccount, IAccountListItem, IProfile, IUserGroup, nullAccountItem} from "types/model/user";
 import {
     USER_CHANGE_ITEM,
     USER_GROUP_LOAD_SUCCESS,
     USER_LOAD_FINISH,
     USER_LOAD_ITEM_SUCCESS,
     USER_LOAD_START,
-    USER_LOAD_SUCCESS,
+    USER_LOAD_SUCCESS, USER_PROFILE_OK,
     USER_SET_ERROR
 } from "./types";
 import authAxios from "../../services/axios-api";
@@ -122,7 +122,6 @@ export function saveUser(item: IAccount) {
         try{
             const postItem = {...item}
             const idEmployee = postItem.employee.id
-            //delete postItem.employee
             await authAxios.put(UserEndpoint.saveUser(item.login), {...postItem, 'employee': idEmployee});
         }catch (e) {
             dispatch(saveError(e.toString()))
@@ -146,6 +145,68 @@ export function deleteUser(login: string) {
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
+    }
+}
+
+/**
+ * Загрузить пользовательский профиль
+ */
+export function loadUserProfile() {
+    return async (dispatch: any, getState: any)=> {
+        try{
+            const response = await authAxios.get(UserEndpoint.getProfile());
+            const item: IProfile = response.data;
+            dispatch(successLoadUserProfile(item))
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+/**
+ * Сохранить профиль пользователя
+ * @param profile Объект профиля пользователя
+ */
+export function saveUserProfile(profile: IProfile) {
+    return async (dispatch: any, getState: any) => {
+        try {
+            await authAxios.put(UserEndpoint.saveProfile(), profile)
+            return Promise.resolve()
+        }catch (e) {
+            const text = e.response.data['message']
+            throw new Error(text)
+        }
+
+    }
+}
+
+/**
+ * Изменить пароль текущего пользователя
+ */
+export function changePassword(new_password: string) {
+    return async (dispatch: any, getState: any)=> {
+        try{
+            await authAxios.put(UserEndpoint.changePassword(), {'password': new_password})
+            return Promise.resolve()
+        }catch (e) {
+            const text = e.response.data['message']
+            console.log('error in action:', text)
+            throw new Error(text)
+        }
+    }
+
+}
+
+export function changeProfile(profile: IProfile) {
+    return async (dispatch: any, getState: any) => {
+        dispatch(successLoadUserProfile(profile))
+    }
+}
+
+function successLoadUserProfile(profile: IProfile) {
+    return{
+        type: USER_PROFILE_OK,
+        profile
     }
 }
 
