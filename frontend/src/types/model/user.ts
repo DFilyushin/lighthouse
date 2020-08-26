@@ -43,3 +43,34 @@ export const nullAccountItem: IAccount = {
     isAdmin: false,
     password: ''
 };
+
+/**
+ * Профиль пользователя
+ */
+export interface IProfile {
+    login: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    mail: string;
+    ntfPassword: boolean;
+    ntfCtlContract: boolean;
+    ntfClaim: boolean;
+    ntfPayment: boolean;
+    groups: IUserGroup[];
+}
+
+export const nullProfile: IProfile = {
+    login: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    mail: '',
+    ntfClaim: false,
+    ntfCtlContract: false,
+    ntfPassword: false,
+    ntfPayment: false,
+    groups: []
+}
