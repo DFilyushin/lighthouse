@@ -31,7 +31,7 @@ const Profile = (props:IProfile) => {
 
   const user = {
     name: AuthenticationService.currentUserName(),
-    avatar: '/images/avatar.png',
+    avatar: '/images/user.png',
     bio: AuthenticationService.currentEmployee()
   };
 
@@ -45,7 +45,7 @@ const Profile = (props:IProfile) => {
         className={classes.avatar}
         component={RouterLink}
         src={user.avatar}
-        to="/settings"
+        to="/profile"
       />
       <Typography
         className={classes.name}
