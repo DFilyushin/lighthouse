@@ -82,9 +82,17 @@ DATABASES = {
         'PASSWORD': 'qwerty',
         'HOST': 'localhost',
         'PORT': '5432',
-        'CONN_MAX_AGE': 0
+        'CONN_MAX_AGE': 3600
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'localhost:11211',
+    }
+}
+
 
 LOGGING = {
     'version': 1,
@@ -97,10 +105,19 @@ LOGGING = {
         'django.db.backends': {
             'level': 'DEBUG',
         },
+        'django.server': {
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'level': 'INFO',
+            'propagate': True,
+        },
     },
     'root': {
         'handlers': ['console'],
-    }
+    },
+
 }
 
 
@@ -141,7 +158,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=18),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
