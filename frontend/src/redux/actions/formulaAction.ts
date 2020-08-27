@@ -12,7 +12,7 @@ import {
 } from "./types";
 import {IRaw} from "types/model/raw";
 import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {FORMULA_DEFAULT_CALC_AMOUNT, FORMULA_DEFAULT_RAW_CONCENTRATION, NEW_RECORD_VALUE} from "utils/AppConst";
 import moment from "moment";
 import authAxios from "../../services/axios-api";
 
@@ -88,7 +88,11 @@ export function loadFormulaReference(byProduct: string) {
  */
 export function loadFormulaItem(id: number) {
     return async (dispatch: any, getState: any) => {
-        let formula: IFormulaItem = {...nullFormulaItem, raws: []};
+        let formula: IFormulaItem = {
+            ...nullFormulaItem,
+            calcAmount: FORMULA_DEFAULT_CALC_AMOUNT, // рассчитаываемое значение по умолчанию
+            raws: []
+        };
         dispatch(fetchStart());
         if (id === NEW_RECORD_VALUE){
             dispatch(fetchItemSuccess(formula))
@@ -186,7 +190,7 @@ export function addNewRawItem() {
             id: -getRandomInt(MAX_RANDOM_VALUE),
             raw_value: 0,
             substance: 0,
-            concentration: 0,
+            concentration: FORMULA_DEFAULT_RAW_CONCENTRATION,
             raw: {id: 0, name: ''}
         };
         item.raws.push(itemRaw)

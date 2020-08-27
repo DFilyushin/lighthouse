@@ -5,6 +5,8 @@ export const STORE_IN = 0
 export const STORE_OUT = 1
 
 export const MINUTES_30_TIMES = 1000 * 60 * 30 // 30 минут
+export const FORMULA_DEFAULT_CALC_AMOUNT = 1000
+export const FORMULA_DEFAULT_RAW_CONCENTRATION = 100
 
 export enum AccessGroups {
     ALL = "all",
