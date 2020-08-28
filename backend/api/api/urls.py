@@ -10,6 +10,7 @@ import lighthouse.endpoints.api_user as api_user_views
 import lighthouse.endpoints.api_formula as api_formula_views
 import lighthouse.endpoints.api_auth as api_token_views
 import lighthouse.endpoints.api_setup as api_setup_views
+import lighthouse.endpoints.api_notification as api_ntf_views
 
 router = routers.DefaultRouter()
 
@@ -68,6 +69,7 @@ urlpatterns = [
     path('setup/', api_setup_views.AppAllSetupViewSet.as_view()),
     path('profile/', api_user_views.ProfileView.as_view()),
     path('change_password/', api_user_views.UserPassView.as_view()),
+    path('notification/', api_ntf_views.NotificationView.as_view())
 
 ]
 urlpatterns += auth_urls
