@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from django.db import models
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Q
 from django.db.models.functions import Coalesce
 from .org import Employee
 from .manufacture import Material, Tare
@@ -137,6 +137,35 @@ class Contract(models.Model):
                 raise AppError('sales.set_contract_status', API_ERROR_CONTRACT_NO_PAYMENT)
         self.contract_state = new_status
         self.save()
+
+    def get_plan_payment_sum(self, on_date):
+        """
+        Плановая сумма платежей на выбранную дату
+        :param self: Контракт
+        :param on_date: Выбранная дата
+        :return: Сумма
+        """
+        queryset = ContractExpectedPayment.objects\
+            .filter(id_contract=self, wait_date__lte=on_date)\
+            .aggregate(value=Coalesce(Sum('wait_value'), 0))
+        return queryset['value']
+
+    @staticmethod
+    def get_delivery_period_contract(start, end):
+        """
+        Список контрактов с доставкой между датами start и end
+        :param start: начало периода
+        :param end: окончание периода
+        :return: queryset
+        """
+        contract_child = ContractSpec.objects\
+            .filter(delivery_date__range=(start, end))\
+            .filter(delivered__isnull=True)\
+            .values('id_contract__id')
+        queryset = Contract.objects\
+            .filter(deleted=False)\
+            .filter(Q(est_delivery__range=(start, end)) | Q(id__in=contract_child))
+        return queryset
 
     class Meta:
         verbose_name = 'Контракт'
