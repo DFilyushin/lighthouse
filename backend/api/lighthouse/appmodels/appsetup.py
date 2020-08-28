@@ -22,7 +22,8 @@ class AppSetup(models.Model):
 
 class UserSettings(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
-    phone = models.CharField(max_length=15, verbose_name='Телефон')
+    last_password = models.DateField(null=True, verbose_name='Дата смены пароля')
+    phone = models.CharField(max_length=15, null=True, blank=True, verbose_name='Телефон')
     ntf_password = models.BooleanField(default=True, verbose_name='Устаревший пароль')
     ntf_ctl_contract = models.BooleanField(default=True, verbose_name='Контроль контракта')
     ntf_claim = models.BooleanField(default=True, verbose_name='Контроль претензионной работы')
