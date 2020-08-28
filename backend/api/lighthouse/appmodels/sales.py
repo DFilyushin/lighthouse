@@ -1,3 +1,4 @@
+from datetime import date, datetime, timedelta
 from django.db import models
 from django.db.models import Sum, F
 from django.db.models.functions import Coalesce
@@ -107,7 +108,19 @@ class Contract(models.Model):
         :return: Сумма контракта
         """
         p = ContractSpec.objects.filter(id_contract=self)\
-            .aggregate(value=Coalesce(Sum((F('item_price') * F('item_count') * (F('item_nds')/100 + 1)) - F('item_discount')), 0))
+            .aggregate(
+            value=Coalesce(Sum((F('item_price') * F('item_count') * (F('item_nds')/100 + 1)) - F('item_discount')), 0)
+        )
+        return p['value']
+
+    def get_paid_sum(self, on_date):
+        """
+        Оплаты по контракту на указанную дату
+        :param on_date: Конечная дата контракта
+        :return:
+        """
+        p = Payment.objects.filter(id_contract=self).filter(pay_date__lte=on_date)\
+            .aggregate(value=Coalesce(Sum('pay_value'), 0))
         return p['value']
 
     def set_contract_status(self, new_status: int):
@@ -133,7 +146,8 @@ class Contract(models.Model):
             models.Index(fields=['contract_date'], name='idx_contract_01'),
             models.Index(fields=['delivered'], name='idx_contract_02'),
             models.Index(fields=['num'], name='idx_contract_03'),
-            models.Index(fields=['contractid'], name='idx_contract_04')
+            models.Index(fields=['contractid'], name='idx_contract_04'),
+            models.Index(fields=['est_delivery'], name='idx_contract_05')
         ]
 
 
