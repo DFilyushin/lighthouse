@@ -30,6 +30,7 @@ class UserPassView(views.APIView):
             return Response(data={'message': e.messages}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.get(username=request.user)
         user.set_password(new_pass)
+        user.save()
         return Response(status=status.HTTP_200_OK)
 
 
