@@ -26,6 +26,7 @@ interface IContractSpecItemProps {
     productItems: IPrice[];
     tareItems: ITare[];
     canEditItem: boolean;
+    showDeliveryBlock: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ContractSpecItem = (props: IContractSpecItemProps) => {
-    const { item, onDeleteItem, onChangeItem, productItems, tareItems, canEditItem } = props;
+    const { item, onDeleteItem, onChangeItem, productItems, tareItems, canEditItem, showDeliveryBlock } = props;
 
     const classes = useStyles();
     const selectDialog = useDialog();
@@ -226,6 +227,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     }}
                 />
             </TableCell>
+            {showDeliveryBlock &&
             <Hidden only={['xs', 'sm']}>
                 <TableCell>
                     <TextField
@@ -250,6 +252,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     />
                 </TableCell>
             </Hidden>
+            }
             {canEditItem &&
                 <TableCell>
                     <Tooltip title={'Удалить запись'}>

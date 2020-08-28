@@ -33,6 +33,8 @@ import {useDispatch, useSelector} from "react-redux"
 import {IStateInterface} from "redux/rootReducer"
 import AddIcon from "@material-ui/icons/Add"
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import {
     addNewContract, addNewSpecItem, calculateDiscount,
     changeContractItem, changeContractSpecItem, deleteContractSpecItem,
@@ -132,6 +134,7 @@ const ContractItem = (props: IContractItemProps) => {
     const [dataSource, setDataSource] = useState<IClientItemList[]>([])
     const [curClient, setCurClient] = useState<IClientItemList|null>(null)
     const [inputValue, setInputValue] = useState('')
+    const [showDeliveryBlock, setShowDeliveryBlock] = useState(false)
 
     const [hasClientError, setClientError] = useState(false)
     const [hasDeliveryError, setDeliveryError] = useState(false)
@@ -372,6 +375,10 @@ const ContractItem = (props: IContractItemProps) => {
 
     const handleAddEmptySpecItem = ()=> {
         dispatch(addNewSpecItem())
+    }
+
+    const handleClickShowDelivery = ()=> {
+        setShowDeliveryBlock(!showDeliveryBlock)
     }
 
     const handleContractDateChange = (date: Date | null) => {
@@ -655,10 +662,19 @@ const ContractItem = (props: IContractItemProps) => {
                                         </Fragment>
                                     ) : (
                                         <Fragment>
-                                            <Grid item xs={11}>
+                                            <Grid item xs={10}>
                                                 <Typography variant={"h5"}>
                                                     Спецификация контракта
                                                 </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Tooltip title={'Показать/скрыть раздельную доставку'}>
+                                                    <Fab color="default" aria-label="add" onClick={handleClickShowDelivery}>
+                                                        {
+                                                            showDeliveryBlock ? <VisibilityIcon /> : <VisibilityOffIcon />
+                                                        }
+                                                    </Fab>
+                                                </Tooltip>
                                             </Grid>
                                             {canEditContract() &&
                                                 <Grid item xs={1}>
@@ -686,10 +702,12 @@ const ContractItem = (props: IContractItemProps) => {
                                                         <TableCell>Цена с НДС</TableCell>
                                                         <TableCell>Сумма скидки, тенге</TableCell>
                                                         <TableCell>Итого, тенге</TableCell>
-                                                        <Hidden only={['xs', 'sm']}>
-                                                            <TableCell>Отгрузка</TableCell>
-                                                            <TableCell>Отгружен</TableCell>
-                                                        </Hidden>
+                                                        {showDeliveryBlock &&
+                                                            <Hidden only={['xs', 'sm']}>
+                                                                <TableCell>Отгрузка</TableCell>
+                                                                <TableCell>Отгружен</TableCell>
+                                                            </Hidden>
+                                                        }
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
@@ -705,6 +723,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                                 productItems={products}
                                                                 tareItems={tares}
                                                                 canEditItem={canEditContract()}
+                                                                showDeliveryBlock={showDeliveryBlock}
                                                             />
                                                         ))
                                                     }
