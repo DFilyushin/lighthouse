@@ -15,7 +15,7 @@ import {
 import {useDispatch} from "react-redux";
 import {changePassword} from "../../../../redux/actions/userAction";
 import Alert from '@material-ui/lab/Alert';
-
+import {showInfoMessage} from "../../../../redux/actions/infoAction";
 
 interface ISecurityProps {
     className: string
@@ -67,9 +67,19 @@ const Security = (props: ISecurityProps) => {
     })
 
 
+    /**
+     * Установка пароля
+     */
     const handleSavePassword = () => {
         saveItem(dispatch).then( ()=> {
-            console.log('ok')
+            dispatch(showInfoMessage("success", 'Новый пароль успешно установлен!'))
+            setErrors([])
+            setValues(
+                {
+                    password: '',
+                    confirm: ''
+                }
+            )
             }
         ).catch( (e)=> {
             setErrors(e.message.split(','))
