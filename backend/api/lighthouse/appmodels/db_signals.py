@@ -1,9 +1,12 @@
+from datetime import date
 from django.db.models.signals import post_save, pre_save
+from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .manufacture import Material
 from .org import Employee
 from .store import RefCost, Cost, Store, REF_COST_PARENT_RAW, REF_COST_PARENT_SALARY
 from .sales import Payment, Contract, CONTRACT_STATE_READY, CONTRACT_STATE_DRAFT
+from .appsetup import UserSettings
 from django.db import IntegrityError, ProgrammingError
 
 
@@ -93,3 +96,45 @@ def payment_post_before_handler(sender, **kwargs):
         raise ProgrammingError('Контракт в состоянии черновика, оплата невозможна!')
     if contract.contract_state == CONTRACT_STATE_READY:
         raise ProgrammingError('Контракт исполнен!')
+
+
+@receiver(post_save, sender=User)
+def user_after_save(sender, **kwargs):
+    """
+    Триггер после сохранения пользователя
+    :param sender:
+    :param kwargs:
+    :return:
+    """
+    user = kwargs.get('instance', None)
+    created = kwargs.get('created', None)
+    if user:
+        # Создание настроек для пользователя
+        if created:
+            UserSettings.objects.create(
+                user=user,
+                last_password=date.today()
+            )
+
+
+@receiver(pre_save, sender=User)
+def user_pre_save(sender, **kwargs):
+    """
+    Триггер перед сохранением пользователя
+    :param sender:
+    :param kwargs:
+    :return:
+    """
+    user = kwargs.get('instance', None)
+    created = kwargs.get('created', None)
+    if not created:
+        # Установка даты смены пароля
+        new_password = user.password
+        try:
+            old_password = User.objects.get(pk=user.pk).password
+        except User.DoesNotExist:
+            old_password = None
+        if old_password != new_password:
+            settings = UserSettings.objects.get(user=user)
+            settings.last_password = date.today()
+            settings.save()
