@@ -43,6 +43,7 @@ import {
     NEW_RECORD_VALUE
 } from "utils/AppConst";
 import {showInfoMessage} from "redux/actions/infoAction";
+import {RoundValue} from "../../../utils/AppUtils";
 
 interface IFormulaItemProps {
     className: string,
@@ -191,7 +192,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
         const components_substance = workItems.reduce((acc: number, curr: IRawInFormula) => acc + curr.substance * 100 / curr.concentration, 0);
         formula.raws = formula.raws.map((item: IRawInFormula) => {
             if (item.substance === 0) {
-                item.raw_value = (formula.density * formula.calcAmount) - +components_substance.toFixed(1);
+                item.raw_value = RoundValue((formula.density * formula.calcAmount) - +components_substance.toFixed(1));
             }
             return item
         })
