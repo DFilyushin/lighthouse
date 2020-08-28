@@ -4,6 +4,7 @@ export const NEW_RECORD_TEXT = 'new'
 export const STORE_IN = 0
 export const STORE_OUT = 1
 
+export const MINUTES_30_TIMES = 1000 * 60 * 30 // 30 минут
 
 export enum AccessGroups {
     ALL = "all",

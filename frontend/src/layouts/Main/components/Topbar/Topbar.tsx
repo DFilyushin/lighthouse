@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import { common } from '@material-ui/core/colors';
-import Box from "@material-ui/core/Box";
-import {ReactComponent as Lighthouse6} from "images/app_logo.svg";
+import React, {useEffect} from 'react'
+import clsx from 'clsx'
+import { makeStyles } from '@material-ui/core/styles'
+import { AppBar, Toolbar, Badge, Hidden, IconButton, Box, Typography, colors, Avatar } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import NotificationsIcon from '@material-ui/icons/NotificationsOutlined'
+import InputIcon from '@material-ui/icons/Input'
+import logo from 'images/logo.png'
+import {useDispatch, useSelector} from "react-redux";
+import {IStateInterface} from "../../../../redux/rootReducer";
+import {loadNotification} from "../../../../redux/actions/notificationAction";
+import {MINUTES_30_TIMES} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    color: theme.palette.getContrastText(colors.common.black)
   },
   signOutButton: {
     marginLeft: theme.spacing(1)
@@ -29,8 +30,8 @@ const useStyles = makeStyles(theme => ({
     height: theme.spacing(5),
   },
   orange: {
-    color: theme.palette.getContrastText(common.white),
-    backgroundColor: common.white,
+    color: theme.palette.getContrastText(colors.common.white),
+    backgroundColor: colors.common.white,
   },
 }));
 
@@ -43,9 +44,19 @@ interface ITopbar {
 const Topbar = (props: ITopbar) => {
   const { className, onSidebarOpen, onSignout, ...rest } = props;
 
-  const classes = useStyles();
+  const classes = useStyles()
+  const dispatch = useDispatch()
 
-  const [notifications] = useState([]);
+  const notices = useSelector((state: IStateInterface)=> state.notification.notices)
+
+  const getNotification = () => {
+    console.log(new Date())
+    dispatch(loadNotification())
+  }
+
+  useEffect( ()=>{
+    setInterval(getNotification, MINUTES_30_TIMES);
+  }, [] )
 
   return (
     <AppBar
@@ -62,10 +73,10 @@ const Topbar = (props: ITopbar) => {
           </IconButton>
         </Hidden>
         <Avatar className={clsx(classes.large, classes.orange)} variant='circle' >
-          <Lighthouse6 />
+          <img src={logo} alt="Logo" height={32} width={32} />
           </Avatar>
         <Box display={{ xs: 'none', md: 'block', lg: 'block', xl: 'block' }}>
-          <Typography variant="h6" className={classes.title} >
+          <Typography variant="h4" className={classes.title} >
             &nbsp; Lighthouse - Управление производством
           </Typography>
         </Box>
@@ -78,9 +89,8 @@ const Topbar = (props: ITopbar) => {
 
           <IconButton color="inherit">
             <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
+              badgeContent={notices.length}
+              color="secondary"
             >
               <NotificationsIcon />
             </Badge>
@@ -92,8 +102,6 @@ const Topbar = (props: ITopbar) => {
           >
             <InputIcon />
           </IconButton>
-        
-
       </Toolbar>
     </AppBar>
   );
