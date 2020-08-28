@@ -7,7 +7,7 @@ import {
 const initState = (): IInfoState => ({
     hasMessage: false,
     messageText: '',
-    messageType: ''
+    messageType: "info"
 });
 
 export const infoReducer = (state = initState(), action: any) => {
