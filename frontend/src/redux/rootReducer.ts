@@ -23,6 +23,7 @@ import {IPayMethodState} from "../types/state/paymethod"
 import {ISetupState} from "../types/state/setup"
 import {IOrganizationState} from "../types/state/requsite"
 import {IPriceState} from "../types/state/price"
+import {INoticeState} from "../types/state/notification";
 
 import {productReducer} from './productReducer'
 import {rawReducer} from "./rawReducer"
@@ -47,6 +48,8 @@ import {paymentReducer} from "./paymentReducer"
 import {organizationReducer} from "./organizationReducer"
 import {setupReducer} from "./setupReducer"
 import {priceReducer} from "./priceReducer"
+import {notificationReducer} from "./notificationReducer";
+
 
 export interface IStateInterface {
     product: IProductState;
@@ -72,6 +75,7 @@ export interface IStateInterface {
     org: IOrganizationState;
     setup: ISetupState;
     price: IPriceState;
+    notification: INoticeState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -97,5 +101,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     payment: paymentReducer,
     org: organizationReducer,
     setup: setupReducer,
-    price: priceReducer
+    price: priceReducer,
+    notification: notificationReducer
 })
