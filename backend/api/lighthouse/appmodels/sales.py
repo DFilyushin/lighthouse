@@ -221,6 +221,8 @@ class Contract(models.Model):
 class ContractSpec(models.Model):
     id = models.AutoField(primary_key=True)
     id_contract = models.ForeignKey(Contract, related_name='specs', on_delete=models.CASCADE, verbose_name='Контракт')
+    spec_num = models.CharField(max_length=10, null=True, verbose_name='Код спецификации')
+    spec_date = models.DateField(null=True, verbose_name='Дата спецификации')
     id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукт')
     id_tare = models.ForeignKey(Tare, null=True, on_delete=models.SET_NULL, verbose_name='Код тары')
     item_nds = models.FloatField(default=0, verbose_name='Ставка НДС')
@@ -243,7 +245,8 @@ class ContractSpec(models.Model):
         verbose_name = 'Спецификация контракта'
         verbose_name_plural = 'Спецификации контракта'
         indexes = [
-            models.Index(fields=['delivery_date'], name='idx_contract_spec_01')
+            models.Index(fields=['delivery_date'], name='idx_contract_spec_01'),
+            models.Index(fields=['delivered'], name='idx_contract_spec_02')
         ]
 
 
