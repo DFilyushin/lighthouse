@@ -16,7 +16,8 @@ export enum AccessGroups {
     TECHNOLOGIST = 'technologist',
     REPORT = 'report',
     BOSS = 'boss',
-    FINANCE = 'finance'
+    FINANCE = 'finance',
+    BUH = 'accountant'
 }
 
 export const DIALOG_TYPE_CONFIRM = 'Подтверждение'
