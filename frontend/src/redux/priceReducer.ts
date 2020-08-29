@@ -2,7 +2,7 @@ import {IPriceState} from "../types/state/price"
 import {nullPrice} from "../types/model/price"
 import {
     PRICE_CHANGE_ITEM,
-    PRICE_DELETE_OK,
+    PRICE_DELETE_OK, PRICE_LOAD_BY_EMPLOYEE_SUCCESS,
     PRICE_LOAD_FINISH, PRICE_LOAD_HISTORY_SUCCESS, PRICE_LOAD_ITEM_SUCCESS,
     PRICE_LOAD_START,
     PRICE_LOAD_SUCCESS
@@ -10,6 +10,7 @@ import {
 
 const initialState = (): IPriceState => ({
     priceList: [],
+    priceListEmployee: [],
     priceListHistory: [],
     priceItem: {...nullPrice},
     error: '',
@@ -33,6 +34,8 @@ export const priceReducer = (state: IPriceState = initialState(), action: any) =
             return {...state, priceItem: action.item}
         case PRICE_LOAD_HISTORY_SUCCESS:
             return {...state, priceListHistory: action.items}
+        case PRICE_LOAD_BY_EMPLOYEE_SUCCESS:
+            return {...state, priceListEmployee: action.items}
         default:
             return state;
     }

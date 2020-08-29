@@ -1,7 +1,7 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
 import authAxios from "../../services/axios-api";
 import {
-    PRICE_CHANGE_ITEM,
+    PRICE_CHANGE_ITEM, PRICE_LOAD_BY_EMPLOYEE_SUCCESS,
     PRICE_LOAD_FINISH, PRICE_LOAD_HISTORY_SUCCESS,
     PRICE_LOAD_ITEM_SUCCESS,
     PRICE_LOAD_START,
@@ -10,6 +10,7 @@ import {
 import {IPrice, nullPrice} from "../../types/model/price";
 import PriceEndpoint from "../../services/endpoints/PriceEndpoint";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import AuthenticationService from "../../services/Authentication.service";
 
 
 /**
@@ -27,6 +28,28 @@ export function loadActualPriceList() {
                 priceList.push(response.data[key])
             });
             dispatch(fetchSuccess(priceList))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузить актуальный прайс-лист по выбранному менеджеру
+ */
+export function loadActualPriceListByEmployee() {
+    return async (dispatch: any, getState: any) => {
+        dispatch(fetchStart());
+        dispatch(hideInfoMessage())
+        try {
+            const url = PriceEndpoint.loadPriceListByEmployee(AuthenticationService.currentEmployeeId());
+            const priceList: IPrice[] = [];
+            const response = await authAxios.get(url);
+            Object.keys(response.data).forEach((key, index) => {
+                priceList.push(response.data[key])
+            });
+            dispatch(fetchEmployeePriceSuccess(priceList))
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
@@ -159,6 +182,13 @@ function fetchFinish() {
 function fetchSuccess(items: IPrice[]) {
     return{
         type: PRICE_LOAD_SUCCESS,
+        items
+    }
+}
+
+function fetchEmployeePriceSuccess(items: IPrice[]) {
+    return{
+        type: PRICE_LOAD_BY_EMPLOYEE_SUCCESS,
         items
     }
 }
