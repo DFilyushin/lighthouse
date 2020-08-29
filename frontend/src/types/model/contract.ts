@@ -88,7 +88,9 @@ export const nullContractSpecItem : IContractSpecItem = {
     itemTotal: 0,
     itemDiscount: 0,
     delivered: null,
-    delivery: null
+    delivery: null,
+    specNum: '',
+    specDate: ''
 }
 
 export interface IContractSpecItem {
@@ -102,6 +104,8 @@ export interface IContractSpecItem {
     itemDiscount: number;
     delivery: string|null;
     delivered: string|null;
+    specNum: string;
+    specDate: string;
 }
 
 export interface IContract {
