@@ -71,8 +71,14 @@ export default [
                 access: [AccessGroups.ADMIN]
             },
             {
-                title: 'Прайс',
+                title: 'Прайс-лист',
                 href: '/price',
+                icon: Price2,
+                access: [AccessGroups.BUH, AccessGroups.BOSS, AccessGroups.ADMIN]
+            },
+            {
+                title: 'Прайс-лист менеджера',
+                href: '/user-price',
                 icon: Price2,
                 access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN]
             },

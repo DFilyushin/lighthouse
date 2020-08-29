@@ -59,7 +59,8 @@ import {
     PriceList as PriceLIstView,
     PriceItem as PriceItemView,
     PriceListHistory as PriceListHistoryView,
-    UserProfile as UserProfileView
+    UserProfile as UserProfileView,
+    PriceListEmployee as PriceListEmployeeView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -133,6 +134,7 @@ const Routes = () => {
             <AuthRouteWithLayout component={PriceLIstView} layout={MainLayout} path="/price" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={PriceItemView} layout={MainLayout} path="/price/:id" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={PriceListHistoryView} layout={MainLayout} path="/price/history/:id" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={PriceListEmployeeView} layout={MainLayout} path="/user-price" access={[AccessGroups.MANAGER, AccessGroups.ADMIN]} exact/>
 
             //производство
             <AuthRouteWithLayout component={ProductionListView} layout={MainLayout} path="/factory" access={[AccessGroups.FACTORY, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
