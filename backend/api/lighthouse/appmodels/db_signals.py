@@ -125,6 +125,8 @@ def user_pre_save(sender, **kwargs):
     :param kwargs:
     :return:
     """
+    if kwargs['raw']:
+        return
     user = kwargs.get('instance', None)
     created = kwargs.get('created', None)
     if not created:
