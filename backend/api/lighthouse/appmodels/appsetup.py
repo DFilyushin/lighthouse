@@ -1,8 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from lighthouse.appmodels.org import Employee
+from lighthouse.appmodels.manufacture import Material
 
 
 class AppSetup(models.Model):
+    """
+    Настройки приложения
+    """
     code = models.CharField(max_length=20, null=False, blank=False, unique=True, verbose_name='Код настройки')
     name = models.CharField(max_length=255, default='', null=False, blank=True, verbose_name='Описание')
     kind = models.CharField(max_length=4, null=True, blank=True, verbose_name='Тип настройки')
@@ -21,6 +26,9 @@ class AppSetup(models.Model):
 
 
 class UserSettings(models.Model):
+    """
+    Настройки пользователя
+    """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
     last_password = models.DateField(null=True, verbose_name='Дата смены пароля')
     phone = models.CharField(max_length=15, null=True, blank=True, verbose_name='Телефон')
@@ -32,3 +40,18 @@ class UserSettings(models.Model):
     class Meta:
         verbose_name = 'Настройка пользователя'
         verbose_name_plural = 'Настройки пользователей'
+
+
+class EmployeeProductLink(models.Model):
+    """
+    Шаблон для прайс-листа сотрудника
+    """
+    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукция')
+
+    def __str__(self):
+        return '{} {}'.format(self.id_employee.fio, self.id_product.name)
+
+    class Meta:
+        verbose_name = 'Продукция менеджера'
+        verbose_name_plural = 'Продукция менеджеров'
