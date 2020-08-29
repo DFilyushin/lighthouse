@@ -50,11 +50,11 @@ const Topbar = (props: ITopbar) => {
   const notices = useSelector((state: IStateInterface)=> state.notification.notices)
 
   const getNotification = () => {
-    console.log(new Date())
     dispatch(loadNotification())
   }
 
   useEffect( ()=>{
+    getNotification();
     setInterval(getNotification, MINUTES_30_TIMES);
   }, [] )
 
