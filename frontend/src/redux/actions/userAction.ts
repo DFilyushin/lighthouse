@@ -138,7 +138,7 @@ export function deleteUser(login: string) {
         try{
             await authAxios.delete(UserEndpoint.deleteUser(login))
             const items = [...getState().user.userItems];
-            const index = items.findIndex((elem, index, array)=>{return elem.login === login});
+            const index = items.findIndex((elem)=>{return elem.login === login});
             items.splice(index, 1);
             dispatch(deleteOk(items));
 

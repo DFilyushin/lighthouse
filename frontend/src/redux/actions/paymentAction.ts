@@ -50,7 +50,7 @@ export function deletePayment(id: number) {
         try{
             await authAxios.delete(PaymentEndpoint.deletePayment(id));
             const items = [...getState().payment.paymentItems];
-            const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+            const index = items.findIndex((elem)=>{return elem.id === id});
             items.splice(index, 1);
             dispatch(deleteOK(items));
         }catch (e) {

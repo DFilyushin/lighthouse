@@ -108,7 +108,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
             }
         ).then((value:any) => {
                 const item = {...newMovementItem};
-                const index = item.items.findIndex((item:IStoreMaterialItem, index:number, array: IStoreMaterialItem[]) => {return item.id === id});
+                const index = item.items.findIndex((item:IStoreMaterialItem) => {return item.id === id});
                 item.items[index].material.id = value.id;
                 item.items[index].material.name = value.name;
                 dispatch(changeItemMovement(id, item.items[index]));
@@ -189,10 +189,10 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
             }
         ).then((value:any) => {
                 const item = {...newMovementItem}
-                const index = item.items.findIndex((item:IStoreMaterialItem, index:number, array: IStoreMaterialItem[]) => {return item.id === id});
+                const index = item.items.findIndex((item:IStoreMaterialItem) => {return item.id === id});
                 item.items[index].tare.id = value.id;
                 item.items[index].tare.name = value.name;
-                const tareIndex = tareItems.findIndex((elem: ITare, index: number, array: ITare[])=>{return elem.id === value.id});
+                const tareIndex = tareItems.findIndex((elem: ITare)=>{return elem.id === value.id});
                 item.items[index].tare.v = tareItems[tareIndex].v
                 dispatch(changeItemMovement(id, item.items[index]));
             }

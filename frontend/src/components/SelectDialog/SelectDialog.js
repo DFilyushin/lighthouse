@@ -27,7 +27,7 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
 
   const handleChange = (event) => {
     const selectedId = parseInt(event.target.value);
-    const index = dataItems.findIndex((item, index, array)=>{return item.id === selectedId});
+    const index = dataItems.findIndex((item)=>{return item.id === selectedId});
     setId(selectedId);
     setItemValue(dataItems[index][valueName] )
   };

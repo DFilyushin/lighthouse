@@ -51,7 +51,7 @@ export function deleteStaff(id: number) {
             const response = await authAxios.delete(StaffEndpoint.deleteItem(id));
             if (response.status === 204) {
                 const items = [...getState().staff.staffs];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
             }

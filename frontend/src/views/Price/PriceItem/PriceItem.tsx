@@ -140,7 +140,7 @@ const PriceItem = (props: IPriceItemProps) => {
             const item = {...priceItem};
             item.tareId = value.id;
             item.tareName = value.name;
-            const tareIndex = tareItems.findIndex((elem: ITare, index: number, array: ITare[])=>{return elem.id === value.id});
+            const tareIndex = tareItems.findIndex((elem: ITare)=>{return elem.id === value.id});
             item.tareV = tareItems[tareIndex].v
                 dispatch(changePriceItem(item));
             }

@@ -323,7 +323,7 @@ export function addNewRecordToStoreMovement(item: IStoreNewMovement) {
 export function deleteRecordFromStoreMovement(id: number) {
     return async (dispatch: any, getState: any) => {
         const newItem = {...getState().store.storeMovement}
-        const findIndex = newItem.items.findIndex((item: IStoreMaterialItem, index: number, array: IStoreMaterialItem[])=>{ return item.id === id })
+        const findIndex = newItem.items.findIndex((item: IStoreMaterialItem)=>{ return item.id === id })
         newItem.items.splice(findIndex, 1);
         dispatch(deleteItemMovement(newItem))
     }
@@ -345,7 +345,7 @@ function deleteItemMovement(item: IStoreNewMovement) {
 export function changeItemMovement(id: number, item: IStoreMaterialItem) {
     return async (dispatch: any, getState: any) => {
         const newItem = {...getState().store.storeMovement}
-        const findIndex = newItem.items.findIndex((item: IStoreMaterialItem, index: number, array: IStoreMaterialItem[])=>{return item.id === id})
+        const findIndex = newItem.items.findIndex((item: IStoreMaterialItem)=>{return item.id === id})
         newItem.items[findIndex] = item
         dispatch(changeItemMovementElement(newItem))
     }

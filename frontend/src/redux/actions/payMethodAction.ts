@@ -69,7 +69,7 @@ export function deletePayMethod(id: number) {
             const response = await authAxios.delete(PayMethodEndpoint.deletePayMethod(id));
             if (response.status === 204) {
                 const items = [...getState().payMethod.payMethodItems];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOK(items));
             }

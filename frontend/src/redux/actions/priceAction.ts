@@ -111,7 +111,7 @@ export function deletePriceList(id: number) {
         try{
             await authAxios.delete(PriceEndpoint.deletePriceList(id))
             const items = [...getState().price.priceList]
-            const index = items.findIndex((elem, index, array)=>{return elem.id === id})
+            const index = items.findIndex((elem)=>{return elem.id === id})
             items.splice(index, 1)
             dispatch(fetchSuccess(items))
             dispatch(showInfoMessage('info', 'Запись успешно удалена'))

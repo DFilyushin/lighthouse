@@ -77,7 +77,7 @@ export function deleteTare(id: number) {
             const response = await authAxios.delete(TareEndpoint.deleteTare(id));
             if (response.status === 204) {
                 const items = [...getState().tare.tareItems];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
                 localStorage.removeItem(LS_TARE_KEY)

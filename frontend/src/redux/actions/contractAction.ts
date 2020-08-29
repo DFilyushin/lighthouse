@@ -82,7 +82,7 @@ export function deleteContract(id: number) {
             const response = await authAxios.delete(ContractEndpoint.deleteContract(id));
             if (response.status === 204) {
                 const items = [...getState().contract.items];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))

@@ -51,7 +51,7 @@ export function deleteItem(id: number) {
             const response = await authAxios.delete(UnitEndpoint.deleteUnit(id));
             if (response.status === 204) {
                 const items = [...getState().unit.unitItems];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
                 //localStorage.removeItem(LS_TARE_KEY)

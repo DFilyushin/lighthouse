@@ -121,7 +121,7 @@ export function deleteFormula(id: number) {
             const response = await authAxios.delete(FormulaEndpoint.deleteFormula(id));
             if (response.status === 204) {
                 const formulas = [...getState().formula.formulas];
-                const index = formulas.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = formulas.findIndex((elem)=>{return elem.id === id});
                 formulas.splice(index, 1);
                 dispatch(deleteOK(formulas));
             }
@@ -249,7 +249,7 @@ export function addNewFormula(item: IFormulaItem) {
 export function updateRawItem(rawItemFormula: IRawInFormula) {
     return async (dispatch: any, getState: any)=> {
         const formula = {...getState().formula.formulaItem};
-        const index = formula.raws.findIndex((elem: IRaw, index:number, array: IRawInFormula[])=>{return elem.id === rawItemFormula.id})
+        const index = formula.raws.findIndex((elem: IRaw)=>{return elem.id === rawItemFormula.id})
         formula.raws[index].raw = rawItemFormula.raw
         formula.raws[index].raw_value = rawItemFormula.raw_value
         formula.raws[index].substance = rawItemFormula.substance
@@ -265,7 +265,7 @@ export function updateRawItem(rawItemFormula: IRawInFormula) {
 export function deleteRawItem(idRaw: number){
     return async (dispatch: any, getState: any) => {
         const formula = {...getState().formula.formulaItem};
-        const index = formula.raws.findIndex((elem:IRaw, index: number, array: IRaw[])=> {return elem.id === idRaw})
+        const index = formula.raws.findIndex((elem:IRaw)=> {return elem.id === idRaw})
         formula.raws.splice(index, 1)
         dispatch(changeFormula(formula))
     }

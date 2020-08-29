@@ -320,7 +320,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             }
         ).then((value:any) => {
             const item = [...productionTeam];
-            const index = item.findIndex((item:IProductionTeam, index:number, array: IProductionTeam[]) => {return item.id === id});
+            const index = item.findIndex((item:IProductionTeam) => {return item.id === id});
             item[index].employee.id = value.id;
             item[index].employee.fio = value.name;
             dispatch(updateTeamItem(item[index]));
@@ -345,7 +345,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             }
         ).then((value:any) => {
                 const item = [...productionTeam];
-                const index = item.findIndex((item:IProductionTeam, index:number, array: IProductionTeam[]) => {return item.id === id});
+                const index = item.findIndex((item:IProductionTeam) => {return item.id === id});
                 item[index].work.id = value.id;
                 item[index].work.name = value.name;
                 dispatch(updateTeamItem(item[index]));
@@ -491,7 +491,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             }
         ).then((value:any) => {
             const item = [...calculationFact];
-            const index = item.findIndex((item:IProductionCalc, index:number, array: IProductionCalc[]) => {return item.id === id});
+            const index = item.findIndex((item:IProductionCalc) => {return item.id === id});
             item[index].raw.id = value.id;
             item[index].raw.name = value.name;
             dispatch(updateCalcItem(item[index]));
@@ -571,10 +571,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             }
         ).then((value:any) => {
                 const items = [...productionTare];
-                const index = items.findIndex((item:IProductionTare, index:number, array: IProductionTare[]) => {return item.id === id});
+                const index = items.findIndex((item:IProductionTare) => {return item.id === id});
                 items[index].tareId = value.id;
                 items[index].tareName = value.name;
-                const tareIndex = tareItems.findIndex((elem: ITare, index: number, array: ITare[])=>{return elem.id === value.id});
+                const tareIndex = tareItems.findIndex((elem: ITare)=>{return elem.id === value.id});
                 items[index].tareV = tareItems[tareIndex].v
                 dispatch(updateTareItem(items[index]));
             }

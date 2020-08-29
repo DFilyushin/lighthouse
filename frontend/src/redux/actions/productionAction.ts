@@ -107,7 +107,7 @@ export function deleteProductionCard(id: number) {
 
             if (response.status === 204) {
                 const items = [...getState().production.prodCardList];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(successLoadCards(items));
             }
@@ -271,7 +271,7 @@ function successLoadMaterials(items: IProductionMaterial[]) {
 export function updateTeamItem(item: IProductionTeam){
     return async (dispatch: any, getState: any)=> {
         const items = [...getState().production.prodCardTeam];
-        const index = items.findIndex((elem: IProductionTeam, index:number, array: IProductionTeam[])=>{return elem.id === item.id});
+        const index = items.findIndex((elem: IProductionTeam)=>{return elem.id === item.id});
         items[index].employee = item.employee;
         items[index].periodStart = item.periodStart;
         items[index].periodEnd = item.periodEnd;
@@ -287,7 +287,7 @@ export function updateTeamItem(item: IProductionTeam){
 export function updateCalcItem(item: IProductionCalc) {
     return async (dispatch: any, getState: any)=> {
         const items = [...getState().production.prodCardCalc];
-        const index = items.findIndex((elem: IProductionCalc, index:number, array: IProductionCalc[])=>{return elem.id === item.id});
+        const index = items.findIndex((elem: IProductionCalc)=>{return elem.id === item.id});
         items[index].raw = item.raw;
         items[index].calcValue = item.calcValue;
         items[index].manufactureId = item.manufactureId;
@@ -298,7 +298,7 @@ export function updateCalcItem(item: IProductionCalc) {
 export function updateTareItem(item: IProductionTare) {
     return async (dispatch: any, getState: any)=> {
         const items = [...getState().production.prodCardTare];
-        const index = items.findIndex((elem: IProductionTare, index:number, array: IProductionTare[])=>{return elem.id === item.id});
+        const index = items.findIndex((elem: IProductionTare)=>{return elem.id === item.id});
         items[index].tareId = item.tareId;
         items[index].tareName = item.tareName;
         items[index].tareV = item.tareV;
@@ -332,7 +332,7 @@ export function changeProductionCard(item: IProduction) {
 export function deleteTeamItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTeam];
-        const index = items.findIndex((item:IProductionTeam, index: number, array: IProductionTeam[])=> {return item.id === id});
+        const index = items.findIndex((item:IProductionTeam)=> {return item.id === id});
         items.splice(index, 1);
         dispatch(changeTeamItem(items));
     }
@@ -406,7 +406,7 @@ export function newMaterialItem() {
 export function deleteTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
-        const index = items.findIndex((item:IProductionTare, index: number, array: IProductionTare[])=> {return item.id === id});
+        const index = items.findIndex((item:IProductionTare)=> {return item.id === id});
         items.splice(index, 1);
         dispatch(changeTareItem(items));
     }
@@ -432,7 +432,7 @@ export function deleteMaterialItem(id: number) {
 export function deleteCalcItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardCalc];
-        const index = items.findIndex((item:IProductionCalc, index: number, array: IProductionCalc[])=> {return item.id === id});
+        const index = items.findIndex((item:IProductionCalc)=> {return item.id === id});
         items.splice(index, 1);
         dispatch(changeCalcItem(items));
     }

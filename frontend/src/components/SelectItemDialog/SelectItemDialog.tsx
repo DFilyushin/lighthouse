@@ -51,7 +51,7 @@ const SelectItemDialog = (props: ISelectItemDialog) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const idValue = parseInt((event.target as HTMLInputElement).value)
-        const index = records.findIndex((item, index, array)=>{return item.id === idValue})
+        const index = records.findIndex((item)=>{return item.id === idValue})
         setKey(idValue);
         setValue(records[index].name)
     };

@@ -92,7 +92,7 @@ export function getFirstLevelCost() {
             const url = CostEndpoint.getCostList();
             const items: ICostSimple[] = [];
             const response = await authAxios.get(url);
-            Object.keys(response.data).forEach((key, index) => {
+            Object.keys(response.data).forEach((key) => {
                 items.push({id: response.data[key]['id'], name: response.data[key]['name']})
             });
             dispatch(fetchFirstLevelItems(items))
@@ -110,7 +110,7 @@ export function deleteCostItem(id: number) {
             const response = await authAxios.delete(CostEndpoint.deleteCost(id));
             if (response.status === 204) {
                 const items = [...getState().cost.items];
-                const index = items.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))

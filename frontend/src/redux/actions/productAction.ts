@@ -75,7 +75,7 @@ export function deleteProduct(id: number) {
             const response = await authAxios.delete(ProductEndpoint.deleteProduct(id));
             if (response.status === 204) {
                 const products = [...getState().product.products];
-                const index = products.findIndex((elem, index, array)=>{return elem.id === id});
+                const index = products.findIndex((elem)=>{return elem.id === id});
                 products.splice(index, 1);
                 dispatch(productDeleteOk(products));
             }
