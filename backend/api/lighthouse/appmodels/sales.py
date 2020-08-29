@@ -1,6 +1,5 @@
-from datetime import date, datetime, timedelta
 from django.db import models
-from django.db.models import Sum, F, Q
+from django.db.models import Sum, F, Q, Sum, Max
 from django.db.models.functions import Coalesce
 from .org import Employee
 from .manufacture import Material, Tare
@@ -30,6 +29,7 @@ CLAIM_RESULT = [
 
 class PriceList(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, verbose_name='Менеджер')
     id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукт')
     id_tare = models.ForeignKey(Tare, on_delete=models.CASCADE, verbose_name='Тара')
     on_date = models.DateField(null=False, verbose_name='Начало действия')
@@ -59,7 +59,7 @@ class Client(models.Model):
     req_bik = models.CharField(max_length=8, blank=True, null=True, verbose_name='БИК')
     req_boss = models.CharField(max_length=255, blank=True, null=True, verbose_name='Руководитель')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
-    clientid  = models.CharField(max_length=10, blank=True, null=True, verbose_name='Код клиента из сторонних систем')
+    clientid = models.CharField(max_length=10, blank=True, null=True, verbose_name='Код клиента из сторонних систем')
     deleted = models.BooleanField(default=False, null=False, verbose_name='Удалён')
 
     def __str__(self):
@@ -280,7 +280,8 @@ class PaymentMethod(models.Model):
 
 class Payment(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создана')
-    id_contract = models.ForeignKey(Contract, related_name='payments', on_delete=models.CASCADE, verbose_name='Контракт')
+    id_contract = models.ForeignKey(Contract, related_name='payments', on_delete=models.CASCADE,
+                                    verbose_name='Контракт')
     pay_date = models.DateField(null=False, verbose_name='Дата оплаты')
     pay_num = models.CharField(max_length=20, verbose_name='Номер документа')
     pay_type = models.ForeignKey(PaymentMethod, on_delete=models.CASCADE, verbose_name='Тип оплаты')
