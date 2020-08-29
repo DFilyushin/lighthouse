@@ -11,6 +11,14 @@ class PriceEndpoint {
     }
 
     /**
+     * Загрузить актуальный прайс-лист по менеджеру
+     * @param employeeId Код менеджера
+     */
+    static loadPriceListByEmployee(employeeId: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/price/employee/${employeeId}/`
+    }
+
+    /**
      * Загрузить прайс-лист по коду записи
      * @param id Код записи
      */
