@@ -68,6 +68,7 @@ import {loadActualPriceListByEmployee} from "../../../redux/actions/priceAction"
 import {RoundValue} from "../../../utils/AppUtils";
 import {showInfoMessage} from "../../../redux/actions/infoAction";
 import {TextFieldReadOnlyComponent} from "../../../components";
+import AuthenticationService from "../../../services/Authentication.service";
 
 interface IContractItemProps extends RouteComponentProps{
     className: string,
@@ -130,7 +131,7 @@ const ContractItem = (props: IContractItemProps) => {
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem)
     const loading = useSelector((state: IStateInterface) => state.contract.isLoading)
     const clients = useSelector((state: IStateInterface)=> state.client.searchClients)
-    const products = useSelector((state:IStateInterface) => state.price.priceListEmployee)
+    const products = useSelector((state:IStateInterface) => state.price.priceList)
     const tares = useSelector((state:IStateInterface) => state.tare.tareItems)
     const [dataSource, setDataSource] = useState<IClientItemList[]>([])
     const [curClient, setCurClient] = useState<IClientItemList|null>(null)
@@ -238,7 +239,7 @@ const ContractItem = (props: IContractItemProps) => {
             setLoad(true);
             dispatch(loadContractItem(contractId, loadData));
             dispatch(getSetupNdsRate())
-            dispatch(loadActualPriceListByEmployee())
+            dispatch(loadActualPriceListByEmployee(AuthenticationService.currentEmployeeId()))
             dispatch(loadTare())
         }
 
