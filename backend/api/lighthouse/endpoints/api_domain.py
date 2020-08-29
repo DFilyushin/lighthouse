@@ -32,7 +32,7 @@ class OrgViewSet(APIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(seself, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 

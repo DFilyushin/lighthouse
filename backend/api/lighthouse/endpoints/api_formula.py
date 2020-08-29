@@ -33,7 +33,7 @@ class FormulaViewSet(viewsets.ModelViewSet):
         else:
             return FormulaSerializer
 
-    @action(methods=['get'], detail=True, url_path='calc', url_name='calculatation')
+    @action(methods=['get'], detail=True, url_path='calc', url_name='calculation')
     def calculation(self, request, pk):
         calc_count = float(request.GET.get('count', 0))
         try:
