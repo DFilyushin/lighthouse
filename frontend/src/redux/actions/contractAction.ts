@@ -24,6 +24,8 @@ import {getRandomInt, MAX_RANDOM_VALUE, RoundValue} from "../../utils/AppUtils";
 /**
  * Получить список контрактов
  * @param state Состояние контракта
+ * @param onlyOwnContract Отображать контракты текущего пользователя
+ * @param search Строка поиск
  */
 export function loadContractList(state: number, onlyOwnContract: boolean, search?: string) {
     return async (dispatch: any, getState: any) => {
@@ -47,6 +49,7 @@ export function loadContractList(state: number, onlyOwnContract: boolean, search
 
 /**
  * Загрузить список активных контрактов
+ * @param num Номер контракта
  */
 export function loadActiveContractsList(num: string) {
     return async (dispatch: any, getState: any) => {
@@ -85,7 +88,9 @@ export function deleteContract(id: number) {
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))
             }
             else {
-                dispatch(showInfoMessage('error', `Неизвестная ошибка при удалении: ${response.status.toString()}`))
+                dispatch(
+                    showInfoMessage('error',
+                        `Неизвестная ошибка при удалении: ${response.status.toString()}`))
             }
         }catch (e) {
             dispatch(showInfoMessage('error', `Не удалось удалить запись ${e.toString()}!`))
@@ -97,6 +102,7 @@ export function deleteContract(id: number) {
 /**
  * Загрузить контракт
  * @param id Код контракта
+ * @param func0 Функция, выполняющаяся после загрузки контракта
  */
 export function loadContractItem(id: number, func0?: any) {
     return async (dispatch: any, getState: any) => {
@@ -137,7 +143,7 @@ export function loadContractItem(id: number, func0?: any) {
 export function deleteContractSpecItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const index = item.specs.findIndex((item:IContractSpecItem, index: number, array: IContractSpecItem[])=> {return item.id === id});
+        const index = item.specs.findIndex((item:IContractSpecItem)=> {return item.id === id});
         item.specs.splice(index, 1);
         dispatch(fetchItemSuccess(item));
 
@@ -170,12 +176,12 @@ export function addNewWaitPaymentItem() {
 
 /**
  * Удалить строку графика платежей
- * @param id
+ * @param id Код записи
  */
 export function deleteWaitPaymentItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const index = item.waitPayments.findIndex((item:IWaitPaymentContractItem, index: number, array: IWaitPaymentContractItem[])=> {return item.id === id});
+        const index = item.waitPayments.findIndex((item:IWaitPaymentContractItem)=> {return item.id === id});
         item.waitPayments.splice(index, 1);
         dispatch(fetchItemSuccess(item));
     }
@@ -261,7 +267,7 @@ export function setContractStatus(newStatus: number) {
 export function changeContractSpecItem(item: IContractSpecItem) {
     return async (dispatch: any, getState: any)=> {
         const contract = {...getState().contract.contractItem};
-        const index = contract.specs.findIndex((elem: IContractSpecItem, index:number, array: IContractSpecItem[])=>{return elem.id === item.id})
+        const index = contract.specs.findIndex((elem: IContractSpecItem)=>{return elem.id === item.id})
         item.itemTotal = Math.round(item.itemCount * item.itemPrice * (item.itemNds/100 +1) - item.itemDiscount)
         contract.specs[index] = item
         dispatch(changeContractItem(contract));
@@ -274,9 +280,8 @@ export function changeContractSpecItem(item: IContractSpecItem) {
  */
 export function changePaymentWaitItem(item: IWaitPaymentContractItem) {
     return async (dispatch: any, getState: any)=> {
-        console.log('test........')
         const contract = {...getState().contract.contractItem};
-        const index = contract.waitPayments.findIndex((elem: IWaitPaymentContractItem, index:number, array: IWaitPaymentContractItem[])=>{return elem.id === item.id})
+        const index = contract.waitPayments.findIndex((elem: IWaitPaymentContractItem)=>{return elem.id === item.id})
         contract.waitPayments[index] = item
         dispatch(changeContractItem(contract));
     }
