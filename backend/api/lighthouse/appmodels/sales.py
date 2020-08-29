@@ -1,8 +1,9 @@
 from django.db import models
-from django.db.models import Sum, F, Q, Sum, Max
+from django.db.models import F, Q, Sum, Max
 from django.db.models.functions import Coalesce
 from .org import Employee
 from .manufacture import Material, Tare
+from .appsetup import EmployeeProductLink
 from lighthouse.endpoints.api_errors import AppError, \
     API_ERROR_CONTRACT_INCORRECT_STATUS, API_ERROR_CONTRACT_NO_PAYMENT
 
@@ -37,6 +38,43 @@ class PriceList(models.Model):
 
     def __str__(self):
         return '{} {} на {} {}'.format(self.id_product.name, self.id_tare.name, self.on_date, self.price)
+
+    @staticmethod
+    def make_price_for_employee(employee_id):
+        """
+        Создать прайс-лист для сотрудника
+        :param employee_id: Код сотрудника
+        :return:
+        """
+        available_products = EmployeeProductLink.objects.filter(id_employee__id=employee_id).values('id_product__id')
+        queryset = PriceList.objects \
+            .filter(id_product__in=available_products) \
+            .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v') \
+            .annotate(on_date=Max('on_date')) \
+            .order_by('id_product__name')
+        for item in queryset:
+            p = PriceList.objects \
+                .filter(id_employee__isnull=True) \
+                .filter(id_product_id=item['id_product__id']) \
+                .filter(id_tare_id=item['id_tare__id']) \
+                .filter(on_date=item['on_date']) \
+                .only('price')
+            try:
+                PriceList.objects.get(id_employee_id=employee_id,
+                                      id_product_id=item['id_product__id'],
+                                      id_tare_id=item['id_tare__id'],
+                                      on_date=item['on_date'],
+                                      price=p[0].price
+                                      )
+            except PriceList.DoesNotExist:
+                # исключая дублирование
+                PriceList.objects.update_or_create(
+                    id_employee_id=employee_id,
+                    id_product_id=item['id_product__id'],
+                    id_tare_id=item['id_tare__id'],
+                    on_date=item['on_date'],
+                    price=p[0].price
+                )
 
     class Meta:
         verbose_name = 'Прайс-лист'
