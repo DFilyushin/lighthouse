@@ -216,11 +216,13 @@ class PriceListViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             queryset = PriceList.objects\
+                .filter(id_employee__isnull=True)\
                 .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v')\
                 .annotate(on_date=Max('on_date'))\
                 .order_by('id_product__name')
             for item in queryset:
                 p = PriceList.objects\
+                    .filter(id_employee__isnull=True)\
                     .filter(id_product_id=item['id_product__id'])\
                     .filter(id_tare_id=item['id_tare__id'])\
                     .filter(on_date=item['on_date'])\
