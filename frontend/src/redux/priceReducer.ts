@@ -10,7 +10,6 @@ import {
 
 const initialState = (): IPriceState => ({
     priceList: [],
-    priceListEmployee: [],
     priceListHistory: [],
     priceItem: {...nullPrice},
     error: '',
@@ -35,7 +34,7 @@ export const priceReducer = (state: IPriceState = initialState(), action: any) =
         case PRICE_LOAD_HISTORY_SUCCESS:
             return {...state, priceListHistory: action.items}
         case PRICE_LOAD_BY_EMPLOYEE_SUCCESS:
-            return {...state, priceListEmployee: action.items}
+            return {...state, priceList: action.items}
         default:
             return state;
     }

@@ -10,7 +10,6 @@ import {
 import {IPrice, nullPrice} from "../../types/model/price";
 import PriceEndpoint from "../../services/endpoints/PriceEndpoint";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
-import AuthenticationService from "../../services/Authentication.service";
 
 
 /**
@@ -38,12 +37,12 @@ export function loadActualPriceList() {
 /**
  * Загрузить актуальный прайс-лист по выбранному менеджеру
  */
-export function loadActualPriceListByEmployee() {
+export function loadActualPriceListByEmployee(employeeId: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage())
         try {
-            const url = PriceEndpoint.loadPriceListByEmployee(AuthenticationService.currentEmployeeId());
+            const url = PriceEndpoint.loadPriceListByEmployee(employeeId);
             const priceList: IPrice[] = [];
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
