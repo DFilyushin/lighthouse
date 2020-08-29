@@ -233,6 +233,31 @@ class PriceListViewSet(viewsets.ModelViewSet):
             queryset = PriceList.objects.all()
         return queryset
 
+    @action(methods=['get'], detail=False, url_path='employee/(?P<employee>[0-9]+)', url_name='priceByEmployee')
+    def price_by_employee(self, request, employee):
+        """
+        Прайс по менеджеру
+        :param request:
+        :param employee: Код сотрудника
+        :return:
+        """
+        queryset = PriceList.objects \
+            .filter(id_employee__id=employee) \
+            .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v') \
+            .annotate(on_date=Max('on_date')) \
+            .order_by('id_product__name')
+        for item in queryset:
+            p = PriceList.objects \
+                .filter(id_employee__id=employee) \
+                .filter(id_product_id=item['id_product__id']) \
+                .filter(id_tare_id=item['id_tare__id']) \
+                .filter(on_date=item['on_date']) \
+                .only('price')
+            item['price'] = p[0].price
+            item['id'] = p[0].id
+        serializer = PriceListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     @action(methods=['get'], detail=False, url_path='history/(?P<product>[0-9]+)', url_name='getHistory')
     def get_history_price_by_product(self, request, product):
         """
