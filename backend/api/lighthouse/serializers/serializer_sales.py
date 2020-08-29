@@ -129,11 +129,13 @@ class ContractSpecSerializer(serializers.ModelSerializer):
     itemTotal = serializers.FloatField(source='total')
     delivery = serializers.DateField(source='delivery_date', allow_null=True)
     delivered = serializers.DateField(allow_null=True)
+    specNum = serializers.CharField(source='spec_num')
+    specDate = serializers.DateField(source='spec_date')
 
     class Meta:
         model = ContractSpec
         fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemNds', 'itemDiscount', 'itemTotal',
-                  'delivery', 'delivered')
+                  'delivery', 'delivered', 'specNum', 'specDate')
 
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
@@ -260,7 +262,9 @@ class ContractSerializer(serializers.ModelSerializer):
                 id_tare_id=item['id_tare']['id'],
                 id_product_id=item['id_product']['id'],
                 delivered=item['delivered'],
-                delivery_date=item['delivery_date']
+                delivery_date=item['delivery_date'],
+                spec_num=item['spec_num'],
+                spec_date=item['spec_date']
             )
         # сохранить график платежей
         for item in wait_payments:
@@ -330,6 +334,8 @@ class ContractSerializer(serializers.ModelSerializer):
                 spec.id_tare_id = item['id_tare']['id']
                 spec.id_product_id = item['id_product']['id']
                 spec.item_discount = item['item_discount']
+                spec.spec_num = item['spec_num']
+                spec.spec_date = item['spec_date']
                 spec.save()
             else:
                 ContractSpec.objects.create(
@@ -341,7 +347,9 @@ class ContractSerializer(serializers.ModelSerializer):
                     id_tare_id=item['id_tare']['id'],
                     id_product_id=item['id_product']['id'],
                     delivered=item['delivered'],
-                    delivery_date=item['delivery_date']
+                    delivery_date=item['delivery_date'],
+                    spec_num=item['spec_num'],
+                    spec_date=item['spec_date']
                 )
         for object_id, item in original_specs_ids.items():
             if object_id not in data_mapping_specs:
