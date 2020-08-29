@@ -46,5 +46,13 @@
     "name": "boss",
     "permissions": []
   }
+},
+{
+  "model": "auth.group",
+  "pk": 7,
+  "fields": {
+    "name": "accountant",
+    "permissions": []
+  }
 }
 ]
