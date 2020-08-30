@@ -11,11 +11,20 @@ import {
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES, NO_SELECT_VALUE
 } from "../../../utils/AppConst";
-import {deletePriceList, loadActualPriceList, loadActualPriceListByEmployee} from "../../../redux/actions/priceAction";
+import {
+    deletePriceList,
+    loadActualPriceList,
+    loadActualPriceListByEmployee,
+    makePriceForEmployee
+} from "../../../redux/actions/priceAction";
 import {IStateInterface} from "../../../redux/rootReducer";
 
 import PriceToolbar from "../components/PriceToolbar";
 import {loadEmployeeList} from "../../../redux/actions/employeeAction";
+import {changeFormula} from "../../../redux/actions/formulaAction";
+import {useDialog} from "../../../components/SelectDialog";
+import {loadTare} from "../../../redux/actions/tareAction";
+import {loadProduct} from "../../../redux/actions/productAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,15 +42,18 @@ const PriceList = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const confirm = useConfirm();
+    const selectDialog = useDialog();
 
     const priceList = useSelector((state: IStateInterface) => state.price.priceList)
     const employees = useSelector((state: IStateInterface) => state.employee.items)
     const isLoading = useSelector((state: IStateInterface) => state.price.isLoading)
-
     const [selected, setSelected] = useState<number[]>([]);
 
 
     useEffect( ()=>{
+        dispatch(loadEmployeeList())
+        dispatch(loadTare())
+        dispatch(loadProduct())
         dispatch(loadEmployeeList())
         }, [dispatch]
     )
@@ -60,6 +72,7 @@ const PriceList = () => {
     }
 
     function onDeleteHandle() {
+        if (selected.length === 0 ) return;
         confirm(
             {
                 'title': DIALOG_TYPE_CONFIRM,
@@ -84,6 +97,26 @@ const PriceList = () => {
         history.push(`/price/history/${productId}`);
     }
 
+    /**
+     * Новый прайс-лист по шаблону
+     */
+    function newItemByTemplate() {
+        selectDialog(
+            {
+                'title': 'Выбор сотрудника',
+                description: 'Выбрать сотрудника, на которого будет создан прайс-лист.',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: employees,
+                initKey: 0,
+                valueName: 'fio'
+            }
+        ).then((value:any) => {
+                dispatch(makePriceForEmployee(value.id));
+            }
+        );
+    }
+
     return (
         <div className={classes.root}>
             <PriceToolbar
@@ -93,6 +126,7 @@ const PriceList = () => {
                 onDelete={onDeleteHandle}
                 employees={employees}
                 onRefresh={onRefresh}
+                onNewItemByTemplate={newItemByTemplate}
             />
             <div className={classes.content}>
                 {isLoading ? <CircularIndeterminate/>
