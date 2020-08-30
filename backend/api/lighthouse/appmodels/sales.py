@@ -349,3 +349,17 @@ class ContractTemplate(models.Model):
     class Meta:
         verbose_name = 'Текст контракта'
         managed = False
+
+
+class EmployeeContractAccess(models.Model):
+    """
+    Дополнительный доступ сотрудников к контрактам
+    Доступ к чужому контракту на период отпуска/болезни основного менеджера
+    """
+    id_contract = models.ForeignKey(Contract, on_delete=models.CASCADE, verbose_name='Контракт')
+    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    to_date = models.DateField(null=True, verbose_name='Дата окончания действия')
+
+    class Meta:
+        verbose_name = 'Доступ к контрактам'
+        verbose_name_plural = 'Доступ к контрактам'
