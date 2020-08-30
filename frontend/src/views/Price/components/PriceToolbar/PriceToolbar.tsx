@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import clsx from 'clsx'
 import { SearchInput } from 'components'
 import { useHistory } from "react-router-dom"
@@ -69,12 +69,16 @@ interface IPriceToolbarProps {
     onDelete: any;
     employees: IEmployeeListItem[];
     onRefresh: (employee: number) => void;
+    onNewItemByTemplate: () => void;
 }
+
+//FIXME состояние выбранного сотрудника хранить в Redux
+
 
 const PriceToolbar = (props: IPriceToolbarProps) => {
     const classes = useStyles()
     const history = useHistory()
-    const { className, newItemUrl, onFind, onDelete, employees, onRefresh, ...rest } = props
+    const { className, newItemUrl, onFind, onDelete, employees, onRefresh, onNewItemByTemplate, ...rest } = props
     const [employee, setEmployee] = React.useState<number>(NO_SELECT_VALUE)
 
 
@@ -83,6 +87,10 @@ const PriceToolbar = (props: IPriceToolbarProps) => {
         setEmployee(employeeId);
         onRefresh(employeeId)
     }
+
+    useEffect(()=> {
+        onRefresh(NO_SELECT_VALUE)
+    }, [])
 
 
     /**
@@ -97,10 +105,17 @@ const PriceToolbar = (props: IPriceToolbarProps) => {
     }
 
     /**
-     * Новая производственная карта
+     * Новая прайсовая цена
      */
-    function onNewItemButtonHandler() {
+    function onNewPriceHandler() {
         history.push(newItemUrl);
+    }
+
+    /**
+     * Новый прайс по шаблону
+     */
+    function onNewPriceByTemplateHandler() {
+        onNewItemByTemplate()
     }
 
     return (
@@ -127,7 +142,8 @@ const PriceToolbar = (props: IPriceToolbarProps) => {
                     xs={12}
                 >
                 <div className={classes.buttonGroup}>
-                    <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Новый прайс</Button>
+                    <Button color="primary" variant="contained" onClick={onNewPriceHandler}>Новый прайс</Button>
+                    <Button color="primary" variant="contained" onClick={onNewPriceByTemplateHandler}>По шаблону</Button>
                     <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>
                 </div>
                 </Grid>
@@ -147,7 +163,7 @@ const PriceToolbar = (props: IPriceToolbarProps) => {
                             <SearchInput
                                 className={classes.searchInput}
                                 onEnterKeyDown={onKeyDownHandler}
-                                placeholder='Поиск по номеру контракта'
+                                placeholder='Поиск по продукции'
                             />
                         </Grid>
                         <Grid
