@@ -7,6 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Alert from '@material-ui/lab/Alert';
 
 
 const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
@@ -43,6 +44,9 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
       )}
       {description && (
         <DialogContent dividers>
+          <Alert icon={false} severity="success">
+            {description}
+          </Alert>
           <RadioGroup
           aria-label="ringtone"
           name="ringtone"
