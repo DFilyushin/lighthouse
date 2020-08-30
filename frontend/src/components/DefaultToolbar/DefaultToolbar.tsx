@@ -98,7 +98,9 @@ const DefaultToolbar = (props: IDefaultToolbar) => {
 
             <div className={classes.buttonGroup}>
                 <span className={classes.spacer} />
-                <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>{newItemTitle}</Button>
+                {newItemTitle &&
+                    <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>{newItemTitle}</Button>
+                }
                 {showDelete && <Button color="secondary" variant="contained" onClick={onDelete}>Удалить</Button>}
             </div>
             <div className={classes.row}>
