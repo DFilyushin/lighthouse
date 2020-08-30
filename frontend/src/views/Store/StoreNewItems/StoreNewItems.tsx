@@ -99,7 +99,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
         selectDialog(
             {
                 'title': 'Выбор сырья',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: materialItems,
@@ -180,7 +180,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
         selectDialog(
             {
                 'title': 'Выбор тары',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: tareItems,

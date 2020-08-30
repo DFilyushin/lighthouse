@@ -101,7 +101,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
         selectDialog(
             {
                 'title': 'Выбор продукции',
-                description: '.',
+                description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: productItems,
@@ -127,7 +127,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
         selectDialog(
             {
                 'title': 'Выбор сырья',
-                description: '.',
+                description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: rawItems,

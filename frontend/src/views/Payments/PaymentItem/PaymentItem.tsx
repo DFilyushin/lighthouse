@@ -172,7 +172,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
         selectDialog(
             {
                 'title': 'Выбор метода оплат',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: payMethodItems,

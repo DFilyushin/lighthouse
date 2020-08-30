@@ -188,7 +188,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор сотрудника',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: employees,

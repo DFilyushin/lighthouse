@@ -122,7 +122,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
         selectDialog(
             {
                 'title': 'Выбор должности',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: staffItems,

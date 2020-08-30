@@ -188,7 +188,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор продукции',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: productItems,
@@ -208,7 +208,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор рецептуры расчёта продукции',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: formulas,
@@ -237,7 +237,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор начальника смены',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: emplItems,
@@ -311,7 +311,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор сотрудника',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: emplItems,
@@ -336,7 +336,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор вида работы',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: workItems,
@@ -457,7 +457,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор линии',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: prodLinetItems,
@@ -482,7 +482,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор сырья',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: rawItems,
@@ -539,7 +539,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': dialogTitle,
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: dataItems,
@@ -562,7 +562,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         selectDialog(
             {
                 'title': 'Выбор тары',
-                description: '.',
+                description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
                 dataItems: tareItems,
