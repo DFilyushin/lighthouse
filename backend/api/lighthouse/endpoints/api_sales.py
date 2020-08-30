@@ -9,6 +9,7 @@ from lighthouse.serializers.serializer_sales import ClientListSerializer, Client
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY, EmployeeContractAccess
 from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
+from lighthouse.appmodels.org import Employee
 from django.db import ProgrammingError
 from rest_framework.response import Response
 
@@ -238,7 +239,7 @@ class PriceListViewSet(viewsets.ModelViewSet):
             queryset = PriceList.objects.all()
         return queryset
 
-    @action(methods=['get'], detail=False, url_path='employee/(?P<employee>[0-9]+)', url_name='priceByEmployee')
+    @action(methods=['get', 'post'], detail=False, url_path='employee/(?P<employee>[0-9]+)', url_name='priceByEmployee')
     def price_by_employee(self, request, employee):
         """
         Прайс по менеджеру
@@ -246,22 +247,35 @@ class PriceListViewSet(viewsets.ModelViewSet):
         :param employee: Код сотрудника
         :return:
         """
-        queryset = PriceList.objects \
-            .filter(id_employee__id=employee) \
-            .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v') \
-            .annotate(on_date=Max('on_date')) \
-            .order_by('id_product__name')
-        for item in queryset:
-            p = PriceList.objects \
+        # Получить прайс менеджера
+        if request.method == 'GET':
+            queryset = PriceList.objects \
                 .filter(id_employee__id=employee) \
-                .filter(id_product_id=item['id_product__id']) \
-                .filter(id_tare_id=item['id_tare__id']) \
-                .filter(on_date=item['on_date']) \
-                .only('price')
-            item['price'] = p[0].price
-            item['id'] = p[0].id
-        serializer = PriceListSerializer(queryset, many=True)
-        return Response(serializer.data)
+                .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v') \
+                .annotate(on_date=Max('on_date')) \
+                .order_by('id_product__name')
+            for item in queryset:
+                p = PriceList.objects \
+                    .filter(id_employee__id=employee) \
+                    .filter(id_product_id=item['id_product__id']) \
+                    .filter(id_tare_id=item['id_tare__id']) \
+                    .filter(on_date=item['on_date']) \
+                    .only('price')
+                item['price'] = p[0].price
+                item['id'] = p[0].id
+            serializer = PriceListSerializer(queryset, many=True)
+            return Response(serializer.data)
+        # Добавить новый прайс менеджеру
+        elif request.method == 'POST':
+            try:
+                employee_object = Employee.objects.get(pk=employee)
+            except Employee.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            try:
+                PriceList.make_price_for_employee(employee)
+                return Response(status=status.HTTP_201_CREATED)
+            except Exception as error:
+                return Response(data={'message': str(error)}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(methods=['get'], detail=False, url_path='history/(?P<product>[0-9]+)', url_name='getHistory')
     def get_history_price_by_product(self, request, product):
