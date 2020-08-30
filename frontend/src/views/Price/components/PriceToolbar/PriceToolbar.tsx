@@ -88,8 +88,10 @@ const PriceToolbar = (props: IPriceToolbarProps) => {
         onRefresh(employeeId)
     }
 
+
     useEffect(()=> {
         onRefresh(NO_SELECT_VALUE)
+        // eslint-disable-next-line
     }, [])
 
 

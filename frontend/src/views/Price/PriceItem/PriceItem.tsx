@@ -16,7 +16,6 @@ import {NEW_RECORD_VALUE} from "utils/AppConst";
 import {IStateInterface} from "../../../redux/rootReducer";
 import {changePriceItem, loadPriceListById, newPriceList, updatePrice} from "../../../redux/actions/priceAction";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import {loadProduct} from "../../../redux/actions/productAction";
 import {useDialog} from "../../../components/SelectDialog";
 import {ITare} from "../../../types/model/tare";
 

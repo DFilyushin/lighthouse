@@ -21,7 +21,6 @@ import {IStateInterface} from "../../../redux/rootReducer";
 
 import PriceToolbar from "../components/PriceToolbar";
 import {loadEmployeeList} from "../../../redux/actions/employeeAction";
-import {changeFormula} from "../../../redux/actions/formulaAction";
 import {useDialog} from "../../../components/SelectDialog";
 import {loadTare} from "../../../redux/actions/tareAction";
 import {loadProduct} from "../../../redux/actions/productAction";

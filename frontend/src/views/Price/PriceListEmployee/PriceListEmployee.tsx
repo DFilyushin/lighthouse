@@ -38,10 +38,6 @@ const PriceListEmployee = () => {
     const [selected, setSelected] = useState<number[]>([]);
 
 
-    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-
-    };
-
     useEffect( ()=>{
             dispatch(loadActualPriceListByEmployee(AuthenticationService.currentEmployeeId()))
         }, [dispatch]
