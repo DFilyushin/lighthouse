@@ -19,12 +19,11 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {loadProduct} from "../../../redux/actions/productAction";
 import {useDialog} from "../../../components/SelectDialog";
 import {ITare} from "../../../types/model/tare";
-import {loadTare} from "../../../redux/actions/tareAction";
 
 
 interface IPriceItemProps {
-    className: string,
-    match: any
+    className: string;
+    match: any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -49,13 +48,11 @@ const PriceItem = (props: IPriceItemProps) => {
     const paramId = props.match.params.id;
     const priceId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
-
-    const priceItem  = useSelector((state: IStateInterface)=> state.price.priceItem)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
     const tareItems = useSelector((state: IStateInterface)=> state.tare.tareItems)
-    // const isLoading = useSelector((state: any) => state.product.isLoading);
-    // const errorValue = useSelector((state: any) => state.product.error);
-    //const hasError = useSelector((state: any) => state.product.hasError)
+    const employeeItems = useSelector((state: IStateInterface)=> state.employee.items)
+    const priceItem  = useSelector((state: IStateInterface)=> state.price.priceItem)
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newItem = {...priceItem, [event.target.name]: event.target.value};
@@ -93,8 +90,6 @@ const PriceItem = (props: IPriceItemProps) => {
     };
 
     useEffect( ()=> {
-        dispatch(loadTare())
-        dispatch(loadProduct())
         dispatch(loadPriceListById(priceId))
     }, [dispatch, priceId]
     )
@@ -106,7 +101,7 @@ const PriceItem = (props: IPriceItemProps) => {
         selectDialog(
             {
                 'title': 'Выбор продукции',
-                description: '.',
+                description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: productItems,
@@ -129,7 +124,7 @@ const PriceItem = (props: IPriceItemProps) => {
         selectDialog(
             {
                 'title': 'Выбор тары',
-                description: '.',
+                description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: tareItems,
@@ -147,6 +142,26 @@ const PriceItem = (props: IPriceItemProps) => {
         )
     }
 
+    const handleChangeEmployee = () => {
+        selectDialog(
+            {
+                'title': 'Выбор сотрудника',
+                description: '',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: employeeItems,
+                initKey: 0,
+                valueName: 'fio'
+            }
+        ).then((value:any) => {
+                const item = {...priceItem};
+                item.employee.id = value.id;
+                item.employee.fio = value.name;
+                dispatch(changePriceItem(item));
+            }
+        )
+    }
+
 
     return (
         <div className={classes.root}>
@@ -159,6 +174,28 @@ const PriceItem = (props: IPriceItemProps) => {
                     <Divider />
                     <CardContent>
                         <Grid container spacing={3}>
+                            {priceItem.employee &&
+                                <Grid
+                                    item
+                                    xs={12}
+                                >
+                                    <Paper elevation={0} className={classes.paper_root}>
+                                        <TextField
+                                            fullWidth
+                                            label="Прайс сотрудника"
+                                            margin="dense"
+                                            name="name"
+                                            onChange={handleChange}
+                                            required
+                                            value={priceItem.employee.fio}
+                                            variant="outlined"
+                                        />
+                                        <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeEmployee}>
+                                            <MenuOpenIcon />
+                                        </IconButton>
+                                    </Paper>
+                                </Grid>
+                            }
                             <Grid
                                 item
                                 xs={12}
