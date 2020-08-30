@@ -42,18 +42,19 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
       {title && (
         <DialogTitle>{title}</DialogTitle>
       )}
-      {description && (
         <DialogContent dividers>
-          <Alert icon={false} severity="success">
-            {description}
-          </Alert>
+          {description &&
+            <Alert icon={false} severity="success">
+              {description}
+            </Alert>
+          }
           <RadioGroup
           aria-label="ringtone"
           name="ringtone"
           value={id}
           onChange={handleChange}
         >
-            {
+            { dataItems &&
               dataItems.map( (record)=>(
                   <FormControlLabel value={parseInt(record.id)} key={record.id} control={<Radio/>} label={record[valueName]}/>
                   )
@@ -61,7 +62,6 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
             }
           </RadioGroup>
         </DialogContent>
-      )}
       <DialogActions>
         <Button {...cancellationButtonProps} onClick={onCancel}>
           {cancellationText}
