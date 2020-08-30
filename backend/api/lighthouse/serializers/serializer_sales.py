@@ -393,6 +393,7 @@ class PriceListSerializer(serializers.ModelSerializer):
 
 class PriceListItemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
+    employee = EmployeeListSerializer(source='id_employee', required=False, allow_null=True)
     productId = serializers.IntegerField(source='id_product.id')
     productName = serializers.CharField(source='id_product.name')
     tareId = serializers.IntegerField(source='id_tare.id')
@@ -402,6 +403,10 @@ class PriceListItemSerializer(serializers.ModelSerializer):
     price = serializers.FloatField()
 
     def update(self, instance, validated_data):
+        if validated_data['id_employee']:
+            instance.id_employee_id = validated_data['id_employee']['id']
+        else:
+            instance.id_employee = None
         instance.id_product_id = validated_data['id_product']['id']
         instance.id_tare_id = validated_data['id_tare']['id']
         instance.on_date = validated_data['on_date']
@@ -410,14 +415,18 @@ class PriceListItemSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self, validated_data):
+        employee = None
+        if validated_data['id_employee']:
+            employee = validated_data['id_employee']['id']
         price = PriceList.objects.create(
             id_product_id=validated_data['id_product']['id'],
             id_tare_id=validated_data['id_tare']['id'],
             on_date=validated_data['on_date'],
-            price=validated_data['price']
+            price=validated_data['price'],
+            id_employee_id=employee
         )
         return price
 
     class Meta:
         model = PriceList
-        fields = ['id', 'productId', 'productName', 'tareId', 'tareName', 'tareV', 'date', 'price']
+        fields = ['id', 'productId', 'productName', 'tareId', 'tareName', 'tareV', 'date', 'price', 'employee']
