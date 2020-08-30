@@ -82,10 +82,10 @@ const PriceListEmployee = () => {
             <DefaultToolbar
                 className={''}
                 title={`Прайс-лист продукции (${AuthenticationService.currentEmployee()})`}
-                newItemTitle={'Новый прайс'}
+                newItemTitle={''}
                 newItemUrl={'/price/new'}
                 findCaption={'Поиск по продукции'}
-                showDelete={true}
+                showDelete={false}
                 onFind={onFindProductHandler}
                 onDelete={onDeleteHandle}
                 icon={<Price2 color={"primary"}/>}
