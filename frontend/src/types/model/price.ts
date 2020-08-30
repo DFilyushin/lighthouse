@@ -1,3 +1,5 @@
+import {IEmployeeListItem} from "./employee";
+
 export interface IPrice {
     id: number;
     productId: number;
@@ -7,6 +9,7 @@ export interface IPrice {
     tareId: number;
     tareName: string;
     tareV: number;
+    employee: IEmployeeListItem;
 }
 
 export const nullPrice: IPrice = {
@@ -17,5 +20,11 @@ export const nullPrice: IPrice = {
     price: 0,
     tareId: 0,
     tareName: '',
-    tareV: 0
+    tareV: 0,
+    employee: {
+        id: 0,
+        fio: '',
+        staff: '',
+        tabNum: ''
+    }
 }
