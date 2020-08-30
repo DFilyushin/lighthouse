@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.db.models import F, Sum, Max
+from django.db.models import F, Sum, Max, Q
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -7,7 +7,7 @@ from lighthouse.serializers.serializer_sales import ClientListSerializer, Client
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer, \
     PriceListSerializer, PriceListItemSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
-    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY
+    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY, EmployeeContractAccess
 from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
 from django.db import ProgrammingError
 from rest_framework.response import Response
@@ -101,9 +101,14 @@ class ContractViewSet(viewsets.ModelViewSet):
             if param_state != CONTRACT_STATE_UNDEFINED:
                 queryset = queryset.filter(contract_state=int(param_state))
             if param_agent:
-                queryset = queryset.filter(id_agent__id=param_agent)
-            return queryset.values('id', 'num', 'id_client__clientname', 'contract_date', 'est_delivery', 'contract_state',
-                                   'id_agent__fio')\
+                # отображаются контракты по менеджеру
+                # а также, те, которые разрешены к просмотру (переданы права)
+                contracts = EmployeeContractAccess.objects.filter(id_employee_id=param_agent)\
+                    .filter(Q(to_date__gte=datetime.today()) | Q(to_date__isnull=True))\
+                    .values_list('id_contract__id', flat=True)
+                queryset = queryset.filter(Q(id__in=contracts) | Q(id_agent__id=param_agent))
+            return queryset.values('id', 'num', 'id_client__clientname', 'contract_date', 'est_delivery',
+                                   'contract_state', 'id_agent__fio')\
                 .annotate(sum=Sum(F('specs__item_price')*F('specs__item_count')))
         else:
             return Contract.objects.filter(deleted=False)
