@@ -121,6 +121,25 @@ export function deletePriceList(id: number) {
     }
 }
 
+/**
+ * Создать прайс-лист для сотрудника
+ * @param employeeId Код сотрудника
+ */
+export function makePriceForEmployee(employeeId: number) {
+    return async (dispatch: any, getState: any) => {
+        try{
+            const response = await authAxios.post(PriceEndpoint.newPriceListByTemplate(employeeId))
+            if (response.status === 201) {
+                dispatch(showInfoMessage('info', 'Прайс-лист успешно создан!'))
+            }else{
+
+            }
+        }catch (e) {
+            console.log('Error create price for employee.', e.toString())
+            dispatch(showInfoMessage('error', 'Не удалось создать прайс-лист!'))
+        }
+    }
+}
 
 /**
  * Обновить прайс
