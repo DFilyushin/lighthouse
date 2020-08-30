@@ -70,7 +70,8 @@ const EmployeeTable = (props: IEmployeesTable) => {
             selectedEmployees = [];
         }
 
-        setSelectedEmployees(selectedEmployees);
+        setSelectedEmployees(selectedEmployees)
+        onChangeSelected(selectedEmployees)
     };
 
     const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:number) => {
@@ -90,7 +91,8 @@ const EmployeeTable = (props: IEmployeesTable) => {
             );
         }
 
-        setSelectedEmployees(newSelectedEmployees);
+        setSelectedEmployees(newSelectedEmployees)
+        onChangeSelected(newSelectedEmployees)
     };
 
     const handlePageChange = (event:any, page: number) => {
