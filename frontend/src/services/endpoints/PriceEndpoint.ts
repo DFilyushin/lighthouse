@@ -56,6 +56,14 @@ class PriceEndpoint {
     static newPriceList(): string {
         return `${BaseAPIEndpoint.getBaseURL()}/price/`
     }
+
+    /**
+     * Создать прайс-лист по шаблону для менеджера
+     * @param employeeId Код сотрудника/менеджера
+     */
+    static newPriceListByTemplate(employeeId: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/price/employee/${employeeId}/`
+    }
 }
 
 export default PriceEndpoint
