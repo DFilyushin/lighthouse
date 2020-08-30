@@ -36,6 +36,8 @@ const EmployeeList = () => {
      * Удалить записи
      */
     function onDeleteHandle() {
+        if (selected.length === 0) return;
+
         confirm(
             {
                 'title': DIALOG_TYPE_CONFIRM,
