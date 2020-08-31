@@ -43,7 +43,8 @@ export interface IEmployee {
     addrResidence: string;
     contactPhone: string;
     contactEmail: string;
-    staff: IStaff
+    staff: IStaff;
+    empllink: IEmployeeProduct[];
 }
 
 export const nullEmployee = {
@@ -61,7 +62,8 @@ export const nullEmployee = {
     addrResidence: '',
     contactEmail: '',
     contactPhone: '',
-    staff: {...nullStaff}
+    staff: {...nullStaff},
+    empllink: []
 };
 
 export const docType = [
@@ -78,3 +80,9 @@ export const docType = [
         label: 'Паспорт иностранного гражданина'
     }
 ];
+
+export interface IEmployeeProduct {
+    id: number;
+    productId: number;
+    productName: string;
+}
