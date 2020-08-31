@@ -65,7 +65,7 @@ class EmployeeProductLinkSerializer(serializers.ModelSerializer):
     """
     Продукция, доступная сотруднику для формирования прайс-листа
     """
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
     productId = serializers.IntegerField(source='id_product.id')
     productName = serializers.CharField(source='id_product.name')
 
@@ -97,10 +97,25 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         id_staff = validated_data.pop('id_staff')['id']
+        available_products = validated_data.pop('empllink')
         employee = Employee.objects.create(**validated_data, id_staff_id=id_staff)
+
+        for item in available_products:
+            EmployeeProductLink.objects.create(
+                id_employee=employee,
+                id_product_id=item['id_product']['id']
+            )
         return employee
 
     def update(self, instance, validated_data):
+        available_products = validated_data.pop('empllink')
+        original_empllink = instance.empllink.all()
+
+        original_ids = {item.id: item for item in original_empllink}
+        new_ids = {}
+        for item in available_products:
+            new_ids[item['id']] = item
+
         instance.tab_num = validated_data['tab_num']
         instance.fio = validated_data['fio']
         instance.dob = validated_data['dob']
@@ -115,6 +130,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
         instance.contact_email = validated_data['contact_email']
         instance.id_staff_id = validated_data['id_staff']['id']
         instance.save()
+
+        for object_id, item in new_ids.items():
+            object_item = original_ids.get(object_id, None)
+            if not object_item:
+                EmployeeProductLink.objects.create(
+                    id_employee=instance,
+                    id_product_id=item['id_product']['id']
+                )
+
+        for object_id, item in original_ids.items():
+            if object_id not in new_ids:
+                item.delete()
+
         return instance
 
     class Meta:
