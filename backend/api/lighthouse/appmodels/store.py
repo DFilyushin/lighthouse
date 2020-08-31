@@ -22,6 +22,7 @@ class RefCost(models.Model):
                                   verbose_name='Родительская затрата', related_name='parentcost')
     name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование')
     id_raw = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True, verbose_name='Ссылка на сырьё')
+    id_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Ссылка на сотрудника')
     is_system = models.BooleanField(default=False, null=False, verbose_name='Системная')
 
     def __str__(self):

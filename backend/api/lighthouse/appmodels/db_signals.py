@@ -45,7 +45,7 @@ def employee_post_save_handler(sender, **kwargs):
         instance = kwargs['instance']
         RefCost.objects.create(
             name='З/п {}'.format(instance.fio),
-            id_raw=instance.id,
+            id_employee=instance.id,
             id_parent_id=REF_COST_PARENT_SALARY,
             is_system=True
         )
