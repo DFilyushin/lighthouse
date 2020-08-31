@@ -1,6 +1,6 @@
 import {hideInfoMessage, showInfoMessage} from "./infoAction"
 import EmployeeEndpoint from "services/endpoints/EmployeeEndpoint"
-import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem, nullEmployee} from "types/model/employee"
+import {IEmployee, IEmployeeListItem, IEmployeeProduct, IEmployeeWorkTimeItem, nullEmployee} from "types/model/employee"
 import {
     EMPLOYEE_CLEAR_ERROR,
     EMPLOYEE_DELETE_OK, EMPLOYEE_ITEM_OK,
@@ -15,6 +15,8 @@ import {
 } from "./types"
 import authAxios from "../../services/axios-api"
 import {NEW_RECORD_VALUE} from "../../utils/AppConst"
+import {IProduct} from "../../types/model/product";
+import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils";
 
 
 /**
@@ -202,6 +204,39 @@ export function updateEmployeeItem(item: IEmployee) {
         }catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
+    }
+}
+
+
+/**
+ * Удалить запись с продукцией
+ * @param id Код записи
+ */
+export function deleteEmployeeProduct(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const item = {...getState().employee.employeeItem};
+        const index = item.empllink.findIndex((item:IEmployeeProduct)=> {return item.id === id});
+        item.empllink.splice(index, 1);
+        dispatch(fetchItemSuccess(item));
+    }
+}
+
+/**
+ * Добавить новую позицию в список продукции, доступной сотруднику
+ * @param product Объект продукта
+ */
+export function addEmployeeProduct(product: IProduct) {
+    return async (dispatch: any, getState: any) => {
+        const item = {...getState().employee.employeeItem}
+        const newProduct: IEmployeeProduct = {
+            id: -getRandomInt(MAX_RANDOM_VALUE),
+            productId: product.id,
+            productName: product.name
+        }
+        item.empllink.push(
+            newProduct
+        )
+        dispatch(fetchItemSuccess(item))
     }
 }
 
