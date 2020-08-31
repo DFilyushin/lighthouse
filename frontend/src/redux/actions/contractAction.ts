@@ -41,7 +41,12 @@ export function loadContractList(state: number, onlyOwnContract: boolean, search
             });
             dispatch(fetchSuccess(items))
         } catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            if (!e.status)
+            {
+                dispatch(showInfoMessage("error", 'Нет доступа к серверу приложения!'))
+            }
+            else
+                dispatch(showInfoMessage("error", e.toString()))
         }
         dispatch(fetchFinish())
     }
@@ -114,7 +119,8 @@ export function loadContractItem(id: number, func0?: any) {
                     id: AuthenticationService.currentEmployeeId(),
                     fio: AuthenticationService.currentEmployee(),
                     staff: '',
-                    tabNum: ''
+                    tabNum: '',
+                    fired: ''
                 }
             }
             dispatch(fetchItemSuccess(item))

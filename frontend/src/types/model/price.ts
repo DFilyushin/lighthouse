@@ -25,6 +25,7 @@ export const nullPrice: IPrice = {
         id: 0,
         fio: '',
         staff: '',
-        tabNum: ''
+        tabNum: '',
+        fired: ''
     }
 }

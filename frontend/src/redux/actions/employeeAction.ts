@@ -1,6 +1,6 @@
-import {hideInfoMessage, showInfoMessage} from "./infoAction";
-import EmployeeEndpoint from "services/endpoints/EmployeeEndpoint";
-import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem, nullEmployee} from "types/model/employee";
+import {hideInfoMessage, showInfoMessage} from "./infoAction"
+import EmployeeEndpoint from "services/endpoints/EmployeeEndpoint"
+import {IEmployee, IEmployeeListItem, IEmployeeWorkTimeItem, nullEmployee} from "types/model/employee"
 import {
     EMPLOYEE_CLEAR_ERROR,
     EMPLOYEE_DELETE_OK, EMPLOYEE_ITEM_OK,
@@ -10,23 +10,26 @@ import {
     EMPLOYEE_LOAD_WITHOUT_LOGINS,
     EMPLOYEE_LOAD_WORKTIME_SUCCESS,
     EMPLOYEE_SET_ERROR,
-    EMPLOYEE_UPDATE_ITEM
-} from "./types";
-import authAxios from "../../services/axios-api";
-import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+    EMPLOYEE_UPDATE_ITEM,
+    EMPLOYEE_CHANGE_FIRED
+} from "./types"
+import authAxios from "../../services/axios-api"
+import {NEW_RECORD_VALUE} from "../../utils/AppConst"
+
 
 /**
  * Загрузить список сотрудников
+ * @param showFired
  * @param search Строка поиска
  * @param limit Лимит вывода
  */
-export function loadEmployeeList(search?: string, limit?: number) {
+export function loadEmployeeList(showFired: boolean = false, search?: string, limit?: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
 
         try {
-            const url = EmployeeEndpoint.getEmployeeList(search);
+            const url = EmployeeEndpoint.getEmployeeList(showFired, search);
             const items: IEmployeeListItem[] = [];
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index) => {
@@ -40,6 +43,13 @@ export function loadEmployeeList(search?: string, limit?: number) {
     }
 }
 
+
+/**
+ * Загрузить отработанное время сотрудником
+ * @param id Код сотрудника
+ * @param start Начало периода
+ * @param end Окончание периода
+ */
 export function loadEmployeeWorkTimeTable(id: number, start: string, end: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
@@ -86,6 +96,14 @@ function fetchSuccessLoadWorkTimeTable(items: IEmployeeWorkTimeItem[]) {
     return{
         type: EMPLOYEE_LOAD_WORKTIME_SUCCESS,
         items
+    }
+}
+
+
+export function changeFiredStatus(value: boolean) {
+    return{
+        type: EMPLOYEE_CHANGE_FIRED,
+        value
     }
 }
 

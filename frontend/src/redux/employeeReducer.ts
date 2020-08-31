@@ -10,7 +10,8 @@ import {
     EMPLOYEE_UPDATE_ITEM,
     EMPLOYEE_CLEAR_ERROR,
     EMPLOYEE_LOAD_WORKTIME_SUCCESS,
-    EMPLOYEE_LOAD_WITHOUT_LOGINS
+    EMPLOYEE_LOAD_WITHOUT_LOGINS,
+    EMPLOYEE_CHANGE_FIRED
 } from "./actions/types";
 
 const getInitState = () => ({
@@ -20,21 +21,35 @@ const getInitState = () => ({
     error: '',
     hasError: false,
     workTimeItems: [],
-    employeeWithoutLogins: []
+    employeeWithoutLogins: [],
+    showFired: false
 });
 
-export const employeeReducer = (state: IEmployeeState = getInitState(), action: any)=>{
+export const employeeReducer = (state: IEmployeeState = getInitState(), action: any) => {
     switch (action.type) {
-        case EMPLOYEE_LOAD_START: return {...state, isLoading: true};
-        case EMPLOYEE_LOAD_FINISH: return {...state, isLoading: false};
-        case EMPLOYEE_LOAD_SUCCESS: return {...state, items: action.items};
-        case EMPLOYEE_SET_ERROR: return {...state, error: action.error, hasError: true};
-        case EMPLOYEE_DELETE_OK: return {...state, items: action.items};
-        case EMPLOYEE_ITEM_OK: return {...state, employeeItem: action.item};
-        case EMPLOYEE_UPDATE_ITEM: return {...state, employeeItem: action.item};
-        case EMPLOYEE_CLEAR_ERROR: return {...state, error: '', hasError: false};
-        case EMPLOYEE_LOAD_WORKTIME_SUCCESS: return {...state, workTimeItems: action.items}
-        case EMPLOYEE_LOAD_WITHOUT_LOGINS: return {...state, employeeWithoutLogins: action.items}
-        default: return state;
+        case EMPLOYEE_LOAD_START:
+            return {...state, isLoading: true};
+        case EMPLOYEE_LOAD_FINISH:
+            return {...state, isLoading: false};
+        case EMPLOYEE_LOAD_SUCCESS:
+            return {...state, employeeItems: action.items};
+        case EMPLOYEE_SET_ERROR:
+            return {...state, error: action.error, hasError: true};
+        case EMPLOYEE_DELETE_OK:
+            return {...state, employeeItems: action.items};
+        case EMPLOYEE_ITEM_OK:
+            return {...state, employeeItem: action.item};
+        case EMPLOYEE_UPDATE_ITEM:
+            return {...state, employeeItem: action.item};
+        case EMPLOYEE_CLEAR_ERROR:
+            return {...state, error: '', hasError: false};
+        case EMPLOYEE_LOAD_WORKTIME_SUCCESS:
+            return {...state, workTimeItems: action.items}
+        case EMPLOYEE_LOAD_WITHOUT_LOGINS:
+            return {...state, employeeWithoutLogins: action.items}
+        case EMPLOYEE_CHANGE_FIRED:
+            return {...state, showFired: action.value}
+        default:
+            return state;
     }
 }

@@ -6,13 +6,15 @@ export interface IEmployeeListItem {
     tabNum: string;
     fio: string;
     staff: string;
+    fired: string;
 }
 
 export const nullEmployeeItem = {
     id: 0,
     tabNum: '',
     fio: '',
-    staff: ''
+    staff: '',
+    fired: ''
 };
 
 export interface IEmployeeWorkTimeItem {

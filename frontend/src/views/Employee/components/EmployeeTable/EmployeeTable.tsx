@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import {IEmployeeListItem} from 'types/model/employee';
 import Button from "@material-ui/core/Button";
+import {red} from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -38,6 +39,9 @@ const useStyles = makeStyles(theme => ({
     },
     tableRow: {
 
+    },
+    fired: {
+        color: 'red'
     }
 }));
 
@@ -46,7 +50,7 @@ interface IEmployeesTable{
     employees: IEmployeeListItem[];
     onClickItem: any;
     onChangeSelected: any;
-};
+}
 
 
 
@@ -152,9 +156,9 @@ const EmployeeTable = (props: IEmployeesTable) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{employee.tabNum}</Typography>
+                                            <Typography variant="body1" className={employee.fired ? classes.fired : ''}>{employee.tabNum}</Typography>
                                         </TableCell>
-                                        <TableCell>{employee.fio}</TableCell>
+                                        <TableCell className={employee.fired ? classes.fired : ''}>{employee.fio}</TableCell>
                                         <TableCell>{employee.staff}</TableCell>
                                         <TableCell align="right">
                                             <Button variant="outlined" color="primary" onClick={event => cellClicked(employee.id)}>Открыть</Button>

@@ -7,5 +7,7 @@ export interface IEmployeeState {
     employeeWithoutLogins: IEmployeeListItem[];
     isLoading: boolean;
     error: string;
-    hasError: boolean
+    hasError: boolean;
+    showFired: boolean;
+
 }

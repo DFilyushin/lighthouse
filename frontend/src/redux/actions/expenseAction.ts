@@ -53,14 +53,17 @@ export function loadExpenseItem(id: number) {
         if (id === NEW_RECORD_VALUE) {
             const idEmployee = AuthenticationService.currentEmployeeId()
             const fio = AuthenticationService.currentEmployee()
-            const item = {...nullExpenseItem, employee: {
-                id: idEmployee,
+            const item = {
+                ...nullExpenseItem, employee: {
+                    id: idEmployee,
                     tabNum: '',
                     fio: fio,
-                    staff: ''}
+                    staff: '',
+                    fired: ''
+                }
             }
             dispatch(fetchSuccessItem(item))
-        }else {
+        } else {
             try {
                 const url = ExpenseEndpoint.getExpense(id)
                 const response = await authAxios.get(url)
@@ -81,10 +84,10 @@ export function loadExpenseItem(id: number) {
  */
 export function updateExpenseItem(item: IExpense) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             delete item.created
             await authAxios.put(ExpenseEndpoint.updateExpense(item.id), item);
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
     }
@@ -95,11 +98,11 @@ export function updateExpenseItem(item: IExpense) {
  * @param item Объект затраты
  */
 export function addExpenseItem(item: IExpense) {
-    return async (dispatch: any, getState: any)=> {
-        try{
+    return async (dispatch: any, getState: any) => {
+        try {
             delete item.created
             await authAxios.post(ExpenseEndpoint.newExpense(), item)
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
     }
@@ -112,19 +115,20 @@ export function addExpenseItem(item: IExpense) {
 export function deleteExpense(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart())
-        try{
+        try {
             const response = await authAxios.delete(ExpenseEndpoint.deleteExpense(id))
             if (response.status === 204) {
                 const items = [...getState().employee.items]
-                const index = items.findIndex((elem)=>{return elem.id === id})
+                const index = items.findIndex((elem) => {
+                    return elem.id === id
+                })
                 items.splice(index, 1)
                 dispatch(deleteOk(items))
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))
-            }
-            else {
+            } else {
                 dispatch(showInfoMessage('error', `Неизвестная ошибка при удалении: ${response.status.toString()}`))
             }
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', `Не удалось удалить запись ${e.toString()}!`))
         }
         dispatch(fetchFinish())
@@ -132,14 +136,14 @@ export function deleteExpense(id: number) {
 }
 
 export function changeExpense(item: IExpense) {
-    return{
+    return {
         type: EXPENSE_CHANGE_ITEM,
         item
     }
 }
 
 export function setExpenseCost(newValue: number) {
-    return{
+    return {
         type: EXPENSE_SET_COST_VALUE,
         value: newValue
     }
@@ -151,7 +155,7 @@ export function setExpenseCost(newValue: number) {
  */
 export function setExpenseDateStart(newDate: string) {
     localStorage.setItem(EXPENSE_PERIOD_START, newDate)
-    return{
+    return {
         type: EXPENSE_SET_START_DATE,
         date: newDate
     }
@@ -163,7 +167,7 @@ export function setExpenseDateStart(newDate: string) {
  */
 export function setExpenseDateEnd(newDate: string) {
     localStorage.setItem(EXPENSE_PERIOD_END, newDate)
-    return{
+    return {
         type: EXPENSE_SET_END_DATE,
         date: newDate
     }
@@ -171,33 +175,33 @@ export function setExpenseDateEnd(newDate: string) {
 
 
 function fetchStart() {
-    return{
+    return {
         type: EXPENSE_LOAD_START
     }
 }
 
 function fetchFinish() {
-    return{
+    return {
         type: EXPENSE_LOAD_FINISH
     }
 }
 
 function fetchSuccess(items: IExpenseTableItem[]) {
-    return{
+    return {
         type: EXPENSE_LOAD_SUCCESS,
         items
     }
 }
 
 function fetchSuccessItem(item: IExpense) {
-    return{
+    return {
         type: EXPENSE_LOAD_SUCCESS_ITEM,
         item
     }
 }
 
 function deleteOk(items: IExpenseTableItem[]) {
-    return{
+    return {
         type: EXPENSE_DELETE_OK,
         items
     }
