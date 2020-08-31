@@ -1,4 +1,6 @@
 from lighthouse.appmodels.org import Employee, Staff, Org, Department
+from lighthouse.appmodels.appsetup import EmployeeProductLink
+from .serializer_refs import MaterialSerializer
 from rest_framework import serializers
 
 
@@ -59,6 +61,19 @@ class DepartmentSerializer(serializers.ModelSerializer):
         return instance
 
 
+class EmployeeProductLinkSerializer(serializers.ModelSerializer):
+    """
+    Продукция, доступная сотруднику для формирования прайс-листа
+    """
+    id = serializers.IntegerField()
+    productId = serializers.IntegerField(source='id_product.id')
+    productName = serializers.CharField(source='id_product.name')
+
+    class Meta:
+        model = EmployeeProductLink
+        fields = ['id', 'productId', 'productName']
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     """
     Сотрудник (объект)
@@ -78,6 +93,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     contactPhone = serializers.CharField(source='contact_phone')
     contactEmail = serializers.CharField(source='contact_email')
     staff = StaffSerializer(source='id_staff')
+    empllink = EmployeeProductLinkSerializer(many=True)
 
     def create(self, validated_data):
         id_staff = validated_data.pop('id_staff')['id']
@@ -104,7 +120,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ('id', 'created', 'tabNum', 'fio', 'dob', 'iin', 'docType', 'docDate', 'docAuth', 'docNum',
-                  'addrRegistration', 'addrResidence', 'contactPhone', 'contactEmail', 'staff')
+                  'addrRegistration', 'addrResidence', 'contactPhone', 'contactEmail', 'staff', 'empllink')
 
 
 class EmployeeListSerializer(serializers.ModelSerializer):
@@ -126,10 +142,11 @@ class EmployeeListSimpleSerializer(serializers.ModelSerializer):
     Сотрудники (список)
     """
     id = serializers.IntegerField()
-    tabNum = serializers.CharField(source='tab_num',allow_blank=True)
+    tabNum = serializers.CharField(source='tab_num', allow_blank=True)
     fio = serializers.CharField()
     staff = serializers.CharField(source='id_staff__name', allow_blank=True)
+    fired = serializers.DateField(allow_null=True)
 
     class Meta:
         model = Employee
-        fields = ('id', 'tabNum', 'fio', 'staff')
+        fields = ('id', 'tabNum', 'fio', 'staff', 'fired')

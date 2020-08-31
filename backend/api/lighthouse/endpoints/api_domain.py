@@ -80,7 +80,7 @@ class EmployeeView(viewsets.ModelViewSet):
             queryset = Employee.objects.all()
             if hide_fired:
                 queryset = queryset.filter(fired__isnull=True)
-            return queryset.values('id', 'tab_num', 'fio', 'id_staff__name')
+            return queryset.values('id', 'tab_num', 'fio', 'id_staff__name', 'fired')
         else:
             return Employee.objects.filter(fired__isnull=True)
 
