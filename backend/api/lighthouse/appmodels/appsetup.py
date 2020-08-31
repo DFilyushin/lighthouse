@@ -46,7 +46,8 @@ class EmployeeProductLink(models.Model):
     """
     Шаблон для прайс-листа сотрудника
     """
-    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник',
+                                    related_name='empllink')
     id_product = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Продукция')
 
     def __str__(self):
