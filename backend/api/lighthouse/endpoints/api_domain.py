@@ -56,7 +56,7 @@ class StaffViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = (filters.SearchFilter,)
     search_fields = ['name']
-    
+
 
 class EmployeeView(viewsets.ModelViewSet):
     """
@@ -75,7 +75,12 @@ class EmployeeView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Employee.objects.filter(fired__isnull=True).values('id', 'tab_num', 'fio', 'id_staff__name')
+            # признак показа уволенных сотрудников
+            hide_fired = not (True if self.request.GET.get('fired', None) == 'on' else False)
+            queryset = Employee.objects.all()
+            if hide_fired:
+                queryset = queryset.filter(fired__isnull=True)
+            return queryset.values('id', 'tab_num', 'fio', 'id_staff__name')
         else:
             return Employee.objects.filter(fired__isnull=True)
 
