@@ -26,7 +26,7 @@ const FactoryLineList = () => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
 
-    const items = useSelector((state: IStateInterface) => state.factoryLine.items);
+    const items = useSelector((state: IStateInterface) => state.factoryLine.lineItems);
     const isLoading = useSelector((state: IStateInterface) => state.factoryLine.isLoading);
     const [selected, setSelected] = useState<number[]>([]);
 

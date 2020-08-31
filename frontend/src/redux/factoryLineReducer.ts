@@ -10,7 +10,7 @@ import {
 } from 'redux/actions/types'
 
 const getInitState = () => ({
-    items: [],
+    lineItems: [],
     lineItem: {id: 0, name: ''},
     isLoading: false,
     error: '',
@@ -28,7 +28,7 @@ export const factoryLineReducer =  (state: IFactoryLineState = getInitState(), a
         case FACTORY_LINE_SET_ERROR:
             return {...state, hasError: true, error: action.error};
         case FACTORY_LINE_LOAD_SUCCESS:
-            return {...state, items: action.items};
+            return {...state, lineItems: action.items};
         case FACTORY_LINE_LOAD_ITEM:
             return {...state, lineItem: action.item};
         case FACTORY_CLEAR_ERROR:
@@ -36,7 +36,7 @@ export const factoryLineReducer =  (state: IFactoryLineState = getInitState(), a
         case FACTORY_LINE_UPDATE:
             return {...state, lineItem: action.item};
         case FACTORY_LINE_DELETE_OK:
-            return {...state, items: action.items};
+            return {...state, lineItems: action.items};
         default: return state;
     }
 };

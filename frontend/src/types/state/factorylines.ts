@@ -1,7 +1,7 @@
 import {IFactoryLine} from 'types/model/factorylines'
 
 export interface IFactoryLineState {
-    items: IFactoryLine[],
+    lineItems: IFactoryLine[],
     lineItem: IFactoryLine,
     isLoading: boolean,
     error: string,
