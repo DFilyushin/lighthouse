@@ -44,7 +44,7 @@ const PriceList = () => {
     const selectDialog = useDialog();
 
     const priceList = useSelector((state: IStateInterface) => state.price.priceList)
-    const employees = useSelector((state: IStateInterface) => state.employee.items)
+    const employees = useSelector((state: IStateInterface) => state.employee.employeeItems)
     const isLoading = useSelector((state: IStateInterface) => state.price.isLoading)
     const [selected, setSelected] = useState<number[]>([]);
 

@@ -155,7 +155,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.lineItems)
-    const emplItems = useSelector((state: IStateInterface) => state.employee.items)
+    const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
     const workItems = useSelector((state: IStateInterface) => state.works.workItems)
     const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
     const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId))

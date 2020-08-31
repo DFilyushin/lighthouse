@@ -15,7 +15,7 @@ import {
 } from "./actions/types";
 
 const getInitState = () => ({
-    items: [],
+    employeeItems: [],
     employeeItem: nullEmployee,
     isLoading: false,
     error: '',

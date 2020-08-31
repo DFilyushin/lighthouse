@@ -49,7 +49,7 @@ const PriceItem = (props: IPriceItemProps) => {
     const { className, ...rest } = props;
     const productItems = useSelector((state: IStateInterface) => state.product.products)
     const tareItems = useSelector((state: IStateInterface)=> state.tare.tareItems)
-    const employeeItems = useSelector((state: IStateInterface)=> state.employee.items)
+    const employeeItems = useSelector((state: IStateInterface)=> state.employee.employeeItems)
     const priceItem  = useSelector((state: IStateInterface)=> state.price.priceItem)
 
 

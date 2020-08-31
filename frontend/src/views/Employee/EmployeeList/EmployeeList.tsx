@@ -26,7 +26,7 @@ const EmployeeList = () => {
 
     const [selected, setSelected] = useState<number[]>([])
     const showFired = useSelector((state: IStateInterface)=> state.employee.showFired)
-    const employees = useSelector((state: IStateInterface)=> state.employee.items)
+    const employees = useSelector((state: IStateInterface)=> state.employee.employeeItems)
 
 
     useEffect(()=>{
