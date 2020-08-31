@@ -4,14 +4,16 @@ import BaseAPIEndpoint from "./BaseEndpoint";
 class EmployeeEndpoint{
     /**
      * Получить список сотрудников
+     * @param showFired Отображать уволенных
      * @param search Строка поиска
      * @param limit Лимит вывода записей
      * @param offset Сдвиг
      */
-    static getEmployeeList(search?: string, limit?: number, offset?: number){
+    static getEmployeeList(showFired: boolean = false, search?: string, limit?: number,  offset?: number){
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/employee/`;
         const url = new URL(baseUrl);
         if (search) url.searchParams.append('search', search);
+        if (showFired) url.searchParams.append('fired', 'on');
         return url.href
     }
 
