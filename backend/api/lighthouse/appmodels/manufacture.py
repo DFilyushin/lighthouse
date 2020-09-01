@@ -26,7 +26,8 @@ MANUFACTURE_STATE = [
 
 class MaterialUnit(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Код')
-    name = models.CharField(max_length=255, blank=False, null=False, verbose_name='Наименование ед. измерения')
+    name = models.CharField(max_length=255, blank=False, null=False, unique=True,
+                            verbose_name='Наименование ед. измерения')
 
     def __str__(self):
         return self.name
@@ -54,6 +55,7 @@ class Tare(models.Model):
         verbose_name = 'Тара'
         verbose_name_plural = 'Тара'
         ordering = ['name']
+        unique_together = ['name', 'id_unit', 'v']
         indexes = [
             models.Index(name='idx_tare_name', fields=['name'])
         ]
@@ -61,7 +63,7 @@ class Tare(models.Model):
 
 class RefMaterialType(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Код')
-    name = models.CharField(max_length=50, blank=False, null=False, verbose_name='Наименование')
+    name = models.CharField(max_length=50, blank=False, null=False, unique=True, verbose_name='Наименование')
 
     def __str__(self):
         return self.name
@@ -87,6 +89,7 @@ class Material(models.Model):
         verbose_name = 'Материал'
         verbose_name_plural = 'Материалы'
         ordering = ['name']
+        unique_together = ['name', 'id_type']
         indexes = [
             models.Index(fields=['name'])
         ]
@@ -164,7 +167,7 @@ class ProductionLine(models.Model):
 
 
 class ProductionWork(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Наименование работы')
+    name = models.CharField(max_length=100, unique=True, verbose_name='Наименование работы')
 
     def __str__(self):
         return self.name
