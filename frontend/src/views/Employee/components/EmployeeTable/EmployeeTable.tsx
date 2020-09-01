@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     fired: {
-        color: 'red'
+        color: red.A100
     }
 }));
 
