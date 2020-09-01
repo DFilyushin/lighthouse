@@ -32,7 +32,7 @@ class Org(models.Model):
 
 class Staff(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True, verbose_name='Наименование должности')
 
     def __str__(self):
         return self.name
@@ -81,7 +81,7 @@ class Employee(models.Model):
 
 class Department(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, null=False, blank=False, verbose_name='Наименование отдела')
+    name = models.CharField(max_length=200, null=False, blank=False, unique=True, verbose_name='Наименование отдела')
 
     def __str__(self):
         return self.name
