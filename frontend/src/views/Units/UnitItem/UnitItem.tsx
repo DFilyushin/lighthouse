@@ -64,17 +64,30 @@ const UnitItem = (props: IUnitItemProps) => {
         dispatch(changeUnit(item))
     };
 
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (unitId === NEW_RECORD_VALUE) {
+                console.log('new___')
+                await dispatch(addNewUnit(unitItem));
+            } else {
+                await dispatch(updateUnit(unitItem));
+            }
+            resolve()
+        }catch (e) {
+            reject()
+        }
+    })
+
     /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (unitId === NEW_RECORD_VALUE) {
-            dispatch(addNewUnit(unitItem));
-        } else {
-            dispatch(updateUnit(unitItem));
+        event.preventDefault()
+        saveItem(dispatch).then( () => {
+            history.push('/catalogs/units');
         }
-        if (!hasError) history.push('/catalogs/units');
+        )
     };
 
     useEffect( ()=> {

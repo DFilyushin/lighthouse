@@ -102,8 +102,12 @@ export function addNewUnit(item: IUnit) {
             const items = [...getState().unit.unitItems]
             items.push(response.data)
             dispatch(fetchSuccess(items))
+            return Promise.resolve()
         }catch (e) {
-            dispatch(saveError('Не удалось добавить новую запись!'))
+            console.log('Error add new unit. Error:', e.toString())
+            const  errorMessage = `Не удалось добавить новую запись по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            return Promise.reject()
         }
     }
 }
@@ -120,8 +124,12 @@ export function updateUnit(item: IUnit) {
             const index = items.findIndex(value => value.id === item.id)
             items[index] = item
             dispatch(fetchSuccess(items))
+            return Promise.resolve()
         }catch (e) {
-            dispatch(saveError(e.toString()))
+            console.log('Error update unit. Error:', e.toString())
+            const  errorMessage = `Не удалось сохранить изменения по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            return Promise.reject()
         }
     }
 }
