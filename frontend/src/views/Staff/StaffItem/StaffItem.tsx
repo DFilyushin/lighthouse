@@ -12,8 +12,9 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {addNewStaff, changeItem, loadStaffItem, updateItem} from "redux/actions/staffAction";
+import {addNewStaff, changeItem, loadStaffItem, updateStaffItem} from "redux/actions/staffAction";
 import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {addNewUnit, updateUnit} from "../../../redux/actions/unitAction";
 
 
 interface IStaffItemProps {
@@ -36,27 +37,37 @@ const StaffItem = (props: IStaffItemProps) => {
     const { className, ...rest } = props;
 
     const staffItem  = useSelector((state: any)=> state.staff.staffItem);
-    //const isLoading = useSelector((state: any) => state.staff.isLoading);
-    //const errorValue = useSelector((state: any) => state.staff.error);
-    const hasError = useSelector((state: any) => state.staff.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const raw = {...staffItem, [event.target.name]: event.target.value};
         dispatch(changeItem(raw))
     };
 
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (staffId === NEW_RECORD_VALUE) {
+                await dispatch(addNewStaff(staffItem));
+            } else {
+                await dispatch(updateStaffItem(staffItem));
+            }
+            resolve()
+        }catch (e) {
+            reject()
+        }
+    })
+
+
     /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (staffId === NEW_RECORD_VALUE) {
-            dispatch(addNewStaff(staffItem));
-        } else {
-            dispatch(updateItem(staffItem));
-        }
-        if (!hasError) history.push('/org/staff');
-    };
+        event.preventDefault()
+        saveItem(dispatch).then( () => {
+            history.push('/org/staff');
+            }
+        )
+    }
 
     useEffect( ()=> {
             dispatch(loadStaffItem(staffId));

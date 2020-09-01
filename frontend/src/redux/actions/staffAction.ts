@@ -12,6 +12,7 @@ import {
 } from "./types";
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import {showInfoMessage} from "./infoAction";
 
 
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
@@ -109,8 +110,12 @@ export function addNewStaff(item: IStaff) {
                 return 0 // Никакой сортировки
             })
             dispatch(fetchSuccess(items))
+            return Promise.resolve()
         }catch (e) {
-            dispatch(fetchError('Не удалось добавить новую запись!'))
+            console.log('Error update staff. Error:', e.toString())
+            const  errorMessage = `Не удалось добавить новую должность по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            return Promise.reject()
         }
     }
 }
@@ -126,12 +131,16 @@ export function changeItem(item: IStaff) {
  * Сохранить изменения
  * @param item Объект
  */
-export function updateItem(item: IStaff) {
+export function updateStaffItem(item: IStaff) {
     return async (dispatch: any, getState: any) => {
         try{
-            await authAxios.put(StaffEndpoint.saveStaff(item.id), item);
+            await authAxios.put(StaffEndpoint.saveStaff(item.id), item)
+            return Promise.resolve()
         }catch (e) {
-            dispatch(fetchError(e))
+            console.log('Error update staff. Error:', e.toString())
+            const  errorMessage = `Не удалось сохранить изменения по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            return Promise.reject()
         }
     }
 }
