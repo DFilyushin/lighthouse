@@ -1,5 +1,7 @@
+from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import exception_handler
 
 API_ERROR_POST_TURNOVER = 'Ошибка сервера. Не удалось сохранить данные складской операции.'
 API_ERROR_CARD_IS_CLOSE = 'Производственная карта выполнена, изменения невозможны'
@@ -12,7 +14,6 @@ API_ERROR_CARD_INCORRECT_TARE = 'Некорректно указана фасо�
 API_ERROR_CONTRACT_INCORRECT_STATUS = 'Указан некорректный статус!'
 API_ERROR_CONTRACT_NO_PAYMENT = 'Оплата не соответствует стоимости контракта!'
 API_ERROR_CONTRACT_IS_CLOSE = 'Контракт исполнен, изменения невозможны'
-
 
 
 class AppError(Exception):
@@ -30,3 +31,24 @@ def api_error_response(error_message):
         "message": error_message
     }
     return Response(status=status.HTTP_400_BAD_REQUEST, data=error)
+
+
+def custom_exception_handler(exc, context):
+    response = exception_handler(exc, context)
+    if isinstance(exc, IntegrityError):
+        response = Response(
+            data={
+                'message': "Повторяющееся значение",
+                'detail': exc.args[0]
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+    # Now add the HTTP status code to the response.
+    if response is not None and response.status_code == 404:
+        response.data = {
+            "message": "Instance not found.",
+            "error": "HTTP_404_NOT_FOUND",
+        }
+
+    return response
