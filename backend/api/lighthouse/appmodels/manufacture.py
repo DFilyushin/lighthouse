@@ -155,7 +155,7 @@ class FormulaComp(models.Model):
 
 class ProductionLine(models.Model):
 
-    name = models.CharField(max_length=100, verbose_name='Наименование линии')
+    name = models.CharField(max_length=100, unique=True, verbose_name='Наименование линии')
 
     def __str__(self):
         return self.name
