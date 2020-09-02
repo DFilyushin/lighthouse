@@ -1,8 +1,8 @@
 import {
     IContract,
-    IContractListItem, IContractListItemSimple,
+    IContractListItem, IContractListItemSimple, IContractManagerAccess,
     IContractSpecItem, IWaitPaymentContractItem,
-    nullContractItem,
+    nullContractItem, nullContractManagerAccess,
     nullContractSpecItem, nullWaitPaymentContractItem
 } from "types/model/contract";
 import {hideInfoMessage, showInfoMessage} from "./infoAction";
@@ -20,6 +20,7 @@ import authAxios from "../../services/axios-api";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import AuthenticationService from "../../services/Authentication.service";
 import {getRandomInt, MAX_RANDOM_VALUE, RoundValue} from "../../utils/AppUtils";
+import {IEmployeeListItem} from "../../types/model/employee";
 
 /**
  * Получить список контрактов
@@ -186,6 +187,39 @@ export function addNewWaitPaymentItem() {
 }
 
 /**
+ * Добавить менеджера в список доступа контракта
+ * @param employee Объект сотрудника
+ */
+export function addNewManagerItem(employee: IEmployeeListItem) {
+    return async (dispatch: any, getState: any)=> {
+        const item = {...getState().contract.contractItem}
+        const newItem: IContractManagerAccess = {
+            ...nullContractManagerAccess,
+            id: -getRandomInt(MAX_RANDOM_VALUE),
+            employeeId: employee.id,
+            employeeFio: employee.fio
+        }
+        item.employeeAccess.unshift(newItem)
+        dispatch(fetchItemSuccess(item))
+    }
+}
+
+/**
+ * Удалить запись о доступе к контракту
+ * @param id Код записи
+ */
+export function deleteManagerAccessItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const item = {...getState().contract.contractItem};
+        const index = item.employeeAccess.findIndex((item:IContractManagerAccess)=> {return item.id === id});
+        item.employeeAccess.splice(index, 1);
+        dispatch(fetchItemSuccess(item));
+    }
+}
+
+
+
+/**
  * Удалить строку графика платежей
  * @param id Код записи
  */
@@ -208,6 +242,7 @@ export function addNewContract(item: IContract) {
         try{
             delete item.created
             if (item.delivered === '') {item.delivered = null}
+            console.log( JSON.stringify(item) )
             await authAxios.post(ContractEndpoint.newContract(), item)
             return Promise.resolve()
         }catch (e) {
@@ -225,6 +260,7 @@ export function addNewContract(item: IContract) {
 export function updateContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
         try{
+            console.log(JSON.stringify(item))
             await authAxios.put(ContractEndpoint.updateContract(item.id), item)
             return Promise.resolve()
         }catch (e) {
@@ -297,6 +333,20 @@ export function changePaymentWaitItem(item: IWaitPaymentContractItem) {
         dispatch(changeContractItem(contract));
     }
 }
+
+/**
+ * Изменить запись по доступу
+ * @param item
+ */
+export function changeManagerAccessItem(item: IContractManagerAccess) {
+    return async (dispatch: any, getState: any) => {
+        const contract = {...getState().contract.contractItem};
+        const index = contract.employeeAccess.findIndex((elem: IContractManagerAccess)=>{return elem.id === item.id})
+        contract.employeeAccess[index] = item
+        dispatch(changeContractItem(contract));
+    }
+}
+
 
 export function setShowOwnContract(value: boolean) {
     return{
