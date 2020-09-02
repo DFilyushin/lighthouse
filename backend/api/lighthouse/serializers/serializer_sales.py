@@ -1,6 +1,6 @@
 from lighthouse.appmodels.org import Employee
 from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMethod, Payment, PriceList, \
-    ContractExpectedPayment, CONTRACT_STATE_DRAFT
+    ContractExpectedPayment, CONTRACT_STATE_DRAFT, EmployeeContractAccess
 from .serializer_refs import TareSerializer
 from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
@@ -130,7 +130,7 @@ class ContractSpecSerializer(serializers.ModelSerializer):
     delivery = serializers.DateField(source='delivery_date', allow_null=True)
     delivered = serializers.DateField(allow_null=True)
     specNum = serializers.CharField(source='spec_num')
-    specDate = serializers.DateField(source='spec_date')
+    specDate = serializers.DateField(source='spec_date', allow_null=True)
 
     class Meta:
         model = ContractSpec
@@ -215,6 +215,18 @@ class ContractExpectedPaymentSerializer(serializers.ModelSerializer):
         fields = ('id', 'created', 'waitDate', 'waitSum')
 
 
+class ContractManagerAccessSerializer(serializers.ModelSerializer):
+    """Доступ менеджеров к чужим контрактам"""
+    id = serializers.IntegerField(required=False)
+    employeeId = serializers.IntegerField(source='id_employee.id')
+    employeeFio = serializers.CharField(source='id_employee.fio')
+    toDate = serializers.DateField(source='to_date', allow_null=True)
+
+    class Meta:
+        model = EmployeeContractAccess
+        fields = ('id', 'employeeId', 'employeeFio', 'toDate')
+
+
 class ContractSerializer(serializers.ModelSerializer):
     """Контракт"""
     id = serializers.IntegerField(required=False)
@@ -233,6 +245,7 @@ class ContractSerializer(serializers.ModelSerializer):
     payments = PaymentContractSerializer(many=True)
     waitPayments = ContractExpectedPaymentSerializer(many=True, source='expected_payment')
     deliveryTerms = serializers.CharField(source='delivery_terms', allow_blank=True, allow_null=True)
+    employeeAccess = ContractManagerAccessSerializer(source='employee_access', many=True)
 
     def create(self, validated_data):
         contract = Contract.objects.create(
@@ -250,6 +263,7 @@ class ContractSerializer(serializers.ModelSerializer):
         )
         specs = validated_data.pop('specs')
         wait_payments = validated_data.pop('expected_payment')
+        employeeAccess = validated_data.pop('employee_access')
 
         # сохранить спецификацию
         for item in specs:
@@ -273,6 +287,15 @@ class ContractSerializer(serializers.ModelSerializer):
                 wait_date=item['wait_date'],
                 wait_value=item['wait_value']
             )
+
+        # сохранить разрешение для просмотра контракта
+        for item in employeeAccess:
+            EmployeeContractAccess.objects.create(
+                id_employee_id=item['id_employee']['id'],
+                id_contract=contract,
+                to_date=item['to_date']
+            )
+
         return contract
 
     def update(self, instance, validated_data):
@@ -281,6 +304,10 @@ class ContractSerializer(serializers.ModelSerializer):
 
         wait_payments = validated_data.pop('expected_payment')
         original_payment = instance.expected_payment.all()
+
+        employeeAccess = validated_data.pop('employee_access')
+        original_access = instance.employee_access.all()
+
 
         original_specs_ids = {item.id: item for item in original_specs}
         data_mapping_specs = {}
@@ -291,6 +318,11 @@ class ContractSerializer(serializers.ModelSerializer):
         data_mapping_payment = {}
         for item in wait_payments:
             data_mapping_payment[item['id']] = item
+
+        original_access_ids = {item.id: item for item in original_access}
+        data_mapping_access = {}
+        for item in employeeAccess:
+            data_mapping_access[item['id']] = item
 
         instance.client = Client.objects.get(pk=validated_data['id_client']['id'])
         instance.num = validated_data['num']
@@ -320,6 +352,24 @@ class ContractSerializer(serializers.ModelSerializer):
         for object_id, item in original_pay_ids.items():
             if object_id not in data_mapping_payment:
                 item.delete()
+
+        # Сохранить изменения в списке доступа
+        for object_id, item in data_mapping_access.items():
+            object_item = original_access_ids.get(object_id, None)
+            if object_item:
+                object_access = EmployeeContractAccess.objects.get(pk=object_id)
+                object_access.to_date = item['to_date']
+                object_access.save()
+            else:
+                EmployeeContractAccess.objects.create(
+                    id_contract=instance,
+                    id_employee_id=item['id_employee']['id'],
+                    to_date=item['to_date']
+                )
+        for object_id, item in original_access_ids.items():
+            if object_id not in data_mapping_access:
+                item.delete()
+
 
         # Сохранить изменения в спецификации контракта
         for object_id, item in data_mapping_specs.items():
@@ -359,7 +409,8 @@ class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
-                  'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments', 'waitPayments')
+                  'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments', 'waitPayments',
+                  'employeeAccess')
 
 
 class PaymentListSerializer(serializers.ModelSerializer):
