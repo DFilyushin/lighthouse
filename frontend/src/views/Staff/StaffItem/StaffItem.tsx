@@ -14,8 +14,6 @@ import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewStaff, changeItem, loadStaffItem, updateStaffItem} from "redux/actions/staffAction";
 import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
-import {addNewUnit, updateUnit} from "../../../redux/actions/unitAction";
-
 
 interface IStaffItemProps {
     className: string,

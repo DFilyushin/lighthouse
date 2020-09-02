@@ -50,8 +50,6 @@ const UnitItem = (props: IUnitItemProps) => {
     const { className, ...rest } = props;
 
     const unitItem  = useSelector((state: any) => state.unit.unitItem);
-    //const errorValue = useSelector((state: any) => state.unit.error);
-    const hasError = useSelector((state: any) => state.unit.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
