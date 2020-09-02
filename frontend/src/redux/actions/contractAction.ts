@@ -158,11 +158,16 @@ export function deleteContractSpecItem(id: number) {
 
 /**
  * Добавить новую пустую строку спецификации
+ * @param num Номер спецификации
  */
-export function addNewSpecItem() {
+export function addNewSpecItem(num: string) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const newItem = {...nullContractSpecItem, id: -getRandomInt(MAX_RANDOM_VALUE), itemNds: getState().setup.nds}
+        const newItem = {...nullContractSpecItem,
+            id: -getRandomInt(MAX_RANDOM_VALUE),
+            itemNds: getState().setup.nds,
+            specNum: num
+        }
         item.specs.unshift(newItem);
         dispatch(fetchItemSuccess(item))
     }
