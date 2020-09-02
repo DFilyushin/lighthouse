@@ -58,6 +58,7 @@ import {showInfoMessage} from "../../../redux/actions/infoAction";
 import {TextFieldReadOnlyComponent} from "../../../components";
 import AuthenticationService from "../../../services/Authentication.service";
 import ContractSkeletonLoading from "../components/ContractSkeletonLoading";
+import ContractAccessTable from "../components/ContractAccessList";
 
 interface IContractItemProps extends RouteComponentProps {
     className: string,
@@ -67,6 +68,7 @@ interface IContractItemProps extends RouteComponentProps {
 const PAGE_MAIN = 0
 const PAGE_WAIT_PAYMENT = 1
 const PAGE_PAYMENT = 2
+const PAGE_ADVANCE = 3
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -501,6 +503,7 @@ const ContractItem = (props: IContractItemProps) => {
                                 <Tab label="Общие сведения" {...a11yProps(PAGE_MAIN)} />
                                 <Tab label="График платежей" {...a11yProps(PAGE_WAIT_PAYMENT)} />
                                 <Tab label="Оплаты по контракту"  {...a11yProps(PAGE_PAYMENT)} />
+                                <Tab label="Дополнительно" {...a11yProps(PAGE_ADVANCE)} />
                             </Tabs>
                         </Paper>
                         <TabPanel value={tab} index={PAGE_MAIN}>
@@ -606,8 +609,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                 </Button>
                                             }
                                         </Grid>
-                                        <Grid item xs={5} md={5}></Grid>
-
+                                        <Grid item xs={5} md={5}/>
                                         <Grid item md={2} xs={2}>
                                             <KeyboardDatePicker
                                                 className=''
@@ -830,6 +832,24 @@ const ContractItem = (props: IContractItemProps) => {
                                         </Fragment>
                                     )}
                             </Grid>
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_WAIT_PAYMENT}>
+                            <ContractWaitPaymentTable
+                                className={''}
+                                contract={contractItem.id}
+                                items={contractItem.waitPayments}
+                                onClickTableItem={handleClickTableItem}
+                            />
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_PAYMENT}>
+                            <ContractPaymentTable
+                                className={''}
+                                contract={contractItem.id}
+                                items={contractItem.payments}
+                                onClickTableItem={handleClickTableItem}
+                            />
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_ADVANCE}>
                             {contractId !== NEW_RECORD_VALUE &&
                             <Grid container spacing={1}>
                                 <Grid item xs={10} sm={10}>
@@ -858,22 +878,7 @@ const ContractItem = (props: IContractItemProps) => {
                                 </Grid>
                             </Grid>
                             }
-                        </TabPanel>
-                        <TabPanel value={tab} index={PAGE_WAIT_PAYMENT}>
-                            <ContractWaitPaymentTable
-                                className={''}
-                                contract={contractItem.id}
-                                items={contractItem.waitPayments}
-                                onClickTableItem={handleClickTableItem}
-                            />
-                        </TabPanel>
-                        <TabPanel value={tab} index={PAGE_PAYMENT}>
-                            <ContractPaymentTable
-                                className={''}
-                                contract={contractItem.id}
-                                items={contractItem.payments}
-                                onClickTableItem={handleClickTableItem}
-                            />
+                            <ContractAccessTable className={''} contract={contractItem.id} items={contractItem.employeeAccess} />
                         </TabPanel>
                     </CardContent>
                     <Divider/>
