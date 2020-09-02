@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CircularIndeterminate from "components/Loader/Loader";
-import { ClientTable } from './components';
+import { ClientTable } from '../components/index';
 import {deleteClient, loadClients} from "redux/actions/clientAction";
 import {useDispatch, useSelector} from "react-redux";
 import {DefaultToolbar} from "components";
 import {IStateInterface} from "redux/rootReducer";
 import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
-import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../utils/AppConst";
+import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
 import {useConfirm} from "material-ui-confirm";
 
 const useStyles = makeStyles(theme => ({

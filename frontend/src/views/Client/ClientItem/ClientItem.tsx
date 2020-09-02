@@ -27,11 +27,11 @@ import {
     updateClient
 } from "redux/actions/clientAction"
 import {useDispatch, useSelector} from "react-redux"
-import TabPanel from "../Production/components/TabPanel"
+import TabPanel from "../../Production/components/TabPanel"
 import {IStateInterface} from "redux/rootReducer"
 import AddIcon from "@material-ui/icons/Add"
-import ClientContractItem from "./components/ClientContractItem"
-import {NEW_RECORD_VALUE} from "../../utils/AppConst";
+import {ClientContractItem} from "../components"
+import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 const PAGE_MAIN = 0
 const PAGE_CONTRACT = 1
