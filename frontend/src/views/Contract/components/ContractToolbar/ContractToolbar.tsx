@@ -70,11 +70,13 @@ interface IContractToolbar {
     onSetState: any,
     contractState: number,
     showOwnContract: boolean,
-    handleChangeHidden: any
+    handleChangeHidden: any,
+    showContractSelectorOwn: boolean
 }
 
 const ContractToolbar = (props: IContractToolbar) => {
-    const { className, onFind, onNew, onDelete, onSetState, contractState, showOwnContract, handleChangeHidden, ...rest } = props;
+    const { className, onFind, onNew, onDelete, onSetState, contractState, showOwnContract,
+        handleChangeHidden, showContractSelectorOwn, ...rest } = props;
 
     const classes = useStyles();
 
@@ -166,25 +168,27 @@ const ContractToolbar = (props: IContractToolbar) => {
                     </FormControl>
                 </Grid>
 
-                <Grid
-                    item
-                    lg={2}
-                    sm={6}
-                    md={6}
-                    xs={12}
-                >
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={showOwnContract}
-                                onChange={handleChange}
-                                color="primary"
-                            />
-                        }
-                        label="Мои контракты"
-                        className={classes.formCheck}
-                    />
-                </Grid>
+                {showContractSelectorOwn &&
+                    <Grid
+                        item
+                        lg={2}
+                        sm={6}
+                        md={6}
+                        xs={12}
+                    >
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={showOwnContract}
+                                    onChange={handleChange}
+                                    color="primary"
+                                />
+                            }
+                            label="Мои контракты"
+                            className={classes.formCheck}
+                        />
+                    </Grid>
+                }
 
             </Grid>
 
