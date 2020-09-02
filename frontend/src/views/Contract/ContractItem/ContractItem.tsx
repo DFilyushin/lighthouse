@@ -878,6 +878,9 @@ const ContractItem = (props: IContractItemProps) => {
                                 </Grid>
                             </Grid>
                             }
+                            <Typography variant={"h3"}>
+                                Предоставление доступа к контракту другим сотрудникам
+                            </Typography>
                             <ContractAccessTable className={''} contract={contractItem.id} items={contractItem.employeeAccess} />
                         </TabPanel>
                     </CardContent>
