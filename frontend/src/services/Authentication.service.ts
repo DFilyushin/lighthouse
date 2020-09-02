@@ -15,19 +15,23 @@ export default class AuthenticationService {
             username: login,
             password: password
         }
-        const response = await axios.post(AuthEndpoint.getAuth(), data);
-        if (response.status === 200) {
-            let result = response.data;
-            localStorage.setItem('token', result.access);
-            localStorage.setItem('userName', login);
-            localStorage.setItem('refresh', result.refresh)
-            localStorage.setItem('groups', JSON.stringify(result.groups))
-            localStorage.setItem('lastName', result.lastName)
-            localStorage.setItem('firstName', result.firstName)
-            localStorage.setItem('employee', result.employee)
-            return true
-        }
-        else{
+        try {
+            const response = await axios.post(AuthEndpoint.getAuth(), data);
+
+            if (response.status === 200) {
+                let result = response.data;
+                localStorage.setItem('token', result.access);
+                localStorage.setItem('userName', login);
+                localStorage.setItem('refresh', result.refresh)
+                localStorage.setItem('groups', JSON.stringify(result.groups))
+                localStorage.setItem('lastName', result.lastName)
+                localStorage.setItem('firstName', result.firstName)
+                localStorage.setItem('employee', result.employee)
+                return true
+            } else {
+                return false
+            }
+        }catch (e) {
             return false
         }
     }
