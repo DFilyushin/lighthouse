@@ -52,6 +52,35 @@ export interface IWaitPaymentContractItem {
     waitSum: number;
 }
 
+/**
+ * Интерфейс разрешённого доступа сотрудников к контракту
+ */
+export interface IContractManagerAccess {
+    /**
+     * код записи
+     */
+    id: number;
+    /**
+     * код сотрудника
+     */
+    employeeId: number;
+    /**
+     * ФИО сотрудника
+     */
+    employeeFio: string;
+    /**
+     * Период действия
+     */
+    toDate: string | null;
+}
+
+export const nullContractManagerAccess: IContractManagerAccess = {
+    id: 0,
+    employeeId: 0,
+    employeeFio: '',
+    toDate: null
+}
+
 export const nullWaitPaymentContractItem: IWaitPaymentContractItem = {
     id: 0,
     created: null,
@@ -75,7 +104,8 @@ export const nullContractItem: IContract = {
     deliveryTerms: '',
     specs: [],
     payments: [],
-    waitPayments: []
+    waitPayments: [],
+    employeeAccess: []
 };
 
 export const nullContractSpecItem : IContractSpecItem = {
@@ -109,22 +139,74 @@ export interface IContractSpecItem {
 }
 
 export interface IContract {
+    /**
+     * Код записи
+     */
     id: number;
+    /**
+     * Дата создания записи
+     */
     created: string | undefined;
+    /**
+     * Клиент
+     */
     client: IClientItem;
+    /**
+     * Номер контракта
+     */
     num: string;
+    /**
+     * Дата контракта
+     */
     contractDate: string;
+    /**
+     * Текущее состояние контракта
+     */
     contractState: number;
+    /**
+     * Ожидаемая доставка контракта
+     */
     estDelivery: string;
+    /**
+     * Дата доставка фактическая
+     */
     delivered: string | null;
+    /**
+     * % скидки на контракт
+     */
     discount: number;
+    /**
+     * Комментарий
+     */
     comment: string;
+    /**
+     * Внутренний номер контракта
+     */
     contractId: string;
+    /**
+     * Агент
+     */
     agent: IEmployeeListItem;
+    /**
+     * Условия поставки
+     */
     deliveryTerms: string;
+    /**
+     * Спецификации контракта
+     */
     specs: IContractSpecItem[];
+    /**
+     * Поступившие платежи
+     */
     payments: IPaymentContractItem[];
+    /**
+     * График платежей
+     */
     waitPayments: IWaitPaymentContractItem[];
+    /**
+     * Список сотрудников, которые могу просматривать контракт
+     */
+    employeeAccess: IContractManagerAccess[];
 }
 
 export const ContractStateString = [
