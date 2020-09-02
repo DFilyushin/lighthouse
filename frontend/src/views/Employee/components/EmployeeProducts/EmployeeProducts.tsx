@@ -1,18 +1,16 @@
-import React, {useState} from 'react';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core/styles';
+import React from 'react'
+import clsx from 'clsx'
+import {makeStyles} from '@material-ui/core/styles'
 import {
     Card, CardContent,
     Table,
     TableBody,
     TableCell,
     TableHead,
-    TableRow,
-    Typography
-} from '@material-ui/core';
-import {IEmployeeProduct, IEmployeeWorkTimeItem} from 'types/model/employee';
-import moment from "moment";
-import Button from "@material-ui/core/Button";
+    TableRow
+} from '@material-ui/core'
+import {IEmployeeProduct} from 'types/model/employee'
+import Button from "@material-ui/core/Button"
 
 const useStyles = makeStyles(theme => ({
     root: {},

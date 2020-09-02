@@ -18,6 +18,7 @@ import {
 import Button from "@material-ui/core/Button";
 import {IExpenseTableItem} from "types/model/expense";
 import {RoundValue} from "../../../../utils/AppUtils";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -194,7 +195,7 @@ const ExpenseTable = (props: IExpenseTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

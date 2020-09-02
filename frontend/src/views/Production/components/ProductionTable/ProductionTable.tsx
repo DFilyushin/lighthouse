@@ -22,6 +22,7 @@ import moment from "moment";
 import {IProductionList} from "types/model/production";
 import ProductionStateIcon from "../ProductionStateIcon";
 import Hidden from "@material-ui/core/Hidden";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 
 const useStyles = makeStyles(theme => ({
@@ -201,7 +202,7 @@ const ProductionTable = (props: IProductionTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

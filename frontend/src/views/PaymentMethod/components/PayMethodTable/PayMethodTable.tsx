@@ -17,6 +17,7 @@ import {
     Button
 } from '@material-ui/core';
 import {IPayMethod} from "types/model/paymethod";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -167,7 +168,7 @@ const PayMethodTable = (props: IPayMethodTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

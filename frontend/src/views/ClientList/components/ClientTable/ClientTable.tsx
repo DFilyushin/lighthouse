@@ -18,6 +18,7 @@ import {
     Link
 } from '@material-ui/core';
 import {IClientItemList} from 'types/model/client';
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -186,7 +187,7 @@ const ClientTable = (props: IClientTable) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

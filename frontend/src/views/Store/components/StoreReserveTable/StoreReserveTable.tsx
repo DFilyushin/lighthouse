@@ -18,6 +18,7 @@ import {
 import {IStoreListReserveProduct} from "types/model/store";
 import moment from "moment";
 import DeleteIcon from "@material-ui/icons/Delete";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -148,7 +149,7 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

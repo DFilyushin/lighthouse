@@ -21,6 +21,7 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PersonIcon from '@material-ui/icons/Person';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -165,7 +166,7 @@ const UsersTable = (props: IUsersTableProps) => {
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}
           rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={rowsPerPageArray}
           labelRowsPerPage={'Строк на странице'}
           labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
         />

@@ -20,6 +20,7 @@ import {
 import {IContractListItem} from 'types/model/contract';
 import ContractStateIcon from "../ContractStateIcon";
 import TableContainer from "@material-ui/core/TableContainer";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -191,7 +192,7 @@ const ContractTable = (props: IContractTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

@@ -22,6 +22,7 @@ import {
 import moment from "moment";
 import {IPaymentListItem} from "../../../../types/model/payment";
 import {RoundValue} from "../../../../utils/AppUtils";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -216,7 +217,7 @@ const PaymentTable = (props: IPaymentTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

@@ -18,6 +18,7 @@ import {
 import {IEmployeeListItem} from 'types/model/employee';
 import Button from "@material-ui/core/Button";
 import {red} from "@material-ui/core/colors";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -178,7 +179,7 @@ const EmployeeTable = (props: IEmployeesTable) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />

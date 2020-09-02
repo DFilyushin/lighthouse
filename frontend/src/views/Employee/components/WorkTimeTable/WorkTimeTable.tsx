@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import {IEmployeeWorkTimeItem} from 'types/model/employee';
 import moment from "moment";
+import {rowsPerPageArray} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -125,7 +126,7 @@ const WorkTimeTable = (props: IWorkTimeTableProps) => {
                     onChangeRowsPerPage={handleRowsPerPageChange}
                     page={page}
                     rowsPerPage={rowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
                     labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
                 />
