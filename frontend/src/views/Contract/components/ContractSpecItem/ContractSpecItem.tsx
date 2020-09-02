@@ -256,9 +256,9 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
             {canEditItem &&
                 <TableCell>
                     <Tooltip title={'Удалить запись'}>
-                        <Fab color="secondary" aria-label="add" onClick={event => onDeleteItem(item.id)}>
-                            <DeleteIcon/>
-                        </Fab>
+                        <IconButton color="secondary" aria-label="delete"  onClick={event => onDeleteItem(item.id)}>
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
                     </Tooltip>
                 </TableCell>
             }
