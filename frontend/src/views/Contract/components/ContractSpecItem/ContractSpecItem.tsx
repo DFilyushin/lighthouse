@@ -2,7 +2,6 @@ import React from 'react';
 import {IContractSpecItem} from "types/model/contract";
 import {
     IconButton,
-    Fab,
     Hidden,
     Tooltip,
     Paper,
