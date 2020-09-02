@@ -73,10 +73,11 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1)
     },
     buttonTop: {
-        marginTop: 8,
+        marginTop: 4,
     },
     controlBottom: {
-        marginBottom: 8
+        marginBottom: 4,
+        marginRight: 4
     },
     paper: {
         width: '80%',
@@ -102,6 +103,11 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
     },
+    fab: {
+        position: 'static',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    },
 }));
 
 //FIXME Выделить компонент "Таблица спецификации"
@@ -119,7 +125,7 @@ const ContractItem = (props: IContractItemProps) => {
     const querySourceId = query.get('id')
 
     const [tab, setTab] = React.useState(PAGE_MAIN);
-    const [specTab, setSpecTab] = React.useState(1)
+    const [specTab, setSpecTab] = React.useState(0)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const [hasLoad, setLoad] = useState<boolean>(false)
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem)
@@ -371,8 +377,20 @@ const ContractItem = (props: IContractItemProps) => {
         setAnchorEl(null);
     }
 
+    /**
+     * Добавить новую позицию в спецификацию
+     */
     const handleAddEmptySpecItem = () => {
-        dispatch(addNewSpecItem((specTab+1).toString()))
+        const currentSpec = specTab+1
+        dispatch(addNewSpecItem(currentSpec.toString()))
+    }
+
+    /**
+     * Добавить новую спецификацию
+     */
+    const handleAddNewSpec = () => {
+        const newSpecNum = specTab + 2
+        dispatch(addNewSpecItem(newSpecNum.toString()))
     }
 
     const handleClickShowDelivery = () => {
@@ -422,11 +440,12 @@ const ContractItem = (props: IContractItemProps) => {
      * Возможность редактирования контракта
      */
     const canEditContract = () => {
-        return (contractItem.contractState === CONTRACT_STATE_DRAFT) || (contractItem.contractState === CONTRACT_STATE_ACTIVE)
+        return (contractItem.contractState === CONTRACT_STATE_DRAFT)
+            || (contractItem.contractState === CONTRACT_STATE_ACTIVE)
     }
 
     /**
-     * Получить уникальный список номеров спецификации
+     * Получить сортированный уникальный список номеров спецификации
      */
     const getSpecNums = () => {
         const items: any [] = []
@@ -489,7 +508,7 @@ const ContractItem = (props: IContractItemProps) => {
                                 <ContractSkeletonLoading height={200} animation="wave" />
                                  : (
                                 <Fragment>
-                                    <Grid container spacing={3}>
+                                    <Grid container spacing={1}>
                                         <Grid item xs={12} md={12}>
                                             <Autocomplete
                                                 autoComplete
@@ -526,22 +545,8 @@ const ContractItem = (props: IContractItemProps) => {
                                                 )}
                                             />
                                         </Grid>
-                                        <Grid item md={3} xs={3}>
-                                            <KeyboardDatePicker
-                                                className=''
-                                                inputVariant="outlined"
-                                                id="dp_contractdate"
-                                                label="Дата контракта"
-                                                format="dd/MM/yyyy"
-                                                margin="dense"
-                                                name="contractDate"
-                                                value={contractItem?.contractDate || null}
-                                                onChange={handleContractDateChange}
-                                                invalidDateMessage={INVALID_DATE_FORMAT}
-                                                TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
-                                            />
-                                        </Grid>
-                                        <Grid item md={3} xs={3}>
+
+                                        <Grid item md={2} xs={2}>
                                             <TextField
                                                 fullWidth
                                                 label="Номер"
@@ -557,7 +562,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item md={3} xs={3}>
+                                        <Grid item md={2} xs={2}>
                                             <TextField
                                                 fullWidth
                                                 label="Номер контракта по 1C"
@@ -572,7 +577,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item md={1} xs={1}>
+                                        <Grid item md={2} xs={2}>
                                             <TextField
                                                 fullWidth
                                                 label="% скидки"
@@ -601,7 +606,24 @@ const ContractItem = (props: IContractItemProps) => {
                                                 </Button>
                                             }
                                         </Grid>
-                                        <Grid item md={3} xs={3}>
+                                        <Grid item xs={5} md={5}></Grid>
+
+                                        <Grid item md={2} xs={2}>
+                                            <KeyboardDatePicker
+                                                className=''
+                                                inputVariant="outlined"
+                                                id="dp_contractdate"
+                                                label="Дата контракта"
+                                                format="dd/MM/yyyy"
+                                                margin="dense"
+                                                name="contractDate"
+                                                value={contractItem?.contractDate || null}
+                                                onChange={handleContractDateChange}
+                                                invalidDateMessage={INVALID_DATE_FORMAT}
+                                                TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                            />
+                                        </Grid>
+                                        <Grid item md={2} xs={2}>
                                             <KeyboardDatePicker
                                                 className=''
                                                 inputVariant="outlined"
@@ -620,8 +642,8 @@ const ContractItem = (props: IContractItemProps) => {
                                         </Grid>
                                         <Grid
                                             item
-                                            md={3}
-                                            xs={3}
+                                            md={2}
+                                            xs={2}
                                         >
                                             <KeyboardDatePicker
                                                 className=''
@@ -637,7 +659,13 @@ const ContractItem = (props: IContractItemProps) => {
                                                 TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
                                             />
                                         </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid item
+                                              md={6}
+                                              xs={6}
+                                              >
+
+                                        </Grid>
+                                        <Grid item xs={6}>
                                             <TextField
                                                 fullWidth
                                                 id="outlined-multiline-flexible"
@@ -654,14 +682,14 @@ const ContractItem = (props: IContractItemProps) => {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={12}>
+                                        <Grid item xs={6}>
                                             <TextField
                                                 fullWidth
                                                 id="outlined-multiline-flexible"
                                                 label="Дополнительно"
                                                 multiline
                                                 margin="dense"
-                                                rows="5"
+                                                rows="3"
                                                 name="comment"
                                                 value={contractItem.comment}
                                                 onChange={handleChange}
@@ -673,36 +701,48 @@ const ContractItem = (props: IContractItemProps) => {
                                         </Grid>
                                     </Grid>
                                 </Fragment>)}
-                            <Grid container spacing={0}>
+                            <Grid container spacing={1}>
                                 {loading ?
                                         <ContractSkeletonLoading height={100} animation={"wave"}  className={classes.controlBottom}/>
                                      : (
                                         <Fragment>
-                                            <Grid item xs={10}>
-                                                <Typography variant={"h5"}>
+                                            <Grid item xs={12}>
+                                                <Typography variant={"h3"}>
                                                     Спецификация контракта
                                                 </Typography>
                                             </Grid>
-                                            <Grid item xs={1}>
-                                                <Tooltip title={'Показать/скрыть раздельную доставку'}>
-                                                    <Fab color="default" aria-label="add"
-                                                         onClick={handleClickShowDelivery}>
-                                                        {
-                                                            showDeliveryBlock ? <VisibilityIcon/> : <VisibilityOffIcon/>
-                                                        }
-                                                    </Fab>
-                                                </Tooltip>
-                                            </Grid>
                                             {canEditContract() &&
-                                            <Grid item xs={1}>
-                                                <Tooltip title={'Добавить новый продукт'}>
-                                                    <Fab color="default" aria-label="add"
-                                                         onClick={handleAddEmptySpecItem}>
-                                                        <AddIcon/>
-                                                    </Fab>
-                                                </Tooltip>
+                                                <Fragment>
+                                            <Grid item xs={11}>
+                                                    <Button
+                                                        variant="contained" color="primary"
+                                                        className={classes.controlBottom}
+                                                        startIcon={<AddIcon />}
+                                                        onClick={handleAddNewSpec}>
+                                                        Спецификация
+                                                    </Button>
+                                                    <Button
+                                                        variant="contained" color="primary"
+                                                        className={classes.controlBottom}
+                                                        startIcon={<AddIcon />}
+                                                        onClick={handleAddEmptySpecItem}>
+                                                        Продукт
+                                                    </Button>
                                             </Grid>
-                                            }
+                                                <Grid item xs={1}>
+                                                    <Tooltip title={'Показать/скрыть раздельную доставку'}>
+                                                        <Fab className={classes.fab}  color="primary" aria-label="add" size="small"
+                                                             onClick={handleClickShowDelivery}
+                                                            variant="round"
+                                                        >
+                                                            {
+                                                                showDeliveryBlock ? <VisibilityIcon/> : <VisibilityOffIcon/>
+                                                            }
+                                                        </Fab>
+                                                    </Tooltip>
+                                            </Grid>
+                                                </Fragment>
+                                                }
                                             <Grid item xs={12}>
                                                 <Paper square className={classes.controlBottom}>
                                                     <Tabs
@@ -713,7 +753,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                         textColor="primary"
                                                         aria-label="scrollable force tabs"
                                                     >
-                                                        {
+                                                        { contractItem.specs.length > 0 &&
                                                             getSpecNums().map((item) => (
                                                                     <Tab
                                                                         key={item}
@@ -727,7 +767,6 @@ const ContractItem = (props: IContractItemProps) => {
                                                     </Tabs>
                                                 </Paper>
                                             </Grid>
-
                                             {hasSpecError &&
                                             <Grid item xs={12}>
                                                 <Typography color={"error"}>
@@ -743,7 +782,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                         <TableCell>Количество</TableCell>
                                                         <TableCell>Цена</TableCell>
                                                         <TableCell>Цена с НДС</TableCell>
-                                                        <TableCell>Сумма скидки, тенге</TableCell>
+                                                        <TableCell>Скидка, тенге</TableCell>
                                                         <TableCell>Итого, тенге</TableCell>
                                                         {showDeliveryBlock &&
                                                         <Hidden only={['xs', 'sm']}>
