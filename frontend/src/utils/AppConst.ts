@@ -31,3 +31,5 @@ export const NO_SELECT_VALUE = -1
 export const DIALOG_ASK_DELETE = 'Удалить выбранные записи?'
 
 export const INVALID_DATE_FORMAT = 'Некорректно указан формат даты'
+
+export const rowsPerPageArray = [5, 10, 25]
