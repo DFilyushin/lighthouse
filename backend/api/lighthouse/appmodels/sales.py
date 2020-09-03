@@ -46,34 +46,47 @@ class PriceList(models.Model):
         :param employee_id: Код сотрудника
         :return:
         """
+
+        # доступная сотруднику продукция
         available_products = EmployeeProductLink.objects.filter(id_employee__id=employee_id).values('id_product__id')
+
+        # по каждому виду продукции получить максимально последнюю дату прайса
         queryset = PriceList.objects \
             .filter(id_product__in=available_products) \
+            .filter(id_employee__isnull=True) \
             .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v') \
             .annotate(on_date=Max('on_date')) \
             .order_by('id_product__name')
         for item in queryset:
-            p = PriceList.objects \
-                .filter(id_employee__isnull=True) \
-                .filter(id_product_id=item['id_product__id']) \
-                .filter(id_tare_id=item['id_tare__id']) \
-                .filter(on_date=item['on_date']) \
-                .only('price')
+            try:
+
+                # на каждый вид продукции получить прайс
+                p = PriceList.objects \
+                    .filter(id_employee__isnull=True) \
+                    .filter(id_product_id=item['id_product__id']) \
+                    .filter(id_tare_id=item['id_tare__id']) \
+                    .filter(on_date=item['on_date']) \
+                    .only('price')
+                price_value = p[0].price
+            except (PriceList.DoesNotExist, IndexError):
+                price_value = 0
+
+            # исключить задвоение прайса для сотрудника
             try:
                 PriceList.objects.get(id_employee_id=employee_id,
                                       id_product_id=item['id_product__id'],
                                       id_tare_id=item['id_tare__id'],
                                       on_date=item['on_date'],
-                                      price=p[0].price
+                                      price=price_value
                                       )
             except PriceList.DoesNotExist:
-                # исключая дублирование
+                # добавить новую запись
                 PriceList.objects.update_or_create(
                     id_employee_id=employee_id,
                     id_product_id=item['id_product__id'],
                     id_tare_id=item['id_tare__id'],
                     on_date=item['on_date'],
-                    price=p[0].price
+                    price=price_value
                 )
 
     class Meta:
