@@ -4,6 +4,7 @@
   "pk": 2,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 35,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -15,6 +16,7 @@
   "pk": 3,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 36,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -26,6 +28,7 @@
   "pk": 4,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 37,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -37,6 +40,7 @@
   "pk": 5,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 38,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -48,6 +52,7 @@
   "pk": 6,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 39,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -59,6 +64,7 @@
   "pk": 7,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 40,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -70,6 +76,7 @@
   "pk": 8,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 96,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -81,6 +88,7 @@
   "pk": 9,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 95,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -92,6 +100,7 @@
   "pk": 10,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 34,
     "id_tare": 5,
     "on_date": "2020-06-01",
@@ -103,6 +112,7 @@
   "pk": 11,
   "fields": {
     "created": "2020-08-14T16:36:14.559",
+    "id_employee": null,
     "id_product": 34,
     "id_tare": 5,
     "on_date": "2020-07-01",
@@ -114,6 +124,7 @@
   "pk": 13,
   "fields": {
     "created": "2020-08-15T17:18:47.640",
+    "id_employee": null,
     "id_product": 108,
     "id_tare": 1,
     "on_date": "2020-08-01",
@@ -125,6 +136,7 @@
   "pk": 14,
   "fields": {
     "created": "2020-08-15T17:19:01.514",
+    "id_employee": null,
     "id_product": 108,
     "id_tare": 1,
     "on_date": "2020-08-15",
@@ -136,10 +148,71 @@
   "pk": 15,
   "fields": {
     "created": "2020-08-15T17:25:08.429",
+    "id_employee": null,
     "id_product": 108,
     "id_tare": 1,
     "on_date": "2020-08-16",
     "price": 700.0
+  }
+},
+{
+  "model": "lighthouse.pricelist",
+  "pk": 16,
+  "fields": {
+    "created": "2020-08-30T14:12:59.261",
+    "id_employee": 10,
+    "id_product": 35,
+    "id_tare": 5,
+    "on_date": "2020-07-01",
+    "price": 1100.0
+  }
+},
+{
+  "model": "lighthouse.pricelist",
+  "pk": 17,
+  "fields": {
+    "created": "2020-08-30T14:12:59.283",
+    "id_employee": 10,
+    "id_product": 36,
+    "id_tare": 5,
+    "on_date": "2020-07-01",
+    "price": 1200.0
+  }
+},
+{
+  "model": "lighthouse.pricelist",
+  "pk": 18,
+  "fields": {
+    "created": "2020-08-30T14:12:59.290",
+    "id_employee": 10,
+    "id_product": 37,
+    "id_tare": 5,
+    "on_date": "2020-07-01",
+    "price": 1300.0
+  }
+},
+{
+  "model": "lighthouse.pricelist",
+  "pk": 19,
+  "fields": {
+    "created": "2020-08-30T14:12:59.301",
+    "id_employee": null,
+    "id_product": 35,
+    "id_tare": 5,
+    "on_date": "2020-07-01",
+    "price": 1100.0
+  }
+},
+{
+  "model": "lighthouse.pricelist",
+  "pk": 20,
+  "fields": {
+    "created": "2020-08-30T15:34:31.535",
+    "id_employee": 20,
+    "id_product": 108,
+    "id_tare": 5,
+    "on_date": "2020-12-31",
+    "price": 555.0
   }
 }
 ]

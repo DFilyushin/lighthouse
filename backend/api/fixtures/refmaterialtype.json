@@ -12,5 +12,12 @@
   "fields": {
     "name": "\u041f\u0440\u043e\u0434\u0443\u043a\u0446\u0438\u044f"
   }
+},
+{
+  "model": "lighthouse.refmaterialtype",
+  "pk": 3,
+  "fields": {
+    "name": "\u0422\u041c\u0417"
+  }
 }
 ]

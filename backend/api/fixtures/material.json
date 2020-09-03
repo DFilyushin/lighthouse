@@ -334,5 +334,45 @@
     "name": "\u0421\u0443\u0445\u043e\u0439 \u043b\u0451\u0434",
     "id_type": 1
   }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 134,
+  "fields": {
+    "name": "\u043a\u0440\u044b\u0448\u043a\u0430",
+    "id_type": 3
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 135,
+  "fields": {
+    "name": "\u043a\u0430\u043d\u0438\u0441\u0442\u0440\u0430",
+    "id_type": 3
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 136,
+  "fields": {
+    "name": "\u0431\u0443\u0442\u044b\u043b\u044c",
+    "id_type": 3
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 137,
+  "fields": {
+    "name": "\u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u0444\u0440\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u0430\u044f",
+    "id_type": 3
+  }
+},
+{
+  "model": "lighthouse.material",
+  "pk": 138,
+  "fields": {
+    "name": "\u043d\u0430\u043a\u043b\u0435\u0439\u043a\u0430 \u0437\u0430\u0434\u043d\u044f\u044f",
+    "id_type": 3
+  }
 }
 ]

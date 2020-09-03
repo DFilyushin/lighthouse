@@ -24,5 +24,44 @@
     "str_value": "admin@localhost",
     "date_value": null
   }
+},
+{
+  "model": "lighthouse.appsetup",
+  "pk": 7,
+  "fields": {
+    "code": "RESERVE_PERIOD",
+    "name": "\u041a\u043e\u043b-\u0432\u043e \u0434\u043d\u0435\u0439 \u0440\u0435\u0437\u0435\u0440\u0432\u0430",
+    "kind": "int",
+    "int_value": 7,
+    "flo_value": 0.0,
+    "str_value": "''",
+    "date_value": null
+  }
+},
+{
+  "model": "lighthouse.appsetup",
+  "pk": 8,
+  "fields": {
+    "code": "LIVE_PASSWORD",
+    "name": "\u0421\u0440\u043e\u043a \u0436\u0438\u0437\u043d\u0438 \u043f\u0430\u0440\u043e\u043b\u044f",
+    "kind": "int",
+    "int_value": 30,
+    "flo_value": 0.0,
+    "str_value": "",
+    "date_value": null
+  }
+},
+{
+  "model": "lighthouse.appsetup",
+  "pk": 9,
+  "fields": {
+    "code": "NTF_UNPAID_DAYS",
+    "name": "\u0414\u043d\u0435\u0439 \u043f\u043e \u043e\u043f\u043b\u0430\u0442\u0435 \u0432 \u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u044f\u0445",
+    "kind": "int",
+    "int_value": 7,
+    "flo_value": 0.0,
+    "str_value": null,
+    "date_value": null
+  }
 }
 ]

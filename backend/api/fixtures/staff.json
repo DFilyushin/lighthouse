@@ -103,5 +103,12 @@
   "fields": {
     "name": "\u0410\u0433\u0440\u043e\u043d\u043e\u043c"
   }
+},
+{
+  "model": "lighthouse.staff",
+  "pk": 56,
+  "fields": {
+    "name": "1"
+  }
 }
 ]

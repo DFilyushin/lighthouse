@@ -68,5 +68,15 @@
     "wait_date": "2020-08-01",
     "wait_value": 5000.0
   }
+},
+{
+  "model": "lighthouse.contractexpectedpayment",
+  "pk": 10,
+  "fields": {
+    "created": "2020-08-28T15:38:07.488",
+    "id_contract": 400,
+    "wait_date": "2020-08-24",
+    "wait_value": 50000.0
+  }
 }
 ]

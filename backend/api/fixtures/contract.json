@@ -735,7 +735,7 @@
     "delivered": "2020-02-14",
     "discount": 12.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -1115,8 +1115,8 @@
     "delivered": "2019-11-17",
     "discount": 8.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -1571,7 +1571,7 @@
     "delivered": "2020-05-03",
     "discount": 9.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -1837,8 +1837,8 @@
     "delivered": "2020-01-20",
     "discount": 5.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -1856,7 +1856,7 @@
     "delivered": "2020-02-04",
     "discount": 11.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -2236,8 +2236,8 @@
     "delivered": "2019-08-28",
     "discount": 10.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -3528,7 +3528,7 @@
     "delivered": "2019-10-22",
     "discount": 6.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -3566,7 +3566,7 @@
     "delivered": "2019-11-02",
     "discount": 12.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": false,
     "delivery_terms": null
   }
@@ -4588,12 +4588,12 @@
     "contract_date": "2019-07-23",
     "contract_state": 2,
     "comment": "Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci.",
-    "est_delivery": "2019-06-08",
+    "est_delivery": "2020-11-30",
     "delivered": "2020-03-08",
     "discount": 8.0,
     "contractid": null,
     "id_agent": 24,
-    "deleted": true,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -4896,7 +4896,7 @@
     "delivered": "2019-08-13",
     "discount": 13.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -6055,8 +6055,8 @@
     "delivered": null,
     "discount": 6.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -7233,7 +7233,7 @@
     "delivered": "2019-12-05",
     "discount": 7.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -7291,7 +7291,7 @@
     "discount": 8.0,
     "contractid": null,
     "id_agent": 11,
-    "deleted": true,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -7499,7 +7499,7 @@
     "delivered": null,
     "discount": 12.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -7689,7 +7689,7 @@
     "delivered": "2020-05-23",
     "discount": 1.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": false,
     "delivery_terms": null
   }
@@ -7727,7 +7727,7 @@
     "delivered": "2020-05-04",
     "discount": 5.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": false,
     "delivery_terms": null
   }
@@ -7803,7 +7803,7 @@
     "delivered": null,
     "discount": 0.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -7841,8 +7841,8 @@
     "delivered": null,
     "discount": 12.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -7879,7 +7879,7 @@
     "delivered": "2020-04-16",
     "discount": 9.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -9741,7 +9741,7 @@
     "delivered": null,
     "discount": 14.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -10710,7 +10710,7 @@
     "delivered": null,
     "discount": 11.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -10767,8 +10767,8 @@
     "delivered": null,
     "discount": 2.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -10862,7 +10862,7 @@
     "delivered": null,
     "discount": 15.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": true,
     "delivery_terms": null
   }
@@ -12496,7 +12496,7 @@
     "delivered": "2020-01-07",
     "discount": 6.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -14776,8 +14776,8 @@
     "delivered": "2019-06-14",
     "discount": 2.0,
     "contractid": null,
-    "id_agent": 11,
-    "deleted": true,
+    "id_agent": 9,
+    "deleted": false,
     "delivery_terms": null
   }
 },
@@ -15631,7 +15631,7 @@
     "delivered": "2019-10-30",
     "discount": 14.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -15802,7 +15802,7 @@
     "delivered": null,
     "discount": 9.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -16144,7 +16144,7 @@
     "delivered": null,
     "discount": 14.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -16182,7 +16182,7 @@
     "delivered": "2020-01-26",
     "discount": 6.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -17968,7 +17968,7 @@
     "delivered": "2019-09-12",
     "discount": 1.0,
     "contractid": "68094-752",
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -18253,7 +18253,7 @@
     "delivered": null,
     "discount": 11.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -18690,7 +18690,7 @@
     "delivered": null,
     "discount": 3.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": false,
     "delivery_terms": null
   }
@@ -18747,7 +18747,7 @@
     "delivered": "2019-07-17",
     "discount": 10.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": false,
     "delivery_terms": null
   }
@@ -18861,7 +18861,7 @@
     "delivered": null,
     "discount": 7.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": true,
     "delivery_terms": null
   }
@@ -19051,7 +19051,7 @@
     "delivered": "2019-11-22",
     "discount": 5.0,
     "contractid": null,
-    "id_agent": 21,
+    "id_agent": 2,
     "deleted": false,
     "delivery_terms": null
   }
@@ -20913,7 +20913,7 @@
     "delivered": null,
     "discount": 7.0,
     "contractid": null,
-    "id_agent": 11,
+    "id_agent": 9,
     "deleted": true,
     "delivery_terms": null
   }
@@ -21084,6 +21084,44 @@
     "delivered": null,
     "discount": 0.0,
     "contractid": "8888",
+    "id_agent": 0,
+    "deleted": false,
+    "delivery_terms": ""
+  }
+},
+{
+  "model": "lighthouse.contract",
+  "pk": 1296,
+  "fields": {
+    "created": "2020-09-02T15:17:23.537",
+    "id_client": 140,
+    "num": "12312",
+    "contract_date": "2020-09-02",
+    "contract_state": 1,
+    "comment": "",
+    "est_delivery": "2020-09-27",
+    "delivered": null,
+    "discount": 0.0,
+    "contractid": "123",
+    "id_agent": 0,
+    "deleted": false,
+    "delivery_terms": ""
+  }
+},
+{
+  "model": "lighthouse.contract",
+  "pk": 1297,
+  "fields": {
+    "created": "2020-09-02T15:17:47.998",
+    "id_client": 140,
+    "num": "12312",
+    "contract_date": "2020-09-02",
+    "contract_state": 1,
+    "comment": "",
+    "est_delivery": "2020-09-27",
+    "delivered": null,
+    "discount": 0.0,
+    "contractid": "123",
     "id_agent": 0,
     "deleted": false,
     "delivery_terms": ""
