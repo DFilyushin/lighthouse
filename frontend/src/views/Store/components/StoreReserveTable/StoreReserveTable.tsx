@@ -99,7 +99,8 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                     <TableCell>До даты</TableCell>
                                     <TableCell>Материал</TableCell>
                                     <TableCell>Тара</TableCell>
-                                    <TableCell>Кол-во</TableCell>
+                                    <TableCell>Кол-во в таре</TableCell>
+                                    <TableCell>Кол-во в объёме</TableCell>
                                     <TableCell>Поставил</TableCell>
                                     <TableCell>Для клиента</TableCell>
                                     <TableCell/>
@@ -123,6 +124,7 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                             <TableCell>{item.material}</TableCell>
                                             <TableCell>{item.tare}</TableCell>
                                             <TableCell>{item.value}</TableCell>
+                                            <TableCell>{item.tareV * item.value}</TableCell>
                                             <TableCell>{item.employee}</TableCell>
                                             <TableCell>{item.contract}</TableCell>
                                             <TableCell align="right"><Button

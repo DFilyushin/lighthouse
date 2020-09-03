@@ -98,6 +98,7 @@ export interface IStoreListReserveProduct {
     employee: string;
     contract: string;
     tare: string;
+    tareV: number;
     value: number;
     contractId: number;
 }
