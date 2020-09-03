@@ -2,7 +2,6 @@ import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import {makeStyles} from '@material-ui/styles';
 import {
     Avatar,
@@ -16,7 +15,6 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import CodeIcon from '@material-ui/icons/Code';
 import StoreIcon from '@material-ui/icons/Store';
-
 import gradients from 'utils/gradients';
 
 const useStyles = makeStyles(theme => ({
