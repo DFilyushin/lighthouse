@@ -38,7 +38,7 @@ const StoreRaw = () => {
     }
 
     async function onFindHandler(findText: string){
-
+        dispatch(loadRawStore(findText))
     }
 
     function closeAlert() {
@@ -52,6 +52,7 @@ const StoreRaw = () => {
                 title={'Склад сырья'}
                 onFind={onFindHandler}
                 icon={<RawTrain />}
+                onFindCaption={'Поиск по наименованию'}
             />
             <div className={classes.content}>
                 {

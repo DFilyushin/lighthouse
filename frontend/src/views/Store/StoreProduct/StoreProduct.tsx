@@ -38,6 +38,7 @@ const StoreProduct = () => {
     }
 
     async function onFindHandler(findText: string){
+        dispatch(loadProductStore(findText))
     }
 
     function closeAlert() {
@@ -51,6 +52,7 @@ const StoreProduct = () => {
                 title={'Склад готовой продукции'}
                 onFind={onFindHandler}
                 icon={<ProductWarehouse />}
+                onFindCaption={'Поиск по наименованию'}
             />
             <div className={classes.content}>
                 {

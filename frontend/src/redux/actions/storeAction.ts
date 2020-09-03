@@ -36,13 +36,13 @@ import authAxios from "../../services/axios-api";
 /**
  * Загрузить актуальное состояние склада сырья
  */
-export function loadRawStore() {
+export function loadRawStore(search?: string) {
     return async (dispatch: any, getState: any) => {
         const itemList: IStoreRaw[] = [];
         dispatch(fetchStart());
         try{
             const dateStore = getState().store.rawStoreOnDate;
-            const url = StoreEndpoint.getStoreRaw(dateStore);
+            const url = StoreEndpoint.getStoreRaw(dateStore, search);
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push(response.data[key])
@@ -62,13 +62,13 @@ export function loadRawStore() {
 /**
  * Загрузить состояние склада готовой продукции на выбранную дату
  */
-export function loadProductStore() {
+export function loadProductStore(search?: string) {
     return async (dispatch: any, getState: any) => {
         const itemList: IStoreRaw[] = [];
         dispatch(fetchStart());
         try{
             const dateStore = getState().store.rawStoreOnDate;
-            const url = StoreEndpoint.getStoreProduct(dateStore);
+            const url = StoreEndpoint.getStoreProduct(dateStore, search);
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 itemList.push(response.data[key])
@@ -84,13 +84,13 @@ export function loadProductStore() {
 /**
  * Загрузить список резервирования продукции
  */
-export function loadStoreReserveList() {
+export function loadStoreReserveList(search?: string) {
     return async (dispatch: any, getState: any)=> {
         const items: IStoreListReserveProduct[] = []
         dispatch(fetchStart())
 
         try{
-            const url = StoreEndpoint.getProductReserved();
+            const url = StoreEndpoint.getProductReserved(search);
             const response = await authAxios.get(url);
             Object.keys(response.data).forEach((key, index)=>{
                 items.push(response.data[key])

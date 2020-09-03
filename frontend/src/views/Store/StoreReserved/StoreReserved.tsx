@@ -65,7 +65,7 @@ const StoreReserved = () => {
     }
 
     async function onFindProductHandler(findText: string){
-
+        dispatch(loadStoreReserveList(findText))
     }
 
     return (
@@ -75,6 +75,7 @@ const StoreReserved = () => {
                 title={'Резервирование продукции'}
                 onFind={onFindProductHandler}
                 icon={<RawTrain />}
+                onFindCaption={'Поиск по продукции или клиенту'}
             />
             <div className={classes.content}>
                 {
