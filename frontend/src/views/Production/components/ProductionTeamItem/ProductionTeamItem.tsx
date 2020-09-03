@@ -8,7 +8,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
-import {KeyboardDateTimePicker} from "@material-ui/pickers";
 import {IProductionTeam} from "types/model/production";
 import {updateTeamItem} from "redux/actions/productionAction";
 
@@ -85,6 +84,11 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
         }
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newItem = {...item, [event.target.name]: event.target.value};
+        dispatch(updateTeamItem(newItem))
+    };
+
     return (
         <Fragment>
             <Grid item xs={4}>
@@ -124,37 +128,35 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                                         onClick={event => {handleClickChangeWorkItem(item.id)}}>
                                 <MenuOpenIcon />
                             </IconButton>
-                        ): (null)
+                        ): null
                     }
                 </Paper>
             </Grid>
             <Grid item xs={2}>
-                <KeyboardDateTimePicker
-                    disableToolbar
-                    //inputVariant="standard"
-                    showTodayButton={true}
-                    format="dd/MM/yyyy HH:mm"
-                    ampm={false}
-                    id="periodStart"
+                <TextField
+                    id="dt_periodStart"
                     label="Начало смены"
+                    type="datetime-local"
+                    defaultValue={item.periodStart}
+                    onChange={handleChange}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                     name="periodStart"
-                    value={item.periodStart}
-                    onChange={handleDateChangeStartPeriod}
-                    readOnly={!canEdit}
                 />
+
             </Grid>
             <Grid item xs={2}>
-                <KeyboardDateTimePicker
-                    disableToolbar
-                    //inputVariant="standard"
-                    format="dd/MM/yyyy hh:mm"
-                    ampm={false}
-                    id="periodEnd"
-                    label="Окончание"
+                <TextField
+                    id="dt_periodEnd"
+                    label="Начало смены"
+                    type="datetime-local"
+                    defaultValue={item.periodEnd}
+                    onChange={handleChange}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                     name="periodEnd"
-                    value={item.periodEnd}
-                    onChange={handleDateChangeEndPeriod}
-                    readOnly={!canEdit}
                 />
             </Grid>
             {canEdit ? (
@@ -165,7 +167,7 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
                         </Fab>
                     </Tooltip>
                 </Grid>
-            ) : (null)
+            ) : null
             }
         </Fragment>
     );
