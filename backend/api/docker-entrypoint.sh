@@ -20,6 +20,7 @@ python manage.py loaddata ./fixtures/group.json
 python manage.py loaddata ./fixtures/user.json
 python manage.py loaddata ./fixtures/user_groups.json
 python manage.py loaddata ./fixtures/appsetup.json
+python manage.py loaddata ./fixtures/usersettings.json
 
 echo "initial material, formula, components"
 python manage.py loaddata ./fixtures/refmaterialtype.json

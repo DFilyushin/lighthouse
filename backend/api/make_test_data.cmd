@@ -5,6 +5,7 @@ python manage.py dumpdata auth.user_groups --indent 2 > ./fixtures/user_groups.j
 
 rem Настройки
 python manage.py dumpdata lighthouse.appsetup --indent 2 > ./fixtures/appsetup.json
+python manage.py dumpdata lighthouse.usersettings --indent 2 > ./fixtures/usersettings.json
 
 rem Основные справочники
 python manage.py dumpdata lighthouse.refmaterialtype --indent 2 > ./fixtures/refmaterialtype.json
