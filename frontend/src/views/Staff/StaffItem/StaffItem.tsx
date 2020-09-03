@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewStaff, changeItem, loadStaffItem, updateStaffItem} from "redux/actions/staffAction";
 import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 interface IStaffItemProps {
     className: string,
@@ -34,7 +35,7 @@ const StaffItem = (props: IStaffItemProps) => {
     const staffId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
-    const staffItem  = useSelector((state: any)=> state.staff.staffItem);
+    const staffItem  = useSelector((state: IStateInterface)=> state.staff.staffItem);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const raw = {...staffItem, [event.target.name]: event.target.value};
