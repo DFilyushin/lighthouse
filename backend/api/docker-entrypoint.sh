@@ -15,13 +15,13 @@ python manage.py createadmin
 
 echo "Initial store"
 
-echo "initial auth and appsetup"
+echo "Auth and app setup"
 python manage.py loaddata ./fixtures/group.json
 python manage.py loaddata ./fixtures/user.json
 python manage.py loaddata ./fixtures/appsetup.json
 python manage.py loaddata ./fixtures/usersettings.json
 
-echo "initial material, formula, components"
+echo "Refs"
 python manage.py loaddata ./fixtures/refmaterialtype.json
 python manage.py loaddata ./fixtures/materialunit.json
 python manage.py loaddata ./fixtures/tare.json
@@ -29,17 +29,17 @@ python manage.py loaddata ./fixtures/material.json
 python manage.py loaddata ./fixtures/formula.json
 python manage.py loaddata ./fixtures/formulacomp.json
 
-echo "initial org"
+echo "Domain"
 python manage.py loaddata ./fixtures/org.json
 python manage.py loaddata ./fixtures/department.json
 python manage.py loaddata ./fixtures/staff.json
 python manage.py loaddata ./fixtures/employee.json
 
-echo "initial expense"
+echo "Expense"
 python manage.py loaddata ./fixtures/refcost.json
 python manage.py loaddata ./fixtures/cost.json
 
-echo "initial factory"
+echo "Factory"
 python manage.py loaddata ./fixtures/productionline.json
 python manage.py loaddata ./fixtures/productionwork.json
 python manage.py loaddata ./fixtures/manufacture.json
@@ -47,7 +47,7 @@ python manage.py loaddata ./fixtures/prodteam.json
 python manage.py loaddata ./fixtures/prodcalc.json
 python manage.py loaddata ./fixtures/prodreadyproduct.json
 
-echo "initial sales"
+echo "Client and sales"
 python manage.py loaddata ./fixtures/client.json
 python manage.py loaddata ./fixtures/contract.json
 python manage.py loaddata ./fixtures/contractspec.json
@@ -58,8 +58,11 @@ python manage.py loaddata ./fixtures/contractexpectedpayment.json
 python manage.py loaddata ./fixtures/paymentmethod.json
 python manage.py loaddata ./fixtures/payment.json
 python manage.py loaddata ./fixtures/pricelist.json
+python manage.py loaddata ./fixtures/employeecontractaccess.json
+python manage.py loaddata ./fixtures/employeeproductlink.json
 
-echo "initial store"
+
+echo "Store"
 python manage.py loaddata ./fixtures/store.json
 
 echo "Starting server"
