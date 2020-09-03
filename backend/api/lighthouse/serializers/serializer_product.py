@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from lighthouse.appmodels.manufacture import Material
+from lighthouse.appmodels.manufacture import Material, MATERIAL_RAW_ID, MATERIAL_PRODUCT_ID
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -14,7 +14,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'name']
 
     def create(self, validated_data):
-        return Material.objects.create(name=validated_data['name'], id_type_id=2)
+        return Material.objects.create(name=validated_data['name'], id_type_id=MATERIAL_PRODUCT_ID)
 
 
 class RawSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,5 +29,5 @@ class RawSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'name']
 
     def create(self, validated_data):
-        return Material.objects.create(name=validated_data['name'], id_type_id=1)
+        return Material.objects.create(name=validated_data['name'], id_type_id=MATERIAL_RAW_ID)
 
