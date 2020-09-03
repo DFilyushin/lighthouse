@@ -187,6 +187,7 @@ class RawStoreViewSet(views.APIView):
     @staticmethod
     def get(request):
         on_date_data = request.GET.get('onDate', None)
+        search = request.GET.get('search', None)
         if on_date_data is None:
             on_date = datetime.today()
         else:
@@ -194,7 +195,10 @@ class RawStoreViewSet(views.APIView):
         queryset = Store.objects\
             .filter(id_material__id_type__id=MATERIAL_RAW_ID)\
             .filter(oper_date__lte=on_date)\
-            .filter(is_delete=False)\
+            .filter(is_delete=False)
+        if search:
+            queryset = queryset.filter(id_material__name__icontains=search)
+        queryset = queryset\
             .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name', 'id_tare__v')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')
@@ -211,6 +215,7 @@ class ProductStoreViewSet(views.APIView):
     @staticmethod
     def get(request):
         on_date_data = request.GET.get('onDate', None)
+        search = request.GET.get('search', None)
         if on_date_data is None:
             on_date = datetime.today()
         else:
@@ -218,7 +223,10 @@ class ProductStoreViewSet(views.APIView):
         queryset = Store.objects\
             .filter(id_material__id_type__id=MATERIAL_PRODUCT_ID)\
             .filter(oper_date__lte=on_date)\
-            .filter(is_delete=False)\
+            .filter(is_delete=False)
+        if search:
+            queryset = queryset.filter(id_material__name__icontains=search)
+        queryset = queryset\
             .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name', 'id_tare__v')\
             .annotate(total=RoundFunc(Sum('oper_value')))\
             .order_by('id_material__name')
@@ -262,10 +270,15 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Reservation.objects.\
-                filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today()).values(
+            search = self.request.GET.get('search', None)
+            queryset = Reservation.objects.\
+                filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today())
+            if search:
+                queryset = queryset.filter(Q(id_material__name__icontains=search)| Q(id_contract__id_client__clientname__icontains=search))
+            queryset = queryset.values(
                 'id', 'reserve_start', 'reserve_end', 'reserve_value', 'id_material__name', 'id_tare__v',
                 'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname', 'id_contract__id')
+            return queryset
         else:
             return Reservation.objects.all()
 
