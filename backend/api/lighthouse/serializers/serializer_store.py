@@ -216,13 +216,13 @@ class ReservationListSerializer(serializers.ModelSerializer):
     employee = serializers.CharField(source='id_employee__fio')
     contract = serializers.CharField(source='id_contract__id_client__clientname')
     tare = serializers.CharField(source='id_tare__name')
+    tareV = serializers.FloatField(source='id_tare__v')
     value = serializers.FloatField(source='reserve_value')
     contractId = serializers.IntegerField(source='id_contract__id')
 
     class Meta:
         model = Reservation
-        # fields = ('id', 'material', 'start', 'end', 'employee', 'contract', 'tare', 'value')
-        fields = ('id', 'start', 'end', 'value', 'material', 'employee', 'contract', 'tare', 'contractId')
+        fields = ('id', 'start', 'end', 'value', 'material', 'employee', 'contract', 'tare', 'tareV', 'contractId')
 
 
 class ReservationSerializer(serializers.ModelSerializer):
