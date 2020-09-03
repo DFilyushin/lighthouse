@@ -37,24 +37,46 @@ const PayMethodItem = (props: IPayMethodItemProps) => {
     const { className } = props
 
     const payMethodItem  = useSelector((state: IStateInterface)=> state.payMethod.payMethodItem)
-    const hasError = useSelector((state: IStateInterface) => state.payMethod.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...payMethodItem, [event.target.name]: event.target.value}
         dispatch(changePayMethod(item))
     };
 
+
+    /**
+     * Сохранить изменения с ожиданием
+     * @param dispatch
+     */
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (payMethodId === NEW_RECORD_VALUE) {
+                await dispatch(addNewPayMethod(payMethodItem));
+            } else {
+                await dispatch(updatePayMethod(payMethodItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
+        }
+    });
+
     /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (payMethodId === NEW_RECORD_VALUE) {
-            dispatch(addNewPayMethod(payMethodItem))
-        } else {
-            dispatch(updatePayMethod(payMethodItem))
-        }
-        if (!hasError) history.push('/catalogs/paymethod');
+        event.preventDefault();
+        saveItem(dispatch).then( ()=>{
+                history.push('/catalogs/paymethod');
+            }
+        ).catch(()=>{
+            console.log('Error')
+        }).finally(
+            ()=>{
+                console.log('saveHandler_end');
+            }
+        );
     };
 
     useEffect( ()=> {

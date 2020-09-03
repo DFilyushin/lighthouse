@@ -93,7 +93,8 @@ export function updatePayMethod(item: IPayMethod) {
         try{
             await authAxios.put(PayMethodEndpoint.updatePayMethod(item.id), item);
         }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            dispatch(showInfoMessage('error', 'Не удалось сохранить данные!'))
+            throw e
         }
     }
 }
@@ -111,7 +112,8 @@ export function addNewPayMethod(item: IPayMethod) {
             items.push({...item, id: response.data['id']})
             dispatch(fetchSuccess(items))
         }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            dispatch(showInfoMessage('error', 'Не удалось добавить новую запись!'))
+            throw e
         }
     }
 }
