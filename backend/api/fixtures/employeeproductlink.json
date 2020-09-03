@@ -1,0 +1,106 @@
+[
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 5,
+  "fields": {
+    "id_employee": 9,
+    "id_product": 40
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 6,
+  "fields": {
+    "id_employee": 10,
+    "id_product": 35
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 7,
+  "fields": {
+    "id_employee": 10,
+    "id_product": 36
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 8,
+  "fields": {
+    "id_employee": 10,
+    "id_product": 37
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 9,
+  "fields": {
+    "id_employee": 10,
+    "id_product": 38
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 10,
+  "fields": {
+    "id_employee": 11,
+    "id_product": 40
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 11,
+  "fields": {
+    "id_employee": 11,
+    "id_product": 35
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 12,
+  "fields": {
+    "id_employee": 11,
+    "id_product": 36
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 13,
+  "fields": {
+    "id_employee": 12,
+    "id_product": 35
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 14,
+  "fields": {
+    "id_employee": 12,
+    "id_product": 36
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 15,
+  "fields": {
+    "id_employee": 38,
+    "id_product": 35
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 20,
+  "fields": {
+    "id_employee": 38,
+    "id_product": 36
+  }
+},
+{
+  "model": "lighthouse.employeeproductlink",
+  "pk": 21,
+  "fields": {
+    "id_employee": 9,
+    "id_product": 108
+  }
+}
+]

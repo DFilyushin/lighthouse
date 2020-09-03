@@ -1,0 +1,74 @@
+[
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 1,
+  "fields": {
+    "id_contract": 235,
+    "id_employee": 9,
+    "to_date": "2020-08-31"
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 2,
+  "fields": {
+    "id_contract": 400,
+    "id_employee": 1,
+    "to_date": null
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 3,
+  "fields": {
+    "id_contract": 400,
+    "id_employee": 4,
+    "to_date": null
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 4,
+  "fields": {
+    "id_contract": 400,
+    "id_employee": 10,
+    "to_date": null
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 5,
+  "fields": {
+    "id_contract": 400,
+    "id_employee": 9,
+    "to_date": null
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 6,
+  "fields": {
+    "id_contract": 1297,
+    "id_employee": 18,
+    "to_date": null
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 7,
+  "fields": {
+    "id_contract": 678,
+    "id_employee": 23,
+    "to_date": null
+  }
+},
+{
+  "model": "lighthouse.employeecontractaccess",
+  "pk": 8,
+  "fields": {
+    "id_contract": 678,
+    "id_employee": 18,
+    "to_date": null
+  }
+}
+]
