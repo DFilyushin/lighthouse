@@ -112,9 +112,11 @@ export function addNewDepartment(item: IDepartment) {
                 })
                 dispatch(fetchSuccess(items));
             }
-
         }catch (e) {
-            dispatch(fetchError('Не удалось добавить новую запись!'))
+            console.log('Error save new record department. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить новую запись по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -128,7 +130,10 @@ export function updateDepartmentItem(item: IDepartment) {
         try{
             await authAxios.put(DepartmentEndpoint.updateDepartment(item.id), item);
         }catch (e) {
-            dispatch(fetchError(e))
+            console.log('Error save departments record. Error message:', e.response)
+            const  errorMessage = `Не удалось обновить данные по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }

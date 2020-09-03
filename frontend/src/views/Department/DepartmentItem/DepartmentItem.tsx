@@ -42,7 +42,6 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
     const { className, ...rest } = props;
 
     const departmentItem  = useSelector((state: IStateInterface)=> state.department.departmentItem);
-    const hasError = useSelector((state: IStateInterface) => state.department.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...departmentItem, [event.target.name]: event.target.value};
@@ -50,16 +49,38 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
     };
 
     /**
+     * Сохранить изменения с ожиданием
+     * @param dispatch
+     */
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (depId === NEW_RECORD_VALUE) {
+                await dispatch(addNewDepartment(departmentItem));
+            } else {
+                await dispatch(updateDepartmentItem(departmentItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
+        }
+    });
+
+    /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (depId === NEW_RECORD_VALUE) {
-            dispatch(addNewDepartment(departmentItem));
-        } else {
-            dispatch(updateDepartmentItem(departmentItem));
-        }
-        if (!hasError) history.push('/org/structure');
+        event.preventDefault();
+        saveItem(dispatch).then( ()=>{
+                history.push('/org/structure');
+            }
+        ).catch(()=>{
+            console.log('Error')
+        }).finally(
+            ()=>{
+                console.log('saveHandler_end');
+            }
+        );
     };
 
     useEffect( ()=> {
