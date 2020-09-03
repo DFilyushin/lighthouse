@@ -12,6 +12,7 @@ import {
 } from "./types";
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import authAxios from "../../services/axios-api";
+import {showInfoMessage} from "./infoAction";
 
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
@@ -111,7 +112,10 @@ export function addNewRaw(raw: IRaw) {
             })
             dispatch(fetchSuccess(items))
         }catch (e) {
-            dispatch(fetchError('Не удалось добавить новое сырьё!'))
+            console.log('Error save new record raw. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить новое сырьё по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -135,9 +139,11 @@ export function updateRaw(raw: IRaw) {
             const index = items.findIndex(value => value.id === raw.id)
             items[index] = raw
             dispatch(fetchSuccess(items))
-
         }catch (e) {
-            dispatch(fetchError(e))
+            console.log('Error save raw record. Error message:', e.response)
+            const  errorMessage = `Не удалось сохранить изменения по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }

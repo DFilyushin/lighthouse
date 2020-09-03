@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewRaw, changeRaw, loadRawItem, updateRaw} from "redux/actions/rawAction";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 
 interface IRawItemProps {
@@ -35,8 +36,7 @@ const RawItem = (props: IRawItemProps) => {
     const rawId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
-    const rawItem  = useSelector((state: any)=> state.raw.rawItem);
-    const hasError = useSelector((state: any) => state.raw.hasError)
+    const rawItem  = useSelector((state: IStateInterface)=> state.raw.rawItem);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const raw = {...rawItem, [event.target.name]: event.target.value};
@@ -44,16 +44,33 @@ const RawItem = (props: IRawItemProps) => {
     };
 
     /**
+     * Сохранить изменения с ожиданием
+     * @param dispatch
+     */
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (rawId === NEW_RECORD_VALUE) {
+                await dispatch(addNewRaw(rawItem));
+            } else {
+                await dispatch(updateRaw(rawItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
+        }
+    });
+
+
+    /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (rawId === NEW_RECORD_VALUE) {
-            dispatch(addNewRaw(rawItem));
-        } else {
-            dispatch(updateRaw(rawItem));
-        }
-        if (!hasError) history.push('/catalogs/raw');
+        event.preventDefault()
+        saveItem(dispatch).then( () => {
+                history.push('/catalogs/raw');
+            }
+        )
     };
 
     useEffect( ()=> {
