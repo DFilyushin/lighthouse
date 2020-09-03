@@ -37,9 +37,6 @@ const ProductItem = (props: IProductItemProps) => {
     const { className, ...rest } = props;
 
     const productItem  = useSelector((state: any)=> state.product.productItem);
-    // const isLoading = useSelector((state: any) => state.product.isLoading);
-    // const errorValue = useSelector((state: any) => state.product.error);
-    //const hasError = useSelector((state: any) => state.product.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const product = {...productItem, [event.target.name]: event.target.value};
@@ -49,9 +46,9 @@ const ProductItem = (props: IProductItemProps) => {
     const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
         try{
             if (productId === NEW_RECORD_VALUE) {
-                dispatch(addNewProduct(productItem));
+                await dispatch(addNewProduct(productItem));
             } else {
-                dispatch(updateProduct(productItem));
+                await dispatch(updateProduct(productItem));
             }
             resolve();
         }catch (e) {
@@ -63,6 +60,7 @@ const ProductItem = (props: IProductItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
+        event.preventDefault()
         saveItem(dispatch).then( ()=>{
             history.push('/catalogs/product');
             }

@@ -12,6 +12,7 @@ import {
 } from './types'
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import authAxios from "../../services/axios-api";
+import {showInfoMessage} from "./infoAction";
 
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
@@ -109,7 +110,10 @@ export function updateProduct(product: IProduct){
         try{
             await authAxios.put(ProductEndpoint.saveProduct(product.id), product);
         }catch (e) {
-            dispatch(productLoadError(e))
+            console.log('Error save product record. Error message:', e.response)
+            const  errorMessage = `Не удалось сохранить изменения по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -136,7 +140,10 @@ export function addNewProduct(product: IProduct) {
             })
             dispatch(productLoadSuccess(items))
         }catch (e) {
-            dispatch(productLoadError('Не удалось добавить новый продукт!'))
+            console.log('Error add product record. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить новый продукт  по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
