@@ -11,8 +11,9 @@ from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnove
     ExpenseListSerializer, ExpenseSerializer, StoreJournalItemSerializer, \
     StoreJournalSerializer,  StoreArrivalSerializer, ReservationSerializer, ReservationListSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
+from lighthouse.serializers.serializer_product import StockSerializer
 from lighthouse.appmodels.store import Store, Reservation
-from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID
+from lighthouse.appmodels.manufacture import MATERIAL_PRODUCT_ID, MATERIAL_RAW_ID, MATERIAL_STOCK_ID
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .api_utils import RoundFunc
@@ -47,6 +48,17 @@ class RawViewSet(viewsets.ModelViewSet):
     """
     queryset = Material.objects.filter(id_type__id=MATERIAL_RAW_ID).all().order_by('name')
     serializer_class = RawSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter, )
+    permission_classes = [IsAuthenticated]
+
+
+class StockViewSet(viewsets.ModelViewSet):
+    """
+    ТМЗ
+    """
+    queryset = Material.objects.filter(id_type_id=MATERIAL_STOCK_ID).all().order_by('name')
+    serializer_class = StockSerializer
     search_fields = ['name']
     filter_backends = (filters.SearchFilter, )
     permission_classes = [IsAuthenticated]

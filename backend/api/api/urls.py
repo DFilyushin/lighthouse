@@ -17,6 +17,7 @@ router = routers.DefaultRouter()
 # Склад и рецептура
 router.register(r'product', api_store_views.ProductViewSet)  # продукция
 router.register(r'raw', api_store_views.RawViewSet)  # сырьё
+router.register(r'stock', api_store_views.StockViewSet)  # ТМЗ
 router.register(r'tare', api_store_views.TareViewSet)  # тара
 router.register(r'formula', api_formula_views.FormulaViewSet, basename='Formula')  # рецептура
 router.register(r'cost', api_store_views.RefCostViewSet, basename='RefCost')
