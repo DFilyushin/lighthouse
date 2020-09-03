@@ -8,6 +8,7 @@ from lighthouse.endpoints.api_utils import RoundFunc4
 
 MATERIAL_RAW_ID = 1
 MATERIAL_PRODUCT_ID = 2
+MATERIAL_STOCK_ID = 3
 
 CARD_STATE_DRAFT = 0
 CARD_STATE_IN_WORK = 1
