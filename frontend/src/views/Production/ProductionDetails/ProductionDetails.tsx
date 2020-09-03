@@ -92,6 +92,7 @@ import {showInfoMessage} from "redux/actions/infoAction";
 import {loadFormulaReference} from "redux/actions/formulaAction";
 import {loadWorkList} from "../../../redux/actions/workAction";
 import ProductionMaterialItem from "../components/ProductionMaterialItem";
+import {loadStockList} from "../../../redux/actions/stockAction";
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
@@ -152,7 +153,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const productionMaterial = useSelector((state: IStateInterface)=> state.production.prodCardMaterial)
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
-    const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
+    const rawItems = useSelector((state: IStateInterface) => state.stock.stocks)
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.lineItems)
     const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
@@ -418,7 +419,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
 
     useEffect(()=>{
-        dispatch(loadRaws())
+        dispatch(loadStockList())
         dispatch(loadProduct())
         dispatch(loadFactoryLines())
         dispatch(loadEmployeeList())
