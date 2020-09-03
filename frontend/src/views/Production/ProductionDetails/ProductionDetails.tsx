@@ -68,7 +68,6 @@ import {
     IProductionTare,
     IProductionTeam
 } from "types/model/production";
-import {loadRaws} from "redux/actions/rawAction";
 import {loadProduct} from "redux/actions/productAction";
 import {loadFactoryLines} from "redux/actions/factoryLineAction";
 import ProductionTareItem from "../components/ProductionTareItem";

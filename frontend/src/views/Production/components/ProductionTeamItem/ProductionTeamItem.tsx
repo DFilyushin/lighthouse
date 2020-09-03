@@ -64,26 +64,6 @@ const ProductionTeamItem = (props: IProductionTeamItemProps) => {
         onDeleteItem(id);
     };
 
-    const handleDateChangeStartPeriod = (date: Date | null) => {
-        try {
-            const strDate = date?.toISOString().slice(0, 19);
-            const teamItem = {...item, 'periodStart': strDate as string};
-            dispatch(updateTeamItem(teamItem))
-        }catch (e) {
-            console.log(e.toString())
-        }
-    };
-
-    const handleDateChangeEndPeriod = (date: Date | null) => {
-        try {
-            const strDate = date?.toISOString().slice(0, 19);
-            const teamItem = {...item, 'periodEnd': strDate as string};
-            dispatch(updateTeamItem(teamItem))
-        }catch (e) {
-            console.log(e.toString())
-        }
-    };
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newItem = {...item, [event.target.name]: event.target.value};
         dispatch(updateTeamItem(newItem))
