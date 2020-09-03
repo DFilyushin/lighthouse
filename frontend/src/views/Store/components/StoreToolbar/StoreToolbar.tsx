@@ -53,11 +53,12 @@ interface IStoreToolbar {
     className: string,
     title: string,
     onFind: any,
-    icon?: any
+    icon?: any,
+    onFindCaption?: string
 }
 
 const StoreToolbar = (props: IStoreToolbar) => {
-    const { className, title, onFind, ...rest } = props;
+    const { className, title, onFind, onFindCaption, ...rest } = props;
     const classes = useStyles();
 
     function onKeyDownHandler (event: React.KeyboardEvent<HTMLInputElement>) {
@@ -85,7 +86,7 @@ const StoreToolbar = (props: IStoreToolbar) => {
                 <SearchInput
                     className={classes.searchInput}
                     onEnterKeyDown={onKeyDownHandler}
-                    placeholder={''}
+                    placeholder={onFindCaption}
                 />
             </div>
         </div>
