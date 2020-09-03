@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import { Document, Page, Text, Font, StyleSheet, View } from '@react-pdf/renderer'
 import { PDFViewer } from '@react-pdf/renderer';
 import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
 import {IStateInterface} from "../../redux/rootReducer";
 import {loadContractItem} from "../../redux/actions/contractAction";
 import {RouteComponentProps} from "react-router";
@@ -19,7 +18,6 @@ interface ContractPdfProps extends RouteComponentProps{
 const ContractPdf = (props: ContractPdfProps) => {
 
     const dispatch = useDispatch()
-    const history = useHistory()
 
     const paramId = props.match.params.id;
     const contractId = paramId === 'new' ? 0 :parseInt(paramId);
