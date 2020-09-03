@@ -40,6 +40,7 @@ python manage.py dumpdata lighthouse.contractspec --indent 2 > ./fixtures/contra
 python manage.py dumpdata lighthouse.contractexpectedpayment --indent 2 > ./fixtures/contractexpectedpayment.json
 python manage.py dumpdata lighthouse.claim --indent 2 > ./fixtures/claim.json
 python manage.py dumpdata lighthouse.claimhistory --indent 2 > ./fixtures/claimhistory.json
+python manage.py dumpdata lighthouse.payment --indent 2 > ./fixtures/payment.json
 
 rem Прайс-листы, резервирование продукции
 python manage.py dumpdata lighthouse.pricelist --indent 2 > ./fixtures/pricelist.json

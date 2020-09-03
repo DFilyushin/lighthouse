@@ -18,7 +18,6 @@ echo "Initial store"
 echo "initial auth and appsetup"
 python manage.py loaddata ./fixtures/group.json
 python manage.py loaddata ./fixtures/user.json
-python manage.py loaddata ./fixtures/user_groups.json
 python manage.py loaddata ./fixtures/appsetup.json
 python manage.py loaddata ./fixtures/usersettings.json
 
@@ -54,11 +53,11 @@ python manage.py loaddata ./fixtures/contract.json
 python manage.py loaddata ./fixtures/contractspec.json
 python manage.py loaddata ./fixtures/claim.json
 python manage.py loaddata ./fixtures/claimhistory.json
-python manage.py loaddata ./fixtures/pricelist.json
 python manage.py loaddata ./fixtures/reservation.json
 python manage.py loaddata ./fixtures/contractexpectedpayment.json
 python manage.py loaddata ./fixtures/paymentmethod.json
 python manage.py loaddata ./fixtures/payment.json
+python manage.py loaddata ./fixtures/pricelist.json
 
 echo "initial store"
 python manage.py loaddata ./fixtures/store.json
