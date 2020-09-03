@@ -47,6 +47,10 @@ export default [
                         href: '/catalogs/product'
                     },
                     {
+                        title: 'ТМЗ',
+                        href: '/catalogs/stock'
+                    },
+                    {
                         title: 'Производственные линии',
                         href: '/catalogs/lines'
                     },

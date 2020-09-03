@@ -60,7 +60,9 @@ import {
     PriceItem as PriceItemView,
     PriceListHistory as PriceListHistoryView,
     UserProfile as UserProfileView,
-    PriceListEmployee as PriceListEmployeeView
+    PriceListEmployee as PriceListEmployeeView,
+    Stocks as StockListView,
+    StockItem as StockItemView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -103,6 +105,9 @@ const Routes = () => {
 
             <AuthRouteWithLayout component={RawsView} layout={MainLayout} path="/catalogs/raw" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={RawItemView} layout={MainLayout} path="/catalogs/raw/:id" access={[AccessGroups.ADMIN]} exact/>
+
+            <AuthRouteWithLayout component={StockListView} layout={MainLayout} path="/catalogs/stock" access={[AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={StockItemView} layout={MainLayout} path="/catalogs/stock/:id" access={[AccessGroups.ADMIN]} exact/>
 
             <AuthRouteWithLayout component={UnitView} layout={MainLayout} path="/catalogs/units" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={UnitItemView} layout={MainLayout} path="/catalogs/units/:id" access={[AccessGroups.ADMIN]} exact/>

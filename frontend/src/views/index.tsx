@@ -21,6 +21,9 @@ export { default as ProductItem } from './Products/ProductItem'
 export { default as Raws } from './Raws/RawList'
 export { default as RawItem } from './Raws/RawItem'
 
+export { default as Stocks } from './Stocks/StockList'
+export { default as StockItem } from './Stocks/StockItem'
+
 export { default as Formulas } from './Formula/FormulaList'
 export { default as FormulaItem } from './Formula/FormulaItem'
 
