@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer, \
-    PriceListSerializer, PriceListItemSerializer
+    PriceListSerializer, PriceListItemSerializer, ContractList2Serializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY, EmployeeContractAccess
 from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
@@ -62,11 +62,11 @@ class ClientViewSet(viewsets.ModelViewSet):
         """
         if request.method == 'GET':
             contracts = ContractSpec.objects.filter(id_contract__id_client_id=pk)\
-                .values('id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
+                .values('id', 'id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
                         'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__id_agent__fio',
                         'id_contract__contract_state')\
                 .annotate(sum=Sum(F('item_price')*F('item_count')))
-            serializer = ContractListSerializer(contracts, many=True)
+            serializer = ContractList2Serializer(contracts, many=True)
             return Response(serializer.data)
 
 
