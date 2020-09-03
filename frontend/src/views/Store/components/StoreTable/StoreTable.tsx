@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -65,10 +64,6 @@ const StoreTable = (props: IStoreTableProps) => {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const cellClicked = (clientId: number) => {
-        onClickItem(clientId);
-    };
-
     return (
         <Card
             {...rest}
@@ -86,7 +81,6 @@ const StoreTable = (props: IStoreTableProps) => {
                                     <TableCell>Ед. изм.</TableCell>
                                     <TableCell>Кол-во в таре</TableCell>
                                     <TableCell>Кол-во в объёме</TableCell>
-                                    <TableCell/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -105,7 +99,6 @@ const StoreTable = (props: IStoreTableProps) => {
                                             <TableCell>{item.unit}</TableCell>
                                             <TableCell>{item.total}</TableCell>
                                             <TableCell>{item.total * item.v}</TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Подробнее</Button></TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
