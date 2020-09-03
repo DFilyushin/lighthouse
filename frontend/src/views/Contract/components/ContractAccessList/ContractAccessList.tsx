@@ -12,17 +12,15 @@ import {
 } from "@material-ui/core"
 import clsx from "clsx"
 import PerfectScrollbar from "react-perfect-scrollbar"
-import {IContractManagerAccess, IWaitPaymentContractItem} from "types/model/contract"
+import {IContractManagerAccess} from "types/model/contract"
 import {useDispatch, useSelector} from "react-redux";
 import {
     addNewManagerItem,
-    addNewWaitPaymentItem, changeManagerAccessItem, changePaymentWaitItem, deleteManagerAccessItem,
-    deleteWaitPaymentItem
+    changeManagerAccessItem, deleteManagerAccessItem
 } from "../../../../redux/actions/contractAction";
 import ContractAccessItem from "../ContractAccessItem";
 import {useDialog} from "../../../../components/SelectDialog";
 import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT} from "../../../../utils/AppConst";
-import {changeExpense} from "../../../../redux/actions/expenseAction";
 import {IStateInterface} from "../../../../redux/rootReducer";
 import {IEmployeeListItem} from "../../../../types/model/employee";
 import {loadEmployeeList} from "../../../../redux/actions/employeeAction";
