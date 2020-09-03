@@ -2,7 +2,6 @@ import {hideInfoMessage, showInfoMessage} from "./infoAction"
 import UnitEndpoint from "services/endpoints/UnitEndpoint"
 import {IUnit} from "../../types/model/unit"
 import {
-    UNIT_SET_ERROR,
     UNIT_DELETE_OK,
     UNIT_ITEM_SUCCESS,
     UNIT_LOAD_FINISH,
@@ -134,13 +133,6 @@ export function updateUnit(item: IUnit) {
     }
 }
 
-
-function saveError(e: string) {
-    return{
-        type: UNIT_SET_ERROR,
-        error: e
-    }
-}
 
 export function changeUnit(item: IUnit) {
     return {
