@@ -8,11 +8,11 @@ SECRET_KEY = 'EMPTY'
 
 DEBUG = False
 
+ALLOWED_HOSTS = ['*']
+
 ADMINS = [
     ('appadmin', 'admin@localhost')
 ]
-
-ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -150,14 +150,15 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static_files'
 
 REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
-  ),
-  'DEFAULT_PAGINATION_CLASS': 'lighthouse.endpoints.api_utils.PageNumberPaginationDataOnly'
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'lighthouse.endpoints.api_utils.PageNumberPaginationDataOnly',
+    'EXCEPTION_HANDLER': 'lighthouse.endpoints.api_errors.custom_exception_handler'
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=4),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=12),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
