@@ -7,23 +7,32 @@ class StoreEndpoint {
      * Загрузить список состояние склада сырья
      * @param date Дата, на которую формируется состояние
      */
-    static getStoreRaw(date: string): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/store/raw?onDate=${date}`
+    static getStoreRaw(date: string, search?: string): string {
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/raw?onDate=${date}`
+        const url = new URL(baseUrl);
+        if (search) url.searchParams.append('search', search);
+        return url.href
     }
 
     /**
      * Загрузить список состояния склада готовой продукции
      * @param date Дата, на которую формируется состояние
      */
-    static getStoreProduct(date: string): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/store/product?onDate=${date}`
+    static getStoreProduct(date: string, search?: string): string {
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/product?onDate=${date}`
+        const url = new URL(baseUrl)
+        if (search) url.searchParams.append('search', search);
+        return url.href
     }
 
     /**
      * Загрузить список зарезервированной продукции на текущую дату
      */
-    static getProductReserved(): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/reserve/`
+    static getProductReserved(search?: string): string {
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/reserve/`
+        const url = new URL(baseUrl)
+        if (search) url.searchParams.append('search', search);
+        return url.href
     }
 
     /**
