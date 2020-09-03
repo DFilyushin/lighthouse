@@ -84,7 +84,8 @@ const StoreTable = (props: IStoreTableProps) => {
                                     <TableCell>Тара</TableCell>
                                     <TableCell>Объём тары</TableCell>
                                     <TableCell>Ед. изм.</TableCell>
-                                    <TableCell>Кол-во</TableCell>
+                                    <TableCell>Кол-во в таре</TableCell>
+                                    <TableCell>Кол-во в объёме</TableCell>
                                     <TableCell/>
                                 </TableRow>
                             </TableHead>
@@ -103,6 +104,7 @@ const StoreTable = (props: IStoreTableProps) => {
                                             <TableCell>{item.v}</TableCell>
                                             <TableCell>{item.unit}</TableCell>
                                             <TableCell>{item.total}</TableCell>
+                                            <TableCell>{item.total * item.v}</TableCell>
                                             <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Подробнее</Button></TableCell>
                                         </TableRow>
                                     ))}
