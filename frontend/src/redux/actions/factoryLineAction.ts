@@ -4,7 +4,7 @@ import {
     FACTORY_LINE_DELETE_OK,
     FACTORY_LINE_LOAD_FINISH, FACTORY_LINE_LOAD_ITEM,
     FACTORY_LINE_LOAD_START,
-    FACTORY_LINE_LOAD_SUCCESS, FACTORY_LINE_SET_ERROR, FACTORY_LINE_UPDATE
+    FACTORY_LINE_LOAD_SUCCESS, FACTORY_LINE_UPDATE
 } from "./types"
 import {IFactoryLine} from "types/model/factorylines"
 import FactoryLineEndpoint from "services/endpoints/FactoryLineEndpoint"
@@ -18,7 +18,6 @@ export function loadFactoryLines(search?: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
-
         try {
             const url = FactoryLineEndpoint.getFactoryLinesList(search);
             const items: IFactoryLine[] = [];
@@ -107,8 +106,10 @@ export function addNewFactoryItem(item: IFactoryLine) {
             return Promise.resolve();
         }
         catch (e) {
-            dispatch(saveError('Не удалось добавить новую запись!'));
-            return Promise.reject();
+            console.log('Error save new record factory line. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить новое запись по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -126,7 +127,10 @@ export function updateFactoryItem(item: IFactoryLine) {
             items[index] = item
             dispatch(fetchSuccess(items))
         }catch (e) {
-            dispatch(showInfoMessage('error', e.toString()))
+            console.log('Error save new record factory line. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить новое запись по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -167,12 +171,5 @@ function fetchSuccess(items: IFactoryLine[]) {
 function clearError() {
     return{
         type: FACTORY_CLEAR_ERROR
-    }
-}
-
-function saveError(error: string) {
-    return{
-        type: FACTORY_LINE_SET_ERROR,
-        error: error
     }
 }
