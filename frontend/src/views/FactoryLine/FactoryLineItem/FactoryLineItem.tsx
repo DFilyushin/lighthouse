@@ -42,24 +42,42 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
     const { className, ...rest } = props;
 
     const factoryLineItem  = useSelector((state: IStateInterface)=> state.factoryLine.lineItem);
-    const hasError = useSelector((state: IStateInterface) => state.factoryLine.hasError)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...factoryLineItem, [event.target.name]: event.target.value};
         dispatch(changeFactoryItem(item))
     };
 
+
+    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+        try{
+            if (id === NEW_RECORD_VALUE) {
+                await dispatch(addNewFactoryItem(factoryLineItem));
+            } else {
+                await dispatch(updateFactoryItem(factoryLineItem));
+            }
+            resolve();
+        }catch (e) {
+            reject()
+        }
+    });
+
     /**
      * Сохранить изменения
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
-        if (id === NEW_RECORD_VALUE) {
-            dispatch(addNewFactoryItem(factoryLineItem));
-        } else {
-            dispatch(updateFactoryItem(factoryLineItem));
-        }
-        if (!hasError) history.push('/catalogs/lines');
+        event.preventDefault()
+        saveItem(dispatch).then( ()=>{
+                history.push('/catalogs/lines');
+            }
+        ).catch(()=>{
+            console.log('Error')
+        }).finally(
+            ()=>{
+                console.log('saveHandler_end');
+            }
+        );
     };
 
     useEffect( ()=> {
@@ -101,7 +119,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
                         <Button
                             color="primary"
                             variant="contained"
-                            type={"submit"}
+                            type="submit"
                         >
                             Сохранить
                         </Button>
