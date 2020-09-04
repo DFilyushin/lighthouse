@@ -44,7 +44,7 @@ export function deleteFactoryItem(id: number) {
         try{
             const response = await authAxios.delete(FactoryLineEndpoint.deleteFactoryLine(id));
             if (response.status === 204) {
-                const items = [...getState().factoryLine.items];
+                const items = [...getState().factoryLine.lineItems];
                 const index = items.findIndex((elem)=>{return elem.id === id});
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
@@ -101,7 +101,7 @@ export function addNewFactoryItem(item: IFactoryLine) {
         dispatch(clearError());
         try{
             const response = await authAxios.post(FactoryLineEndpoint.newFactoryLine(), item);
-            const items = [...getState().factoryLine.items]
+            const items = [...getState().factoryLine.lineItems]
             items.push(response.data)
             await dispatch(fetchSuccess(items))
             return Promise.resolve();
