@@ -630,12 +630,12 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * @param event
      */
     const saveHandler = (event: SyntheticEvent) => {
+        event.preventDefault();
         saveItem(dispatch).then((value)=>{
             history.push(`/factory/${value}`)
         }).catch((e)=> {
             console.log('Error')
         });
-        event.preventDefault();
     };
 
     function getCardState(state: number): string {
@@ -929,7 +929,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         <Paper  elevation={0} className={classes.paper_root}>
                                             <TextField
                                                 fullWidth
-                                                label="Начальник смены"
+                                                label="Начальник производства"
                                                 margin="dense"
                                                 name="teamLeader"
                                                 onChange={handleChange}
