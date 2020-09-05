@@ -47,7 +47,7 @@ export default [
                         href: '/catalogs/product'
                     },
                     {
-                        title: 'ТМЗ',
+                        title: 'ТМЦ',
                         href: '/catalogs/stock'
                     },
                     {

@@ -73,9 +73,9 @@ const StockList = () => {
             <DefaultToolbar
                 className={''}
                 title={'Товарно материальные запасы'}
-                newItemTitle={'Новый ТМЗ'}
+                newItemTitle={'Новый ТМЦ'}
                 newItemUrl={'/catalogs/stock/new'}
-                findCaption={'Поиск ТМЗ'}
+                findCaption={'Поиск ТМЦ'}
                 showDelete={true}
                 onFind={onFindProductHandler}
                 onDelete={onDeleteHandle}/>

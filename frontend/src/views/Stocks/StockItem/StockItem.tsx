@@ -84,7 +84,7 @@ const StockItem = (props: IStockItemProps) => {
                 <form autoComplete="off" onSubmit={saveHandler}>
                     <CardHeader
                         subheader=""
-                        title="Сырьё"
+                        title="ТМЦ"
                     />
                     <Divider />
                     <CardContent>
@@ -95,7 +95,7 @@ const StockItem = (props: IStockItemProps) => {
                             >
                                 <TextField
                                     fullWidth
-                                    label="Наименование ТМЗ"
+                                    label="Наименование ТМЦ"
                                     margin="dense"
                                     name="name"
                                     onChange={handleChange}
