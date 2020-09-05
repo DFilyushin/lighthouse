@@ -13,6 +13,7 @@ import {
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import authAxios from "../../services/axios-api";
 import {showInfoMessage} from "./infoAction";
+import {capitalize} from "@material-ui/core";
 
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
@@ -98,7 +99,8 @@ export function addNewRaw(raw: IRaw) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await authAxios.post(RawEndpoint.newRaw(), raw);
+            const newRaw = {...raw, name: capitalize(raw.name)}
+            const response = await authAxios.post(RawEndpoint.newRaw(), newRaw);
             const items = [...getState().raw.raws]
             items.push(response.data)
             items.sort(function (a, b) {
