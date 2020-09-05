@@ -17,10 +17,13 @@ class FormulaViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             show_non_active: bool = self.request.GET.get('show_non_active', False)
+            search = self.request.GET.get('search', None)
             if show_non_active:
                 queryset = Formula.objects.all()
             else:
                 queryset = Formula.objects.filter(is_active=True)
+            if search:
+                queryset = queryset.filter(id_product__name__icontains=search)
             return queryset.order_by('id_product__name').values('id', 'id_product__name', 'calc_amount', 'created')
         else:
             return Formula.objects.all()
