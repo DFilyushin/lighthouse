@@ -10,6 +10,7 @@ import {IFactoryLine} from "types/model/factorylines"
 import FactoryLineEndpoint from "services/endpoints/FactoryLineEndpoint"
 import {NEW_RECORD_VALUE} from "../../utils/AppConst"
 import authAxios from "../../services/axios-api"
+import {capitalize} from "@material-ui/core";
 
 /**
  * Загрузить список линий производства
@@ -99,7 +100,8 @@ export function addNewFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await authAxios.post(FactoryLineEndpoint.newFactoryLine(), item);
+            const newItem = {...item, name: capitalize(item.name)}
+            const response = await authAxios.post(FactoryLineEndpoint.newFactoryLine(), newItem);
             const items = [...getState().factoryLine.lineItems]
             items.push(response.data)
             await dispatch(fetchSuccess(items))
