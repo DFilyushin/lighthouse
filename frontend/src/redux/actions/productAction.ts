@@ -13,6 +13,7 @@ import {
 import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import authAxios from "../../services/axios-api";
 import {showInfoMessage} from "./infoAction";
+import {capitalize} from "@material-ui/core";
 
 //FIXME Вынести управление ошибками и сообщениями в стор ошибок
 
@@ -126,7 +127,8 @@ export function addNewProduct(product: IProduct) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         try{
-            const response = await authAxios.post(ProductEndpoint.newProduct(), product);
+            const newProduct = {...product, name: capitalize(product.name)}
+            const response = await authAxios.post(ProductEndpoint.newProduct(), newProduct);
             const items = [...getState().product.products]
             items.push(response.data)
             items.sort(function (a, b) {
