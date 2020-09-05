@@ -43,7 +43,7 @@ const PayMethodList = () => {
     );
 
     async function onFindProductHandler(findText: string){
-        dispatch(loadPayMethodItems())
+        dispatch(loadPayMethodItems(findText))
     }
 
     function onDeleteHandle() {
@@ -66,7 +66,7 @@ const PayMethodList = () => {
     function onClickTableItem(id: number){
         const newItemUrl = `/catalogs/paymethod/${id}`;
         history.push(newItemUrl);
-    };
+    }
 
     return (
         <div className={classes.root}>

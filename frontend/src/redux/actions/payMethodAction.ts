@@ -16,11 +16,11 @@ import authAxios from "../../services/axios-api";
 /**
  * Загрузить список методы оплат
  */
-export function loadPayMethodItems() {
+export function loadPayMethodItems(search?: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(loadStart())
         dispatch(hideInfoMessage())
-        const url = PayMethodEndpoint.getPayMethodList()
+        const url = PayMethodEndpoint.getPayMethodList(search)
         const items: IPayMethod[] = []
         try{
             const response = await authAxios.get(url)

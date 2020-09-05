@@ -6,8 +6,11 @@ class PayMethodEndpoint {
     /**
      * Получить список методов оплаты
      */
-    static getPayMethodList(): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/paymethod/`
+    static getPayMethodList(search?: string): string {
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/paymethod/`
+        const url = new URL(baseUrl);
+        if (search) url.searchParams.append('search', search);
+        return url.href
     }
 
     /**
