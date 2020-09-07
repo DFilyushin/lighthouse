@@ -5,7 +5,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer, \
-    PriceListSerializer, PriceListItemSerializer, ContractList2Serializer
+    ContractList2Serializer
+from lighthouse.serializers.serializer_price import PriceListSerializer, PriceListItemSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY, EmployeeContractAccess
 from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTRACT_IS_CLOSE
