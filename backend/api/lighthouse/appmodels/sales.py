@@ -244,6 +244,8 @@ class ContractSpec(models.Model):
     item_discount = models.FloatField(default=0, verbose_name='Скидка')
     delivery_date = models.DateField(blank=True, null=True, verbose_name='Дата доставки')
     delivered = models.DateField(blank=True, null=True, verbose_name='Доставлен')
+    returned = models.DateField(blank=True, null=True, verbose_name='Дата возврата')
+    return_cause = models.CharField(max_length=255, blank=True, null=True, verbose_name='Причина возврата')
 
     @property
     def total(self):
