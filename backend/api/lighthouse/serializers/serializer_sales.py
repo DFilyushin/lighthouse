@@ -147,11 +147,13 @@ class ContractSpecSerializer(serializers.ModelSerializer):
     delivered = serializers.DateField(allow_null=True)
     specNum = serializers.CharField(source='spec_num')
     specDate = serializers.DateField(source='spec_date', allow_null=True)
+    returned = serializers.DateField(allow_null=True)
+    returnCause = serializers.CharField(source='return_cause', allow_null=True)
 
     class Meta:
         model = ContractSpec
         fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemNds', 'itemDiscount', 'itemTotal',
-                  'delivery', 'delivered', 'specNum', 'specDate')
+                  'delivery', 'delivered', 'specNum', 'specDate', 'returned', 'returnCause')
 
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
