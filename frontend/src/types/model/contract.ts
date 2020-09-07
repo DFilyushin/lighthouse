@@ -120,22 +120,71 @@ export const nullContractSpecItem : IContractSpecItem = {
     delivered: null,
     delivery: null,
     specNum: '',
-    specDate: ''
+    specDate: '',
+    returned: null,
+    returnCause: null
 }
 
+/**
+ * Спецификация контракта
+ */
 export interface IContractSpecItem {
+    /**
+     * Код записи
+     */
     id: number;
+    /**
+     * Продукция
+     */
     product: IProduct;
+    /**
+     * Тара
+     */
     tare: ITare;
+    /**
+     * Количество
+     */
     itemCount: number;
+    /**
+     * Цена
+     */
     itemPrice: number;
+    /**
+     * НДС
+     */
     itemNds: number;
+    /**
+     * Сумма позиции
+     */
     itemTotal: number;
+    /**
+     * Скидка по позиции
+     */
     itemDiscount: number;
+    /**
+     * Плановая дата доставки
+     */
     delivery: string|null;
+    /**
+     * Дата фактической поставки
+     */
     delivered: string|null;
+    /**
+     * Номер спецификации
+     */
     specNum: string;
+    /**
+     * Дата спецификации
+     */
     specDate: string;
+    /**
+     * Дата возврата позиции
+     */
+    returned: string|null;
+    /**
+     * Причина возврата
+     */
+    returnCause: string|null;
 }
 
 export interface IContract {
