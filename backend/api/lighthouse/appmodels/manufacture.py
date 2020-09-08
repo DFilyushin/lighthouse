@@ -142,6 +142,7 @@ class FormulaComp(models.Model):
     id = models.AutoField(primary_key=True)
     id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код рецептуры')
     id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
+    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.CASCADE, null=True, verbose_name='Код ед. измерения')
     concentration = models.FloatField(default=0, null=True, verbose_name='Концентрация')
     substance = models.FloatField(default=0, null=True, verbose_name='Содержания')
     raw_value = models.FloatField(default=0, verbose_name='Количество')
