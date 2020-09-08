@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Formula, FormulaComp
 from .serializer_product import RawSerializer, ProductSerializer
+from .serializer_refs import MaterialUnitSerializer
 from lighthouse.serializers.serializer_refs import TareSerializer
 
 
@@ -23,13 +24,14 @@ class FormulaCompSerializer(serializers.ModelSerializer):
     """
     id = serializers.IntegerField(default=0)
     raw = RawSerializer(source='id_raw')
+    unit = MaterialUnitSerializer(source='id_unit')
     concentration = serializers.FloatField(default=100)
     substance = serializers.FloatField(default=0)
     raw_value = serializers.FloatField()
 
     class Meta:
         model = FormulaComp
-        fields = ('id', 'raw', 'concentration', 'substance', 'raw_value')
+        fields = ('id', 'raw', 'unit', 'concentration', 'substance', 'raw_value')
 
 
 class FormulaSerializer(serializers.ModelSerializer):
@@ -63,7 +65,8 @@ class FormulaSerializer(serializers.ModelSerializer):
                 id_formula_id=id_formula,
                 raw_value=raw['raw_value'],
                 substance=raw['substance'],
-                concentration=raw['concentration']
+                concentration=raw['concentration'],
+                id_unit_id=raw['id_unit']['id']
             )
         return formula
 
@@ -74,6 +77,7 @@ class FormulaSerializer(serializers.ModelSerializer):
         instance.id_tare_id = validated_data['id_tare']['id']
         instance.specification = validated_data['specification']
         instance.density = validated_data['density']
+        instance.id_unit_id = validated_data['id_unit']['id']
 
         old_mapping = {inst.id: inst for inst in instance.get_raw_in_formula()}
         data_mapping = {item['id']: item for item in validated_data['get_raw_in_formula']}
@@ -85,7 +89,8 @@ class FormulaSerializer(serializers.ModelSerializer):
                     id_formula_id=instance.id,
                     raw_value=item['raw_value'],
                     concentration=item['concentration'],
-                    substance=item['substance']
+                    substance=item['substance'],
+                    id_unit_id=item['id_unit']['id']
                 )
             else:
                 value = old_mapping.get(item['id'], None)
@@ -93,6 +98,7 @@ class FormulaSerializer(serializers.ModelSerializer):
                 value.raw_value = item['raw_value']
                 value.substance = item['substance']
                 value.concentration = item['concentration']
+                value.unit_id_id = item['id_unit']['id']
                 value.save()
 
         for data_id, data in old_mapping.items():
@@ -134,6 +140,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
         for raw in validated_data['get_raw_in_formula']:
             FormulaComp.objects.create(
                 id_raw_id=raw['id_raw']['id'],
+                id_unit_id=raw['id_unit']['id'],
                 id_formula_id=id_formula,
                 raw_value=raw['raw_value'],
                 substance=raw['substance'],
@@ -165,6 +172,7 @@ class NewFormulaSerializer(serializers.ModelSerializer):
                 value.raw_value = item['raw_value']
                 value.concentration = item['concentration']
                 value.substance = item['substance']
+                value.id_unit_id = item['id_unit']['id']
                 value.save()
 
         for data_id, data in old_mapping.items():
