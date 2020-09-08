@@ -44,6 +44,8 @@ import {
 } from "utils/AppConst";
 import {showInfoMessage} from "redux/actions/infoAction";
 import {RoundValue} from "../../../utils/AppUtils";
+import {IStateInterface} from "../../../redux/rootReducer";
+import {loadUnit} from "../../../redux/actions/unitAction";
 
 interface IFormulaItemProps {
     className: string,
@@ -68,19 +70,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormulaItem = (props: IFormulaItemProps) => {
-    const history = useHistory();
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const confirm = useConfirm();
-    const paramId = props.match.params.id;
-    const formulaId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
-    const { className, ...rest } = props;
+    const history = useHistory()
+    const classes = useStyles()
+    const dispatch = useDispatch()
+    const confirm = useConfirm()
+    const paramId = props.match.params.id
+    const formulaId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId)
+    const { className, ...rest } = props
 
-    const formulaItem  = useSelector((state: any)=> state.formula.formulaItem);
-    const selectDialog = useDialog();
-    const isLoading = useSelector((state: any) => state.formula.isLoading);
-    const productItems = useSelector((state: any) => state.product.products);
-    const rawItems = useSelector((state: any) => state.raw.raws)
+    const selectDialog = useDialog()
+    const formulaItem  = useSelector((state: IStateInterface)=> state.formula.formulaItem)
+    const isLoading = useSelector((state: IStateInterface) => state.formula.isLoading)
+    const productItems = useSelector((state: IStateInterface) => state.product.products)
+    const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
+    const unitItems = useSelector((state: IStateInterface) => state.unit.unitItems)
+
     const [hasProductError, setProductError] = useState(false)
     const [hasCountError, setCountError] = useState(false)
     const [hasNoItemsError, setNoItemError] = useState(false)
@@ -118,6 +122,31 @@ const FormulaItem = (props: IFormulaItemProps) => {
         );
     };
 
+
+    /**
+     * Выбор и изменение строки с ед. измерения
+     * @param id
+     */
+    const handleChangeUnitItem = (id: number)=>{
+        selectDialog(
+            {
+                'title': 'Выбор ед. измерения',
+                description: '',
+                confirmationText:'Выбрать',
+                cancellationText: 'Отменить',
+                dataItems: unitItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+                const item = {...formulaItem};
+                const index = item.raws.findIndex((item: IRawInFormula) => {return item.id === id})
+                item.raws[index].unit.id = value.id;
+                item.raws[index].unit.name = value.name;
+                dispatch(changeFormula(item));
+            }
+        );
+    };
 
     /**
      * Выбор и изменение строки с сырьём
@@ -255,7 +284,8 @@ const FormulaItem = (props: IFormulaItemProps) => {
     };
 
     useEffect(()=>{
-        dispatch(loadRaws());
+        dispatch(loadRaws())
+        dispatch(loadUnit())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -409,11 +439,12 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     </Typography>
                                 </Grid>
                             }
-                            {formulaItem.raws.map((rawItem: any, index: number) =>(
+                            {formulaItem.raws.map((rawItem: IRawInFormula) =>(
                                 <FormulaRawItem
-                                    key={index}
+                                    key={rawItem.id}
                                     item={rawItem}
-                                    onChangeItem={handleChangeRawItem}
+                                    onChangeRawItem={handleChangeRawItem}
+                                    onChangeUnitItem={handleChangeUnitItem}
                                     onDeleteItem={handleDeleteRawItem}
                                 />
                             ))}

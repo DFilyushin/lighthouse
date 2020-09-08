@@ -39,17 +39,26 @@ const useStyles = makeStyles(theme => ({
 interface IFormulaRawItemProps {
     item: IRawInFormula;
     onDeleteItem: ( (id: number)=> void);
-    onChangeItem: ( (id: number)=> void);
+    onChangeRawItem: ( (id: number)=> void);
+    onChangeUnitItem: ((id: number)=> void);
 }
 
 
 const FormulaRawItem = (props: IFormulaRawItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem} = props;
+    const { item, onDeleteItem, onChangeRawItem, onChangeUnitItem} = props;
     const dispatch = useDispatch();
 
-    const handleClickListItem = (id: number) => {
-        onChangeItem(id)
+    /**
+     * Смена сырья
+     * @param id Код записи
+     */
+    const handleClickRawItem = (id: number) => {
+        onChangeRawItem(id)
+    }
+
+    const handleClickUnitItem = (id: number) => {
+        onChangeUnitItem(id)
     }
 
     const handleClickDeleteItem = (id: number)=> {
@@ -63,7 +72,7 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
 
     return (
         <Fragment>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
                 <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
@@ -75,7 +84,24 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
                         name="unit"
                         value={item.raw.name}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickListItem(item.id)}}>
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickRawItem(item.id)}}>
+                        <MenuOpenIcon />
+                    </IconButton>
+                </Paper>
+            </Grid>
+            <Grid item xs={2}>
+                <Paper elevation={0} className={classes.paper_root}>
+                    <TextField
+                        fullWidth
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        label="Единица измерения"
+                        margin="dense"
+                        name="unit"
+                        value={item.unit.name}
+                    />
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={event => {handleClickUnitItem(item.id)}}>
                         <MenuOpenIcon />
                     </IconButton>
                 </Paper>
@@ -92,7 +118,7 @@ const FormulaRawItem = (props: IFormulaRawItemProps) => {
                 />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={1}>
                 <TextField
                     label="Содержание, г/кг"
                     type={'number'}
