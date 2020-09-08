@@ -15,6 +15,7 @@ import {useHistory} from "react-router-dom";
 import SnackBarAlert from "../../components/SnackBarAlert/SnackBarAlert";
 import {useDispatch, useSelector} from "react-redux";
 import {hideInfoMessage} from "../../redux/actions/infoAction";
+import {IStateInterface} from "../../redux/rootReducer";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -45,8 +46,8 @@ const Main = (props: IMainProps) => {
         defaultMatches: true
     });
     const dispatch = useDispatch();
-    const messageText = useSelector((state: any) => state.info.messageText);
-    const messageType = useSelector((state:any) => state.info.messageType);
+    const messageText = useSelector((state: IStateInterface) => state.info.messageText);
+    const messageType = useSelector((state:IStateInterface) => state.info.messageType);
     const hasError = useSelector((state:any) => state.info.hasMessage);
     const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
         dispatch(hideInfoMessage())
