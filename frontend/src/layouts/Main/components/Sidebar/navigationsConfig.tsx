@@ -11,8 +11,8 @@ import DomainOutlinedIcon from '@material-ui/icons/DomainOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
-import {AccessGroups} from 'utils/AppConst'
 import {Barcode, BuildingWarehouse, Flask} from 'tabler-icons-react';
+import {AccessGroups} from 'utils/AppConst'
 
 
 export default [
@@ -69,53 +69,21 @@ export default [
                 ],
                 access: [AccessGroups.ADMIN, AccessGroups.TECHNOLOGIST, AccessGroups.FACTORY, AccessGroups.BUH]
             },
-            {
-                title: 'Рецептура',
-                href: '/catalogs/formula',
-                icon: Flask,
-                access: [AccessGroups.TECHNOLOGIST, AccessGroups.BOSS, AccessGroups.ADMIN]
-            },
-            {
-                title: 'Цены',
-                href: '/price',
-                icon: Barcode,
-                access: [AccessGroups.BUH, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.REPORT]
-            },
-            {
-                title: 'Прайс-лист',
-                href: '/user-price',
-                icon: Barcode,
-                access: [AccessGroups.MANAGER]
-            },
-            {
-                title: 'Клиенты',
-                href: '/clients',
-                icon: GroupOutlinedIcon,
-                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT]
-            },
-            {
-                title: 'Контракты',
-                href: '/contracts',
-                icon: WorkOutlineOutlinedIcon,
-                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT]
-            },
-            {
-                title: 'Платежи',
-                href: '/payments',
-                icon: AccountBalanceIcon,
-                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT]
-            },
-            {
-                title: 'Производство',
-                href: '/factory',
-                icon: DomainOutlinedIcon,
-                access: [AccessGroups.FACTORY, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.TECHNOLOGIST]
-            },
+        ],
+        access: [AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FACTORY, AccessGroups.REPORT,
+            AccessGroups.BUH, AccessGroups.BOSS]
+    },
+    {
+        title: 'Бухгалтерия',
+        access: [
+            AccessGroups.ADMIN, AccessGroups.BOSS, AccessGroups.FINANCE, AccessGroups.BUH
+        ],
+        pages: [
             {
                 title: 'Затраты',
                 href: '/expense',
                 icon: AccountBalanceWalletOutlinedIcon,
-                access: [AccessGroups.ADMIN, AccessGroups.FINANCE, AccessGroups.BUH]
+                access: [AccessGroups.ADMIN, AccessGroups.FINANCE, AccessGroups.BUH, AccessGroups.BOSS]
             },
             {
                 title: 'Склад',
@@ -165,9 +133,65 @@ export default [
                 ],
                 access: [AccessGroups.ADMIN, AccessGroups.BOSS, AccessGroups.FINANCE, AccessGroups.BUH]
             }
+        ]
+    },
+    {
+        title: 'Продажи',
+        access: [
+            AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT
         ],
-        access: [AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FACTORY, AccessGroups.REPORT,
-            AccessGroups.BUH, AccessGroups.BOSS]
+        pages: [
+            {
+                title: 'Клиенты',
+                href: '/clients',
+                icon: GroupOutlinedIcon,
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT]
+            },
+            {
+                title: 'Контракты',
+                href: '/contracts',
+                icon: WorkOutlineOutlinedIcon,
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT]
+            },
+            {
+                title: 'Платежи',
+                href: '/payments',
+                icon: AccountBalanceIcon,
+                access: [AccessGroups.MANAGER, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.BUH, AccessGroups.REPORT]
+            },
+            {
+                title: 'Цены',
+                href: '/price',
+                icon: Barcode,
+                access: [AccessGroups.BUH, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.REPORT]
+            },
+            {
+                title: 'Прайс-лист',
+                href: '/user-price',
+                icon: Barcode,
+                access: [AccessGroups.MANAGER]
+            },
+        ]
+    },
+    {
+        title: 'Производство',
+        access: [
+            AccessGroups.FACTORY, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.TECHNOLOGIST
+        ],
+        pages: [
+            {
+                title: 'Рецептура',
+                href: '/catalogs/formula',
+                icon: Flask,
+                access: [AccessGroups.TECHNOLOGIST, AccessGroups.BOSS, AccessGroups.ADMIN]
+            },
+            {
+                title: 'Производство',
+                href: '/factory',
+                icon: DomainOutlinedIcon,
+                access: [AccessGroups.FACTORY, AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.TECHNOLOGIST]
+            },
+        ]
     },
     {
         title: 'Отчётность',
