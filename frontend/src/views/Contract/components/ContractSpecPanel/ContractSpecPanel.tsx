@@ -14,6 +14,12 @@ interface IContractSpecPanel {
     onClickItem: (numItem: string) => void;
 }
 
+interface IPanelSpecItem{
+    num: string;
+    date: string;
+    total: number;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -35,13 +41,20 @@ const ContractSpecPanel = (props: IContractSpecPanel) => {
      * Получить сортированный уникальный список номеров спецификации
      */
     const getSpecNums = () => {
-        const newList: any [] = []
+        const newList: IPanelSpecItem [] = []
         items.forEach((item) => {
             if (!newList.find(value => value.num === item.specNum)) {
-                const newItem = {num: item.specNum, date: item.specDate}
+                const newItem: IPanelSpecItem = {num: item.specNum, date: item.specDate, total: 0}
                 newList.push(newItem)
             }
         })
+
+        newList.forEach((item) => {
+            item.total = RoundValue(items.filter(value => value.specNum === item.num)
+                .reduce((sum, i) => sum + i.itemTotal, 0))
+        })
+
+
         return newList.sort(function (a, b) {
             const nameA=a.num.toLowerCase()
             const nameB=b.num.toLowerCase()
@@ -74,7 +87,7 @@ const ContractSpecPanel = (props: IContractSpecPanel) => {
                                       setSelectedIndex(item.num)
                                   }}
                         >
-                            <ListItemText primary={`#${item.num} от ${item.date}`} secondary="256000 т."/>
+                            <ListItemText primary={`#${item.num} от ${item.date}`} secondary={item.total} />
                         </ListItem>
                         )
                     )
