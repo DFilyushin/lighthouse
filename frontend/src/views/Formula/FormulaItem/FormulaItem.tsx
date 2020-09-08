@@ -316,7 +316,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                             </Grid>
                             <Grid
                                 item
-                                xs={3}
+                                xs={2}
                             >
                                 <TextField
                                     fullWidth
@@ -328,6 +328,25 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     required
                                     value={formulaItem.calcLosses}
                                     variant="outlined"
+                                />
+                            </Grid>
+                            <Grid
+                                item
+                                xs={2}
+                            >
+                                <TextField
+                                    fullWidth
+                                    type={'number'}
+                                    label="потерь, объём"
+                                    margin="dense"
+                                    name="calcLosses"
+                                    onChange={handleChange}
+                                    required
+                                    value={ formulaItem.calcAmount * formulaItem.calcLosses/100}
+                                    variant="outlined"
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
                                 />
                             </Grid>
                             <Grid
