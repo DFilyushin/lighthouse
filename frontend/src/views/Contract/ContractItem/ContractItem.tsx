@@ -13,20 +13,14 @@ import {
     Button,
     Tab,
     Tabs,
-    Table,
-    TableHead,
     Paper,
-    Hidden,
     IconButton,
     Menu,
     Fab,
     Tooltip,
     Typography,
     MenuItem,
-    TextField,
-    TableRow,
-    TableCell,
-    TableBody
+    TextField
 } from '@material-ui/core'
 import {useHistory} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
@@ -39,11 +33,11 @@ import {
     addNewContract, addNewSpecItem, calculateDiscount, changeContractItem, changeContractSpecItem,
     deleteContractSpecItem, loadContractItem, setContractStatus, updateContract
 } from "redux/actions/contractAction"
-import {ContractSpecItem} from "../components"
-import {CONTRACT_STATE_ACTIVE, CONTRACT_STATE_DRAFT, CONTRACT_STATE_READY, ContractStateString, IContractSpecItem
+import {
+    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_DRAFT, CONTRACT_STATE_READY, ContractStateString, IContractSpecItem
 } from "types/model/contract"
 import {KeyboardDatePicker} from '@material-ui/pickers'
-import { IClientItemList, nullClientItem} from "types/model/client"
+import {IClientItemList, nullClientItem} from "types/model/client"
 import {Autocomplete} from "@material-ui/lab"
 import {searchClients} from "redux/actions/clientAction"
 import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst"
@@ -53,12 +47,13 @@ import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable"
 import {getSetupNdsRate} from "../../../redux/actions/setupAction";
 import {loadTare} from "../../../redux/actions/tareAction";
 import {loadActualPriceListByEmployee} from "../../../redux/actions/priceAction";
-import {RoundValue} from "../../../utils/AppUtils";
 import {showInfoMessage} from "../../../redux/actions/infoAction";
 import {TextFieldReadOnlyComponent} from "../../../components";
 import AuthenticationService from "../../../services/Authentication.service";
 import ContractSkeletonLoading from "../components/ContractSkeletonLoading";
 import ContractAccessTable from "../components/ContractAccessList";
+import {ContractSpecTable} from "../components/ContractSpec";
+import ContractSpecPanel from "../components/ContractSpecPanel";
 
 interface IContractItemProps extends RouteComponentProps {
     className: string,
@@ -66,9 +61,10 @@ interface IContractItemProps extends RouteComponentProps {
 }
 
 const PAGE_MAIN = 0
-const PAGE_WAIT_PAYMENT = 1
-const PAGE_PAYMENT = 2
-const PAGE_ADVANCE = 3
+const PAGE_SPEC = 1
+const PAGE_WAIT_PAYMENT = 2
+const PAGE_PAYMENT = 3
+const PAGE_ADVANCE = 4
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -106,9 +102,9 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 650,
     },
     fab: {
-        position: 'static',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
+        //position: 'static',
+        //bottom: theme.spacing(2),
+        //right: theme.spacing(2),
     },
 }));
 
@@ -127,7 +123,7 @@ const ContractItem = (props: IContractItemProps) => {
     const querySourceId = query.get('id')
 
     const [tab, setTab] = React.useState(PAGE_MAIN);
-    const [specTab, setSpecTab] = React.useState(0)
+    const [specNum, setSpecNum] = React.useState('1')
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const [hasLoad, setLoad] = useState<boolean>(false)
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem)
@@ -322,10 +318,6 @@ const ContractItem = (props: IContractItemProps) => {
         setTab(newValue);
     }
 
-    const handleSpecTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-        setSpecTab(newValue);
-    }
-
     function handleContractToWork() {
         dispatch(setContractStatus(CONTRACT_STATE_ACTIVE))
     }
@@ -361,6 +353,10 @@ const ContractItem = (props: IContractItemProps) => {
     }
 
 
+    const handleClickContractSpecNum = (num: string) => {
+        setSpecNum(num)
+    }
+
     /**
      * Закрыть страницу с переходом в родительскую ссылку
      * @param event
@@ -383,15 +379,15 @@ const ContractItem = (props: IContractItemProps) => {
      * Добавить новую позицию в спецификацию
      */
     const handleAddEmptySpecItem = () => {
-        const currentSpec = specTab+1
-        dispatch(addNewSpecItem(currentSpec.toString()))
+        dispatch(addNewSpecItem(specNum))
     }
 
     /**
      * Добавить новую спецификацию
      */
     const handleAddNewSpec = () => {
-        const newSpecNum = specTab + 2
+        const maxNum = Math.max.apply(null, contractItem.specs.map(value => parseInt(value.specNum)))
+        const newSpecNum = maxNum + 1
         dispatch(addNewSpecItem(newSpecNum.toString()))
     }
 
@@ -421,42 +417,11 @@ const ContractItem = (props: IContractItemProps) => {
     }
 
     /**
-     * Общая сумма спецификации
-     * @param spec
-     */
-    const getTotalSpecSum = (spec: IContractSpecItem[]) => {
-        return RoundValue(spec.filter(item => item.specNum === (specTab + 1).toString())
-            .map(({itemTotal}) => itemTotal).reduce((sum, i) => sum + i, 0))
-    }
-
-    /**
-     * Общая сумма скидки
-     * @param spec
-     */
-    const getTotalSumDiscount = (spec: IContractSpecItem[]) => {
-        return RoundValue(spec.filter(item => item.specNum === (specTab + 1).toString())
-            .map(({itemDiscount}) => itemDiscount).reduce((sum, i) => sum + i, 0))
-    }
-
-    /**
      * Возможность редактирования контракта
      */
     const canEditContract = () => {
         return (contractItem.contractState === CONTRACT_STATE_DRAFT)
             || (contractItem.contractState === CONTRACT_STATE_ACTIVE)
-    }
-
-    /**
-     * Получить сортированный уникальный список номеров спецификации
-     */
-    const getSpecNums = () => {
-        const items: any [] = []
-        contractItem.specs.forEach((item) => {
-            if (!items.find(value => value === item.specNum)) {
-                items.push(item.specNum)
-            }
-        })
-        return items.sort()
     }
 
     return (
@@ -501,6 +466,7 @@ const ContractItem = (props: IContractItemProps) => {
                                 centered
                             >
                                 <Tab label="Общие сведения" {...a11yProps(PAGE_MAIN)} />
+                                <Tab label="Спецификации" {...a11yProps(PAGE_SPEC)} />
                                 <Tab label="График платежей" {...a11yProps(PAGE_WAIT_PAYMENT)} />
                                 <Tab label="Оплаты по контракту"  {...a11yProps(PAGE_PAYMENT)} />
                                 <Tab label="Дополнительно" {...a11yProps(PAGE_ADVANCE)} />
@@ -508,329 +474,272 @@ const ContractItem = (props: IContractItemProps) => {
                         </Paper>
                         <TabPanel value={tab} index={PAGE_MAIN}>
                             {loading ?
-                                <ContractSkeletonLoading height={200} animation="wave" />
-                                 : (
-                                <Fragment>
-                                    <Grid container spacing={1}>
-                                        <Grid item xs={12} md={12}>
-                                            <Autocomplete
-                                                autoComplete
-                                                getOptionLabel={option => option.clientName}
-                                                options={dataSource as IClientItemList[]}
-                                                onChange={onChangeClient}
-                                                value={curClient}
-                                                clearText={'Очистить'}
-                                                renderOption={option => (
-                                                    <Grid container alignItems="center">
-                                                        <Grid item>
-                                                            {option.clientName}
+                                <ContractSkeletonLoading height={200} animation="wave"/>
+                                : (
+                                    <Fragment>
+                                        <Grid container spacing={1}>
+                                            <Grid item xs={12} md={12}>
+                                                <Autocomplete
+                                                    autoComplete
+                                                    getOptionLabel={option => option.clientName}
+                                                    options={dataSource as IClientItemList[]}
+                                                    onChange={onChangeClient}
+                                                    value={curClient}
+                                                    clearText={'Очистить'}
+                                                    renderOption={option => (
+                                                        <Grid container alignItems="center">
+                                                            <Grid item>
+                                                                {option.clientName}
+                                                            </Grid>
+                                                            <Grid item xs>
+                                                                <Typography variant="body2" color="textSecondary">
+                                                                    &nbsp;&nbsp;{option.clientEmployee}
+                                                                </Typography>
+                                                            </Grid>
                                                         </Grid>
-                                                        <Grid item xs>
-                                                            <Typography variant="body2" color="textSecondary">
-                                                                &nbsp;&nbsp;{option.clientEmployee}
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                )}
-                                                onInputChange={(event, newInputValue) => {
-                                                    setInputValue(newInputValue);
-                                                }}
-                                                renderInput={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        margin="dense"
-                                                        label="Клиент"
-                                                        variant="outlined"
-                                                        fullWidth
-                                                        helperText={hasClientError ? "Обязательное поле" : ""}
-                                                        error={hasClientError}
-                                                    />
-                                                )}
-                                            />
-                                        </Grid>
+                                                    )}
+                                                    onInputChange={(event, newInputValue) => {
+                                                        setInputValue(newInputValue);
+                                                    }}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            margin="dense"
+                                                            label="Клиент"
+                                                            variant="outlined"
+                                                            fullWidth
+                                                            helperText={hasClientError ? "Обязательное поле" : ""}
+                                                            error={hasClientError}
+                                                        />
+                                                    )}
+                                                />
+                                            </Grid>
 
-                                        <Grid item md={2} xs={2}>
-                                            <TextField
-                                                fullWidth
-                                                label="Номер"
-                                                margin="dense"
-                                                name="num"
-                                                onChange={handleChange}
-                                                required
-                                                value={contractItem.num}
-                                                variant="outlined"
-                                                inputProps={{'maxLength': 8}}
-                                                InputProps={{
-                                                    readOnly: !canEditContract(),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item md={2} xs={2}>
-                                            <TextField
-                                                fullWidth
-                                                label="Номер контракта по 1C"
-                                                margin="dense"
-                                                name="contractId"
-                                                onChange={handleChange}
-                                                value={contractItem.contractId}
-                                                variant="outlined"
-                                                inputProps={{'maxLength': 10}}
-                                                InputProps={{
-                                                    readOnly: !canEditContract(),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item md={2} xs={2}>
-                                            <TextField
-                                                fullWidth
-                                                label="% скидки"
-                                                margin="dense"
-                                                name="discount"
-                                                onChange={handleChange}
-                                                required
-                                                value={contractItem.discount}
-                                                variant="outlined"
-                                                type={'number'}
-                                                InputProps={{
-                                                    readOnly: !canEditContract(),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item md={1} xs={1}>
-                                            {
-                                                canEditContract() &&
-                                                <Button
-                                                    color="default"
+                                            <Grid item md={2} xs={2}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Номер"
+                                                    margin="dense"
+                                                    name="num"
+                                                    onChange={handleChange}
+                                                    required
+                                                    value={contractItem.num}
                                                     variant="outlined"
-                                                    onClick={handleCalculateDiscount}
-                                                    className={classes.buttonTop}
-                                                >
-                                                    Пересчитать
-                                                </Button>
-                                            }
-                                        </Grid>
-                                        <Grid item xs={5} md={5}/>
-                                        <Grid item md={2} xs={2}>
-                                            <KeyboardDatePicker
-                                                className=''
-                                                inputVariant="outlined"
-                                                id="dp_contractdate"
-                                                label="Дата контракта"
-                                                format="dd/MM/yyyy"
-                                                margin="dense"
-                                                name="contractDate"
-                                                value={contractItem?.contractDate || null}
-                                                onChange={handleContractDateChange}
-                                                invalidDateMessage={INVALID_DATE_FORMAT}
-                                                TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
-                                            />
-                                        </Grid>
-                                        <Grid item md={2} xs={2}>
-                                            <KeyboardDatePicker
-                                                className=''
-                                                inputVariant="outlined"
-                                                id="estdelivery"
-                                                label="Дата поставки"
-                                                format="dd/MM/yyyy"
-                                                margin="dense"
-                                                name="estdelivery"
-                                                value={contractItem.estDelivery || null}
-                                                onChange={handleEstDeliveryDateChange}
-                                                invalidDateMessage={INVALID_DATE_FORMAT}
-                                                helperText={hasDeliveryError ? "Обязательное поле" : ""}
-                                                error={hasDeliveryError}
-                                                TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
-                                            />
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            md={2}
-                                            xs={2}
-                                        >
-                                            <KeyboardDatePicker
-                                                className=''
-                                                inputVariant="outlined"
-                                                id="dp_contractdate"
-                                                label="Отгружено"
-                                                format="dd/MM/yyyy"
-                                                margin="dense"
-                                                name="delivered"
-                                                value={contractItem.delivered || null}
-                                                onChange={handleDeliveredDateChange}
-                                                invalidDateMessage={INVALID_DATE_FORMAT}
-                                                TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
-                                            />
-                                        </Grid>
-                                        <Grid item
-                                              md={6}
-                                              xs={6}
-                                              >
-
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <TextField
-                                                fullWidth
-                                                id="outlined-multiline-flexible"
-                                                label="Условия поставки"
-                                                multiline
-                                                margin="dense"
-                                                rows="3"
-                                                name="deliveryTerms"
-                                                value={contractItem.deliveryTerms}
-                                                onChange={handleChange}
-                                                variant="outlined"
-                                                InputProps={{
-                                                    readOnly: !canEditContract(),
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <TextField
-                                                fullWidth
-                                                id="outlined-multiline-flexible"
-                                                label="Дополнительно"
-                                                multiline
-                                                margin="dense"
-                                                rows="3"
-                                                name="comment"
-                                                value={contractItem.comment}
-                                                onChange={handleChange}
-                                                variant="outlined"
-                                                InputProps={{
-                                                    readOnly: !canEditContract(),
-                                                }}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                </Fragment>)}
-                            <Grid container spacing={1}>
-                                {loading ?
-                                        <ContractSkeletonLoading height={100} animation={"wave"}  className={classes.controlBottom}/>
-                                     : (
-                                        <Fragment>
-                                            <Grid item xs={12}>
-                                                <Typography variant={"h3"}>
-                                                    Спецификация контракта
-                                                </Typography>
+                                                    inputProps={{'maxLength': 8}}
+                                                    InputProps={{
+                                                        readOnly: !canEditContract(),
+                                                    }}
+                                                />
                                             </Grid>
-                                            {canEditContract() &&
-                                                <Fragment>
-                                            <Grid item xs={11}>
+                                            <Grid item md={2} xs={2}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Номер контракта по 1C"
+                                                    margin="dense"
+                                                    name="contractId"
+                                                    onChange={handleChange}
+                                                    value={contractItem.contractId}
+                                                    variant="outlined"
+                                                    inputProps={{'maxLength': 10}}
+                                                    InputProps={{
+                                                        readOnly: !canEditContract(),
+                                                    }}
+                                                />
+                                            </Grid>
+                                            <Grid item md={2} xs={2}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="% скидки"
+                                                    margin="dense"
+                                                    name="discount"
+                                                    onChange={handleChange}
+                                                    required
+                                                    value={contractItem.discount}
+                                                    variant="outlined"
+                                                    type={'number'}
+                                                    InputProps={{
+                                                        readOnly: !canEditContract(),
+                                                    }}
+                                                />
+                                            </Grid>
+                                            <Grid item md={1} xs={1}>
+                                                {
+                                                    canEditContract() &&
                                                     <Button
-                                                        variant="contained" color="primary"
-                                                        className={classes.controlBottom}
-                                                        startIcon={<AddIcon />}
-                                                        onClick={handleAddNewSpec}>
-                                                        Спецификация
-                                                    </Button>
-                                                    <Button
-                                                        variant="contained" color="primary"
-                                                        className={classes.controlBottom}
-                                                        startIcon={<AddIcon />}
-                                                        onClick={handleAddEmptySpecItem}>
-                                                        Продукт
-                                                    </Button>
-                                            </Grid>
-                                                <Grid item xs={1}>
-                                                    <Tooltip title={'Показать/скрыть раздельную доставку'}>
-                                                        <Fab className={classes.fab}  color="primary" aria-label="add" size="small"
-                                                             onClick={handleClickShowDelivery}
-                                                            variant="round"
-                                                        >
-                                                            {
-                                                                showDeliveryBlock ? <VisibilityIcon/> : <VisibilityOffIcon/>
-                                                            }
-                                                        </Fab>
-                                                    </Tooltip>
-                                            </Grid>
-                                                </Fragment>
-                                                }
-                                            <Grid item xs={12}>
-                                                <Paper square className={classes.controlBottom}>
-                                                    <Tabs
-                                                        value={specTab}
-                                                        onChange={handleSpecTabChange}
-                                                        variant="fullWidth"
-                                                        indicatorColor="primary"
-                                                        textColor="primary"
-                                                        aria-label="scrollable force tabs"
+                                                        color="default"
+                                                        variant="outlined"
+                                                        onClick={handleCalculateDiscount}
+                                                        className={classes.buttonTop}
                                                     >
-                                                        { contractItem.specs.length > 0 &&
-                                                            getSpecNums().map((item) => (
-                                                                    <Tab
-                                                                        key={item}
-                                                                        label={`#${item}`}
-                                                                        id={item}
-                                                                    />
-                                                                )
-                                                            )
-                                                        }
+                                                        Пересчитать
+                                                    </Button>
+                                                }
+                                            </Grid>
+                                            <Grid item xs={5} md={5}/>
+                                            <Grid item md={2} xs={2}>
+                                                <KeyboardDatePicker
+                                                    className=''
+                                                    inputVariant="outlined"
+                                                    id="dp_contractdate"
+                                                    label="Дата контракта"
+                                                    format="dd/MM/yyyy"
+                                                    margin="dense"
+                                                    name="contractDate"
+                                                    value={contractItem?.contractDate || null}
+                                                    onChange={handleContractDateChange}
+                                                    invalidDateMessage={INVALID_DATE_FORMAT}
+                                                    TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                                />
+                                            </Grid>
+                                            <Grid item md={2} xs={2}>
+                                                <KeyboardDatePicker
+                                                    className=''
+                                                    inputVariant="outlined"
+                                                    id="estdelivery"
+                                                    label="Дата поставки"
+                                                    format="dd/MM/yyyy"
+                                                    margin="dense"
+                                                    name="estdelivery"
+                                                    value={contractItem.estDelivery || null}
+                                                    onChange={handleEstDeliveryDateChange}
+                                                    invalidDateMessage={INVALID_DATE_FORMAT}
+                                                    helperText={hasDeliveryError ? "Обязательное поле" : ""}
+                                                    error={hasDeliveryError}
+                                                    TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                                />
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                md={2}
+                                                xs={2}
+                                            >
+                                                <KeyboardDatePicker
+                                                    className=''
+                                                    inputVariant="outlined"
+                                                    id="dp_contractdate"
+                                                    label="Отгружено"
+                                                    format="dd/MM/yyyy"
+                                                    margin="dense"
+                                                    name="delivered"
+                                                    value={contractItem.delivered || null}
+                                                    onChange={handleDeliveredDateChange}
+                                                    invalidDateMessage={INVALID_DATE_FORMAT}
+                                                    TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                                />
+                                            </Grid>
+                                            <Grid item
+                                                  md={6}
+                                                  xs={6}
+                                            >
 
-                                                    </Tabs>
-                                                </Paper>
                                             </Grid>
-                                            {hasSpecError &&
                                             <Grid item xs={12}>
-                                                <Typography color={"error"}>
-                                                    Проверьте корректность спецификации...
-                                                </Typography>
+                                                <TextField
+                                                    fullWidth
+                                                    id="outlined-multiline-flexible"
+                                                    label="Условия поставки"
+                                                    multiline
+                                                    margin="dense"
+                                                    rows="5"
+                                                    name="deliveryTerms"
+                                                    value={contractItem.deliveryTerms}
+                                                    onChange={handleChange}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: !canEditContract(),
+                                                    }}
+                                                />
                                             </Grid>
-                                            }
-                                            <Table className={classes.table}>
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell>Продукт</TableCell>
-                                                        <TableCell>Тара</TableCell>
-                                                        <TableCell>Количество</TableCell>
-                                                        <TableCell>Цена</TableCell>
-                                                        <TableCell>Цена с НДС</TableCell>
-                                                        <TableCell>Скидка, тенге</TableCell>
-                                                        <TableCell>Итого, тенге</TableCell>
-                                                        {showDeliveryBlock &&
-                                                        <Hidden only={['xs', 'sm']}>
-                                                            <TableCell>Отгрузка</TableCell>
-                                                            <TableCell>Отгружен</TableCell>
-                                                        </Hidden>
-                                                        }
-                                                        <TableCell/>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {
-                                                        contractItem.specs.filter(item => item.specNum === (specTab + 1).toString()).map((specItem: IContractSpecItem) => (
-                                                            <ContractSpecItem
-                                                                key={specItem.id}
-                                                                className={''}
-                                                                match={''}
-                                                                item={specItem}
-                                                                onDeleteItem={onDeleteSpecItem}
-                                                                onChangeItem={onChangeSpecItem}
-                                                                productItems={products}
-                                                                tareItems={tares}
-                                                                canEditItem={canEditContract()}
-                                                                showDeliveryBlock={showDeliveryBlock}
-                                                            />
-                                                        ))
-                                                    }
-                                                    {contractItem.specs.length > 0 &&
-                                                        <TableRow>
-                                                            <TableCell className={classes.footer_row} colSpan={5}>Итого
-                                                                по контракту</TableCell>
-                                                            <TableCell
-                                                                className={classes.footer_row}>{getTotalSumDiscount(contractItem.specs)}</TableCell>
-                                                            <TableCell
-                                                                className={classes.footer_row}>{getTotalSpecSum(contractItem.specs)}</TableCell>
-                                                            <Hidden only={['xs', 'sm']}>
-                                                                <TableCell/>
-                                                                <TableCell/>
-                                                            </Hidden>
-                                                            <TableCell/>
-                                                        </TableRow>
-                                                    }
-                                                </TableBody>
-                                            </Table>
-                                        </Fragment>
-                                    )}
+                                            <Grid item xs={12}>
+                                                <TextField
+                                                    fullWidth
+                                                    id="outlined-multiline-flexible"
+                                                    label="Дополнительно"
+                                                    multiline
+                                                    margin="dense"
+                                                    rows="5"
+                                                    name="comment"
+                                                    value={contractItem.comment}
+                                                    onChange={handleChange}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: !canEditContract(),
+                                                    }}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    </Fragment>)}
+
+                        </TabPanel>
+                        <TabPanel index={tab} value={PAGE_SPEC}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={2}>
+                                    <ContractSpecPanel
+                                        items={contractItem.specs}
+                                        onClickItem={handleClickContractSpecNum}
+                                    />
+                                </Grid>
+                                <Grid item xs={10}>
+                                    {loading ?
+                                        <ContractSkeletonLoading height={100} animation={"wave"}
+                                                                 className={classes.controlBottom}/>
+                                        : (
+                                            <Fragment>
+                                                {canEditContract() &&
+                                                <Grid container>
+                                                    <Grid item xs={11}>
+                                                        <Button
+                                                            variant="contained" color="primary"
+                                                            className={classes.controlBottom}
+                                                            startIcon={<AddIcon/>}
+                                                            onClick={handleAddNewSpec}>
+                                                            Спецификация
+                                                        </Button>
+                                                        <Button
+                                                            variant="contained" color="primary"
+                                                            className={classes.controlBottom}
+                                                            startIcon={<AddIcon/>}
+                                                            onClick={handleAddEmptySpecItem}>
+                                                            Продукт
+                                                        </Button>
+                                                    </Grid>
+                                                    <Grid item xs={1}>
+                                                        <Tooltip title={'Показать/скрыть раздельную доставку'}>
+                                                            <Fab className={classes.fab} color="primary"
+                                                                 aria-label="add"
+                                                                 size="small"
+                                                                 onClick={handleClickShowDelivery}
+                                                                 variant="round"
+                                                            >
+                                                                {
+                                                                    showDeliveryBlock ? <VisibilityIcon/> :
+                                                                        <VisibilityOffIcon/>
+                                                                }
+                                                            </Fab>
+                                                        </Tooltip>
+                                                    </Grid>
+                                                </Grid>
+                                                }
+                                                {hasSpecError &&
+                                                <Grid item xs={12}>
+                                                    <Typography color={"error"}>
+                                                        Проверьте корректность спецификации...
+                                                    </Typography>
+                                                </Grid>
+                                                }
+                                                <ContractSpecTable
+                                                    canEditContract={canEditContract()}
+                                                    classes={classes}
+                                                    showDeliveryBlock={showDeliveryBlock}
+                                                    items={contractItem.specs.filter(item => item.specNum === (specNum))}
+                                                    onDeleteSpecItem={onDeleteSpecItem}
+                                                    onChangeSpecItem={onChangeSpecItem}
+                                                    products={products}
+                                                    tares={tares}
+                                                />
+                                            </Fragment>
+                                        )}
+                                </Grid>
                             </Grid>
                         </TabPanel>
                         <TabPanel value={tab} index={PAGE_WAIT_PAYMENT}>
@@ -881,7 +790,8 @@ const ContractItem = (props: IContractItemProps) => {
                             <Typography variant={"h3"}>
                                 Предоставление доступа к контракту другим сотрудникам
                             </Typography>
-                            <ContractAccessTable className={''} contract={contractItem.id} items={contractItem.employeeAccess} />
+                            <ContractAccessTable className={''} contract={contractItem.id}
+                                                 items={contractItem.employeeAccess}/>
                         </TabPanel>
                     </CardContent>
                     <Divider/>
