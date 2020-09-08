@@ -164,11 +164,20 @@ export function deleteContractSpecItem(id: number) {
 export function addNewSpecItem(num: string) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
+        // дата спецификации от даты контракта по умолчанию
+        let specDate = item.contractDate
+        item.specs.filter((value: IContractSpecItem) => value.specNum === num)
+            .forEach((specItem: IContractSpecItem) => {
+                // если найдена спецификация с непустой датой, то используем её
+                if (specItem.specDate !== '') {specDate = specItem.specDate}
+        })
         const newItem = {...nullContractSpecItem,
             id: -getRandomInt(MAX_RANDOM_VALUE),
             itemNds: getState().setup.nds,
-            specNum: num
+            specNum: num,
+            specDate: specDate
         }
+        console.log('newItem', newItem)
         item.specs.unshift(newItem);
         dispatch(fetchItemSuccess(item))
     }
