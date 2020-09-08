@@ -2,13 +2,16 @@ import {hideInfoMessage, showInfoMessage} from "./infoAction"
 import CostEndpoint from "services/endpoints/CostEndpoint"
 import {ICost, ICostSimple} from "types/model/cost"
 import {
-    COST_CHANGE_ITEM, COST_CLEAR_ERROR,
-    COST_DELETE_OK,
-    COST_LOAD_FINISH, COST_LOAD_FLAT_SUCCESS,
+    COST_CHANGE_ITEM,
+    COST_CLEAR_ERROR,
+    COST_LOAD_FINISH,
+    COST_LOAD_FLAT_SUCCESS,
     COST_LOAD_ITEM_SUCCESS,
     COST_LOAD_PARENT_ITEMS,
     COST_LOAD_START,
-    COST_LOAD_SUCCESS, COST_SAVE_OK, COST_SET_ERROR
+    COST_LOAD_SUCCESS,
+    COST_SAVE_OK,
+    COST_SET_ERROR
 } from "./types"
 import {NEW_RECORD_VALUE} from "utils/AppConst"
 import authAxios from "../../services/axios-api"
@@ -70,11 +73,11 @@ export function getCostItem(id: number) {
             return undefined
         }
         dispatch(fetchStart());
-        try{
+        try {
             const response = await authAxios.get(CostEndpoint.getCostItem(id))
             item = response.data
             dispatch(fetchItemSuccess(item))
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
         dispatch(fetchFinish())
@@ -103,85 +106,104 @@ export function getFirstLevelCost() {
     }
 }
 
+/**
+ * Удалить запись статьи затрат
+ * @param id Код записи
+ */
 export function deleteCostItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
-        try{
+        try {
             const response = await authAxios.delete(CostEndpoint.deleteCost(id));
             if (response.status === 204) {
                 const items = [...getState().cost.items];
-                const index = items.findIndex((elem)=>{return elem.id === id});
-                items.splice(index, 1);
+                items.forEach((item: ICost, index: number) => {
+                    if (item.id === id) {
+                        items.splice(index, 1)
+                    } else {
+                        if (item.childs.length > 0) {
+                            const index = item.childs.findIndex((elem: ICost) => {
+                                return elem.id === id
+                            });
+                            if (index > -1) item.childs.splice(index, 1);
+                        }
+                    }
+                })
                 dispatch(deleteOk(items));
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))
-            }
-            else {
+            } else {
                 dispatch(showInfoMessage('error', `Неизвестная ошибка при удалении: ${response.status.toString()}`))
             }
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', `Не удалось удалить запись ${e.toString()}!`))
         }
         dispatch(fetchFinish())
     }
 }
 
+/**
+ * Добавить новую статью затрат
+ * @param item
+ */
 export function addNewCost(item: ICost) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
-        try{
+        try {
             await authAxios.post(CostEndpoint.newCost(), item);
             dispatch(saveOk(item));
             return Promise.resolve();
-        }
-        catch (e) {
+        } catch (e) {
             dispatch(saveError('Не удалось добавить новую запись!'));
             return Promise.reject();
         }
     }
 }
 
+/**
+ * Обновление затраты
+ * @param item Объект затрат
+ */
 export function updateCost(item: ICost) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             await authAxios.put(CostEndpoint.updateCost(item.id), item);
-        }catch (e) {
+        } catch (e) {
             dispatch(saveError(e.toString()))
         }
     }
 }
 
 
-
 export function changeCost(item: ICost) {
-    return{
+    return {
         type: COST_CHANGE_ITEM,
         item
     }
 }
 
 function saveError(e: string) {
-    return{
+    return {
         type: COST_SET_ERROR,
         error: e
     }
 }
 
 function clearError() {
-    return{
+    return {
         type: COST_CLEAR_ERROR
     }
 }
 
 function saveOk(item: ICost) {
-    return{
+    return {
         type: COST_SAVE_OK,
         item
     }
 }
 
 function deleteOk(items: ICost[]) {
-    return{
-        type: COST_DELETE_OK,
+    return {
+        type: COST_LOAD_SUCCESS,
         items
     }
 }
@@ -200,27 +222,27 @@ function fetchItemSuccess(item: ICost) {
 }
 
 function fetchFinish() {
-    return{
+    return {
         type: COST_LOAD_FINISH
     }
 }
 
 function fetchSuccess(items: ICost[]) {
-    return{
+    return {
         type: COST_LOAD_SUCCESS,
         items
     }
 }
 
 function fetchFlatSuccess(items: ICostSimple[]) {
-    return{
+    return {
         type: COST_LOAD_FLAT_SUCCESS,
         items
     }
 }
 
 function fetchFirstLevelItems(items: ICostSimple[]) {
-    return{
+    return {
         type: COST_LOAD_PARENT_ITEMS,
         items
     }
