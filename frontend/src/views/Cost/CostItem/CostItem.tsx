@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-    Card,
-    CardHeader,
-    CardContent,
-    CardActions,
-    Divider,
-    Grid,
-    Button,
-    TextField
-} from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, {useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, TextField} from '@material-ui/core';
+import {useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import {IStateInterface} from "redux/rootReducer";
@@ -55,11 +46,11 @@ const CostItem = (props: ICostItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const costId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
-    const { className, ...rest } = props;
+    const costId = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
+    const {className, ...rest} = props;
 
 
-    const costItem  = useSelector((state: IStateInterface) => state.cost.costItem);
+    const costItem = useSelector((state: IStateInterface) => state.cost.costItem);
     const firstLevel = useSelector((state: IStateInterface) => state.cost.parentItems);
     const errorValue = useSelector((state: IStateInterface) => state.cost.error);
     const hasError = useSelector((state: IStateInterface) => state.cost.hasError);
@@ -67,12 +58,12 @@ const CostItem = (props: ICostItemProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
-        value =  event.target.value;
+        value = event.target.value;
         const item = {...costItem, [event.target.name]: value};
         dispatch(changeCost(item))
     };
 
-    const handleLevelChange = (event: React.ChangeEvent<{ value: unknown  }>) => {
+    const handleLevelChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         const item = {...costItem, 'parent': event.target.value as number}
         dispatch(changeCost(item))
     };
@@ -81,15 +72,15 @@ const CostItem = (props: ICostItemProps) => {
      * Сохранить изменения с ожиданием
      * @param dispatch
      */
-    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        try{
+    const saveItem = (dispatch: any) => new Promise(async (resolve, reject) => {
+        try {
             if (costId === NEW_RECORD_VALUE) {
                 await dispatch(addNewCost(costItem));
             } else {
                 await dispatch(updateCost(costItem));
             }
             resolve();
-        }catch (e) {
+        } catch (e) {
             reject()
         }
     });
@@ -100,23 +91,24 @@ const CostItem = (props: ICostItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.MouseEvent) => {
-        saveItem(dispatch).then( ()=>{
+        event.preventDefault();
+        saveItem(dispatch).then(() => {
                 history.push('/catalogs/cost');
             }
-        ).catch(()=>{
+        ).catch(() => {
             console.log('Error')
         }).finally(
-            ()=>{
+            () => {
                 console.log('saveHandler_end');
             }
         );
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getFirstLevelCost());
     }, [dispatch])
 
-    useEffect( ()=> {
+    useEffect(() => {
             dispatch(getCostItem(costId));
         }, [dispatch, costId]
     );
@@ -132,7 +124,7 @@ const CostItem = (props: ICostItemProps) => {
                         subheader=""
                         title="Статья расходов"
                     />
-                    <Divider />
+                    <Divider/>
                     {hasError &&
                     <Paper elevation={0}>
                         <Alert severity="error">{errorValue}</Alert>
@@ -152,8 +144,8 @@ const CostItem = (props: ICostItemProps) => {
                                 >
                                     <MenuItem value=""><em>Первый уровень</em></MenuItem>
                                     {
-                                        firstLevel && firstLevel.map((item)=>{
-                                            return(
+                                        firstLevel && firstLevel.map((item) => {
+                                            return (
                                                 <MenuItem value={item.id}>{item.name}</MenuItem>
                                             )
                                         })
@@ -175,7 +167,7 @@ const CostItem = (props: ICostItemProps) => {
                         </Grid>
 
                     </CardContent>
-                    <Divider />
+                    <Divider/>
                     <CardActions>
                         <Button
                             color="primary"
