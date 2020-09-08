@@ -1,5 +1,6 @@
 import {IRaw} from "./raw";
 import {nullProduct, IProduct} from "./product";
+import {IUnit} from "./unit";
 
 export interface IFormula {
     id: number;
@@ -16,6 +17,7 @@ export interface IFormulaSelectedItem {
 export interface IRawInFormula {
     id: number;
     raw: IRaw;
+    unit: IUnit;
     concentration: number;
     substance: number;
     raw_value: number;
