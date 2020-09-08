@@ -151,10 +151,11 @@ export function addNewCost(item: ICost) {
         try {
             await authAxios.post(CostEndpoint.newCost(), item);
             dispatch(saveOk(item));
-            return Promise.resolve();
         } catch (e) {
-            dispatch(saveError('Не удалось добавить новую запись!'));
-            return Promise.reject();
+            console.log('Error save new record cost. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить новую запись по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -168,7 +169,10 @@ export function updateCost(item: ICost) {
         try {
             await authAxios.put(CostEndpoint.updateCost(item.id), item);
         } catch (e) {
-            dispatch(saveError(e.toString()))
+            console.log('Error save cost record. Error message:', e.response)
+            const  errorMessage = `Не удалось обновить данные по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
