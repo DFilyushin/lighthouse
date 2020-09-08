@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import {addNewWorks, changeWork, loadWorkItem, updateWorks} from "redux/actions/workAction";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 
 interface IWorkItemProps {
@@ -58,8 +59,8 @@ const WorkItem = (props: IWorkItemProps) => {
     const { className, ...rest } = props;
 
     const workItem  = useSelector((state: any) => state.works.workItem);
-    const errorValue = useSelector((state: any) => state.works.error);
-    const hasError = useSelector((state: any) => state.works.hasError);
+    const errorValue = useSelector((state: IStateInterface) => state.works.error);
+    const hasError = useSelector((state: IStateInterface) => state.works.hasError);
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +68,7 @@ const WorkItem = (props: IWorkItemProps) => {
         if (typeof (workItem[event.target.name]) === 'number') {
             value = parseFloat(event.target.value);
         }else{
-            value =  event.target.value;
+            value = event.target.value;
         }
         const item = {...workItem, [event.target.name]: value};
         dispatch(changeWork(item))

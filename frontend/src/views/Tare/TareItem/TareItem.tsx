@@ -20,6 +20,7 @@ import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Alert from '@material-ui/lab/Alert';
 import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {useDialog} from "components/SelectDialog";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 
 interface ITareItemProps {
@@ -63,9 +64,9 @@ const TareItem = (props: ITareItemProps) => {
     const { className, ...rest } = props;
 
     const tareItem  = useSelector((state: any) => state.tare.tareItem);
-    const errorValue = useSelector((state: any) => state.tare.error);
-    const hasError = useSelector((state: any) => state.tare.hasError);
-    const unitItems = useSelector((state: any) => state.unit.unitItems);
+    const errorValue = useSelector((state: IStateInterface) => state.tare.error);
+    const hasError = useSelector((state: IStateInterface) => state.tare.hasError);
+    const unitItems = useSelector((state: IStateInterface) => state.unit.unitItems);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value: any = null;
