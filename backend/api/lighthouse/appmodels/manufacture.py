@@ -98,7 +98,6 @@ class Material(models.Model):
 
 class Formula(models.Model):
     """ Рецептура продукции """
-
     id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     specification = models.TextField(blank=True, null=True, verbose_name='ТУ')
@@ -138,11 +137,10 @@ class Formula(models.Model):
 
 class FormulaComp(models.Model):
     """ Компоненты рецептуры """
-
     id = models.AutoField(primary_key=True)
     id_formula = models.ForeignKey(Formula, on_delete=models.CASCADE, verbose_name='Код рецептуры')
     id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
-    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.CASCADE, null=True, verbose_name='Код ед. измерения')
+    id_unit = models.ForeignKey(MaterialUnit, default=0, on_delete=models.CASCADE, null=True, verbose_name='Код ед. измерения')
     concentration = models.FloatField(default=0, null=True, verbose_name='Концентрация')
     substance = models.FloatField(default=0, null=True, verbose_name='Содержания')
     raw_value = models.FloatField(default=0, verbose_name='Количество')
@@ -156,7 +154,6 @@ class FormulaComp(models.Model):
 
 
 class ProductionLine(models.Model):
-
     name = models.CharField(max_length=100, unique=True, verbose_name='Наименование линии')
 
     def __str__(self):
