@@ -10,8 +10,7 @@ import {
     COST_LOAD_PARENT_ITEMS,
     COST_LOAD_START,
     COST_LOAD_SUCCESS,
-    COST_SAVE_OK,
-    COST_SET_ERROR
+    COST_SAVE_OK
 } from "./types"
 import {NEW_RECORD_VALUE} from "utils/AppConst"
 import authAxios from "../../services/axios-api"
@@ -182,13 +181,6 @@ export function changeCost(item: ICost) {
     return {
         type: COST_CHANGE_ITEM,
         item
-    }
-}
-
-function saveError(e: string) {
-    return {
-        type: COST_SET_ERROR,
-        error: e
     }
 }
 
