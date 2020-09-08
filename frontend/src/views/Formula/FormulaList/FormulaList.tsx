@@ -14,6 +14,7 @@ import {
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES
 } from "utils/AppConst";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,11 +32,11 @@ const FormulaList = () => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
 
-    const formulas = useSelector((state: any) => state.formula.formulas);
-    const isLoading = useSelector((state: any) => state.formula.isLoading);
+    const formulas = useSelector((state: IStateInterface) => state.formula.formulas);
+    const isLoading = useSelector((state: IStateInterface) => state.formula.isLoading);
     const errorValue = useSelector((state: any) => state.formula.error);
     const alertType = useSelector((state: any) => state.formula.typeMessage);
-    const hasError = useSelector((state: any) => state.formula.hasError);
+    const hasError = useSelector((state: IStateInterface) => state.formula.hasError);
     const [selected, setSelected] = useState<number[]>([]);
 
 
