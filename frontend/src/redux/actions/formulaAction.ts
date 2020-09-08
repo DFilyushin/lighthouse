@@ -182,7 +182,9 @@ export function changeFormula(item: IFormulaItem) {
     }
 }
 
-
+/**
+ * Добавление пустой записи в спецификацию рецептуры
+ */
 export function addNewRawItem() {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().formula.formulaItem};
@@ -191,7 +193,8 @@ export function addNewRawItem() {
             raw_value: 0,
             substance: 0,
             concentration: FORMULA_DEFAULT_RAW_CONCENTRATION,
-            raw: {id: 0, name: ''}
+            raw: {id: 0, name: ''},
+            unit: {id: 0, name: ''}
         };
         item.raws.push(itemRaw)
         dispatch(changeFormula(item))
