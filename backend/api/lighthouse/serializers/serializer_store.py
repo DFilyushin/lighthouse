@@ -110,7 +110,7 @@ class RefCostSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
     parent = serializers.IntegerField(source='id_parent.id', allow_null=True, required=True)
     childs = RefCostSubSerializer(source='parentcost', many=True, required=False, read_only=True)
-    raw = RawSerializer(source='id_raw', required=False)
+    raw = RawSerializer(source='id_raw', required=False, allow_null=True)
 
     def create(self, validated_data):
         parent_item = validated_data.get('id_parent', None)
