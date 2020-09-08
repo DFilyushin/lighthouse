@@ -8,6 +8,7 @@ import { DefaultToolbar} from 'components';
 import { deleteStaff, loadStaffs } from "redux/actions/staffAction";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
 import {useConfirm} from "material-ui-confirm";
+import {IStateInterface} from "../../../redux/rootReducer";
 
 
 
@@ -26,10 +27,8 @@ const StaffList = () => {
     const dispatch = useDispatch()
     const confirm = useConfirm()
 
-    const staffs = useSelector((state: any) => state.staff.staffs);
-    const isLoading = useSelector((state: any) => state.staff.isLoading);
-    //const errorValue = useSelector((state: any) => state.staff.error);
-    //const hasError = useSelector((state: any) => state.staff.hasError);
+    const staffs = useSelector((state: IStateInterface) => state.staff.staffs);
+    const isLoading = useSelector((state: IStateInterface) => state.staff.isLoading);
     const [selected, setSelected] = useState<number[]>([]);
 
 
