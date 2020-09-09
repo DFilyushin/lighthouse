@@ -39,7 +39,13 @@ export const nullAccountItem: IAccount = {
     lastLogin: '',
     joined: '',
     groups: [],
-    employee: {...nullEmployeeItem},
+    employee: {
+        id: 0,
+        tabNum: '',
+        fio: '',
+        staff: '',
+        fired: ''
+    },
     isAdmin: false,
     password: ''
 };
