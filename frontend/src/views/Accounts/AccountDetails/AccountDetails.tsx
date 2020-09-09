@@ -149,7 +149,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         setBadLogin(!checkLoginLatin)
         const checkEmail = validateEmail(accountItem.email)
         setBadEmail(!checkEmail)
-        const checkPass = ( password.length > 7 && (password !== '') && (isNewUser)) || ( id !== isNewUser )
+        const checkPass = ( password.length > 7 && (password !== '') && (isNewUser)) || ( !isNewUser )
         setBadPass(!checkPass)
         const checkEmployee = (accountItem.employee.id !== 0)
         setBadEmployee(!checkEmployee)
@@ -162,6 +162,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     }
 
     const saveHandler = (event: React.SyntheticEvent) => {
+        event.preventDefault();
         if (isValid()) {
             saveItem(dispatch).then(() => {
                     history.push('/admin/users/');
@@ -200,6 +201,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                 item.employee.id = value.id
                 item.employee.fio = value.name
                 dispatch(changeUserItem(item))
+            	setBadEmployee(false)
             }
         );
 
@@ -253,7 +255,14 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                             variant="outlined"
                                             disabled={!isNewUser}
                                             onBlur={onLoginBur}
-                                            helperText={userExist ? "Логин уже существует" : badLogin ? 'Некорретный логин' :  ""}
+                                            helperText={
+                                                userExist
+                                                    ? "Логин уже существует"
+                                                    : badLogin
+                                                    ? 'Имя пользователя должно быть уникальным, начинаться с латинского символа, ' +
+                                                    'иметь не менее 4 символов, допускается использование цифр ' +
+                                                    'после символов' :  ""
+                                            }
                                             error={userExist || badLogin}
                                         />
                                     </Grid>
