@@ -139,6 +139,9 @@ def user_pre_save(sender, **kwargs):
         except User.DoesNotExist:
             old_password = None
         if old_password != new_password:
-            settings = UserSettings.objects.get(user=user)
-            settings.last_password = date.today()
-            settings.save()
+            try:
+                settings = UserSettings.objects.get(user=user)
+                settings.last_password = date.today()
+                settings.save()
+            except UserSettings.DoesNotExist:
+                pass
