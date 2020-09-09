@@ -1,0 +1,15 @@
+[
+{
+  "model": "lighthouse.usersettings",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "last_password": "2020-09-03",
+    "phone": "+77777867890",
+    "ntf_password": false,
+    "ntf_ctl_contract": false,
+    "ntf_claim": false,
+    "ntf_payment": false
+  }
+}
+]
