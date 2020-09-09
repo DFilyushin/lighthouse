@@ -12,10 +12,25 @@ interface IContractReturnDialog {
     open: boolean;
     handleCloseDialog: any;
     item: IContractSpecItem;
+    onChangeItem: ( (item: IContractSpecItem)=> void);
 }
 
 const ContractReturnDialog = (props: IContractReturnDialog) => {
-    const {open, handleCloseDialog, item} = props
+    const {open, handleCloseDialog, item, onChangeItem} = props
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let value: any = null;
+        const property: string = event.target.name;
+        // @ts-ignore
+        const typeOfProperty: string = typeof (item[property]);
+        if (typeOfProperty === 'number') {
+            value = parseFloat(event.target.value);
+        } else {
+            value = event.target.value;
+        }
+        const newItem = {...item, [event.target.name]: value};
+        onChangeItem(newItem)
+    };
 
     return (
         <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
@@ -28,21 +43,25 @@ const ContractReturnDialog = (props: IContractReturnDialog) => {
                     autoFocus
                     margin="dense"
                     id="returned"
+                    name="returned"
                     label="Дата возврата"
                     fullWidth
                     value={item ? item.returned : ''}
                     type="date"
+                    onChange={handleChange}
                 />
 
                 <TextField
                     autoFocus
                     margin="dense"
                     id="returnCause"
+                    name="returnCause"
                     label="Причина возврата"
                     multiline
                     rows={3}
                     fullWidth
                     value={ item ? item.returnCause : ''}
+                    onChange={handleChange}
                 />
             </DialogContent>
             <DialogActions>
