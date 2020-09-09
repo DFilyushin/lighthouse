@@ -445,3 +445,18 @@ class PaymentListSerializer(serializers.ModelSerializer):
         fields = ('id', 'contract', 'date', 'num', 'type', 'value')
 
 
+class ReturnsListSerializer(serializers.ModelSerializer):
+    """Возвраты готовой продукции по контрактам"""
+    id = serializers.IntegerField()
+    contractNum = serializers.CharField(source='id_contract__num')
+    contractDate = serializers.DateField(source='id_contract__contract_date')
+    contractClient = serializers.CharField(source='id_contract__id_client__clientname')
+    date = serializers.DateField(source='returned')
+    product = serializers.CharField(source='id_product__name')
+    tare = serializers.CharField(source='id_tare__name')
+    count = serializers.FloatField(source='item_count')
+    total = serializers.FloatField(source='total_value')
+
+    class Meta:
+        model = ContractSpec
+        fields = ('id', 'contractNum', 'contractDate', 'contractClient', 'date', 'product', 'tare', 'count', 'total')
