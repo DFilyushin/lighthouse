@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer, \
-    ContractList2Serializer
+    ContractList2Serializer, ReturnsListSerializer
 from lighthouse.serializers.serializer_price import PriceListSerializer, PriceListItemSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY, EmployeeContractAccess
@@ -13,6 +13,28 @@ from .api_errors import api_error_response, API_ERROR_SAVE_DATA, API_ERROR_CONTR
 from lighthouse.appmodels.org import Employee
 from django.db import ProgrammingError
 from rest_framework.response import Response
+
+
+class ReturnsProduct(viewsets.ModelViewSet):
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ReturnsListSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            param_start_period = self.request.GET.get('start', None)
+            param_end_period = self.request.GET.get('end', None)
+            date_start = datetime.strptime(param_start_period, '%Y-%m-%d')
+            date_end = datetime.strptime(param_end_period, '%Y-%m-%d')
+            queryset = ContractSpec.objects.filter(returned__range=(date_start, date_end))
+            queryset = queryset.values('id', 'id_contract__num', 'id_contract__contract_date',
+                                       'id_contract__id_client__clientname', 'id_product__name', 'id_tare__name',
+                                       'returned', 'item_count')
+            queryset = queryset.annotate(total_value=F('item_price')*F('item_count'))
+            return queryset
+        else:
+            return ContractSpec.objects.all()
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -42,7 +64,8 @@ class ClientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Client.objects.filter(deleted=False).values('id', 'clientname', 'addr_reg', 'id_agent__fio', 'contact_employee', 'req_bin')
+            return Client.objects.filter(deleted=False)\
+                .values('id', 'clientname', 'addr_reg', 'id_agent__fio', 'contact_employee', 'req_bin')
         else:
             return Client.objects.filter(deleted=False)
 
