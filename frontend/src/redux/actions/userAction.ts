@@ -108,7 +108,10 @@ export function addUser(item: IAccount) {
             //delete postItem.employee
             await authAxios.post(UserEndpoint.newUser(), {...postItem, 'employee': idEmployee});
         }catch (e) {
-            dispatch(saveError(e.response.toString()))
+            console.log('Error save new user. Error message:', e.response)
+            const  errorMessage = `Не удалось добавить нового пользователя по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
@@ -124,7 +127,10 @@ export function saveUser(item: IAccount) {
             const idEmployee = postItem.employee.id
             await authAxios.put(UserEndpoint.saveUser(item.login), {...postItem, 'employee': idEmployee});
         }catch (e) {
-            dispatch(saveError(e.toString()))
+            console.log('Error update user. Error message:', e.response)
+            const  errorMessage = `Не удалось обновить данные пользователя по причине: ${e.response.data.message}`
+            dispatch(showInfoMessage('error', errorMessage))
+            throw e
         }
     }
 }
