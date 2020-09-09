@@ -39,7 +39,7 @@ export function validateEmail(email: string) {
  * @param text Входная строка
  */
 export function validateLatin(text: string) {
-    const re = /^[A-Za-z]+$/
+    const re = /^(?=[a-zA-Z0-9._]{4,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/
     return re.test(String(text.toLowerCase()))
 }
 
