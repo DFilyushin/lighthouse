@@ -31,6 +31,7 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_TEXT} from "../../../utils/AppConst";
 import {useDialog} from "components/SelectDialog"
 import {loadEmployeeWithoutLogins} from "../../../redux/actions/employeeAction";
+import Alert from '@material-ui/lab/Alert';
 
 
 interface IAccountDetailsProps {
@@ -83,6 +84,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     const [badPass, setBadPass] = useState(false)
     const [badLogin, setBadLogin] = useState(false)
     const [badEmployee, setBadEmployee] = useState(false)
+    const [badGroup, setBadGroup] = useState(false)
 
 
     const handleClickShowPassword = () => setShowPassword(!showPassword)
@@ -122,6 +124,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         }
         const item = {...accountItem, groups: groups}
         dispatch(changeUserItem(item))
+        setBadGroup(false)
     }
 
     /**
@@ -153,7 +156,9 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         setBadPass(!checkPass)
         const checkEmployee = (accountItem.employee.id !== 0)
         setBadEmployee(!checkEmployee)
-        return checkLoginLatin && checkEmail && !userExist && checkPass && checkEmployee;
+        const checkGroup = accountItem.groups.length > 0
+        setBadGroup(!checkGroup)
+        return checkLoginLatin && checkEmail && !userExist && checkPass && checkEmployee && checkGroup;
     }
 
     const onLoginBur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -445,7 +450,15 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Groups userGroups={accountItem.groups} onChangeGroups={handleChangeUserGroups}/>
+                                {badGroup &&
+                                    <Alert variant="outlined" severity="error">
+                                        Укажите доступные пользователю группы
+                                    </Alert>
+                                }
+                                <Groups
+                                    userGroups={accountItem.groups}
+                                    onChangeGroups={handleChangeUserGroups}
+                                />
                             </Grid>
 
                         </Grid>
