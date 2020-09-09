@@ -98,6 +98,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         id_staff = validated_data.pop('id_staff')['id']
         available_products = validated_data.pop('empllink')
+        validated_data.pop('id')
         employee = Employee.objects.create(**validated_data, id_staff_id=id_staff)
 
         for item in available_products:
