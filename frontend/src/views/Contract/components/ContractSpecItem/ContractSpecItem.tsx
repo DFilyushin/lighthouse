@@ -10,18 +10,22 @@ import {
     TextField
 } from "@material-ui/core";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import WarningIcon from '@material-ui/icons/Warning';
+import Rotate90DegreesCcwIcon from '@material-ui/icons/Rotate90DegreesCcw';
 import {makeStyles} from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {useDialog} from "../../../../components/SelectDialog";
 import {ITare} from "../../../../types/model/tare";
 import {IPrice} from "../../../../types/model/price";
 
+
 interface IContractSpecItemProps {
     className: string;
     match: any;
     item: IContractSpecItem;
-    onDeleteItem: any;
-    onChangeItem: any;
+    onDeleteItem: ( (id: number)=> void);
+    onChangeItem: ( (item: IContractSpecItem)=> void);
+    onReturnItem: ( (id: number)=> void);
     productItems: IPrice[];
     tareItems: ITare[];
     canEditItem: boolean;
@@ -49,12 +53,19 @@ const useStyles = makeStyles((theme) => ({
     },
     iconButton: {
         padding: 0,
+    },
+    textFieldSmallControl: {
+        maxWidth: 60,
+    },
+    textFieldMediumControl: {
+        maxWidth: 100,
+        width: 80
     }
 }));
 
 
 const ContractSpecItem = (props: IContractSpecItemProps) => {
-    const { item, onDeleteItem, onChangeItem, productItems, tareItems, canEditItem, showDeliveryBlock } = props;
+    const {item, onDeleteItem, onChangeItem, onReturnItem, productItems, tareItems, canEditItem, showDeliveryBlock} = props;
 
     const classes = useStyles();
     const selectDialog = useDialog();
@@ -64,10 +75,10 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
         const property: string = event.target.name;
         // @ts-ignore
         const typeOfProperty: string = typeof (item[property]);
-        if ( typeOfProperty === 'number') {
+        if (typeOfProperty === 'number') {
             value = parseFloat(event.target.value);
-        }else{
-            value =  event.target.value;
+        } else {
+            value = event.target.value;
         }
         const newItem = {...item, [event.target.name]: value};
         onChangeItem(newItem)
@@ -82,24 +93,26 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
             {
                 'title': 'Выбор продукции',
                 description: '',
-                confirmationText:'Выбрать',
+                confirmationText: 'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: productItems,
                 initKey: 0,
                 valueName: 'productName'
             }
-        ).then((value:any) => {
-            const newItem = {...item};
-            const idPrice = productItems.findIndex((elem: IPrice, index:number, array: IPrice[])=>{return elem.id === value.id})
-            const priceItem = productItems[idPrice]
+        ).then((value: any) => {
+                const newItem = {...item};
+                const idPrice = productItems.findIndex((elem: IPrice, index: number, array: IPrice[]) => {
+                    return elem.id === value.id
+                })
+                const priceItem = productItems[idPrice]
 
-            newItem.product.id = priceItem.productId;
-            newItem.product.name = priceItem.productName;
-            newItem.itemPrice = priceItem.price
-            newItem.tare.id = priceItem.tareId
-            newItem.tare.name = priceItem.tareName
-            newItem.tare.v = priceItem.tareV
-            onChangeItem(newItem)
+                newItem.product.id = priceItem.productId;
+                newItem.product.name = priceItem.productName;
+                newItem.itemPrice = priceItem.price
+                newItem.tare.id = priceItem.tareId
+                newItem.tare.name = priceItem.tareName
+                newItem.tare.v = priceItem.tareV
+                onChangeItem(newItem)
             }
         );
     };
@@ -112,13 +125,13 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
             {
                 'title': 'Выбор тары',
                 description: '',
-                confirmationText:'Выбрать',
+                confirmationText: 'Выбрать',
                 cancellationText: 'Отменить',
                 dataItems: tareItems,
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const newItem = {...item};
                 newItem.tare.id = value.id;
                 newItem.tare.name = value.name;
@@ -130,6 +143,14 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
 
     return (
         <TableRow key={item.id}>
+            <TableCell>
+                {
+                    item.returned &&
+                    <Tooltip title={`Возврат продукции от ${item.returned} по причине "${item.returnCause}"`}>
+                        <WarningIcon color={"error"}/>
+                    </Tooltip>
+                }
+            </TableCell>
             <TableCell>
                 <Paper elevation={0} className={classes.paper_root}>
                     <TextField
@@ -143,13 +164,14 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                             readOnly: true,
                         }}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
-                        <MenuOpenIcon />
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                onClick={handleChangeProduct}>
+                        <MenuOpenIcon/>
                     </IconButton>
                 </Paper>
             </TableCell>
             <TableCell>
-                <Paper  elevation={0} className={classes.paper_root}>
+                <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         margin="dense"
@@ -161,14 +183,15 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                             readOnly: true,
                         }}
                     />
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeTare}>
-                        <MenuOpenIcon />
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                onClick={handleChangeTare}>
+                        <MenuOpenIcon/>
                     </IconButton>
                 </Paper>
             </TableCell>
             <TableCell>
                 <TextField
-                    fullWidth
+                    className={classes.textFieldSmallControl}
                     type={'number'}
                     margin="dense"
                     name="itemCount"
@@ -187,7 +210,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     onChange={handleChange}
                     required
                     value={item.itemPrice}
-
+                    className={classes.textFieldMediumControl}
                 />
             </TableCell>
             <TableCell>
@@ -197,10 +220,11 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     margin="dense"
                     name="priceNds"
                     required
-                    value={Math.round(item.itemPrice * (item.itemNds/100 +1))}
+                    value={Math.round(item.itemPrice * (item.itemNds / 100 + 1))}
                     InputProps={{
                         readOnly: true,
                     }}
+                    className={classes.textFieldMediumControl}
                 />
             </TableCell>
             <TableCell>
@@ -212,6 +236,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                     onChange={handleChange}
                     required
                     value={item.itemDiscount}
+                    className={classes.textFieldMediumControl}
                 />
             </TableCell>
             <TableCell>
@@ -252,14 +277,24 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
                 </TableCell>
             </Hidden>
             }
-            {canEditItem &&
+            {
+                canEditItem &&
                 <TableCell>
-                    <Tooltip title={'Удалить запись'}>
-                        <IconButton color="secondary" aria-label="delete"  onClick={event => onDeleteItem(item.id)}>
-                            <DeleteIcon fontSize="small" />
+                    <Tooltip title={'Возврат продукции'}>
+                        <IconButton color="primary" aria-label="delete" onClick={event => onReturnItem(item.id)}>
+                            <Rotate90DegreesCcwIcon fontSize="small"/>
                         </IconButton>
                     </Tooltip>
                 </TableCell>
+            }
+            {canEditItem &&
+            <TableCell>
+                <Tooltip title={'Удалить запись'}>
+                    <IconButton color="secondary" aria-label="delete" onClick={event => onDeleteItem(item.id)}>
+                        <DeleteIcon fontSize="small"/>
+                    </IconButton>
+                </Tooltip>
+            </TableCell>
             }
         </TableRow>
     )

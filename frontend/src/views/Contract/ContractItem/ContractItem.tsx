@@ -813,6 +813,11 @@ const ContractItem = (props: IContractItemProps) => {
                     </CardActions>
                 </form>
             </Card>
+
+
+
+
+
         </div>
     );
 };

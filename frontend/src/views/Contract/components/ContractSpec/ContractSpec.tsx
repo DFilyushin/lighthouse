@@ -6,12 +6,13 @@ import {
     TableHead,
     TableRow
 } from "@material-ui/core";
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {IContractSpecItem} from "../../../../types/model/contract";
 import {ContractSpecItem} from "../index";
 import {RoundValue} from "../../../../utils/AppUtils";
 import {ITare} from "../../../../types/model/tare";
 import {IPrice} from "../../../../types/model/price";
+import ContractReturnDialog from "../ContractReturnDialog";
 
 
 interface IContractSpec {
@@ -19,16 +20,34 @@ interface IContractSpec {
     classes: any;
     showDeliveryBlock: boolean;
     items: IContractSpecItem[];
-    onDeleteSpecItem: any;
-    onChangeSpecItem: any;
+    onDeleteSpecItem: ((id: number) => void);
+    onChangeSpecItem: ((item: IContractSpecItem) => void);
     products: IPrice[];
     tares: ITare[];
 }
 
 
 const ContractSpecTable = (props: IContractSpec) => {
-    const {canEditContract, classes, showDeliveryBlock,
-        items, onDeleteSpecItem, tares, products, onChangeSpecItem} = props
+    const {
+        canEditContract, classes, showDeliveryBlock,
+        items, onDeleteSpecItem, tares, products, onChangeSpecItem
+    } = props
+
+    const [openDialog, setOpenDialog] = useState(false)
+    const [itemId, setItemId] = useState(-1)
+
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+
+    /**
+     * Возврат продукции
+     * @param id Код спецификации
+     */
+    function onReturnItem(id: number) {
+        setItemId(id)
+        setOpenDialog(true)
+    }
 
 
     /**
@@ -53,9 +72,10 @@ const ContractSpecTable = (props: IContractSpec) => {
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
+                        <TableCell/>
                         <TableCell>Продукт</TableCell>
                         <TableCell>Тара</TableCell>
-                        <TableCell>Количество</TableCell>
+                        <TableCell>Кол-во</TableCell>
                         <TableCell>Цена</TableCell>
                         <TableCell>Цена с НДС</TableCell>
                         <TableCell>Скидка, тенге</TableCell>
@@ -67,18 +87,20 @@ const ContractSpecTable = (props: IContractSpec) => {
                         </Hidden>
                         }
                         <TableCell/>
+                        <TableCell/>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
-                        items.map((specItem: IContractSpecItem) => (
+                        items.map((specItem: IContractSpecItem, index: number) => (
                             <ContractSpecItem
-                                key={specItem.id}
+                                key={index}
                                 className={''}
                                 match={''}
                                 item={specItem}
                                 onDeleteItem={onDeleteSpecItem}
                                 onChangeItem={onChangeSpecItem}
+                                onReturnItem={onReturnItem}
                                 productItems={products}
                                 tareItems={tares}
                                 canEditItem={canEditContract}
@@ -88,8 +110,8 @@ const ContractSpecTable = (props: IContractSpec) => {
                     }
                     {items.length > 0 &&
                     <TableRow>
-                        <TableCell className={classes.footer_row} colSpan={5}>Итого
-                            по контракту</TableCell>
+                        <TableCell className={classes.footer_row} colSpan={6}>Итого
+                            по спецификации</TableCell>
                         <TableCell
                             className={classes.footer_row}>{getTotalSumDiscount()}</TableCell>
                         <TableCell
@@ -103,6 +125,14 @@ const ContractSpecTable = (props: IContractSpec) => {
                     }
                 </TableBody>
             </Table>
+            {
+                items.length > 0 &&
+                <ContractReturnDialog
+                    open={openDialog}
+                    handleCloseDialog={handleClose}
+                    onChangeItem={onChangeSpecItem}
+                    item={items[items.findIndex(item => item.id === itemId)]}/>
+            }
         </Fragment>
     )
 }
