@@ -12,6 +12,7 @@ import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutline
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 import {Barcode, BuildingWarehouse, Flask} from 'tabler-icons-react';
+import Rotate90DegreesCcwIcon from '@material-ui/icons/Rotate90DegreesCcw';
 import {AccessGroups} from 'utils/AppConst'
 
 
@@ -169,6 +170,12 @@ export default [
                 title: 'Прайс-лист',
                 href: '/user-price',
                 icon: Barcode,
+                access: [AccessGroups.MANAGER]
+            },
+            {
+                title: 'Возвраты продукции',
+                href: '/return',
+                icon: Rotate90DegreesCcwIcon,
                 access: [AccessGroups.MANAGER]
             },
         ]
