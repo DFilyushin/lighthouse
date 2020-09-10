@@ -315,7 +315,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
                                             fullWidth
                                             label="Дата рождения"
                                             margin="dense"
-                                            name="docDate"
+                                            name="dob"
                                             onChange={handleChange}
                                             required
                                             type="date"
