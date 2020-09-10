@@ -26,6 +26,7 @@ router.register(r'units', api_store_views.MaterialUnitViewSet)  # единицы
 router.register(r'works', api_prod_views.ProductionWorkView)  # работы
 router.register(r'reserve', api_store_views.ReservationViewSet)  # резервирование материала
 router.register(r'price', api_sales_views.PriceListViewSet, basename='PriceList')
+router.register(r'returns', api_sales_views.ReturnsProduct, basename='ContractSpec')  # Возврат продукции
 store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья
