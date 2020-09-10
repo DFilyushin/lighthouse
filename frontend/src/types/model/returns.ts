@@ -34,6 +34,10 @@ export interface IReturnsList {
      */
     id: number;
     /**
+     * Код контракта
+     */
+    contractId: number;
+    /**
      * Номер контракта
      */
     contractNum: string;
