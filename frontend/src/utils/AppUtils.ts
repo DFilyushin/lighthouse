@@ -60,3 +60,16 @@ export function getStartCurrentMonthDate() {
     return new Date(now.getFullYear(), now.getMonth(), 1)
 }
 
+/**
+ * Генерация случайной строки
+ * @param length Длина строки
+ */
+export function makeRandomString(length: number) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@$_-=+';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
