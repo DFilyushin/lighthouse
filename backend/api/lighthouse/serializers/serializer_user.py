@@ -57,7 +57,7 @@ class NewUserSerializer(serializers.Serializer):
             if employee_id != 0:
                 serializers.ValidationError({"employee": 'Неверно указан сотрудник!'})
         try:
-            user = User.objects.get(username=login)
+            User.objects.get(username=login)
             raise serializers.ValidationError({"login": 'Пользователь с таким логином существует'})
         except User.DoesNotExist:
             user = User.objects.create(
@@ -77,6 +77,7 @@ class NewUserSerializer(serializers.Serializer):
         return user
 
     def update(self, instance, validated_data):
+        groups = validated_data['groups']
         new_password = validated_data.get('password', None)
         if new_password:
             instance.set_password(new_password)
@@ -87,6 +88,11 @@ class NewUserSerializer(serializers.Serializer):
         instance.is_superuser = validated_data['isAdmin']
         instance.is_active = validated_data['active']
         instance.save()
+
+        instance.groups.clear()
+        for item in groups:
+            group = Group.objects.get(name=item['name'])
+            instance.groups.add(group)
         return instance
 
 
