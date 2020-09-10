@@ -55,7 +55,7 @@ const RawTable = (props: IRawTable) => {
 
     const classes = useStyles();
 
-    const [selectedProducts, setSelectedProducts] = useState<number[]> ([]);
+    const [selectedRaws, setSelectedRaws] = useState<number[]> ([]);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [page, setPage] = useState<number>(0);
 
@@ -70,27 +70,27 @@ const RawTable = (props: IRawTable) => {
             selectedElements = [];
         }
         onChangeSelected(selectedElements);
-        setSelectedProducts(selectedElements);
+        setSelectedRaws(selectedElements);
     };
 
     const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:number) => {
-        const selectedIndex = selectedProducts.indexOf(id);
-        let newSelectedEmployees: number[] = [];
+        const selectedIndex = selectedRaws.indexOf(id);
+        let newSelectedItems: number[] = [];
 
         if (selectedIndex === -1) {
-            newSelectedEmployees = newSelectedEmployees.concat(selectedProducts, id);
+            newSelectedItems = newSelectedItems.concat(selectedRaws, id);
         } else if (selectedIndex === 0) {
-            newSelectedEmployees = newSelectedEmployees.concat(selectedProducts.slice(1));
-        } else if (selectedIndex === selectedProducts.length - 1) {
-            newSelectedEmployees = newSelectedEmployees.concat(selectedProducts.slice(0, -1));
+            newSelectedItems = newSelectedItems.concat(selectedRaws.slice(1));
+        } else if (selectedIndex === selectedRaws.length - 1) {
+            newSelectedItems = newSelectedItems.concat(selectedRaws.slice(0, -1));
         } else if (selectedIndex > 0) {
-            newSelectedEmployees = newSelectedEmployees.concat(
-                selectedProducts.slice(0, selectedIndex),
-                selectedProducts.slice(selectedIndex + 1)
+            newSelectedItems = newSelectedItems.concat(
+                selectedRaws.slice(0, selectedIndex),
+                selectedRaws.slice(selectedIndex + 1)
             );
         }
-        onChangeSelected(newSelectedEmployees);
-        setSelectedProducts(newSelectedEmployees);
+        onChangeSelected(newSelectedItems);
+        setSelectedRaws(newSelectedItems);
     };
 
     const handlePageChange = (event:any, page: number) => {
@@ -118,11 +118,11 @@ const RawTable = (props: IRawTable) => {
                                 <TableRow>
                                     <TableCell padding="checkbox">
                                         <Checkbox
-                                            checked={selectedProducts.length === raws.length}
+                                            checked={selectedRaws.length === raws.length}
                                             color="primary"
                                             indeterminate={
-                                                selectedProducts.length > 0 &&
-                                                selectedProducts.length < raws.length
+                                                selectedRaws.length > 0 &&
+                                                selectedRaws.length < raws.length
                                             }
                                             onChange={handleSelectAll}
                                         />
@@ -137,11 +137,11 @@ const RawTable = (props: IRawTable) => {
                                         className={classes.tableRow}
                                         hover
                                         key={raw.id}
-                                        selected={selectedProducts.indexOf(raw.id) !== -1}
+                                        selected={selectedRaws.indexOf(raw.id) !== -1}
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
-                                                checked={selectedProducts.indexOf(raw.id) !== -1}
+                                                checked={selectedRaws.indexOf(raw.id) !== -1}
                                                 color="primary"
                                                 onChange={event => handleSelectOne(event, raw.id)}
                                                 value="true"
