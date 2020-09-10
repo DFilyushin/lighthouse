@@ -24,6 +24,8 @@ import {ISetupState} from "../types/state/setup"
 import {IOrganizationState} from "../types/state/requsite"
 import {IPriceState} from "../types/state/price"
 import {INoticeState} from "../types/state/notification";
+import {IStockState} from "../types/state/stock";
+import {IReturnsState} from "../types/state/returns";
 
 import {productReducer} from './productReducer'
 import {rawReducer} from "./rawReducer"
@@ -50,7 +52,7 @@ import {setupReducer} from "./setupReducer"
 import {priceReducer} from "./priceReducer"
 import {notificationReducer} from "./notificationReducer";
 import {stockReducer} from "./stockReducer";
-import {IStockState} from "../types/state/stock";
+import {returnsReducer} from "./returnsReducer";
 
 
 export interface IStateInterface {
@@ -79,6 +81,7 @@ export interface IStateInterface {
     price: IPriceState;
     notification: INoticeState;
     stock: IStockState;
+    returnsProduct: IReturnsState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -106,5 +109,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     setup: setupReducer,
     price: priceReducer,
     notification: notificationReducer,
-    stock: stockReducer
+    stock: stockReducer,
+    returnsProduct: returnsReducer
 })
