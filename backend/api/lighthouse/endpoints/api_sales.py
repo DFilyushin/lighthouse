@@ -30,7 +30,7 @@ class ReturnsProduct(viewsets.ModelViewSet):
             queryset = ContractSpec.objects.filter(returned__range=(date_start, date_end))
             queryset = queryset.values('id', 'id_contract__num', 'id_contract__contract_date',
                                        'id_contract__id_client__clientname', 'id_product__name', 'id_tare__name',
-                                       'returned', 'item_count')
+                                       'returned', 'item_count', 'id_contract__id')
             queryset = queryset.annotate(total_value=F('item_price')*F('item_count'))
             return queryset
         else:
