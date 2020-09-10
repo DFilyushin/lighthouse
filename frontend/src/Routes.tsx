@@ -9,6 +9,7 @@ import {
     ClientList as ClientListView,
     ContractItem as ContractItemView,
     ContractList as ContractListView,
+    ContractPdf as ContractPdfView,
     CostItem as CostItemView,
     CostList as CostListView,
     Dashboard as DashboardView,
@@ -16,6 +17,7 @@ import {
     DepartmentList as DepartmentListView,
     EmployeeItem as EmployeeItemView,
     EmployeeList as EmployeeListView,
+    ExpenseItem as ExpenseItemView,
     ExpenseList as ExpenseListView,
     FactoryLine as FactoryLineView,
     FactoryLineItem as FactoryLineItemView,
@@ -24,6 +26,14 @@ import {
     Login as LoginView,
     NotFound as NotFoundView,
     OrgName as OrgNameView,
+    PaymentItem as PaymentItemView,
+    PaymentList as PaymentListView,
+    PayMethodItem as PayMethodItemView,
+    PayMethodList as PayMethodListView,
+    PriceItem as PriceItemView,
+    PriceList as PriceLIstView,
+    PriceListEmployee as PriceListEmployeeView,
+    PriceListHistory as PriceListHistoryView,
     ProductionDetails as ProductionDetailsView,
     ProductionList as ProductionListView,
     ProductItem as ProductItemView,
@@ -33,36 +43,27 @@ import {
     ReportContracts as ReportContractsView,
     ReportProduction as ReportProductionView,
     ReportSales as ReportSalesView,
+    ReturnProduct as ReturnProductView,
     Setup as SetupView,
     StaffItem as StaffItemView,
     Staffs as StaffView,
-    StoreJournal as StoreJournalView,
+    StockItem as StockItemView,
+    Stocks as StockListView,
     StoreItem as StoreItemView,
+    StoreJournal as StoreJournalView,
+    StoreNewItems as StoreNewItemsView,
     StoreProduct as StoreProductView,
     StoreRaw as StoreRawView,
+    StoreReserved as StoreReservedView,
     TareItem as TareItemView,
     Tares as TareView,
     UnitItem as UnitItemView,
     Units as UnitView,
     UserDetails as UserDetailsView,
     UserList as UserListView,
-    WorkItem as WorkItemView,
-    WorkList as WorkListView,
-    StoreNewItems as StoreNewItemsView,
-    PayMethodItem as PayMethodItemView,
-    PayMethodList as PayMethodListView,
-    PaymentList as PaymentListView,
-    PaymentItem as PaymentItemView,
-    StoreReserved as StoreReservedView,
-    ExpenseItem as ExpenseItemView,
-    ContractPdf as ContractPdfView,
-    PriceList as PriceLIstView,
-    PriceItem as PriceItemView,
-    PriceListHistory as PriceListHistoryView,
     UserProfile as UserProfileView,
-    PriceListEmployee as PriceListEmployeeView,
-    Stocks as StockListView,
-    StockItem as StockItemView
+    WorkItem as WorkItemView,
+    WorkList as WorkListView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -140,6 +141,9 @@ const Routes = () => {
             <AuthRouteWithLayout component={PriceItemView} layout={MainLayout} path="/price/:id" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={PriceListHistoryView} layout={MainLayout} path="/price/history/:id" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={PriceListEmployeeView} layout={MainLayout} path="/user-price" access={[AccessGroups.MANAGER, AccessGroups.ADMIN]} exact/>
+
+            //возвраты продукции
+            <AuthRouteWithLayout component={ReturnProductView} layout={MainLayout} path="/return" access={[AccessGroups.MANAGER, AccessGroups.ADMIN, AccessGroups.FINANCE, AccessGroups.BOSS]} exact/>
 
             //производство
             <AuthRouteWithLayout component={ProductionListView} layout={MainLayout} path="/factory" access={[AccessGroups.FACTORY, AccessGroups.ADMIN, AccessGroups.BOSS]} exact/>
