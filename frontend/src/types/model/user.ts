@@ -1,4 +1,4 @@
-import {IEmployeeListItem, nullEmployeeItem} from "./employee";
+import {IEmployeeListItem} from "./employee";
 
 export interface IAccountListItem {
     login: string;
