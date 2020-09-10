@@ -24,7 +24,7 @@ import {IStateInterface} from "redux/rootReducer";
 import {addUser, changeUserItem, checkUserExist, getUserItem, saveUser} from "redux/actions/userAction";
 import {Groups} from '../components'
 import {IUserGroup} from "types/model/user";
-import {validateEmail, validateLatin} from "utils/AppUtils";
+import {makeRandomString, validateEmail, validateLatin} from "utils/AppUtils";
 import {showInfoMessage} from "redux/actions/infoAction";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -183,6 +183,13 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         event.preventDefault();
     }
 
+    const generatePass = () => {
+        const pass = makeRandomString(8)
+        setPassword(pass)
+        const item = {...accountItem, password: pass}
+        dispatch(changeUserItem(item))
+    }
+
     /**
      * Выбор сотрудника
      * @param event
@@ -199,11 +206,13 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                 valueName: 'fio'
             }
         ).then((value: any) => {
-                const item = {...accountItem}
-                item.employee.id = value.id
-                item.employee.fio = value.name
-                dispatch(changeUserItem(item))
-                setBadEmployee(false)
+            const item = {...accountItem}
+            item.employee.id = value.id
+            item.employee.fio = value.name
+            item.firstName = value.name.split(' ')[1] || ''
+            item.lastName = value.name.split(' ')[0] || ''
+            dispatch(changeUserItem(item))
+            setBadEmployee(false)
             }
         );
 
@@ -220,7 +229,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                 <Redirect to={'/NotFound'}/>
             </div>
         )
-    }else {
+    } else {
         return (
             <div className={classes.root}>
                 <Card
@@ -277,6 +286,32 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                             item
                                             xs={12}
                                         >
+                                            <Paper elevation={0} className={classes.paper_root}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Сотрудник"
+                                                    margin="dense"
+                                                    name="product"
+                                                    onChange={handleChange}
+                                                    required
+                                                    value={accountItem.employee.fio}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                    }}
+                                                    helperText={badEmployee ? "Не указан сотрудник" : ""}
+                                                    error={badEmployee}
+                                                />
+                                                <IconButton color="primary" className={classes.iconButton}
+                                                            aria-label="directions" onClick={handleChangeEmployee}>
+                                                    <MenuOpenIcon/>
+                                                </IconButton>
+                                            </Paper>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                        >
                                             <TextField
                                                 fullWidth
                                                 label="Email"
@@ -320,35 +355,10 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                                 variant="outlined"
                                             />
                                         </Grid>
+
                                         <Grid
                                             item
-                                            xs={12}
-                                        >
-                                            <Paper elevation={0} className={classes.paper_root}>
-                                                <TextField
-                                                    fullWidth
-                                                    label="Сотрудник"
-                                                    margin="dense"
-                                                    name="product"
-                                                    onChange={handleChange}
-                                                    required
-                                                    value={accountItem.employee.fio}
-                                                    variant="outlined"
-                                                    InputProps={{
-                                                        readOnly: true,
-                                                    }}
-                                                    helperText={badEmployee ? "Не указан сотрудник" : ""}
-                                                    error={badEmployee}
-                                                />
-                                                <IconButton color="primary" className={classes.iconButton}
-                                                            aria-label="directions" onClick={handleChangeEmployee}>
-                                                    <MenuOpenIcon/>
-                                                </IconButton>
-                                            </Paper>
-                                        </Grid>
-                                        <Grid
-                                            item
-                                            xs={12}
+                                            xs={6}
                                         >
                                             <TextField
                                                 fullWidth
@@ -356,6 +366,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                                 variant="outlined"
                                                 type={showPassword ? "text" : "password"}
                                                 onChange={handleChangePassword}
+                                                size={"small"}
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position="end">
@@ -372,6 +383,12 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                                 helperText={badPass ? "Пароль должен быть не менее 8 символов" : ""}
                                                 error={badPass}
                                             />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={6}
+                                        >
+                                            <Button variant="contained" onClick={generatePass}>Сгенерировать</Button>
                                         </Grid>
 
                                         {id !== 'new' &&
