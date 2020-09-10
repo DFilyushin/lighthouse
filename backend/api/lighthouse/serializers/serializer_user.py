@@ -65,9 +65,10 @@ class NewUserSerializer(serializers.Serializer):
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
-                is_superuser=is_admin,
-                password=password
+                is_superuser=is_admin
             )
+            user.set_password(password)
+            user.save()
             employee.userId = user
             employee.save()
         for item in groups:
