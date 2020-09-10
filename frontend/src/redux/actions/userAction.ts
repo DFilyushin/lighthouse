@@ -8,8 +8,8 @@ import {
     USER_LOAD_FINISH,
     USER_LOAD_ITEM_SUCCESS,
     USER_LOAD_START,
-    USER_LOAD_SUCCESS, USER_PROFILE_OK,
-    USER_SET_ERROR
+    USER_LOAD_SUCCESS,
+    USER_PROFILE_OK
 } from "./types";
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_TEXT} from "../../utils/AppConst";
@@ -104,9 +104,7 @@ export function addUser(item: IAccount) {
     return async (dispatch: any, getState: any) => {
         try{
             const postItem = {...item}
-            const idEmployee = postItem.employee.id
-            //delete postItem.employee
-            await authAxios.post(UserEndpoint.newUser(), {...postItem, 'employee': idEmployee});
+            await authAxios.post(UserEndpoint.newUser(), {...postItem, 'employee': postItem.employee.id});
         }catch (e) {
             console.log('Error save new user. Error message:', e.response)
             const  errorMessage = `Не удалось добавить нового пользователя по причине: ${e.response.data.message}`
@@ -232,13 +230,6 @@ function deleteOk(items: IAccount[]) {
     return{
         type: USER_LOAD_SUCCESS,
         items
-    }
-}
-
-function saveError(error: string) {
-    return{
-        types: USER_SET_ERROR,
-        error
     }
 }
 
