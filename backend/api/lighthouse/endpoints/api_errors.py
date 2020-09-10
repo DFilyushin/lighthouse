@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from rest_framework.views import exception_handler
 
 API_ERROR_POST_TURNOVER = 'Ошибка сервера. Не удалось сохранить данные складской операции.'
@@ -43,7 +44,14 @@ def custom_exception_handler(exc, context):
             },
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
-
+    if isinstance(exc, ValidationError):
+        response = Response(
+            data={
+                'message': 'Ошибка введённых данных',
+                'detail': exc.args[0]
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
     # Now add the HTTP status code to the response.
     if response is not None and response.status_code == 404:
         response.data = {
