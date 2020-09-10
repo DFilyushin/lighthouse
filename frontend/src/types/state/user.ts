@@ -8,4 +8,5 @@ export interface IUserState {
     isLoading: boolean;
     hasError: boolean;
     error: string;
+    userNotFound: boolean;
 }

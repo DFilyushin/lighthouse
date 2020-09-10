@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
+import {Redirect} from 'react-router-dom'
 import moment from "moment";
 import {makeStyles} from '@material-ui/core/styles';
 import {
@@ -76,6 +77,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     const id = props.match.params.user;
     const isNewUser = id === NEW_RECORD_TEXT;
     const accountItem = useSelector((state: IStateInterface) => state.user.userAccount)
+    const userNotFound = useSelector((state: IStateInterface) => state.user.userNotFound)
     const employees = useSelector((state: IStateInterface) => state.employee.employeeWithoutLogins)
     const [userExist, setUserExist] = useState<boolean>(false)
     const [password, setPassword] = useState<string>('')
@@ -207,279 +209,285 @@ const AccountDetails = (props: IAccountDetailsProps) => {
 
     }
 
-
     useEffect(() => {
         dispatch(getUserItem(id))
         dispatch(loadEmployeeWithoutLogins())
     }, [dispatch, id]);
 
-
-    return (
-        <div className={classes.root}>
-            <Card
-                {...rest}
-                className={className}
-            >
-                <form
-                    autoComplete="off"
-                    onSubmit={saveHandler}
+    if (userNotFound) {
+        return (
+            <div>
+                <Redirect to={'/NotFound'}/>
+            </div>
+        )
+    }else {
+        return (
+            <div className={classes.root}>
+                <Card
+                    {...rest}
+                    className={className}
                 >
-                    <CardHeader
-                        subheader=""
-                        title="Пользователь"
-                    />
-                    <Divider/>
-                    <CardContent>
-                        <Grid
-                            container
-                            spacing={1}
-                        >
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Grid container spacing={3}>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sm={12}
-                                        md={12}
-                                        lg={6}
-                                        xl={6}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Логин"
-                                            margin="dense"
-                                            name="login"
-                                            onChange={handleChange}
-                                            required
-                                            value={accountItem.login}
-                                            variant="outlined"
-                                            disabled={!isNewUser}
-                                            onBlur={onLoginBur}
-                                            helperText={
-                                                userExist
-                                                    ? "Логин уже существует"
-                                                    : badLogin
-                                                    ? 'Имя пользователя должно быть уникальным, начинаться с латинского символа, ' +
-                                                    'иметь не менее 4 символов, допускается использование цифр ' +
-                                                    'после символов' : ""
-                                            }
-                                            error={userExist || badLogin}
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Email"
-                                            margin="dense"
-                                            name="email"
-                                            onChange={handleChange}
-                                            required
-                                            value={accountItem.email}
-                                            variant="outlined"
-                                            helperText={badEmail ? "Некорректно указан email" : ""}
-                                            error={badEmail}
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Имя"
-                                            margin="dense"
-                                            name="firstName"
-                                            onChange={handleChange}
-                                            required
-                                            value={accountItem.firstName}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Фамилия"
-                                            margin="dense"
-                                            name="lastName"
-                                            onChange={handleChange}
-                                            required
-                                            value={accountItem.lastName}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                    >
-                                        <Paper elevation={0} className={classes.paper_root}>
+                    <form
+                        autoComplete="off"
+                        onSubmit={saveHandler}
+                    >
+                        <CardHeader
+                            subheader=""
+                            title="Пользователь"
+                        />
+                        <Divider/>
+                        <CardContent>
+                            <Grid
+                                container
+                                spacing={1}
+                            >
+                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                    <Grid container spacing={3}>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            sm={12}
+                                            md={12}
+                                            lg={6}
+                                            xl={6}
+                                        >
                                             <TextField
                                                 fullWidth
-                                                label="Сотрудник"
+                                                label="Логин"
                                                 margin="dense"
-                                                name="product"
+                                                name="login"
                                                 onChange={handleChange}
                                                 required
-                                                value={accountItem.employee.fio}
+                                                value={accountItem.login}
                                                 variant="outlined"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                helperText={badEmployee ? "Не указан сотрудник" : ""}
-                                                error={badEmployee}
-                                            />
-                                            <IconButton color="primary" className={classes.iconButton}
-                                                        aria-label="directions" onClick={handleChangeEmployee}>
-                                                <MenuOpenIcon/>
-                                            </IconButton>
-                                        </Paper>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label='Пароль'
-                                            variant="outlined"
-                                            type={showPassword ? "text" : "password"}
-                                            onChange={handleChangePassword}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowPassword}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                        >
-                                                            {showPassword ? <Visibility/> : <VisibilityOff/>}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                )
-                                            }}
-                                            helperText={badPass ? "Пароль должен быть не менее 8 символов" : ""}
-                                            error={badPass}
-                                        />
-                                    </Grid>
-
-                                    {id !== 'new' &&
-                                    <Fragment>
-                                        <Grid
-                                            item
-                                            xs={6}
-                                        >
-                                            <TextField
-                                                fullWidth
-                                                label="Создан"
-                                                margin="dense"
-                                                name="joined"
-                                                onChange={handleChange}
-                                                disabled
-                                                value={moment(accountItem.joined).isValid() ? moment(accountItem.joined).format('DD/MM/YYYY HH:mm') : ""}
-                                                variant="outlined"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
+                                                disabled={!isNewUser}
+                                                onBlur={onLoginBur}
+                                                helperText={
+                                                    userExist
+                                                        ? "Логин уже существует"
+                                                        : badLogin
+                                                        ? 'Имя пользователя должно быть уникальным, начинаться с латинского символа, ' +
+                                                        'иметь не менее 4 символов, допускается использование цифр ' +
+                                                        'после символов' : ""
+                                                }
+                                                error={userExist || badLogin}
                                             />
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={6}
-
+                                            xs={12}
                                         >
                                             <TextField
                                                 fullWidth
-                                                label="Последний вход"
+                                                label="Email"
                                                 margin="dense"
-                                                name="lastLogin"
+                                                name="email"
                                                 onChange={handleChange}
-                                                disabled
-                                                value={moment(accountItem.lastLogin).isValid() ? moment(accountItem.lastLogin).format('DD/MM/YYYY HH:mm') : ""}
+                                                required
+                                                value={accountItem.email}
                                                 variant="outlined"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
+                                                helperText={badEmail ? "Некорректно указан email" : ""}
+                                                error={badEmail}
                                             />
                                         </Grid>
-                                    </Fragment>
-                                    }
-                                    <Grid
-                                        item
-                                        xs={6}
-                                    >
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={accountItem.isAdmin}
+                                        <Grid
+                                            item
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Имя"
+                                                margin="dense"
+                                                name="firstName"
+                                                onChange={handleChange}
+                                                required
+                                                value={accountItem.firstName}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Фамилия"
+                                                margin="dense"
+                                                name="lastName"
+                                                onChange={handleChange}
+                                                required
+                                                value={accountItem.lastName}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                        >
+                                            <Paper elevation={0} className={classes.paper_root}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Сотрудник"
+                                                    margin="dense"
+                                                    name="product"
                                                     onChange={handleChange}
-                                                    name="isAdmin"
-                                                    color="primary"
+                                                    required
+                                                    value={accountItem.employee.fio}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                    }}
+                                                    helperText={badEmployee ? "Не указан сотрудник" : ""}
+                                                    error={badEmployee}
                                                 />
-                                            }
-                                            label="Администратор"
-                                        />
-                                        <FormHelperText>возможность создавать пользователей</FormHelperText>
-                                    </Grid>
+                                                <IconButton color="primary" className={classes.iconButton}
+                                                            aria-label="directions" onClick={handleChangeEmployee}>
+                                                    <MenuOpenIcon/>
+                                                </IconButton>
+                                            </Paper>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label='Пароль'
+                                                variant="outlined"
+                                                type={showPassword ? "text" : "password"}
+                                                onChange={handleChangePassword}
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowPassword}
+                                                                onMouseDown={handleMouseDownPassword}
+                                                            >
+                                                                {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    )
+                                                }}
+                                                helperText={badPass ? "Пароль должен быть не менее 8 символов" : ""}
+                                                error={badPass}
+                                            />
+                                        </Grid>
 
-                                    <Grid
-                                        item
-                                        xs={6}
-                                    >
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={accountItem.active}
+                                        {id !== 'new' &&
+                                        <Fragment>
+                                            <Grid
+                                                item
+                                                xs={6}
+                                            >
+                                                <TextField
+                                                    fullWidth
+                                                    label="Создан"
+                                                    margin="dense"
+                                                    name="joined"
                                                     onChange={handleChange}
-                                                    name="active"
-                                                    color="primary"
+                                                    disabled
+                                                    value={moment(accountItem.joined).isValid() ? moment(accountItem.joined).format('DD/MM/YYYY HH:mm') : ""}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                    }}
                                                 />
-                                            }
-                                            label="Активная учётная запись"
-                                        />
-                                        <FormHelperText>возможность входа в систему</FormHelperText>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={6}
+
+                                            >
+                                                <TextField
+                                                    fullWidth
+                                                    label="Последний вход"
+                                                    margin="dense"
+                                                    name="lastLogin"
+                                                    onChange={handleChange}
+                                                    disabled
+                                                    value={moment(accountItem.lastLogin).isValid() ? moment(accountItem.lastLogin).format('DD/MM/YYYY HH:mm') : ""}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                    }}
+                                                />
+                                            </Grid>
+                                        </Fragment>
+                                        }
+                                        <Grid
+                                            item
+                                            xs={6}
+                                        >
+                                            <FormControlLabel
+                                                control={
+                                                    <Switch
+                                                        checked={accountItem.isAdmin}
+                                                        onChange={handleChange}
+                                                        name="isAdmin"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Администратор"
+                                            />
+                                            <FormHelperText>возможность создавать пользователей</FormHelperText>
+                                        </Grid>
+
+                                        <Grid
+                                            item
+                                            xs={6}
+                                        >
+                                            <FormControlLabel
+                                                control={
+                                                    <Switch
+                                                        checked={accountItem.active}
+                                                        onChange={handleChange}
+                                                        name="active"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Активная учётная запись"
+                                            />
+                                            <FormHelperText>возможность входа в систему</FormHelperText>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                {badGroup &&
-                                <Alert variant="outlined" severity="error">
-                                    Укажите доступные пользователю группы
-                                </Alert>
-                                }
-                                <Groups
-                                    userGroups={accountItem.groups}
-                                    onChangeGroups={handleChangeUserGroups}
-                                />
-                            </Grid>
+                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                    {badGroup &&
+                                    <Alert variant="outlined" severity="error">
+                                        Укажите доступные пользователю группы
+                                    </Alert>
+                                    }
+                                    <Groups
+                                        userGroups={accountItem.groups}
+                                        onChangeGroups={handleChangeUserGroups}
+                                    />
+                                </Grid>
 
-                        </Grid>
-                    </CardContent>
-                    <Divider/>
-                    <CardActions>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            type="submit"
-                        >
-                            Сохранить
-                        </Button>
-                        <Button
-                            color="default"
-                            variant="contained"
-                            onClick={(event => history.push('/admin/users/'))}
-                        >
-                            Отменить
-                        </Button>
-                    </CardActions>
-                </form>
-            </Card>
-        </div>
-    );
-};
+                            </Grid>
+                        </CardContent>
+                        <Divider/>
+                        <CardActions>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                type="submit"
+                            >
+                                Сохранить
+                            </Button>
+                            <Button
+                                color="default"
+                                variant="contained"
+                                onClick={(event => history.push('/admin/users/'))}
+                            >
+                                Отменить
+                            </Button>
+                        </CardActions>
+                    </form>
+                </Card>
+            </div>
+        )
+    }
+}
 
 export default AccountDetails;

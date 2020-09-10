@@ -7,7 +7,8 @@ import {
     USER_LOAD_ITEM_SUCCESS,
     USER_LOAD_START,
     USER_LOAD_SUCCESS,
-    USER_PROFILE_OK
+    USER_PROFILE_OK,
+    USER_SET_NOFOUND_USER
 } from "./actions/types";
 import {nullProfile} from "../types/model/user";
 
@@ -30,13 +31,14 @@ const initState = (): IUserState => ({
         isAdmin: false,
         password: ''
     },
-    userProfile: nullProfile
+    userProfile: nullProfile,
+    userNotFound: false
 });
 
 export const userReducer = (state: IUserState = initState(), action: any) => {
     switch (action.type) {
         case USER_LOAD_START:
-            return {...state, isLoading: true}
+            return {...state, isLoading: true, userNotFound: false}
         case USER_LOAD_FINISH:
             return {...state, isLoading: false}
         case USER_LOAD_SUCCESS:
@@ -49,6 +51,8 @@ export const userReducer = (state: IUserState = initState(), action: any) => {
             return {...state, groups: action.items}
         case USER_PROFILE_OK:
             return {...state, userProfile: action.profile}
+        case USER_SET_NOFOUND_USER:
+            return {...state, userNotFound: action.value}
         default: return state;
     }
 }

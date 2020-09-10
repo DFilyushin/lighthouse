@@ -9,7 +9,8 @@ import {
     USER_LOAD_ITEM_SUCCESS,
     USER_LOAD_START,
     USER_LOAD_SUCCESS,
-    USER_PROFILE_OK
+    USER_PROFILE_OK,
+    USER_SET_NOFOUND_USER
 } from "./types";
 import authAxios from "../../services/axios-api";
 import {NEW_RECORD_TEXT} from "../../utils/AppConst";
@@ -75,12 +76,16 @@ export async function checkUserExist(login: string) {
     return Promise.resolve(result === 'User exist')
 }
 
-
+/**
+ * Получить существующего пользователя по логину
+ * @param login Логин существующего пользователя
+ */
 export function getUserItem(login: string) {
     return async (dispatch: any, getState: any) => {
         let item: IAccount = {...nullAccountItem};
         dispatch(fetchStart())
         if (login === NEW_RECORD_TEXT) {
+            dispatch(setUserNotFound(false))
             dispatch(getItemSuccess(item))
         }else{
             dispatch(fetchStart());
@@ -88,7 +93,11 @@ export function getUserItem(login: string) {
                 const response = await authAxios.get(UserEndpoint.getUser(login));
                 item = response.data;
                 dispatch(getItemSuccess(item))
+
             }catch (e) {
+                if (e.response.status === 404){
+                    dispatch(setUserNotFound(true))
+                }
                 dispatch(showInfoMessage('error', e.toString()))
             }
             dispatch(fetchFinish())
@@ -264,5 +273,12 @@ function fetchGroupSuccess(items: IUserGroup[]) {
     return{
         type: USER_GROUP_LOAD_SUCCESS,
         items
+    }
+}
+
+function setUserNotFound(value: boolean) {
+    return{
+        type: USER_SET_NOFOUND_USER,
+        value
     }
 }
