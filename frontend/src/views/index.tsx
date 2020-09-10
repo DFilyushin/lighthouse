@@ -85,3 +85,4 @@ export { default as Changelog } from './Changelog'
 export { default as UserProfile} from './UserProfile'
 
 export {default as ContractPdf} from './ContractPdf'
+export {default as ReturnProduct} from './ReturnProduct'
