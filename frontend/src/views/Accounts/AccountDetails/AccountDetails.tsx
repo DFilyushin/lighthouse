@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import moment from "moment";
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {
     Card,
     CardHeader,
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccountDetails = (props: IAccountDetailsProps) => {
-    const { className, ...rest } = props
+    const {className, ...rest} = props
 
     const classes = useStyles()
     const history = useHistory()
@@ -75,7 +75,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
 
     const id = props.match.params.user;
     const isNewUser = id === NEW_RECORD_TEXT;
-    const accountItem = useSelector((state: IStateInterface)=> state.user.userAccount)
+    const accountItem = useSelector((state: IStateInterface) => state.user.userAccount)
     const employees = useSelector((state: IStateInterface) => state.employee.employeeWithoutLogins)
     const [userExist, setUserExist] = useState<boolean>(false)
     const [password, setPassword] = useState<string>('')
@@ -85,7 +85,6 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     const [badLogin, setBadLogin] = useState(false)
     const [badEmployee, setBadEmployee] = useState(false)
     const [badGroup, setBadGroup] = useState(false)
-
 
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     const handleMouseDownPassword = () => setShowPassword(!showPassword)
@@ -101,13 +100,12 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         dispatch(changeUserItem(newItem))
     }
 
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const name = event.target.name;
-        if ( event.target.type === 'text' ){
+        if (event.target.type === 'text') {
             const item = {...accountItem, [name]: event.target.value}
             dispatch(changeUserItem(item))
-        }else{
+        } else {
             const item = {...accountItem, [name]: event.target.checked}
             dispatch(changeUserItem(item))
         }
@@ -117,9 +115,8 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         const groups = [...accountItem.groups]
         if (checked) {
             groups.push(group)
-        }
-        else{
-            const index = groups.findIndex(x=> x.name === group.name);
+        } else {
+            const index = groups.findIndex(x => x.name === group.name);
             groups.splice(index, 1)
         }
         const item = {...accountItem, groups: groups}
@@ -131,7 +128,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
      * Сохранение изменений
      * @param dispatch
      */
-    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
+    const saveItem = (dispatch: any) => new Promise(async (resolve, reject) => {
         try {
             if (isNewUser) {
                 await dispatch(addUser(accountItem));
@@ -139,7 +136,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                 await dispatch(saveUser(accountItem));
             }
             resolve();
-        }catch (e) {
+        } catch (e) {
             reject()
         }
     });
@@ -152,7 +149,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
         setBadLogin(!checkLoginLatin)
         const checkEmail = validateEmail(accountItem.email)
         setBadEmail(!checkEmail)
-        const checkPass = ( password.length > 7 && (password !== '') && (isNewUser)) || ( !isNewUser )
+        const checkPass = (password.length > 7 && (password !== '') && (isNewUser)) || (!isNewUser)
         setBadPass(!checkPass)
         const checkEmployee = (accountItem.employee.id !== 0)
         setBadEmployee(!checkEmployee)
@@ -162,8 +159,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     }
 
     const onLoginBur = (event: React.FocusEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
-        checkUserExist(event.target.value).then((value1=> setUserExist(value1)))
+        checkUserExist(event.target.value).then((value1 => setUserExist(value1)))
     }
 
     const saveHandler = (event: React.SyntheticEvent) => {
@@ -179,8 +175,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                     console.log('saveHandler_end');
                 }
             );
-        }
-        else{
+        } else {
             dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
         }
         event.preventDefault();
@@ -201,19 +196,19 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                 initKey: accountItem.employee.id,
                 valueName: 'fio'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {...accountItem}
                 item.employee.id = value.id
                 item.employee.fio = value.name
                 dispatch(changeUserItem(item))
-            	setBadEmployee(false)
+                setBadEmployee(false)
             }
         );
 
     }
 
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(getUserItem(id))
         dispatch(loadEmployeeWithoutLogins())
     }, [dispatch, id]);
@@ -233,7 +228,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                         subheader=""
                         title="Пользователь"
                     />
-                    <Divider />
+                    <Divider/>
                     <CardContent>
                         <Grid
                             container
@@ -266,7 +261,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                                     : badLogin
                                                     ? 'Имя пользователя должно быть уникальным, начинаться с латинского символа, ' +
                                                     'иметь не менее 4 символов, допускается использование цифр ' +
-                                                    'после символов' :  ""
+                                                    'после символов' : ""
                                             }
                                             error={userExist || badLogin}
                                         />
@@ -322,7 +317,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                         item
                                         xs={12}
                                     >
-                                        <Paper  elevation={0} className={classes.paper_root}>
+                                        <Paper elevation={0} className={classes.paper_root}>
                                             <TextField
                                                 fullWidth
                                                 label="Сотрудник"
@@ -338,8 +333,9 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                                 helperText={badEmployee ? "Не указан сотрудник" : ""}
                                                 error={badEmployee}
                                             />
-                                            <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeEmployee}>
-                                                <MenuOpenIcon />
+                                            <IconButton color="primary" className={classes.iconButton}
+                                                        aria-label="directions" onClick={handleChangeEmployee}>
+                                                <MenuOpenIcon/>
                                             </IconButton>
                                         </Paper>
                                     </Grid>
@@ -361,7 +357,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                                             onClick={handleClickShowPassword}
                                                             onMouseDown={handleMouseDownPassword}
                                                         >
-                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                            {showPassword ? <Visibility/> : <VisibilityOff/>}
                                                         </IconButton>
                                                     </InputAdornment>
                                                 )
@@ -372,46 +368,46 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                     </Grid>
 
                                     {id !== 'new' &&
-                                        <Fragment>
-                                    <Grid
-                                        item
-                                        xs={6}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Создан"
-                                            margin="dense"
-                                            name="joined"
-                                            onChange={handleChange}
-                                            disabled
-                                            value={moment(accountItem.joined).isValid() ? moment(accountItem.joined).format('DD/MM/YYYY HH:mm') : ""}
-                                            variant="outlined"
-                                            InputProps={{
-                                                readOnly: true,
-                                            }}
-                                        />
-                                    </Grid>
+                                    <Fragment>
                                         <Grid
-                                        item
-                                        xs={6}
+                                            item
+                                            xs={6}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Создан"
+                                                margin="dense"
+                                                name="joined"
+                                                onChange={handleChange}
+                                                disabled
+                                                value={moment(accountItem.joined).isValid() ? moment(accountItem.joined).format('DD/MM/YYYY HH:mm') : ""}
+                                                variant="outlined"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={6}
 
                                         >
-                                        <TextField
-                                        fullWidth
-                                        label="Последний вход"
-                                        margin="dense"
-                                        name="lastLogin"
-                                        onChange={handleChange}
-                                        disabled
-                                        value={moment(accountItem.lastLogin).isValid() ? moment(accountItem.lastLogin).format('DD/MM/YYYY HH:mm') : ""}
-                                        variant="outlined"
-                                        InputProps={{
-                                        readOnly: true,
-                                    }}
-                                        />
+                                            <TextField
+                                                fullWidth
+                                                label="Последний вход"
+                                                margin="dense"
+                                                name="lastLogin"
+                                                onChange={handleChange}
+                                                disabled
+                                                value={moment(accountItem.lastLogin).isValid() ? moment(accountItem.lastLogin).format('DD/MM/YYYY HH:mm') : ""}
+                                                variant="outlined"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                            />
                                         </Grid>
-                                        </Fragment>
-                                            }
+                                    </Fragment>
+                                    }
                                     <Grid
                                         item
                                         xs={6}
@@ -451,9 +447,9 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                             </Grid>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                                 {badGroup &&
-                                    <Alert variant="outlined" severity="error">
-                                        Укажите доступные пользователю группы
-                                    </Alert>
+                                <Alert variant="outlined" severity="error">
+                                    Укажите доступные пользователю группы
+                                </Alert>
                                 }
                                 <Groups
                                     userGroups={accountItem.groups}
@@ -463,7 +459,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
 
                         </Grid>
                     </CardContent>
-                    <Divider />
+                    <Divider/>
                     <CardActions>
                         <Button
                             color="primary"
