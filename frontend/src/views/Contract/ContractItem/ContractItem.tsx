@@ -367,6 +367,8 @@ const ContractItem = (props: IContractItemProps) => {
             url = `/client/${querySourceId}`
         } else if (querySource === 'reserved') {
             url = `/store/reserved/`
+        } else if (querySource === 'return') {
+            url = `/return/`
         }
         history.push(url)
     }
