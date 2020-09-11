@@ -30,8 +30,16 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import {
-    addNewContract, addNewSpecItem, calculateDiscount, changeContractItem, changeContractSpecItem,
-    deleteContractSpecItem, loadContractItem, setContractStatus, updateContract
+    addNewContract,
+    addNewSpecItem,
+    calculateDiscount,
+    changeContractItem,
+    changeContractSpecItem,
+    deleteContractReserveProduct,
+    deleteContractSpecItem,
+    loadContractItem,
+    setContractStatus,
+    updateContract
 } from "redux/actions/contractAction"
 import {
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_DRAFT, CONTRACT_STATE_READY, ContractStateString, IContractSpecItem
@@ -40,7 +48,13 @@ import {KeyboardDatePicker} from '@material-ui/pickers'
 import {IClientItemList, nullClientItem} from "types/model/client"
 import {Autocomplete} from "@material-ui/lab"
 import {searchClients} from "redux/actions/clientAction"
-import {INVALID_DATE_FORMAT, NEW_RECORD_VALUE} from "../../../utils/AppConst"
+import {
+    DIALOG_ASK_DELETE, DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES,
+    INVALID_DATE_FORMAT,
+    NEW_RECORD_VALUE
+} from "../../../utils/AppConst"
 import TabPanel from "../../Production/components/TabPanel"
 import ContractPaymentTable from "../components/ContractPaymentTable"
 import ContractWaitPaymentTable from "../components/ContractWaitPaymentTable"
@@ -54,6 +68,9 @@ import ContractSkeletonLoading from "../components/ContractSkeletonLoading";
 import ContractAccessTable from "../components/ContractAccessList";
 import {ContractSpecTable} from "../components/ContractSpec";
 import ContractSpecPanel from "../components/ContractSpecPanel";
+import ContractReserveTable from "../components/ContractReserveProduct/ContractReserveTable";
+import {useConfirm} from "material-ui-confirm";
+import {deleteReserve} from "../../../redux/actions/storeAction";
 
 interface IContractItemProps extends RouteComponentProps {
     className: string,
@@ -64,7 +81,9 @@ const PAGE_MAIN = 0
 const PAGE_SPEC = 1
 const PAGE_WAIT_PAYMENT = 2
 const PAGE_PAYMENT = 3
-const PAGE_ADVANCE = 4
+const PAGE_RESERVE = 4
+const PAGE_ADVANCE = 5
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -112,6 +131,7 @@ const useStyles = makeStyles((theme) => ({
 //FIXME Упростить компонент, разбить на более мелкие
 
 const ContractItem = (props: IContractItemProps) => {
+    const confirm = useConfirm()
     const paramId = props.match.params.id;
     const contractId = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
     const {className, ...rest} = props;
@@ -419,6 +439,31 @@ const ContractItem = (props: IContractItemProps) => {
     }
 
     /**
+     * Просмотр подробностей по резервированию продукции
+     * @param id Код записи
+     */
+    const handleClickReserveItem = (id: number) => {
+        history.push(`/store/reserved/${id}/`)
+    }
+
+    /**
+     * Удаление записи резерва продукции
+     * @param id Код записи
+     */
+    const handleDeleteReserveItem = (id: number) => {
+        confirm(
+            {
+                'title': DIALOG_TYPE_CONFIRM,
+                description: DIALOG_ASK_DELETE,
+                confirmationText: DIALOG_YES,
+                cancellationText: DIALOG_NO
+            }
+        ).then(() => {
+            dispatch(deleteContractReserveProduct(id))
+        })
+    }
+
+    /**
      * Возможность редактирования контракта
      */
     const canEditContract = () => {
@@ -471,6 +516,7 @@ const ContractItem = (props: IContractItemProps) => {
                                 <Tab label="Спецификации" {...a11yProps(PAGE_SPEC)} />
                                 <Tab label="График платежей" {...a11yProps(PAGE_WAIT_PAYMENT)} />
                                 <Tab label="Оплаты по контракту"  {...a11yProps(PAGE_PAYMENT)} />
+                                <Tab label="Резервирование"  {...a11yProps(PAGE_RESERVE)} />
                                 <Tab label="Дополнительно" {...a11yProps(PAGE_ADVANCE)} />
                             </Tabs>
                         </Paper>
@@ -758,6 +804,15 @@ const ContractItem = (props: IContractItemProps) => {
                                 contract={contractItem.id}
                                 items={contractItem.payments}
                                 onClickTableItem={handleClickTableItem}
+                            />
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_RESERVE}>
+                            <ContractReserveTable
+                                className={''}
+                                contract={contractItem.id}
+                                items={contractItem.reserveProducts}
+                                onDeleteTableItem={handleDeleteReserveItem}
+                                onClickTableItem={handleClickReserveItem}
                             />
                         </TabPanel>
                         <TabPanel value={tab} index={PAGE_ADVANCE}>
