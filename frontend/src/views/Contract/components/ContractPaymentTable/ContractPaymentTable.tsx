@@ -21,7 +21,7 @@ export interface IContractPaymentTableProps {
     className: string;
     contract: number;
     items: IPaymentContractItem[];
-    onClickTableItem: ( (id: number)=> void);
+    onClickTableItem: ((id: number) => void);
 }
 
 const useStyles = makeStyles(theme => ({
@@ -42,9 +42,7 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    },
+    tableRow: {},
     addButton: {
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(2),
@@ -54,9 +52,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-
 const ContractPaymentTable = (props: IContractPaymentTableProps) => {
-    const { className, items, contract, onClickTableItem, ...rest } = props
+    const {className, items, contract, onClickTableItem, ...rest} = props
     const classes = useStyles()
     const history = useHistory()
 
@@ -65,11 +62,11 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
      * @param items
      */
     function getSubTotalPayment(items: IPaymentContractItem[]) {
-        return items.map(({ value }) => value).reduce((sum, i) => sum + i, 0);
+        return items.map(({value}) => value).reduce((sum, i) => sum + i, 0);
     }
 
     /**
-     * Добавление нового сырья в рецептуру
+     * Добавление нового платежа
      */
     const handleAddNewPayment = () => {
         history.push(`/payments/new/?contractId=${contract}`)
@@ -98,7 +95,9 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
                                     className={classes.addButton}
                                     variant="contained"
                                     color="primary"
-                                    onClick={(event) => {handleAddNewPayment()}}>
+                                    onClick={(event) => {
+                                        handleAddNewPayment()
+                                    }}>
                                     Добавить оплату
                                 </Button>
                                 {
@@ -109,12 +108,19 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
                                             key={item.id}
                                         >
                                             <TableCell>
-                                                <Typography variant="body1">{moment(item.date).format('DD/MM/YYYY')}</Typography>
+                                                <Typography variant="body1">
+                                                    {moment(item.date).format('DD/MM/YYYY')}
+                                                </Typography>
                                             </TableCell>
                                             <TableCell>{item.num}</TableCell>
                                             <TableCell>{item.type}</TableCell>
-                                            <TableCell align="right">{item.value.toLocaleString('ru-RU')}</TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => onClickTableItem(item.id)}>Подробнее</Button></TableCell>
+                                            <TableCell align="right">
+                                                {item.value.toLocaleString('ru-RU')}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <Button variant="outlined" color="primary"
+                                                        onClick={event => onClickTableItem(item.id)}>Подробнее</Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 <TableRow>
@@ -122,7 +128,9 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
                                     <TableCell>
                                         <Typography variant="body1">Итого</Typography>
                                     </TableCell>
-                                    <TableCell align={'right'}>{getSubTotalPayment(items).toLocaleString('ru-RU')}</TableCell>
+                                    <TableCell align={'right'}>
+                                        {getSubTotalPayment(items).toLocaleString('ru-RU')}
+                                    </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
