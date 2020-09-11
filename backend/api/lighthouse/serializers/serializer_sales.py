@@ -4,6 +4,7 @@ from lighthouse.appmodels.sales import Client, Contract, ContractSpec, PaymentMe
 from .serializer_refs import TareSerializer
 from .serializer_product import ProductSerializer
 from .serializer_domain import EmployeeListSerializer
+from .serializer_reserve import ContractReservationListSerializer
 from .serializer_refs import MaterialSerializer
 from rest_framework import serializers
 
@@ -264,6 +265,7 @@ class ContractSerializer(serializers.ModelSerializer):
     waitPayments = ContractExpectedPaymentSerializer(many=True, source='expected_payment')
     deliveryTerms = serializers.CharField(source='delivery_terms', allow_blank=True, allow_null=True)
     employeeAccess = ContractManagerAccessSerializer(source='employee_access', many=True)
+    reserveProducts = ContractReservationListSerializer(source='contract_reserve_link', many=True)
 
     def create(self, validated_data):
         contract = Contract.objects.create(
@@ -428,7 +430,7 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = ('id', 'created', 'client', 'num', 'contractDate', 'contractState', 'comment', 'estDelivery',
                   'delivered', 'discount', 'contractId', 'agent', 'deliveryTerms', 'specs', 'payments', 'waitPayments',
-                  'employeeAccess')
+                  'employeeAccess', 'reserveProducts')
 
 
 class PaymentListSerializer(serializers.ModelSerializer):

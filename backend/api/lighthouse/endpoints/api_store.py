@@ -9,7 +9,8 @@ from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
 from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnoverSerializer, \
     StoreRawSerializer, StoreProductSerializer, RefCostSerializer, RefCostFlatSerializer, \
     ExpenseListSerializer, ExpenseSerializer, StoreJournalItemSerializer, \
-    StoreJournalSerializer,  StoreArrivalSerializer, ReservationSerializer, ReservationListSerializer
+    StoreJournalSerializer,  StoreArrivalSerializer, ReservationSerializer
+from lighthouse.serializers.serializer_reserve import ReservationListSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
 from lighthouse.serializers.serializer_product import StockSerializer
 from lighthouse.appmodels.store import Store, Reservation
@@ -274,7 +275,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
             queryset = Reservation.objects.\
                 filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today())
             if search:
-                queryset = queryset.filter(Q(id_material__name__icontains=search)| Q(id_contract__id_client__clientname__icontains=search))
+                queryset = queryset.filter(Q(id_material__name__icontains=search) | Q(id_contract__id_client__clientname__icontains=search))
             queryset = queryset.values(
                 'id', 'reserve_start', 'reserve_end', 'reserve_value', 'id_material__name', 'id_tare__v',
                 'id_tare__name', 'id_employee__fio', 'id_contract__id_client__clientname', 'id_contract__id')

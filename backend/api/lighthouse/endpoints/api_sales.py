@@ -16,7 +16,9 @@ from rest_framework.response import Response
 
 
 class ReturnsProduct(viewsets.ModelViewSet):
-
+    """
+    Возвраты продукции
+    """
     def get_serializer_class(self):
         if self.action == 'list':
             return ReturnsListSerializer
