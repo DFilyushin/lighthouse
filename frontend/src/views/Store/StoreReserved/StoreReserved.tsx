@@ -8,7 +8,7 @@ import { Color } from '@material-ui/lab/Alert';
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {deleteReserve, loadStoreReserveList} from "redux/actions/storeAction";
-import { ReactComponent as RawTrain } from 'images/train.svg';
+import LocalParkingIcon from '@material-ui/icons/LocalParking';
 import {
     DIALOG_ASK_DELETE,
     DIALOG_NO,
@@ -74,7 +74,7 @@ const StoreReserved = () => {
                 className={''}
                 title={'Резервирование продукции'}
                 onFind={onFindProductHandler}
-                icon={<RawTrain />}
+                icon={<LocalParkingIcon color={"primary"}/>}
                 onFindCaption={'Поиск по продукции или клиенту'}
             />
             <div className={classes.content}>
