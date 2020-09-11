@@ -2,6 +2,7 @@ import {IClientItem, nullClientItem} from "./client";
 import {IProduct, nullProduct} from "./product";
 import {ITare, nullTare} from "./tare";
 import {IEmployeeListItem, nullEmployeeItem} from "./employee";
+import {IStoreListReserveProduct} from "./store";
 
 /**
  * Статусы контрактов
@@ -105,7 +106,8 @@ export const nullContractItem: IContract = {
     specs: [],
     payments: [],
     waitPayments: [],
-    employeeAccess: []
+    employeeAccess: [],
+    reserveProducts: []
 };
 
 export const nullContractSpecItem : IContractSpecItem = {
@@ -187,6 +189,10 @@ export interface IContractSpecItem {
     returnCause: string|null;
 }
 
+
+/**
+ * Интерфейс контракта
+ */
 export interface IContract {
     /**
      * Код записи
@@ -256,6 +262,10 @@ export interface IContract {
      * Список сотрудников, которые могу просматривать контракт
      */
     employeeAccess: IContractManagerAccess[];
+    /**
+     * Резерв продукции по контракту
+     */
+    reserveProducts: IStoreListReserveProduct[];
 }
 
 export const ContractStateString = [

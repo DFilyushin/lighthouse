@@ -2,7 +2,6 @@ import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 import {ITare, nullTare} from "./tare";
 import {NO_SELECT_VALUE} from "../../utils/AppConst";
 import {IProductionList} from "./production";
-import {IContractListItemSimple, nullContractListItemSimple} from "./contract";
 
 export interface IStoreBase {
     id: number;
@@ -89,7 +88,9 @@ export const nullStoreItem: IStoreJournalItem = {
     factory: {id: 0, calcValue: 0, leaderName: '', prodFinish: '', prodStart: '', product: '', state: 0}
 }
 
-
+/**
+ * Список резерва продукции
+ */
 export interface IStoreListReserveProduct {
     id: number;
     start: string;
@@ -103,14 +104,42 @@ export interface IStoreListReserveProduct {
     contractId: number;
 }
 
+
+/**
+ * Резерв продукции
+ */
 export interface IStoreReserveProduct {
+    /**
+     * Код записи
+     */
     id: number;
+    /**
+     * Материал
+     */
     material: IMaterialItem;
+    /**
+     * Начало резерва
+     */
     start: string;
+    /**
+     * Окончание резерва
+     */
     end: string;
+    /**э
+     * Сотрудник, поставивший в резерв
+     */
     employee: IEmployeeListItem;
-    contract: IContractListItemSimple;
+    /**
+     * Резерв принадлежит контракту
+     */
+    contract: string;
+    /**
+     * Тара
+     */
     tare: ITare;
+    /**
+     * Объём
+     */
     value: number;
 }
 
@@ -120,7 +149,7 @@ export const nullStoreReserveProduct: IStoreReserveProduct = {
     start: '',
     end: '',
     employee: {...nullEmployeeItem},
-    contract: {...nullContractListItemSimple},
+    contract: '',
     tare: {...nullTare},
     value: 0
 }
