@@ -21,6 +21,8 @@ import {NEW_RECORD_VALUE} from "../../utils/AppConst";
 import AuthenticationService from "../../services/Authentication.service";
 import {getRandomInt, MAX_RANDOM_VALUE, RoundValue} from "../../utils/AppUtils";
 import {IEmployeeListItem} from "../../types/model/employee";
+import {deleteReserve} from "./storeAction";
+import {IStoreListReserveProduct} from "../../types/model/store";
 
 /**
  * Получить список контрактов
@@ -313,6 +315,20 @@ export function setContractStatus(newStatus: number) {
             dispatch(showInfoMessage('error', e.toString()))
             return Promise.reject()
         }
+    }
+}
+
+/**
+ * Удалить резерв продукции в контракте
+ * @param id Код резерва
+ */
+export function deleteContractReserveProduct(id: number) {
+    return async (dispatch: any, getState: any) => {
+        await dispatch(deleteReserve(id))
+        const contractItem = {...getState().contract.contractItem}
+        const index = contractItem.reserveProducts.findIndex((item:IStoreListReserveProduct)=> {return item.id === id})
+        contractItem.reserveProducts.splice(index, 1);
+        dispatch(fetchItemSuccess(contractItem));
     }
 }
 
