@@ -226,7 +226,9 @@ class ReservationListSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-
+    """
+    Резервирование продукции
+    """
     id = serializers.IntegerField(required=False)
     material = MaterialSerializer(source='id_material')
     start = serializers.DateField(source='reserve_start')
@@ -235,6 +237,32 @@ class ReservationSerializer(serializers.ModelSerializer):
     contract = ContractSimpleSerializer(source='id_contract')
     tare = TareSerializer(source='id_tare')
     value = serializers.FloatField(source='reserve_value')
+
+    def create(self, validated_data):
+        validated_data.pop('id')
+        id_material = validated_data.pop('id_material')['id']
+        id_employee = validated_data.pop('id_employee')['id']
+        id_contract = validated_data.pop('id_contract')['id']
+        id_tare = validated_data.pop('id_tare')['id']
+        instance = Reservation.objects.create(
+            **validated_data,
+            id_material_id=id_material,
+            id_employee_id=id_employee,
+            id_contract_id=id_contract,
+            id_tare_id=id_tare
+        )
+        return instance
+
+    def update(self, instance, validated_data):
+        instance.reserve_value = validated_data.get('reserve_value', instance.reserve_value)
+        instance.reserve_start = validated_data.get('reserve_start', instance.reserve_start)
+        instance.reserve_end = validated_data.get('reserve_end', instance.reserve_end)
+        instance.id_material_id = validated_data.get('id_material', instance.id_material)['id']
+        instance.id_contract_id = validated_data.get('id_contract', instance.id_contract)['id']
+        instance.id_employee_id = validated_data.get('id_employee', instance.id_employee)['id']
+        instance.id_tare_id = validated_data.get('id_tare', instance.id_tare)['id']
+        instance.save()
+        return instance
 
     class Meta:
         model = Reservation
