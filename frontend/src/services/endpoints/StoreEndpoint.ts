@@ -89,6 +89,30 @@ class StoreEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/store/in/raw/`
     }
 
+
+    /**
+     * Получить запись о резерве
+     * @param id Код резерва
+     */
+    static getReserveItem(id: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/reserve/${id}/`
+    }
+
+    /**
+     * Сохранить новый элемент резерва
+     */
+    static newReserveItem(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/reserve/`
+    }
+
+    /**
+     * Сохранить изменения в резерве
+     * @param id Код записи
+     */
+    static updateReserveItem(id: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/reserve/${id}/`
+    }
+
 }
 
 export default StoreEndpoint
