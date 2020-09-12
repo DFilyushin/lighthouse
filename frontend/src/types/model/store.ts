@@ -2,6 +2,7 @@ import {IEmployeeListItem, nullEmployeeItem} from "./employee";
 import {ITare, nullTare} from "./tare";
 import {NO_SELECT_VALUE} from "../../utils/AppConst";
 import {IProductionList} from "./production";
+import {IContractListItemSimple, nullContractListItemSimple} from "./contract";
 
 export interface IStoreBase {
     id: number;
@@ -132,7 +133,7 @@ export interface IStoreReserveProduct {
     /**
      * Резерв принадлежит контракту
      */
-    contract: string;
+    contract: IContractListItemSimple;
     /**
      * Тара
      */
@@ -149,7 +150,7 @@ export const nullStoreReserveProduct: IStoreReserveProduct = {
     start: '',
     end: '',
     employee: {...nullEmployeeItem},
-    contract: '',
+    contract: {...nullContractListItemSimple},
     tare: {...nullTare},
     value: 0
 }
