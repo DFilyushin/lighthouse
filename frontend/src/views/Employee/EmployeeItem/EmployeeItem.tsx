@@ -14,7 +14,7 @@ import {
     Paper,
     IconButton
 } from '@material-ui/core';
-import {useHistory} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {
@@ -88,12 +88,13 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const selectDialog = useDialog()
     const confirm = useConfirm()
 
-    const paramId = props.match.params.id;
-    const id = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
-    const employeeItem = useSelector((state: IStateInterface) => state.employee.employeeItem);
-    const staffItems = useSelector((state: IStateInterface) => state.staff.staffs);
-    const workTimeItems = useSelector((state: IStateInterface) => state.employee.workTimeItems);
-    const productItems = useSelector((state: IStateInterface) => state.product.products);
+    const paramId = props.match.params.id
+    const id = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId)
+    const employeeItem = useSelector((state: IStateInterface) => state.employee.employeeItem)
+    const staffItems = useSelector((state: IStateInterface) => state.staff.staffs)
+    const workTimeItems = useSelector((state: IStateInterface) => state.employee.workTimeItems)
+    const productItems = useSelector((state: IStateInterface) => state.product.products)
+    const notFoundEmployee = useSelector((state: IStateInterface) => state.employee.notFound)
 
     const [tab, setTab] = React.useState(PAGE_MAIN);
 
@@ -218,314 +219,322 @@ const EmployeeItem = (props: IEmployeeItem) => {
         );
     }
 
-    return (
-        <div className={classes.root}>
-            <Card
-                {...rest}
-                className={className}
-            >
-                <CardHeader
-                    subheader=""
-                    title="Личная карточка сотрудника"
-                />
-                <CardContent>
-                    <Paper className={classes.paper_bar}>
-                        <Tabs
-                            value={tab}
-                            onChange={handleTabChange}
-                            scrollButtons="on"
-                            indicatorColor="primary"
-                            textColor="primary"
-                            aria-label="scrollable force tabs example"
-                            centered
-                        >
-                            <Tab label="Основное" {...a11yProps(PAGE_MAIN)} />
-                            <Tab label="Смены"  {...a11yProps(PAGE_TIME)} />
-                            <Tab label="Прайс-лист"  {...a11yProps(PAGE_PRODUCTS)} />
-                        </Tabs>
-                    </Paper>
-                    <TabPanel value={tab} index={PAGE_MAIN}>
-                        <form
-                            autoComplete="off"
-                            onSubmit={saveHandler}
-                        >
+    if (notFoundEmployee){
+        return (
+            <div>
+                <Redirect to={'/NotFound'}/>
+            </div>
+        )
+    }else {
+        return (
+            <div className={classes.root}>
+                <Card
+                    {...rest}
+                    className={className}
+                >
+                    <CardHeader
+                        subheader=""
+                        title="Личная карточка сотрудника"
+                    />
+                    <CardContent>
+                        <Paper className={classes.paper_bar}>
+                            <Tabs
+                                value={tab}
+                                onChange={handleTabChange}
+                                scrollButtons="on"
+                                indicatorColor="primary"
+                                textColor="primary"
+                                aria-label="scrollable force tabs example"
+                                centered
+                            >
+                                <Tab label="Основное" {...a11yProps(PAGE_MAIN)} />
+                                <Tab label="Смены"  {...a11yProps(PAGE_TIME)} />
+                                <Tab label="Прайс-лист"  {...a11yProps(PAGE_PRODUCTS)} />
+                            </Tabs>
+                        </Paper>
+                        <TabPanel value={tab} index={PAGE_MAIN}>
+                            <form
+                                autoComplete="off"
+                                onSubmit={saveHandler}
+                            >
 
-                            <Divider/>
-                            <CardContent>
-                                <Grid
-                                    container
-                                    spacing={3}
-                                >
+                                <Divider/>
+                                <CardContent>
                                     <Grid
-                                        item
-                                        xs={2}
+                                        container
+                                        spacing={3}
                                     >
-                                        <TextField
-                                            fullWidth
-                                            label="Таб.номер"
-                                            margin="dense"
-                                            name="tabNum"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.tabNum}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={10}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Фамилия/Имя/Отчество сотрудника"
-                                            margin="dense"
-                                            name="fio"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.fio}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Paper elevation={0} className={classes.paper_root}>
+                                        <Grid
+                                            item
+                                            xs={2}
+                                        >
                                             <TextField
                                                 fullWidth
-                                                label="Должность"
+                                                label="Таб.номер"
                                                 margin="dense"
-                                                name="product"
+                                                name="tabNum"
                                                 onChange={handleChange}
                                                 required
-                                                value={employeeItem.staff.name}
+                                                value={employeeItem.tabNum}
                                                 variant="outlined"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
                                             />
-                                            <IconButton color="primary" className={classes.iconButton}
-                                                        aria-label="directions" onClick={handleChangeStaff}>
-                                                <MenuOpenIcon/>
-                                            </IconButton>
-                                        </Paper>
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        xs={3}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Дата рождения"
-                                            margin="dense"
-                                            name="dob"
-                                            onChange={handleChange}
-                                            required
-                                            type="date"
-                                            value={employeeItem.dob}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={4}
-                                        xs={3}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="ИИН"
-                                            margin="dense"
-                                            name="iin"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.iin}
-                                            variant="outlined"
-                                            inputProps={
-                                                {
-                                                    maxLength: 12,
-                                                }
-                                            }
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={6}
-                                        xs={6}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Контактный телефон"
-                                            margin="dense"
-                                            name="contactPhone"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.contactPhone}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={6}
-                                        xs={6}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Email"
-                                            margin="dense"
-                                            name="contactEmail"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.contactEmail}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={3}
-                                        xs={3}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Тип документа"
-                                            margin="dense"
-                                            name="docType"
-                                            onChange={handleChange}
-                                            required
-                                            select
-                                            // eslint-disable-next-line react/jsx-sort-props
-                                            SelectProps={{native: true}}
-                                            value={employeeItem.docType}
-                                            variant="outlined"
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={10}
                                         >
-                                            {docType.map(option => (
-                                                <option
-                                                    key={option.value}
-                                                    value={option.value}
-                                                >
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </TextField>
+                                            <TextField
+                                                fullWidth
+                                                label="Фамилия/Имя/Отчество сотрудника"
+                                                margin="dense"
+                                                name="fio"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.fio}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Paper elevation={0} className={classes.paper_root}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Должность"
+                                                    margin="dense"
+                                                    name="product"
+                                                    onChange={handleChange}
+                                                    required
+                                                    value={employeeItem.staff.name}
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                    }}
+                                                />
+                                                <IconButton color="primary" className={classes.iconButton}
+                                                            aria-label="directions" onClick={handleChangeStaff}>
+                                                    <MenuOpenIcon/>
+                                                </IconButton>
+                                            </Paper>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={3}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Дата рождения"
+                                                margin="dense"
+                                                name="dob"
+                                                onChange={handleChange}
+                                                required
+                                                type="date"
+                                                value={employeeItem.dob}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={4}
+                                            xs={3}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="ИИН"
+                                                margin="dense"
+                                                name="iin"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.iin}
+                                                variant="outlined"
+                                                inputProps={
+                                                    {
+                                                        maxLength: 12,
+                                                    }
+                                                }
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={6}
+                                            xs={6}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Контактный телефон"
+                                                margin="dense"
+                                                name="contactPhone"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.contactPhone}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={6}
+                                            xs={6}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Email"
+                                                margin="dense"
+                                                name="contactEmail"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.contactEmail}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={3}
+                                            xs={3}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Тип документа"
+                                                margin="dense"
+                                                name="docType"
+                                                onChange={handleChange}
+                                                required
+                                                select
+                                                // eslint-disable-next-line react/jsx-sort-props
+                                                SelectProps={{native: true}}
+                                                value={employeeItem.docType}
+                                                variant="outlined"
+                                            >
+                                                {docType.map(option => (
+                                                    <option
+                                                        key={option.value}
+                                                        value={option.value}
+                                                    >
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </TextField>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={3}
+                                            xs={3}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="№ документа"
+                                                margin="dense"
+                                                name="docNum"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.docNum}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={3}
+                                            xs={4}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Дата выдачи"
+                                                margin="dense"
+                                                name="docDate"
+                                                onChange={handleChange}
+                                                required
+                                                type="date"
+                                                value={employeeItem.docDate}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={3}
+                                            xs={4}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Выдан"
+                                                margin="dense"
+                                                name="docAuth"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.docAuth}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={12}
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Адрес регистрации"
+                                                margin="dense"
+                                                name="addrRegistration"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.addrRegistration}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={12}
+                                            xs={12}
+                                        >
+                                            <TextField
+                                                fullWidth
+                                                label="Адрес проживания"
+                                                margin="dense"
+                                                name="addrResidence"
+                                                onChange={handleChange}
+                                                required
+                                                value={employeeItem.addrResidence}
+                                                variant="outlined"
+                                            />
+                                        </Grid>
                                     </Grid>
-                                    <Grid
-                                        item
-                                        md={3}
-                                        xs={3}
+                                </CardContent>
+                                <Divider/>
+                                <CardActions>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        type={'submit'}
                                     >
-                                        <TextField
-                                            fullWidth
-                                            label="№ документа"
-                                            margin="dense"
-                                            name="docNum"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.docNum}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={3}
-                                        xs={4}
+                                        Сохранить
+                                    </Button>
+                                    <Button
+                                        color="default"
+                                        variant="contained"
+                                        onClick={(event => history.push('/org/employee/'))}
                                     >
-                                        <TextField
-                                            fullWidth
-                                            label="Дата выдачи"
-                                            margin="dense"
-                                            name="docDate"
-                                            onChange={handleChange}
-                                            required
-                                            type="date"
-                                            value={employeeItem.docDate}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={3}
-                                        xs={4}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Выдан"
-                                            margin="dense"
-                                            name="docAuth"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.docAuth}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={12}
-                                        xs={12}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Адрес регистрации"
-                                            margin="dense"
-                                            name="addrRegistration"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.addrRegistration}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid
-                                        item
-                                        md={12}
-                                        xs={12}
-                                    >
-                                        <TextField
-                                            fullWidth
-                                            label="Адрес проживания"
-                                            margin="dense"
-                                            name="addrResidence"
-                                            onChange={handleChange}
-                                            required
-                                            value={employeeItem.addrResidence}
-                                            variant="outlined"
-                                        />
-                                    </Grid>
-                                </Grid>
+                                        Отменить
+                                    </Button>
+                                </CardActions>
+                            </form>
+
+                        </TabPanel>
+                        <TabPanel value={tab} index={PAGE_TIME}>
+                            <CardContent>
+                                <WorkTimeToolbar className={''} onRefresh={handleRefresh}/>
+                                <WorkTimeTable className={''} timeItems={workTimeItems}/>
                             </CardContent>
-                            <Divider/>
-                            <CardActions>
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    type={'submit'}
-                                >
-                                    Сохранить
-                                </Button>
-                                <Button
-                                    color="default"
-                                    variant="contained"
-                                    onClick={(event => history.push('/org/employee/'))}
-                                >
-                                    Отменить
-                                </Button>
-                            </CardActions>
-                        </form>
+                        </TabPanel>
+                        <TabPanel index={PAGE_PRODUCTS} value={tab}>
+                            <EmployeeProducts
+                                className={''}
+                                items={employeeItem.empllink}
+                                onAddProduct={addProductItem}
+                                onDeleteProduct={deleteProduct}
+                            />
+                        </TabPanel>
 
-                    </TabPanel>
-                    <TabPanel value={tab} index={PAGE_TIME}>
-                        <CardContent>
-                            <WorkTimeToolbar className={''} onRefresh={handleRefresh}/>
-                            <WorkTimeTable className={''} timeItems={workTimeItems}/>
-                        </CardContent>
-                    </TabPanel>
-                    <TabPanel index={PAGE_PRODUCTS} value={tab}>
-                        <EmployeeProducts
-                            className={''}
-                            items={employeeItem.empllink}
-                            onAddProduct={addProductItem}
-                            onDeleteProduct={deleteProduct}
-                        />
-                    </TabPanel>
-
-                </CardContent>
-            </Card>
-        </div>
-    );
+                    </CardContent>
+                </Card>
+            </div>
+        )
+    }
 };
 
 export default EmployeeItem;

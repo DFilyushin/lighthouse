@@ -11,7 +11,7 @@ import {
     EMPLOYEE_CLEAR_ERROR,
     EMPLOYEE_LOAD_WORKTIME_SUCCESS,
     EMPLOYEE_LOAD_WITHOUT_LOGINS,
-    EMPLOYEE_CHANGE_FIRED
+    EMPLOYEE_CHANGE_FIRED, EMPLOYEE_SET_NOT_FOUND
 } from "./actions/types";
 
 const getInitState = () => ({
@@ -22,7 +22,8 @@ const getInitState = () => ({
     hasError: false,
     workTimeItems: [],
     employeeWithoutLogins: [],
-    showFired: false
+    showFired: false,
+    notFound: false
 });
 
 export const employeeReducer = (state: IEmployeeState = getInitState(), action: any) => {
@@ -49,6 +50,8 @@ export const employeeReducer = (state: IEmployeeState = getInitState(), action: 
             return {...state, employeeWithoutLogins: action.items}
         case EMPLOYEE_CHANGE_FIRED:
             return {...state, showFired: action.value}
+        case EMPLOYEE_SET_NOT_FOUND:
+            return {...state, notFound: action.value}
         default:
             return state;
     }

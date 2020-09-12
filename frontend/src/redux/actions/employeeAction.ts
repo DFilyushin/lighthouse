@@ -11,7 +11,7 @@ import {
     EMPLOYEE_LOAD_WORKTIME_SUCCESS,
     EMPLOYEE_SET_ERROR,
     EMPLOYEE_UPDATE_ITEM,
-    EMPLOYEE_CHANGE_FIRED
+    EMPLOYEE_CHANGE_FIRED, EMPLOYEE_SET_NOT_FOUND
 } from "./types"
 import authAxios from "../../services/axios-api"
 import {NEW_RECORD_VALUE} from "../../utils/AppConst"
@@ -117,6 +117,7 @@ export function loadEmployeeItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart())
         dispatch(hideInfoMessage());
+        dispatch(setNotFoundValue(false))
         if (id === NEW_RECORD_VALUE) {
             const item: IEmployee = {...nullEmployee}
             dispatch(fetchItemSuccess(item))
@@ -127,6 +128,9 @@ export function loadEmployeeItem(id: number) {
                 const item: IEmployee = response.data
                 dispatch(fetchItemSuccess(item))
             } catch (e) {
+                if (e.response.status === 404){
+                    dispatch(setNotFoundValue(true))
+                }
                 dispatch(showInfoMessage('error', e.toString()))
             }
         }
@@ -278,5 +282,12 @@ function fetchSuccess(items: IEmployeeListItem[]) {
     return{
         type: EMPLOYEE_LOAD_SUCCESS,
         items: items
+    }
+}
+
+function setNotFoundValue(value: boolean) {
+    return{
+        type: EMPLOYEE_SET_NOT_FOUND,
+        value
     }
 }

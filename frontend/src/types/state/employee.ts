@@ -9,5 +9,5 @@ export interface IEmployeeState {
     error: string;
     hasError: boolean;
     showFired: boolean;
-
+    notFound: boolean;
 }
