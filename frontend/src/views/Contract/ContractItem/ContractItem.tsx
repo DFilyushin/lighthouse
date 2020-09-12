@@ -20,7 +20,8 @@ import {
     Tooltip,
     Typography,
     MenuItem,
-    TextField
+    TextField,
+    useMediaQuery
 } from '@material-ui/core'
 import {useHistory} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
@@ -70,7 +71,11 @@ import {ContractSpecTable} from "../components/ContractSpec";
 import ContractSpecPanel from "../components/ContractSpecPanel";
 import ContractReserveTable from "../components/ContractReserveProduct/ContractReserveTable";
 import {useConfirm} from "material-ui-confirm";
-import {deleteReserve} from "../../../redux/actions/storeAction";
+import DialogContent from "@material-ui/core/DialogContent";
+import {ReserveItem} from "../../index";
+import Dialog, {DialogProps} from '@material-ui/core/Dialog';
+import {useTheme} from '@material-ui/core/styles';
+import {addNewReserveByContractSpecPosition} from "../../../redux/actions/storeAction";
 
 interface IContractItemProps extends RouteComponentProps {
     className: string,
@@ -129,6 +134,7 @@ const useStyles = makeStyles((theme) => ({
 
 //FIXME Выделить компонент "Таблица спецификации"
 //FIXME Упростить компонент, разбить на более мелкие
+//FIXME После добавления резерва продукции обновлять список Продукция в резерве
 
 const ContractItem = (props: IContractItemProps) => {
     const confirm = useConfirm()
@@ -141,6 +147,12 @@ const ContractItem = (props: IContractItemProps) => {
     const query = new URLSearchParams(props.location.search);
     const querySource = query.get('source') || 'contract'
     const querySourceId = query.get('id')
+
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
+    const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('md');
+
 
     const [tab, setTab] = React.useState(PAGE_MAIN);
     const [specNum, setSpecNum] = React.useState('1')
@@ -171,7 +183,6 @@ const ContractItem = (props: IContractItemProps) => {
             value = event.target.value;
         }
         const item = {...contractItem, [event.target.name]: value};
-
         dispatch(changeContractItem(item))
     };
 
@@ -193,6 +204,15 @@ const ContractItem = (props: IContractItemProps) => {
      */
     function onChangeSpecItem(item: IContractSpecItem) {
         dispatch(changeContractSpecItem(item))
+    }
+
+    /**
+     * Резервировать элемент
+     * @param id
+     */
+    function onReserveSpecItem(id: number) {
+        dispatch(addNewReserveByContractSpecPosition(id))
+        setOpen(true)
     }
 
     /**
@@ -241,7 +261,6 @@ const ContractItem = (props: IContractItemProps) => {
         setDeliveryError(!checkDateDelivery)
         setSpecError(!checkSpec)
         const result = checkClient && checkDateDelivery && checkSpec
-        console.log(contractItem.estDelivery, checkSpec)
         return result
     }
 
@@ -350,10 +369,6 @@ const ContractItem = (props: IContractItemProps) => {
         dispatch(setContractStatus(CONTRACT_STATE_READY))
     }
 
-    function getStateName(state: number) {
-        return ContractStateString[state]
-    }
-
     function getAvailableOperations(state: number) {
         const operations: ReactNode[] = []
         if (state === CONTRACT_STATE_DRAFT) {
@@ -391,6 +406,10 @@ const ContractItem = (props: IContractItemProps) => {
             url = `/return/`
         }
         history.push(url)
+    }
+
+    const handleCloseDialog = (event: SyntheticEvent) => {
+        setOpen(false)
     }
 
     const handleCloseMenu = () => {
@@ -482,7 +501,7 @@ const ContractItem = (props: IContractItemProps) => {
                     onSubmit={saveHandler}
                 >
                     <CardHeader
-                        subheader={getStateName(contractItem.contractState)}
+                        subheader={ContractStateString[contractItem.contractState]}
                         title="Контракт"
                         action={
                             <IconButton aria-label="settings" aria-controls="simple-menu"
@@ -782,6 +801,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                     items={contractItem.specs.filter(item => item.specNum === (specNum))}
                                                     onDeleteSpecItem={onDeleteSpecItem}
                                                     onChangeSpecItem={onChangeSpecItem}
+                                                    onReserveItem={onReserveSpecItem}
                                                     products={products}
                                                     tares={tares}
                                                 />
@@ -871,8 +891,17 @@ const ContractItem = (props: IContractItemProps) => {
                 </form>
             </Card>
 
-
-
+            <Dialog
+                fullWidth={true}
+                maxWidth={maxWidth}
+                open={open}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogContent>
+                    <ReserveItem className={''} match={''} dialogStyle={false} history={rest.match}
+                                 location={rest.match.location} closeHandle={handleCloseDialog} />
+                </DialogContent>
+            </Dialog>
 
 
         </div>

@@ -22,6 +22,7 @@ interface IContractSpec {
     items: IContractSpecItem[];
     onDeleteSpecItem: ((id: number) => void);
     onChangeSpecItem: ((item: IContractSpecItem) => void);
+    onReserveItem: ((id: number) => void);
     products: IPrice[];
     tares: ITare[];
 }
@@ -29,7 +30,7 @@ interface IContractSpec {
 
 const ContractSpecTable = (props: IContractSpec) => {
     const {
-        canEditContract, classes, showDeliveryBlock,
+        canEditContract, classes, showDeliveryBlock, onReserveItem,
         items, onDeleteSpecItem, tares, products, onChangeSpecItem
     } = props
 
@@ -87,7 +88,6 @@ const ContractSpecTable = (props: IContractSpec) => {
                         </Hidden>
                         }
                         <TableCell/>
-                        <TableCell/>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -101,6 +101,7 @@ const ContractSpecTable = (props: IContractSpec) => {
                                 onDeleteItem={onDeleteSpecItem}
                                 onChangeItem={onChangeSpecItem}
                                 onReturnItem={onReturnItem}
+                                onReserveItem={onReserveItem}
                                 productItems={products}
                                 tareItems={tares}
                                 canEditItem={canEditContract}

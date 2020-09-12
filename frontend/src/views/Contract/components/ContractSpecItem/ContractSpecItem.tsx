@@ -12,6 +12,7 @@ import {
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import WarningIcon from '@material-ui/icons/Warning';
 import Rotate90DegreesCcwIcon from '@material-ui/icons/Rotate90DegreesCcw';
+import LocalParkingIcon from '@material-ui/icons/LocalParking';
 import {makeStyles} from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {useDialog} from "../../../../components/SelectDialog";
@@ -23,9 +24,10 @@ interface IContractSpecItemProps {
     className: string;
     match: any;
     item: IContractSpecItem;
-    onDeleteItem: ( (id: number)=> void);
-    onChangeItem: ( (item: IContractSpecItem)=> void);
-    onReturnItem: ( (id: number)=> void);
+    onDeleteItem: ((id: number) => void);
+    onChangeItem: ((item: IContractSpecItem) => void);
+    onReturnItem: ((id: number) => void);
+    onReserveItem: ((id: number) => void);
     productItems: IPrice[];
     tareItems: ITare[];
     canEditItem: boolean;
@@ -65,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ContractSpecItem = (props: IContractSpecItemProps) => {
-    const {item, onDeleteItem, onChangeItem, onReturnItem, productItems, tareItems, canEditItem, showDeliveryBlock} = props;
+    const {item, onDeleteItem, onChangeItem, onReturnItem, productItems, tareItems,
+        onReserveItem, canEditItem, showDeliveryBlock} = props;
 
     const classes = useStyles();
     const selectDialog = useDialog();
@@ -279,22 +282,25 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
             }
             {
                 canEditItem &&
-                <TableCell>
+                <TableCell align={"right"}>
+                    <Tooltip title={'Поставить продукцию в резерв'}>
+                        <IconButton color="primary" aria-label="delete" onClick={event => onReserveItem(item.id)}>
+                            <LocalParkingIcon fontSize="small"/>
+                        </IconButton>
+                    </Tooltip>
+
                     <Tooltip title={'Возврат продукции'}>
                         <IconButton color="primary" aria-label="delete" onClick={event => onReturnItem(item.id)}>
                             <Rotate90DegreesCcwIcon fontSize="small"/>
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title={'Удалить запись'}>
+                        <IconButton color="secondary" aria-label="delete" onClick={event => onDeleteItem(item.id)}>
+                            <DeleteIcon fontSize="small"/>
+                        </IconButton>
+                    </Tooltip>
                 </TableCell>
-            }
-            {canEditItem &&
-            <TableCell>
-                <Tooltip title={'Удалить запись'}>
-                    <IconButton color="secondary" aria-label="delete" onClick={event => onDeleteItem(item.id)}>
-                        <DeleteIcon fontSize="small"/>
-                    </IconButton>
-                </Tooltip>
-            </TableCell>
+
             }
         </TableRow>
     )
