@@ -6,7 +6,8 @@ import {
     IStoreMaterialItem,
     IStoreNewMovement,
     IStoreProduct,
-    IStoreRaw
+    IStoreRaw,
+    IStoreReserveProduct
 } from "../../types/model/store"
 import {
     STORE_CLEAR_ERROR,
@@ -22,15 +23,19 @@ import {
     STORE_NEW_MOVEMENT_ITEM,
     STORE_ITEM_MOVEMENT_DELETE,
     STORE_ITEM_MOVEMENT_CHANGE,
-    STORE_RESERVE_LOAD_SUCCESS
+    STORE_RESERVE_LOAD_SUCCESS,
+    STORE_RESERVE_NEW_ITEM,
+    STORE_RESERVE_LOAD_ITEM_SUCCESS,
+    STORE_RESERVE_CHANGE_ITEM
 } from "./types"
 import CostEndpoint from "services/endpoints/CostEndpoint"
 import {nullEmployeeItem} from "../../types/model/employee"
-import {getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils"
+import {addDays, getRandomInt, MAX_RANDOM_VALUE} from "../../utils/AppUtils"
 import {nullTare} from "../../types/model/tare"
 import AuthenticationService from "../../services/Authentication.service"
 import {showInfoMessage} from "./infoAction"
 import authAxios from "../../services/axios-api";
+import {IContract} from "../../types/model/contract";
 
 
 /**
@@ -395,5 +400,116 @@ export function saveRawMovement() {
             return Promise.reject()
         }
 
+    }
+}
+
+/**
+ * Загрузить запись о резерве продукции
+ * @param id
+ */
+export function getReserveItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const url = StoreEndpoint.getReserveItem(id)
+        try {
+            const response = await authAxios.get(url)
+            dispatch(fetchReserveItem(response.data))
+        } catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+}
+
+function fetchReserveItem(item: IStoreReserveProduct) {
+    return{
+        type: STORE_RESERVE_LOAD_ITEM_SUCCESS,
+        item
+    }
+}
+
+/**
+ * Добавить новый элемент резерва
+ * @param id Код спецификации в контракте
+ */
+export function addNewReserveByContractSpecPosition(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const contractItem: IContract = {...getState().contract.contractItem}
+        const daysReserveInterval: number = getState().setup.reserveInterval
+        console.log(daysReserveInterval)
+        const specIndex = contractItem.specs.findIndex(item => item.id === id)
+        const specItem = contractItem.specs[specIndex]
+        const currentDate = (new Date()).toISOString().slice(0, 10)
+        const reserveItem: IStoreReserveProduct = {
+            id: 0,
+            value: specItem.itemCount,
+            tare: specItem.tare,
+            contract: {
+                id: contractItem.id,
+                client: contractItem.client.clientName,
+                date: contractItem.contractDate,
+                num: contractItem.num
+            },
+            employee: {
+                id: AuthenticationService.currentEmployeeId(),
+                fio: AuthenticationService.currentEmployee(),
+                staff: '',
+                tabNum: '',
+                fired: ''
+            },
+            start: currentDate,
+            end: addDays(currentDate, daysReserveInterval).toISOString().slice(0, 10),
+            material: specItem.product
+        }
+        dispatch(fetchNewReserveItem(reserveItem))
+    }
+}
+
+/**
+ * Сохранить новый элемент резерва
+ */
+export function addReserveItem() {
+    return async (dispatch: any, getState: any)=> {
+        const newItem = {...getState().store.storeReserveItem}
+        const url = StoreEndpoint.newReserveItem()
+        try {
+            await authAxios.post(url, newItem)
+        }catch (e) {
+            console.log('Error add new reserve item. Error message: ', e.response)
+            throw e
+        }
+    }
+}
+
+/**
+ * Обновить элемент резерва
+ */
+export function updateReserveItem() {
+    return async (dispatch: any, getState: any)=> {
+        const newItem = {...getState().store.storeReserveItem}
+        const url = StoreEndpoint.updateReserveItem(newItem.id)
+        try {
+            await authAxios.put(url, newItem)
+        }catch (e) {
+            console.log('Error update reserve item. Error message: ', e.response)
+            throw e
+        }
+    }
+}
+
+function fetchNewReserveItem(item: IStoreReserveProduct) {
+    return{
+        type: STORE_RESERVE_NEW_ITEM,
+        item
+    }
+}
+
+
+/**
+ * Изменение элемента резерва
+ * @param item
+ */
+export function changeReserveItem(item: IStoreReserveProduct) {
+    return{
+        type: STORE_RESERVE_CHANGE_ITEM,
+        item: item
     }
 }

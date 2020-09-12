@@ -16,7 +16,7 @@ import {
     STORE_SET_DATE_RAW_STORE,
     STORE_SET_ERROR,
     STORE_RESERVE_LOAD_SUCCESS,
-    STORE_RESERVE_ITEM_LOAD_SUCCESS
+    STORE_RESERVE_ITEM_LOAD_SUCCESS, STORE_RESERVE_NEW_ITEM, STORE_RESERVE_LOAD_ITEM_SUCCESS, STORE_RESERVE_CHANGE_ITEM
 } from "./actions/types";
 import {nullStoreItem, nullStoreReserveProduct} from "../types/model/store";
 import {nullEmployeeItem} from "../types/model/employee";
@@ -76,6 +76,12 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, storeReserveItem: action.item}
         case STORE_RESERVE_LOAD_SUCCESS:
             return {...state, storeReservedList: action.items}
+        case STORE_RESERVE_NEW_ITEM:
+            return {...state, storeReserveItem: action.item}
+        case STORE_RESERVE_LOAD_ITEM_SUCCESS:
+            return {...state, storeReserveItem: action.item}
+        case STORE_RESERVE_CHANGE_ITEM:
+            return {...state, storeReserveItem: action.item}
         default:
             return state
     }
