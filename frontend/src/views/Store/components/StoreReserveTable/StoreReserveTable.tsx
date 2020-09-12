@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {
     Card,
     CardActions,
@@ -38,12 +38,10 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    }
+    tableRow: {}
 }));
 
-interface IStoreReserveTableProps{
+interface IStoreReserveTableProps {
     className: string,
     store: IStoreListReserveProduct[],
     onClickItem: any,
@@ -52,14 +50,14 @@ interface IStoreReserveTableProps{
 
 
 const StoreReserveTable = (props: IStoreReserveTableProps) => {
-    const { className, store, onClickItem, onDeleteItem, ...rest } = props;
+    const {className, store, onClickItem, onDeleteItem, ...rest} = props;
     const classes = useStyles();
 
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [page, setPage] = useState<number>(0);
 
 
-    const handlePageChange = (event:any, page: number) => {
+    const handlePageChange = (event: any, page: number) => {
         setPage(page);
     };
 
@@ -116,10 +114,12 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                             key={item.id}
                                         >
                                             <TableCell>
-                                                <Typography variant="body1">{moment(item.start).format('DD/MM/YYYY')}</Typography>
+                                                <Typography
+                                                    variant="body1">{moment(item.start).format('DD/MM/YYYY')}</Typography>
                                             </TableCell>
                                             <TableCell>
-                                                <Typography variant="body1">{moment(item.end).format('DD/MM/YYYY')}</Typography>
+                                                <Typography
+                                                    variant="body1">{moment(item.end).format('DD/MM/YYYY')}</Typography>
                                             </TableCell>
                                             <TableCell>{item.material}</TableCell>
                                             <TableCell>{item.tare}</TableCell>
@@ -130,12 +130,15 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                             <TableCell align="right"><Button
                                                 variant="contained"
                                                 color="secondary"
-                                                startIcon={<DeleteIcon />}
+                                                startIcon={<DeleteIcon/>}
                                                 onClick={event => deleteReserveHandler(item.id)}
                                             >
                                                 Удалить
                                             </Button></TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.contractId)}>Контракт</Button></TableCell>
+                                            <TableCell align="right">
+                                                <Button variant="outlined" color="primary"
+                                                        onClick={event => cellClicked(item.id)}>Подробнее</Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
@@ -153,7 +156,7 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
-                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+                    labelDisplayedRows={({from, to, count}) => `${from}-${to} из ${count}`}
                 />
             </CardActions>
         </Card>
