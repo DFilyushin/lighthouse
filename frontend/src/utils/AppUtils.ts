@@ -73,3 +73,14 @@ export function makeRandomString(length: number) {
     }
     return result;
 }
+
+/**
+ * Добавление к дате дней
+ * @param date Дата в строковом формате
+ * @param days Число дней
+ */
+export function addDays(date: string, days: number) {
+    let result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
