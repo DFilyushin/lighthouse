@@ -8,4 +8,5 @@ export interface IContractState {
     error: string;
     hasError: boolean;
     showOwnContract: boolean;
+    contractNotFound: boolean;
 }

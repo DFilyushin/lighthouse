@@ -13,7 +13,9 @@ import {
     CONTRACT_LOAD_SUCCESS,
     CONTRACT_CHANGE_ITEM,
     CONTRACT_SET_ERROR,
-    CONTRACT_LOAD_ACTIVE_CONTRACTS, CONTRACT_SHOW_OWN_CONTRACT_STATE
+    CONTRACT_LOAD_ACTIVE_CONTRACTS,
+    CONTRACT_SHOW_OWN_CONTRACT_STATE,
+    CONTRACT_SET_NOT_FOUND
 } from "./types";
 import ContractEndpoint, {UNDEFINED_AGENT} from "services/endpoints/ContractEndpoint";
 import authAxios from "../../services/axios-api";
@@ -34,6 +36,7 @@ export function loadContractList(state: number, onlyOwnContract: boolean, search
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
+        dispatch(setContractNotFound(false))
         const agentId = onlyOwnContract ? AuthenticationService.currentEmployeeId() : UNDEFINED_AGENT
         try {
             const url = ContractEndpoint.getContractList(state, agentId, search);
@@ -116,6 +119,7 @@ export function loadContractItem(id: number, func0?: any) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
+        dispatch(setContractNotFound(false))
         if (id===NEW_RECORD_VALUE){
             const item = {...nullContractItem,
                 'agent': {
@@ -138,6 +142,9 @@ export function loadContractItem(id: number, func0?: any) {
                 if (func0) {func0(item)}
                 dispatch(fetchItemSuccess(item))
             } catch (e) {
+                if (e.response.status === 404) {
+                    dispatch(setContractNotFound(true))
+                }
                 dispatch(showInfoMessage('error', e.toString()))
             }
         }
@@ -432,5 +439,12 @@ function saveError(error: string) {
     return{
         type: CONTRACT_SET_ERROR,
         error
+    }
+}
+
+function setContractNotFound(value: boolean) {
+    return{
+        type: CONTRACT_SET_NOT_FOUND,
+        value
     }
 }
