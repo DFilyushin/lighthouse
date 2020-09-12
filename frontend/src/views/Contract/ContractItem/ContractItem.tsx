@@ -20,8 +20,7 @@ import {
     Tooltip,
     Typography,
     MenuItem,
-    TextField,
-    useMediaQuery
+    TextField
 } from '@material-ui/core'
 import {useHistory} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
@@ -74,7 +73,6 @@ import {useConfirm} from "material-ui-confirm";
 import DialogContent from "@material-ui/core/DialogContent";
 import {ReserveItem} from "../../index";
 import Dialog, {DialogProps} from '@material-ui/core/Dialog';
-import {useTheme} from '@material-ui/core/styles';
 import {addNewReserveByContractSpecPosition} from "../../../redux/actions/storeAction";
 
 interface IContractItemProps extends RouteComponentProps {
@@ -149,8 +147,6 @@ const ContractItem = (props: IContractItemProps) => {
     const querySourceId = query.get('id')
 
     const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
     const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('md');
 
 
