@@ -10,6 +10,7 @@ import {AccessGroups, DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_
 import {CONTRACT_STATE_ACTIVE, CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
 import {useConfirm} from "material-ui-confirm";
 import AuthenticationService from "../../../services/Authentication.service";
+import {getSetupReserveInterval} from "../../../redux/actions/setupAction";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,6 +36,7 @@ const ContractList = () => {
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus, showOnlyOwnContract))
+        dispatch(getSetupReserveInterval())
     }, [dispatch, contractStatus, showOnlyOwnContract]);
 
     function onClickTableItem(contractId: number){
