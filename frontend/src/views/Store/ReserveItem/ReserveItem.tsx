@@ -16,7 +16,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {addReserveItem, changeReserveItem, getReserveItem, updateReserveItem} from "redux/actions/storeAction";
 import {NEW_RECORD_VALUE} from "utils/AppConst";
 import {RouteComponentProps} from "react-router";
-import {getSetupReserveInterval} from "../../../redux/actions/setupAction";
 
 interface IStoreItemProps extends RouteComponentProps{
     className: string;

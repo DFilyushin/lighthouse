@@ -42,9 +42,12 @@ import {
     updateContract
 } from "redux/actions/contractAction"
 import {
-    CONTRACT_STATE_ACTIVE, CONTRACT_STATE_DRAFT, CONTRACT_STATE_READY, ContractStateString, IContractSpecItem
+    CONTRACT_STATE_ACTIVE,
+    CONTRACT_STATE_DRAFT,
+    CONTRACT_STATE_READY,
+    ContractStateString,
+    IContractSpecItem
 } from "types/model/contract"
-import {KeyboardDatePicker} from '@material-ui/pickers'
 import {IClientItemList, nullClientItem} from "types/model/client"
 import {Autocomplete} from "@material-ui/lab"
 import {searchClients} from "redux/actions/clientAction"
@@ -648,35 +651,35 @@ const ContractItem = (props: IContractItemProps) => {
                                                 </Grid>
                                                 <Grid item xs={5} md={5}/>
                                                 <Grid item md={2} xs={2}>
-                                                    <KeyboardDatePicker
-                                                        className=''
-                                                        inputVariant="outlined"
-                                                        id="dp_contractdate"
+                                                    <TextField
+                                                        fullWidth
+                                                        id="outlined-multiline-flexible"
                                                         label="Дата контракта"
-                                                        format="dd/MM/yyyy"
+                                                        type={"date"}
                                                         margin="dense"
                                                         name="contractDate"
-                                                        value={contractItem?.contractDate || null}
-                                                        onChange={handleContractDateChange}
-                                                        invalidDateMessage={INVALID_DATE_FORMAT}
-                                                        TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                                        value={contractItem.contractDate}
+                                                        onChange={handleChange}
+                                                        variant="outlined"
+                                                        InputProps={{
+                                                            readOnly: !canEditContract(),
+                                                        }}
                                                     />
                                                 </Grid>
                                                 <Grid item md={2} xs={2}>
-                                                    <KeyboardDatePicker
-                                                        className=''
-                                                        inputVariant="outlined"
-                                                        id="estdelivery"
+                                                    <TextField
+                                                        fullWidth
+                                                        id="outlined-multiline-flexible"
                                                         label="Дата поставки"
-                                                        format="dd/MM/yyyy"
+                                                        type={"date"}
                                                         margin="dense"
-                                                        name="estdelivery"
-                                                        value={contractItem.estDelivery || null}
-                                                        onChange={handleEstDeliveryDateChange}
-                                                        invalidDateMessage={INVALID_DATE_FORMAT}
-                                                        helperText={hasDeliveryError ? "Обязательное поле" : ""}
-                                                        error={hasDeliveryError}
-                                                        TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                                        name="estDelivery"
+                                                        value={contractItem.estDelivery}
+                                                        onChange={handleChange}
+                                                        variant="outlined"
+                                                        InputProps={{
+                                                            readOnly: !canEditContract(),
+                                                        }}
                                                     />
                                                 </Grid>
                                                 <Grid
@@ -684,18 +687,19 @@ const ContractItem = (props: IContractItemProps) => {
                                                     md={2}
                                                     xs={2}
                                                 >
-                                                    <KeyboardDatePicker
-                                                        className=''
-                                                        inputVariant="outlined"
-                                                        id="dp_contractdate"
+                                                    <TextField
+                                                        fullWidth
+                                                        id="outlined-multiline-flexible"
                                                         label="Отгружено"
-                                                        format="dd/MM/yyyy"
+                                                        type={"date"}
                                                         margin="dense"
                                                         name="delivered"
-                                                        value={contractItem.delivered || null}
-                                                        onChange={handleDeliveredDateChange}
-                                                        invalidDateMessage={INVALID_DATE_FORMAT}
-                                                        TextFieldComponent={!canEditContract() ? TextFieldReadOnlyComponent : TextField}
+                                                        value={contractItem.delivered}
+                                                        onChange={handleChange}
+                                                        variant="outlined"
+                                                        InputProps={{
+                                                            readOnly: !canEditContract(),
+                                                        }}
                                                     />
                                                 </Grid>
                                                 <Grid item
