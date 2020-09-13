@@ -55,7 +55,6 @@ import {
     DIALOG_ASK_DELETE, DIALOG_NO,
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES,
-    INVALID_DATE_FORMAT,
     NEW_RECORD_VALUE
 } from "../../../utils/AppConst"
 import TabPanel from "../../Production/components/TabPanel"
@@ -65,7 +64,6 @@ import {getSetupNdsRate} from "../../../redux/actions/setupAction";
 import {loadTare} from "../../../redux/actions/tareAction";
 import {loadActualPriceListByEmployee} from "../../../redux/actions/priceAction";
 import {showInfoMessage} from "../../../redux/actions/infoAction";
-import {TextFieldReadOnlyComponent} from "../../../components";
 import AuthenticationService from "../../../services/Authentication.service";
 import ContractSkeletonLoading from "../components/ContractSkeletonLoading";
 import ContractAccessTable from "../components/ContractAccessList";
@@ -436,23 +434,6 @@ const ContractItem = (props: IContractItemProps) => {
         setShowDeliveryBlock(!showDeliveryBlock)
     }
 
-    const handleContractDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 10);
-        const item = {...contractItem, 'contractDate': strDate as string};
-        dispatch(changeContractItem(item))
-    }
-
-    const handleEstDeliveryDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 10);
-        const item = {...contractItem, 'estDelivery': strDate as string};
-        dispatch(changeContractItem(item))
-    };
-    const handleDeliveredDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 10);
-        const item = {...contractItem, 'delivered': strDate as string};
-        dispatch(changeContractItem(item))
-    };
-
     const handleClickTableItem = (id: number) => {
 
     }
@@ -496,7 +477,7 @@ const ContractItem = (props: IContractItemProps) => {
                 <Redirect to={'/NotFound'}/>
             </div>
         )
-    }else {
+    } else {
         return (
             <div className={classes.root}>
                 <Card
@@ -588,7 +569,6 @@ const ContractItem = (props: IContractItemProps) => {
                                                         )}
                                                     />
                                                 </Grid>
-
                                                 <Grid item md={2} xs={2}>
                                                     <TextField
                                                         fullWidth
@@ -680,6 +660,8 @@ const ContractItem = (props: IContractItemProps) => {
                                                         InputProps={{
                                                             readOnly: !canEditContract(),
                                                         }}
+                                                        helperText={hasDeliveryError ? "Обязательное поле" : ""}
+                                                        error={hasDeliveryError}
                                                     />
                                                 </Grid>
                                                 <Grid
@@ -706,7 +688,6 @@ const ContractItem = (props: IContractItemProps) => {
                                                       md={6}
                                                       xs={6}
                                                 >
-
                                                 </Grid>
                                                 <Grid item xs={12}>
                                                     <TextField
@@ -744,7 +725,6 @@ const ContractItem = (props: IContractItemProps) => {
                                                 </Grid>
                                             </Grid>
                                         </Fragment>)}
-
                             </TabPanel>
                             <TabPanel index={tab} value={PAGE_SPEC}>
                                 <Grid container spacing={2}>
