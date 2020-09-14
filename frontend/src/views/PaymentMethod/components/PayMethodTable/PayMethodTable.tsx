@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom'
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +13,7 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
+    Link,
     TablePagination,
     Button
 } from '@material-ui/core';
@@ -148,7 +149,9 @@ const PayMethodTable = (props: IPayMethodTableProps) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{item.name}</Typography>
+                                            <Link color="inherit" component={RouterLink} to={`/catalogs/paymethod/${item.id}/`}>
+                                                {item.name}
+                                            </Link>
                                         </TableCell>
                                         <TableCell align="right">
                                             <Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Открыть</Button>

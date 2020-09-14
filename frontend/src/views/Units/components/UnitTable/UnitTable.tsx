@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import { Link as RouterLink } from 'react-router-dom'
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {
     Card,
     CardActions,
@@ -12,8 +13,8 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
-    TablePagination
+    TablePagination,
+    Link
 } from '@material-ui/core';
 import {IUnit} from 'types/model/unit'
 import Button from "@material-ui/core/Button";
@@ -37,12 +38,10 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    }
+    tableRow: {}
 }));
 
-interface IUnitTable{
+interface IUnitTable {
     className: string,
     unitItems: IUnit[],
     onClickItem: any,
@@ -51,14 +50,14 @@ interface IUnitTable{
 
 
 const UnitTable = (props: IUnitTable) => {
-    const { className, unitItems, onClickItem, onChangeSelected, ...rest } = props;
+    const {className, unitItems, onClickItem, onChangeSelected, ...rest} = props;
     const classes = useStyles();
-    const [selectedItems, setSelectedItems] = useState<number[]> ([]);
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [page, setPage] = useState<number>(0);
 
-    const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement> ) => {
-        const { unitItems } = props;
+    const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {unitItems} = props;
 
         let selectedElements: number[];
 
@@ -71,7 +70,7 @@ const UnitTable = (props: IUnitTable) => {
         setSelectedItems(selectedElements);
     };
 
-    const handleSelectOne = (event:React.ChangeEvent<HTMLInputElement>, id:number) => {
+    const handleSelectOne = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
         const selectedIndex = selectedItems.indexOf(id);
         let newSelectedItems: number[] = [];
 
@@ -91,7 +90,7 @@ const UnitTable = (props: IUnitTable) => {
         setSelectedItems(newSelectedItems);
     };
 
-    const handlePageChange = (event:any, page: number) => {
+    const handlePageChange = (event: any, page: number) => {
         setPage(page);
     };
 
@@ -146,10 +145,17 @@ const UnitTable = (props: IUnitTable) => {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body1">{item.name}</Typography>
+                                            <Link
+                                                color="inherit"
+                                                component={RouterLink}
+                                                to={`/catalogs/units/${item.id}`}
+                                            >
+                                                {item.name}
+                                            </Link>
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Открыть</Button>
+                                            <Button variant="outlined" color="primary"
+                                                    onClick={event => cellClicked(item.id)}>Открыть</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -168,7 +174,7 @@ const UnitTable = (props: IUnitTable) => {
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
-                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+                    labelDisplayedRows={({from, to, count}) => `${from}-${to} из ${count}`}
                 />
             </CardActions>
         </Card>
