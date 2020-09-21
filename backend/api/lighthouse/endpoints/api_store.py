@@ -273,7 +273,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             search = self.request.GET.get('search', None)
             queryset = Reservation.objects.\
-                filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today())
+                filter(reserve_end__gte=datetime.today(), reserve_start__lte=datetime.today(), id_contract__deleted=False)
             if search:
                 queryset = queryset.filter(Q(id_material__name__icontains=search) | Q(id_contract__id_client__clientname__icontains=search))
             queryset = queryset.values(
