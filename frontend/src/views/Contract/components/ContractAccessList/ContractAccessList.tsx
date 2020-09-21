@@ -50,9 +50,7 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    },
+    tableRow: {},
     addButton: {
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(2),
@@ -62,14 +60,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-
 const ContractAccessTable = (props: IContractAccessTableProps) => {
-    const { className, items, contract, ...rest } = props
+    const {className, items, contract, ...rest} = props
     const classes = useStyles()
     const dispatch = useDispatch()
     const selectDialog = useDialog()
 
-    const employees = useSelector((state: IStateInterface)=> state.employee.employeeItems)
+    const employees = useSelector((state: IStateInterface) => state.employee.employeeItems)
 
     function onDeleteItem(id: number) {
         dispatch(deleteManagerAccessItem(id))
@@ -79,7 +76,7 @@ const ContractAccessTable = (props: IContractAccessTableProps) => {
         dispatch(changeManagerAccessItem(item))
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(loadEmployeeList())
     }, [dispatch])
 
@@ -97,7 +94,7 @@ const ContractAccessTable = (props: IContractAccessTableProps) => {
                 initKey: 0,
                 valueName: 'fio'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item: IEmployeeListItem = {id: value.id, fio: value.name, fired: '', tabNum: '', staff: ''}
                 dispatch(addNewManagerItem(item))
             }
@@ -124,13 +121,19 @@ const ContractAccessTable = (props: IContractAccessTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <Button
-                                    className={classes.addButton}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={(event) => {handleAddNewManager()}}>
-                                    Добавить менеджера
-                                </Button>
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <Button
+                                            className={classes.addButton}
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={(event) => {
+                                                handleAddNewManager()
+                                            }}>
+                                            Добавить менеджера
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                                 {
                                     items.map(item => (
                                         <ContractAccessItem
