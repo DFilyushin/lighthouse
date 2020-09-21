@@ -19,6 +19,7 @@ import {nullProduct} from "../types/model/product";
 
 const nullFormula: IFormulaItem = {
     id: 0,
+    created: '',
     product: {...nullProduct},
     calcAmount: 0,
     calcLosses: 0,
