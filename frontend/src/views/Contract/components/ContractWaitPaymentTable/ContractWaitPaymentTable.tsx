@@ -26,7 +26,7 @@ export interface IContractWaitPaymentTableProps {
     className: string;
     contract: number;
     items: IWaitPaymentContractItem[];
-    onClickTableItem: ( (id: number)=> void);
+    onClickTableItem: ((id: number) => void);
 }
 
 const useStyles = makeStyles(theme => ({
@@ -47,9 +47,7 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    },
+    tableRow: {},
     addButton: {
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(2),
@@ -59,9 +57,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-
 const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
-    const { className, items, contract, onClickTableItem, ...rest } = props
+    const {className, items, contract, onClickTableItem, ...rest} = props
     const classes = useStyles()
     const dispatch = useDispatch()
 
@@ -70,13 +67,13 @@ const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
      * @param items
      */
     function getSubTotalPayment(items: IWaitPaymentContractItem[]) {
-        return items.map(({ waitSum }) => waitSum).reduce((sum, i) => sum + i, 0);
+        return items.map(({waitSum}) => waitSum).reduce((sum, i) => sum + i, 0);
     }
 
     function onDeleteItem(id: number) {
         dispatch(deleteWaitPaymentItem(id))
     }
-    
+
     function onChangeItem(item: IWaitPaymentContractItem) {
         dispatch(changePaymentWaitItem(item))
     }
@@ -105,19 +102,25 @@ const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <Button
-                                    className={classes.addButton}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={(event) => {handleAddNewPayment()}}>
-                                    Добавить график
-                                </Button>
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <Button
+                                            className={classes.addButton}
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={(event) => {
+                                                handleAddNewPayment()
+                                            }}>
+                                            Добавить график
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                                 {
                                     items.map(item => (
-                                        <ContractWaitPaymentItem 
-                                            className={''} 
-                                            match={''} 
-                                            item={item} 
+                                        <ContractWaitPaymentItem
+                                            className={''}
+                                            match={''}
+                                            item={item}
                                             onDeleteItem={onDeleteItem}
                                             onChangeItem={onChangeItem}
                                         />
@@ -127,7 +130,8 @@ const ContractWaitPaymentTable = (props: IContractWaitPaymentTableProps) => {
                                     <TableCell>
                                         <Typography variant="body1">Итого</Typography>
                                     </TableCell>
-                                    <TableCell align={'right'}>{getSubTotalPayment(items).toLocaleString('ru-RU')}</TableCell>
+                                    <TableCell
+                                        align={'right'}>{getSubTotalPayment(items).toLocaleString('ru-RU')}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
