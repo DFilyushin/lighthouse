@@ -399,7 +399,7 @@ const ContractItem = (props: IContractItemProps) => {
         if (querySource === 'client' && querySourceId) {
             url = `/client/${querySourceId}`
         } else if (querySource === 'reserved') {
-            url = `/store/reserved/`
+            url = `/store/reserved/${querySourceId}`
         } else if (querySource === 'return') {
             url = `/return/`
         }
@@ -438,6 +438,13 @@ const ContractItem = (props: IContractItemProps) => {
 
     }
 
+    /**
+     * Переход к контракту
+     * @param id Код контракта
+     */
+    const handleClickPaymentTableItem = (id: number) => {
+        history.push(`/payments/${id}/?source=contract&id=${contractId}`)
+    }
     /**
      * Просмотр подробностей по резервированию продукции
      * @param id Код записи
@@ -649,17 +656,16 @@ const ContractItem = (props: IContractItemProps) => {
                                                 <Grid item md={2} xs={2}>
                                                     <TextField
                                                         fullWidth
-                                                        id="outlined-multiline-flexible"
+                                                        id="estDelivery"
                                                         label="Дата поставки"
                                                         type={"date"}
                                                         margin="dense"
                                                         name="estDelivery"
                                                         value={contractItem.estDelivery}
                                                         onChange={handleChange}
+                                                        InputLabelProps={{ shrink: true }}
                                                         variant="outlined"
-                                                        InputProps={{
-                                                            readOnly: !canEditContract(),
-                                                        }}
+                                                        InputProps={{readOnly: !canEditContract(),}}
                                                         helperText={hasDeliveryError ? "Обязательное поле" : ""}
                                                         error={hasDeliveryError}
                                                     />
@@ -671,14 +677,15 @@ const ContractItem = (props: IContractItemProps) => {
                                                 >
                                                     <TextField
                                                         fullWidth
-                                                        id="outlined-multiline-flexible"
+                                                        id="delivered"
                                                         label="Отгружено"
                                                         type={"date"}
                                                         margin="dense"
                                                         name="delivered"
-                                                        value={contractItem.delivered}
+                                                        value={contractItem.delivered ? contractItem.delivered: ""}
                                                         onChange={handleChange}
                                                         variant="outlined"
+                                                        InputLabelProps={{ shrink: true }}
                                                         InputProps={{
                                                             readOnly: !canEditContract(),
                                                         }}
@@ -760,7 +767,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                         </Grid>
                                                         <Grid item xs={1}>
                                                             <Tooltip title={'Показать/скрыть раздельную доставку'}>
-                                                                <Fab className={classes.fab} color="primary"
+                                                                <Fab color="primary"
                                                                      aria-label="add"
                                                                      size="small"
                                                                      onClick={handleClickShowDelivery}
@@ -811,7 +818,7 @@ const ContractItem = (props: IContractItemProps) => {
                                     className={''}
                                     contract={contractItem.id}
                                     items={contractItem.payments}
-                                    onClickTableItem={handleClickTableItem}
+                                    onClickTableItem={handleClickPaymentTableItem}
                                 />
                             </TabPanel>
                             <TabPanel value={tab} index={PAGE_RESERVE}>
