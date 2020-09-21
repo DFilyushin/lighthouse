@@ -13,12 +13,14 @@ import {
     TableRow,
     Typography,
     TablePagination,
-    Button
+    Button,
+    Link
 } from '@material-ui/core';
 import {IStoreListReserveProduct} from "types/model/store";
 import moment from "moment";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {rowsPerPageArray} from "../../../../utils/AppConst";
+import {Link as RouterLink} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -126,7 +128,16 @@ const StoreReserveTable = (props: IStoreReserveTableProps) => {
                                             <TableCell>{item.value}</TableCell>
                                             <TableCell>{item.tareV * item.value}</TableCell>
                                             <TableCell>{item.employee}</TableCell>
-                                            <TableCell>{item.contract}</TableCell>
+                                            <TableCell>
+                                                <Link
+                                                    color="inherit"
+                                                    component={RouterLink}
+                                                    to={`/contracts/${item.contractId}/?source=reserved&id=${item.id}`}
+                                                    variant="h6"
+                                                >
+                                                    {item.contract}
+                                                </Link>
+                                            </TableCell>
                                             <TableCell align="right"><Button
                                                 variant="contained"
                                                 color="secondary"
