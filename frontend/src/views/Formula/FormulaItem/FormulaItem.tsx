@@ -15,6 +15,7 @@ import {
     Typography,
     IconButton
 } from '@material-ui/core';
+import moment from 'moment';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -308,7 +309,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                         <Grid container spacing={3}>
                             <Grid
                                 item
-                                xs={12}
+                                xs={10}
                             >
                                 <Paper elevation={0} className={classes.paper_root}>
                                     <TextField
@@ -329,6 +330,20 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     </IconButton>
                                 </Paper>
                             </Grid>
+                            {formulaId !== NEW_RECORD_VALUE &&
+                            <Grid
+                                item
+                                xs={2}
+                            >
+                                <TextField
+                                    label="Дата рассчёта"
+                                    margin="dense"
+                                    name="specification"
+                                    value={moment(formulaItem.created).format('DD/MM/YYYY')}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            }
                             <Grid
                                 item
                                 xs={3}
