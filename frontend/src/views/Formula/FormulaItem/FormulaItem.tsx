@@ -236,10 +236,13 @@ const FormulaItem = (props: IFormulaItemProps) => {
         const hasCalcAmount = formulaItem.calcAmount > 0
         const hasRawItems = formulaItem.raws.length > 0
         const hasIncorrectRawValues = formulaItem.raws.filter((item:IRawInFormula) => item.raw.id === 0).length === 0
+        const hasIncorrectRawUnits = formulaItem.raws.filter((item: IRawInFormula) => item.unit.id === 0).length === 0
+        const hasIncorrectRawCount = formulaItem.raws.filter((item: IRawInFormula) => item.raw_value === 0).length === 0
         setProductError(!hasProduct)
         setCountError(!hasCalcAmount)
-        setNoItemError(!hasRawItems || !hasIncorrectRawValues)
+        setNoItemError(!hasRawItems || !hasIncorrectRawValues || !hasIncorrectRawUnits || !hasIncorrectRawCount)
         return hasProduct && hasCalcAmount && hasRawItems && hasIncorrectRawValues
+            && hasIncorrectRawUnits && hasIncorrectRawCount
     }
 
     /**
@@ -435,7 +438,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
                             {hasNoItemsError &&
                                 <Grid item xs={12}>
                                     <Typography color={"error"}>
-                                        Рецептура должна содержать сырьё...
+                                        Рецептура должна содержать сырьё и должны быть указаны единицы измерения...
                                     </Typography>
                                 </Grid>
                             }
