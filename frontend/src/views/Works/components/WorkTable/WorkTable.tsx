@@ -13,7 +13,6 @@ import {
     TableCell,
     TableHead,
     TableRow,
-    Typography,
     TablePagination,
     Link
 } from '@material-ui/core';
