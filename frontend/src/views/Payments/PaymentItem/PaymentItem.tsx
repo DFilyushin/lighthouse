@@ -78,7 +78,6 @@ const PaymentItem = (props: IPaymentItemProps) => {
     const [hasLoad, setLoad] = useState <boolean>(false)
     const paymentItem  = useSelector((state: IStateInterface)=> state.payment.paymentItem)
     const payMethodItems = useSelector((state:IStateInterface)=> state.payMethod.payMethodItems)
-    //const hasError = useSelector((state: IStateInterface) => state.payment.hasError)
     const contracts = useSelector((state: IStateInterface)=> state.contract.activeContracts)
 
     const [dataSource, setDataSource] = useState<IContractListItemSimple[]>([])
@@ -105,6 +104,15 @@ const PaymentItem = (props: IPaymentItemProps) => {
         }
     })
 
+    const redirectClose = () => {
+        console.log('redirectClose')
+        if (querySource === CONTRACT_PATH_REDIRECT && querySourceId) {
+            history.push(`/contracts/${querySourceId}`)
+        }else{
+            history.push('/payments/')
+        }
+    }
+
     /**
      * Сохранить изменения
      * @param event
@@ -113,7 +121,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
         event.preventDefault()
         if (isValid()) {
             saveItem(dispatch).then(() => {
-                    history.push('/payments/')
+                    redirectClose()
                 }
             )
         }
@@ -124,11 +132,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
      * @param event
      */
     const closeHandler = (event: React.MouseEvent) => {
-        if (querySource === CONTRACT_PATH_REDIRECT && querySourceId) {
-            history.push(`/contracts/${querySourceId}`)
-        }else{
-            history.push('/payments/')
-        }
+        redirectClose()
     }
 
     /**
