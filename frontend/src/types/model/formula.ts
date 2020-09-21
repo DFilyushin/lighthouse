@@ -25,6 +25,7 @@ export interface IRawInFormula {
 
 export interface IFormulaItem {
     id: number;
+    created: string;
     product: IProduct;
     calcAmount: number;
     calcLosses: number;
@@ -35,6 +36,7 @@ export interface IFormulaItem {
 
 export const nullFormulaItem: IFormulaItem = {
     id: 0,
+    created: '',
     product: {...nullProduct},
     calcAmount: 0,
     calcLosses: 0,
