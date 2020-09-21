@@ -220,6 +220,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                     ...productionItem,
                     formula: {
                         id: value.id,
+                        created: '',
                         product: {id:0, name: value.name},
                         calcAmount: 0,
                         calcLosses: 0,
