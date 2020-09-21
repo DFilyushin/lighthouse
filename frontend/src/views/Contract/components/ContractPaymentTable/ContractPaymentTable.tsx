@@ -69,7 +69,7 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
      * Добавление нового платежа
      */
     const handleAddNewPayment = () => {
-        history.push(`/payments/new/?contractId=${contract}`)
+        history.push(`/payments/new/?contractId=${contract}&source=contract&id=${contract}`)
     }
 
     return (
@@ -91,15 +91,19 @@ const ContractPaymentTable = (props: IContractPaymentTableProps) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <Button
-                                    className={classes.addButton}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={(event) => {
-                                        handleAddNewPayment()
-                                    }}>
-                                    Добавить оплату
-                                </Button>
+                                <TableRow>
+                                    <TableCell colSpan={5}>
+                                        <Button
+                                            className={classes.addButton}
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={(event) => {
+                                                handleAddNewPayment()
+                                            }}>
+                                            Добавить оплату
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                                 {
                                     items.map(item => (
                                         <TableRow
