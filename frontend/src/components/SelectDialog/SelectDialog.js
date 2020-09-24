@@ -35,6 +35,8 @@ const SelectDialog = ({ open, options, onCancel, onConfirm }) => {
 
   const handleClick = (event) => {
     onConfirm({id: id, name: itemValue});
+    setId(0)
+    setItemValue('')
   };
 
   return (
