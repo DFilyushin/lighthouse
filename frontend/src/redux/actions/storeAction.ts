@@ -394,10 +394,12 @@ export function saveRawMovement() {
         try{
             await authAxios.post(url, data)
             dispatch(showInfoMessage('info', 'Данные обработаны'))
-            return Promise.resolve()
         }catch (e) {
-            dispatch(showInfoMessage('error', e.response.toString()))
-            return Promise.reject()
+            const errMessage = e.response.data.message
+            const detailMessage = e.response.data.detail
+            console.log(`Error save movement to store. Error message: ${errMessage}, detail: ${detailMessage}`)
+            dispatch(showInfoMessage('error', errMessage))
+            throw e
         }
 
     }
