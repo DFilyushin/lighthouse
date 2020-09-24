@@ -139,7 +139,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
 
     const saveItem = (dispatch: any) => new Promise(async (resolve, reject) => {
         try {
-            dispatch(saveRawMovement())
+            await dispatch(saveRawMovement())
             resolve();
         } catch (e) {
             reject()
