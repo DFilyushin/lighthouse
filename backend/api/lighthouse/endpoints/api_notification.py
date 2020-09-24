@@ -1,10 +1,8 @@
 from datetime import date, timedelta
-from django.http import Http404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from lighthouse.appmodels.appsetup import UserSettings, AppSetup
-from rest_framework import viewsets, views, status
-from django.core.exceptions import ValidationError
+from rest_framework import views, status
 from lighthouse.appmodels.sales import Contract
 
 
