@@ -71,7 +71,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
     return (
         <Fragment>
             <Grid item xs={4}>
-                <Paper component="form" elevation={0} className={classes.paper_root}>
+                <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         InputProps={{
@@ -93,7 +93,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
                 </Paper>
             </Grid>
             <Grid item xs={3}>
-                <Paper component="form" elevation={0} className={classes.paper_root}>
+                <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         InputProps={{
