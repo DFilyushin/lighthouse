@@ -77,6 +77,8 @@ def cost_post_save_handler(sender, **kwargs):
                     store.save()
             except Store.DoesNotExist:
                 return
+            except IndexError:
+                return
 
 
 @receiver(pre_save, sender=Payment)
