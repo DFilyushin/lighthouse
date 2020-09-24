@@ -138,7 +138,7 @@ const ProductionTable = (props: IProductionTableProps) => {
                                     <TableCell>Начало цикла</TableCell>
                                     <Hidden only={['xs', 'sm']}>
                                         <TableCell>Окончание</TableCell>
-                                        <TableCell>Рук-ль</TableCell>
+                                        <TableCell>Руководитель</TableCell>
                                     </Hidden>
                                     <TableCell/>
                                 </TableRow>
