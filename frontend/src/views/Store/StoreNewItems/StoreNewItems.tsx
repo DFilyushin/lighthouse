@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {
     Card,
     CardHeader,
@@ -37,6 +37,7 @@ import {IStoreMaterialItem} from "types/model/store";
 import {DatePicker} from "@material-ui/pickers";
 import {ITare} from "../../../types/model/tare";
 import {loadTare} from "../../../redux/actions/tareAction";
+import {showInfoMessage} from "../../../redux/actions/infoAction";
 
 interface IStoreNewItemsProps {
     className: string;
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const StoreNewItems = (props: IStoreNewItemsProps) => {
-    const { className, ...rest } = props
+    const {className, ...rest} = props
 
     const classes = useStyles()
     const history = useHistory()
@@ -79,9 +80,9 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
 
     const newMovementItem = useSelector((state: IStateInterface) => state.store.storeMovement)
     const materialItems = useSelector((state: IStateInterface) => state.raw.raws)
-    const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
+    const tareItems = useSelector((state: IStateInterface) => state.tare.tareItems)
 
-    useEffect(()=> {
+    useEffect(() => {
         dispatch(newStoreMovement())
         dispatch(loadRaws())
         dispatch(loadTare())
@@ -106,9 +107,11 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {...newMovementItem};
-                const index = item.items.findIndex((item:IStoreMaterialItem) => {return item.id === id});
+                const index = item.items.findIndex((item: IStoreMaterialItem) => {
+                    return item.id === id
+                });
                 item.items[index].material.id = value.id;
                 item.items[index].material.name = value.name;
                 dispatch(changeItemMovement(id, item.items[index]));
@@ -134,29 +137,43 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
     };
 
 
-    const saveItem = (dispatch:any) => new Promise(async (resolve, reject) => {
-        try{
+    const saveItem = (dispatch: any) => new Promise(async (resolve, reject) => {
+        try {
             dispatch(saveRawMovement())
             resolve();
-        }catch (e) {
+        } catch (e) {
             reject()
         }
-    });
+    })
+
+    /**
+     * Проверка введённых данных
+     */
+    const isValid = () => {
+        const okMaterial = newMovementItem.items.filter((item) => item.material.id === 0).length === 0
+        const okTare = newMovementItem.items.filter((item) => item.tare.id === 0).length === 0
+        const okCountMaterial = newMovementItem.items.filter((item) => item.count === 0).length === 0
+
+        return okTare && okCountMaterial && okMaterial
+    }
 
 
     const saveHandler = (event: React.SyntheticEvent) => {
         event.preventDefault();
-
-        saveItem(dispatch).then( ()=>{
-                //history.push('/store/journal');
-            }
-        ).catch(()=>{
-            console.log('Error')
-        }).finally(
-            ()=>{
-                console.log('saveHandler_end');
-            }
-        );
+        if (isValid()){
+            saveItem(dispatch).then(() => {
+                    history.push('/store/journal');
+                }
+            ).catch(() => {
+                console.log('Error')
+            }).finally(
+                () => {
+                    console.log('saveHandler_end');
+                }
+            );
+        }else{
+            dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
+        }
     }
 
     /**
@@ -176,7 +193,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
 
 
     //TODO Реализовать в виде отдельного компонента
-    const handleChangeTareItem = (id: number)=> {
+    const handleChangeTareItem = (id: number) => {
         selectDialog(
             {
                 'title': 'Выбор тары',
@@ -187,12 +204,16 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {...newMovementItem}
-                const index = item.items.findIndex((item:IStoreMaterialItem) => {return item.id === id});
+                const index = item.items.findIndex((item: IStoreMaterialItem) => {
+                    return item.id === id
+                });
                 item.items[index].tare.id = value.id;
                 item.items[index].tare.name = value.name;
-                const tareIndex = tareItems.findIndex((elem: ITare)=>{return elem.id === value.id});
+                const tareIndex = tareItems.findIndex((elem: ITare) => {
+                    return elem.id === value.id
+                });
                 item.items[index].tare.v = tareItems[tareIndex].v
                 dispatch(changeItemMovement(id, item.items[index]));
             }
@@ -208,75 +229,74 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                     autoComplete="off"
                     onSubmit={saveHandler}
                 >
-                <CardHeader
-                    subheader={'Приход сырья'}
-                    title="Добавление материалов на склад"
-                />
-                    <Divider />
-                <CardContent>
+                    <CardHeader
+                        subheader={'Приход сырья'}
+                        title="Добавление материалов на склад"
+                    />
+                    <Divider/>
+                    <CardContent>
 
 
+                        <Grid
+                            container
+                            spacing={3}
+                        >
+                            <Grid item xs={3}>
+                                <DatePicker
+                                    inputVariant="outlined"
+                                    format="dd/MM/yyyy"
+                                    id="date"
+                                    label="Дата прихода"
+                                    name="date"
+                                    required
+                                    margin="dense"
+                                    value={newMovementItem?.date}
+                                    onChange={handleDateChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    id="outlined-multiline-static"
+                                    label="Комментарий к приходу сырья"
+                                    name={'comment'}
+                                    multiline
+                                    rows={4}
+                                    fullWidth
+                                    value={newMovementItem.comment}
+                                    onChange={handleChange}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography> Добавьте необходимые позиции сырья в список </Typography>
+                            </Grid>
+                        </Grid>
 
-                    <Grid
-                        container
-                        spacing={3}
-                    >
-                        <Grid item xs={3} >
-                            <DatePicker
-                                inputVariant="outlined"
-                                format="dd/MM/yyyy"
-                                id="date"
-                                label="Дата прихода"
-                                name="date"
-                                required
-                                margin="dense"
-                                value={newMovementItem?.date}
-                                onChange={handleDateChange}
-                            />
+                        <Grid container spacing={1}>
+                            <Grid item xs={11}>
+                                <Typography variant={"h5"}>
+                                    Список материалов на приход
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Tooltip title={'Добавить материал'}>
+                                    <Fab color="default" aria-label="add" onClick={(event => handleAddNewItem())}>
+                                        <AddIcon/>
+                                    </Fab>
+                                </Tooltip>
+                            </Grid>
+                            {newMovementItem.items.map((item: any) => (
+                                <StoreMovementItem
+                                    key={item.id}
+                                    item={item}
+                                    onChangeItemRaw={handleChangeItem}
+                                    onChangeItemTare={handleChangeTareItem}
+                                    onDeleteItem={handleDeleteItem}
+                                />
+                            ))}
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                id="outlined-multiline-static"
-                                label="Комментарий к приходу сырья"
-                                name={'comment'}
-                                multiline
-                                rows={4}
-                                fullWidth
-                                value={newMovementItem.comment}
-                                onChange={handleChange}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography> Добавьте необходимые позиции сырья в список </Typography>
-                        </Grid>
-                    </Grid>
-
-                    <Grid container spacing={1}>
-                        <Grid item xs={11}>
-                            <Typography variant={"h5"}>
-                                Список материалов на приход
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={1}>
-                            <Tooltip title={'Добавить материал'}>
-                                <Fab color="default" aria-label="add" onClick={(event => handleAddNewItem())}>
-                                    <AddIcon/>
-                                </Fab>
-                            </Tooltip>
-                        </Grid>
-                        {newMovementItem.items.map((item: any) =>(
-                            <StoreMovementItem
-                                key={item.id}
-                                item={item}
-                                onChangeItemRaw={handleChangeItem}
-                                onChangeItemTare={handleChangeTareItem}
-                                onDeleteItem={handleDeleteItem}
-                            />
-                        ))}
-                    </Grid>
-                </CardContent>
-                    <Divider />
+                    </CardContent>
+                    <Divider/>
 
                     <CardActions>
                         <Button
