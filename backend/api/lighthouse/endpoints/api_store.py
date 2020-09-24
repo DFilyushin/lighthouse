@@ -91,7 +91,8 @@ class StoreTurnoverRaw(views.APIView):
             except Exception as e:
                 print(str(e))
                 data = {
-                    'error': API_ERROR_POST_TURNOVER
+                    'message': API_ERROR_POST_TURNOVER,
+                    'detail': str(e)
                 }
                 return Response(data=data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
