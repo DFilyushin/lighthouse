@@ -6,6 +6,7 @@ import {IFactoryLine} from "./factorylines";
 import {IRaw} from "./raw";
 import {IFormulaItem, nullFormulaItem} from "./formula";
 import {IWork, nullWork} from "./work";
+import {IUnit} from "./unit";
 
 export const CARD_STATE_DRAFT = 0;
 export const CARD_STATE_IN_WORK = 1;
@@ -116,18 +117,35 @@ export const nullProductionMaterial: IProductionMaterial = {
  * Калькуляция
  */
 export interface IProductionCalc {
+    /**
+     * Код записи
+     */
     id: number;
+    /**
+     * Код производственной карты
+     */
     manufactureId: number;
+    /**
+     * Единица измерения
+     */
+    unit: IUnit;
+    /**
+     * Сырьё
+     */
     raw: IRaw;
+    /**
+     * Количество
+     */
     calcValue: number;
 }
 
 export const nullProductionCalc: IProductionCalc = {
     id: 0,
     manufactureId: 0,
+    unit: {id: 0, name: ''},
     raw: {id: 0, name: ''},
     calcValue: 0
-};
+}
 
 
 /**
