@@ -92,6 +92,7 @@ import {loadFormulaReference} from "redux/actions/formulaAction";
 import {loadWorkList} from "../../../redux/actions/workAction";
 import ProductionMaterialItem from "../components/ProductionMaterialItem";
 import {loadStockList} from "../../../redux/actions/stockAction";
+import {loadUnit} from "../../../redux/actions/unitAction";
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
@@ -153,6 +154,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
     const rawItems = useSelector((state: IStateInterface) => state.stock.stocks)
+    const unitItems = useSelector((state: IStateInterface) => state.unit.unitItems)
     const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.lineItems)
     const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
@@ -425,6 +427,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         dispatch(loadEmployeeList())
         dispatch(loadWorkList())
         dispatch(loadTare())
+        dispatch(loadUnit())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -476,6 +479,31 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     };
 
     /**
+     * Изменить ед. измерения
+     * @param id Код записи
+     */
+    const handleChangeCalcItemUnit = (id: number) => {
+        selectDialog(
+            {
+                'title': 'Выбор ед. измерения',
+                description: '',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: unitItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value:any) => {
+                const item = [...calculationFact];
+                const index = item.findIndex((item:IProductionCalc) => {return item.id === id});
+                item[index].unit.id = value.id;
+                item[index].unit.name = value.name;
+                dispatch(updateCalcItem(item[index]));
+            }
+        );
+    }
+
+    /**
      * Изменить сырьё для калькуляции
      * @param id Код записи
      */
@@ -498,7 +526,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             dispatch(updateCalcItem(item[index]));
             }
         );
-    };
+    }
 
     /**
      * Удалить запись калькуляции
@@ -966,8 +994,9 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                     <ProductionCalcItem
                                         key={index}
                                         item={calc}
-                                        onChangeItem={handleChangeCalcItem}
+                                        onChangeMaterialItem={handleChangeCalcItem}
                                         onDeleteItem={handleDeleteCalcItem}
+                                        onChangeUnitItem={handleChangeCalcItemUnit}
                                         canEdit={false}
                                         canDelete={false}
                                     />
@@ -1001,10 +1030,12 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         </Tooltip>
                                     </Grid>
                                 }
-                                {calculationFact.map((calc: any) =>(
+                                {calculationFact.map((calc: IProductionCalc) =>(
                                     <ProductionCalcItem
+                                        key={calc.id}
                                         item={calc}
-                                        onChangeItem={handleChangeCalcItem}
+                                        onChangeUnitItem={handleChangeCalcItemUnit}
+                                        onChangeMaterialItem={handleChangeCalcItem}
                                         onDeleteItem={handleDeleteCalcItem}
                                         canEdit={true}
                                         canDelete={true}
@@ -1059,8 +1090,9 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         </Tooltip>
                                     </Grid>
                                 }
-                                {productionTare.map((tare: any) =>(
+                                {productionTare.map((tare: IProductionTare) =>(
                                     <ProductionTareItem
+                                        key={tare.id}
                                         item={tare}
                                         onChangeItem={handleChangeTareItem}
                                         onDeleteItem={handleDeleteTareItem}
@@ -1085,9 +1117,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                     </Tooltip>
                                 </Grid>
                                 }
-                                {productionMaterial.map((tare: any) =>(
+                                {productionMaterial.map((material: IProductionMaterial) =>(
                                     <ProductionMaterialItem
-                                        item={tare}
+                                        key={material.id}
+                                        item={material}
                                         onChangeItem={handleChangeMaterialItem}
                                         onDeleteItem={handleDeleteMaterialItem}
                                         canEdit={canEditCard()}
