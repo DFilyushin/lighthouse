@@ -179,6 +179,7 @@ export function getProductionCalc(id: number) {
                     items.push({
                         id: response.data[key]['id'],
                         manufactureId: id,
+                        unit: response.data[key]['unit'],
                         raw: response.data[key]['raw'],
                         calcValue: response.data[key]['calcValue']
                     })
@@ -286,12 +287,13 @@ export function updateTeamItem(item: IProductionTeam){
  */
 export function updateCalcItem(item: IProductionCalc) {
     return async (dispatch: any, getState: any)=> {
-        const items = [...getState().production.prodCardCalc];
-        const index = items.findIndex((elem: IProductionCalc)=>{return elem.id === item.id});
-        items[index].raw = item.raw;
-        items[index].calcValue = item.calcValue;
-        items[index].manufactureId = item.manufactureId;
-        dispatch(changeCalcItem(items));
+        const items = [...getState().production.prodCardCalc]
+        const index = items.findIndex((elem: IProductionCalc)=>{return elem.id === item.id})
+        items[index].raw = item.raw
+        items[index].calcValue = item.calcValue
+        items[index].manufactureId = item.manufactureId
+        items[index].unit = item.unit
+        dispatch(changeCalcItem(items))
     }
 }
 
@@ -366,6 +368,7 @@ export function newCalcItem() {
         items.push({
             id: -getRandomInt(MAX_RANDOM_VALUE),
             manufactureId: 0,
+            unit: {id: 0, name: ''},
             raw: {id: 0, name: ''},
             calcValue: 0
         });
@@ -541,6 +544,7 @@ export function getOriginalCalculation() {
             calcItems.push({
                 id: response.data.raws[key]['idRaw']['id'],
                 manufactureId: 0,
+                unit: response.data.raws[key]['idUnit'],
                 raw: {
                     id:response.data.raws[key]['idRaw']['id'],
                     name: response.data.raws[key]['idRaw']['name']
@@ -553,27 +557,28 @@ export function getOriginalCalculation() {
 }
 
 /**
- * Калькуляция на основе выбранной формулы рассчёта
- * Рассчётное количество из введённых данных
+ * Калькуляция на основе выбранной формулы расчёта
+ * Расчётное количество из введённых данных
  */
 export function getAutoCalculation() {
     return async (dispatch: any, getState: any) => {
         const currentCard = getState().production.prodCardItem;
         const calcItems: IProductionCalc[] = [...getState().production.prodCardCalc];
-        calcItems.splice(0, calcItems.length); //удалить имеющиейся данные
+        calcItems.splice(0, calcItems.length); //удалить имеющиеся данные
         const url = FormulaEndpoint.getCalculation(currentCard.idFormula, currentCard.calcValue);
         const response = await authAxios.get(url);
         Object.keys(response.data.raws).forEach((key, index) => {
             calcItems.push({
                 id: response.data.raws[key]['idRaw']['id'],
                 manufactureId: 0,
+                unit: response.data.raws[key]['idUnit'],
                 raw: {
                     id:response.data.raws[key]['idRaw']['id'],
                     name: response.data.raws[key]['idRaw']['name']
                 },
                 calcValue: response.data.raws[key]['rawCount']
             })
-        });
+        })
         dispatch(successLoadCardCalc(calcItems))
     }
 }
@@ -584,8 +589,10 @@ export function getAutoCalculation() {
  */
 export function updateProduction(item: IProduction) {
     return async (dispatch: any, getState: any) => {
-        dispatch(clearError());
-        dispatch(hideInfoMessage());
+        dispatch(clearError())
+        dispatch(hideInfoMessage())
+        let errorMessage = ''
+
         try{
             const sendItem = {
                 'creator': item.creator.id,
@@ -598,9 +605,9 @@ export function updateProduction(item: IProduction) {
                 'outValue': item.outValue,
                 'lossValue': item.lossValue,
                 'comment': item.comment
-            };
+            }
             const response = await authAxios.put(ProductionEndpoint.saveProductionCard(item.id), sendItem);
-            dispatch(showInfoMessage('info', 'Сохранено успешно'))
+
             const id = response.data['id'];
 
             // сохранить изменения в калькуляции
@@ -615,14 +622,12 @@ export function updateProduction(item: IProduction) {
                         {
                             'id': idRecord,
                             'manufactureId': id,
-                            'raw': {
-                                'id': value.raw.id,
-                                'name': value.raw.name
-                            },
+                            'raw': value.raw,
+                            'unit': value.unit,
                             'calcValue': value.calcValue
                         }
                     )
-                });
+                })
                 await authAxios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
             }
 
@@ -650,14 +655,19 @@ export function updateProduction(item: IProduction) {
             if (materialItems.length) {
                 await authAxios.put(ProductionEndpoint.getProductionMaterial(item.id), materialItems)
             }
-            dispatch(saveOk());
+            dispatch(saveOk())
+
+            dispatch(showInfoMessage('info', 'Сохранено успешно'))
         }catch (e) {
             if (e.response.status === 400){
-                dispatch(showInfoMessage('error', e.response.data['message']));
+                console.log('Error save data. Error message: ', e.response.data['detail'])
+                dispatch(showInfoMessage("error", e.response.data['message']));
             }else{
                 dispatch(showInfoMessage('error', e.response.toString()));
             }
         }
+
+
     }
 }
 
