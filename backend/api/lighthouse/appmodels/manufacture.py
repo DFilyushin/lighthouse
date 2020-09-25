@@ -340,10 +340,11 @@ class ProdTeam(models.Model):
 class ProdCalc(models.Model):
     id_manufacture = models.ForeignKey(Manufacture, on_delete=models.CASCADE, verbose_name='Код производства')
     id_raw = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Код сырья')
-    calc_value = models.FloatField(default=0, verbose_name='Значение')
+    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.CASCADE, default=0, verbose_name='Код единицы измерения')
+    calc_value = models.FloatField(default=0, verbose_name='Количество')
 
     def __str__(self):
-        return '{} {}'.format(self.id_raw.name, self.calc_value)
+        return '{} {} {}'.format(self.id_raw.name, self.id_unit.name, self.calc_value)
 
     class Meta:
         verbose_name = 'Действительная калькуляция'
