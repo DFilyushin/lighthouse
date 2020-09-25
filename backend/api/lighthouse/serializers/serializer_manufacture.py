@@ -6,6 +6,7 @@ from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, Pr
 from .serializer_product import ProductSerializer, RawSerializer
 from .serializer_formula import FormulaSerializer
 from .serializer_domain import EmployeeListSerializer
+from .serializer_refs import MaterialUnitSerializer
 
 
 class ProductLineSerializer(serializers.ModelSerializer):
@@ -68,20 +69,24 @@ class ProdCalcRawsSerializer(serializers.ModelSerializer):
     """
     id = serializers.IntegerField(required=False)
     manufactureId = serializers.IntegerField(source='id_manufacture.id', required=True)
+    unit = MaterialUnitSerializer(source='id_unit', required=True)
     raw = RawSerializer(source='id_raw', required=True)
     calcValue = serializers.FloatField(source='calc_value', required=True)
 
     def create(self, validated_data):
         id_manufacture = validated_data['id_manufacture']['id']
         id_raw = validated_data['id_raw']['id']
+        id_unit = validated_data['id_unit']['id']
         calc = ProdCalc.objects.create(
             id_manufacture_id=id_manufacture,
             id_raw_id=id_raw,
+            id_unit_id=id_unit,
             calc_value=validated_data['calc_value']
         )
         return calc
 
     def update(self, instance, validated_data):
+        instance.id_unit_id = validated_data['id_unit']['id']
         instance.id_raw_id = validated_data['id_raw']['id']
         instance.calc_value = validated_data['calc_value']
         instance.save()
@@ -89,7 +94,7 @@ class ProdCalcRawsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProdCalc
-        fields = ('id', 'manufactureId', 'raw', 'calcValue')
+        fields = ('id', 'manufactureId', 'raw', 'unit', 'calcValue')
         list_serializer_class = ProdCalcRawsListSerializer
 
 
@@ -336,6 +341,7 @@ class CalculationRawsResponseSerializer(serializers.Serializer):
     Состав сырья в калькуляции
     """
     idRaw = RawSerializer(source='id_raw')
+    idUnit = MaterialUnitSerializer(source='id_unit')
     rawCount = serializers.FloatField(source='calculated')
 
 
