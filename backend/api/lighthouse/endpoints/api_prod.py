@@ -202,7 +202,11 @@ class ProductionView(viewsets.ModelViewSet):
                 serializer.save()
                 return Response(status=status.HTTP_200_OK)
             else:
-                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+                data_error = {
+                    'message': 'Некорректно переданые данные.',
+                    'detail': serializer.errors
+                }
+                return Response(status=status.HTTP_400_BAD_REQUEST, data=data_error)
 
     @action(methods=['get', 'post', 'put'], detail=True, url_path='tare', url_name='ready_product')
     def get_ready_product(self, request, pk):
@@ -234,7 +238,7 @@ class ProductionView(viewsets.ModelViewSet):
                 serializer.save()
                 return Response(status=status.HTTP_200_OK)
             else:
-                return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': serializer.errors})
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': serializer.errors})
 
     @action(methods=['get', 'post', 'put'], detail=True, url_path='material', url_name='material')
     def get_material(self, request, pk):
