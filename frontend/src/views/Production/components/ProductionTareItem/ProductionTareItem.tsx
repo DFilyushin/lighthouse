@@ -1,20 +1,14 @@
 import React, {Fragment} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {Grid, TextField} from '@material-ui/core';
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
+import {makeStyles} from '@material-ui/core/styles';
+import {Grid, TextField, Paper, IconButton, Fab, Tooltip} from '@material-ui/core';
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
 import {IProductionTare} from "types/model/production";
 import {updateTareItem} from "../../../../redux/actions/productionAction";
-import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        //padding: theme.spacing(1)
-    },
+    root: {},
     content: {
         paddingTop: 150,
         textAlign: 'center'
@@ -37,24 +31,25 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
 }));
+
 interface IProductionTareItemProps {
     item: IProductionTare;
-    onDeleteItem: ( (id: number)=> void);
-    onChangeItem: ( (id: number)=> void);
+    onDeleteItem: ((id: number) => void);
+    onChangeItem: ((id: number) => void);
     canEdit: boolean;
 }
 
 
 const ProductionTareItem = (props: IProductionTareItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItem, canEdit} = props;
+    const {item, onDeleteItem, onChangeItem, canEdit} = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
         onChangeItem(id)
     };
 
-    const handleClickDeleteItem = (id: number)=> {
+    const handleClickDeleteItem = (id: number) => {
         onDeleteItem(id);
     };
 
@@ -67,7 +62,7 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
     return (
         <Fragment>
             <Grid item xs={5}>
-                <Paper component="form" elevation={0} className={classes.paper_root}>
+                <Paper elevation={0} className={classes.paper_root}>
                     <TextField
                         fullWidth
                         InputProps={{
@@ -85,7 +80,7 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                                         }}>
                                 <MenuOpenIcon/>
                             </IconButton>
-                        ) : (null)
+                        ) : null
                     }
                 </Paper>
             </Grid>
@@ -133,7 +128,7 @@ const ProductionTareItem = (props: IProductionTareItemProps) => {
                     <Grid item>
                         <Tooltip title={'Удалить запись'}>
                             <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                                <DeleteIcon />
+                                <DeleteIcon/>
                             </Fab>
                         </Tooltip>
                     </Grid>
