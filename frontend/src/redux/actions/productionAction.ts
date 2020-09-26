@@ -42,6 +42,7 @@ import authAxios from "../../services/axios-api"
  * Загрузить список произв. карт
  * @param startPeriod - Начало периода
  * @param endPeriod - Окончание периода
+ * @param findByNum - Поиск по номеру карты
  * @param productId - КОд продукта
  * @param state - Состояние
  */
@@ -591,8 +592,6 @@ export function updateProduction(item: IProduction) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError())
         dispatch(hideInfoMessage())
-        let errorMessage = ''
-
         try{
             const sendItem = {
                 'creator': item.creator.id,
