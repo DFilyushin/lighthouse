@@ -25,6 +25,27 @@ MANUFACTURE_STATE = [
 ]
 
 
+class Team(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False, unique=True, verbose_name='Наименование')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Шаблон смены'
+        verbose_name_plural = 'Шаблоны смен'
+        ordering = ['name']
+
+
+class TeamMember(models.Model):
+    id_team = models.ForeignKey(Team, on_delete=models.CASCADE, verbose_name='Смена')
+    id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
+
+    class Meta:
+        verbose_name = 'Участник смены'
+        verbose_name_plural = 'Участники смены'
+
+
 class MaterialUnit(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Код')
     name = models.CharField(max_length=255, blank=False, null=False, unique=True,
