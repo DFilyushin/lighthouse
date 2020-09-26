@@ -27,6 +27,8 @@ MANUFACTURE_STATE = [
 
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, unique=True, verbose_name='Наименование')
+    members = models.ManyToManyField(Employee, through='TeamMember', through_fields=('id_team', 'id_employee'),
+                                     verbose_name='Сотрудник', related_name='members')
 
     def __str__(self):
         return self.name
