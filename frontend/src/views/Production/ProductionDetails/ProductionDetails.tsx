@@ -55,7 +55,6 @@ import {
     newMaterialItem
 } from "redux/actions/productionAction"
 import LayersIcon from '@material-ui/icons/Layers'
-import {KeyboardDateTimePicker} from "@material-ui/pickers"
 import ProductionTeamItem from "../components/ProductionTeamItem"
 import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem"
 import {
@@ -77,7 +76,6 @@ import {loadEmployeeList} from "redux/actions/employeeAction"
 import {loadTare} from "redux/actions/tareAction"
 import {ITare} from "types/model/tare"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
-import {DateTimePicker} from "@material-ui/pickers"
 import {
     DIALOG_ASK_DELETE,
     DIALOG_CANCEL_TEXT,
@@ -464,17 +462,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         };
     }
 
-    const handleDateChangeProdStart = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
-        const item = {...productionItem, 'prodStart': strDate as string};
-        dispatch(changeProductionCard(item))
-    };
-
-    const handleDateChangeProdFinish = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
-        const item = {...productionItem, 'prodFinish': strDate as string};
-        dispatch(changeProductionCard(item))
-    };
 
     //TODO реализовать в виде отдельного компонента
     const handleChangeProdLine = () => {
@@ -881,34 +868,41 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                             </Grid>
                             <Grid container spacing={3}>
                                 <Grid item xs={3}>
-                                    <DateTimePicker
-                                        disableToolbar
-                                        inputVariant="outlined"
-                                        format="dd/MM/yyyy HH:mm"
-                                        ampm={false}
+                                    <TextField
                                         id="prodStart"
                                         label="Начало процесса"
-                                        name="prodStart"
-                                        required
+                                        type="datetime-local"
                                         margin="dense"
                                         value={productionItem?.prodStart}
-                                        onChange={handleDateChangeProdStart}
-                                        readOnly={!canEditCard()}
+                                        name="prodStart"
+                                        onChange={handleChange}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        variant="outlined"
+                                        inputProps={{
+                                            readOnly: Boolean(!canEditCard()),
+                                            disabled: Boolean(!canEditCard()),
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <KeyboardDateTimePicker
-                                        disableToolbar
-                                        inputVariant="outlined"
-                                        format="dd/MM/yyyy HH:mm"
-                                        ampm={false}
-                                        margin="dense"
+                                    <TextField
                                         id="prodFinish"
                                         label="Окончание процесса"
-                                        name="prodFinish"
+                                        type="datetime-local"
+                                        margin="dense"
                                         value={productionItem?.prodFinish}
-                                        onChange={handleDateChangeProdFinish}
-                                        readOnly={!canEditCard()}
+                                        name="prodFinish"
+                                        onChange={handleChange}
+                                        variant="outlined"
+                                        inputProps={{
+                                            readOnly: Boolean(!canEditCard()),
+                                            disabled: Boolean(!canEditCard()),
+                                        }}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                     />
                                 </Grid>
 
