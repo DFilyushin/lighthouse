@@ -34,6 +34,7 @@ store_urls = [
     path('store/in/raw/', api_store_views.StoreTurnoverRaw.as_view()),  # приход сырья на склад
 ]
 router.register(r'store/journal', api_store_views.StoreJournalViewSet, basename='Store')
+router.register(r'team', api_prod_views.TeamView, basename='Team')
 
 # Производство
 router.register(r'prod', api_prod_views.ProductionView, basename='Manufacture')

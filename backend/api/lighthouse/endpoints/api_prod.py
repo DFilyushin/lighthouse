@@ -3,13 +3,29 @@ from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from lighthouse.appmodels.manufacture import CARD_STATE_READY, ProductionWork, Manufacture, ProdTeam, ProductionLine, \
-    ProdCalc, ProdReadyProduct, ProdMaterial, CARD_STATE_IN_WORK
+    ProdCalc, ProdReadyProduct, ProdMaterial, CARD_STATE_IN_WORK, Team
 from lighthouse.serializers.serializer_manufacture import ProductLineSerializer, WorkSerializer, \
     ManufactureListSerializer, ManufactureSerializer, NewManufactureSerializer, ProdTeamSerializer, \
-    ProdCalcRawsSerializer, ProdReadyProductSerializer, ProdMaterialSerializer
+    ProdCalcRawsSerializer, ProdReadyProductSerializer, ProdMaterialSerializer, TeamListSerializer, TeamSerializer
 from .api_errors import API_ERROR_CARD_IS_CLOSE, api_error_response, API_ERROR_SAVE_DATA
 from .api_utils import parse_integer
 from rest_framework.permissions import IsAuthenticated
+
+
+class TeamView(viewsets.ModelViewSet):
+    """
+    Шаблоны смен
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Team.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TeamListSerializer
+        else:
+            return TeamSerializer
 
 
 class ProductionLineView(viewsets.ModelViewSet):
