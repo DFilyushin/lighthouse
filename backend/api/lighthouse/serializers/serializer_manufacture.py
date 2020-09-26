@@ -2,11 +2,67 @@ from random import randint
 from datetime import datetime
 from rest_framework import serializers
 from lighthouse.appmodels.manufacture import Manufacture, ProdTeam, ProdCalc, ProductionLine, \
-    ProdReadyProduct, ProductionWork, ProdMaterial
+    ProdReadyProduct, ProductionWork, ProdMaterial, Team, TeamMember
 from .serializer_product import ProductSerializer, RawSerializer
 from .serializer_formula import FormulaSerializer
 from .serializer_domain import EmployeeListSerializer
 from .serializer_refs import MaterialUnitSerializer
+
+
+class TeamListSerializer(serializers.ModelSerializer):
+    """
+    Список шаблонов смен
+    """
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=100, allow_null=False)
+
+    class Meta:
+        model = Team
+        fields = ('id', 'name')
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    """
+    Шаблон смены
+    """
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField(max_length=100, allow_null=False, allow_blank=False)
+    members = EmployeeListSerializer(many=True)
+
+    def create(self, validated_data):
+        members = validated_data.pop('members')
+        team = Team.objects.create(
+            name=validated_data['name']
+        )
+        for item in members:
+            TeamMember.objects.create(
+                id_team=team,
+                id_employee_id=item['id']
+            )
+        return team
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data['name']
+        members = validated_data.pop('members')
+
+        old_mapping = {inst.id: inst for inst in instance.members.all()}
+        data_mapping = {item['id']: item for item in members}
+
+        for item in members:
+            if item['id'] not in old_mapping:
+                TeamMember.objects.create(
+                    id_team=instance,
+                    id_employee_id=item['id']
+                )
+        for data_id, data in old_mapping.items():
+            if data_id not in data_mapping:
+                data.delete()
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'members')
 
 
 class ProductLineSerializer(serializers.ModelSerializer):
