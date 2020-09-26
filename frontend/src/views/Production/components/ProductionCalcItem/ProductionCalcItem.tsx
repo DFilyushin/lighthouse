@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 interface IProductionTeamItemProps {
     item: IProductionCalc;
     onDeleteItem: ((id: number) => void);
-    onChangeMaterialItem: ((id: number) => void);
+    onChangeMaterialItem?: ((id: number) => void);
     onChangeUnitItem: ((id: number) => void);
     canEdit: boolean;
     canDelete: boolean;
@@ -47,7 +47,9 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
-        onChangeMaterialItem(id)
+        if (onChangeMaterialItem) {
+            onChangeMaterialItem(id)
+        }
     }
 
     const handleClickSelectUnit = (id: number) => {
