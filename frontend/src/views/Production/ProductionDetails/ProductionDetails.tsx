@@ -1,5 +1,5 @@
-import React, {ReactNode, SyntheticEvent, useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {ReactNode, SyntheticEvent, useEffect, useState} from 'react'
+import {makeStyles} from '@material-ui/core/styles'
 import {
     Card,
     CardHeader,
@@ -18,15 +18,15 @@ import {
     Tooltip,
     Menu,
     MenuItem
-} from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import MenuOpenIcon from "@material-ui/icons/MenuOpen";
-import AddIcon from '@material-ui/icons/Add';
-import CircularIndeterminate from "components/Loader/Loader";
-import { useConfirm } from "material-ui-confirm";
-import {useDialog} from "components/SelectDialog";
-import {IStateInterface} from "redux/rootReducer";
+} from '@material-ui/core'
+import {useHistory} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import MenuOpenIcon from "@material-ui/icons/MenuOpen"
+import AddIcon from '@material-ui/icons/Add'
+import CircularIndeterminate from "components/Loader/Loader"
+import {useConfirm} from "material-ui-confirm"
+import {useDialog} from "components/SelectDialog"
+import {IStateInterface} from "redux/rootReducer"
 import {
     getAutoCalculation,
     changeProductionCard,
@@ -53,11 +53,11 @@ import {
     deleteMaterialItem,
     updateMaterialItem,
     newMaterialItem
-} from "redux/actions/productionAction";
-import LayersIcon from '@material-ui/icons/Layers';
-import {KeyboardDateTimePicker} from "@material-ui/pickers";
-import ProductionTeamItem from "../components/ProductionTeamItem";
-import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem";
+} from "redux/actions/productionAction"
+import LayersIcon from '@material-ui/icons/Layers'
+import {KeyboardDateTimePicker} from "@material-ui/pickers"
+import ProductionTeamItem from "../components/ProductionTeamItem"
+import ProductionCalcItem from "../components/ProductionCalcItem/ProductionCalcItem"
 import {
     CARD_STATE_DRAFT,
     CARD_STATE_IN_WORK,
@@ -67,17 +67,17 @@ import {
     IProductionMaterial,
     IProductionTare,
     IProductionTeam
-} from "types/model/production";
-import {loadProduct} from "redux/actions/productAction";
-import {loadFactoryLines} from "redux/actions/factoryLineAction";
-import ProductionTareItem from "../components/ProductionTareItem";
-import ProductionStateIcon from '../components/ProductionStateIcon';
-import TabPanel from "../components/TabPanel";
-import {loadEmployeeList} from "redux/actions/employeeAction";
-import {loadTare} from "redux/actions/tareAction";
-import {ITare} from "types/model/tare";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { DateTimePicker } from "@material-ui/pickers";
+} from "types/model/production"
+import {loadProduct} from "redux/actions/productAction"
+import {loadFactoryLines} from "redux/actions/factoryLineAction"
+import ProductionTareItem from "../components/ProductionTareItem"
+import ProductionStateIcon from '../components/ProductionStateIcon'
+import TabPanel from "../components/TabPanel"
+import {loadEmployeeList} from "redux/actions/employeeAction"
+import {loadTare} from "redux/actions/tareAction"
+import {ITare} from "types/model/tare"
+import MoreVertIcon from "@material-ui/icons/MoreVert"
+import {DateTimePicker} from "@material-ui/pickers"
 import {
     DIALOG_ASK_DELETE,
     DIALOG_CANCEL_TEXT,
@@ -86,13 +86,13 @@ import {
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES,
     NEW_RECORD_VALUE
-} from "utils/AppConst";
-import {showInfoMessage} from "redux/actions/infoAction";
-import {loadFormulaReference} from "redux/actions/formulaAction";
-import {loadWorkList} from "../../../redux/actions/workAction";
-import ProductionMaterialItem from "../components/ProductionMaterialItem";
-import {loadStockList} from "../../../redux/actions/stockAction";
-import {loadUnit} from "../../../redux/actions/unitAction";
+} from "utils/AppConst"
+import {showInfoMessage} from "redux/actions/infoAction"
+import {loadFormulaReference} from "redux/actions/formulaAction"
+import {loadWorkList} from "../../../redux/actions/workAction"
+import ProductionMaterialItem from "../components/ProductionMaterialItem"
+import {loadUnit} from "../../../redux/actions/unitAction"
+import {loadRaws} from "../../../redux/actions/rawAction"
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
@@ -139,28 +139,28 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const dispatch = useDispatch();
     const confirm = useConfirm();
     const selectDialog = useDialog();
-    const { className, match } = props;
+    const {className, match} = props;
     const paramId = match.params.id;
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [tab, setTab] = React.useState(PAGE_MAIN);
 
-    const productionItem = useSelector((state: IStateInterface)=> state.production.prodCardItem)
-    const productionTeam = useSelector((state: IStateInterface)=> state.production.prodCardTeam)
-    const calculationFact = useSelector((state: IStateInterface)=> state.production.prodCardCalc)
-    const calculationOriginal = useSelector((state: IStateInterface)=> state.production.prodCardOriginalCalc)
-    const productionTare = useSelector((state: IStateInterface)=> state.production.prodCardTare)
-    const productionMaterial = useSelector((state: IStateInterface)=> state.production.prodCardMaterial)
+    const productionItem = useSelector((state: IStateInterface) => state.production.prodCardItem)
+    const productionTeam = useSelector((state: IStateInterface) => state.production.prodCardTeam)
+    const calculationFact = useSelector((state: IStateInterface) => state.production.prodCardCalc)
+    const calculationOriginal = useSelector((state: IStateInterface) => state.production.prodCardOriginalCalc)
+    const productionTare = useSelector((state: IStateInterface) => state.production.prodCardTare)
+    const productionMaterial = useSelector((state: IStateInterface) => state.production.prodCardMaterial)
     const isLoading = useSelector((state: IStateInterface) => state.production.isLoading)
     const productItems = useSelector((state: IStateInterface) => state.product.products)
-    const rawItems = useSelector((state: IStateInterface) => state.stock.stocks)
+    const rawItems = useSelector((state: IStateInterface) => state.raw.raws)
     const unitItems = useSelector((state: IStateInterface) => state.unit.unitItems)
-    const tareItems = useSelector((state:IStateInterface) => state.tare.tareItems)
+    const tareItems = useSelector((state: IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.lineItems)
     const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
     const workItems = useSelector((state: IStateInterface) => state.works.workItems)
     const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
-    const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId))
+    const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId))
 
     const [hasProductError, setProductError] = useState(false)
     const [hasFactoryLineError, setFactoryLineError] = useState(false)
@@ -175,7 +175,9 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...productionItem, [event.target.name]: event.target.value};
         dispatch(changeProductionCard(item))
-        if (event.target.name === 'calcValue') {setCorrectValueError(false)}
+        if (event.target.name === 'calcValue') {
+            setCorrectValueError(false)
+        }
     };
 
     const cardMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -197,7 +199,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {...productionItem, product: {id: value.id, name: value.name}}
                 dispatch(changeProductionCard(item))
                 dispatch(loadFormulaReference(value.name))
@@ -217,19 +219,21 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {
                     ...productionItem,
                     formula: {
                         id: value.id,
                         created: '',
-                        product: {id:0, name: value.name},
+                        product: {id: 0, name: value.name},
                         calcAmount: 0,
                         calcLosses: 0,
                         specification: '',
                         density: 0,
-                        raws: []},
-                    idFormula: value.id}
+                        raws: []
+                    },
+                    idFormula: value.id
+                }
                 dispatch(changeProductionCard(item))
                 setFormulaError(false);
             }
@@ -247,7 +251,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'fio'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {...productionItem, teamLeader: {id: value.id, fio: value.name, staff: '', tabNum: ''}};
                 dispatch(changeProductionCard(item));
                 setMasterError(false)
@@ -259,7 +263,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Добавить новую запись смены
      * @param id
      */
-    const handleAddTeamItem = (id: number)=> {
+    const handleAddTeamItem = (id: number) => {
         dispatch(newTeamItem())
     };
 
@@ -267,7 +271,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Добавить новую запись с готовой продукцией
      * @param id
      */
-    function handleAddTareItem (id: number) {
+    function handleAddTareItem(id: number) {
         dispatch(newTareItem())
     }
 
@@ -283,13 +287,13 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Добавить новую запись калькуляции
      * @param id
      */
-    const handleAddCalcItem = (id: number)=> {
+    const handleAddCalcItem = (id: number) => {
         dispatch(newCalcItem())
     };
 
     /**
      * Добавить автоматически рассчитанную калькуляцию
-    */
+     */
     const handleAddCalcAuto = () => {
         if (calculationFact.length > 0) {
             confirm(
@@ -299,8 +303,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                     confirmationText: DIALOG_YES,
                     cancellationText: DIALOG_NO
                 }
-            ).then(()=>{dispatch(getAutoCalculation())});
-        }else{
+            ).then(() => {
+                dispatch(getAutoCalculation())
+            });
+        } else {
             dispatch(getAutoCalculation())
         }
 
@@ -310,7 +316,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Сменить сотрудника в смене
      * @param id
      */
-    const handleChangeTeamItem = (id: number)=> {
+    const handleChangeTeamItem = (id: number) => {
         selectDialog(
             {
                 'title': 'Выбор сотрудника',
@@ -321,12 +327,14 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'fio'
             }
-        ).then((value:any) => {
-            const item = [...productionTeam];
-            const index = item.findIndex((item:IProductionTeam) => {return item.id === id});
-            item[index].employee.id = value.id;
-            item[index].employee.fio = value.name;
-            dispatch(updateTeamItem(item[index]));
+        ).then((value: any) => {
+                const item = [...productionTeam];
+                const index = item.findIndex((item: IProductionTeam) => {
+                    return item.id === id
+                });
+                item[index].employee.id = value.id;
+                item[index].employee.fio = value.name;
+                dispatch(updateTeamItem(item[index]));
             }
         );
     };
@@ -335,7 +343,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Сменить вид работы в смене сотрудника
      * @param id
      */
-    const handleChangeWorkItem = (id: number)=> {
+    const handleChangeWorkItem = (id: number) => {
         selectDialog(
             {
                 'title': 'Выбор вида работы',
@@ -346,9 +354,11 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = [...productionTeam];
-                const index = item.findIndex((item:IProductionTeam) => {return item.id === id});
+                const index = item.findIndex((item: IProductionTeam) => {
+                    return item.id === id
+                });
                 item[index].work.id = value.id;
                 item[index].work.name = value.name;
                 dispatch(updateTeamItem(item[index]));
@@ -360,7 +370,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Удалить запись со сменой
      * @param id
      */
-    const handleDeleteTeamItem = (id: number)=> {
+    const handleDeleteTeamItem = (id: number) => {
         confirm(
             {
                 'title': DIALOG_TYPE_CONFIRM,
@@ -377,7 +387,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Удалить запись с готовой продукцией
      * @param id
      */
-    const handleDeleteTareItem = (id: number)=> {
+    const handleDeleteTareItem = (id: number) => {
         confirm(
             {
                 'title': DIALOG_TYPE_CONFIRM,
@@ -390,7 +400,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         );
     };
 
-    function handleDeleteMaterialItem(id: number){
+    function handleDeleteMaterialItem(id: number) {
         confirm(
             {
                 'title': DIALOG_TYPE_CONFIRM,
@@ -411,17 +421,27 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setTab(newValue);
         switch (newValue) {
-            case PAGE_TEAM: if (!productionTeam.length) dispatch(getProductionTeam(idProduction)); break;
-            case PAGE_CALC: if (!calculationFact.length) dispatch(getProductionCalc(idProduction));break;
-            case PAGE_PRODUCT: if (!productionTare.length) dispatch(getProductionTare(idProduction));break;
-            case PAGE_CALC_ORIGINAL: if (!calculationOriginal.length) dispatch(getOriginalCalculation());break;
-            case PAGE_MATERIAL: if (!productionMaterial.length) dispatch(getProductionMaterial(idProduction)); break;
+            case PAGE_TEAM:
+                if (!productionTeam.length) dispatch(getProductionTeam(idProduction));
+                break;
+            case PAGE_CALC:
+                if (!calculationFact.length) dispatch(getProductionCalc(idProduction));
+                break;
+            case PAGE_PRODUCT:
+                if (!productionTare.length) dispatch(getProductionTare(idProduction));
+                break;
+            case PAGE_CALC_ORIGINAL:
+                if (!calculationOriginal.length) dispatch(getOriginalCalculation());
+                break;
+            case PAGE_MATERIAL:
+                if (!productionMaterial.length) dispatch(getProductionMaterial(idProduction));
+                break;
         }
     };
 
 
-    useEffect(()=>{
-        dispatch(loadStockList())
+    useEffect(() => {
+        dispatch(loadRaws())
         dispatch(loadProduct())
         dispatch(loadFactoryLines())
         dispatch(loadEmployeeList())
@@ -431,7 +451,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    useEffect( ()=> {
+    useEffect(() => {
             dispatch(loadProductionCard(idProduction));
             setTab(PAGE_MAIN);
         }, [dispatch, idProduction]
@@ -468,7 +488,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = {...productionItem}
                 item.prodLine.id = value.id
                 item.prodLine.name = value.name
@@ -493,9 +513,11 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const item = [...calculationFact];
-                const index = item.findIndex((item:IProductionCalc) => {return item.id === id});
+                const index = item.findIndex((item: IProductionCalc) => {
+                    return item.id === id
+                });
                 item[index].unit.id = value.id;
                 item[index].unit.name = value.name;
                 dispatch(updateCalcItem(item[index]));
@@ -518,12 +540,14 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
-            const item = [...calculationFact];
-            const index = item.findIndex((item:IProductionCalc) => {return item.id === id});
-            item[index].raw.id = value.id;
-            item[index].raw.name = value.name;
-            dispatch(updateCalcItem(item[index]));
+        ).then((value: any) => {
+                const item = [...calculationFact];
+                const index = item.findIndex((item: IProductionCalc) => {
+                    return item.id === id
+                });
+                item[index].raw.id = value.id;
+                item[index].raw.name = value.name;
+                dispatch(updateCalcItem(item[index]));
             }
         );
     }
@@ -560,7 +584,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         if (typeSelect === 0) {
             dataItems = rawItems
             dialogTitle = 'Выбор сырья'
-        }else{
+        } else {
             dataItems = productItems
             dialogTitle = 'Выбор продукции'
         }
@@ -575,19 +599,21 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
-            const items = [...productionMaterial];
-            const index = items.findIndex((item:IProductionMaterial) => {return item.id === id});
-            items[index].materialId = value.id;
-            items[index].materialName = value.name;
-            dispatch(updateMaterialItem(items[index]));
+        ).then((value: any) => {
+                const items = [...productionMaterial];
+                const index = items.findIndex((item: IProductionMaterial) => {
+                    return item.id === id
+                });
+                items[index].materialId = value.id;
+                items[index].materialName = value.name;
+                dispatch(updateMaterialItem(items[index]));
             }
         );
 
     }
 
     //TODO Реализовать в виде отдельного компонента
-    const handleChangeTareItem = (id: number)=> {
+    const handleChangeTareItem = (id: number) => {
         selectDialog(
             {
                 'title': 'Выбор тары',
@@ -598,12 +624,16 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 initKey: 0,
                 valueName: 'name'
             }
-        ).then((value:any) => {
+        ).then((value: any) => {
                 const items = [...productionTare];
-                const index = items.findIndex((item:IProductionTare) => {return item.id === id});
+                const index = items.findIndex((item: IProductionTare) => {
+                    return item.id === id
+                });
                 items[index].tareId = value.id;
                 items[index].tareName = value.name;
-                const tareIndex = tareItems.findIndex((elem: ITare)=>{return elem.id === value.id});
+                const tareIndex = tareItems.findIndex((elem: ITare) => {
+                    return elem.id === value.id
+                });
                 items[index].tareV = tareItems[tareIndex].v
                 dispatch(updateTareItem(items[index]));
             }
@@ -613,7 +643,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     /**
      * Возможность редактирования карты
      */
-    const canEditCard = ()=> {
+    const canEditCard = () => {
         return ((productionItem.curState === CARD_STATE_DRAFT) || (productionItem.curState === CARD_STATE_IN_WORK))
     };
 
@@ -634,7 +664,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         return hasProduct && hasProductionLine && hasCorrectValue && hasMaster && hasFormulaValue
     }
 
-    const saveItem = (dispatch:any) => new Promise(async(resolve, reject) => {
+    const saveItem = (dispatch: any) => new Promise(async (resolve, reject) => {
         if (isValid()) {
             try {
                 let result = 0;
@@ -649,7 +679,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             } catch (e) {
                 reject()
             }
-        }else{
+        } else {
             dispatch(showInfoMessage('error', 'Проверьте введённые данные!'))
         }
     });
@@ -660,9 +690,9 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      */
     const saveHandler = (event: SyntheticEvent) => {
         event.preventDefault();
-        saveItem(dispatch).then((value)=>{
+        saveItem(dispatch).then((value) => {
             history.push(`/factory/${value}`)
-        }).catch((e)=> {
+        }).catch((e) => {
             console.log('Error')
         });
     };
@@ -694,7 +724,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Получить список доступных операций (пункты меню) для карты
      * @param state Состояние карты
      */
-    function getAvailableOperations(state: number) : ReactNode[] {
+    function getAvailableOperations(state: number): ReactNode[] {
         const operations: ReactNode[] = []
         if (state === CARD_STATE_DRAFT) {
             operations.push(<MenuItem key={1} onClick={handleMenuCardToWork}>В работу</MenuItem>)
@@ -704,7 +734,9 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
             operations.push(<MenuItem key={2} onClick={handleMenuCardExecute}>Выполнить</MenuItem>)
             operations.push(<MenuItem key={3} onClick={handleMenuCardCancel}>Отмена карты</MenuItem>)
         }
-        if (state === CARD_STATE_READY) {operations.push(<MenuItem key={4} onClick={handleMenuPrint}>Печать</MenuItem>)}
+        if (state === CARD_STATE_READY) {
+            operations.push(<MenuItem key={4} onClick={handleMenuPrint}>Печать</MenuItem>)
+        }
         return operations
     }
 
@@ -722,7 +754,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                         avatar={<ProductionStateIcon stateIndex={productionItem.curState}/>}
                         action={
                             <IconButton aria-label="settings" aria-controls="simple-menu" onClick={cardMenuButtonClick}>
-                                <MoreVertIcon />
+                                <MoreVertIcon/>
                             </IconButton>
                         }
                     />
@@ -739,7 +771,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                         }
                     </Menu>
 
-                    <Divider />
+                    <Divider/>
 
                     <CardContent>
                         <Paper className={classes.paper_bar}>
@@ -769,7 +801,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Paper  elevation={0} className={classes.paper_root}>
+                                    <Paper elevation={0} className={classes.paper_root}>
                                         <TextField
                                             fullWidth
                                             label="Готовая продукция"
@@ -786,15 +818,16 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                             error={hasProductError}
                                         />
                                         {canEditCard() ? (
-                                        <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeProduct}>
-                                            <MenuOpenIcon />
-                                        </IconButton>
-                                            ):null
+                                            <IconButton color="primary" className={classes.iconButton}
+                                                        aria-label="directions" onClick={handleChangeProduct}>
+                                                <MenuOpenIcon/>
+                                            </IconButton>
+                                        ) : null
                                         }
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Paper  elevation={0} className={classes.paper_root}>
+                                    <Paper elevation={0} className={classes.paper_root}>
                                         <TextField
                                             fullWidth
                                             label="Рецептура расчёта"
@@ -811,15 +844,16 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                             error={hasFormulaError}
                                         />
                                         {canEditCard() ? (
-                                            <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={handleChangeFormula}>
-                                                <MenuOpenIcon />
+                                            <IconButton color="primary" className={classes.iconButton}
+                                                        aria-label="directions" onClick={handleChangeFormula}>
+                                                <MenuOpenIcon/>
                                             </IconButton>
-                                        ):null
+                                        ) : null
                                         }
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Paper  elevation={0} className={classes.paper_root}>
+                                    <Paper elevation={0} className={classes.paper_root}>
                                         <TextField
                                             fullWidth
                                             label="Производственная линия процесса"
@@ -840,29 +874,29 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                                         aria-label="directions" onClick={handleChangeProdLine}>
                                                 <MenuOpenIcon/>
                                             </IconButton>
-                                        ) :null
+                                        ) : null
                                         }
                                     </Paper>
                                 </Grid>
                             </Grid>
                             <Grid container spacing={3}>
-                                    <Grid item xs={3} >
-                                        <DateTimePicker
-                                            disableToolbar
-                                            inputVariant="outlined"
-                                            format="dd/MM/yyyy HH:mm"
-                                            ampm={false}
-                                            id="prodStart"
-                                            label="Начало процесса"
-                                            name="prodStart"
-                                            required
-                                            margin="dense"
-                                            value={productionItem?.prodStart}
-                                            onChange={handleDateChangeProdStart}
-                                            readOnly={!canEditCard()}
-                                        />
-                                    </Grid>
-                                <Grid item xs={3} >
+                                <Grid item xs={3}>
+                                    <DateTimePicker
+                                        disableToolbar
+                                        inputVariant="outlined"
+                                        format="dd/MM/yyyy HH:mm"
+                                        ampm={false}
+                                        id="prodStart"
+                                        label="Начало процесса"
+                                        name="prodStart"
+                                        required
+                                        margin="dense"
+                                        value={productionItem?.prodStart}
+                                        onChange={handleDateChangeProdStart}
+                                        readOnly={!canEditCard()}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
                                     <KeyboardDateTimePicker
                                         disableToolbar
                                         inputVariant="outlined"
@@ -880,106 +914,106 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
                             </Grid>
                             <Grid container spacing={3}>
-                                    <Grid item xs={3} >
-                                        <Tooltip title="Рассчётное количество готовой продукции">
-                                            <TextField
-                                                fullWidth
-                                                type={'number'}
-                                                label="Рассчёт"
-                                                margin="dense"
-                                                name="calcValue"
-                                                onChange={handleChange}
-                                                required
-                                                value={productionItem?.calcValue}
-                                                variant="outlined"
-                                                inputProps={{
-                                                    readOnly: Boolean(!canEditCard()),
-                                                    disabled: Boolean(!canEditCard()),
-                                                }}
-                                                helperText={hasCorrectValueError ? "Укажите корректное значение" : ""}
-                                                error={hasCorrectValueError}
-                                            />
-                                        </Tooltip>
-                                    </Grid>
-                                    <Grid item xs={3} >
-                                        <Tooltip title="Фактический выход продукции">
-                                            <TextField
-                                                fullWidth
-                                                type={'number'}
-                                                label="Выход"
-                                                margin="dense"
-                                                name="outValue"
-                                                onChange={handleChange}
-                                                required
-                                                value={productionItem?.outValue}
-                                                variant="outlined"
-                                                inputProps={{
-                                                    readOnly: Boolean(!canEditCard()),
-                                                    disabled: Boolean(!canEditCard()),
-                                                }}
-                                            />
-                                        </Tooltip>
-                                    </Grid>
-                                    <Grid item xs={2} >
+                                <Grid item xs={3}>
+                                    <Tooltip title="Рассчётное количество готовой продукции">
                                         <TextField
                                             fullWidth
                                             type={'number'}
-                                            label="Потери"
+                                            label="Рассчёт"
                                             margin="dense"
-                                            name="lossValue"
+                                            name="calcValue"
                                             onChange={handleChange}
                                             required
-                                            value={productionItem?.lossValue}
+                                            value={productionItem?.calcValue}
                                             variant="outlined"
                                             inputProps={{
                                                 readOnly: Boolean(!canEditCard()),
                                                 disabled: Boolean(!canEditCard()),
                                             }}
+                                            helperText={hasCorrectValueError ? "Укажите корректное значение" : ""}
+                                            error={hasCorrectValueError}
                                         />
-                                    </Grid>
-                                    <Grid item xs={12} >
+                                    </Tooltip>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Tooltip title="Фактический выход продукции">
                                         <TextField
                                             fullWidth
-                                            label="Комментарий"
+                                            type={'number'}
+                                            label="Выход"
                                             margin="dense"
-                                            name="comment"
+                                            name="outValue"
                                             onChange={handleChange}
-                                            multiline
-                                            rows={4}
-                                            value={productionItem?.comment}
+                                            required
+                                            value={productionItem?.outValue}
                                             variant="outlined"
                                             inputProps={{
                                                 readOnly: Boolean(!canEditCard()),
                                                 disabled: Boolean(!canEditCard()),
                                             }}
                                         />
-                                    </Grid>
-                                    <Grid item xs={12} >
-                                        <Paper  elevation={0} className={classes.paper_root}>
-                                            <TextField
-                                                fullWidth
-                                                label="Начальник производства"
-                                                margin="dense"
-                                                name="teamLeader"
-                                                onChange={handleChange}
-                                                required
-                                                value={productionItem?.teamLeader.fio}
-                                                variant="outlined"
-                                                InputProps={{
-                                                    readOnly: true,
-                                                }}
-                                                helperText={hasMasterError ? "Обязательное поле" : ""}
-                                                error={hasMasterError}
-                                            />
-                                            {canEditCard() ? (
-                                                <IconButton color="primary" className={classes.iconButton}
-                                                            aria-label="directions" onClick={handleChangeMaster}>
-                                                    <MenuOpenIcon/>
-                                                </IconButton>
-                                            ): null
-                                            }
-                                        </Paper>
-                                    </Grid>
+                                    </Tooltip>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <TextField
+                                        fullWidth
+                                        type={'number'}
+                                        label="Потери"
+                                        margin="dense"
+                                        name="lossValue"
+                                        onChange={handleChange}
+                                        required
+                                        value={productionItem?.lossValue}
+                                        variant="outlined"
+                                        inputProps={{
+                                            readOnly: Boolean(!canEditCard()),
+                                            disabled: Boolean(!canEditCard()),
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Комментарий"
+                                        margin="dense"
+                                        name="comment"
+                                        onChange={handleChange}
+                                        multiline
+                                        rows={4}
+                                        value={productionItem?.comment}
+                                        variant="outlined"
+                                        inputProps={{
+                                            readOnly: Boolean(!canEditCard()),
+                                            disabled: Boolean(!canEditCard()),
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Paper elevation={0} className={classes.paper_root}>
+                                        <TextField
+                                            fullWidth
+                                            label="Начальник производства"
+                                            margin="dense"
+                                            name="teamLeader"
+                                            onChange={handleChange}
+                                            required
+                                            value={productionItem?.teamLeader.fio}
+                                            variant="outlined"
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            helperText={hasMasterError ? "Обязательное поле" : ""}
+                                            error={hasMasterError}
+                                        />
+                                        {canEditCard() ? (
+                                            <IconButton color="primary" className={classes.iconButton}
+                                                        aria-label="directions" onClick={handleChangeMaster}>
+                                                <MenuOpenIcon/>
+                                            </IconButton>
+                                        ) : null
+                                        }
+                                    </Paper>
+                                </Grid>
 
                             </Grid>
                         </TabPanel>
@@ -990,11 +1024,10 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         Калькуляция сырья
                                     </Typography>
                                 </Grid>
-                                {calculationOriginal.map((calc: any, index) =>(
+                                {calculationOriginal.map((calc: any, index) => (
                                     <ProductionCalcItem
                                         key={index}
                                         item={calc}
-                                        onChangeMaterialItem={handleChangeCalcItem}
                                         onDeleteItem={handleDeleteCalcItem}
                                         onChangeUnitItem={handleChangeCalcItemUnit}
                                         canEdit={false}
@@ -1012,25 +1045,26 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                     </Typography>
                                 </Grid>
                                 {canEditCard() &&
-                                    <Grid item xs={1}>
-                                        <Tooltip title={'Добавить автоматически рассчитанную калькуляцию'}>
-                                            <Fab color="default" aria-label="add"
-                                                 onClick={(event => handleAddCalcAuto())}>
-                                                <LayersIcon/>
-                                            </Fab>
-                                        </Tooltip>
-                                    </Grid>
+                                <Grid item xs={1}>
+                                    <Tooltip title={'Добавить автоматически рассчитанную калькуляцию'}>
+                                        <Fab color="default" aria-label="add"
+                                             onClick={(event => handleAddCalcAuto())}>
+                                            <LayersIcon/>
+                                        </Fab>
+                                    </Tooltip>
+                                </Grid>
                                 }
                                 {canEditCard() &&
-                                    <Grid item xs={1}>
-                                        <Tooltip title={'Добавить сырьё в калькуляцию'}>
-                                            <Fab color="default" aria-label="add" onClick={(event => handleAddCalcItem(idProduction))}>
-                                                <AddIcon/>
-                                            </Fab>
-                                        </Tooltip>
-                                    </Grid>
+                                <Grid item xs={1}>
+                                    <Tooltip title={'Добавить сырьё в калькуляцию'}>
+                                        <Fab color="default" aria-label="add"
+                                             onClick={(event => handleAddCalcItem(idProduction))}>
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Tooltip>
+                                </Grid>
                                 }
-                                {calculationFact.map((calc: IProductionCalc) =>(
+                                {calculationFact.map((calc: IProductionCalc) => (
                                     <ProductionCalcItem
                                         key={calc.id}
                                         item={calc}
@@ -1054,14 +1088,15 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                     canEditCard() &&
                                     <Grid item xs={1}>
                                         <Tooltip title={'Добавить смену сотрудника'}>
-                                            <Fab color="default" aria-label="add" onClick={(event => handleAddTeamItem(idProduction))}>
+                                            <Fab color="default" aria-label="add"
+                                                 onClick={(event => handleAddTeamItem(idProduction))}>
                                                 <AddIcon/>
                                             </Fab>
                                         </Tooltip>
                                     </Grid>
                                 }
                                 {
-                                    productionTeam.map((team: IProductionTeam) =>(
+                                    productionTeam.map((team: IProductionTeam) => (
                                         <ProductionTeamItem
                                             key={team.id}
                                             item={team}
@@ -1081,16 +1116,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         Упаковка готовой продукции
                                     </Typography>
                                 </Grid>
-                                { canEditCard() &&
-                                    <Grid item xs={1}>
-                                        <Tooltip title={'Добавить готовую продукцию'}>
-                                            <Fab color="default" aria-label="add" onClick={(event => handleAddTareItem(idProduction))}>
-                                                <AddIcon/>
-                                            </Fab>
-                                        </Tooltip>
-                                    </Grid>
+                                {canEditCard() &&
+                                <Grid item xs={1}>
+                                    <Tooltip title={'Добавить готовую продукцию'}>
+                                        <Fab color="default" aria-label="add"
+                                             onClick={(event => handleAddTareItem(idProduction))}>
+                                            <AddIcon/>
+                                        </Fab>
+                                    </Tooltip>
+                                </Grid>
                                 }
-                                {productionTare.map((tare: IProductionTare) =>(
+                                {productionTare.map((tare: IProductionTare) => (
                                     <ProductionTareItem
                                         key={tare.id}
                                         item={tare}
@@ -1108,16 +1144,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                         Дополнительные материалы
                                     </Typography>
                                 </Grid>
-                                { canEditCard() &&
+                                {canEditCard() &&
                                 <Grid item xs={1}>
                                     <Tooltip title={'Добавить материал'}>
-                                        <Fab color="default" aria-label="add" onClick={(event => handleAddMaterialItem(idProduction))}>
+                                        <Fab color="default" aria-label="add"
+                                             onClick={(event => handleAddMaterialItem(idProduction))}>
                                             <AddIcon/>
                                         </Fab>
                                     </Tooltip>
                                 </Grid>
                                 }
-                                {productionMaterial.map((material: IProductionMaterial) =>(
+                                {productionMaterial.map((material: IProductionMaterial) => (
                                     <ProductionMaterialItem
                                         key={material.id}
                                         item={material}
@@ -1129,7 +1166,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                             </Grid>
                         </TabPanel>
                     </CardContent>
-                    <Divider />
+                    <Divider/>
                     <CardActions>
                         <Button color="primary" variant="contained" type="submit">
                             Сохранить
