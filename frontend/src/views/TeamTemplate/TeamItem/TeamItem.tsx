@@ -21,7 +21,7 @@ import {
     addNewMember,
     changeTeamItem,
     deleteMember,
-    getTeamItem,
+    loadTeamItem,
     newTeam,
     updateTeam
 } from "../../../redux/actions/teamAction";
@@ -123,7 +123,7 @@ const TeamItem = (props: ITeamItemProps) => {
     }
 
     useEffect(() => {
-            dispatch(getTeamItem(teamId));
+            dispatch(loadTeamItem(teamId));
             dispatch(loadEmployeeList())
         }, [dispatch, teamId]
     )

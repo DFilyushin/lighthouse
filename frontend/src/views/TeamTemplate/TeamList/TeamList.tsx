@@ -9,7 +9,7 @@ import {IStateInterface} from "redux/rootReducer";
 import FilterNoneIcon from '@material-ui/icons/FilterNone';
 import {useConfirm} from "material-ui-confirm";
 import {DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "utils/AppConst";
-import {deleteTeam, getTeamTemplateList} from "../../../redux/actions/teamAction";
+import {deleteTeam, loadTeamTemplateList} from "../../../redux/actions/teamAction";
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,12 +33,12 @@ const TeamList = () => {
     const [selected, setSelected] = useState<number[]>([]);
 
     useEffect(() => {
-            dispatch(getTeamTemplateList())
+            dispatch(loadTeamTemplateList())
         }, [dispatch]
     );
 
     async function onFindTemplateHandler(findText: string) {
-        dispatch(getTeamTemplateList(findText))
+        dispatch(loadTeamTemplateList(findText))
     }
 
     function onDeleteHandle() {

@@ -10,7 +10,7 @@ import {NEW_RECORD_VALUE} from "../../utils/AppConst";
  * Получить список шаблонов смен
  * @param search
  */
-export function getTeamTemplateList(search?: string) {
+export function loadTeamTemplateList(search?: string) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart())
         dispatch(hideInfoMessage())
@@ -33,7 +33,7 @@ export function getTeamTemplateList(search?: string) {
  * Получить смену по коду
  * @param id Код смены
  */
-export function getTeamItem(id: number) {
+export function loadTeamItem(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart())
         dispatch(hideInfoMessage())
