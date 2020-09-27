@@ -66,6 +66,9 @@ export {default as StoreNewItems} from './Store/StoreNewItems'
 export {default as PaymentList} from './Payments/PaymentList'
 export {default as PaymentItem} from './Payments/PaymentItem'
 
+export {default as TeamTemplates} from './TeamTemplate/TeamList'
+export {default as TeamTemplate} from './TeamTemplate/TeamItem'
+
 export {default as PriceList} from './Price/PriceList'
 export {default as PriceListEmployee} from './Price/PriceListEmployee'
 export {default as PriceItem} from './Price/PriceItem'

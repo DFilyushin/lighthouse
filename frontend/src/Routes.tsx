@@ -43,6 +43,7 @@ import {
     ReportContracts as ReportContractsView,
     ReportProduction as ReportProductionView,
     ReportSales as ReportSalesView,
+    ReserveItem as ReserveItemView,
     ReturnProduct as ReturnProductView,
     Setup as SetupView,
     StaffItem as StaffItemView,
@@ -57,14 +58,15 @@ import {
     StoreReserved as StoreReservedView,
     TareItem as TareItemView,
     Tares as TareView,
+    TeamTemplates as TeamTemplatesView,
+    TeamTemplate as TeamTemplateView,
     UnitItem as UnitItemView,
     Units as UnitView,
     UserDetails as UserDetailsView,
     UserList as UserListView,
     UserProfile as UserProfileView,
     WorkItem as WorkItemView,
-    WorkList as WorkListView,
-    ReserveItem as ReserveItemView
+    WorkList as WorkListView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -117,6 +119,8 @@ const Routes = () => {
             <AuthRouteWithLayout component={PayMethodListView} layout={MainLayout} path="/catalogs/paymethod" access={[AccessGroups.MANAGER, AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={PayMethodItemView} layout={MainLayout} path="/catalogs/paymethod/:id" access={[AccessGroups.MANAGER, AccessGroups.ADMIN]} exact/>
 
+            <AuthRouteWithLayout component={TeamTemplatesView} layout={MainLayout} path="/catalogs/team_template" access={[AccessGroups.TECHNOLOGIST, AccessGroups.FACTORY, AccessGroups.ADMIN]} exact/>
+            <AuthRouteWithLayout component={TeamTemplateView} layout={MainLayout} path="/catalogs/team_template/:id" access={[AccessGroups.TECHNOLOGIST, AccessGroups.FACTORY, AccessGroups.ADMIN]} exact/>
 
             <AuthRouteWithLayout component={WorkListView} layout={MainLayout} path="/catalogs/works" access={[AccessGroups.ADMIN]} exact/>
             <AuthRouteWithLayout component={WorkItemView} layout={MainLayout} path="/catalogs/works/:id" access={[AccessGroups.ADMIN]} exact/>
