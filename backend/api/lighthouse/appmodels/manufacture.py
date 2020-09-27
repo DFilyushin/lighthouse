@@ -25,8 +25,21 @@ MANUFACTURE_STATE = [
 ]
 
 
+class ProductionWork(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name='Наименование работы')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Вид работы смены'
+        verbose_name_plural = 'Виды работ смены'
+        ordering = ('name', )
+
+
 class Team(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, unique=True, verbose_name='Наименование')
+    id_work = models.ForeignKey(ProductionWork, on_delete=models.CASCADE, default=0, verbose_name='Вид работы')
     members = models.ManyToManyField(Employee, through='TeamMember', through_fields=('id_team', 'id_employee'),
                                      verbose_name='Сотрудник', related_name='members')
 
@@ -185,18 +198,6 @@ class ProductionLine(models.Model):
     class Meta:
         verbose_name = 'Линия производства'
         verbose_name_plural = 'Линии производства'
-        ordering = ('name', )
-
-
-class ProductionWork(models.Model):
-    name = models.CharField(max_length=100, unique=True, verbose_name='Наименование работы')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Вид работы смены'
-        verbose_name_plural = 'Виды работ смены'
         ordering = ('name', )
 
 
