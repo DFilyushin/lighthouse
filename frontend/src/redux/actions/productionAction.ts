@@ -349,16 +349,24 @@ export function addTeamByTemplate(idTeamTemplate: number) {
         const url = TeamTemplateEndpoint.getTeamTemplate(idTeamTemplate)
         try {
             const response = await authAxios.get(url)
-            const item: ITeam = response.data
-            item.members.forEach((item) => {
+            const itemTeam: ITeam = response.data
+            itemTeam.members.forEach((item) => {
                 items.push(
                     {
                         id: -getRandomInt(MAX_RANDOM_VALUE),
                         manufactureId: 0,
-                        employee: {id: item.id, tabNum: item.tabNum, fio: item.fio, staff: item.staff},
+                        employee: {
+                            id: item.id,
+                            tabNum: item.tabNum,
+                            fio: item.fio,
+                            staff: item.staff
+                        },
                         periodStart: (new Date()).toISOString(),
                         periodEnd: (new Date()).toISOString(),
-                        work: {...nullWork}
+                        work: {
+                            id: itemTeam.work.id,
+                            name: itemTeam.work.name
+                        }
                     }
                 )
             })
