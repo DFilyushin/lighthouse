@@ -9,7 +9,8 @@ import {
     Grid,
     Button,
     TextField,
-    Paper
+    Paper,
+    IconButton
 } from '@material-ui/core';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -29,6 +30,8 @@ import {MemberTable} from "../components";
 import {loadEmployeeList} from "redux/actions/employeeAction";
 import {ITeam} from "types/model/team";
 import {IEmployeeListItem} from "types/model/employee";
+import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import {loadWorkList} from "../../../redux/actions/workAction";
 
 
 interface ITeamItemProps {
@@ -71,19 +74,14 @@ const TeamItem = (props: ITeamItemProps) => {
     const teamId = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
     const {className, ...rest} = props;
 
-    const teamItem = useSelector((state: any) => state.team.teamItem);
+    const teamItem = useSelector((state: IStateInterface) => state.team.teamItem);
     const errorValue = useSelector((state: IStateInterface) => state.tare.error);
     const hasError = useSelector((state: IStateInterface) => state.tare.hasError);
     const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
+    const workItems = useSelector((state: IStateInterface) => state.works.workItems)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let value: any = null;
-        if (typeof (teamItem[event.target.name]) === 'number') {
-            value = parseFloat(event.target.value);
-        } else {
-            value = event.target.value;
-        }
-        const item = {...teamItem, [event.target.name]: value};
+        const item = {...teamItem, [event.target.name]: event.target.value};
         dispatch(changeTeamItem(item))
     };
 
@@ -123,8 +121,9 @@ const TeamItem = (props: ITeamItemProps) => {
     }
 
     useEffect(() => {
-            dispatch(loadTeamItem(teamId));
+            dispatch(loadTeamItem(teamId))
             dispatch(loadEmployeeList())
+            dispatch(loadWorkList())
         }, [dispatch, teamId]
     )
 
@@ -146,6 +145,26 @@ const TeamItem = (props: ITeamItemProps) => {
                 });
                 item.members[index].id = value.id;
                 item.members[index].fio = value.name;
+                dispatch(changeTeamItem(item));
+            }
+        );
+    }
+
+    const handleChangeWork = () => {
+        selectDialog(
+            {
+                'title': 'Выбор вида работ',
+                description: '',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: workItems,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value: any) => {
+                const item: ITeam = {...teamItem}
+                item.work.id = value.id;
+                item.work.name = value.name;
                 dispatch(changeTeamItem(item));
             }
         );
@@ -188,7 +207,29 @@ const TeamItem = (props: ITeamItemProps) => {
                                     variant="outlined"
                                 />
                             </Grid>
-
+                            <Grid
+                                item
+                                xs={12}
+                            >
+                                <Paper elevation={0} className={classes.paper_root}>
+                                    <TextField
+                                        fullWidth
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
+                                        label="Вид работы"
+                                        margin="dense"
+                                        name="unit"
+                                        required
+                                        value={teamItem.work.name}
+                                        variant="outlined"
+                                    />
+                                    <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                                onClick={handleChangeWork}>
+                                        <MenuOpenIcon/>
+                                    </IconButton>
+                                </Paper>
+                            </Grid>
                         </Grid>
                         <MemberTable
                             employees={teamItem.members}
