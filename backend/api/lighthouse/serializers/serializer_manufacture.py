@@ -9,6 +9,21 @@ from .serializer_domain import EmployeeListSerializer
 from .serializer_refs import MaterialUnitSerializer
 
 
+class WorkSerializer(serializers.ModelSerializer):
+    """
+    Виды работ производства
+    """
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField()
+
+    class Meta:
+        model = ProductionWork
+        fields = ('id', 'name')
+
+    def create(self, validated_data):
+        return ProductionWork.objects.create(name=validated_data['name'])
+
+
 class TeamListSerializer(serializers.ModelSerializer):
     """
     Список шаблонов смен
@@ -27,12 +42,14 @@ class TeamSerializer(serializers.ModelSerializer):
     """
     id = serializers.IntegerField(required=False)
     name = serializers.CharField(max_length=100, allow_null=False, allow_blank=False)
+    work = WorkSerializer(source='id_work')
     members = EmployeeListSerializer(many=True)
 
     def create(self, validated_data):
         members = validated_data.pop('members')
         team = Team.objects.create(
-            name=validated_data['name']
+            name=validated_data['name'],
+            id_work_id=validated_data['id_work']['id']
         )
         for item in members:
             TeamMember.objects.create(
@@ -43,6 +60,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.name = validated_data['name']
+        instance.id_work_id = validated_data['id_work']['id']
         members = validated_data.pop('members')
 
         old_mapping = {inst.id: inst for inst in instance.members.all()}
@@ -62,7 +80,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ('id', 'name', 'members')
+        fields = ('id', 'name', 'work', 'members')
 
 
 class ProductLineSerializer(serializers.ModelSerializer):
@@ -78,21 +96,6 @@ class ProductLineSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return ProductionLine.objects.create(name=validated_data['name'])
-
-
-class WorkSerializer(serializers.ModelSerializer):
-    """
-    Виды работ производства
-    """
-    id = serializers.IntegerField(required=False)
-    name = serializers.CharField()
-
-    class Meta:
-        model = ProductionWork
-        fields = ('id', 'name')
-
-    def create(self, validated_data):
-        return ProductionWork.objects.create(name=validated_data['name'])
 
 
 class ProdCalcRawsListSerializer(serializers.ListSerializer):
