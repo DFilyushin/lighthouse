@@ -36,6 +36,8 @@ import {NEW_RECORD_VALUE} from "utils/AppConst"
 import AuthenticationService from "services/Authentication.service"
 import {nullWork} from "types/model/work"
 import authAxios from "../../services/axios-api"
+import TeamTemplateEndpoint from "../../services/endpoints/TeamTemplateEndpoint";
+import {ITeam} from "../../types/model/team";
 
 
 /**
@@ -83,7 +85,7 @@ export function loadProductionCard(id: number) {
     return async (dispatch: any, getState: any) => {
         if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadCardItem({...nullProduction, id: -getRandomInt(MAX_RANDOM_VALUE)}))
-        }else {
+        } else {
             dispatch(startLoading());
             try {
                 const response = await authAxios.get(ProductionEndpoint.getProductionCard(id));
@@ -103,22 +105,23 @@ export function loadProductionCard(id: number) {
 export function deleteProductionCard(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(startLoading());
-        try{
+        try {
             const response = await authAxios.delete(ProductionEndpoint.deleteProductionCard(id));
 
             if (response.status === 204) {
                 const items = [...getState().production.prodCardList];
-                const index = items.findIndex((elem)=>{return elem.id === id});
+                const index = items.findIndex((elem) => {
+                    return elem.id === id
+                });
                 items.splice(index, 1);
                 dispatch(successLoadCards(items));
-            }
-            else {
+            } else {
                 dispatch(showInfoMessage('error', 'Не удалось удалить запись!'))
             }
-        }catch (e) {
-            if (e.response.status === 400){
+        } catch (e) {
+            if (e.response.status === 400) {
                 dispatch(showInfoMessage('error', e.response.data['message']));
-            }else{
+            } else {
                 dispatch(showInfoMessage('error', 'Не удалось удалить запись!'));
             }
         }
@@ -133,9 +136,9 @@ export function deleteProductionCard(id: number) {
 export function getProductionTeam(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
-        if (id === NEW_RECORD_VALUE){
+        if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadTeam([]))
-        }else {
+        } else {
             dispatch(startLoading());
             try {
                 const url = ProductionEndpoint.getProductionTeam(id);
@@ -168,9 +171,9 @@ export function getProductionTeam(id: number) {
 export function getProductionCalc(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(hideInfoMessage());
-        if (id === NEW_RECORD_VALUE){
+        if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadCardCalc([]))
-        }else {
+        } else {
             dispatch(startLoading());
             try {
                 const url = ProductionEndpoint.getProductionCalc(id);
@@ -204,7 +207,7 @@ export function getProductionTare(id: number) {
         dispatch(hideInfoMessage());
         if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadCardTare([]))
-        }else {
+        } else {
             dispatch(startLoading());
             try {
                 const url = ProductionEndpoint.getProductionTare(id);
@@ -235,7 +238,7 @@ export function getProductionMaterial(id: number) {
         dispatch(hideInfoMessage());
         if (id === NEW_RECORD_VALUE) {
             dispatch(successLoadMaterials([]))
-        }else {
+        } else {
             dispatch(startLoading());
             try {
                 const url = ProductionEndpoint.getProductionMaterial(id);
@@ -260,7 +263,7 @@ export function getProductionMaterial(id: number) {
 }
 
 function successLoadMaterials(items: IProductionMaterial[]) {
-    return{
+    return {
         type: PROD_MATERIAL_LOAD_SUCCESS,
         items
     }
@@ -270,10 +273,12 @@ function successLoadMaterials(items: IProductionMaterial[]) {
  * Изменить объект смены в массиве
  * @param item Смена
  */
-export function updateTeamItem(item: IProductionTeam){
-    return async (dispatch: any, getState: any)=> {
+export function updateTeamItem(item: IProductionTeam) {
+    return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTeam];
-        const index = items.findIndex((elem: IProductionTeam)=>{return elem.id === item.id});
+        const index = items.findIndex((elem: IProductionTeam) => {
+            return elem.id === item.id
+        });
         items[index].employee = item.employee;
         items[index].periodStart = item.periodStart;
         items[index].periodEnd = item.periodEnd;
@@ -287,9 +292,11 @@ export function updateTeamItem(item: IProductionTeam){
  * @param item Калькуляция
  */
 export function updateCalcItem(item: IProductionCalc) {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardCalc]
-        const index = items.findIndex((elem: IProductionCalc)=>{return elem.id === item.id})
+        const index = items.findIndex((elem: IProductionCalc) => {
+            return elem.id === item.id
+        })
         items[index].raw = item.raw
         items[index].calcValue = item.calcValue
         items[index].manufactureId = item.manufactureId
@@ -299,9 +306,11 @@ export function updateCalcItem(item: IProductionCalc) {
 }
 
 export function updateTareItem(item: IProductionTare) {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
-        const index = items.findIndex((elem: IProductionTare)=>{return elem.id === item.id});
+        const index = items.findIndex((elem: IProductionTare) => {
+            return elem.id === item.id
+        });
         items[index].tareId = item.tareId;
         items[index].tareName = item.tareName;
         items[index].tareV = item.tareV;
@@ -311,9 +320,11 @@ export function updateTareItem(item: IProductionTare) {
 }
 
 export function updateMaterialItem(item: IProductionMaterial) {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardMaterial];
-        const index = items.findIndex((elem: IProductionMaterial)=>{return elem.id === item.id});
+        const index = items.findIndex((elem: IProductionMaterial) => {
+            return elem.id === item.id
+        });
         items[index].materialId = item.materialId;
         items[index].materialName = item.materialName;
         items[index].total = item.total;
@@ -322,9 +333,39 @@ export function updateMaterialItem(item: IProductionMaterial) {
 }
 
 export function changeProductionCard(item: IProduction) {
-    return{
+    return {
         type: PROD_CHANGE_ITEM,
         item: item
+    }
+}
+
+/**
+ * Добавить сотрудников в смену через шаблон
+ * @param idTeamTemplate Код шаблона
+ */
+export function addTeamByTemplate(idTeamTemplate: number) {
+    return async (dispatch: any, getState: any) => {
+        const items: IProductionTeam[] = [...getState().production.prodCardTeam];
+        const url = TeamTemplateEndpoint.getTeamTemplate(idTeamTemplate)
+        try {
+            const response = await authAxios.get(url)
+            const item: ITeam = response.data
+            item.members.forEach((item) => {
+                items.push(
+                    {
+                        id: -getRandomInt(MAX_RANDOM_VALUE),
+                        manufactureId: 0,
+                        employee: {id: item.id, tabNum: item.tabNum, fio: item.fio, staff: item.staff},
+                        periodStart: (new Date()).toISOString(),
+                        periodEnd: (new Date()).toISOString(),
+                        work: {...nullWork}
+                    }
+                )
+            })
+            dispatch(changeTeamItem(items));
+        } catch (e) {
+            dispatch(showInfoMessage('error', 'Не удалось добавить сотрудников через шаблон смены'));
+        }
     }
 }
 
@@ -335,7 +376,9 @@ export function changeProductionCard(item: IProduction) {
 export function deleteTeamItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTeam];
-        const index = items.findIndex((item:IProductionTeam)=> {return item.id === id});
+        const index = items.findIndex((item: IProductionTeam) => {
+            return item.id === id
+        });
         items.splice(index, 1);
         dispatch(changeTeamItem(items));
     }
@@ -410,7 +453,9 @@ export function newMaterialItem() {
 export function deleteTareItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardTare];
-        const index = items.findIndex((item:IProductionTare)=> {return item.id === id});
+        const index = items.findIndex((item: IProductionTare) => {
+            return item.id === id
+        });
         items.splice(index, 1);
         dispatch(changeTareItem(items));
     }
@@ -423,7 +468,9 @@ export function deleteTareItem(id: number) {
 export function deleteMaterialItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardMaterial];
-        const index = items.findIndex((item:IProductionMaterial)=> {return item.id === id});
+        const index = items.findIndex((item: IProductionMaterial) => {
+            return item.id === id
+        });
         items.splice(index, 1);
         dispatch(changeMaterialItem(items));
     }
@@ -436,7 +483,9 @@ export function deleteMaterialItem(id: number) {
 export function deleteCalcItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const items = [...getState().production.prodCardCalc];
-        const index = items.findIndex((item:IProductionCalc)=> {return item.id === id});
+        const index = items.findIndex((item: IProductionCalc) => {
+            return item.id === id
+        });
         items.splice(index, 1);
         dispatch(changeCalcItem(items));
     }
@@ -450,7 +499,7 @@ export function addNewProduction(item: IProduction) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError());
         dispatch(hideInfoMessage());
-        try{
+        try {
             const sendItem = {
                 'creator': AuthenticationService.currentEmployeeId(),
                 'formula': item.idFormula,
@@ -478,7 +527,7 @@ export function addNewProduction(item: IProduction) {
                 sendCalcItems =
                     calcItems.map((value: IProductionCalc) => {
                         value.manufactureId === 0 ? idRecord = 0 : idRecord = value.id;
-                        return(
+                        return (
                             {
                                 'id': idRecord,
                                 'manufactureId': id,
@@ -495,7 +544,7 @@ export function addNewProduction(item: IProduction) {
 
             const teamItems = [...getState().production.prodCardTeam];
             if (teamItems.length) {
-                teamItems.forEach((value)=>{
+                teamItems.forEach((value) => {
                     value.manufactureId = id;
                 })
                 await authAxios.put(ProductionEndpoint.getProductionTeam(id), teamItems);
@@ -503,10 +552,12 @@ export function addNewProduction(item: IProduction) {
 
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
-            if (tareItems.length){
-                sendTareItems = tareItems.map((value)=>{
+            if (tareItems.length) {
+                sendTareItems = tareItems.map((value) => {
                     const newValue = {...value};
-                    if (newValue.id < 0) {newValue.id=0}
+                    if (newValue.id < 0) {
+                        newValue.id = 0
+                    }
                     return (
                         newValue
                     )
@@ -521,10 +572,10 @@ export function addNewProduction(item: IProduction) {
 
             dispatch(saveOk())
             return id
-        }catch (e) {
-            if (e.response.status === 400){
+        } catch (e) {
+            if (e.response.status === 400) {
                 dispatch(showInfoMessage('error', e.response.data['message']));
-            }else{
+            } else {
                 dispatch(showInfoMessage('error', e.response.toString()));
             }
             return Promise.reject();
@@ -547,7 +598,7 @@ export function getOriginalCalculation() {
                 manufactureId: 0,
                 unit: response.data.raws[key]['idUnit'],
                 raw: {
-                    id:response.data.raws[key]['idRaw']['id'],
+                    id: response.data.raws[key]['idRaw']['id'],
                     name: response.data.raws[key]['idRaw']['name']
                 },
                 calcValue: response.data.raws[key]['rawCount']
@@ -574,7 +625,7 @@ export function getAutoCalculation() {
                 manufactureId: 0,
                 unit: response.data.raws[key]['idUnit'],
                 raw: {
-                    id:response.data.raws[key]['idRaw']['id'],
+                    id: response.data.raws[key]['idRaw']['id'],
                     name: response.data.raws[key]['idRaw']['name']
                 },
                 calcValue: response.data.raws[key]['rawCount']
@@ -592,7 +643,7 @@ export function updateProduction(item: IProduction) {
     return async (dispatch: any, getState: any) => {
         dispatch(clearError())
         dispatch(hideInfoMessage())
-        try{
+        try {
             const sendItem = {
                 'creator': item.creator.id,
                 'formula': item.idFormula,
@@ -615,34 +666,36 @@ export function updateProduction(item: IProduction) {
             if (calcItems.length) {
                 let idRecord = 0;
                 sendCalcItems =
-                calcItems.map((value: IProductionCalc) => {
-                    value.manufactureId === 0 ? idRecord = 0 : idRecord = value.id;
-                    return(
-                        {
-                            'id': idRecord,
-                            'manufactureId': id,
-                            'raw': value.raw,
-                            'unit': value.unit,
-                            'calcValue': value.calcValue
-                        }
-                    )
-                })
+                    calcItems.map((value: IProductionCalc) => {
+                        value.manufactureId === 0 ? idRecord = 0 : idRecord = value.id;
+                        return (
+                            {
+                                'id': idRecord,
+                                'manufactureId': id,
+                                'raw': value.raw,
+                                'unit': value.unit,
+                                'calcValue': value.calcValue
+                            }
+                        )
+                    })
                 await authAxios.put(ProductionEndpoint.getProductionCalc(item.id), sendCalcItems);
             }
 
             const teamItems = [...getState().production.prodCardTeam];
             if (teamItems.length) {
-                teamItems.forEach((value)=>{
+                teamItems.forEach((value) => {
                     value.manufactureId = item.id;
                 })
                 await authAxios.put(ProductionEndpoint.getProductionTeam(item.id), teamItems);
             }
             const tareItems = [...getState().production.prodCardTare];
             let sendTareItems: any[] = [];
-            if (tareItems.length){
-                sendTareItems = tareItems.map((value)=>{
+            if (tareItems.length) {
+                sendTareItems = tareItems.map((value) => {
                     const newValue = {...value};
-                    if (newValue.id < 0) {newValue.id=0}
+                    if (newValue.id < 0) {
+                        newValue.id = 0
+                    }
                     return (
                         newValue
                     )
@@ -657,11 +710,11 @@ export function updateProduction(item: IProduction) {
             dispatch(saveOk())
 
             dispatch(showInfoMessage('info', 'Сохранено успешно'))
-        }catch (e) {
-            if (e.response.status === 400){
+        } catch (e) {
+            if (e.response.status === 400) {
                 console.log('Error save data. Error message: ', e.response.data['detail'])
                 dispatch(showInfoMessage("error", e.response.data['message']));
-            }else{
+            } else {
                 dispatch(showInfoMessage('error', e.response.toString()));
             }
         }
@@ -676,13 +729,13 @@ export function updateProduction(item: IProduction) {
  */
 export function executeCard(id: number) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             const response = await authAxios.post(ProductionEndpoint.executeProductionCard(id));
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
                 dispatch(showInfoMessage('info', 'Выполнено'))
             }
-        }catch (e) {
+        } catch (e) {
             console.log(e)
             const message = e.response.data.message;
             dispatch(showInfoMessage('error', message || e.toString()))
@@ -696,13 +749,13 @@ export function executeCard(id: number) {
  */
 export function sendCardToWork(id: number) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             const response = await authAxios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_IN_WORK));
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
                 dispatch(showInfoMessage('info', 'Выполнено'))
             }
-        }catch (e) {
+        } catch (e) {
             const message = e.response.data.message;
             dispatch(showInfoMessage('error', message || e.toString()))
         }
@@ -715,13 +768,13 @@ export function sendCardToWork(id: number) {
  */
 export function cancelCard(id: number) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             const response = await authAxios.post(ProductionEndpoint.changeCardStatus(id, CARD_STATE_CANCEL));
             if (response.status === 200) {
                 dispatch(loadProductionCard(id))
                 dispatch(showInfoMessage('info', 'Выполнено'))
             }
-        }catch (e) {
+        } catch (e) {
             const message = e.response.data.message;
             dispatch(showInfoMessage('error', message || e.toString()))
         }
@@ -729,83 +782,83 @@ export function cancelCard(id: number) {
 }
 
 function changeMaterialItem(items: IProductionMaterial[]) {
-    return{
+    return {
         type: PROD_MATERIAL_CHANGE,
         items
     }
 }
 
 function changeTareItem(items: IProductionTare[]) {
-    return{
+    return {
         type: PROD_TARE_CHANGE,
         items: items
     }
 }
 
 function changeCalcItem(items: IProductionCalc[]) {
-    return{
+    return {
         type: PROD_CALC_CHANGE,
         items: items
     }
 }
 
 function saveNewRecordOk(item: IProduction) {
-    return{
+    return {
         type: PROD_ADD_NEW_OK,
         item
     }
 }
 
-function changeTeamItem(items: IProductionTeam[]){
-    return{
+function changeTeamItem(items: IProductionTeam[]) {
+    return {
         type: PROD_TEAM_CHANGE,
         items: items
     }
 }
 
 function successLoadCardTare(items: IProductionTare[]) {
-    return{
+    return {
         type: PROD_TARE_LOAD_SUCCESS,
         items: items
     }
 }
 
 function successLoadTeam(items: IProductionTeam[]) {
-    return{
+    return {
         type: PROD_TEAM_LOAD_SUCCESS,
         items: items
     }
 }
 
 function clearError() {
-    return{
+    return {
         type: PROD_CLEAR_ERROR
     }
 }
 
 function successLoadCards(items: IProductionList[]) {
-    return{
+    return {
         type: PROD_LOAD_SUCCESS,
         items: items
     }
 }
 
 function successLoadCardItem(item: IProduction) {
-    return{
+    return {
         type: PROD_LOAD_ITEM_SUCCESS,
         item: item
     }
 }
 
 function successLoadOriginalCalculation(items: IProductionCalc[]) {
-    return{
+    return {
         type: PROD_ORIGIN_CALC_LOAD_SUCCESS,
         items: items
     }
 }
 
 function successLoadCardCalc(items: IProductionCalc[]) {
-    return{
+    return {
         type: PROD_CALC_LOAD_SUCCESS,
         items: items
     }
@@ -824,7 +877,7 @@ function endLoading() {
 }
 
 function saveOk() {
-    return{
+    return {
         type: PROD_SAVE_OK
     }
 }
