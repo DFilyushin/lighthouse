@@ -9,6 +9,10 @@ const initState = (): ITeamState => ({
     teamItem: {
         id: 0,
         name: '',
+        work: {
+            id: 0,
+            name: ''
+        },
         members: []
     },
     hasError: false,

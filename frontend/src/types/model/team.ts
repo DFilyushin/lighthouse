@@ -1,4 +1,5 @@
 import {IEmployeeListItem} from "./employee";
+import {IWork} from "./work";
 
 export interface ITeamList {
     /**
@@ -20,6 +21,10 @@ export interface ITeam {
      * Наименование
      */
     name: string;
+    /**
+     * Вид работ
+     */
+    work: IWork;
     /**
      * Список сотрудников
      */

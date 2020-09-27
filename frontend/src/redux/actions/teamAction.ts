@@ -41,6 +41,10 @@ export function loadTeamItem(id: number) {
             const item: ITeam = {
                 id: 0,
                 name: '',
+                work: {
+                    id: 0,
+                    name: ''
+                },
                 members: []
             }
             dispatch(fetchSuccessItem(item))
@@ -97,6 +101,7 @@ export function updateTeam(item: ITeam) {
             await authAxios.put(url, item)
         } catch (e) {
             dispatch(showInfoMessage('error', `Не удалось обновить запись ${e.toString()}!`))
+            throw e
         }
     }
 }
@@ -113,6 +118,7 @@ export function newTeam(item: ITeam) {
             await authAxios.post(url, item)
         } catch (e) {
             dispatch(showInfoMessage('error', `Не удалось добавить запись ${e.toString()}!`))
+            throw e
         }
     }
 }
