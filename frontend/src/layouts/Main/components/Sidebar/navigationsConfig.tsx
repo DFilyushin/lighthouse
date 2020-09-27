@@ -66,6 +66,10 @@ export default [
                     {
                         title: 'Методы оплат',
                         href: '/catalogs/paymethod'
+                    },
+                    {
+                        title: 'Шаблоны смен',
+                        href: '/catalogs/team_template'
                     }
                 ],
                 access: [AccessGroups.ADMIN, AccessGroups.TECHNOLOGIST, AccessGroups.FACTORY, AccessGroups.BUH]
