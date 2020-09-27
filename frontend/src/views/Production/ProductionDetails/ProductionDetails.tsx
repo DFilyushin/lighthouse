@@ -1,4 +1,4 @@
-import React, {ReactNode, SyntheticEvent, useEffect, useState} from 'react'
+import React, {Fragment, ReactNode, SyntheticEvent, useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import {
     Card,
@@ -23,6 +23,7 @@ import {useHistory} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import MenuOpenIcon from "@material-ui/icons/MenuOpen"
 import AddIcon from '@material-ui/icons/Add'
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import CircularIndeterminate from "components/Loader/Loader"
 import {useConfirm} from "material-ui-confirm"
 import {useDialog} from "components/SelectDialog"
@@ -52,7 +53,8 @@ import {
     getProductionMaterial,
     deleteMaterialItem,
     updateMaterialItem,
-    newMaterialItem
+    newMaterialItem,
+    addTeamByTemplate
 } from "redux/actions/productionAction"
 import LayersIcon from '@material-ui/icons/Layers'
 import ProductionTeamItem from "../components/ProductionTeamItem"
@@ -91,6 +93,7 @@ import {loadWorkList} from "../../../redux/actions/workAction"
 import ProductionMaterialItem from "../components/ProductionMaterialItem"
 import {loadUnit} from "../../../redux/actions/unitAction"
 import {loadRaws} from "../../../redux/actions/rawAction"
+import {loadTeamTemplateList} from "../../../redux/actions/teamAction";
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
@@ -158,6 +161,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
     const workItems = useSelector((state: IStateInterface) => state.works.workItems)
     const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
+    const teamTemplates = useSelector((state: IStateInterface) => state.team.teamItems)
     const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId))
 
     const [hasProductError, setProductError] = useState(false)
@@ -254,16 +258,37 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 dispatch(changeProductionCard(item));
                 setMasterError(false)
             }
-        );
+        )
     }
 
     /**
      * Добавить новую запись смены
-     * @param id
      */
-    const handleAddTeamItem = (id: number) => {
+    const handleAddTeamItem = () => {
         dispatch(newTeamItem())
-    };
+    }
+
+    /**
+     * Добавить список сотрудников в смену по шаблону
+     */
+    const handleAddTeamByTemplate = () => {
+        // Выбрать шаблон
+
+        selectDialog(
+            {
+                'title': 'Выбор шаблона',
+                description: '',
+                confirmationText: DIALOG_SELECT_TEXT,
+                cancellationText: DIALOG_CANCEL_TEXT,
+                dataItems: teamTemplates,
+                initKey: 0,
+                valueName: 'name'
+            }
+        ).then((value: any) => {
+                dispatch(addTeamByTemplate(value.id));
+            }
+        )
+    }
 
     /**
      * Добавить новую запись с готовой продукцией
@@ -446,6 +471,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         dispatch(loadWorkList())
         dispatch(loadTare())
         dispatch(loadUnit())
+        dispatch(loadTeamTemplateList())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -1073,21 +1099,31 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                         </TabPanel>
                         <TabPanel value={tab} index={PAGE_TEAM}>
                             <Grid container spacing={1}>
-                                <Grid item xs={11}>
+                                <Grid item xs={10}>
                                     <Typography variant={"h5"}>
                                         Список сотрудников работающих в смене
                                     </Typography>
                                 </Grid>
                                 {
                                     canEditCard() &&
-                                    <Grid item xs={1}>
-                                        <Tooltip title={'Добавить смену сотрудника'}>
-                                            <Fab color="default" aria-label="add"
-                                                 onClick={(event => handleAddTeamItem(idProduction))}>
-                                                <AddIcon/>
-                                            </Fab>
-                                        </Tooltip>
-                                    </Grid>
+                                    <Fragment>
+                                        <Grid item xs={1}>
+                                            <Tooltip title={'Добавить смену сотрудника'}>
+                                                <Fab color="default" aria-label="add"
+                                                     onClick={(event => handleAddTeamItem())}>
+                                                    <AddIcon/>
+                                                </Fab>
+                                            </Tooltip>
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <Tooltip title={'Добавить список сотрудников через шаблон'}>
+                                                <Fab color="default" aria-label="add"
+                                                     onClick={(event => handleAddTeamByTemplate())}>
+                                                    <LibraryAddIcon />
+                                                </Fab>
+                                            </Tooltip>
+                                        </Grid>
+                                    </Fragment>
                                 }
                                 {
                                     productionTeam.map((team: IProductionTeam) => (
