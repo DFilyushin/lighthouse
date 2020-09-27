@@ -6,6 +6,11 @@ from .appmodels.sales import *
 from .appmodels.appsetup import *
 
 
+@admin.register(Plan)
+class PlanAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
     list_display = ('id_material', 'reserve_start', 'reserve_end', 'reserve_value')
