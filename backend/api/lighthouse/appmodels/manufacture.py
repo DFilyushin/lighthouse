@@ -25,6 +25,17 @@ MANUFACTURE_STATE = [
 ]
 
 
+class Plan(models.Model):
+    start_date = models.DateField(verbose_name='Начало периода планирования')
+    end_date = models.DateField(verbose_name='Окончание периода')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Ответственный')
+    sign = models.DateField(null=True, verbose_name='Дата подписания')
+
+    class Meta:
+        verbose_name = 'Планирование'
+        verbose_name_plural = 'Планирование'
+
+
 class ProductionWork(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name='Наименование работы')
 
