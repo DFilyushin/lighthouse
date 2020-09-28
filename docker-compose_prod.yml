@@ -3,6 +3,7 @@ version: '3'
 volumes:
   pgsql:
   static_files:
+  migrations:
 
 services:
   python:
@@ -20,6 +21,7 @@ services:
     - TIME_ZONE=Asia/Almaty
     volumes:
       - ./static_files:/static_files
+      - ./migrations:/lighthouse/lighthouse/migrations
     links:
       - postgres
     command: ./docker-entrypoint.sh
