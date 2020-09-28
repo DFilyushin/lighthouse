@@ -36,6 +36,8 @@ services:
       POSTGRES_PASSWORD: lighthouse
       POSTGRES_USER: lighthouse
       POSTGRES_DB: lighthouse
+    ports:
+      - 5432:5432
 
   djangoweb:
     build:
