@@ -77,7 +77,7 @@ const SelectDialog = ({open, options, onCancel, onConfirm}) => {
                     onChange={handleChange}
                 >
                     {dataItems &&
-                    dataItems.filter(x => x.name.toLowerCase().includes(findString.toLowerCase())).map((record) => (
+                    dataItems.filter(x => x[valueName].toLowerCase().includes(findString.toLowerCase())).map((record) => (
                             <FormControlLabel
                                 value={parseInt(record.id)}
                                 key={record.id}
