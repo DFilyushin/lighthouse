@@ -101,6 +101,7 @@ const TareItem = (props: ITareItemProps) => {
      * @param event
      */
     const saveHandler = (event: React.SyntheticEvent) => {
+         event.preventDefault()
         saveItem(dispatch).then( ()=>{
             history.push('/catalogs/tare');
         }
