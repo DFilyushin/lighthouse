@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     Dialog,
     DialogActions,
@@ -7,6 +7,7 @@ import {
     RadioGroup,
     Radio,
     FormControlLabel,
+    TextField,
     Button
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
@@ -26,6 +27,7 @@ const SelectDialog = ({open, options, onCancel, onConfirm}) => {
     } = options;
     const [id, setId] = React.useState(0);
     const [itemValue, setItemValue] = React.useState('');
+    const [findString, setFindString] = React.useState('')
 
 
     const handleChange = (event) => {
@@ -35,13 +37,19 @@ const SelectDialog = ({open, options, onCancel, onConfirm}) => {
         });
         setId(selectedId);
         setItemValue(dataItems[index][valueName])
-    };
+    }
+
+    useEffect(() => {
+        if (open) {
+            setFindString('')
+        }
+    }, [open])
 
     const handleClick = (event) => {
         onConfirm({id: id, name: itemValue});
         setId(0)
         setItemValue('')
-    };
+    }
 
     return (
         <Dialog fullWidth {...dialogProps} open={open} onClose={onCancel}>
@@ -54,6 +62,14 @@ const SelectDialog = ({open, options, onCancel, onConfirm}) => {
                     {description}
                 </Alert>
                 }
+                <TextField
+                    fullWidth
+                    value={findString}
+                    onChange={(event => {
+                        setFindString(event.target.value)
+                    })}
+                    placeholder={"Поиск по тексту"}
+                />
                 <RadioGroup
                     aria-label="ringtone"
                     name="ringtone"
@@ -61,9 +77,12 @@ const SelectDialog = ({open, options, onCancel, onConfirm}) => {
                     onChange={handleChange}
                 >
                     {dataItems &&
-                    dataItems.map((record) => (
-                            <FormControlLabel value={parseInt(record.id)} key={record.id} control={<Radio/>}
-                                              label={record[valueName]}/>
+                    dataItems.filter(x => x.name.toLowerCase().includes(findString.toLowerCase())).map((record) => (
+                            <FormControlLabel
+                                value={parseInt(record.id)}
+                                key={record.id}
+                                control={<Radio/>}
+                                label={record[valueName]}/>
                         )
                     )
                     }
