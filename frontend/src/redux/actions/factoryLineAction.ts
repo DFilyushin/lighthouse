@@ -124,7 +124,7 @@ export function updateFactoryItem(item: IFactoryLine) {
     return async (dispatch: any, getState: any) => {
         try{
             await authAxios.put(FactoryLineEndpoint.saveFactoryLine(item.id), item);
-            const items = [...getState().factoryLine.items]
+            const items = [...getState().factoryLine.lineItems]
             const index = items.findIndex(value => value.id === item.id)
             items[index] = item
             dispatch(fetchSuccess(items))
