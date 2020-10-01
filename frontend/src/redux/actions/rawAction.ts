@@ -137,7 +137,7 @@ export function updateRaw(raw: IRaw) {
     return async (dispatch: any, getState: any) => {
         try{
             await authAxios.put(RawEndpoint.saveRaw(raw.id), raw);
-            const items = [...getState().raws.raws]
+            const items = [...getState().raw.raws]
             const index = items.findIndex(value => value.id === raw.id)
             items[index] = raw
             dispatch(fetchSuccess(items))
