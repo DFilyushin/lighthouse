@@ -1,18 +1,24 @@
 import React, {useEffect} from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import {Button, Grid, Typography, Select, MenuItem} from '@material-ui/core';
-import { KeyboardDatePicker} from '@material-ui/pickers';
+import {
+    Button,
+    Grid,
+    Typography,
+    Select,
+    MenuItem,
+    Avatar,
+    List,
+    FormControl,
+    InputLabel,
+    ListItem,
+    ListItemAvatar,
+    makeStyles
+} from '@material-ui/core';
+import {KeyboardDatePicker} from '@material-ui/pickers';
 import {STORE_PERIOD_END, STORE_PERIOD_START} from "types/Settings";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
 import {INVALID_DATE_FORMAT, NO_SELECT_VALUE} from "utils/AppConst";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBoxes } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faBoxes} from '@fortawesome/free-solid-svg-icons'
 import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -55,7 +61,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'white'
     },
     smallIcon: {
-        height:'32px',
+        height: '32px',
         width: '32px'
     },
     primaryColor: {
@@ -67,17 +73,22 @@ interface IStoreJournalToolbarProps {
     className: string;
     newItemUrl: string;
     onRefresh: (startDate: string, endDate: string, state: number, material: number) => void;
+    refresh: number
 }
 
 const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
     const classes = useStyles()
     const history = useHistory()
-    const { className, newItemUrl, onRefresh, ...rest } = props
+    const {className, newItemUrl, onRefresh, ...rest} = props
     const [firstDate, setFirstDate] = React.useState<Date>(new Date())
     const [endDate, setEndDate] = React.useState<Date>(new Date())
     const [typeOperation, setTypeOperation] = React.useState<number>(NO_SELECT_VALUE)
     const [typeMaterial, setTypeMaterial] = React.useState<number>(NO_SELECT_VALUE)
 
+
+    useEffect(() => {
+        handleRefreshData()
+    }, [rest.refresh]);
 
     const handleFirstDateChange = (date: Date | null) => {
         if (date) setFirstDate(date);
@@ -87,18 +98,18 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
         if (date) setEndDate(date)
     }
 
-    const handleChangeTypeOper = (event: React.ChangeEvent<{ value: unknown }>)=> {
+    const handleChangeTypeOper = (event: React.ChangeEvent<{ value: unknown }>) => {
         setTypeOperation(event.target.value as number)
     }
 
-    const handleChangeTypeMaterial = (event: React.ChangeEvent<{ value: unknown}>) => {
+    const handleChangeTypeMaterial = (event: React.ChangeEvent<{ value: unknown }>) => {
         setTypeMaterial(event.target.value as number)
     }
 
     /**
      * Запрос данных с сервера
      */
-    const handleRefreshData = ()=> {
+    const handleRefreshData = () => {
         onRefresh(firstDate.toISOString(), endDate.toISOString(), typeOperation, typeMaterial);
     }
 
@@ -106,11 +117,15 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
     /**
      * Сохраненные данные начала и окончания периода
      */
-    useEffect(()=>{
-        const d1: string|null = localStorage.getItem(STORE_PERIOD_START);
-        const d2: string|null = localStorage.getItem(STORE_PERIOD_END);
-        if (d1) {setFirstDate(new Date(d1))}
-        if (d2) {setEndDate(new Date(d2))}
+    useEffect(() => {
+        const d1: string | null = localStorage.getItem(STORE_PERIOD_START);
+        const d2: string | null = localStorage.getItem(STORE_PERIOD_END);
+        if (d1) {
+            setFirstDate(new Date(d1))
+        }
+        if (d2) {
+            setEndDate(new Date(d2))
+        }
     }, []);
 
     /**
@@ -128,7 +143,9 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
             <List className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar className={clsx(classes.large, classes.white)}> <FontAwesomeIcon icon={faBoxes} className={classes.primaryColor} size={"lg"}/> </Avatar>
+                        <Avatar className={clsx(classes.large, classes.white)}> <FontAwesomeIcon icon={faBoxes}
+                                                                                                 className={classes.primaryColor}
+                                                                                                 size={"lg"}/> </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h4">Журнал операций</Typography>
                 </ListItem>
@@ -144,8 +161,9 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                     xs={12}
                 >
                     <div className={classes.buttonGroup}>
-                        <span className={classes.spacer} />
-                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Приход сырья</Button>
+                        <span className={classes.spacer}/>
+                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Приход
+                            сырья</Button>
                     </div>
                 </Grid>
             </Grid>
