@@ -38,6 +38,7 @@ class ClientSerializer(serializers.ModelSerializer):
                   'comment', 'clientId')
 
     def create(self, validated_data):
+        id = validated_data.pop('id')
         id_agent = validated_data.pop('id_agent')
         agent = Employee.objects.get(id=id_agent['id'])
         client_instance = Client.objects.create(**validated_data, id_agent=agent)
