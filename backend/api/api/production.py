@@ -109,6 +109,11 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': './debug.log',
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['special']
+        }
     },
     'loggers': {
         'django': {
