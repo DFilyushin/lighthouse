@@ -107,7 +107,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': './debug.log',
+            'filename': './logs/debug.log',
         },
         'mail_admins': {
             'level': 'ERROR',
