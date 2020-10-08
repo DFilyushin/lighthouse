@@ -139,6 +139,10 @@ function fetchSuccessLoadReserveList(items: IStoreListReserveProduct[]) {
 
 /**
  * Загрузить журнал складских операций
+ * @param date1 Начальная дата формирования журнала
+ * @param date2 Конечная дата формирования журнала
+ * @param operType Тип операции (приход, расход)
+ * @param materialType Тип материала (сырьё, продукция)
  */
 export function loadStoreJournal(date1: string, date2: string, operType: number, materialType: number) {
     return async (dispatch: any, getState: any) => {
@@ -158,7 +162,44 @@ export function loadStoreJournal(date1: string, date2: string, operType: number,
                     price: response.data[key]['price'],
                     total: 0,
                     factoryId: response.data[key]['factoryId'],
-                    costId: response.data[key]['costId']
+                    costId: response.data[key]['costId'],
+                    tareV: response.data[key]['tare_v']
+                }
+                itemList.push(item)
+            });
+            dispatch(fetchSuccessJournal(itemList))
+        }catch (e) {
+            dispatch(fetchError('Ошибка загрузки журнала!'))
+        }
+        dispatch(fetchFinish())
+    }
+}
+
+/**
+ * Загрузка журнала движения материала
+ * @param material Код материала
+ * @param onDate Дата, на которую формируется журнал
+ */
+export function loadStoreByMaterial(material: number, onDate: string) {
+    return async (dispatch: any, getState: any) => {
+        const itemList: IStoreJournal[] = [];
+        dispatch(fetchStart());
+        try{
+            const url = StoreEndpoint.getStoreByMaterial(material, onDate);
+            const response = await authAxios.get(url);
+            Object.keys(response.data).forEach((key, index)=>{
+                const item: IStoreJournal = {
+                    id: response.data[key]['id'],
+                    count: response.data[key]['value'],
+                    date: response.data[key]['date'],
+                    tare: response.data[key]['tare'],
+                    name: response.data[key]['material'],
+                    type: response.data[key]['type'],
+                    price: response.data[key]['price'],
+                    total: response.data[key]['value'],
+                    factoryId: response.data[key]['factoryId'],
+                    costId: response.data[key]['costId'],
+                    tareV: response.data[key]['tare_v']
                 }
                 itemList.push(item)
             });
