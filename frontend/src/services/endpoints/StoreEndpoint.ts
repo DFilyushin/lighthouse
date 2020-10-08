@@ -60,6 +60,16 @@ class StoreEndpoint {
     }
 
     /**
+     * Журнал складских операций по материалу
+     * @param material Код материала
+     * @param onDate Дата, на которую формируется список
+     */
+    static getStoreByMaterial(material: number, onDate: string): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/store/product/${material}/`
+    }
+
+
+    /**
      * Запись складской операции
      * @param id Код записи
      */
