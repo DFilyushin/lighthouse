@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {
     Card,
     CardActions,
@@ -12,7 +12,7 @@ import {
     TableHead,
     TableRow,
     Typography,
-    TablePagination
+    TablePagination, Button
 } from '@material-ui/core';
 import {IStoreBase} from "../../../../types/model/store";
 import {rowsPerPageArray} from "../../../../utils/AppConst";
@@ -35,12 +35,10 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    }
+    tableRow: {}
 }));
 
-interface IStoreTableProps{
+interface IStoreTableProps {
     className: string,
     store: IStoreBase[],
     onClickItem: any
@@ -48,7 +46,7 @@ interface IStoreTableProps{
 
 
 const StoreTable = (props: IStoreTableProps) => {
-    const { className, store, onClickItem, ...rest } = props;
+    const {className, store, onClickItem, ...rest} = props;
 
     const classes = useStyles();
 
@@ -56,7 +54,7 @@ const StoreTable = (props: IStoreTableProps) => {
     const [page, setPage] = useState<number>(0);
 
 
-    const handlePageChange = (event:any, page: number) => {
+    const handlePageChange = (event: any, page: number) => {
         setPage(page);
     };
 
@@ -81,6 +79,7 @@ const StoreTable = (props: IStoreTableProps) => {
                                     <TableCell>Ед. изм.</TableCell>
                                     <TableCell>Кол-во в таре</TableCell>
                                     <TableCell>Кол-во в объёме</TableCell>
+                                    <TableCell/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -99,6 +98,10 @@ const StoreTable = (props: IStoreTableProps) => {
                                             <TableCell>{item.unit}</TableCell>
                                             <TableCell>{item.total}</TableCell>
                                             <TableCell>{item.total * item.v}</TableCell>
+                                            <TableCell>
+                                                <Button variant="outlined" color="primary"
+                                                        onClick={event => onClickItem(item.id)}>Подробнее</Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
@@ -116,7 +119,7 @@ const StoreTable = (props: IStoreTableProps) => {
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
-                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+                    labelDisplayedRows={({from, to, count}) => `${from}-${to} из ${count}`}
                 />
             </CardActions>
         </Card>
