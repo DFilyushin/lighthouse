@@ -66,7 +66,8 @@ import {
     UserList as UserListView,
     UserProfile as UserProfileView,
     WorkItem as WorkItemView,
-    WorkList as WorkListView
+    WorkList as WorkListView,
+    StoreMaterialJournal as StoreMaterialJournalView
 } from './views'
 import {AccessGroups} from "./utils/AppConst";
 
@@ -130,6 +131,7 @@ const Routes = () => {
             <AuthRouteWithLayout component={StoreNewItemsView} layout={MainLayout} path="/store/raw/new" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={StoreReservedView} layout={MainLayout} path="/store/reserved" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={ReserveItemView} layout={MainLayout} path="/store/reserved/:id" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={StoreMaterialJournalView} layout={MainLayout} path="/store/journal/material/:material" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
 
             <AuthRouteWithLayout component={StaffView} layout={MainLayout} path="/org/staff" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={StaffItemView} layout={MainLayout} path="/org/staff/:id" access={[AccessGroups.ADMIN, AccessGroups.FINANCE]} exact/>
