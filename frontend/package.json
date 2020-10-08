@@ -37,6 +37,7 @@
     "moment": "2.24.0",
     "prismjs": "^1.20.0",
     "react": "latest",
+    "react-bootstrap-icons": "^1.0.0",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "latest",
     "react-markdown": "^4.3.1",
