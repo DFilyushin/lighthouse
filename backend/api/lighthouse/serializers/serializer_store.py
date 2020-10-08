@@ -43,10 +43,11 @@ class StoreJournalSerializer(serializers.ModelSerializer):
     price = serializers.FloatField(source='oper_price')
     factoryId = serializers.IntegerField(source='id_manufacture_id', allow_null=True)
     costId = serializers.IntegerField(source='id_cost_id', allow_null=True)
+    tare_v = serializers.FloatField(source='id_tare__v')
 
     class Meta:
         model = Store
-        fields = ('id', 'material', 'tare', 'date', 'type', 'value', 'price', 'factoryId', 'costId')
+        fields = ('id', 'material', 'tare', 'date', 'type', 'value', 'price', 'factoryId', 'costId', 'tare_v')
 
 
 class StoreTurnoverSerializer(serializers.Serializer):
