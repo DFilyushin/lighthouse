@@ -111,8 +111,8 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
                                     <TableCell>Опер.</TableCell>
                                     <TableCell>Материал</TableCell>
                                     <TableCell>Тара</TableCell>
+                                    <TableCell>Кол-во ед. тары</TableCell>
                                     <TableCell>Кол-во</TableCell>
-                                    <TableCell>Цена</TableCell>
                                     <TableCell/>
                                 </TableRow>
                             </TableHead>
@@ -131,7 +131,7 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell>{item.tare}</TableCell>
                                             <TableCell>{item.count}</TableCell>
-                                            <TableCell>{item.price}</TableCell>
+                                            <TableCell>{item.tareV * item.count}</TableCell>
                                             <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Подробнее</Button></TableCell>
                                         </TableRow>
                                     ))}
