@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 interface IStoreToolbar {
     className: string,
     title: string,
-    onFind: any,
+    onFind?: any,
     icon?: any,
     onFindCaption?: string
 }
@@ -82,13 +82,15 @@ const StoreToolbar = (props: IStoreToolbar) => {
                 </ListItem>
             </List>
 
-            <div className={classes.row}>
-                <SearchInput
-                    className={classes.searchInput}
-                    onEnterKeyDown={onKeyDownHandler}
-                    placeholder={onFindCaption}
-                />
-            </div>
+            {onFind &&
+                <div className={classes.row}>
+                    <SearchInput
+                        className={classes.searchInput}
+                        onEnterKeyDown={onKeyDownHandler}
+                        placeholder={onFindCaption}
+                    />
+                </div>
+            }
         </div>
     );
 };
