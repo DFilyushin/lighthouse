@@ -14,21 +14,61 @@ export interface IStoreBase {
 }
 
 export interface IMaterialItem {
+    /**
+     * Код материала
+     */
     id: number;
+    /**
+     * Наименование материала
+     */
     name: string;
 }
 
 export interface IStoreJournal {
+    /**
+     * Код записи
+     */
     id: number;
+    /**
+     * Тип операции
+     */
     type: number;
+    /**
+     * Дата операции
+     */
     date: string;
+    /**
+     * Наименование материала
+     */
     name: string;
-    tare: ITare;
+    /**
+     * Наименование тары
+     */
+    tare: string;
+    /**
+     * Количество
+     */
     count: number;
+    /**
+     * Цена
+     */
     price: number;
+    /**
+     * Количество
+     */
     total: number;
+    /**
+     * Ссылка на произв. карту
+     */
     factoryId: number;
+    /**
+     * Ссылка на затраты
+     */
     costId: number;
+    /**
+     * Объём тары
+     */
+    tareV: number;
 }
 
 export interface ICostJournalItem {
@@ -37,7 +77,6 @@ export interface ICostJournalItem {
     date: string;
     total: number
 }
-
 
 export interface IStoreJournalItem {
     id: number;
