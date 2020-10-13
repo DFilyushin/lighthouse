@@ -15,6 +15,7 @@ import lighthouse.endpoints.api_notification as api_ntf_views
 router = routers.DefaultRouter()
 
 # Склад и рецептура
+router.register(r'material', api_store_views.MaterialViewSet)  # материалы
 router.register(r'product', api_store_views.ProductViewSet)  # продукция
 router.register(r'raw', api_store_views.RawViewSet)  # сырьё
 router.register(r'stock', api_store_views.StockViewSet)  # ТМЗ

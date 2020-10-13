@@ -9,7 +9,7 @@ from lighthouse.serializers.serializer_refs import MaterialUnitSerializer
 from lighthouse.serializers.serializer_store import TareSerializer, StoreTurnoverSerializer, \
     StoreRawSerializer, StoreProductSerializer, RefCostSerializer, RefCostFlatSerializer, \
     ExpenseListSerializer, ExpenseSerializer, StoreJournalItemSerializer, \
-    StoreJournalSerializer, StoreArrivalSerializer, ReservationSerializer
+    StoreJournalSerializer, StoreArrivalSerializer, ReservationSerializer, MaterialSerializer
 from lighthouse.serializers.serializer_reserve import ReservationListSerializer
 from lighthouse.serializers.serializer_manufacture import ProductSerializer, RawSerializer
 from lighthouse.serializers.serializer_product import StockSerializer
@@ -19,6 +19,17 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .api_utils import RoundFunc
 from .api_errors import API_ERROR_POST_TURNOVER
+
+
+class MaterialViewSet(viewsets.ModelViewSet):
+    """
+    Материал
+    """
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    search_fields = ['name']
+    filter_backends = (filters.SearchFilter,)
+    permission_classes = [IsAuthenticated]
 
 
 class MaterialUnitViewSet(viewsets.ModelViewSet):
