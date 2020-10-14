@@ -238,7 +238,7 @@ class StoreByMaterialViewSet(views.APIView):
             .filter(is_delete=False)
         queryset = queryset \
             .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name', 'id_tare__v',
-                    'oper_value', 'oper_type', 'oper_date', 'oper_price') \
+                    'oper_value', 'oper_type', 'oper_date', 'oper_price', 'id') \
             .order_by('-oper_date')
         serializer = StoreJournalSerializer(queryset, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
