@@ -1,11 +1,11 @@
 import authAxios from "../../services/axios-api";
-import ProductEndpoint from "../../services/endpoints/ProductEndpoint";
+import MaterialEndpoint from "../../services/endpoints/MaterialEndpoint";
 
-
+/**
+ * Получить название материала
+ * @param materialId Код материала
+ */
 export async function getMaterialName(materialId: number) {
-    let value: string = '';
-    const response = await authAxios.get(ProductEndpoint.getProductItem(materialId))
+    const response = await authAxios.get(MaterialEndpoint.getMaterialItem(materialId))
     return Promise.resolve(response.data['name'])
 }
-
-export default getMaterialName
