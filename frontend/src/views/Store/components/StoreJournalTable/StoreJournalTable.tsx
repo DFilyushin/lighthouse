@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import {Button, Tooltip} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import RedoIcon from '@material-ui/icons/Redo';
 import UndoIcon from '@material-ui/icons/Undo';
 import DomainIcon from '@material-ui/icons/Domain';
@@ -17,7 +16,9 @@ import {
     TableHead,
     TableRow,
     Typography,
-    TablePagination
+    TablePagination,
+    Button,
+    Tooltip
 } from '@material-ui/core';
 import {IStoreJournal} from "types/model/store";
 import moment from "moment";
@@ -41,12 +42,10 @@ const useStyles = makeStyles(theme => ({
     actions: {
         justifyContent: 'flex-end'
     },
-    tableRow: {
-
-    }
+    tableRow: {}
 }));
 
-interface IStoreJournalTableProps{
+interface IStoreJournalTableProps {
     className: string,
     store: IStoreJournal[],
     onClickItem: any
@@ -54,7 +53,7 @@ interface IStoreJournalTableProps{
 
 
 const StoreJournalTable = (props: IStoreJournalTableProps) => {
-    const { className, store, onClickItem, ...rest } = props;
+    const {className, store, onClickItem, ...rest} = props;
 
     const classes = useStyles();
 
@@ -62,7 +61,7 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
     const [page, setPage] = useState<number>(0);
 
 
-    const handlePageChange = (event:any, page: number) => {
+    const handlePageChange = (event: any, page: number) => {
         setPage(page);
     };
 
@@ -80,18 +79,18 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
      */
     const getStateIcon = (state: number) => {
         if (state === 0) {
-            return <Tooltip title={'Приход'} children={<RedoIcon />} />
-        } else{
-            return <Tooltip title={'Расход'} children={<UndoIcon />} />
+            return <Tooltip title={'Приход'} children={<RedoIcon/>}/>
+        } else {
+            return <Tooltip title={'Расход'} children={<UndoIcon/>}/>
         }
     }
 
     const getRecordIcon = (item: IStoreJournal) => {
         if (item.factoryId) {
-            return <Tooltip title={'Оборот по производственной карте'} children={<DomainIcon />} />
-        }else if (item.costId) {
-            return <Tooltip title={'Оборот по затратам'} children={<AccountBalanceWalletOutlinedIcon />} />
-        }else{
+            return <Tooltip title={'Оборот по производственной карте'} children={<DomainIcon/>}/>
+        } else if (item.costId) {
+            return <Tooltip title={'Оборот по затратам'} children={<AccountBalanceWalletOutlinedIcon/>}/>
+        } else {
             return null
         }
     }
@@ -125,14 +124,20 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
                                             key={item.id}
                                         >
                                             <TableCell>
-                                                <Typography variant="body1">{moment(item.date).format('DD/MM/YYYY')}</Typography>
+                                                <Typography
+                                                    variant="body1">
+                                                    {moment(item.date).format('DD/MM/YYYY')}
+                                                </Typography>
                                             </TableCell>
                                             <TableCell>{getStateIcon(item.type)} {getRecordIcon(item)}</TableCell>
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell>{item.tare}</TableCell>
                                             <TableCell>{item.count}</TableCell>
                                             <TableCell>{item.tareV * item.count}</TableCell>
-                                            <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(item.id)}>Подробнее</Button></TableCell>
+                                            <TableCell align="right">
+                                                <Button variant="outlined" color="primary"
+                                                        onClick={event => cellClicked(item.id)}>Подробнее</Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>
@@ -150,7 +155,7 @@ const StoreJournalTable = (props: IStoreJournalTableProps) => {
                     rowsPerPage={rowsPerPage}
                     rowsPerPageOptions={rowsPerPageArray}
                     labelRowsPerPage='Строк на странице:'
-                    labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
+                    labelDisplayedRows={({from, to, count}) => `${from}-${to} из ${count}`}
                 />
             </CardActions>
         </Card>
