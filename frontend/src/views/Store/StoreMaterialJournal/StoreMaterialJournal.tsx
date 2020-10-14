@@ -5,9 +5,7 @@ import { useHistory } from "react-router-dom";
 import {StoreJournalTable, StoreToolbar} from '../components';
 import CircularIndeterminate from "components/Loader/Loader";
 import {IStateInterface} from "redux/rootReducer";
-import {StoreJournalToolbar} from "../components/StoreJournalToolbar";
-import {loadStoreByMaterial, loadStoreJournal} from "redux/actions/storeAction";
-import {STORE_PERIOD_END, STORE_PERIOD_START} from "types/Settings";
+import {loadStoreByMaterial} from "redux/actions/storeAction";
 import {RouteComponentProps} from "react-router";
 import {CardChecklist} from 'react-bootstrap-icons'
 import {getMaterialName} from "../../../redux/actions/materialAction";
@@ -33,11 +31,11 @@ const StoreMaterialJournal = (props: IStoreMaterialJournalProps) => {
     const query = new URLSearchParams(props.location.search);
     const onDate = query.get('onDate') || ''
 
-    const journalItems = useSelector((state: IStateInterface) => state.store.storeJournal)
+    const journalItems = useSelector((state: IStateInterface) => state.store.storeMaterialJournal)
     const isLoading = useSelector((state: IStateInterface) => state.store.isLoading)
     const [materialName, setMaterialName] = useState('')
 
-    async function finishMyTask() {
+    async function getMaterialNameTitle() {
         const value = await getMaterialName(materialId)
         setMaterialName(value)
     }
@@ -48,7 +46,7 @@ const StoreMaterialJournal = (props: IStoreMaterialJournalProps) => {
 
     useEffect(()=>{
         dispatch(loadStoreByMaterial(materialId, onDate))
-        finishMyTask()
+        getMaterialNameTitle()
     }, [dispatch])
 
 
@@ -58,15 +56,11 @@ const StoreMaterialJournal = (props: IStoreMaterialJournalProps) => {
 
     return (
         <div className={classes.root}>
-            {
-
-                console.log('value2', getMaterialName(materialId))
-
-            }
             <StoreToolbar
                 className={''}
-                title={`Движение материала ${materialName}`}
+                title={`Движение материала "${materialName}"`}
                 icon={<CardChecklist color="primary" />}
+                onReturn={"True"}
             />
             <div className={classes.content}>
                 {isLoading ? <CircularIndeterminate/>
