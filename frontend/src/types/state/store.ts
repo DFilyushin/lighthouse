@@ -33,6 +33,7 @@ export interface IStoreState {
     storeMovement: IStoreNewMovement;
     storeReservedList: IStoreListReserveProduct[];
     storeReserveItem: IStoreReserveProduct;
+    storeMaterialJournal: IStoreJournal[];
     isLoading: boolean;
     error: string;
     hasError: boolean;

@@ -16,7 +16,11 @@ import {
     STORE_SET_DATE_RAW_STORE,
     STORE_SET_ERROR,
     STORE_RESERVE_LOAD_SUCCESS,
-    STORE_RESERVE_ITEM_LOAD_SUCCESS, STORE_RESERVE_NEW_ITEM, STORE_RESERVE_LOAD_ITEM_SUCCESS, STORE_RESERVE_CHANGE_ITEM
+    STORE_RESERVE_ITEM_LOAD_SUCCESS,
+    STORE_RESERVE_NEW_ITEM,
+    STORE_RESERVE_LOAD_ITEM_SUCCESS,
+    STORE_RESERVE_CHANGE_ITEM,
+    STORE_JOURNAL_MATERIAL_SUCCESS
 } from "./actions/types";
 import {nullStoreItem, nullStoreReserveProduct} from "../types/model/store";
 import {nullEmployeeItem} from "../types/model/employee";
@@ -34,6 +38,7 @@ const initState = (): IStoreState => ({
     productStore: [],
     reservedProduct: [],
     storeJournal: [],
+    storeMaterialJournal: [],
     isLoading: false,
     error: '',
     hasError: false
@@ -82,6 +87,8 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, storeReserveItem: action.item}
         case STORE_RESERVE_CHANGE_ITEM:
             return {...state, storeReserveItem: action.item}
+        case STORE_JOURNAL_MATERIAL_SUCCESS:
+            return {...state, storeMaterialJournal: action.items}
         default:
             return state
     }
