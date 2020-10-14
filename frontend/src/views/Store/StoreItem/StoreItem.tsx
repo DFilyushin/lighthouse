@@ -313,7 +313,7 @@ const StoreItem = (props: IStoreItemProps) => {
                                 <Button
                                     color="default"
                                     variant="contained"
-                                    onClick={(event => history.push('/store/journal/'))}
+                                    onClick={(event => history.goBack())}
                                 >
                                     Закрыть
                                 </Button>
