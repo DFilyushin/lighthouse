@@ -137,7 +137,7 @@ class RefCostSerializer(serializers.ModelSerializer):
 
 class ExpenseListSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
-    cost = serializers.CharField(source='id_cost__name')
+    cost = serializers.CharField(source='id_cost.name')
     date = serializers.DateField(source='cost_date')
     total = serializers.FloatField()
 
