@@ -26,7 +26,8 @@ import {
     STORE_RESERVE_LOAD_SUCCESS,
     STORE_RESERVE_NEW_ITEM,
     STORE_RESERVE_LOAD_ITEM_SUCCESS,
-    STORE_RESERVE_CHANGE_ITEM
+    STORE_RESERVE_CHANGE_ITEM,
+    STORE_JOURNAL_MATERIAL_SUCCESS
 } from "./types"
 import CostEndpoint from "services/endpoints/CostEndpoint"
 import {nullEmployeeItem} from "../../types/model/employee"
@@ -203,7 +204,7 @@ export function loadStoreByMaterial(material: number, onDate: string) {
                 }
                 itemList.push(item)
             });
-            dispatch(fetchSuccessJournal(itemList))
+            dispatch(fetchSuccessJournalMaterial(itemList))
         }catch (e) {
             dispatch(fetchError('Ошибка загрузки журнала!'))
         }
@@ -280,6 +281,13 @@ function fetchSuccessJournalItem(item: IStoreJournalItem) {
 function fetchSuccessJournal(items: IStoreJournal[]) {
     return{
         type: STORE_JOURNAL_SUCCESS,
+        items
+    }
+}
+
+function fetchSuccessJournalMaterial(items: IStoreJournal[]) {
+    return{
+        type: STORE_JOURNAL_MATERIAL_SUCCESS,
         items
     }
 }
