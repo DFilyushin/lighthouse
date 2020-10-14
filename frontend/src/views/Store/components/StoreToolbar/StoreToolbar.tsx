@@ -1,12 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
-import { SearchInput } from 'components';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import {makeStyles} from '@material-ui/core/styles';
+import {Typography, Button, List, ListItem, Avatar} from '@material-ui/core';
+import {SearchInput} from 'components';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -55,17 +53,23 @@ interface IStoreToolbar {
     onFind?: any,
     icon?: any,
     onFindCaption?: string
+    onReturn?: string
 }
 
 const StoreToolbar = (props: IStoreToolbar) => {
-    const { className, title, onFind, onFindCaption, ...rest } = props;
+    const {className, title, onFind, onFindCaption, onReturn, ...rest} = props;
     const classes = useStyles();
+    const history = useHistory();
 
-    function onKeyDownHandler (event: React.KeyboardEvent<HTMLInputElement>) {
-        if(event.key === 'Enter'){
+    function onKeyDownHandler(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === 'Enter') {
             const findText = event.currentTarget.value.trim();
             onFind(findText);
         }
+    }
+
+    function onReturnClick() {
+        history.goBack()
     }
 
     return (
@@ -83,13 +87,24 @@ const StoreToolbar = (props: IStoreToolbar) => {
             </List>
 
             {onFind &&
-                <div className={classes.row}>
-                    <SearchInput
-                        className={classes.searchInput}
-                        onEnterKeyDown={onKeyDownHandler}
-                        placeholder={onFindCaption}
-                    />
-                </div>
+            <div className={classes.row}>
+                <SearchInput
+                    className={classes.searchInput}
+                    onEnterKeyDown={onKeyDownHandler}
+                    placeholder={onFindCaption}
+                />
+            </div>
+            }
+
+            {
+                onReturn &&
+                <Button
+                    variant="contained"
+                    color={"primary"}
+                    onClick={onReturnClick}
+                >
+                    Вернуться
+                </Button>
             }
         </div>
     );
