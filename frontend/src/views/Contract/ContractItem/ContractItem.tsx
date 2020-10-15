@@ -148,6 +148,7 @@ const ContractItem = (props: IContractItemProps) => {
     const querySourceId = query.get('id')
 
     const [open, setOpen] = React.useState(false);
+    // eslint-disable-next-line
     const [maxWidth, setMaxWidth] = React.useState<DialogProps['maxWidth']>('md');
 
 

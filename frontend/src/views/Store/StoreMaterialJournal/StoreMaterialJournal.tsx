@@ -47,12 +47,8 @@ const StoreMaterialJournal = (props: IStoreMaterialJournalProps) => {
     useEffect(()=>{
         dispatch(loadStoreByMaterial(materialId, onDate))
         getMaterialNameTitle()
-    }, [dispatch])
-
-
-    function onRefresh(material: number, onDate: string) {
-        dispatch(loadStoreByMaterial(material, onDate))
-    }
+    }, // eslint-disable-next-line
+        [dispatch])
 
     return (
         <div className={classes.root}>

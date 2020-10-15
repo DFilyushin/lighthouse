@@ -87,8 +87,11 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
 
 
     useEffect(() => {
+
         handleRefreshData()
-    }, [rest.refresh]);
+    },
+        // eslint-disable-next-line
+        [rest.refresh]);
 
     const handleFirstDateChange = (date: Date | null) => {
         if (date) setFirstDate(date);
