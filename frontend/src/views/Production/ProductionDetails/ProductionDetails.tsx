@@ -85,6 +85,7 @@ import {
     DIALOG_SELECT_TEXT,
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES,
+    NEW_RECORD_TEXT,
     NEW_RECORD_VALUE
 } from "utils/AppConst"
 import {showInfoMessage} from "redux/actions/infoAction"
@@ -94,6 +95,7 @@ import ProductionMaterialItem from "../components/ProductionMaterialItem"
 import {loadUnit} from "../../../redux/actions/unitAction"
 import {loadRaws} from "../../../redux/actions/rawAction"
 import {loadTeamTemplateList} from "../../../redux/actions/teamAction";
+import {loadStockList} from "../../../redux/actions/stockAction";
 
 const PAGE_MAIN = 0;
 const PAGE_CALC_ORIGINAL = 1;
@@ -158,12 +160,13 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const unitItems = useSelector((state: IStateInterface) => state.unit.unitItems)
     const tareItems = useSelector((state: IStateInterface) => state.tare.tareItems)
     const prodLinetItems = useSelector((state: IStateInterface) => state.factoryLine.lineItems)
-    const emplItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
+    const employeeItems = useSelector((state: IStateInterface) => state.employee.employeeItems)
     const workItems = useSelector((state: IStateInterface) => state.works.workItems)
     const formulas = useSelector((state: IStateInterface) => state.formula.formulasForSelect)
+    const stockItems = useSelector((state: IStateInterface) => state.stock.stocks)
     const teamTemplates = useSelector((state: IStateInterface) => state.team.teamItems)
-    const [idProduction, setIdProduction] = useState(paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId))
 
+    const [idProduction, setIdProduction] = useState(paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE : parseInt(paramId))
     const [hasProductError, setProductError] = useState(false)
     const [hasFactoryLineError, setFactoryLineError] = useState(false)
     const [hasMasterError, setMasterError] = useState(false)
@@ -249,7 +252,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
-                dataItems: emplItems,
+                dataItems: employeeItems,
                 initKey: 0,
                 valueName: 'fio'
             }
@@ -273,7 +276,6 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      */
     const handleAddTeamByTemplate = () => {
         // Выбрать шаблон
-
         selectDialog(
             {
                 'title': 'Выбор шаблона',
@@ -308,9 +310,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
     /**
      * Добавить новую запись калькуляции
-     * @param id
      */
-    const handleAddCalcItem = (id: number) => {
+    const handleAddCalcItem = () => {
         dispatch(newCalcItem())
     };
 
@@ -346,7 +347,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
-                dataItems: emplItems,
+                dataItems: employeeItems,
                 initKey: 0,
                 valueName: 'fio'
             }
@@ -465,6 +466,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
 
     useEffect(() => {
         dispatch(loadRaws())
+        dispatch(loadStockList())
         dispatch(loadProduct())
         dispatch(loadFactoryLines())
         dispatch(loadEmployeeList())
@@ -509,7 +511,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                 setFactoryLineError(false)
             }
         );
-    };
+    }
 
     /**
      * Изменить ед. измерения
@@ -595,8 +597,8 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         let dataItems;
         let dialogTitle;
         if (typeSelect === 0) {
-            dataItems = rawItems
-            dialogTitle = 'Выбор сырья'
+            dataItems = stockItems
+            dialogTitle = 'Выбор ТМЦ'
         } else {
             dataItems = productItems
             dialogTitle = 'Выбор продукции'
@@ -706,7 +708,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         saveItem(dispatch).then((value) => {
             history.push(`/factory/${value}`)
         }).catch((e) => {
-            console.log('Error')
+            console.log('Error save card', e)
         });
     };
 
@@ -1078,7 +1080,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
                                 <Grid item xs={1}>
                                     <Tooltip title={'Добавить сырьё в калькуляцию'}>
                                         <Fab color="default" aria-label="add"
-                                             onClick={(event => handleAddCalcItem(idProduction))}>
+                                             onClick={(event => handleAddCalcItem())}>
                                             <AddIcon/>
                                         </Fab>
                                     </Tooltip>

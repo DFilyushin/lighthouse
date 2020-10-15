@@ -78,7 +78,7 @@ const ProductionMaterialItem = (props: IProductionTareItemProps) => {
                                         onClick={event => {
                                             handleClickListItem(item.id, 0)
                                         }}>
-                                <Tooltip title={"Выбрать сырьё"}>
+                                <Tooltip title={"Выбрать ТМЦ"}>
                                     <MenuOpenIcon/>
                                 </Tooltip>
                             </IconButton>
