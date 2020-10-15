@@ -31,7 +31,7 @@ import TabPanel from "../../Production/components/TabPanel"
 import {IStateInterface} from "redux/rootReducer"
 import AddIcon from "@material-ui/icons/Add"
 import {ClientContractItem} from "../components"
-import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 const PAGE_MAIN = 0
 const PAGE_CONTRACT = 1
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ClientItem = (props: IClientItemProps) => {
     const paramId = props.match.params.id;
-    const clientId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const clientId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
     const history = useHistory();
     const classes = useStyles();

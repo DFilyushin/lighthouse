@@ -13,7 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewStaff, changeItem, loadStaffItem, updateStaffItem} from "redux/actions/staffAction";
-import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 import {IStateInterface} from "../../../redux/rootReducer";
 
 interface IStaffItemProps {
@@ -32,7 +32,7 @@ const StaffItem = (props: IStaffItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const staffId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const staffId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const staffItem  = useSelector((state: IStateInterface)=> state.staff.staffItem);

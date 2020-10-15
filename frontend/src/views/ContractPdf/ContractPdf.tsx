@@ -8,6 +8,7 @@ import {RouteComponentProps} from "react-router";
 import {loadOrganization} from "../../redux/actions/organizationAction";
 import {Table, TableBody, TableCell, DataTableCell, TableHeader} from '@david.kucsai/react-pdf-table'
 import {MoneyToStr, Currency, Language, Pennies} from 'helpers/moneytostr'
+import {NEW_RECORD_TEXT} from "../../utils/AppConst";
 
 
 interface ContractPdfProps extends RouteComponentProps{
@@ -20,7 +21,7 @@ const ContractPdf = (props: ContractPdfProps) => {
     const dispatch = useDispatch()
 
     const paramId = props.match.params.id;
-    const contractId = paramId === 'new' ? 0 :parseInt(paramId);
+    const contractId = paramId === NEW_RECORD_TEXT ? 0 :parseInt(paramId);
 
     const contractItem = useSelector((state: IStateInterface) => state.contract.contractItem)
     const requisites = useSelector((state: IStateInterface) => state.org.org)

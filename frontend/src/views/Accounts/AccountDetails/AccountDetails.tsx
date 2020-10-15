@@ -391,7 +391,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
                                             <Button variant="contained" onClick={generatePass}>Сгенерировать</Button>
                                         </Grid>
 
-                                        {id !== 'new' &&
+                                        {id !== NEW_RECORD_TEXT &&
                                         <Fragment>
                                             <Grid
                                                 item

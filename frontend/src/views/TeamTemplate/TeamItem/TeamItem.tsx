@@ -16,7 +16,7 @@ import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useDialog} from "components/SelectDialog"
 import Alert from '@material-ui/lab/Alert';
-import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
+import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {IStateInterface} from "redux/rootReducer";
 import {
     addNewMember,
@@ -71,7 +71,7 @@ const TeamItem = (props: ITeamItemProps) => {
     const selectDialog = useDialog()
 
     const paramId = props.match.params.id;
-    const teamId = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
+    const teamId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE : parseInt(paramId);
     const {className, ...rest} = props;
 
     const teamItem = useSelector((state: IStateInterface) => state.team.teamItem);

@@ -19,7 +19,7 @@ import {
     loadFactoryItem,
     updateFactoryItem
 } from "redux/actions/factoryLineAction";
-import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 
 interface IFactoryLineProps {
@@ -38,7 +38,7 @@ const FactoryLineItem = (props: IFactoryLineProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const id = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const id = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const factoryLineItem  = useSelector((state: IStateInterface)=> state.factoryLine.lineItem);

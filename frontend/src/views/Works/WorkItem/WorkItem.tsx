@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import {addNewWorks, changeWork, loadWorkItem, updateWorks} from "redux/actions/workAction";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {IStateInterface} from "../../../redux/rootReducer";
 
 
@@ -55,7 +55,7 @@ const WorkItem = (props: IWorkItemProps) => {
     const dispatch = useDispatch();
 
     const paramId = props.match.params.id;
-    const idItem = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const idItem = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const workItem  = useSelector((state: any) => state.works.workItem);

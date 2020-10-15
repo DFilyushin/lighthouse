@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {IStateInterface} from "../../../redux/rootReducer";
 import {addNewStock, changeStock, loadStockItem, updateStock} from "../../../redux/actions/stockAction";
 
@@ -33,7 +33,7 @@ const StockItem = (props: IStockItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const stockId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const stockId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const stockItem  = useSelector((state: IStateInterface)=> state.stock.stockItem);

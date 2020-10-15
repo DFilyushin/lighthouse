@@ -13,7 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewProduct, changeProduct, loadProductItem, updateProduct} from "redux/actions/productAction";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 
 
 interface IProductItemProps {
@@ -33,7 +33,7 @@ const ProductItem = (props: IProductItemProps) => {
     const dispatch = useDispatch();
 
     const paramId = props.match.params.id;
-    const productId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const productId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const productItem  = useSelector((state: any)=> state.product.productItem);

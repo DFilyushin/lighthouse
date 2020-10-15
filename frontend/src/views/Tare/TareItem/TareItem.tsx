@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {loadUnit} from "redux/actions/unitAction";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Alert from '@material-ui/lab/Alert';
-import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
+import {DIALOG_CANCEL_TEXT, DIALOG_SELECT_TEXT, NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {useDialog} from "components/SelectDialog";
 import {IStateInterface} from "../../../redux/rootReducer";
 
@@ -60,7 +60,7 @@ const TareItem = (props: ITareItemProps) => {
     const selectDialog = useDialog();
 
     const paramId = props.match.params.id;
-    const tareId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const tareId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const tareItem  = useSelector((state: any) => state.tare.tareItem);

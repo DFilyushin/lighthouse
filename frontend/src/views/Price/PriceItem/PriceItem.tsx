@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {IStateInterface} from "../../../redux/rootReducer";
 import {changePriceItem, loadPriceListById, newPriceList, updatePrice} from "../../../redux/actions/priceAction";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
@@ -45,7 +45,7 @@ const PriceItem = (props: IPriceItemProps) => {
     const selectDialog = useDialog()
 
     const paramId = props.match.params.id;
-    const priceId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const priceId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
     const productItems = useSelector((state: IStateInterface) => state.product.products)
     const tareItems = useSelector((state: IStateInterface)=> state.tare.tareItems)

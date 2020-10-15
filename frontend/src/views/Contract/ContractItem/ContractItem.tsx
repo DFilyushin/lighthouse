@@ -54,7 +54,7 @@ import {searchClients} from "redux/actions/clientAction"
 import {
     DIALOG_ASK_DELETE, DIALOG_NO,
     DIALOG_TYPE_CONFIRM,
-    DIALOG_YES,
+    DIALOG_YES, NEW_RECORD_TEXT,
     NEW_RECORD_VALUE
 } from "../../../utils/AppConst"
 import TabPanel from "../../Production/components/TabPanel"
@@ -138,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
 const ContractItem = (props: IContractItemProps) => {
     const confirm = useConfirm()
     const paramId = props.match.params.id;
-    const contractId = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
+    const contractId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE : parseInt(paramId);
     const {className, ...rest} = props;
     const history = useHistory();
     const classes = useStyles();

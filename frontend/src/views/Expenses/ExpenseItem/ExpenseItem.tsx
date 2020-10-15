@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux"
 import {IStateInterface} from "redux/rootReducer"
 import {
     DIALOG_CANCEL_TEXT,
-    DIALOG_SELECT_TEXT,
+    DIALOG_SELECT_TEXT, NEW_RECORD_TEXT,
     NEW_RECORD_VALUE
 } from "utils/AppConst"
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
@@ -53,7 +53,7 @@ const ExpenseItem = (props: IExpenseItemProps) => {
     const selectDialog = useDialog()
 
     const paramId = props.match.params.id
-    const expenseId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId)
+    const expenseId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId)
 
     const { className } = props
 

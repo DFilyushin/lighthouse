@@ -14,7 +14,7 @@ import {
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addReserveItem, changeReserveItem, getReserveItem, updateReserveItem} from "redux/actions/storeAction";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {RouteComponentProps} from "react-router";
 
 interface IStoreItemProps extends RouteComponentProps{
@@ -65,8 +65,8 @@ const ReserveItem = (props: IStoreItemProps) => {
         querySource = query.get('source') || 'reserve'
     }
 
-    const paramId = props.match ? props.match.params.id : 'new';
-    const id = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
+    const paramId = props.match ? props.match.params.id : NEW_RECORD_TEXT;
+    const id = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE : parseInt(paramId);
     const storeItem = useSelector((state: any) => state.store.storeReserveItem);
 
 

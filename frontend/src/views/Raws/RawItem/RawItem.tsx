@@ -13,7 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {addNewRaw, changeRaw, loadRawItem, updateRaw} from "redux/actions/rawAction";
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 import {IStateInterface} from "../../../redux/rootReducer";
 
 
@@ -33,7 +33,7 @@ const RawItem = (props: IRawItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const rawId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const rawId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const rawItem  = useSelector((state: IStateInterface)=> state.raw.rawItem);

@@ -40,7 +40,7 @@ import {
     DIALOG_ASK_DELETE,
     DIALOG_NO,
     DIALOG_TYPE_CONFIRM,
-    DIALOG_YES,
+    DIALOG_YES, NEW_RECORD_TEXT,
     NEW_RECORD_VALUE
 } from "utils/AppConst";
 import {showInfoMessage} from "redux/actions/infoAction";
@@ -76,7 +76,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const dispatch = useDispatch()
     const confirm = useConfirm()
     const paramId = props.match.params.id
-    const formulaId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId)
+    const formulaId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId)
     const { className, ...rest } = props
 
     const selectDialog = useDialog()

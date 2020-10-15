@@ -32,7 +32,7 @@ import {
     DIALOG_ASK_DELETE,
     DIALOG_CANCEL_TEXT, DIALOG_NO,
     DIALOG_SELECT_TEXT,
-    DIALOG_TYPE_CONFIRM, DIALOG_YES,
+    DIALOG_TYPE_CONFIRM, DIALOG_YES, NEW_RECORD_TEXT,
     NEW_RECORD_VALUE
 } from "utils/AppConst";
 import TabPanel from "../../Production/components/TabPanel";
@@ -89,7 +89,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const confirm = useConfirm()
 
     const paramId = props.match.params.id
-    const id = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId)
+    const id = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE : parseInt(paramId)
     const employeeItem = useSelector((state: IStateInterface) => state.employee.employeeItem)
     const staffItems = useSelector((state: IStateInterface) => state.staff.staffs)
     const workTimeItems = useSelector((state: IStateInterface) => state.employee.workTimeItems)

@@ -9,7 +9,7 @@ import {IStateInterface} from "redux/rootReducer";
 import {addNewCost, changeCost, getCostItem, getFirstLevelCost, updateCost} from "redux/actions/costAction";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import {NEW_RECORD_VALUE} from "utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst";
 
 interface ICostItemProps {
     className: string,
@@ -46,7 +46,7 @@ const CostItem = (props: ICostItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const costId = paramId === 'new' ? NEW_RECORD_VALUE : parseInt(paramId);
+    const costId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE : parseInt(paramId);
     const {className, ...rest} = props;
 
 

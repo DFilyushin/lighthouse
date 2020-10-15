@@ -20,7 +20,7 @@ import {IStateInterface} from "redux/rootReducer"
 import {loadPayMethodItems} from "redux/actions/payMethodAction"
 import {
     DIALOG_CANCEL_TEXT,
-    DIALOG_SELECT_TEXT,
+    DIALOG_SELECT_TEXT, NEW_RECORD_TEXT,
     NEW_RECORD_VALUE
 } from "utils/AppConst"
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
@@ -67,7 +67,7 @@ const PaymentItem = (props: IPaymentItemProps) => {
     const selectDialog = useDialog()
 
     const paramId = props.match.params.id
-    const paymentId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId)
+    const paymentId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId)
     const query = new URLSearchParams(props.location.search);
     const querySource = query.get('source') || DEFAULT_SOURCE_PATH
     const querySourceId = query.get('id') || 0

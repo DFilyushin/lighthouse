@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import {IStateInterface} from "redux/rootReducer"
 import {addNewPayMethod, changePayMethod, loadPayMethodItem, updatePayMethod} from "redux/actions/payMethodAction"
-import {NEW_RECORD_VALUE} from "utils/AppConst"
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "utils/AppConst"
 
 
 interface IPayMethodItemProps {
@@ -33,7 +33,7 @@ const PayMethodItem = (props: IPayMethodItemProps) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const paramId = props.match.params.id
-    const payMethodId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId)
+    const payMethodId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId)
     const { className } = props
 
     const payMethodItem  = useSelector((state: IStateInterface)=> state.payMethod.payMethodItem)

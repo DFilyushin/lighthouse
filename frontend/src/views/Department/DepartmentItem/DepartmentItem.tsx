@@ -19,7 +19,7 @@ import {
     loadDepartmentItem,
     updateDepartmentItem
 } from "redux/actions/departmentAction"
-import {NEW_RECORD_VALUE} from "../../../utils/AppConst";
+import {NEW_RECORD_TEXT, NEW_RECORD_VALUE} from "../../../utils/AppConst";
 
 
 interface IDepartmentItemProps {
@@ -38,7 +38,7 @@ const DepartmentItem = (props: IDepartmentItemProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const paramId = props.match.params.id;
-    const depId = paramId === 'new' ? NEW_RECORD_VALUE :parseInt(paramId);
+    const depId = paramId === NEW_RECORD_TEXT ? NEW_RECORD_VALUE :parseInt(paramId);
     const { className, ...rest } = props;
 
     const departmentItem  = useSelector((state: IStateInterface)=> state.department.departmentItem);
