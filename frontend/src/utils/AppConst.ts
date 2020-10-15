@@ -8,6 +8,10 @@ export const MINUTES_30_TIMES = 1000 * 60 * 30 // 30 минут
 export const FORMULA_DEFAULT_CALC_AMOUNT = 1000
 export const FORMULA_DEFAULT_RAW_CONCENTRATION = 100
 
+export const SELECT_RAW = 0
+export const SELECT_PRODUCT = 1
+export const SELECT_STOCK = 2
+
 export enum AccessGroups {
     ALL = "all",
     ADMIN = "admin",
