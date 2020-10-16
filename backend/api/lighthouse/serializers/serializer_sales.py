@@ -280,7 +280,8 @@ class ContractSerializer(serializers.ModelSerializer):
             contractid=validated_data['contractid'],
             discount=validated_data['discount'],
             delivery_terms=validated_data['delivery_terms'],
-            contract_state=CONTRACT_STATE_DRAFT
+            contract_state=CONTRACT_STATE_DRAFT,
+            id_agent_id=validated_data['id_agent']['id']
         )
         specs = validated_data.pop('specs')
         wait_payments = validated_data.pop('expected_payment')
