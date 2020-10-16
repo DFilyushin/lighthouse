@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 interface IProductionTeamItemProps {
     item: IProductionCalc;
     onDeleteItem: ((id: number) => void);
-    onChangeMaterialItem?: ((id: number) => void);
+    onChangeMaterialItem?: ((id: number, typeSelect: number) => void);
     onChangeUnitItem: ((id: number) => void);
     canEdit: boolean;
     canDelete: boolean;
@@ -46,9 +46,9 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
     const {item, onDeleteItem, canEdit, canDelete, onChangeMaterialItem, onChangeUnitItem} = props;
     const dispatch = useDispatch();
 
-    const handleClickListItem = (id: number) => {
+    const handleClickListItem = (id: number, typeSelect: number) => {
         if (onChangeMaterialItem) {
-            onChangeMaterialItem(id)
+            onChangeMaterialItem(id, typeSelect)
         }
     }
 
@@ -75,17 +75,29 @@ const ProductionCalcItem = (props: IProductionTeamItemProps) => {
                         InputProps={{
                             readOnly: true,
                         }}
-                        label="Сырьё"
+                        label="Материал"
                         name="raw"
                         value={item.raw.name}
                     />
                     {canEdit &&
-                    <IconButton color="primary" className={classes.iconButton} aria-label="directions"
-                                onClick={event => {
-                                    handleClickListItem(item.id)
-                                }}>
-                        <MenuOpenIcon/>
-                    </IconButton>
+                    <>
+                        <Tooltip title={'Выбрать сырьё'}>
+                            <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                        onClick={event => {
+                                            handleClickListItem(item.id, 0)
+                                        }}>
+                                <MenuOpenIcon/>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={'Выбрать продукцию'}>
+                            <IconButton color="primary" className={classes.iconButton} aria-label="directions"
+                                        onClick={event => {
+                                            handleClickListItem(item.id, 1)
+                                        }}>
+                                <MenuOpenIcon/>
+                            </IconButton>
+                        </Tooltip>
+                    </>
                     }
                 </Paper>
             </Grid>

@@ -6,6 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
 import {IProductionMaterial} from "types/model/production";
 import {updateMaterialItem} from "../../../../redux/actions/productionAction";
+import {SELECT_PRODUCT, SELECT_STOCK} from "../../../../utils/AppConst";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -76,7 +77,7 @@ const ProductionMaterialItem = (props: IProductionTareItemProps) => {
                         canEdit ? (
                             <IconButton color="primary" className={classes.iconButton} aria-label="directions"
                                         onClick={event => {
-                                            handleClickListItem(item.id, 0)
+                                            handleClickListItem(item.id, SELECT_STOCK)
                                         }}>
                                 <Tooltip title={"Выбрать ТМЦ"}>
                                     <MenuOpenIcon/>
@@ -88,7 +89,7 @@ const ProductionMaterialItem = (props: IProductionTareItemProps) => {
                         canEdit ? (
                             <IconButton color="primary" className={classes.iconButton} aria-label="directions"
                                         onClick={event => {
-                                            handleClickListItem(item.id, 1)
+                                            handleClickListItem(item.id, SELECT_PRODUCT)
                                         }}>
                                 <Tooltip title={"Выбрать продукцию"}>
                                     <MenuOpenIcon/>

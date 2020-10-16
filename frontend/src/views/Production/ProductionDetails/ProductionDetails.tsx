@@ -86,7 +86,10 @@ import {
     DIALOG_TYPE_CONFIRM,
     DIALOG_YES,
     NEW_RECORD_TEXT,
-    NEW_RECORD_VALUE
+    NEW_RECORD_VALUE,
+    SELECT_PRODUCT,
+    SELECT_RAW,
+    SELECT_STOCK
 } from "utils/AppConst"
 import {showInfoMessage} from "redux/actions/infoAction"
 import {loadFormulaReference} from "redux/actions/formulaAction"
@@ -520,7 +523,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeCalcItemUnit = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор ед. измерения',
+                title: 'Выбор ед. измерения',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -544,14 +547,25 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
      * Изменить сырьё для калькуляции
      * @param id Код записи
      */
-    const handleChangeCalcItem = (id: number) => {
+    const handleChangeCalcItem = (id: number, typeSelect: number) => {
+        let dataItems;
+        let dialogTitle;
+        if (typeSelect === SELECT_RAW) {
+            dataItems = rawItems
+            dialogTitle = 'Выбор сырья'
+        } else if (typeSelect === SELECT_PRODUCT) {
+            dataItems = productItems
+            dialogTitle = 'Выбор продукции'
+        } else {
+            throw new Error('Неверно указан тип выбора для справочника!')
+        }
         selectDialog(
             {
-                'title': 'Выбор сырья',
+                title: dialogTitle,
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
-                dataItems: rawItems,
+                dataItems: dataItems,
                 initKey: 0,
                 valueName: 'name'
             }
@@ -574,7 +588,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleDeleteCalcItem = (id: number) => {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -591,22 +605,24 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     /**
      * Выбор материала из списка
      * @param id Код изменяемой записи
-     * @param typeSelect Вид справочника: 0 - сырьё, 1 - продукция
+     * @param typeSelect Вид справочника: 0 - ТМЦ, 1 - продукция
      */
     function handleChangeMaterialItem(id: number, typeSelect: number) {
         let dataItems;
         let dialogTitle;
-        if (typeSelect === 0) {
+        if (typeSelect === SELECT_STOCK) {
             dataItems = stockItems
             dialogTitle = 'Выбор ТМЦ'
-        } else {
+        } else if (typeSelect === SELECT_PRODUCT) {
             dataItems = productItems
             dialogTitle = 'Выбор продукции'
+        } else {
+            throw new Error('Неверно указан тип справочника выбора!')
         }
 
         selectDialog(
             {
-                'title': dialogTitle,
+                title: dialogTitle,
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
