@@ -168,7 +168,6 @@ const ContractItem = (props: IContractItemProps) => {
     const [showDeliveryBlock, setShowDeliveryBlock] = useState(false)
 
     const [hasClientError, setClientError] = useState(false)
-    const [hasDeliveryError, setDeliveryError] = useState(false)
     const [hasSpecError, setSpecError] = useState(false)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -248,7 +247,6 @@ const ContractItem = (props: IContractItemProps) => {
      */
     function isValid(): boolean {
         const checkClient = (contractItem.client.id !== 0)
-        const checkDateDelivery = (contractItem.estDelivery !== '')
         let checkSpec: boolean = true
         for (const item of contractItem.specs) {
             if ((item.product.id === 0) || (item.tare.id === 0)) {
@@ -257,10 +255,8 @@ const ContractItem = (props: IContractItemProps) => {
             }
         }
         setClientError(!checkClient)
-        setDeliveryError(!checkDateDelivery)
         setSpecError(!checkSpec)
-        const result = checkClient && checkDateDelivery && checkSpec
-        return result
+        return checkClient && checkSpec
     }
 
     useEffect(() => {
@@ -426,7 +422,10 @@ const ContractItem = (props: IContractItemProps) => {
      * Добавить новую спецификацию
      */
     const handleAddNewSpec = () => {
-        const maxNum = Math.max.apply(null, contractItem.specs.map(value => parseInt(value.specNum)))
+        let maxNum = 0
+        if (contractItem.specs.length !== 0) {
+             maxNum = Math.max.apply(null, contractItem.specs.map(value => parseInt(value.specNum)))
+        }
         const newSpecNum = maxNum + 1
         dispatch(addNewSpecItem(newSpecNum.toString()))
     }
@@ -545,6 +544,7 @@ const ContractItem = (props: IContractItemProps) => {
                                                     <Autocomplete
                                                         autoComplete
                                                         getOptionLabel={option => option.clientName}
+                                                        noOptionsText={'Не выбран  клиент, начните набирать текст...'}
                                                         options={dataSource as IClientItemList[]}
                                                         onChange={onChangeClient}
                                                         value={curClient}
@@ -596,6 +596,22 @@ const ContractItem = (props: IContractItemProps) => {
                                                 <Grid item md={2} xs={2}>
                                                     <TextField
                                                         fullWidth
+                                                        id="outlined-multiline-flexible"
+                                                        label="Дата контракта"
+                                                        type={"date"}
+                                                        margin="dense"
+                                                        name="contractDate"
+                                                        value={contractItem.contractDate}
+                                                        onChange={handleChange}
+                                                        variant="outlined"
+                                                        InputProps={{
+                                                            readOnly: !canEditContract(),
+                                                        }}
+                                                    />
+                                                </Grid>
+                                                <Grid item md={2} xs={2}>
+                                                    <TextField
+                                                        fullWidth
                                                         label="Номер контракта по 1C"
                                                         margin="dense"
                                                         name="contractId"
@@ -638,60 +654,8 @@ const ContractItem = (props: IContractItemProps) => {
                                                     }
                                                 </Grid>
                                                 <Grid item xs={5} md={5}/>
-                                                <Grid item md={2} xs={2}>
-                                                    <TextField
-                                                        fullWidth
-                                                        id="outlined-multiline-flexible"
-                                                        label="Дата контракта"
-                                                        type={"date"}
-                                                        margin="dense"
-                                                        name="contractDate"
-                                                        value={contractItem.contractDate}
-                                                        onChange={handleChange}
-                                                        variant="outlined"
-                                                        InputProps={{
-                                                            readOnly: !canEditContract(),
-                                                        }}
-                                                    />
-                                                </Grid>
-                                                <Grid item md={2} xs={2}>
-                                                    <TextField
-                                                        fullWidth
-                                                        id="estDelivery"
-                                                        label="Дата поставки"
-                                                        type={"date"}
-                                                        margin="dense"
-                                                        name="estDelivery"
-                                                        value={contractItem.estDelivery}
-                                                        onChange={handleChange}
-                                                        InputLabelProps={{ shrink: true }}
-                                                        variant="outlined"
-                                                        InputProps={{readOnly: !canEditContract(),}}
-                                                        helperText={hasDeliveryError ? "Обязательное поле" : ""}
-                                                        error={hasDeliveryError}
-                                                    />
-                                                </Grid>
-                                                <Grid
-                                                    item
-                                                    md={2}
-                                                    xs={2}
-                                                >
-                                                    <TextField
-                                                        fullWidth
-                                                        id="delivered"
-                                                        label="Отгружено"
-                                                        type={"date"}
-                                                        margin="dense"
-                                                        name="delivered"
-                                                        value={contractItem.delivered ? contractItem.delivered: ""}
-                                                        onChange={handleChange}
-                                                        variant="outlined"
-                                                        InputLabelProps={{ shrink: true }}
-                                                        InputProps={{
-                                                            readOnly: !canEditContract(),
-                                                        }}
-                                                    />
-                                                </Grid>
+
+
                                                 <Grid item
                                                       md={6}
                                                       xs={6}

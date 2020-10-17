@@ -260,6 +260,7 @@ export function addNewContract(item: IContract) {
         try{
             delete item.created
             if (item.delivered === '') {item.delivered = null}
+            item.estDelivery = new Date().toISOString().slice(0, 10)
             console.log( JSON.stringify(item) )
             await authAxios.post(ContractEndpoint.newContract(), item)
             return Promise.resolve()
