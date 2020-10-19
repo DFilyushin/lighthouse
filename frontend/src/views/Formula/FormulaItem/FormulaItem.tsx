@@ -360,6 +360,9 @@ const FormulaItem = (props: IFormulaItemProps) => {
                                     variant="outlined"
                                     helperText={hasCountError ? "Подозрительное значение" : ""}
                                     error={hasCountError}
+                                    InputProps={{
+                                        readOnly: formulaId !== NEW_RECORD_VALUE,
+                                    }}
                                 />
                             </Grid>
                             <Grid
