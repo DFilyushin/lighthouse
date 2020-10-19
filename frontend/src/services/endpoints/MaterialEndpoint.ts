@@ -11,6 +11,13 @@ class MaterialEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/material/${id}/`
     }
 
+    /**
+     * Получить список материалов
+     */
+    static getMaterialList(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/material/`
+    }
+
 }
 
 export default MaterialEndpoint
