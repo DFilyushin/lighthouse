@@ -31,13 +31,12 @@ import {
     DIALOG_YES
 } from "utils/AppConst";
 import {useDialog} from "components/SelectDialog";
-import {loadRaws} from "redux/actions/rawAction";
 import {useConfirm} from "material-ui-confirm";
 import {IStoreMaterialItem} from "types/model/store";
-import {DatePicker} from "@material-ui/pickers";
 import {ITare} from "../../../types/model/tare";
 import {loadTare} from "../../../redux/actions/tareAction";
 import {showInfoMessage} from "../../../redux/actions/infoAction";
+import {loadMaterials} from "../../../redux/actions/materialAction";
 
 interface IStoreNewItemsProps {
     className: string;
@@ -79,12 +78,12 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
     const confirm = useConfirm()
 
     const newMovementItem = useSelector((state: IStateInterface) => state.store.storeMovement)
-    const materialItems = useSelector((state: IStateInterface) => state.raw.raws)
+    const materialItems = useSelector((state: IStateInterface) => state.material.materialItems)
     const tareItems = useSelector((state: IStateInterface) => state.tare.tareItems)
 
     useEffect(() => {
         dispatch(newStoreMovement())
-        dispatch(loadRaws())
+        dispatch(loadMaterials())
         dispatch(loadTare())
     }, [dispatch]);
 
@@ -153,7 +152,6 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
         const okMaterial = newMovementItem.items.filter((item) => item.material.id === 0).length === 0
         const okTare = newMovementItem.items.filter((item) => item.tare.id === 0).length === 0
         const okCountMaterial = newMovementItem.items.filter((item) => item.count === 0).length === 0
-
         return okTare && okCountMaterial && okMaterial
     }
 
@@ -176,15 +174,6 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
         }
     }
 
-    /**
-     * Изменить дату прихода
-     * @param date
-     */
-    const handleDateChange = (date: Date | null) => {
-        const strDate = date?.toISOString().slice(0, 19);
-        const item = {...newMovementItem, 'date': strDate as string};
-        dispatch(updateItemMovement(item))
-    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const item = {...newMovementItem, [event.target.name]: event.target.value}
@@ -230,7 +219,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                     onSubmit={saveHandler}
                 >
                     <CardHeader
-                        subheader={'Приход сырья'}
+                        subheader={'Приход материалов'}
                         title="Добавление материалов на склад"
                     />
                     <Divider/>
@@ -242,16 +231,18 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                             spacing={3}
                         >
                             <Grid item xs={3}>
-                                <DatePicker
-                                    inputVariant="outlined"
-                                    format="dd/MM/yyyy"
-                                    id="date"
+                                <TextField
+                                    id="prodStart"
                                     label="Дата прихода"
-                                    name="date"
-                                    required
+                                    type="datetime-local"
                                     margin="dense"
                                     value={newMovementItem?.date}
-                                    onChange={handleDateChange}
+                                    name="date"
+                                    onChange={handleChange}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="outlined"
                                 />
                             </Grid>
                             <Grid item xs={12}>
