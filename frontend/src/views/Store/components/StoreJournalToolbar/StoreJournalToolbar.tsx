@@ -165,8 +165,7 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                 >
                     <div className={classes.buttonGroup}>
                         <span className={classes.spacer}/>
-                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Приход
-                            сырья</Button>
+                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Приход материалов</Button>
                     </div>
                 </Grid>
             </Grid>
