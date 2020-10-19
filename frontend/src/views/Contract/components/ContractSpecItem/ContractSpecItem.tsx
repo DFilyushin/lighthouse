@@ -94,7 +94,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
     const handleChangeProduct = () => {
         selectDialog(
             {
-                'title': 'Выбор продукции',
+                title: 'Выбор продукции',
                 description: '',
                 confirmationText: 'Выбрать',
                 cancellationText: 'Отменить',
@@ -126,7 +126,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
     const handleChangeTare = () => {
         selectDialog(
             {
-                'title': 'Выбор тары',
+                title: 'Выбор тары',
                 description: '',
                 confirmationText: 'Выбрать',
                 cancellationText: 'Отменить',

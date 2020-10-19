@@ -99,7 +99,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
     const handleChangeItem = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор сырья',
+                title: 'Выбор сырья',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -126,7 +126,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
     const handleDeleteItem = (id: number) => {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -196,7 +196,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
     const handleChangeTareItem = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор тары',
+                title: 'Выбор тары',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

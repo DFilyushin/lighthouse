@@ -74,7 +74,7 @@ const PriceList = () => {
         if (selected.length === 0 ) return;
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -102,7 +102,7 @@ const PriceList = () => {
     function newItemByTemplate() {
         selectDialog(
             {
-                'title': 'Выбор сотрудника',
+                title: 'Выбор сотрудника',
                 description: 'Выбрать сотрудника, на которого будет создан прайс-лист.',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',

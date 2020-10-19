@@ -199,7 +199,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeProduct = () => {
         selectDialog(
             {
-                'title': 'Выбор продукции',
+                title: 'Выбор продукции',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -219,7 +219,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeFormula = () => {
         selectDialog(
             {
-                'title': 'Выбор рецептуры расчёта продукции',
+                title: 'Выбор рецептуры расчёта продукции',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -251,7 +251,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeMaster = () => {
         selectDialog(
             {
-                'title': 'Выбор начальника смены',
+                title: 'Выбор начальника смены',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -281,7 +281,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         // Выбрать шаблон
         selectDialog(
             {
-                'title': 'Выбор шаблона',
+                title: 'Выбор шаблона',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -325,7 +325,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
         if (calculationFact.length > 0) {
             confirm(
                 {
-                    'title': DIALOG_TYPE_CONFIRM,
+                    title: DIALOG_TYPE_CONFIRM,
                     description: `Добавление автоматической калькуляции удалит имеющиеся записи. Продолжить?.`,
                     confirmationText: DIALOG_YES,
                     cancellationText: DIALOG_NO
@@ -346,7 +346,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeTeamItem = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор сотрудника',
+                title: 'Выбор сотрудника',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -373,7 +373,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeWorkItem = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор вида работы',
+                title: 'Выбор вида работы',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -400,7 +400,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleDeleteTeamItem = (id: number) => {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -417,7 +417,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleDeleteTareItem = (id: number) => {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -430,7 +430,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     function handleDeleteMaterialItem(id: number) {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -498,7 +498,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeProdLine = () => {
         selectDialog(
             {
-                'title': 'Выбор линии',
+                title: 'Выбор линии',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -647,7 +647,7 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     const handleChangeTareItem = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор тары',
+                title: 'Выбор тары',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

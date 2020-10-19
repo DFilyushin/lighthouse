@@ -43,7 +43,7 @@ const CostList = () => {
     function onDeleteHandle() {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO

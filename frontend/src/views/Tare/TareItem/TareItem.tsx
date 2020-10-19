@@ -131,7 +131,7 @@ const TareItem = (props: ITareItemProps) => {
     const handleChangeUnit = () => {
         selectDialog(
             {
-                'title': 'Выбор единицы измерения',
+                title: 'Выбор единицы измерения',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

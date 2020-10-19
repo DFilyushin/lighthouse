@@ -86,7 +86,7 @@ const ContractAccessTable = (props: IContractAccessTableProps) => {
     const handleAddNewManager = () => {
         selectDialog(
             {
-                'title': 'Выбор менеджера',
+                title: 'Выбор менеджера',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

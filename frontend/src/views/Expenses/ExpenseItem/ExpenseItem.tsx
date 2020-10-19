@@ -117,7 +117,7 @@ const ExpenseItem = (props: IExpenseItemProps) => {
     const handleChangeCost = () => {
         selectDialog(
             {
-                'title': 'Выбор статьи затраты',
+                title: 'Выбор статьи затраты',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

@@ -99,7 +99,7 @@ const PriceItem = (props: IPriceItemProps) => {
     const handleChangeProduct = () => {
         selectDialog(
             {
-                'title': 'Выбор продукции',
+                title: 'Выбор продукции',
                 description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
@@ -122,7 +122,7 @@ const PriceItem = (props: IPriceItemProps) => {
     const handleChangeTare = () => {
         selectDialog(
             {
-                'title': 'Выбор тары',
+                title: 'Выбор тары',
                 description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
@@ -144,7 +144,7 @@ const PriceItem = (props: IPriceItemProps) => {
     const handleChangeEmployee = () => {
         selectDialog(
             {
-                'title': 'Выбор сотрудника',
+                title: 'Выбор сотрудника',
                 description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',

@@ -105,7 +105,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const handleChangeProduct = () => {
         selectDialog(
             {
-                'title': 'Выбор продукции',
+                title: 'Выбор продукции',
                 description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
@@ -131,7 +131,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const handleChangeUnitItem = (id: number)=>{
         selectDialog(
             {
-                'title': 'Выбор ед. измерения',
+                title: 'Выбор ед. измерения',
                 description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
@@ -156,7 +156,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const handleChangeRawItem = (id: number)=>{
         selectDialog(
             {
-                'title': 'Выбор сырья',
+                title: 'Выбор сырья',
                 description: '',
                 confirmationText:'Выбрать',
                 cancellationText: 'Отменить',
@@ -181,7 +181,7 @@ const FormulaItem = (props: IFormulaItemProps) => {
     const handleDeleteRawItem = (id: number)=>{
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO

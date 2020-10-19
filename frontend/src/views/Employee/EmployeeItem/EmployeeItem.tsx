@@ -135,7 +135,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
     const handleChangeStaff = (event: React.MouseEvent) => {
         selectDialog(
             {
-                'title': 'Выбор должности',
+                title: 'Выбор должности',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -191,7 +191,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
     function deleteProduct(id: number) {
         confirm(
             {
-                'title': DIALOG_TYPE_CONFIRM,
+                title: DIALOG_TYPE_CONFIRM,
                 description: DIALOG_ASK_DELETE,
                 confirmationText: DIALOG_YES,
                 cancellationText: DIALOG_NO
@@ -204,7 +204,7 @@ const EmployeeItem = (props: IEmployeeItem) => {
     function addProductItem() {
         selectDialog(
             {
-                'title': 'Выбор продукции',
+                title: 'Выбор продукции',
                 description: 'Выбранный продукт будет доступен для формирования прайс-листа',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

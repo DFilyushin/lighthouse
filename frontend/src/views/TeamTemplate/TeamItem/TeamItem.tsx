@@ -130,7 +130,7 @@ const TeamItem = (props: ITeamItemProps) => {
     const changeEmployeeHandler = (id: number) => {
         selectDialog(
             {
-                'title': 'Выбор сотрудника',
+                title: 'Выбор сотрудника',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
@@ -153,7 +153,7 @@ const TeamItem = (props: ITeamItemProps) => {
     const handleChangeWork = () => {
         selectDialog(
             {
-                'title': 'Выбор вида работ',
+                title: 'Выбор вида работ',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,

@@ -197,7 +197,7 @@ const AccountDetails = (props: IAccountDetailsProps) => {
     const handleChangeEmployee = (event: React.MouseEvent) => {
         selectDialog(
             {
-                'title': 'Выбор сотрудника',
+                title: 'Выбор сотрудника',
                 description: '',
                 confirmationText: DIALOG_SELECT_TEXT,
                 cancellationText: DIALOG_CANCEL_TEXT,
