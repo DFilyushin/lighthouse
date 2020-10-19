@@ -425,7 +425,7 @@ export function saveRawMovement() {
     return async (dispatch: any, getState: any) => {
         const storeMovement = {...getState().store.storeMovement} as IStoreNewMovement
         let data = {
-            'date': storeMovement.date,
+            'date': storeMovement.date.slice(0, 10),
             'employee': AuthenticationService.currentEmployeeId(),
             'comment': storeMovement.comment,
             'items': storeMovement.items.map((value: IStoreMaterialItem)=> {
