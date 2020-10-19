@@ -543,11 +543,15 @@ export function addNewProduction(item: IProduction) {
                                     'id': value.raw.id,
                                     'name': value.raw.name
                                 },
+                                'unit': {
+                                    'id': value.unit.id,
+                                    'name': value.unit.name,
+                                },
                                 'calcValue': value.calcValue
                             }
                         )
                     });
-                await authAxios.put(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
+                await authAxios.post(ProductionEndpoint.getProductionCalc(id), sendCalcItems);
             }
 
             const teamItems = [...getState().production.prodCardTeam];
@@ -570,12 +574,12 @@ export function addNewProduction(item: IProduction) {
                         newValue
                     )
                 })
-                await authAxios.put(ProductionEndpoint.getProductionTare(id), sendTareItems)
+                await authAxios.post(ProductionEndpoint.getProductionTare(id), sendTareItems)
             }
 
             const materialItems = [...getState().production.prodCardMaterial]
             if (materialItems.length) {
-                await authAxios.put(ProductionEndpoint.getProductionMaterial(id), materialItems)
+                await authAxios.post(ProductionEndpoint.getProductionMaterial(id), materialItems)
             }
 
             dispatch(saveOk())
