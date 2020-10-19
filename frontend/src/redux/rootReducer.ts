@@ -27,6 +27,7 @@ import {INoticeState} from "../types/state/notification";
 import {IStockState} from "../types/state/stock";
 import {IReturnsState} from "../types/state/returns";
 import {ITeamState} from "../types/state/team";
+import {IMaterialState} from "../types/state/material"
 
 import {productReducer} from './productReducer'
 import {rawReducer} from "./rawReducer"
@@ -55,7 +56,7 @@ import {notificationReducer} from "./notificationReducer";
 import {stockReducer} from "./stockReducer";
 import {returnsReducer} from "./returnsReducer";
 import {teamReducer} from "./teamReducer";
-
+import {materialReducer} from './materialReducer'
 
 export interface IStateInterface {
     product: IProductState;
@@ -85,6 +86,7 @@ export interface IStateInterface {
     stock: IStockState;
     returnsProduct: IReturnsState;
     team: ITeamState;
+    material: IMaterialState;
 }
 
 export const rootReducer = combineReducers<IStateInterface>({
@@ -114,5 +116,6 @@ export const rootReducer = combineReducers<IStateInterface>({
     notification: notificationReducer,
     stock: stockReducer,
     returnsProduct: returnsReducer,
-    team: teamReducer
+    team: teamReducer,
+    material: materialReducer
 })
