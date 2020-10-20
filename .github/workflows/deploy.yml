@@ -24,7 +24,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         port: ${{ secrets.PORT }}
-        key: ${{ secret.SERVER_KEY }}
+        key: ${{ secrets.SERVER_KEY }}
         script: |
           cd lighthouse
           # docker-compose down
