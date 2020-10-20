@@ -28,6 +28,6 @@ jobs:
         script: |
           cd lighthouse
           # docker-compose down
-          sudo git pull origin
+          git pull origin
           # sudo docker-compose build
           # docker-compose up --detach
