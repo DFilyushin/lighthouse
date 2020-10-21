@@ -32,7 +32,7 @@ jobs:
           # sudo docker-compose build
           # docker-compose up --detach
     - name: send message to telegramm
-    - uses: actions/checkout@master
+      uses: actions/checkout@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
