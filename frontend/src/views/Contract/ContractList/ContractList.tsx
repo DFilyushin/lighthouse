@@ -6,7 +6,14 @@ import {ContractTable, ContractToolbar} from '../components';
 import {deleteContract, loadContractList, setShowOwnContract} from "redux/actions/contractAction";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
-import {AccessGroups, DIALOG_ASK_DELETE, DIALOG_NO, DIALOG_TYPE_CONFIRM, DIALOG_YES} from "../../../utils/AppConst";
+import {
+    AccessGroups,
+    DIALOG_ASK_DELETE,
+    DIALOG_NO,
+    DIALOG_TYPE_CONFIRM,
+    DIALOG_YES,
+    NO_SELECT_VALUE
+} from "../../../utils/AppConst";
 import {CONTRACT_STATE_ACTIVE, CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
 import {useConfirm} from "material-ui-confirm";
 import AuthenticationService from "../../../services/Authentication.service";
@@ -29,10 +36,10 @@ const ContractList = () => {
 
     // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading)
-    const clients = useSelector((state: IStateInterface) => state.contract.contractItems)
+    const contracts = useSelector((state: IStateInterface) => state.contract.contractItems)
     const showOnlyOwnContract = useSelector((state: IStateInterface) => state.contract.showOwnContract)
     const [selected, setSelected] = useState<number[]>([])
-    const [contractStatus, setContractStatus] = useState(CONTRACT_STATE_ACTIVE)
+    const [contractStatus, setContractStatus] = useState(NO_SELECT_VALUE)
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus, showOnlyOwnContract))
@@ -88,7 +95,7 @@ const ContractList = () => {
                 {
                     isLoading ? <CircularIndeterminate/>
                         : <ContractTable
-                            contracts={clients}
+                            contracts={contracts}
                             className={''}
                             onClickItem={onClickTableItem}
                             onChangeSelected={setSelected}
