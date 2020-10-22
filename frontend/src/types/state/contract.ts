@@ -1,7 +1,7 @@
 import {IContractListItem, IContract, IContractListItemSimple} from "../model/contract";
 
 export interface IContractState {
-    items: IContractListItem[];
+    contractItems: IContractListItem[];
     contractItem: IContract;
     activeContracts: IContractListItemSimple[];
     isLoading: boolean;

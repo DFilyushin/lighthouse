@@ -29,8 +29,8 @@ const ContractList = () => {
 
     // @ts-ignore
     const isLoading = useSelector((state: IStateInterface) => state.contract.isLoading)
-    const clients = useSelector((state: IStateInterface) => state.contract.items)
-    const showOnlyOwnContract = useSelector((state: IStateInterface)=> state.contract.showOwnContract)
+    const clients = useSelector((state: IStateInterface) => state.contract.contractItems)
+    const showOnlyOwnContract = useSelector((state: IStateInterface) => state.contract.showOwnContract)
     const [selected, setSelected] = useState<number[]>([])
     const [contractStatus, setContractStatus] = useState(CONTRACT_STATE_ACTIVE)
 
@@ -39,16 +39,16 @@ const ContractList = () => {
         dispatch(getSetupReserveInterval())
     }, [dispatch, contractStatus, showOnlyOwnContract]);
 
-    function onClickTableItem(contractId: number){
+    function onClickTableItem(contractId: number) {
         history.push(`/contracts/${contractId}?source=contract`);
     }
 
-    async function onFindClientHandler(findNum: string){
+    async function onFindClientHandler(findNum: string) {
         dispatch(loadContractList(CONTRACT_UNDEFINED_STATE, showOnlyOwnContract, findNum))
     }
 
     function onDeleteHandle() {
-        if (selected.length === 0 ) return;
+        if (selected.length === 0) return;
         confirm(
             {
                 title: DIALOG_TYPE_CONFIRM,
