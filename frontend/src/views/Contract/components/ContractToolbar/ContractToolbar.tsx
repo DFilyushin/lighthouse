@@ -11,12 +11,14 @@ import {
     ListItemAvatar,
     List,
     Grid,
-    Avatar, Switch, FormControlLabel
+    Avatar,
+    Switch,
+    FormControlLabel,
+    InputLabel
 } from '@material-ui/core';
 import { SearchInput } from 'components';
 import WorkOutlineOutlinedIcon from "@material-ui/icons/WorkOutlineOutlined";
-import { NO_SELECT_VALUE} from "utils/AppConst";
-import {CONTRACT_STATE_ITEMS} from "types/model/contract";
+import {CONTRACT_STATE_ITEMS, CONTRACT_UNDEFINED_STATE} from "types/model/contract";
 
 const useStyles = makeStyles(theme => ({
     root: {},
@@ -144,19 +146,20 @@ const ContractToolbar = (props: IContractToolbar) => {
                 </Grid>
                 <Grid
                     item
-                    lg={2}
+                    lg={3}
                     sm={6}
                     md={6}
                     xs={12}
                 >
                     <FormControl className={clsx(classes.formControl)} >
+                        <InputLabel htmlFor="select-state-helper">Состояние контракта</InputLabel>
                         <Select
                             labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
+                            id="select-state-helper"
                             value={contractState}
                             onChange={handleChangeState}
                         >
-                            <MenuItem key={NO_SELECT_VALUE} value={NO_SELECT_VALUE}>
+                            <MenuItem key={CONTRACT_UNDEFINED_STATE} value={CONTRACT_UNDEFINED_STATE}>
                                 <em>не указано</em>
                             </MenuItem>
                             {
