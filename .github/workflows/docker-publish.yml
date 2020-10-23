@@ -94,7 +94,7 @@ jobs:
           echo VERSION=$VERSION
 
           docker tag $IMAGE_BACKEND $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:latest          
+          docker push $IMAGE_ID:$VERSION        
           
   deploy:
     runs-on: [ubuntu-18.04]
