@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db.models import F, Sum, Max, Q
+from django.db.models.expressions import RawSQL
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -122,6 +123,7 @@ class ContractViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
+            subquery_sql = "select sum(pay_value) from lighthouse_payment where id_contract_id=lighthouse_contract.id"
             param_state = int(self.request.GET.get('state', CONTRACT_STATE_UNDEFINED))
             param_agent = self.request.GET.get('byAgent', None)
             queryset = Contract.objects.filter(deleted=False)
@@ -136,7 +138,8 @@ class ContractViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(Q(id__in=contracts) | Q(id_agent__id=param_agent))
             return queryset.values('id', 'num', 'id_client__clientname', 'contract_date', 'est_delivery',
                                    'contract_state', 'id_agent__fio')\
-                .annotate(sum=Sum(F('specs__item_price')*F('specs__item_count')))
+                .annotate(sum=Sum(F('specs__item_price') * F('specs__item_count')))\
+                .annotate(payed=RawSQL(subquery_sql, ()))
         else:
             return Contract.objects.filter(deleted=False)
 
