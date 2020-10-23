@@ -138,7 +138,8 @@ const ContractTable = (props: IContractTableProps) => {
                                         <TableCell>Номер</TableCell>
                                         <TableCell>Номер сист.</TableCell>
                                         <TableCell>Дата заключения</TableCell>
-                                        <TableCell>Дата поставки</TableCell>
+                                        <TableCell>Сумма контракта</TableCell>
+                                        <TableCell>Оплачено</TableCell>
                                         <TableCell/>
                                     </TableRow>
                                 </TableHead>
@@ -173,7 +174,8 @@ const ContractTable = (props: IContractTableProps) => {
                                                 <TableCell>{contract.num}</TableCell>
                                                 <TableCell>{contract.id}</TableCell>
                                                 <TableCell>{contract.contractDate}</TableCell>
-                                                <TableCell>{contract.estDelivery}</TableCell>
+                                                <TableCell>{contract.sum}</TableCell>
+                                                <TableCell>{contract.payed}</TableCell>
                                                 <TableCell align="right"><Button variant="outlined" color="primary" onClick={event => cellClicked(contract.id)}>Открыть</Button></TableCell>
                                             </TableRow>
 
