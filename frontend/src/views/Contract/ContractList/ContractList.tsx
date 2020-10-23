@@ -11,10 +11,9 @@ import {
     DIALOG_ASK_DELETE,
     DIALOG_NO,
     DIALOG_TYPE_CONFIRM,
-    DIALOG_YES,
-    NO_SELECT_VALUE
+    DIALOG_YES
 } from "../../../utils/AppConst";
-import {CONTRACT_STATE_ACTIVE, CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
+import {CONTRACT_UNDEFINED_STATE} from "../../../types/model/contract";
 import {useConfirm} from "material-ui-confirm";
 import AuthenticationService from "../../../services/Authentication.service";
 import {getSetupReserveInterval} from "../../../redux/actions/setupAction";
@@ -39,7 +38,7 @@ const ContractList = () => {
     const contracts = useSelector((state: IStateInterface) => state.contract.contractItems)
     const showOnlyOwnContract = useSelector((state: IStateInterface) => state.contract.showOwnContract)
     const [selected, setSelected] = useState<number[]>([])
-    const [contractStatus, setContractStatus] = useState(NO_SELECT_VALUE)
+    const [contractStatus, setContractStatus] = useState(CONTRACT_UNDEFINED_STATE)
 
     useEffect(() => {
         dispatch(loadContractList(contractStatus, showOnlyOwnContract))
@@ -89,7 +88,9 @@ const ContractList = () => {
                 onSetState={setContractStatus}
                 showOwnContract={showOnlyOwnContract}
                 handleChangeHidden={onSetShowOwnContract}
-                showContractSelectorOwn={AuthenticationService.hasGroup([AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.FINANCE, AccessGroups.BUH])}
+                showContractSelectorOwn={AuthenticationService.hasGroup(
+                    [AccessGroups.BOSS, AccessGroups.ADMIN, AccessGroups.FINANCE, AccessGroups.BUH]
+                )}
             />
             <div className={classes.content}>
                 {
