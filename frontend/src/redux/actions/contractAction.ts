@@ -47,11 +47,9 @@ export function loadContractList(state: number, onlyOwnContract: boolean, search
             });
             dispatch(fetchSuccess(items))
         } catch (e) {
-            if (!e.status)
-            {
+            if (!e.status) {
                 dispatch(showInfoMessage("error", 'Нет доступа к серверу приложения!'))
-            }
-            else
+            } else
                 dispatch(showInfoMessage("error", e.toString()))
         }
         dispatch(fetchFinish())
@@ -89,21 +87,22 @@ export function loadActiveContractsList(num: string) {
 export function deleteContract(id: number) {
     return async (dispatch: any, getState: any) => {
         dispatch(fetchStart());
-        try{
+        try {
             const response = await authAxios.delete(ContractEndpoint.deleteContract(id));
             if (response.status === 204) {
                 const items = [...getState().contract.items];
-                const index = items.findIndex((elem)=>{return elem.id === id});
+                const index = items.findIndex((elem) => {
+                    return elem.id === id
+                });
                 items.splice(index, 1);
                 dispatch(deleteOk(items));
                 dispatch(showInfoMessage('info', 'Запись успешно удалена'))
-            }
-            else {
+            } else {
                 dispatch(
                     showInfoMessage('error',
                         `Неизвестная ошибка при удалении: ${response.status.toString()}`))
             }
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', `Не удалось удалить запись ${e.toString()}!`))
         }
         dispatch(fetchFinish())
@@ -120,8 +119,9 @@ export function loadContractItem(id: number, func0?: any) {
         dispatch(fetchStart());
         dispatch(hideInfoMessage());
         dispatch(setContractNotFound(false))
-        if (id===NEW_RECORD_VALUE){
-            const item = {...nullContractItem,
+        if (id === NEW_RECORD_VALUE) {
+            const item = {
+                ...nullContractItem,
                 'agent': {
                     id: AuthenticationService.currentEmployeeId(),
                     fio: AuthenticationService.currentEmployee(),
@@ -131,7 +131,7 @@ export function loadContractItem(id: number, func0?: any) {
                 }
             }
             dispatch(fetchItemSuccess(item))
-        }else {
+        } else {
             try {
                 const url = ContractEndpoint.getContract(id);
                 const response = await authAxios.get(url);
@@ -139,7 +139,9 @@ export function loadContractItem(id: number, func0?: any) {
                 // for (const spec of item.specs){
                 //     spec.itemTotal = Math.round(spec.itemCount * spec.itemPrice * (spec.itemNds/100 +1) - spec.itemDiscount)
                 // }
-                if (func0) {func0(item)}
+                if (func0) {
+                    func0(item)
+                }
                 dispatch(fetchItemSuccess(item))
             } catch (e) {
                 if (e.response.status === 404) {
@@ -159,7 +161,9 @@ export function loadContractItem(id: number, func0?: any) {
 export function deleteContractSpecItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const index = item.specs.findIndex((item:IContractSpecItem)=> {return item.id === id});
+        const index = item.specs.findIndex((item: IContractSpecItem) => {
+            return item.id === id
+        });
         item.specs.splice(index, 1);
         dispatch(fetchItemSuccess(item));
 
@@ -178,9 +182,12 @@ export function addNewSpecItem(num: string) {
         item.specs.filter((value: IContractSpecItem) => value.specNum === num)
             .forEach((specItem: IContractSpecItem) => {
                 // если найдена спецификация с непустой датой, то используем её
-                if (specItem.specDate !== '') {specDate = specItem.specDate}
-        })
-        const newItem = {...nullContractSpecItem,
+                if (specItem.specDate !== '') {
+                    specDate = specItem.specDate
+                }
+            })
+        const newItem = {
+            ...nullContractSpecItem,
             id: -getRandomInt(MAX_RANDOM_VALUE),
             itemNds: getState().setup.nds,
             specNum: num,
@@ -209,7 +216,7 @@ export function addNewWaitPaymentItem() {
  * @param employee Объект сотрудника
  */
 export function addNewManagerItem(employee: IEmployeeListItem) {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem}
         const newItem: IContractManagerAccess = {
             ...nullContractManagerAccess,
@@ -229,12 +236,13 @@ export function addNewManagerItem(employee: IEmployeeListItem) {
 export function deleteManagerAccessItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const index = item.employeeAccess.findIndex((item:IContractManagerAccess)=> {return item.id === id});
+        const index = item.employeeAccess.findIndex((item: IContractManagerAccess) => {
+            return item.id === id
+        });
         item.employeeAccess.splice(index, 1);
         dispatch(fetchItemSuccess(item));
     }
 }
-
 
 
 /**
@@ -244,7 +252,9 @@ export function deleteManagerAccessItem(id: number) {
 export function deleteWaitPaymentItem(id: number) {
     return async (dispatch: any, getState: any) => {
         const item = {...getState().contract.contractItem};
-        const index = item.waitPayments.findIndex((item:IWaitPaymentContractItem)=> {return item.id === id});
+        const index = item.waitPayments.findIndex((item: IWaitPaymentContractItem) => {
+            return item.id === id
+        });
         item.waitPayments.splice(index, 1);
         dispatch(fetchItemSuccess(item));
     }
@@ -257,14 +267,16 @@ export function deleteWaitPaymentItem(id: number) {
  */
 export function addNewContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             delete item.created
-            if (item.delivered === '') {item.delivered = null}
+            if (item.delivered === '') {
+                item.delivered = null
+            }
             item.estDelivery = new Date().toISOString().slice(0, 10)
-            console.log( JSON.stringify(item) )
+            console.log(JSON.stringify(item))
             await authAxios.post(ContractEndpoint.newContract(), item)
             return Promise.resolve()
-        }catch (e) {
+        } catch (e) {
             console.log(e.toString())
             dispatch(saveError(e.toString()))
             return Promise.reject()
@@ -278,11 +290,11 @@ export function addNewContract(item: IContract) {
  */
 export function updateContract(item: IContract) {
     return async (dispatch: any, getState: any) => {
-        try{
+        try {
             console.log(JSON.stringify(item))
             await authAxios.put(ContractEndpoint.updateContract(item.id), item)
             return Promise.resolve()
-        }catch (e) {
+        } catch (e) {
             dispatch(saveError(e.toString()))
             return Promise.reject()
         }
@@ -293,13 +305,13 @@ export function updateContract(item: IContract) {
  * Калькуляция скидки
  */
 export function calculateDiscount() {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const contract: IContract = {...getState().contract.contractItem}
         const discount = contract.discount
-        const specs = contract.specs.map((value)=>{
-            const ndsValue = value.itemNds/100 + 1
+        const specs = contract.specs.map((value) => {
+            const ndsValue = value.itemNds / 100 + 1
             const price_with_nds = value.itemPrice * ndsValue
-            const discount_value = RoundValue(price_with_nds  * (discount / 100))
+            const discount_value = RoundValue(price_with_nds * (discount / 100))
             value.itemDiscount = RoundValue(discount_value * value.itemCount)
             value.itemTotal = RoundValue((value.itemCount * price_with_nds) - discount_value)
             return value
@@ -315,11 +327,11 @@ export function calculateDiscount() {
 export function setContractStatus(newStatus: number) {
     return async (dispatch: any, getState: any) => {
         const contractItem = {...getState().contract.contractItem}
-        try{
+        try {
             await authAxios.post(ContractEndpoint.setContractStatus(contractItem.id, newStatus));
             dispatch(loadContractItem(contractItem.id))
             return Promise.resolve()
-        }catch (e) {
+        } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
             return Promise.reject()
         }
@@ -334,7 +346,9 @@ export function deleteContractReserveProduct(id: number) {
     return async (dispatch: any, getState: any) => {
         await dispatch(deleteReserve(id))
         const contractItem = {...getState().contract.contractItem}
-        const index = contractItem.reserveProducts.findIndex((item:IStoreListReserveProduct)=> {return item.id === id})
+        const index = contractItem.reserveProducts.findIndex((item: IStoreListReserveProduct) => {
+            return item.id === id
+        })
         contractItem.reserveProducts.splice(index, 1);
         dispatch(fetchItemSuccess(contractItem));
     }
@@ -345,10 +359,12 @@ export function deleteContractReserveProduct(id: number) {
  * @param item Объект спецификации
  */
 export function changeContractSpecItem(item: IContractSpecItem) {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const contract = {...getState().contract.contractItem};
-        const index = contract.specs.findIndex((elem: IContractSpecItem)=>{return elem.id === item.id})
-        item.itemTotal = Math.round(item.itemCount * item.itemPrice * (item.itemNds/100 +1) - item.itemDiscount)
+        const index = contract.specs.findIndex((elem: IContractSpecItem) => {
+            return elem.id === item.id
+        })
+        item.itemTotal = Math.round(item.itemCount * item.itemPrice * (item.itemNds / 100 + 1) - item.itemDiscount)
         contract.specs[index] = item
         dispatch(changeContractItem(contract));
     }
@@ -359,9 +375,11 @@ export function changeContractSpecItem(item: IContractSpecItem) {
  * @param item Объект графика оплат
  */
 export function changePaymentWaitItem(item: IWaitPaymentContractItem) {
-    return async (dispatch: any, getState: any)=> {
+    return async (dispatch: any, getState: any) => {
         const contract = {...getState().contract.contractItem};
-        const index = contract.waitPayments.findIndex((elem: IWaitPaymentContractItem)=>{return elem.id === item.id})
+        const index = contract.waitPayments.findIndex((elem: IWaitPaymentContractItem) => {
+            return elem.id === item.id
+        })
         contract.waitPayments[index] = item
         dispatch(changeContractItem(contract));
     }
@@ -374,7 +392,9 @@ export function changePaymentWaitItem(item: IWaitPaymentContractItem) {
 export function changeManagerAccessItem(item: IContractManagerAccess) {
     return async (dispatch: any, getState: any) => {
         const contract = {...getState().contract.contractItem};
-        const index = contract.employeeAccess.findIndex((elem: IContractManagerAccess)=>{return elem.id === item.id})
+        const index = contract.employeeAccess.findIndex((elem: IContractManagerAccess) => {
+            return elem.id === item.id
+        })
         contract.employeeAccess[index] = item
         dispatch(changeContractItem(contract));
     }
@@ -382,7 +402,7 @@ export function changeManagerAccessItem(item: IContractManagerAccess) {
 
 
 export function setShowOwnContract(value: boolean) {
-    return{
+    return {
         type: CONTRACT_SHOW_OWN_CONTRACT_STATE,
         value
     }
@@ -390,14 +410,14 @@ export function setShowOwnContract(value: boolean) {
 
 
 export function changeContractItem(item: IContract) {
-    return{
+    return {
         type: CONTRACT_CHANGE_ITEM,
         item: item
     }
 }
 
 function fetchSuccessActive(items: IContractListItemSimple[]) {
-    return{
+    return {
         type: CONTRACT_LOAD_ACTIVE_CONTRACTS,
         items
     }
@@ -416,35 +436,35 @@ function fetchFinish() {
 }
 
 function fetchSuccess(items: IContractListItem[]) {
-    return{
+    return {
         type: CONTRACT_LOAD_SUCCESS,
         items
     }
 }
 
 function deleteOk(items: IContractListItem[]) {
-    return{
+    return {
         type: CONTRACT_LOAD_SUCCESS,
         items
     }
 }
 
 function fetchItemSuccess(item: IContract) {
-    return{
+    return {
         type: CONTRACT_LOAD_ITEM_SUCCESS,
         item
     }
 }
 
 function saveError(error: string) {
-    return{
+    return {
         type: CONTRACT_SET_ERROR,
         error
     }
 }
 
 function setContractNotFound(value: boolean) {
-    return{
+    return {
         type: CONTRACT_SET_NOT_FOUND,
         value
     }
