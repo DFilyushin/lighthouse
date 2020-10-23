@@ -28,13 +28,38 @@ export const nullContractListItemSimple: IContractListItemSimple = {
 }
 
 export interface IContractListItem {
+    /**
+     * Код контракта
+     */
     id: number;
+    /**
+     * Номер контракта
+     */
     num: string;
+    /**
+     * Клиент
+     */
     clientName: string;
+    /**
+     * Дата заключения контракта
+     */
     contractDate: string;
+    /**
+     * Ожидаемая доставка
+     */
     estDelivery: string;
+    /**
+     * Код статуса контракта
+     */
     status: number;
+    /**
+     * Сумма контракта полная
+     */
     sum: number;
+    /**
+     * Оплачено по контракту
+     */
+    payed: number;
 }
 
 export interface IPaymentContractItem {
