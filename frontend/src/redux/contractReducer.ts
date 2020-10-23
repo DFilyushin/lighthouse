@@ -15,7 +15,7 @@ import {
 import {nullContractItem} from "../types/model/contract";
 
 const getInitialState = () => ({
-    items: [],
+    contractItems: [],
     contractItem: nullContractItem,
     activeContracts: [],
     isLoading: false,
@@ -25,19 +25,31 @@ const getInitialState = () => ({
     contractNotFound: false
 });
 
-export const contractReducer = (state: IContractState = getInitialState(), action:any) => {
+export const contractReducer = (state: IContractState = getInitialState(), action: any) => {
     switch (action.type) {
-        case CONTRACT_LOAD_START: return {...state, isLoading: true}
-        case CONTRACT_LOAD_FINISH: return {...state, isLoading: false}
-        case CONTRACT_LOAD_SUCCESS: return {...state, items: action.items}
-        case CONTRACT_LOAD_ITEM_SUCCESS: return {...state, contractItem: action.item}
-        case CONTRACT_DELETE_OK: return {...state, items: action.items}
-        case CONTRACT_CHANGE_ITEM: return {...state, contractItem: action.item}
-        case CONTRACT_SET_ERROR: return {...state, error: action.error, hasError: true}
-        case CONTRACT_CLEAR_ERROR: return {...state, error: '', hasError: false}
-        case CONTRACT_LOAD_ACTIVE_CONTRACTS: return {...state, activeContracts: action.items}
-        case CONTRACT_SHOW_OWN_CONTRACT_STATE: return {...state, showOwnContract: action.value}
-        case CONTRACT_SET_NOT_FOUND: return {...state, contractNotFound: action.value}
-        default: return state;
+        case CONTRACT_LOAD_START:
+            return {...state, isLoading: true}
+        case CONTRACT_LOAD_FINISH:
+            return {...state, isLoading: false}
+        case CONTRACT_LOAD_SUCCESS:
+            return {...state, contractItems: action.items}
+        case CONTRACT_LOAD_ITEM_SUCCESS:
+            return {...state, contractItem: action.item}
+        case CONTRACT_DELETE_OK:
+            return {...state, contractItems: action.items}
+        case CONTRACT_CHANGE_ITEM:
+            return {...state, contractItem: action.item}
+        case CONTRACT_SET_ERROR:
+            return {...state, error: action.error, hasError: true}
+        case CONTRACT_CLEAR_ERROR:
+            return {...state, error: '', hasError: false}
+        case CONTRACT_LOAD_ACTIVE_CONTRACTS:
+            return {...state, activeContracts: action.items}
+        case CONTRACT_SHOW_OWN_CONTRACT_STATE:
+            return {...state, showOwnContract: action.value}
+        case CONTRACT_SET_NOT_FOUND:
+            return {...state, contractNotFound: action.value}
+        default:
+            return state;
     }
 };
