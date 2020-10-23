@@ -113,10 +113,11 @@ class ContractListSerializer(serializers.ModelSerializer):
     status = serializers.IntegerField(source='contract_state')
     agent = serializers.CharField(source='id_agent__fio')
     sum = serializers.FloatField()
+    payed = serializers.FloatField()
 
     class Meta:
         model = Contract
-        fields = ('id', 'clientName', 'num', 'contractDate', 'estDelivery', 'status', 'agent', 'sum')
+        fields = ('id', 'clientName', 'num', 'contractDate', 'estDelivery', 'status', 'agent', 'sum', 'payed')
 
 
 class ContractList2Serializer(serializers.ModelSerializer):
