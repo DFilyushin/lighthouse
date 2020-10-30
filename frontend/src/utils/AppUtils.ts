@@ -84,3 +84,10 @@ export function addDays(date: string, days: number) {
     result.setDate(result.getDate() + days);
     return result;
 }
+
+/**
+ * Получить текущую дату в формате строки
+ */
+export function getCurrentDate() {
+    return (new Date()).toISOString().slice(0, 10)
+}
