@@ -197,3 +197,5 @@ export const nullStoreReserveProduct: IStoreReserveProduct = {
 export interface IStoreRaw extends IStoreBase{}
 
 export interface IStoreProduct extends IStoreBase{}
+
+export interface IStoreStock extends  IStoreBase{}
