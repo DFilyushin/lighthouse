@@ -48,9 +48,8 @@ export { default as ProductionDetails } from './Production/ProductionDetails'
 export { default as DepartmentList} from './Department/DepartmentList'
 export { default as DepartmentItem} from './Department/DepartmentItem'
 
-export {default as StoreRaw} from './Store/StoreRaw'
-export {default as StoreProduct} from './Store/StoreProduct'
-export {default as StoreReserved} from './Store/StoreReserved'
+export {StoreRaw, StoreStock, StoreProduct, StoreReserved, StoreItem, StoreJournalTable} from './Store'
+
 export {default as ReserveItem} from './Store/ReserveItem'
 export {default as StoreMaterialJournal} from './Store/StoreMaterialJournal'
 
@@ -61,7 +60,6 @@ export {default as WorkList} from './Works/WorkList'
 export {default as WorkItem} from './Works/WorkItem'
 
 export {default as StoreJournal}  from './Store/StoreJournal'
-export {default as StoreItem} from './Store/StoreItem'
 export {default as StoreNewItems} from './Store/StoreNewItems'
 
 export {default as PaymentList} from './Payments/PaymentList'
