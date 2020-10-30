@@ -5,7 +5,8 @@ import {
     IStoreJournalItem,
     IStoreNewMovement,
     IStoreListReserveProduct,
-    IStoreReserveProduct, IStoreStock
+    IStoreReserveProduct,
+    IStoreStock
 } from 'types/model/store'
 
 export interface IStoreState {

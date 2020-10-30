@@ -7,7 +7,8 @@ import {
     IStoreNewMovement,
     IStoreProduct,
     IStoreRaw,
-    IStoreReserveProduct
+    IStoreReserveProduct,
+    IStoreStock
 } from "../../types/model/store"
 import {
     STORE_CLEAR_ERROR,
@@ -27,7 +28,8 @@ import {
     STORE_RESERVE_NEW_ITEM,
     STORE_RESERVE_LOAD_ITEM_SUCCESS,
     STORE_RESERVE_CHANGE_ITEM,
-    STORE_JOURNAL_MATERIAL_SUCCESS
+    STORE_JOURNAL_MATERIAL_SUCCESS,
+    STORE_LOAD_STOCK_SUCCESS
 } from "./types"
 import CostEndpoint from "services/endpoints/CostEndpoint"
 import {nullEmployeeItem} from "../../types/model/employee"
@@ -38,6 +40,31 @@ import {showInfoMessage} from "./infoAction"
 import authAxios from "../../services/axios-api";
 import {IContract} from "../../types/model/contract";
 
+/**
+ * Загрузить актуальное состояние склада ТМЦ
+ */
+export function loadStockStore(search?: string) {
+    return async (dispatch: any, getState: any) => {
+        const itemList: IStoreStock[] = [];
+        dispatch(fetchStart());
+        try{
+            const dateStore = getState().store.stockStoreOnDate;
+            const url = StoreEndpoint.getStoreStock(dateStore, search);
+            const response = await authAxios.get(url);
+            Object.keys(response.data).forEach((key, index)=>{
+                itemList.push(response.data[key])
+            });
+            dispatch(fetchSuccessStockStore(itemList))
+        }catch (e) {
+            if (e.response) {
+                dispatch(fetchError(`Ошибка загрузки списка! Сообщение: ${e.response.statusText}`))
+            }else{
+                dispatch(fetchError(`Ошибка загрузки списка!`))
+            }
+        }
+        dispatch(fetchFinish())
+    }
+}
 
 /**
  * Загрузить актуальное состояние склада сырья
@@ -301,6 +328,13 @@ function fetchStart() {
 function fetchFinish() {
     return{
         type: STORE_LOAD_FINISH
+    }
+}
+
+function fetchSuccessStockStore(items: IStoreStock[]) {
+    return{
+        type: STORE_LOAD_STOCK_SUCCESS,
+        items
     }
 }
 

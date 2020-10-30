@@ -20,22 +20,26 @@ import {
     STORE_RESERVE_NEW_ITEM,
     STORE_RESERVE_LOAD_ITEM_SUCCESS,
     STORE_RESERVE_CHANGE_ITEM,
-    STORE_JOURNAL_MATERIAL_SUCCESS
+    STORE_JOURNAL_MATERIAL_SUCCESS,
+    STORE_LOAD_STOCK_SUCCESS
 } from "./actions/types";
 import {nullStoreItem, nullStoreReserveProduct} from "../types/model/store";
 import {nullEmployeeItem} from "../types/model/employee";
+import {getCurrentDate} from "../utils/AppUtils";
 
 const initState = (): IStoreState => ({
-    rawStoreOnDate: (new Date()).toISOString().slice(0, 10), // состояние склада сырья на дату
-    productStoreOnDate: (new Date()).toISOString().slice(0, 10), // состояние склада готовой продукции на дату
-    journalStartDate: (new Date()).toISOString().slice(0, 10),
-    journalEndDate: (new Date()).toISOString().slice(0, 10),
+    rawStoreOnDate: getCurrentDate(), // состояние склада сырья на дату
+    productStoreOnDate: getCurrentDate(), // состояние склада готовой продукции на дату
+    stockStoreOnDate: getCurrentDate(), // состояние склада ТМЦ на дату
+    journalStartDate: getCurrentDate(),
+    journalEndDate: getCurrentDate(),
     storeJournalItem: {...nullStoreItem},
-    storeMovement: {date: (new Date()).toISOString().slice(0, 10), employee: {...nullEmployeeItem}, comment: '', items: []},
+    storeMovement: {date: getCurrentDate(), employee: {...nullEmployeeItem}, comment: '', items: []},
     storeReservedList: [],
     storeReserveItem: {...nullStoreReserveProduct},
-    rawStore: [],
-    productStore: [],
+    rawStore: [], // склад сырья
+    stockStore: [], // склад ТМЦ
+    productStore: [], // склад СГП
     reservedProduct: [],
     storeJournal: [],
     storeMaterialJournal: [],
@@ -55,6 +59,8 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, rawStore: action.items}
         case STORE_LOAD_PRODUCT_SUCCESS:
             return {...state, productStore: action.items}
+        case STORE_LOAD_STOCK_SUCCESS:
+            return {...state, stockStore: action.items}
         case STORE_SET_DATE_RAW_STORE:
             return {...state, rawStoreOnDate: action.date}
         case STORE_SET_DATE_PRODUCT_STORE:
