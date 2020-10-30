@@ -6,6 +6,7 @@ class StoreEndpoint {
     /**
      * Загрузить список состояние склада сырья
      * @param date Дата, на которую формируется состояние
+     * @param search Строка поиска
      */
     static getStoreRaw(date: string, search?: string): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/raw?onDate=${date}`
@@ -17,11 +18,24 @@ class StoreEndpoint {
     /**
      * Загрузить список состояния склада готовой продукции
      * @param date Дата, на которую формируется состояние
+	 * @param search Строка поиска
      */
     static getStoreProduct(date: string, search?: string): string {
         const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/product?onDate=${date}`
         const url = new URL(baseUrl)
         if (search) url.searchParams.append('search', search);
+        return url.href
+    }
+
+    /**
+     * Загрузить список состояния склада ТМЦ
+     * @param date Дата на которую формируется состояние склада
+     * @param search Строка поиска
+     */
+    static getStoreStock(date: string, search?: string): string {
+        const baseUrl = `${BaseAPIEndpoint.getBaseURL()}/store/stock?onDate=${date}`
+        const url = new URL(baseUrl)
+        if (search) url.searchParams.append('search', search)
         return url.href
     }
 
