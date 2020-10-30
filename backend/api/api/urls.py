@@ -32,6 +32,7 @@ store_urls = [
     path('store', api_store_views.StoreTurnover.as_view()),  # приход продукции
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья
     path('store/product', api_store_views.ProductStoreViewSet.as_view()),  # склад готовой продукции
+    path('store/stock', api_store_views.StockStoreViewSet.as_view()),  # склад ТМЦ
     path('store/in/raw/', api_store_views.StoreTurnoverRaw.as_view()),  # приход сырья на склад
     path('store/product/<int:material>/', api_store_views.StoreByMaterialViewSet.as_view())
 ]

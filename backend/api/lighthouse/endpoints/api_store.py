@@ -272,6 +272,34 @@ class ProductStoreViewSet(views.APIView):
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
+class StockStoreViewSet(views.APIView):
+    """
+    Состояние склада ТМЦ
+    """
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def get(request):
+        on_date_data = request.GET.get('onDate', None)
+        search = request.GET.get('search', None)
+        if on_date_data is None:
+            on_date = datetime.today()
+        else:
+            on_date = datetime.strptime(on_date_data, '%Y-%m-%d')
+        queryset = Store.objects \
+            .filter(id_material__id_type__id=MATERIAL_STOCK_ID) \
+            .filter(oper_date__lte=on_date) \
+            .filter(is_delete=False)
+        if search:
+            queryset = queryset.filter(id_material__name__icontains=search)
+        queryset = queryset \
+            .values('id_material__id', 'id_material__name', 'id_tare__name', 'id_tare__id_unit__name', 'id_tare__v') \
+            .annotate(total=RoundFunc(Sum('oper_value'))) \
+            .order_by('id_material__name')
+        serializer = StoreProductSerializer(queryset, many=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
 class RefCostViewSet(viewsets.ModelViewSet):
     """
     Статьи затрат
