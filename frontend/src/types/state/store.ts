@@ -5,7 +5,7 @@ import {
     IStoreJournalItem,
     IStoreNewMovement,
     IStoreListReserveProduct,
-    IStoreReserveProduct
+    IStoreReserveProduct, IStoreStock
 } from 'types/model/store'
 
 export interface IStoreState {
@@ -13,6 +13,10 @@ export interface IStoreState {
      * состояние склада сырья на дату
      */
     rawStoreOnDate: string;
+    /**
+     * Состояние склада ТМЦ на дату
+     */
+    stockStoreOnDate: string;
     /**
      * начальная дата журнала
      */
@@ -25,8 +29,21 @@ export interface IStoreState {
      * состояние склада готовой продукции на дату
      */
     productStoreOnDate: string;
+    /**
+     * Состояние склада сырья
+     */
     rawStore: IStoreRaw[];
+    /**
+     * Состояние склада продукции
+     */
     productStore: IStoreProduct[];
+    /**
+     * Состояние склада ТМЦ
+     */
+    stockStore: IStoreStock[];
+    /**
+     * Резерв продукции
+     */
     reservedProduct: IStoreProduct[];
     storeJournal: IStoreJournal[];
     storeJournalItem: IStoreJournalItem;
