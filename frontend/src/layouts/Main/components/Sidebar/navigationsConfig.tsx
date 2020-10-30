@@ -104,6 +104,10 @@ export default [
                         href: '/store/product'
                     },
                     {
+                        title: 'ТМЦ',
+                        href: '/store/stock'
+                    },
+                    {
                         title: 'Складской журнал',
                         href: '/store/journal'
                     },
