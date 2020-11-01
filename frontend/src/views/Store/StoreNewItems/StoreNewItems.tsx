@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
+    Button,
     Card,
-    CardHeader,
-    CardContent,
     CardActions,
+    CardContent,
+    CardHeader,
     Divider,
     Grid,
-    Button,
     TextField,
     Typography
 } from '@material-ui/core';
@@ -15,9 +15,12 @@ import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {IStateInterface} from "redux/rootReducer";
 import {
-    addNewRecordToStoreMovement, changeItemMovement,
+    addNewRecordToStoreMovement,
+    changeItemMovement,
     deleteRecordFromStoreMovement,
-    newStoreMovement, saveRawMovement, updateItemMovement
+    materialMovementStore,
+    newStoreMovement,
+    updateItemMovement
 } from "redux/actions/storeAction";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
@@ -25,10 +28,12 @@ import AddIcon from "@material-ui/icons/Add";
 import StoreMovementItem from "../components/StoreMovementItem";
 import {
     DIALOG_ASK_DELETE,
-    DIALOG_CANCEL_TEXT, DIALOG_NO,
+    DIALOG_CANCEL_TEXT,
+    DIALOG_NO,
     DIALOG_SELECT_TEXT,
     DIALOG_TYPE_CONFIRM,
-    DIALOG_YES
+    DIALOG_YES,
+    TypeOperationStore
 } from "utils/AppConst";
 import {useDialog} from "components/SelectDialog";
 import {useConfirm} from "material-ui-confirm";
@@ -69,13 +74,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const StoreNewItems = (props: IStoreNewItemsProps) => {
-    const {className, ...rest} = props
+    const {className, match, ...rest} = props
 
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useDispatch()
     const selectDialog = useDialog()
     const confirm = useConfirm()
+    const typeOperation = match.params.type;
 
     const newMovementItem = useSelector((state: IStateInterface) => state.store.storeMovement)
     const materialItems = useSelector((state: IStateInterface) => state.material.materialItems)
@@ -133,12 +139,19 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
         ).then(() =>
             dispatch(deleteRecordFromStoreMovement(id))
         );
-    };
+    }
 
+    const getOperation = (name: string): TypeOperationStore => {
+        if (name === 'new') {
+            return TypeOperationStore.Add
+        }else {
+            return TypeOperationStore.Remove
+        }
+    }
 
     const saveItem = (dispatch: any) => new Promise(async (resolve, reject) => {
         try {
-            await dispatch(saveRawMovement())
+            await dispatch(materialMovementStore(getOperation(typeOperation)))
             resolve();
         } catch (e) {
             reject()
@@ -207,7 +220,21 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                 dispatch(changeItemMovement(id, item.items[index]));
             }
         );
-    };
+    }
+
+    const getCardHeader = () => {
+        if (getOperation(typeOperation) === TypeOperationStore.Add) {
+            return <CardHeader
+                subheader={'Приход материалов'}
+                title="Добавление материалов на склад"
+            />
+        }else {
+            return <CardHeader
+                subheader={'Расход материалов'}
+                title="Списание материалов со склада"
+            />
+        }
+    }
 
     return (
         <div className={classes.root}>
@@ -218,10 +245,7 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                     autoComplete="off"
                     onSubmit={saveHandler}
                 >
-                    <CardHeader
-                        subheader={'Приход материалов'}
-                        title="Добавление материалов на склад"
-                    />
+                    {getCardHeader()}
                     <Divider/>
                     <CardContent>
 

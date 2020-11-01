@@ -129,7 +129,7 @@ const Routes = () => {
 
             <AuthRouteWithLayout component={StoreJournalView} layout={MainLayout} path="/store/journal" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={StoreItemView} layout={MainLayout} path="/store/journal/:id" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
-            <AuthRouteWithLayout component={StoreNewItemsView} layout={MainLayout} path="/store/raw/new" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
+            <AuthRouteWithLayout component={StoreNewItemsView} layout={MainLayout} path="/store/raw/:type" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={StoreReservedView} layout={MainLayout} path="/store/reserved" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={ReserveItemView} layout={MainLayout} path="/store/reserved/:id" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>
             <AuthRouteWithLayout component={StoreMaterialJournalView} layout={MainLayout} path="/store/journal/material/:material" access={[AccessGroups.ADMIN, AccessGroups.MANAGER, AccessGroups.FINANCE]} exact/>

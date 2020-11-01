@@ -72,6 +72,7 @@ const useStyles = makeStyles(theme => ({
 interface IStoreJournalToolbarProps {
     className: string;
     newItemUrl: string;
+    writeOffUrl: string;
     onRefresh: (startDate: string, endDate: string, state: number, material: number) => void;
     refresh: number
 }
@@ -79,7 +80,7 @@ interface IStoreJournalToolbarProps {
 const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
     const classes = useStyles()
     const history = useHistory()
-    const {className, newItemUrl, onRefresh, ...rest} = props
+    const {className, newItemUrl, onRefresh, writeOffUrl, ...rest} = props
     const [firstDate, setFirstDate] = React.useState<Date>(new Date())
     const [endDate, setEndDate] = React.useState<Date>(new Date())
     const [typeOperation, setTypeOperation] = React.useState<number>(NO_SELECT_VALUE)
@@ -88,8 +89,8 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
 
     useEffect(() => {
 
-        handleRefreshData()
-    },
+            handleRefreshData()
+        },
         // eslint-disable-next-line
         [rest.refresh]);
 
@@ -116,7 +117,6 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
         onRefresh(firstDate.toISOString(), endDate.toISOString(), typeOperation, typeMaterial);
     }
 
-
     /**
      * Сохраненные данные начала и окончания периода
      */
@@ -132,10 +132,17 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
     }, []);
 
     /**
-     * Новая запись
+     * Приход материалов
      */
-    function onNewItemButtonHandler() {
+    function onAddItemButtonHandler() {
         history.push(newItemUrl)
+    }
+
+    /**
+     * Расход материалов
+     */
+    function onOutItemButtonHandler() {
+        history.push(writeOffUrl)
     }
 
     return (
@@ -146,9 +153,9 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
             <List className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar className={clsx(classes.large, classes.white)}> <FontAwesomeIcon icon={faBoxes}
-                                                                                                 className={classes.primaryColor}
-                                                                                                 size={"lg"}/> </Avatar>
+                        <Avatar className={clsx(classes.large, classes.white)}>
+                            <FontAwesomeIcon icon={faBoxes} className={classes.primaryColor} size={"lg"}/>
+                        </Avatar>
                     </ListItemAvatar>
                     <Typography variant="h4">Журнал операций</Typography>
                 </ListItem>
@@ -165,7 +172,10 @@ const StoreJournalToolbar = (props: IStoreJournalToolbarProps) => {
                 >
                     <div className={classes.buttonGroup}>
                         <span className={classes.spacer}/>
-                        <Button color="primary" variant="contained" onClick={onNewItemButtonHandler}>Приход материалов</Button>
+                        <Button color="primary" variant="contained" onClick={onAddItemButtonHandler}>Приход
+                            материалов</Button>
+                        <Button color="primary" variant="contained" onClick={onOutItemButtonHandler}>Расход
+                            материалов</Button>
                     </div>
                 </Grid>
             </Grid>

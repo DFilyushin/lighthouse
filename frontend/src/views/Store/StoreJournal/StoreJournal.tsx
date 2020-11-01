@@ -57,6 +57,7 @@ const StoreJournal = (props: IStoreJournalProps) => {
             <StoreJournalToolbar
                 className={''}
                 newItemUrl={'/store/raw/new'}
+                writeOffUrl={'/store/raw/writeoff'}
                 onRefresh={onRefresh}
                 refresh={refresh}
             />
