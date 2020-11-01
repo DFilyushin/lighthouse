@@ -107,12 +107,11 @@ class StoreEndpoint {
     }
 
     /**
-     * Добавить приход сырья
+     * Движение материалов на складе
      */
-    static addRawStoreItems(): string {
-        return `${BaseAPIEndpoint.getBaseURL()}/store/in/raw/`
+    static movementMaterial(): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/store/movement/material/`
     }
-
 
     /**
      * Получить запись о резерве
