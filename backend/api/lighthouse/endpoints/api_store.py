@@ -87,9 +87,9 @@ class TareViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-class StoreTurnoverRaw(views.APIView):
+class StoreTurnoverMaterial(views.APIView):
     """
-    Приход сырья на склад
+    Движение материала на складе
     """
     permission_classes = [IsAuthenticated]
 

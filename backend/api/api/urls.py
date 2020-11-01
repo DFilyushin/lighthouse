@@ -33,7 +33,8 @@ store_urls = [
     path('store/raw', api_store_views.RawStoreViewSet.as_view()),  # склад сырья
     path('store/product', api_store_views.ProductStoreViewSet.as_view()),  # склад готовой продукции
     path('store/stock', api_store_views.StockStoreViewSet.as_view()),  # склад ТМЦ
-    path('store/in/raw/', api_store_views.StoreTurnoverRaw.as_view()),  # приход сырья на склад
+    path('store/in/raw/', api_store_views.StoreTurnoverMaterial.as_view()),  # приход сырья на склад
+    path('store/out/raw/', api_store_views.StoreTurnoverMaterial.as_view()),  # расход материала
     path('store/product/<int:material>/', api_store_views.StoreByMaterialViewSet.as_view())
 ]
 router.register(r'store/journal', api_store_views.StoreJournalViewSet, basename='Store')

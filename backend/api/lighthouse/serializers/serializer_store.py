@@ -59,7 +59,7 @@ class StoreTurnoverSerializer(serializers.Serializer):
     date = serializers.DateField()
     total = serializers.FloatField()
     type = serializers.IntegerField()
-    price=serializers.FloatField()
+    price = serializers.FloatField()
     employeeId = serializers.IntegerField()
     manufactureId = serializers.IntegerField(allow_null=True, required=False)
     expenseId = serializers.IntegerField(allow_null=True, required=False)
@@ -255,18 +255,27 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 class StoreArrivalSerializer(serializers.Serializer):
     """
-    Приход сырья на склад
+    Движение сырья на складе
     """
+    # Operation date
     date = serializers.DateField()
+    # Employee who make operation
     employee = serializers.IntegerField()
+    # Type operation (income, outcome)
+    id_operation = serializers.IntegerField(default=STORE_OPERATION_IN)
+    # List of material items
     items = StoreMaterialArrivalSerializer(many=True)
+    # Comment of operation
     comment = serializers.CharField(allow_blank=True)
 
     def create(self, validated_data):
         income_date = validated_data['date']
         id_employee = validated_data['employee']
         comment = validated_data['comment']
+        id_operation = validated_data['id_operation']
         for item in validated_data['items']:
+            id_cost = None  # код затрат устанавливается для каждого элемента отдельно
+            cost = None  # ссылка на объект затраты
             count = item['count']
             price = item['price']
             total_value = count * price
@@ -276,10 +285,12 @@ class StoreArrivalSerializer(serializers.Serializer):
             cost_count = tare.v * count
 
             ref_cost = RefCost.objects.filter(id_raw_id=id_material)
-            if ref_cost:
-                # на затраты ставим по факт. объёму: объём тары * количество
+            if ref_cost and (id_operation == STORE_OPERATION_IN):
+                id_cost = ref_cost[0].id
+            # на затраты ставим по факт. объёму: объём тары * количество
+
                 cost = Cost.objects.create(
-                    id_cost_id=ref_cost[0].id,
+                    id_cost_id=id_cost,
                     cost_date=income_date,
                     cost_count=cost_count,
                     total=cost_count * price,
@@ -287,15 +298,15 @@ class StoreArrivalSerializer(serializers.Serializer):
                     comment=comment
                 )
 
-                # на склад приходуем количество в таре
-                Store.objects.create(
-                    id_material_id=id_material,
-                    id_tare_id=id_tare,
-                    id_cost=cost,
-                    oper_date=income_date,
-                    oper_type=STORE_OPERATION_IN,
-                    oper_price=price,
-                    oper_value=count,
-                    id_employee_id=id_employee
-                )
+            # на склад приходуем количество в таре
+            Store.objects.create(
+                id_material_id=id_material,
+                id_tare_id=id_tare,
+                id_cost=cost,
+                oper_date=income_date,
+                oper_type=id_operation,
+                oper_price=price,
+                oper_value=count,
+                id_employee_id=id_employee
+            )
         return validated_data
