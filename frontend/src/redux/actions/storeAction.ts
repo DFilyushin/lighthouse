@@ -11,25 +11,25 @@ import {
     IStoreStock
 } from "../../types/model/store"
 import {
+    STORE_CHANGE_ITEM,
     STORE_CLEAR_ERROR,
+    STORE_ITEM_MOVEMENT_CHANGE,
+    STORE_ITEM_MOVEMENT_DELETE,
+    STORE_JOURNAL_ITEM_SUCCESS,
+    STORE_JOURNAL_MATERIAL_SUCCESS,
+    STORE_JOURNAL_SUCCESS,
     STORE_LOAD_FINISH,
     STORE_LOAD_PRODUCT_SUCCESS,
     STORE_LOAD_RAW_SUCCESS,
     STORE_LOAD_START,
-    STORE_SET_ERROR,
-    STORE_JOURNAL_SUCCESS,
-    STORE_JOURNAL_ITEM_SUCCESS,
-    STORE_CHANGE_ITEM,
+    STORE_LOAD_STOCK_SUCCESS,
     STORE_NEW_MOVEMENT,
     STORE_NEW_MOVEMENT_ITEM,
-    STORE_ITEM_MOVEMENT_DELETE,
-    STORE_ITEM_MOVEMENT_CHANGE,
+    STORE_RESERVE_CHANGE_ITEM,
+    STORE_RESERVE_LOAD_ITEM_SUCCESS,
     STORE_RESERVE_LOAD_SUCCESS,
     STORE_RESERVE_NEW_ITEM,
-    STORE_RESERVE_LOAD_ITEM_SUCCESS,
-    STORE_RESERVE_CHANGE_ITEM,
-    STORE_JOURNAL_MATERIAL_SUCCESS,
-    STORE_LOAD_STOCK_SUCCESS
+    STORE_SET_ERROR
 } from "./types"
 import CostEndpoint from "services/endpoints/CostEndpoint"
 import {nullEmployeeItem} from "../../types/model/employee"
@@ -39,6 +39,7 @@ import AuthenticationService from "../../services/Authentication.service"
 import {showInfoMessage} from "./infoAction"
 import authAxios from "../../services/axios-api";
 import {IContract} from "../../types/model/contract";
+import {TypeOperationStore} from "../../utils/AppConst";
 
 /**
  * Загрузить актуальное состояние склада ТМЦ
@@ -453,15 +454,16 @@ function changeItemMovementElement(item: IStoreNewMovement) {
 }
 
 /**
- * Сохранить изменения по приходу сырья на склад
+ * Движение материалов на складе
  */
-export function saveRawMovement() {
+export function materialMovementStore(operation: TypeOperationStore) {
     return async (dispatch: any, getState: any) => {
         const storeMovement = {...getState().store.storeMovement} as IStoreNewMovement
         let data = {
             'date': storeMovement.date.slice(0, 10),
             'employee': AuthenticationService.currentEmployeeId(),
             'comment': storeMovement.comment,
+            'id_operation': operation,
             'items': storeMovement.items.map((value: IStoreMaterialItem)=> {
                 return(
                     {
@@ -473,7 +475,7 @@ export function saveRawMovement() {
                 )
             })
         }
-        const url = StoreEndpoint.addRawStoreItems()
+        const url = StoreEndpoint.movementMaterial()
         try{
             await authAxios.post(url, data)
             dispatch(showInfoMessage('info', 'Данные обработаны'))
