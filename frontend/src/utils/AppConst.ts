@@ -37,3 +37,8 @@ export const DIALOG_ASK_DELETE = 'Удалить выбранные записи
 export const INVALID_DATE_FORMAT = 'Некорректно указан формат даты'
 
 export const rowsPerPageArray = [5, 10, 25, 50, 100]
+
+export enum TypeOperationStore {
+    Add = STORE_IN, // приход материалов
+    Remove = STORE_OUT // расход/списание материалов
+}
