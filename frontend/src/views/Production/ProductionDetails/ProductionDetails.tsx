@@ -736,9 +736,17 @@ const ProductionDetails = (props: IProductionDetailsProps) => {
     function handleMenuPrint() {
     }
 
+    /**
+     * Отправка карты в работу
+     */
     function handleMenuCardToWork() {
-        dispatch(sendCardToWork(productionItem.id));
-        setAnchorEl(null);
+        if (idProduction === NEW_RECORD_VALUE) {
+            dispatch(showInfoMessage('error', 'Перед отправкой карты в работу, её необходимо сохранить!'))
+        }else{
+            dispatch(sendCardToWork(productionItem.id));
+            setAnchorEl(null);
+        }
+
     }
 
     function handleMenuCardExecute() {
