@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {Grid, TextField} from '@material-ui/core';
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
@@ -37,28 +37,29 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
 }));
+
 interface IStoreMovementItemProps {
     item: IStoreMaterialItem;
-    onDeleteItem: ( (id: number)=> void);
-    onChangeItemRaw: ( (id: number)=> void);
-    onChangeItemTare: ((id: number)=> void);
+    onDeleteItem: ((id: number) => void);
+    onChangeItemRaw: ((id: number) => void);
+    onChangeItemTare: ((id: number) => void);
 }
 
 
 const StoreMovementItem = (props: IStoreMovementItemProps) => {
     const classes = useStyles();
-    const { item, onDeleteItem, onChangeItemRaw, onChangeItemTare} = props;
+    const {item, onDeleteItem, onChangeItemRaw, onChangeItemTare} = props;
     const dispatch = useDispatch();
 
     const handleClickListItem = (id: number) => {
         onChangeItemRaw(id)
     };
 
-    const handleClickDeleteItem = (id: number)=> {
+    const handleClickDeleteItem = (id: number) => {
         onDeleteItem(id);
     };
 
-    const handleClickTareItem = (id: number)=> {
+    const handleClickTareItem = (id: number) => {
         onChangeItemTare(id)
     }
 
@@ -88,7 +89,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
                         onClick={event => {
                             handleClickListItem(item.id)
                         }}>
-                        <MenuOpenIcon />
+                        <MenuOpenIcon/>
                     </IconButton>
                 </Paper>
             </Grid>
@@ -103,6 +104,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
                         name="tare"
                         value={item.tare.name}
                     />
+
                     <IconButton
                         color="primary"
                         className={classes.iconButton}
@@ -110,7 +112,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
                         onClick={event => {
                             handleClickTareItem(item.id)
                         }}>
-                        <MenuOpenIcon />
+                        <MenuOpenIcon/>
                     </IconButton>
                 </Paper>
             </Grid>
@@ -124,6 +126,17 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
                         readOnly: true,
                         disabled: true,
                     }}
+                />
+            </Grid>
+            <Grid item xs={1}>
+                <TextField
+                    fullWidth
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    label="Ед.изм"
+                    name="tare"
+                    value={item.tare.unit}
                 />
             </Grid>
             <Grid item xs={1}>
@@ -151,7 +164,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
                     label="Итого"
                     type={'number'}
                     name="count"
-                    value={item.count *  item.tare.v * item.price}
+                    value={item.count * item.tare.v * item.price}
                     inputProps={{
                         readOnly: true,
                         disabled: true,
@@ -161,7 +174,7 @@ const StoreMovementItem = (props: IStoreMovementItemProps) => {
             <Grid item>
                 <Tooltip title={'Удалить запись'}>
                     <Fab color="secondary" aria-label="add" onClick={event => handleClickDeleteItem(item.id)}>
-                        <DeleteIcon />
+                        <DeleteIcon/>
                     </Fab>
                 </Tooltip>
             </Grid>

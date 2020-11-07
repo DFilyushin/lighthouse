@@ -213,10 +213,13 @@ const StoreNewItems = (props: IStoreNewItemsProps) => {
                 });
                 item.items[index].tare.id = value.id;
                 item.items[index].tare.name = value.name;
+
                 const tareIndex = tareItems.findIndex((elem: ITare) => {
                     return elem.id === value.id
                 });
                 item.items[index].tare.v = tareItems[tareIndex].v
+                item.items[index].tare.unit = tareItems[tareIndex].unit
+                item.items[index].tare.idUnit = tareItems[tareIndex].idUnit
                 dispatch(changeItemMovement(id, item.items[index]));
             }
         );
