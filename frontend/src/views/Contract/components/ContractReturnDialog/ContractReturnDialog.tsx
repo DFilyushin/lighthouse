@@ -50,6 +50,16 @@ const ContractReturnDialog = (props: IContractReturnDialog) => {
                     type="date"
                     onChange={handleChange}
                 />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="returned"
+                    name="returnValue"
+                    label="Объём возврата. Если не указано, то в полном объёме"
+                    fullWidth
+                    value={item ? item.returnValue : ''}
+                    onChange={handleChange}
+                />
 
                 <TextField
                     autoFocus

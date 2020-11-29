@@ -152,11 +152,12 @@ class ContractSpecSerializer(serializers.ModelSerializer):
     specDate = serializers.DateField(source='spec_date', allow_null=True)
     returned = serializers.DateField(allow_null=True)
     returnCause = serializers.CharField(source='return_cause', allow_null=True)
+    returnValue = serializers.FloatField(source='return_value', allow_null=True)
 
     class Meta:
         model = ContractSpec
         fields = ('id', 'product', 'tare', 'itemCount', 'itemPrice', 'itemNds', 'itemDiscount', 'itemTotal',
-                  'delivery', 'delivered', 'specNum', 'specDate', 'returned', 'returnCause')
+                  'delivery', 'delivered', 'specNum', 'specDate', 'returned', 'returnCause', 'returnValue')
 
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
@@ -331,7 +332,6 @@ class ContractSerializer(serializers.ModelSerializer):
         employeeAccess = validated_data.pop('employee_access')
         original_access = instance.employee_access.all()
 
-
         original_specs_ids = {item.id: item for item in original_specs}
         data_mapping_specs = {}
         for item in specs:
@@ -392,7 +392,6 @@ class ContractSerializer(serializers.ModelSerializer):
         for object_id, item in original_access_ids.items():
             if object_id not in data_mapping_access:
                 item.delete()
-
 
         # Сохранить изменения в спецификации контракта
         for object_id, item in data_mapping_specs.items():
@@ -467,3 +466,20 @@ class ReturnsListSerializer(serializers.ModelSerializer):
         model = ContractSpec
         fields = ('id', 'contractId', 'contractNum', 'contractDate', 'contractClient', 'date', 'product', 'tare',
                   'count', 'total')
+
+
+class ReturnsSerializer(serializers.ModelSerializer):
+    """Возврат готовой продукции"""
+    id = serializers.IntegerField()
+    contract = ContractSimpleSerializer(source='id_contract')
+    date = serializers.DateField(source='returned')
+    product = ProductSerializer(source='id_product')
+    tare = TareSerializer(source='id_tare')
+    count = serializers.FloatField(source='item_count')
+    total = serializers.FloatField(source='total_value')
+    returnCause = serializers.CharField(source='return_cause', allow_blank=True, allow_null=True)
+    returnValue = serializers.FloatField(source='return_value', default=0)
+
+    class Meta:
+        model = ContractSpec
+        fields = ('id', 'contract', 'date', 'product', 'tare', 'count', 'total', 'returnCause', 'returnValue')

@@ -1,12 +1,12 @@
 from datetime import datetime
-from django.db.models import F, Sum, Max, Q
+from django.db.models import F, Sum, Max, Q, Case, When
 from django.db.models.expressions import RawSQL
 from rest_framework import viewsets, status, filters
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from lighthouse.serializers.serializer_sales import ClientListSerializer, ClientSerializer, ContractListSerializer, \
     ContractSerializer, PaymentMethodSerializer, PaymentListSerializer, PaymentSerializer, ContractSimpleSerializer, \
-    ContractList2Serializer, ReturnsListSerializer
+    ContractList2Serializer, ReturnsListSerializer, ReturnsSerializer
 from lighthouse.serializers.serializer_price import PriceListSerializer, PriceListItemSerializer
 from lighthouse.appmodels.sales import Contract, Payment, Client, ContractSpec, PaymentMethod, PriceList, \
     CONTRACT_STATE_ACTIVE, CONTRACT_STATE_UNDEFINED, CONTRACT_STATE_READY, EmployeeContractAccess
@@ -20,9 +20,12 @@ class ReturnsProduct(viewsets.ModelViewSet):
     """
     Возвраты продукции
     """
+
     def get_serializer_class(self):
         if self.action == 'list':
             return ReturnsListSerializer
+        else:
+            return ReturnsSerializer
 
     def get_queryset(self):
         if self.action == 'list':
@@ -30,14 +33,20 @@ class ReturnsProduct(viewsets.ModelViewSet):
             param_end_period = self.request.GET.get('end', None)
             date_start = datetime.strptime(param_start_period, '%Y-%m-%d')
             date_end = datetime.strptime(param_end_period, '%Y-%m-%d')
+
             queryset = ContractSpec.objects.filter(returned__range=(date_start, date_end))
             queryset = queryset.values('id', 'id_contract__num', 'id_contract__contract_date',
                                        'id_contract__id_client__clientname', 'id_product__name', 'id_tare__name',
                                        'returned', 'item_count', 'id_contract__id')
-            queryset = queryset.annotate(total_value=F('item_price')*F('item_count'))
-            return queryset
+            queryset = queryset.annotate(total_value=F('item_price') * F('item_count'))
         else:
-            return ContractSpec.objects.all()
+            queryset = ContractSpec.objects.filter(returned__isnull=False).all()
+            queryset = queryset.annotate(total_value=Case(
+                When(return_value=0, then=F('id_tare__v') * F('item_count')),
+                default=F('return_value')
+            )
+            )
+        return queryset
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -67,7 +76,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Client.objects.filter(deleted=False)\
+            return Client.objects.filter(deleted=False) \
                 .values('id', 'clientname', 'addr_reg', 'id_agent__fio', 'contact_employee', 'req_bin')
         else:
             return Client.objects.filter(deleted=False)
@@ -88,11 +97,11 @@ class ClientViewSet(viewsets.ModelViewSet):
         :return: Массив контрактов клиента
         """
         if request.method == 'GET':
-            contracts = ContractSpec.objects.filter(id_contract__id_client_id=pk)\
+            contracts = ContractSpec.objects.filter(id_contract__id_client_id=pk) \
                 .values('id', 'id_contract__id', 'id_contract__num', 'id_contract__id_client__clientname',
                         'id_contract__contract_date', 'id_contract__est_delivery', 'id_contract__id_agent__fio',
-                        'id_contract__contract_state')\
-                .annotate(sum=Sum(F('item_price')*F('item_count')))
+                        'id_contract__contract_state') \
+                .annotate(sum=Sum(F('item_price') * F('item_count')))
             serializer = ContractList2Serializer(contracts, many=True)
             return Response(serializer.data)
 
@@ -132,13 +141,13 @@ class ContractViewSet(viewsets.ModelViewSet):
             if param_agent:
                 # отображаются контракты по менеджеру
                 # а также, те, которые разрешены к просмотру (переданы права)
-                contracts = EmployeeContractAccess.objects.filter(id_employee_id=param_agent)\
-                    .filter(Q(to_date__gte=datetime.today()) | Q(to_date__isnull=True))\
+                contracts = EmployeeContractAccess.objects.filter(id_employee_id=param_agent) \
+                    .filter(Q(to_date__gte=datetime.today()) | Q(to_date__isnull=True)) \
                     .values_list('id_contract__id', flat=True)
                 queryset = queryset.filter(Q(id__in=contracts) | Q(id_agent__id=param_agent))
             return queryset.values('id', 'num', 'id_client__clientname', 'contract_date', 'est_delivery',
-                                   'contract_state', 'id_agent__fio')\
-                .annotate(sum=Sum(F('specs__item_price') * F('specs__item_count')))\
+                                   'contract_state', 'id_agent__fio') \
+                .annotate(sum=Sum(F('specs__item_price') * F('specs__item_count'))) \
                 .annotate(payed=RawSQL(subquery_sql, ()))
         else:
             return Contract.objects.filter(deleted=False)
@@ -148,7 +157,7 @@ class ContractViewSet(viewsets.ModelViewSet):
         """Активные контракты"""
         param_find = request.GET.get('num', None)
         if param_find:
-            contracts = Contract.objects.filter(contract_state=CONTRACT_STATE_ACTIVE).\
+            contracts = Contract.objects.filter(contract_state=CONTRACT_STATE_ACTIVE). \
                 filter(num__istartswith=param_find).order_by('contract_date')
             serializer = ContractSimpleSerializer(contracts, many=True)
             return Response(serializer.data)
@@ -180,7 +189,7 @@ class PaymentMethodViewSet(viewsets.ModelViewSet):
     """Методы платежей"""
     queryset = PaymentMethod.objects.all()
     search_fields = ['name']
-    filter_backends = (filters.SearchFilter, )
+    filter_backends = (filters.SearchFilter,)
     serializer_class = PaymentMethodSerializer
     permission_classes = [IsAuthenticated]
 
@@ -233,7 +242,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
                 if param_method:
                     queryset = queryset.filter(pay_type_id=int(param_method))
-            return queryset.order_by('pay_date')\
+            return queryset.order_by('pay_date') \
                 .only('id', 'id_contract', 'pay_date', 'pay_num', 'pay_type', 'pay_value')
         else:
             return Payment.objects.all()
@@ -250,17 +259,17 @@ class PriceListViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            queryset = PriceList.objects\
-                .filter(id_employee__isnull=True)\
-                .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v')\
-                .annotate(on_date=Max('on_date'))\
+            queryset = PriceList.objects \
+                .filter(id_employee__isnull=True) \
+                .values('id_product__id', 'id_product__name', 'id_tare__id', 'id_tare__name', 'id_tare__v') \
+                .annotate(on_date=Max('on_date')) \
                 .order_by('id_product__name')
             for item in queryset:
-                p = PriceList.objects\
-                    .filter(id_employee__isnull=True)\
-                    .filter(id_product_id=item['id_product__id'])\
-                    .filter(id_tare_id=item['id_tare__id'])\
-                    .filter(on_date=item['on_date'])\
+                p = PriceList.objects \
+                    .filter(id_employee__isnull=True) \
+                    .filter(id_product_id=item['id_product__id']) \
+                    .filter(id_tare_id=item['id_tare__id']) \
+                    .filter(on_date=item['on_date']) \
                     .only('price')
                 item['price'] = p[0].price
                 item['id'] = p[0].id

@@ -149,7 +149,8 @@ export const nullContractSpecItem : IContractSpecItem = {
     specNum: '',
     specDate: '',
     returned: null,
-    returnCause: null
+    returnCause: null,
+    returnValue: 0
 }
 
 /**
@@ -212,6 +213,10 @@ export interface IContractSpecItem {
      * Причина возврата
      */
     returnCause: string|null;
+    /**
+     * Количество возврата
+     */
+    returnValue: number;
 }
 
 
