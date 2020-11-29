@@ -87,7 +87,7 @@ const ContractSpecPanel = (props: IContractSpecPanel) => {
                                       setSelectedIndex(item.num)
                                   }}
                         >
-                            <ListItemText primary={`#${item.num} от ${item.date}`} secondary={item.total} />
+                            <ListItemText primary={`#${item.num} ${ item.date ? " от " + item.date : ''}`} secondary={item.total} />
                         </ListItem>
                         )
                     )
