@@ -149,7 +149,7 @@ const ContractSpecItem = (props: IContractSpecItemProps) => {
             <TableCell>
                 {
                     item.returned &&
-                    <Tooltip title={`Возврат продукции от ${item.returned} по причине "${item.returnCause}"`}>
+                    <Tooltip title={`Возврат продукции от ${item.returned} ${item.returnCause ? "по причине " + item.returnCause : ''}`}>
                         <WarningIcon color={"error"}/>
                     </Tooltip>
                 }
