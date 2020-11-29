@@ -4,7 +4,6 @@ from .sales import Contract
 from .manufacture import Material, Manufacture, MaterialUnit, Tare
 from .org import Employee
 
-
 REF_COST_PARENT_RAW = 0
 REF_COST_PARENT_SALARY = 1
 
@@ -42,7 +41,8 @@ class Cost(models.Model):
     id_cost = models.ForeignKey(RefCost, on_delete=models.CASCADE, verbose_name='Тип затраты')
     cost_date = models.DateField(blank=False, null=False, verbose_name='Дата затраты')
     cost_count = models.FloatField(default=0, null=False, verbose_name='Количество закупленного сырья')
-    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name='Единица измерения')
+    id_unit = models.ForeignKey(MaterialUnit, on_delete=models.SET_DEFAULT, default=0, null=True,
+                                verbose_name='Единица измерения')
     total = models.FloatField(default=0, verbose_name='Сумма')
     comment = models.TextField(blank=True, null=True, verbose_name='Комментарий')
     id_employee = models.ForeignKey(Employee, on_delete=models.CASCADE, verbose_name='Сотрудник')
@@ -69,10 +69,12 @@ class Store(models.Model):
     id_material = models.ForeignKey(Material, on_delete=models.CASCADE, verbose_name='Материал')
     id_tare = models.ForeignKey(Tare, on_delete=models.SET_DEFAULT, default=0, null=True, verbose_name='Тара')
     oper_date = models.DateField(null=False, verbose_name='Дата оборота')
-    oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False, verbose_name='Тип операции')
+    oper_type = models.SmallIntegerField(choices=STORE_OPERATION_TYPE, default=0, null=False,
+                                         verbose_name='Тип операции')
     oper_value = models.FloatField(default=0, verbose_name='Количество')
     oper_price = models.FloatField(default=0, verbose_name='Цена за единицу')
-    id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True, verbose_name='Код производства')
+    id_manufacture = models.ForeignKey(Manufacture, on_delete=models.SET_NULL, null=True,
+                                       verbose_name='Код производства')
     id_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, verbose_name='Код сотрудника')
     id_cost = models.ForeignKey(Cost, on_delete=models.SET_NULL, null=True, verbose_name='Код затраты')
     is_delete = models.BooleanField(default=False, null=True, verbose_name='Признак удаления')
@@ -111,4 +113,4 @@ class Reservation(models.Model):
             models.Index(fields=['reserve_start']),
             models.Index(fields=['reserve_end'])
         ]
-        ordering = ('reserve_start', )
+        ordering = ('reserve_start',)
