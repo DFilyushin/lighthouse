@@ -3,6 +3,7 @@ import {ITare, nullTare} from "./tare";
 import {NO_SELECT_VALUE} from "../../utils/AppConst";
 import {IProductionList} from "./production";
 import {IContractListItemSimple, nullContractListItemSimple} from "./contract";
+import {IProduct} from "./product";
 
 export interface IStoreBase {
     id: number;
@@ -181,6 +182,45 @@ export interface IStoreReserveProduct {
      * Объём
      */
     value: number;
+}
+
+export interface IStoreReturnProduct {
+    /**
+     * Код записи
+     */
+    id: number;
+    /**
+     * Сведения о контракте
+     */
+    contract: IContractListItemSimple;
+    /**
+     * Дата возврата продукции
+     */
+    date: string;
+    /**
+     * Описание продукции
+     */
+    product: IProduct;
+    /**
+     * Тара
+     */
+    tare: ITare;
+    /**
+     * Количество тары
+     */
+    count: number;
+    /**
+     * Сумма возврата
+     */
+    total: number;
+    /**
+     * Причина возврата
+     */
+    returnCause: string;
+    /**
+     * Количество в ед. измерения (кг/л.)
+     */
+    returnValue: number;
 }
 
 export const nullStoreReserveProduct: IStoreReserveProduct = {
