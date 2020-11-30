@@ -12,7 +12,10 @@ import {
     TextField
 } from '@material-ui/core';
 import { SearchInput } from 'components';
-import {PROD_PERIOD_END, PROD_PERIOD_START} from "types/Settings";
+import {
+    RETURN_PERIOD_END,
+    RETURN_PERIOD_START
+} from "types/Settings";
 import Rotate90DegreesCcwIcon from '@material-ui/icons/Rotate90DegreesCcw';
 
 
@@ -66,8 +69,8 @@ interface IReturnsToolbar {
 const ReturnsToolbar = (props: IReturnsToolbar) => {
     const classes = useStyles();
     const { className, onFind, onRefresh, ...rest } = props;
-    const [firstDate, setFirstDate] = React.useState(new Date().toISOString().slice(0,10));
-    const [endDate, setEndDate] = React.useState(new Date().toISOString().slice(0,10));
+    const [firstDate, setFirstDate] = React.useState('')
+    const [endDate, setEndDate] = React.useState('')
 
     const handleFirstDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFirstDate(event.target.value);
@@ -81,6 +84,8 @@ const ReturnsToolbar = (props: IReturnsToolbar) => {
      * Запрос данных с сервера
      */
     const handleRefreshData = ()=> {
+        localStorage.setItem(RETURN_PERIOD_START, firstDate);
+        localStorage.setItem(RETURN_PERIOD_END, endDate);
         onRefresh(firstDate, endDate);
     };
 
@@ -88,8 +93,8 @@ const ReturnsToolbar = (props: IReturnsToolbar) => {
      * Сохраненные данные начала и окончания периода
      */
     useEffect(()=>{
-        const d1: string|null = localStorage.getItem(PROD_PERIOD_START)
-        const d2: string|null = localStorage.getItem(PROD_PERIOD_END)
+        const d1: string|null = localStorage.getItem(RETURN_PERIOD_START)
+        const d2: string|null = localStorage.getItem(RETURN_PERIOD_END)
         if (d1) {setFirstDate((new Date(d1)).toISOString().slice(0,10))}
         if (d2) {setEndDate( (new Date(d2)).toISOString().slice(0,10))}
     }, []);

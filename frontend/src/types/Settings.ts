@@ -12,3 +12,6 @@ export const PAYMENT_METHOD = 'paymentMethod'
 
 export const EXPENSE_PERIOD_START = 'expenseStart'
 export const EXPENSE_PERIOD_END = 'expenseEnd'
+
+export const RETURN_PERIOD_START = 'returnStart'
+export const RETURN_PERIOD_END = 'returnFinish'
