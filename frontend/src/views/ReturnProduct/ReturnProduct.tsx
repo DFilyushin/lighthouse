@@ -33,7 +33,7 @@ const ReturnProduct = () => {
      * @param contractId
      */
     function onClickTableItem(id: number){
-        history.push(`/return/${id}`);
+        history.push(`/store/returns/${id}`);
     }
 
     /**
