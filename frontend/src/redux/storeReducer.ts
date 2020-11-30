@@ -21,11 +21,14 @@ import {
     STORE_RESERVE_LOAD_ITEM_SUCCESS,
     STORE_RESERVE_CHANGE_ITEM,
     STORE_JOURNAL_MATERIAL_SUCCESS,
-    STORE_LOAD_STOCK_SUCCESS
+    STORE_LOAD_STOCK_SUCCESS, STORE_RETURNS_LOAD_ITEM_SUCCESS
 } from "./actions/types";
 import {nullStoreItem, nullStoreReserveProduct} from "../types/model/store";
 import {nullEmployeeItem} from "../types/model/employee";
 import {getCurrentDate} from "../utils/AppUtils";
+import {nullContractListItemSimple} from "../types/model/contract";
+import {nullProduct} from "../types/model/product";
+import {nullTare} from "../types/model/tare";
 
 const initState = (): IStoreState => ({
     rawStoreOnDate: getCurrentDate(), // состояние склада сырья на дату
@@ -43,13 +46,24 @@ const initState = (): IStoreState => ({
     reservedProduct: [],
     storeJournal: [],
     storeMaterialJournal: [],
+    storeReturnItem: {
+        id: 0,
+        contract: {...nullContractListItemSimple},
+        count: 0,
+        date: '',
+        product: {...nullProduct},
+        tare: {...nullTare},
+        returnCause: '',
+        returnValue: 0,
+        total: 0
+    },
     isLoading: false,
     error: '',
     hasError: false
 });
 
 
-export const storeReducer = (state: IStoreState=initState(), action: any) => {
+export const storeReducer = (state: IStoreState = initState(), action: any) => {
     switch (action.type) {
         case STORE_LOAD_START:
             return {...state, isLoading: true}
@@ -95,6 +109,8 @@ export const storeReducer = (state: IStoreState=initState(), action: any) => {
             return {...state, storeReserveItem: action.item}
         case STORE_JOURNAL_MATERIAL_SUCCESS:
             return {...state, storeMaterialJournal: action.items}
+        case STORE_RETURNS_LOAD_ITEM_SUCCESS:
+            return {...state, storeReturnItem: action.item}
         default:
             return state
     }

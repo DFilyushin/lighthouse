@@ -48,7 +48,7 @@ export { default as ProductionDetails } from './Production/ProductionDetails'
 export { default as DepartmentList} from './Department/DepartmentList'
 export { default as DepartmentItem} from './Department/DepartmentItem'
 
-export {StoreRaw, StoreStock, StoreProduct, StoreReserved, StoreItem, StoreJournalTable} from './Store'
+export {StoreRaw, StoreStock, StoreProduct, StoreReserved, StoreItem, StoreJournalTable, StoreReturnItem} from './Store'
 
 export {default as ReserveItem} from './Store/ReserveItem'
 export {default as StoreMaterialJournal} from './Store/StoreMaterialJournal'

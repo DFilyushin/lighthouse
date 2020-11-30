@@ -7,7 +7,7 @@ import {
     IStoreNewMovement,
     IStoreProduct,
     IStoreRaw,
-    IStoreReserveProduct,
+    IStoreReserveProduct, IStoreReturnProduct,
     IStoreStock
 } from "../../types/model/store"
 import {
@@ -28,7 +28,7 @@ import {
     STORE_RESERVE_CHANGE_ITEM,
     STORE_RESERVE_LOAD_ITEM_SUCCESS,
     STORE_RESERVE_LOAD_SUCCESS,
-    STORE_RESERVE_NEW_ITEM,
+    STORE_RESERVE_NEW_ITEM, STORE_RETURNS_LOAD_ITEM_SUCCESS,
     STORE_SET_ERROR
 } from "./types"
 import CostEndpoint from "services/endpoints/CostEndpoint"
@@ -503,6 +503,30 @@ export function getReserveItem(id: number) {
         } catch (e) {
             dispatch(showInfoMessage('error', e.toString()))
         }
+    }
+}
+
+/**
+ * Получить возврат продукции по коду записи
+ * @param id Код записи
+ */
+export function getStoreReturnItem(id: number) {
+    return async (dispatch: any, getState: any) => {
+        const url = StoreEndpoint.getStoreReturnItem(id)
+        try {
+            const response = await authAxios.get(url)
+            dispatch(fetchStoreReturnItemSuccess(response.data))
+        }catch (e) {
+            dispatch(showInfoMessage('error', e.toString()))
+        }
+    }
+
+}
+
+function fetchStoreReturnItemSuccess(item: IStoreReturnProduct) {
+    return{
+        type: STORE_RETURNS_LOAD_ITEM_SUCCESS,
+        item
     }
 }
 

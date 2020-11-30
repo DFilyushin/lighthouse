@@ -6,7 +6,7 @@ import {
     IStoreNewMovement,
     IStoreListReserveProduct,
     IStoreReserveProduct,
-    IStoreStock
+    IStoreStock, IStoreReturnProduct
 } from 'types/model/store'
 
 export interface IStoreState {
@@ -52,6 +52,10 @@ export interface IStoreState {
     storeReservedList: IStoreListReserveProduct[];
     storeReserveItem: IStoreReserveProduct;
     storeMaterialJournal: IStoreJournal[];
+    /**
+     * Возврат продукции
+     */
+    storeReturnItem: IStoreReturnProduct;
     isLoading: boolean;
     error: string;
     hasError: boolean;
