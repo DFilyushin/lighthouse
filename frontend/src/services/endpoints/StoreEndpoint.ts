@@ -136,6 +136,14 @@ class StoreEndpoint {
         return `${BaseAPIEndpoint.getBaseURL()}/reserve/${id}/`
     }
 
+    /**
+     * Получить запись о возврате продукции
+     * @param id Код записи
+     */
+    static getStoreReturnItem(id: number): string {
+        return `${BaseAPIEndpoint.getBaseURL()}/returns/${id}/`
+    }
+
 }
 
 export default StoreEndpoint
