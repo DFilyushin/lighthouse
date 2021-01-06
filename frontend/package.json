@@ -27,7 +27,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/redux": "^3.6.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "chart.js": "^2.9.3",
     "clsx": "^1.1.1",
     "date-fns": "^2.14.0",
