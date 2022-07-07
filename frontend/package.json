@@ -34,7 +34,7 @@
     "jasmine": "^3.5.0",
     "jwt-decode": "^2.2.0",
     "material-ui-confirm": "^2.0.5",
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "prismjs": "^1.20.0",
     "react": "latest",
     "react-bootstrap-icons": "^1.0.0",
